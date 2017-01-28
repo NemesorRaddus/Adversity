@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Background.png</file>
+        <file>graphics/GUI.png</file>
+        <file>graphics/Task_Border.png</file>
+        <file>graphics/Task_Picture.png</file>
+        <file>qml/main.qml</file>
+        <file>qml/MainForm.ui.qml</file>
+    </qresource>
+</RCC>
