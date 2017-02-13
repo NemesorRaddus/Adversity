@@ -15,7 +15,8 @@ struct HeroEnums
         N_Active,
         N_Convivial,
         N_Religious,
-        N_Recluse
+        N_Recluse,
+        N_END
     };
     enum StressBorderEffect
     {
@@ -28,7 +29,8 @@ struct HeroEnums
         SBE_Paranoia,
         SBE_Bravery,
         SBE_Hopeless,
-        SBE_Confusion
+        SBE_Confusion,
+        SBE_END
     };
     enum Attribute
     {
@@ -45,7 +47,8 @@ struct HeroEnums
         A_StressBorder,
         A_DailyStressRecovery,
         A_Salary,
-        A_DailyFoodConsumption
+        A_DailyFoodConsumption,
+        A_END
     };
     enum CurrentActivity
     {
@@ -58,7 +61,15 @@ struct HeroEnums
         CA_InPlayingField,
         CA_InBar,
         CA_InShrine,
-        CA_InSeclusion
+        CA_InSeclusion,
+        CA_END
+    };
+    enum DyingReason
+    {
+        DR_NoReason,
+        DR_AttributeCheckFailed,
+        DR_StressBorderAchieved,
+        DR_END
     };
 };
 
@@ -230,6 +241,8 @@ private:
     void activateStressBorderEffect() noexcept;
     void deactivateStressBorderEffect() noexcept;
 
+    void die(HeroEnums::DyingReason reason = HeroEnums::DR_NoReason) noexcept;
+
     QString m_name;
 
     int m_combatEffectiveness;
@@ -254,6 +267,7 @@ private:
     const int m_amountOfWeaponToolSlots = 2;
 
     bool m_isDead;
+    bool m_isStressBorderEffectActive;
 
     int m_noSignalDaysRemaining;
 

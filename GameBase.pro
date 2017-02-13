@@ -11,7 +11,9 @@ SOURCES += main.cpp \
     equipment.cpp \
     event.cpp \
     filereaderwriter.cpp \
-    game.cpp
+    game.cpp \
+    timer.cpp \
+    save.cpp
 
 RESOURCES += \
     res.qrc
@@ -30,7 +32,9 @@ HEADERS += \
     equipment.h \
     event.h \
     filereaderwriter.h \
-    game.h
+    game.h \
+    timer.h \
+    save.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml

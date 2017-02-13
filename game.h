@@ -3,26 +3,34 @@
 
 #include <QObject>
 
-#include "rrefsingleton.h"
-
 #include "base.h"
 #include "filereaderwriter.h"
+
+class QQmlEngine;
+class QJSEngine;
 
 class Game : public QObject
 {
     Q_OBJECT
-    friend class RRefSingleton <Game>;
 public:
-    static Game &instance() noexcept
+    Game(QObject *parent = 0) noexcept;
+
+    Q_INVOKABLE Base *base() noexcept
     {
-        return RRefSingleton <Game>::getInstance()();
+        return &m_base;
     }
-    void start() noexcept;
 
 private:
-    Game() noexcept;
-
     Base m_base;
 };
+
+static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    Game *game = new Game();
+    return game;
+}
 
 #endif // GAME_H

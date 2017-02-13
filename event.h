@@ -31,11 +31,13 @@ struct EventEnums
         R_RemoveEquipment,
         R_CollectResource,
         R_NoSignal,
-        R_ProlongMission
+        R_ProlongMission,
+        R_END
     };
     enum Type
     {
-        T_AttributeCheck
+        T_AttributeCheck,
+        T_END
     };
 };
 

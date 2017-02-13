@@ -1,10 +1,29 @@
 <RCC>
     <qresource prefix="/">
-        <file>graphics/Background.png</file>
-        <file>graphics/GUI.png</file>
-        <file>graphics/Task_Border.png</file>
-        <file>graphics/Task_Picture.png</file>
         <file>qml/main.qml</file>
-        <file>qml/MainForm.ui.qml</file>
+        <file>qml/BuildingsListDelegate.qml</file>
+        <file>qml/MainGUI.ui.qml</file>
+        <file>graphics/Buildings/CentralUnit.png</file>
+        <file>graphics/Buildings/CoolRoom.png</file>
+        <file>graphics/Buildings/Factory.png</file>
+        <file>graphics/Buildings/PowerPlant.png</file>
+        <file>graphics/GUI/Aetherite.png</file>
+        <file>graphics/GUI/Background.png</file>
+        <file>graphics/GUI/Buildingmaterials.png</file>
+        <file>graphics/GUI/Energy.png</file>
+        <file>graphics/GUI/Foodsupplies.png</file>
+        <file>graphics/GUI/GUI.png</file>
+        <file>graphics/GUI/Settings.png</file>
+        <file>graphics/GUI/Task_Border.png</file>
+        <file>graphics/GUI/Task_Picture.png</file>
+        <file>qml/BuildingsList.qml</file>
+        <file>qml/BuildingsListScripts.js</file>
+        <file>qml/Globals.qml</file>
+        <file>qml/qmldir</file>
+        <file>graphics/Buildings/AetheriteSilo.png</file>
+        <file>graphics/Buildings/StorageRoom.png</file>
+        <file>graphics/Buildings/Barracks.png</file>
+        <file>graphics/Buildings/Hospital.png</file>
+        <file>graphics/Buildings/DockingStation.png</file>
     </qresource>
 </RCC>

@@ -2,17 +2,26 @@
 
 void Hero::setCombatEffectiveness(int combatEffectiveness) noexcept
 {
-    m_combatEffectiveness=combatEffectiveness;
+    if (combatEffectiveness>=0)
+        m_combatEffectiveness=combatEffectiveness;
+    else
+        m_combatEffectiveness=0;
 }
 
 void Hero::setProficiency(int proficiency) noexcept
 {
-    m_proficiency=proficiency;
+    if (proficiency>=0)
+        m_proficiency=proficiency;
+    else
+        m_proficiency=0;
 }
 
 void Hero::setCleverness(int cleverness) noexcept
 {
-    m_cleverness=cleverness;
+    if (cleverness>=0)
+        m_cleverness=cleverness;
+    else
+        m_cleverness=0;
 }
 
 void Hero::setLuck(float luck) noexcept
@@ -22,12 +31,31 @@ void Hero::setLuck(float luck) noexcept
 
 void Hero::setHealth(int health) noexcept
 {
-    m_health=health;
+    if (health>=0)
+    {
+        if (health<=m_healthLimit)
+            m_health=health;
+        else
+            m_health=m_healthLimit;
+    }
+    else
+        m_health=0;
 }
 
 void Hero::setHealthLimit(int healthLimit) noexcept
 {
-    m_healthLimit=healthLimit;
+    if (healthLimit>0)
+    {
+        m_healthLimit=healthLimit;
+        if (m_health>m_healthLimit)
+            m_health=m_healthLimit;
+    }
+    else
+    {
+        m_healthLimit=1;
+        if (m_health>1)
+            m_health=1;
+    }
 }
 
 void Hero::setDailyHealthRecovery(int dailyHealthRecovery) noexcept
@@ -37,7 +65,13 @@ void Hero::setDailyHealthRecovery(int dailyHealthRecovery) noexcept
 
 void Hero::setStress(int stress) noexcept
 {
-    m_stress=stress;
+    if (stress>=0)
+    {
+        m_stress=stress;
+        //if (stress>=)
+    }
+    else
+        m_stress=0;
 }
 
 void Hero::setStressResistance(float stressResistance) noexcept
@@ -47,12 +81,31 @@ void Hero::setStressResistance(float stressResistance) noexcept
 
 void Hero::setStressLimit(int stressLimit) noexcept
 {
-    m_stressLimit=stressLimit;
+    if (stressLimit>0)
+    {
+        m_stressLimit=stressLimit;
+        if (m_stress>m_stressLimit)
+            m_stress=m_stressLimit;
+    }
+    else
+    {
+        m_stressLimit=1;
+        if (m_stress>1)
+            m_stress=1;
+    }
 }
 
 void Hero::setStressBorder(int stressBorder) noexcept
 {
-    m_stressBorder=stressBorder;
+    if (stressBorder<0)//TODO activate effect
+        stressBorder=0;
+    else
+    {
+        if (stressBorder<m_stressLimit)
+            m_stressBorder=stressBorder;
+        else
+            m_stressBorder=m_stressLimit;
+    }
 }
 
 void Hero::setDailyStressRecovery(int dailyStressRecovery) noexcept
