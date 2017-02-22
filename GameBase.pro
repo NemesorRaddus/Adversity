@@ -13,7 +13,7 @@ SOURCES += main.cpp \
     filereaderwriter.cpp \
     game.cpp \
     timer.cpp \
-    save.cpp
+    saveparser.cpp
 
 RESOURCES += \
     res.qrc
@@ -34,7 +34,7 @@ HEADERS += \
     filereaderwriter.h \
     game.h \
     timer.h \
-    save.h
+    saveparser.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml

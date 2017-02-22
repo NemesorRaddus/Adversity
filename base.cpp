@@ -165,7 +165,7 @@ bool Building::tryUpgrading() noexcept
             return 0;
 
     m_base->gameClock()->addAlarm(reqs.requiredTime,new BuildingUpgradeTimerAlarm(m_buildingName,currentLevel()+1));
-    return 1;
+    return 1;//FIX
 }
 
 QString Building::description() const noexcept
@@ -397,7 +397,7 @@ Base::Base(QObject *parent) noexcept
 
     m_gameClock=new GameClock;
 
-    m_centralUnit=new CentralUnit(this,0,QVector<CentralUnitLevelInfo>());setBuildingDescription(BaseEnums::B_CentralUnit,"Description of Central Unit");
+    m_centralUnit=new CentralUnit(this,0,QVector<CentralUnitLevelInfo>());
     m_hospital=new Hospital(this,0,QVector <HospitalLevelInfo>());
     m_trainingGround=new TrainingGround(this,0,QVector<TrainingGroundLevelInfo>());
     m_gym=new Gym(this,0,QVector<GymLevelInfo>());
@@ -413,25 +413,44 @@ Base::Base(QObject *parent) noexcept
     m_aetheriteSilo=new AetheriteSilo(this,0,QVector<AetheriteSiloLevelInfo>());
     m_barracks=new Barracks(this,0,QVector<BarracksLevelInfo>());
     m_dockingStation=new DockingStation(this,0,QVector<DockingStationLevelInfo>());
+
+    m_buildings.insert(BaseEnums::B_CentralUnit,m_centralUnit);
+    m_buildings.insert(BaseEnums::B_Hospital,m_hospital);
+    m_buildings.insert(BaseEnums::B_TrainingGround,m_trainingGround);
+    m_buildings.insert(BaseEnums::B_Gym,m_gym);
+    m_buildings.insert(BaseEnums::B_Laboratory,m_laboratory);
+    m_buildings.insert(BaseEnums::B_PlayingField,m_playingField);
+    m_buildings.insert(BaseEnums::B_Bar,m_bar);
+    m_buildings.insert(BaseEnums::B_Shrine,m_shrine);
+    m_buildings.insert(BaseEnums::B_Seclusion,m_seclusion);
+    m_buildings.insert(BaseEnums::B_PowerPlant,m_powerPlant);
+    m_buildings.insert(BaseEnums::B_Factory,m_factory);
+    m_buildings.insert(BaseEnums::B_CoolRoom,m_coolRoom);
+    m_buildings.insert(BaseEnums::B_StorageRoom,m_storageRoom);
+    m_buildings.insert(BaseEnums::B_AetheriteSilo,m_aetheriteSilo);
+    m_buildings.insert(BaseEnums::B_Barracks,m_barracks);
+    m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
+
+    setBuildingDescription(BaseEnums::B_CentralUnit,"Description of Central Unit");//TESTINGONLY
 }
 
 Base::~Base() noexcept
 {
-    delete m_techTree;
+    //delete m_techTree;
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept
 {
-    m_bar->destressHeroes();
-    m_factory->exchangeResources();
-    m_gym->trainHeroes();
-    m_hospital->healHeroes();
-    m_laboratory->trainHeroes();
-    m_playingField->destressHeroes();
-    m_powerPlant->exchangeResources();
-    m_seclusion->destressHeroes();
-    m_shrine->destressHeroes();
-    m_trainingGround->trainHeroes();
+    bar()->destressHeroes();
+    factory()->exchangeResources();
+    gym()->trainHeroes();
+    hospital()->healHeroes();
+    laboratory()->trainHeroes();
+    playingField()->destressHeroes();
+    powerPlant()->exchangeResources();
+    seclusion()->destressHeroes();
+    shrine()->destressHeroes();
+    trainingGround()->trainHeroes();
 }
 
 TechTreeBuildingRequirements Base::buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept

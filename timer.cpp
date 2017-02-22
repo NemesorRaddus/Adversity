@@ -5,64 +5,150 @@ TimerAlarmEnums::AlarmType TimerAlarm::type() const noexcept
     return m_type;
 }
 
-TimerAlarm::TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive) noexcept
-    : m_type(type), m_isAlreadyActive(isAlreadyActive)
+bool TimerAlarm::isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept
 {
-
+    if (m_type!=alarmsSubclassObject->m_type)
+        return 0;
+    if (m_type==TimerAlarmEnums::AT_BuildingUpgrade)
+        if (*static_cast<BuildingUpgradeTimerAlarm*>(this)!=*static_cast<BuildingUpgradeTimerAlarm*>(alarmsSubclassObject))
+            return 0;//TODO make implementations of other subclasses of TimerAlarm
+//    else if (m_type==TimerAlarmEnums::AT_MissionEnd)
+//            if (*static_cast<MissionEndTimerAlarm*>(this)!=*static_cast<MissionEndTimerAlarm*>(alarmsSubclassObject))
+//                return 0;
+//    else if (m_type==TimerAlarmEnums::AT_Information)
+//        if (*static_cast<InformationTimerAlarm*>(this)!=*static_cast<InformationTimerAlarm*>(alarmsSubclassObject))
+//            return 0;
+    return 1;
 }
 
-BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
-    : TimerAlarm(TimerAlarmEnums::AT_BuildingUpgrade)
-{
+TimerAlarm::TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive) noexcept
+    : m_type(type), m_isAlreadyActive(isAlreadyActive)
+{}
 
+BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
+    : TimerAlarm(TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
+{}
+
+bool BuildingUpgradeTimerAlarm::operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept
+{
+    if (m_buildingLevel!=other.m_buildingLevel)
+        return 0;
+    if (m_buildingName!=other.m_buildingName)
+        return 0;
+    return 1;
 }
 
 void TimerAlarmsContainer::addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept
 {
-
+    int i=0;
+    for (;i<m_alarms.size();++i)
+        if (m_alarms[i].first>daysToTimeout)
+            break;
+    m_alarms.insert(i,{daysToTimeout,alarm});
 }
 
-void TimerAlarmsContainer::cancelAlarm(const TimerAlarm &alarm) noexcept
+void TimerAlarmsContainer::cancelAlarm(TimerAlarm *alarm) noexcept
 {
-
+    for (int i=0; i<m_alarms.size(); ++i)
+        if (m_alarms[i].second->isTrulyEqualTo(alarm))
+        {
+            m_alarms.remove(i);
+            break;
+        }
 }
 
-int TimerAlarmsContainer::checkDaysToTimeoutOfAlarm(const TimerAlarm &alarm) const noexcept
+int TimerAlarmsContainer::checkDaysToTimeoutOfAlarm(TimerAlarm *alarm) const noexcept
 {
-
+    for (int i=0; i<m_alarms.size(); ++i)
+        if (m_alarms[i].second->isTrulyEqualTo(alarm))
+            return m_alarms[i].first;
 }
 
 QVector<TimerAlarm *> TimerAlarmsContainer::moveToNextDayAndGetTimeoutedResults() noexcept
 {
-
+    decreaseDaysToTimeout();
+    return takeTimeoutedAlarms();
 }
 
-QMultiMap<unsigned, TimerAlarm *> TimerAlarmsContainer::getAllAlarms() const noexcept
+QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() const noexcept
 {
-
+    return m_alarms;
 }
 
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
 {
-
+    QPair <unsigned, TimerAlarm *> val;
+    foreach (val, m_alarms)
+        --val.first;
 }
 
-QVector<TimerAlarm *> TimerAlarmsContainer::getTimeoutedAlarms() const noexcept
+QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() const noexcept
 {
-
+    QVector <TimerAlarm *> r;
+    for (int i=0;i<m_alarms.size() && m_alarms[i].first==0;++i)
+        r.push_back(m_alarms[i].second);
+    return r;
 }
 
 GameClock::GameClock() noexcept
+    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0)
+{}
+
+void GameClock::saveCurrentDate() noexcept
 {
-
-}
-
-void GameClock::markCurrentDateAsFirstRegistered() noexcept
-{
-
+    m_lastKnownDate=QDateTime::currentDateTime();
+    m_lastKnownDay=m_currentTimeInGameDay;
+    m_lastKnownHour=m_currentTimeInGameHour;
+    m_lastKnownMin-m_currentTimeInGameMin;
 }
 
 void GameClock::updateClock() noexcept
 {
+    long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
+    m_currentTimeInGameDay = m_lastKnownDay + ms/(1000*60*60/2);
+    ms%=(1000*60*60/2);
+    m_currentTimeInGameHour = m_lastKnownHour + ms/(1000*60*60/2/24);
+    ms%=(1000*60*60/2/24);
+    m_currentTimeInGameMin = m_lastKnownMin + ms/(1000*60*60/2/24/60);
+}
 
+void GameClock::updateClock(int minutesToAdd) noexcept
+{
+    addMinutesToGameTime(minutesToAdd);
+}
+
+void GameClock::determineCurrentGameTime() noexcept
+{
+
+}
+
+void GameClock::addMinutesToGameTime(int minutes) noexcept
+{
+    addHoursToGameTime(minutes/60);
+    minutes%=60;
+    if (minutes+m_currentTimeInGameMin>59)
+    {
+        addHoursToGameTime(1);
+        minutes-=(60-m_currentTimeInGameMin-1);
+    }
+    m_currentTimeInGameMin+=minutes;
+    m_currentTimeInGameMin%=60;
+}
+
+void GameClock::addHoursToGameTime(int hours) noexcept
+{
+    addDaysToGameTime(hours/24);
+    hours%=24;
+    if (hours+m_currentTimeInGameHour>23)
+    {
+        addDaysToGameTime(1);
+        hours-=(24-m_currentTimeInGameHour-1);
+    }
+    m_currentTimeInGameHour+=hours;
+    m_currentTimeInGameHour%=24;
+}
+
+void GameClock::addDaysToGameTime(int days) noexcept
+{
+    m_currentTimeInGameDay+=days;
 }

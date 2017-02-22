@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 
 #include "game.h"
+#include "timer.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<AetheriteSilo>("AetheriteSilo");
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
+    qmlRegisterInterface<GameClock>("GameClock");
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

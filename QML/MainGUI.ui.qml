@@ -83,9 +83,11 @@ Rectangle {
 
             x: 64 * parent.width / 1080
             y: 22 * parent.height / 1920
+            width: 53
 
             color: "#94ef94"
             text: qsTr("100/100")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -94,9 +96,11 @@ Rectangle {
 
             x: 70 * parent.width / 1080
             y: 64 * parent.height / 1920
+            width: 47
 
             color: "#94ef94"
             text: qsTr("10/DAY")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -116,9 +120,11 @@ Rectangle {
 
             x: 276 * parent.width / 1080
             y: 22 * parent.height / 1920
+            width: 53
 
             color: "#94ef94"
             text: qsTr("100/100")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -127,9 +133,11 @@ Rectangle {
 
             x: 282 * parent.width / 1080
             y: 64 * parent.height / 1920
+            width: 47
 
             color: "#94ef94"
             text: qsTr("10/DAY")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -149,9 +157,11 @@ Rectangle {
 
             x: 504 * parent.width / 1080
             y: 22 * parent.height / 1920
+            width: 53
 
             color: "#94ef94"
             text: qsTr("100/100")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -160,9 +170,11 @@ Rectangle {
 
             x: 510 * parent.width / 1080
             y: 64 * parent.height / 1920
+            width: 47
 
             color: "#94ef94"
             text: qsTr("10/DAY")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -182,9 +194,11 @@ Rectangle {
 
             x: 714 * parent.width / 1080
             y: 22 * parent.height / 1920
+            width: 53
 
             color: "#94ef94"
             text: qsTr("100/100")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -193,9 +207,11 @@ Rectangle {
 
             x: 720 * parent.width / 1080
             y: 64 * parent.height / 1920
+            width: 47
 
             color: "#94ef94"
             text: qsTr("10/DAY")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: "Stencil"
         }
@@ -205,9 +221,11 @@ Rectangle {
 
             x: 870 * parent.width / 1080
             y: 8 * parent.height / 1920
+            width: 52
 
             color: "#94ef94"
             text: qsTr("12:00")
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 20
             font.family: "Stencil"
         }

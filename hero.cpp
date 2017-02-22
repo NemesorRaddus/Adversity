@@ -206,3 +206,4 @@ void Hero::deactivateStressBorderEffect() noexcept
 {
     //TODO
 }
+

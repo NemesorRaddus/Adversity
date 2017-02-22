@@ -25,5 +25,9 @@
         <file>graphics/Buildings/Barracks.png</file>
         <file>graphics/Buildings/Hospital.png</file>
         <file>graphics/Buildings/DockingStation.png</file>
+        <file>graphics/Buildings/Gym.png</file>
+        <file>graphics/Buildings/TrainingGround.png</file>
+        <file>graphics/Buildings/Laboratory.png</file>
+        <file>graphics/Buildings/PlayingField.png</file>
     </qresource>
 </RCC>

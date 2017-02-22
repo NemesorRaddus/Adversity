@@ -115,22 +115,22 @@ Item {
 
     Component.onCompleted: {
         Scripts.setupList(4, Globals.dpcm, 16, width, height);
-        Scripts.createItem("Central Unit","CentralUnit",GameApi.base().centralUnit().currentLevel(), GameApi.base().centralUnit().description());
-        Scripts.createItem("Hospital","Hospital",GameApi.base().hospital().currentLevel(), GameApi.base().hospital().description());
-        Scripts.createItem("Training Ground","TrainingGround",GameApi.base().trainingGround().currentLevel(), GameApi.base().trainingGround().description());
-        Scripts.createItem("Gym","Gym",GameApi.base().gym().currentLevel(), GameApi.base().gym().description());
-        Scripts.createItem("Laboratory","Laboratory",GameApi.base().laboratory().currentLevel(), GameApi.base().laboratory().description());
-        Scripts.createItem("Playing Field","PlayingField",GameApi.base().playingField().currentLevel(), GameApi.base().playingField().description());
-        Scripts.createItem("Bar","Bar",GameApi.base().bar().currentLevel(), GameApi.base().bar().description());
-        Scripts.createItem("Shrine","Shrine",GameApi.base().shrine().currentLevel(), GameApi.base().shrine().description());
-        Scripts.createItem("Seclusion","Seclusion",GameApi.base().seclusion().currentLevel(), GameApi.base().seclusion().description());
-        Scripts.createItem("Power Plant","PowerPlant",GameApi.base().powerPlant().currentLevel(), GameApi.base().powerPlant().description());
-        Scripts.createItem("Factory","Factory",GameApi.base().factory().currentLevel(), GameApi.base().factory().description());
-        Scripts.createItem("Cool Room","CoolRoom",GameApi.base().coolRoom().currentLevel(), GameApi.base().coolRoom().description());
-        Scripts.createItem("Storage Room","StorageRoom",GameApi.base().storageRoom().currentLevel(), GameApi.base().storageRoom().description());
-        Scripts.createItem("Aetherite Silo","AetheriteSilo",GameApi.base().aetheriteSilo().currentLevel(), GameApi.base().aetheriteSilo().description());
-        Scripts.createItem("Barracks","Barracks",GameApi.base().barracks().currentLevel(), GameApi.base().barracks().description());
-        Scripts.createItem("Docking Station","DockingStation",GameApi.base().dockingStation().currentLevel(), GameApi.base().dockingStation().description());
+        Scripts.createItem("Central Unit","CentralUnit",GameApi.base.centralUnit.currentLevel(), GameApi.base.centralUnit.description());
+        Scripts.createItem("Hospital","Hospital",GameApi.base.hospital.currentLevel(), GameApi.base.hospital.description());
+        Scripts.createItem("Training Ground","TrainingGround",GameApi.base.trainingGround.currentLevel(), GameApi.base.trainingGround.description());
+        Scripts.createItem("Gym","Gym",GameApi.base.gym.currentLevel(), GameApi.base.gym.description());
+        Scripts.createItem("Laboratory","Laboratory",GameApi.base.laboratory.currentLevel(), GameApi.base.laboratory.description());
+        Scripts.createItem("Playing Field","PlayingField",GameApi.base.playingField.currentLevel(), GameApi.base.playingField.description());
+        Scripts.createItem("Bar","Bar",GameApi.base.bar.currentLevel(), GameApi.base.bar.description());
+        Scripts.createItem("Shrine","Shrine",GameApi.base.shrine.currentLevel(), GameApi.base.shrine.description());
+        Scripts.createItem("Seclusion","Seclusion",GameApi.base.seclusion.currentLevel(), GameApi.base.seclusion.description());
+        Scripts.createItem("Power Plant","PowerPlant",GameApi.base.powerPlant.currentLevel(), GameApi.base.powerPlant.description());
+        Scripts.createItem("Factory","Factory",GameApi.base.factory.currentLevel(), GameApi.base.factory.description());
+        Scripts.createItem("Cool Room","CoolRoom",GameApi.base.coolRoom.currentLevel(), GameApi.base.coolRoom.description());
+        Scripts.createItem("Storage Room","StorageRoom",GameApi.base.storageRoom.currentLevel(), GameApi.base.storageRoom.description());
+        Scripts.createItem("Aetherite Silo","AetheriteSilo",GameApi.base.aetheriteSilo.currentLevel(), GameApi.base.aetheriteSilo.description());
+        Scripts.createItem("Barracks","Barracks",GameApi.base.barracks.currentLevel(), GameApi.base.barracks.description());
+        Scripts.createItem("Docking Station","DockingStation",GameApi.base.dockingStation.currentLevel(), GameApi.base.dockingStation.description());
     }
 
     states: [

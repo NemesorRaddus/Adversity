@@ -122,21 +122,21 @@ void AttributeCheckEvent::execute(Hero *hero) const noexcept
     }
 
     if (result->eventResultType()==EventEnums::R_Null)
-        ((NullEventResult *)(result))->affectHero(hero);
+        static_cast<NullEventResult *>(result)->affectHero(hero);
     else if (result->eventResultType()==EventEnums::R_ModifyAttribute)
-        ((ModifyAttributeEventResult *)(result))->affectHero(hero);
+        static_cast<ModifyAttributeEventResult *>(result)->affectHero(hero);
     else if (result->eventResultType()==EventEnums::R_KillHero)
-        ((KillHeroEventResult *)(result))->affectHero(hero);
+        static_cast<KillHeroEventResult *>(result)->affectHero(hero);
     else if (result->eventResultType()==EventEnums::R_AddEquipment)
-        ((AddEquipmentEventResult *)(result))->affectHero(hero);
+        static_cast<AddEquipmentEventResult *>(result)->affectHero(hero);
     else if (result->eventResultType()==EventEnums::R_RemoveEquipment)
-        ((RemoveEquipmentEventResult *)(result))->affectHero(hero);
+        static_cast<RemoveEquipmentEventResult *>(result)->affectHero(hero);
     else if (result->eventResultType()==EventEnums::R_CollectResource)
-        ((CollectResourceEventResult *)(result))->affectHero(hero);
+        static_cast<CollectResourceEventResult *>(result)->affectHero(hero);
     else if (result->eventResultType()==EventEnums::R_NoSignal)
-        ((NoSignalEventResult *)(result))->affectHero(hero);
+        static_cast<NoSignalEventResult *>(result)->affectHero(hero);
     else
-        ((ProlongMissionEventResult *)(result))->affectHero(hero);
+        static_cast<ProlongMissionEventResult *>(result)->affectHero(hero);
 }
 
 bool AttributeCheckEvent::checkIfResultPositive(Hero *hero) const noexcept

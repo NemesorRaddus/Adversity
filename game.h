@@ -12,16 +12,13 @@ class QJSEngine;
 class Game : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(Base* base MEMBER m_base)
 public:
     Game(QObject *parent = 0) noexcept;
 
-    Q_INVOKABLE Base *base() noexcept
-    {
-        return &m_base;
-    }
-
+Q_INVOKABLE int ccc(){static int x=0;return x++;}
 private:
-    Base m_base;
+    Base *m_base;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -29,7 +26,7 @@ static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
 
-    Game *game = new Game();
+    Game *game =new Game();
     return game;
 }
 

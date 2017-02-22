@@ -1,0 +1,33 @@
+﻿SECTION Overall
+QString		baseName
+QDateTime	lastKnownDate
+quint16		lastKnownDay
+quint16		lastKnownHour
+quint16		lastKnownMinute
+END
+SECTION Buildings
+SECTION Levels
+quint8		centralUnit
+quint8		powerPlant
+quint8		factory
+quint8		coolRoom
+quint8		storageRoom
+quint8		aetheriteSilo
+quint8		hospital
+quint8		barracks
+quint8		dockingStation
+quint8		trainingGround
+quint8		gym
+quint8		laboratory
+quint8		playingField
+quint8		bar
+quint8		shrine
+quint8		seclusion
+END
+END
+SECTION Resources
+quint16		energy
+quint16		buildingMaterials
+quint16		foodSupplies
+quint16		aetheriteOre
+END

@@ -37,6 +37,7 @@ struct BaseEnums
         B_Seclusion,
         B_END
     };
+
     static Resource fromQStringToResourceEnum(const QString &resource) noexcept;
     static QString fromResourceEnumToQString(Resource resource) noexcept;
 
@@ -1213,73 +1214,93 @@ class GameClock;
 class Base : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(CentralUnit* centralUnit MEMBER m_centralUnit)
+    Q_PROPERTY(Hospital* hospital MEMBER m_hospital)
+    Q_PROPERTY(TrainingGround* trainingGround MEMBER m_trainingGround)
+    Q_PROPERTY(Gym* gym MEMBER m_gym)
+    Q_PROPERTY(Laboratory* laboratory MEMBER m_laboratory)
+    Q_PROPERTY(PlayingField* playingField MEMBER m_playingField)
+    Q_PROPERTY(Bar* bar MEMBER m_bar)
+    Q_PROPERTY(Shrine* shrine MEMBER m_shrine)
+    Q_PROPERTY(Seclusion* seclusion MEMBER m_seclusion)
+    Q_PROPERTY(PowerPlant* powerPlant MEMBER m_powerPlant)
+    Q_PROPERTY(Factory* factory MEMBER m_factory)
+    Q_PROPERTY(CoolRoom* coolRoom MEMBER m_coolRoom)
+    Q_PROPERTY(StorageRoom* storageRoom MEMBER m_storageRoom)
+    Q_PROPERTY(AetheriteSilo* aetheriteSilo MEMBER m_aetheriteSilo)
+    Q_PROPERTY(Barracks* barracks MEMBER m_barracks)
+    Q_PROPERTY(DockingStation* dockingStation MEMBER m_dockingStation)
+
+    Q_PROPERTY(GameClock* gameClock MEMBER m_gameClock)
+
 public:
     explicit Base(QObject *parent=0) noexcept;
     ~Base() noexcept;
 
-    Q_INVOKABLE CentralUnit *centralUnit() noexcept
+    CentralUnit *centralUnit() noexcept
     {
-        return m_centralUnit;
+        return static_cast<CentralUnit *>(m_buildings.value(BaseEnums::B_CentralUnit));
     }
-    Q_INVOKABLE Hospital *hospital() noexcept
+    Hospital *hospital() noexcept
     {
-        return m_hospital;
+        return static_cast<Hospital *>(m_buildings.value(BaseEnums::B_Hospital));
     }
-    Q_INVOKABLE TrainingGround *trainingGround() noexcept
+    TrainingGround *trainingGround() noexcept
     {
-        return m_trainingGround;
+        return static_cast<TrainingGround *>(m_buildings.value(BaseEnums::B_TrainingGround));
     }
-    Q_INVOKABLE Gym *gym() noexcept
+    Gym *gym() noexcept
     {
-        return m_gym;
+        return static_cast<Gym *>(m_buildings.value(BaseEnums::B_Gym));
     }
-    Q_INVOKABLE Laboratory *laboratory() noexcept
+    Laboratory *laboratory() noexcept
     {
-        return m_laboratory;
+        return static_cast<Laboratory *>(m_buildings.value(BaseEnums::B_Laboratory));
     }
-    Q_INVOKABLE PlayingField *playingField() noexcept
+    PlayingField *playingField() noexcept
     {
-        return m_playingField;
+        return static_cast<PlayingField *>(m_buildings.value(BaseEnums::B_PlayingField));
     }
-    Q_INVOKABLE Bar *bar() noexcept
+    Bar *bar() noexcept
     {
-        return m_bar;
+        return static_cast<Bar *>(m_buildings.value(BaseEnums::B_Bar));
     }
-    Q_INVOKABLE Shrine *shrine() noexcept
+    Shrine *shrine() noexcept
     {
-        return m_shrine;
+        return static_cast<Shrine *>(m_buildings.value(BaseEnums::B_Shrine));
     }
-    Q_INVOKABLE Seclusion *seclusion() noexcept
+    Seclusion *seclusion() noexcept
     {
-        return m_seclusion;
+        return static_cast<Seclusion *>(m_buildings.value(BaseEnums::B_Seclusion));
     }
-    Q_INVOKABLE PowerPlant *powerPlant() noexcept
+    PowerPlant *powerPlant() noexcept
     {
-        return m_powerPlant;
+        return static_cast<PowerPlant *>(m_buildings.value(BaseEnums::B_PowerPlant));
     }
-    Q_INVOKABLE Factory *factory() noexcept
+    Factory *factory() noexcept
     {
-        return m_factory;
+        return static_cast<Factory *>(m_buildings.value(BaseEnums::B_Factory));
     }
-    Q_INVOKABLE CoolRoom *coolRoom() noexcept
+    CoolRoom *coolRoom() noexcept
     {
-        return m_coolRoom;
+        return static_cast<CoolRoom *>(m_buildings.value(BaseEnums::B_CoolRoom));
     }
-    Q_INVOKABLE StorageRoom *storageRoom() noexcept
+    StorageRoom *storageRoom() noexcept
     {
-        return m_storageRoom;
+        return static_cast<StorageRoom *>(m_buildings.value(BaseEnums::B_StorageRoom));
     }
-    Q_INVOKABLE AetheriteSilo *aetheriteSilo() noexcept
+    AetheriteSilo *aetheriteSilo() noexcept
     {
-        return m_aetheriteSilo;
+        return static_cast<AetheriteSilo *>(m_buildings.value(BaseEnums::B_AetheriteSilo));
     }
-    Q_INVOKABLE Barracks *barracks() noexcept
+    Barracks *barracks() noexcept
     {
-        return m_barracks;
+        return static_cast<Barracks *>(m_buildings.value(BaseEnums::B_Barracks));
     }
-    Q_INVOKABLE DockingStation *dockingStation() noexcept
+    DockingStation *dockingStation() noexcept
     {
-        return m_dockingStation;
+        return static_cast<DockingStation *>(m_buildings.value(BaseEnums::B_DockingStation));
     }
 
     Q_INVOKABLE void activateBuildingsAtDayEnd() noexcept;
@@ -1311,6 +1332,35 @@ public:
         return m_aetherite;
     }
 
+    Q_INVOKABLE int currentEnergyIncome() const noexcept
+    {
+        int r=0;
+        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInEnergy();
+        return r;
+    }
+    Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept
+    {
+        int r=0;
+        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInFoodSupplies() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInFoodSupplies();
+        return r;
+    }
+    Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept
+    {
+        int r=0;
+        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInBuildingMaterials() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInBuildingMaterials();
+        return r;
+    }
+    Q_INVOKABLE int currentAetheriteIncome() const noexcept
+    {
+        int r=0;
+        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInAetherite() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInAetherite();
+        return r;
+    }
+Q_INVOKABLE int xxx(){static int x=0;return x++;}
     void setBuildingLevel(BaseEnums::Building buildingName, unsigned level) noexcept;
     void setBuildingDescription(BaseEnums::Building buildingName, const QString &desc) noexcept;
 
@@ -1325,16 +1375,12 @@ public:
     }
 
 private:
+    //maps for buildings
     QMap <BaseEnums::Building, unsigned> m_buildingLevels;
     QMap <BaseEnums::Building, QString> m_buildingDescriptions;
+    QMap <BaseEnums::Building, Building *> m_buildings;
 
-    unsigned m_energy;
-    unsigned m_foodSupplies;
-    unsigned m_buildingMaterials;
-    unsigned m_aetherite;
-
-    QVector <Hero *> m_heroes;
-
+    //direct pointers to specific buildings for QML
     CentralUnit *m_centralUnit;
     Hospital *m_hospital;
     TrainingGround *m_trainingGround;
@@ -1352,8 +1398,19 @@ private:
     Barracks *m_barracks;
     DockingStation *m_dockingStation;
 
+    //resources
+    unsigned m_energy;
+    unsigned m_foodSupplies;
+    unsigned m_buildingMaterials;
+    unsigned m_aetherite;
+
+    //heroes
+    QVector <Hero *> m_heroes;
+
+    //tech tree
     TechTree *m_techTree;
 
+    //game clock/timer
     GameClock *m_gameClock;
 };
 

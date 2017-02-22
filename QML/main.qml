@@ -39,6 +39,42 @@ Window {
     MainGUI {
         id: mainGUI
 
+        function updateClock()
+        {
+            dayValue.text = "Day " + GameApi.base.gameClock.currentDay();
+
+            hourValue.text = (GameApi.base.gameClock.currentHour() < 10 ?
+                                  '0' + GameApi.base.gameClock.currentHour() :
+                                  GameApi.base.gameClock.currentHour())
+                    + ':' +
+                    (GameApi.base.gameClock.currentMin() < 10 ?
+                         '0' + GameApi.base.gameClock.currentMin() :
+                         GameApi.base.gameClock.currentMin());
+        }
+
+        function updateEverything()
+        {
+            energyValue.text = GameApi.base.currentEnergyAmount() + '/' + GameApi.base.powerPlant.energyLimit();
+            foodSuppliesValue.text = GameApi.base.currentFoodSuppliesAmount() + '/' + GameApi.base.coolRoom.foodSuppliesLimit();
+            buildingMaterialsValue.text = GameApi.base.currentBuildingMaterialsAmount() + '/' + GameApi.base.storageRoom.buildingMaterialsLimit();
+            aetheriteValue.text = GameApi.base.currentAetheriteAmount() + '/' + GameApi.base.aetheriteSilo.aetheriteLimit();
+
+            energyValue2.text = GameApi.base.currentEnergyIncome() + '/' + "day";
+            foodSuppliesValue2.text = GameApi.base.currentFoodSuppliesIncome() + '/' + "day";
+            buildingMaterialsValue2.text = GameApi.base.currentBuildingMaterialsIncome() + '/' + "day";
+            aetheriteValue2.text = GameApi.base.currentAetheriteIncome() + '/' + "day";
+
+            dayValue.text = "Day " + GameApi.base.gameClock.currentDay();
+
+            hourValue.text = (GameApi.base.gameClock.currentHour() < 10 ?
+                                  '0' + GameApi.base.gameClock.currentHour() :
+                                  GameApi.base.gameClock.currentHour())
+                    + ':' +
+                    (GameApi.base.gameClock.currentMin() < 10 ?
+                         '0' + GameApi.base.gameClock.currentMin() :
+                         GameApi.base.gameClock.currentMin());
+        }
+
         transform: [
             Scale {
                 id: scale
@@ -57,10 +93,27 @@ Window {
         heroesButton.onClicked: changeMode(2);
     }
 
+    Timer {
+        id: gameTimer
+
+        interval: 1250 // 1000/48*60
+        running: true
+        repeat: true
+        onTriggered: {
+            GameApi.base.gameClock.updateClock(1);
+            mainGUI.updateClock();
+            if (GameApi.base.gameClock.hasDayChangedLately())
+            {
+                mainGUI.updateEverything();//TODO more
+            }
+        }
+    }
+
     Component.onCompleted: {
         Globals.windowWidth = width;
         Globals.windowHeight = height;
         Globals.dpcm = Screen.pixelDensity*10;
         changeMode(0);
+        mainGUI.updateEverything();
     }
 }
