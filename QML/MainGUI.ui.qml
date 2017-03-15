@@ -17,7 +17,7 @@ Rectangle {
     property alias hourValue: hour
     property alias dayValue: day
     property alias settingsButton: settingsMA
-    property alias buildingsList: buildingsList
+    property alias buildingsGUI: buildingsMode
 
     width: 450
     height: 800
@@ -265,8 +265,8 @@ Rectangle {
         }
     }
 
-    BuildingsList {
-        id: buildingsList
+    BuildingsModeGUI {
+        id: buildingsMode
 
         x: 0
         y: 189 * parent.height / 1920

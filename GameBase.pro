@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     saveparser.cpp
 
 RESOURCES += \
-    res.qrc
+    res.qrc \
+    assets.qrc \
+    qmlfiles.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

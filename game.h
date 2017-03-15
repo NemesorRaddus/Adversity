@@ -5,6 +5,8 @@
 
 #include "base.h"
 #include "filereaderwriter.h"
+#include "saveparser.h"
+#include "timer.h"
 
 class QQmlEngine;
 class QJSEngine;
@@ -16,9 +18,22 @@ class Game : public QObject
 public:
     Game(QObject *parent = 0) noexcept;
 
-Q_INVOKABLE int ccc(){static int x=0;return x++;}
+    Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;
+    Q_INVOKABLE void loadExistingBase(const QString &pathToSaveFile, const QString &pathToAssetsDir) noexcept;
+    Q_INVOKABLE void saveBase(const QString &pathToSaveFile) noexcept;
+
+public slots:
+    void saveBase() noexcept;
+
 private:
+    void connectAutosave() noexcept;
+    void disconnectAutosave() noexcept;
+
+    void loadAssets(const QString &pathToDir) noexcept;
+
     Base *m_base;
+    QString m_currentPathToAssets;
+    QString m_currentPathToSaveData;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

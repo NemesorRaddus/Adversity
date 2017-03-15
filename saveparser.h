@@ -24,7 +24,7 @@ struct SaveData
         struct Levels
         {
             quint8 centralUnit;
-            quint8 powerPlant;
+            quint8 powerplant;
             quint8 factory;
             quint8 coolRoom;
             quint8 storageRoom;
@@ -53,8 +53,8 @@ struct SaveData
 class SaveParser
 {
 public:
-    SaveData readData(const QString &path);
-    void writeData(const QString &path, const SaveData& data);
+    static SaveData readData(const QString &path);
+    static void writeData(const QString &path, const SaveData& data);
 };
 
 #endif // SAVEPARSER_H

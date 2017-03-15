@@ -6,6 +6,7 @@
 #include <QObject>
 
 #include "hero.h"
+#include "saveparser.h"
 
 struct BaseEnums
 {
@@ -20,7 +21,7 @@ struct BaseEnums
     enum Building
     {
         B_CentralUnit,
-        B_PowerPlant,
+        B_Powerplant,
         B_Factory,
         B_CoolRoom,
         B_StorageRoom,
@@ -45,46 +46,16 @@ struct BaseEnums
     static QString fromBuildingEnumToQString(Building building) noexcept;
 };
 
-struct TechTreeBuildingRequirements
+struct BuildingUpgradeRequirements
 {
-    QMap <BaseEnums::Building, unsigned> requiredBuildingLevels;
+    BuildingUpgradeRequirements() noexcept
+        : requiredBuildingMaterials(0), requiredEnergy(0), requiredTime(0){}
+    explicit BuildingUpgradeRequirements(unsigned reqBuildingMat, unsigned reqEnergy, unsigned reqTime) noexcept
+        : requiredBuildingMaterials(reqBuildingMat), requiredEnergy(reqEnergy), requiredTime(reqTime){}
+
     unsigned requiredBuildingMaterials;
+    unsigned requiredEnergy;
     unsigned requiredTime;
-};
-
-class TechTree
-{
-    friend class TechTreeBuilder;
-public:
-    TechTreeBuildingRequirements getRequirementsForUpgrade(const QPair <BaseEnums::Building, int> &upgrade) const noexcept;
-    bool isThereSuchUpgrade(const QPair <BaseEnums::Building, int> &upgrade) const noexcept;
-
-private:
-    TechTree() noexcept {}
-
-    void addUpgradeNode(const QPair <BaseEnums::Building, int> &upgrade, const TechTreeBuildingRequirements &requirements) noexcept;
-    void reset() noexcept;
-
-    QMap <QPair <BaseEnums::Building, int> , TechTreeBuildingRequirements> m_nodes;
-};
-
-class TechTreeBuilder
-{
-public:
-    TechTreeBuilder() noexcept;
-    ~TechTreeBuilder() noexcept;
-
-    TechTree *getTechTree() noexcept;
-    void resetTechTree() noexcept;
-
-    void addUpgrade(const QPair <BaseEnums::Building, int> &upgrade, const TechTreeBuildingRequirements &requirements) noexcept;
-
-private:
-    TechTreeBuilder(const TechTreeBuilder &other) noexcept = delete;
-
-    void operator =(const TechTreeBuilder &other) noexcept = delete;
-
-    TechTree *m_techTree;
 };
 
 class Base;
@@ -94,11 +65,15 @@ class Building : public QObject
     Q_OBJECT
 public:
     Q_INVOKABLE virtual unsigned currentLevel() const noexcept;
-    Q_INVOKABLE virtual TechTreeBuildingRequirements requirementsForNextLevel() const noexcept;
+    virtual BuildingUpgradeRequirements requirementsForNextLevel() const noexcept;
+    Q_INVOKABLE virtual unsigned requirementsForNextLevelEnergy() const noexcept;
+    Q_INVOKABLE virtual unsigned requirementsForNextLevelBM() const noexcept;
+    Q_INVOKABLE virtual unsigned requirementsForNextLevelTime() const noexcept;
     Q_INVOKABLE virtual bool tryUpgrading() noexcept;
     Q_INVOKABLE virtual QString description() const noexcept;
 
     virtual int basicCostInEnergy() const noexcept = 0;
+    virtual int basicCostInEnergyAfterUpgrade() const noexcept = 0;
     virtual int useCostInEnergy() const noexcept = 0;
 
     virtual int basicCostInFoodSupplies() const noexcept = 0;
@@ -112,6 +87,10 @@ public:
 
 protected:
     explicit Building(BaseEnums::Building buildingName, Base *base, unsigned level) noexcept;
+    Base *base() noexcept
+    {
+        return m_base;
+    }
 
 private:
     Base *m_base;
@@ -135,6 +114,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -168,6 +151,8 @@ public:
         return 0;
     }
 
+    void setLevelsInfo(const QVector <CentralUnitLevelInfo> &info) noexcept;
+
 private:
     QVector <CentralUnitLevelInfo> m_levelsInfo;
 };
@@ -194,6 +179,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -240,6 +229,8 @@ public:
 
     void healHeroes() noexcept;
 
+    void setLevelsInfo(const QVector <HospitalLevelInfo> &info) noexcept;
+
 private:
     QVector <HospitalLevelInfo> m_levelsInfo;
 
@@ -249,7 +240,7 @@ private:
 struct TrainingGroundLevelInfo
 {
     TrainingGroundLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0){}
+        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0), duration(0){}
 
     unsigned amountOfSlots;
     unsigned basicCostInEnergy;
@@ -257,6 +248,7 @@ struct TrainingGroundLevelInfo
     int combatEffectivenessBonus;
     int proficiencyBonus;
     int clevernessBonus;
+    unsigned duration;
 };
 
 class TrainingGround : public Building
@@ -269,6 +261,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
@@ -322,6 +318,8 @@ public:
 
     void trainHeroes() noexcept;
 
+    void setLevelsInfo(const QVector <TrainingGroundLevelInfo> &info) noexcept;
+
 private:
     QVector <TrainingGroundLevelInfo> m_levelsInfo;
 
@@ -331,7 +329,7 @@ private:
 struct GymLevelInfo
 {
     GymLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0){}
+        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0), duration(0){}
 
     unsigned amountOfSlots;
     unsigned basicCostInEnergy;
@@ -339,6 +337,7 @@ struct GymLevelInfo
     int combatEffectivenessBonus;
     int proficiencyBonus;
     int clevernessBonus;
+    unsigned duration;
 };
 
 class Gym : public Building
@@ -351,6 +350,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
@@ -404,6 +407,8 @@ public:
 
     void trainHeroes() noexcept;
 
+    void setLevelsInfo(const QVector <GymLevelInfo> &info) noexcept;
+
 private:
     QVector <GymLevelInfo> m_levelsInfo;
 
@@ -413,7 +418,7 @@ private:
 struct LaboratoryLevelInfo
 {
     LaboratoryLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0){}
+        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0), duration(0){}
 
     unsigned amountOfSlots;
     unsigned basicCostInEnergy;
@@ -421,6 +426,7 @@ struct LaboratoryLevelInfo
     int combatEffectivenessBonus;
     int proficiencyBonus;
     int clevernessBonus;
+    unsigned duration;
 };
 
 class Laboratory : public Building
@@ -433,6 +439,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
@@ -485,6 +495,8 @@ public:
     }
 
     void trainHeroes() noexcept;
+
+    void setLevelsInfo(const QVector <LaboratoryLevelInfo> &info) noexcept;
 
 private:
     QVector <LaboratoryLevelInfo> m_levelsInfo;
@@ -516,6 +528,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
@@ -555,6 +571,8 @@ public:
     }
 
     void destressHeroes() noexcept;
+
+    void setLevelsInfo(const QVector <PlayingFieldLevelInfo> &info) noexcept;
 
 private:
     QVector <PlayingFieldLevelInfo> m_levelsInfo;
@@ -586,6 +604,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
@@ -625,6 +647,8 @@ public:
     }
 
     void destressHeroes() noexcept;
+
+    void setLevelsInfo(const QVector <BarLevelInfo> &info) noexcept;
 
 private:
     QVector <BarLevelInfo> m_levelsInfo;
@@ -656,6 +680,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
@@ -695,6 +723,8 @@ public:
     }
 
     void destressHeroes() noexcept;
+
+    void setLevelsInfo(const QVector <ShrineLevelInfo> &info) noexcept;
 
 private:
     QVector <ShrineLevelInfo> m_levelsInfo;
@@ -726,6 +756,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
     }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
+    }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
@@ -766,32 +800,39 @@ public:
 
     void destressHeroes() noexcept;
 
+    void setLevelsInfo(const QVector <SeclusionLevelInfo> &info) noexcept;
+
 private:
     QVector <SeclusionLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingDestressed;
 };
 
-struct PowerPlantLevelInfo
+struct PowerplantLevelInfo
 {
-    PowerPlantLevelInfo()
-        : aetheriteOreTaken(0), energyLimit(0), energyGiven(0), basicCostInEnergy(0){}
+    PowerplantLevelInfo()
+        : aetheriteOreTaken(0), energyLimit(0), energyGiven(0), maxCycles(0), basicCostInEnergy(0){}
 
     unsigned aetheriteOreTaken;
     unsigned energyLimit;
     unsigned energyGiven;
+    unsigned maxCycles;
     unsigned basicCostInEnergy;
 };
 
-class PowerPlant : public Building
+class Powerplant : public Building
 {
     Q_OBJECT
 public:
-    explicit PowerPlant(Base *base, unsigned level, const QVector <PowerPlantLevelInfo> &levelsInfo, bool isWorking) noexcept;
+    explicit Powerplant(Base *base, unsigned level, const QVector<PowerplantLevelInfo> &levelsInfo) noexcept;
 
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -825,32 +866,38 @@ public:
         return m_levelsInfo.value(currentLevel()).aetheriteOreTaken;
     }
 
-    Q_INVOKABLE bool isWorking() const noexcept
-    {
-        return m_isWorking;
-    }
-    Q_INVOKABLE void setIsWorking(bool enable) noexcept;
-
     Q_INVOKABLE int energyLimit() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).energyLimit;
     }
 
-
     void exchangeResources() noexcept;
 
+    Q_INVOKABLE void setCurrentCycles(unsigned amount) noexcept;
+    Q_INVOKABLE unsigned currentCycles() const noexcept
+    {
+        return m_currentCycles;
+    }
+    Q_INVOKABLE unsigned maxCycles() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).maxCycles;
+    }
+
+    void setLevelsInfo(const QVector <PowerplantLevelInfo> &info) noexcept;
+
 private:
-    QVector <PowerPlantLevelInfo> m_levelsInfo;
-    bool m_isWorking;
+    QVector <PowerplantLevelInfo> m_levelsInfo;
+    unsigned m_currentCycles;
 };
 
 struct FactoryLevelInfo
 {
     FactoryLevelInfo()
-        : aetheriteOreTaken(0), buildingMaterialsGiven(0), basicCostInEnergy(0){}
+        : aetheriteOreTaken(0), buildingMaterialsGiven(0), basicCostInEnergy(0),maxCycles(0){}
 
     unsigned aetheriteOreTaken;
     unsigned buildingMaterialsGiven;
+    unsigned maxCycles;
     unsigned basicCostInEnergy;
 };
 
@@ -858,11 +905,15 @@ class Factory : public Building
 {
     Q_OBJECT
 public:
-    explicit Factory(Base *base, unsigned level, const QVector <FactoryLevelInfo> &levelsInfo, bool isWorking) noexcept;
+    explicit Factory(Base *base, unsigned level, const QVector <FactoryLevelInfo> &levelsInfo) noexcept;
 
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -898,15 +949,21 @@ public:
 
     void exchangeResources() noexcept;
 
-    Q_INVOKABLE bool isWorking() const noexcept
+    Q_INVOKABLE void setCurrentCycles(unsigned amount) noexcept;
+    Q_INVOKABLE unsigned currentCycles() const noexcept
     {
-        return m_isWorking;
+        return m_currentCycles;
     }
-    Q_INVOKABLE void setIsWorking(bool enable) noexcept;
+    Q_INVOKABLE unsigned maxCycles() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).maxCycles;
+    }
+
+    void setLevelsInfo(const QVector <FactoryLevelInfo> &info) noexcept;
 
 private:
     QVector <FactoryLevelInfo> m_levelsInfo;
-    bool m_isWorking;
+    unsigned m_currentCycles;
 };
 
 struct CoolRoomLevelInfo
@@ -927,6 +984,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -965,6 +1026,8 @@ public:
         return m_levelsInfo.value(currentLevel()).foodSuppliesLimit;
     }
 
+    void setLevelsInfo(const QVector <CoolRoomLevelInfo> &info) noexcept;
+
 private:
     QVector <CoolRoomLevelInfo> m_levelsInfo;
 };
@@ -987,6 +1050,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -1025,6 +1092,8 @@ public:
         return m_levelsInfo.value(currentLevel()).buildingMaterialsLimit;
     }
 
+    void setLevelsInfo(const QVector <StorageRoomLevelInfo> &info) noexcept;
+
 private:
     QVector <StorageRoomLevelInfo> m_levelsInfo;
 };
@@ -1047,6 +1116,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -1085,6 +1158,8 @@ public:
         return m_levelsInfo.value(currentLevel()).aetheriteOreLimit;
     }
 
+    void setLevelsInfo(const QVector <AetheriteSiloLevelInfo> &info) noexcept;
+
 private:
     QVector <AetheriteSiloLevelInfo> m_levelsInfo;
 };
@@ -1107,6 +1182,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -1145,6 +1224,8 @@ public:
         return m_levelsInfo.value(currentLevel()).heroesLimit;
     }
 
+    void setLevelsInfo(const QVector <BarracksLevelInfo> &info) noexcept;
+
 private:
     QVector <BarracksLevelInfo> m_levelsInfo;
 };
@@ -1167,6 +1248,10 @@ public:
     Q_INVOKABLE int basicCostInEnergy() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
+    }
+    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
@@ -1205,6 +1290,8 @@ public:
         return m_levelsInfo.value(currentLevel()).recruitsAmount;
     }
 
+    void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept;
+
 private:
     QVector <DockingStationLevelInfo> m_levelsInfo;
 };
@@ -1224,7 +1311,7 @@ class Base : public QObject
     Q_PROPERTY(Bar* bar MEMBER m_bar)
     Q_PROPERTY(Shrine* shrine MEMBER m_shrine)
     Q_PROPERTY(Seclusion* seclusion MEMBER m_seclusion)
-    Q_PROPERTY(PowerPlant* powerPlant MEMBER m_powerPlant)
+    Q_PROPERTY(Powerplant* powerplant MEMBER m_powerplant)
     Q_PROPERTY(Factory* factory MEMBER m_factory)
     Q_PROPERTY(CoolRoom* coolRoom MEMBER m_coolRoom)
     Q_PROPERTY(StorageRoom* storageRoom MEMBER m_storageRoom)
@@ -1238,6 +1325,11 @@ public:
     explicit Base(QObject *parent=0) noexcept;
     ~Base() noexcept;
 
+    //save
+    void loadSaveData(const SaveData &data) noexcept;//only use before proper game start
+    SaveData getSaveData() noexcept;
+
+    //buildings
     CentralUnit *centralUnit() noexcept
     {
         return static_cast<CentralUnit *>(m_buildings.value(BaseEnums::B_CentralUnit));
@@ -1274,9 +1366,9 @@ public:
     {
         return static_cast<Seclusion *>(m_buildings.value(BaseEnums::B_Seclusion));
     }
-    PowerPlant *powerPlant() noexcept
+    Powerplant *powerPlant() noexcept
     {
-        return static_cast<PowerPlant *>(m_buildings.value(BaseEnums::B_PowerPlant));
+        return static_cast<Powerplant *>(m_buildings.value(BaseEnums::B_Powerplant));
     }
     Factory *factory() noexcept
     {
@@ -1309,12 +1401,13 @@ public:
     {
         return m_buildingLevels.value(buildingName,0);
     }
-    TechTreeBuildingRequirements buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept;
+    BuildingUpgradeRequirements buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept;
     QString buildingDescription(BaseEnums::Building buildingName) const noexcept
     {
         return m_buildingDescriptions.value(buildingName);
     }
 
+    //resources
     Q_INVOKABLE int currentEnergyAmount() const noexcept
     {
         return m_energy;
@@ -1331,6 +1424,11 @@ public:
     {
         return m_aetherite;
     }
+
+    void setCurrentEnergyAmount(unsigned amount) noexcept;
+    void setCurrentFoodSuppliesAmount(unsigned amount) noexcept;
+    void setCurrentBuildingMaterialsAmount(unsigned amount) noexcept;
+    void setCurrentAetheriteAmount(unsigned amount) noexcept;
 
     Q_INVOKABLE int currentEnergyIncome() const noexcept
     {
@@ -1360,15 +1458,37 @@ public:
             r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInAetherite() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInAetherite();
         return r;
     }
-Q_INVOKABLE int xxx(){static int x=0;return x++;}
+
+    Q_INVOKABLE int currentEnergyLimit() noexcept
+    {
+        return powerPlant()->energyLimit();
+    }
+    Q_INVOKABLE int currentFoodSuppliesLimit() noexcept
+    {
+        return coolRoom()->foodSuppliesLimit();
+    }
+    Q_INVOKABLE int currentBuildingMaterialsLimit() noexcept
+    {
+        return storageRoom()->buildingMaterialsLimit();
+    }
+    Q_INVOKABLE int currentAetheriteLimit() noexcept
+    {
+        return aetheriteSilo()->aetheriteLimit();
+    }
+
     void setBuildingLevel(BaseEnums::Building buildingName, unsigned level) noexcept;
     void setBuildingDescription(BaseEnums::Building buildingName, const QString &desc) noexcept;
+    void setBuildingDescriptions(const QVector <QPair <BaseEnums::Building, QString> > &desc) noexcept;
 
+    void setBuildingRequirements(const QMap <QPair <BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept;
+
+    //heroes
     QVector <Hero *> &heroes() noexcept
     {
         return m_heroes;
     }
 
+    //game clock
     GameClock *gameClock() noexcept
     {
         return m_gameClock;
@@ -1377,6 +1497,7 @@ Q_INVOKABLE int xxx(){static int x=0;return x++;}
 private:
     //maps for buildings
     QMap <BaseEnums::Building, unsigned> m_buildingLevels;
+    QMap <QPair <BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> m_buildingRequirements;
     QMap <BaseEnums::Building, QString> m_buildingDescriptions;
     QMap <BaseEnums::Building, Building *> m_buildings;
 
@@ -1390,7 +1511,7 @@ private:
     Bar *m_bar;
     Shrine *m_shrine;
     Seclusion *m_seclusion;
-    PowerPlant *m_powerPlant;
+    Powerplant *m_powerplant;
     Factory *m_factory;
     CoolRoom *m_coolRoom;
     StorageRoom *m_storageRoom;
@@ -1406,9 +1527,6 @@ private:
 
     //heroes
     QVector <Hero *> m_heroes;
-
-    //tech tree
-    TechTree *m_techTree;
 
     //game clock/timer
     GameClock *m_gameClock;

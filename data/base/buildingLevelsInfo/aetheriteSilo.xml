@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aetheriteSiloLevelsInfo>
+	<levelInfo level=1 basicCostEnergy=3 aetheriteOreLimit=50></levelInfo>
+	<levelInfo level=2 basicCostEnergy=6 aetheriteOreLimit=100></levelInfo>
+	<levelInfo level=3 basicCostEnergy=9 aetheriteOreLimit=150></levelInfo>
+	<levelInfo level=4 basicCostEnergy=12 aetheriteOreLimit=200></levelInfo>
+	<levelInfo level=5 basicCostEnergy=15 aetheriteOreLimit=250></levelInfo>
+	<levelInfo level=6 basicCostEnergy=18 aetheriteOreLimit=300></levelInfo>
+	<levelInfo level=7 basicCostEnergy=21 aetheriteOreLimit=350></levelInfo>
+	<levelInfo level=8 basicCostEnergy=24 aetheriteOreLimit=400></levelInfo>
+	<levelInfo level=9 basicCostEnergy=27 aetheriteOreLimit=450></levelInfo>
+	<levelInfo level=10 basicCostEnergy=30 aetheriteOreLimit=500></levelInfo>
+	<levelInfo level=11 basicCostEnergy=33 aetheriteOreLimit=550></levelInfo>
+	<levelInfo level=12 basicCostEnergy=36 aetheriteOreLimit=600></levelInfo>
+	<levelInfo level=13 basicCostEnergy=42 aetheriteOreLimit=700></levelInfo>
+	<levelInfo level=14 basicCostEnergy=48 aetheriteOreLimit=800></levelInfo>
+	<levelInfo level=15 basicCostEnergy=54 aetheriteOreLimit=900></levelInfo>
+	<levelInfo level=16 basicCostEnergy=60 aetheriteOreLimit=1000></levelInfo>
+</aetheriteSiloLevelsInfo>

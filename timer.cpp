@@ -91,7 +91,7 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() const noexcept
 }
 
 GameClock::GameClock() noexcept
-    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0)
+    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_latestAutosaveMinTimestamp(0)
 {}
 
 void GameClock::saveCurrentDate() noexcept
@@ -99,27 +99,33 @@ void GameClock::saveCurrentDate() noexcept
     m_lastKnownDate=QDateTime::currentDateTime();
     m_lastKnownDay=m_currentTimeInGameDay;
     m_lastKnownHour=m_currentTimeInGameHour;
-    m_lastKnownMin-m_currentTimeInGameMin;
+    m_lastKnownMin=m_currentTimeInGameMin;
 }
 
-void GameClock::updateClock() noexcept
+void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept
 {
+    m_lastKnownDate=lastKnownDate;
+    m_lastKnownDay=lastKnownDay;
+    m_lastKnownHour=lastKnownHour;
+    m_lastKnownMin=lastKnownMin;
+
     long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
-    m_currentTimeInGameDay = m_lastKnownDay + ms/(1000*60*60/2);
-    ms%=(1000*60*60/2);
-    m_currentTimeInGameHour = m_lastKnownHour + ms/(1000*60*60/2/24);
-    ms%=(1000*60*60/2/24);
-    m_currentTimeInGameMin = m_lastKnownMin + ms/(1000*60*60/2/24/60);
+    m_currentTimeInGameDay = m_lastKnownDay + ms/(1000*60*60);
+    ms%=(1000*60*60);
+    m_currentTimeInGameHour = m_lastKnownHour + ms/(1000*60*60/24);
+    ms%=(1000*60*60/24);
+    m_currentTimeInGameMin = m_lastKnownMin + ms/(1000*60*60/24/60);
 }
 
 void GameClock::updateClock(int minutesToAdd) noexcept
 {
     addMinutesToGameTime(minutesToAdd);
+    tryAutosaving();
 }
 
-void GameClock::determineCurrentGameTime() noexcept
+void GameClock::forceAutosave() noexcept
 {
-
+    autosave();
 }
 
 void GameClock::addMinutesToGameTime(int minutes) noexcept
@@ -151,4 +157,16 @@ void GameClock::addHoursToGameTime(int hours) noexcept
 void GameClock::addDaysToGameTime(int days) noexcept
 {
     m_currentTimeInGameDay+=days;
+}
+
+void GameClock::tryAutosaving() noexcept
+{
+    if ((m_latestAutosaveMinTimestamp+m_autosaveIntervalInMin)%60 <= m_currentTimeInGameMin)
+        autosave();
+}
+
+void GameClock::autosave() noexcept
+{
+    m_latestAutosaveMinTimestamp=m_currentTimeInGameMin;
+    emit doAutosave();
 }

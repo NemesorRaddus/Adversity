@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Bar>("Bar");
     qmlRegisterInterface<Shrine>("Shrine");
     qmlRegisterInterface<Seclusion>("Seclusion");
-    qmlRegisterInterface<PowerPlant>("PowerPlant");
+    qmlRegisterInterface<Powerplant>("Powerplant");
     qmlRegisterInterface<Factory>("Factory");
     qmlRegisterInterface<CoolRoom>("CoolRoom");
     qmlRegisterInterface<StorageRoom>("StorageRoom");

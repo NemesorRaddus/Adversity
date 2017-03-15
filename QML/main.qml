@@ -8,23 +8,27 @@ Window {
     id: win
 
     property int currentMode: 0
+    property bool updateEverythingInAMoment: true
 
     function changeMode(mode)
     {
         if (mode == 0)
         {
             currentMode = 0;
-            mainGUI.buildingsList.state = "hiddenRight"
+            mainGUI.buildingsGUI.returnToDefault();
+            mainGUI.buildingsGUI.state = "hiddenRight";
         }
         else if (mode == 1)
         {
             currentMode = 1;
-            mainGUI.buildingsList.state = "";
+            mainGUI.buildingsGUI.returnToDefault();
+            mainGUI.buildingsGUI.state = "";
         }
         else if (mode == 2)
         {
             currentMode = 2;
-            mainGUI.buildingsList.state = "hiddenLeft";
+            mainGUI.buildingsGUI.returnToDefault();
+            mainGUI.buildingsGUI.state = "hiddenLeft";
         }
     }
 
@@ -39,6 +43,19 @@ Window {
     MainGUI {
         id: mainGUI
 
+        function updateResources()
+        {
+            energyValue.text = GameApi.base.currentEnergyAmount() + '/' + GameApi.base.powerplant.energyLimit();
+            foodSuppliesValue.text = GameApi.base.currentFoodSuppliesAmount() + '/' + GameApi.base.coolRoom.foodSuppliesLimit();
+            buildingMaterialsValue.text = GameApi.base.currentBuildingMaterialsAmount() + '/' + GameApi.base.storageRoom.buildingMaterialsLimit();
+            aetheriteValue.text = GameApi.base.currentAetheriteAmount() + '/' + GameApi.base.aetheriteSilo.aetheriteLimit();
+
+            energyValue2.text = GameApi.base.currentEnergyIncome() + '/' + "day";
+            foodSuppliesValue2.text = GameApi.base.currentFoodSuppliesIncome() + '/' + "day";
+            buildingMaterialsValue2.text = GameApi.base.currentBuildingMaterialsIncome() + '/' + "day";
+            aetheriteValue2.text = GameApi.base.currentAetheriteIncome() + '/' + "day";
+        }
+
         function updateClock()
         {
             dayValue.text = "Day " + GameApi.base.gameClock.currentDay();
@@ -52,27 +69,16 @@ Window {
                          GameApi.base.gameClock.currentMin());
         }
 
+        function updateMainContent()
+        {
+            mainGUI.buildingsGUI.updateEverything();//TODO more
+        }
+
         function updateEverything()
         {
-            energyValue.text = GameApi.base.currentEnergyAmount() + '/' + GameApi.base.powerPlant.energyLimit();
-            foodSuppliesValue.text = GameApi.base.currentFoodSuppliesAmount() + '/' + GameApi.base.coolRoom.foodSuppliesLimit();
-            buildingMaterialsValue.text = GameApi.base.currentBuildingMaterialsAmount() + '/' + GameApi.base.storageRoom.buildingMaterialsLimit();
-            aetheriteValue.text = GameApi.base.currentAetheriteAmount() + '/' + GameApi.base.aetheriteSilo.aetheriteLimit();
-
-            energyValue2.text = GameApi.base.currentEnergyIncome() + '/' + "day";
-            foodSuppliesValue2.text = GameApi.base.currentFoodSuppliesIncome() + '/' + "day";
-            buildingMaterialsValue2.text = GameApi.base.currentBuildingMaterialsIncome() + '/' + "day";
-            aetheriteValue2.text = GameApi.base.currentAetheriteIncome() + '/' + "day";
-
-            dayValue.text = "Day " + GameApi.base.gameClock.currentDay();
-
-            hourValue.text = (GameApi.base.gameClock.currentHour() < 10 ?
-                                  '0' + GameApi.base.gameClock.currentHour() :
-                                  GameApi.base.gameClock.currentHour())
-                    + ':' +
-                    (GameApi.base.gameClock.currentMin() < 10 ?
-                         '0' + GameApi.base.gameClock.currentMin() :
-                         GameApi.base.gameClock.currentMin());
+            updateResources();
+            updateClock();
+            updateMainContent();
         }
 
         transform: [
@@ -96,13 +102,18 @@ Window {
     Timer {
         id: gameTimer
 
-        interval: 1250 // 1000/48*60
+        interval: 2500 // 1000/48*60
         running: true
         repeat: true
         onTriggered: {
             GameApi.base.gameClock.updateClock(1);
             mainGUI.updateClock();
-            if (GameApi.base.gameClock.hasDayChangedLately())
+            if (updateEverythingInAMoment)
+            {
+                mainGUI.updateEverything();
+                updateEverythingInAMoment=false;
+            }
+            else if (GameApi.base.gameClock.hasDayChangedLately())
             {
                 mainGUI.updateEverything();//TODO more
             }
@@ -114,6 +125,9 @@ Window {
         Globals.windowHeight = height;
         Globals.dpcm = Screen.pixelDensity*10;
         changeMode(0);
-        mainGUI.updateEverything();
+        GameApi.loadExistingBase("E:/Programowanie/gamesave.dat",":/data/");
+    }
+    onClosing: {
+        GameApi.saveBase("E:/Programowanie/gamesave.dat");
     }
 }

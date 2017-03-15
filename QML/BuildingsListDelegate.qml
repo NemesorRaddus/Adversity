@@ -62,7 +62,6 @@ Item {
         y: 3
         width: 256
         height: 256
-        //source: "qrc:/graphics/Buildings/PowerPlant.png"
     }
 
     Image {
@@ -100,10 +99,10 @@ Item {
         y: 123
         width: 785
         height: 136
-        color: "#94ef94"
+        color: "#568b56"
         text: qsTr("Energy for everyone!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         wrapMode: Text.WordWrap
-        font.pixelSize: 35
+        font.pixelSize: 30
         font.family: "Stencil"
     }
 

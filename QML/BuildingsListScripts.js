@@ -20,6 +20,13 @@ function setupList(heightOfElementInCm, windowDpcm, amountOfItems, widthInPx, he
     itemsArray = new Array(amountOfItems);
 }
 
+function setItem(index, name, internalName, level, description) {
+    itemsArray[index].setArtSource("qrc:/graphics/Buildings/"+internalName+".png");
+    itemsArray[index].setName(name);
+    itemsArray[index].setLevel("Level: "+level);
+    itemsArray[index].setDescription(description);
+}
+
 function createItem(name, internalName, level, description) {
     if (actualAmountOfItems < itemsArray.length)
     {
@@ -28,10 +35,7 @@ function createItem(name, internalName, level, description) {
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement * dpcm + y00,
                                                 "width": width, "height": heightOfElement * dpcm});
-        itemsArray[actualAmountOfItems].setArtSource("qrc:/graphics/Buildings/"+internalName+".png");
-        itemsArray[actualAmountOfItems].setName(name);
-        itemsArray[actualAmountOfItems].setLevel("Level: "+level);
-        itemsArray[actualAmountOfItems].setDescription(description);
+        setItem(actualAmountOfItems,name,internalName,level,description);
         ++actualAmountOfItems;
     }
 }

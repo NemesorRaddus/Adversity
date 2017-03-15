@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<powerPlantLevelsInfo>
+	<levelInfo level=1 basicCostEnergy=1 aetheriteTaken=1 energyGiven=5 energyLimit=250 maxCycles=10></levelInfo>
+	<levelInfo level=2 basicCostEnergy=1 aetheriteTaken=1 energyGiven=5 energyLimit=300 maxCycles=12></levelInfo>
+	<levelInfo level=3 basicCostEnergy=1 aetheriteTaken=1 energyGiven=5 energyLimit=350 maxCycles=14></levelInfo>
+	<levelInfo level=4 basicCostEnergy=2 aetheriteTaken=1 energyGiven=5 energyLimit=525 maxCycles=14></levelInfo>
+	<levelInfo level=5 basicCostEnergy=3 aetheriteTaken=1 energyGiven=6 energyLimit=1260 maxCycles=14></levelInfo>
+	<levelInfo level=6 basicCostEnergy=3 aetheriteTaken=1 energyGiven=6 energyLimit=1440 maxCycles=16></levelInfo>
+	<levelInfo level=7 basicCostEnergy=3 aetheriteTaken=1 energyGiven=6 energyLimit=1620 maxCycles=18></levelInfo>
+	<levelInfo level=8 basicCostEnergy=4 aetheriteTaken=1 energyGiven=6 energyLimit=2160 maxCycles=18></levelInfo>
+	<levelInfo level=9 basicCostEnergy=5 aetheriteTaken=1 energyGiven=7 energyLimit=2520 maxCycles=18></levelInfo>
+	<levelInfo level=10 basicCostEnergy=5 aetheriteTaken=1 energyGiven=7 energyLimit=2800 maxCycles=20></levelInfo>
+	<levelInfo level=11 basicCostEnergy=7 aetheriteTaken=1 energyGiven=7 energyLimit=3080 maxCycles=22></levelInfo>
+	<levelInfo level=12 basicCostEnergy=8 aetheriteTaken=1 energyGiven=7 energyLimit=3850 maxCycles=22></levelInfo>
+	<levelInfo level=13 basicCostEnergy=12 aetheriteTaken=1 energyGiven=8 energyLimit=5000 maxCycles=25></levelInfo>
+	<levelInfo level=14 basicCostEnergy=12 aetheriteTaken=1 energyGiven=9 energyLimit=5625 maxCycles=25></levelInfo>
+	<levelInfo level=15 basicCostEnergy=12 aetheriteTaken=1 energyGiven=10 energyLimit=6250 maxCycles=25></levelInfo>
+	<levelInfo level=16 basicCostEnergy=14 aetheriteTaken=1 energyGiven=10 energyLimit=7500 maxCycles=30></levelInfo>
+	<levelInfo level=17 basicCostEnergy=15 aetheriteTaken=1 energyGiven=11 energyLimit=8250 maxCycles=30></levelInfo>
+	<levelInfo level=18 basicCostEnergy=16 aetheriteTaken=1 energyGiven=12 energyLimit=9000 maxCycles=30></levelInfo>
+	<levelInfo level=19 basicCostEnergy=17 aetheriteTaken=1 energyGiven=13 energyLimit=9750 maxCycles=30></levelInfo>
+	<levelInfo level=20 basicCostEnergy=18 aetheriteTaken=1 energyGiven=14 energyLimit=10500 maxCycles=30></levelInfo>
+	<levelInfo level=21 basicCostEnergy=19 aetheriteTaken=1 energyGiven=15 energyLimit=11250 maxCycles=30></levelInfo>
+	<levelInfo level=22 basicCostEnergy=20 aetheriteTaken=1 energyGiven=16 energyLimit=12000 maxCycles=30></levelInfo>
+	<levelInfo level=23 basicCostEnergy=30 aetheriteTaken=1 energyGiven=22 energyLimit=16250 maxCycles=30></levelInfo>
+	<levelInfo level=24 basicCostEnergy=33 aetheriteTaken=1 energyGiven=22 energyLimit=18150 maxCycles=33></levelInfo>
+	<levelInfo level=25 basicCostEnergy=36 aetheriteTaken=1 energyGiven=23 energyLimit=18975 maxCycles=33></levelInfo>
+	<levelInfo level=26 basicCostEnergy=39 aetheriteTaken=1 energyGiven=24 energyLimit=19800 maxCycles=33></levelInfo>
+	<levelInfo level=27 basicCostEnergy=42 aetheriteTaken=1 energyGiven=25 energyLimit=20625 maxCycles=33></levelInfo>
+	<levelInfo level=28 basicCostEnergy=48 aetheriteTaken=1 energyGiven=26 energyLimit=22750 maxCycles=35></levelInfo>
+	<levelInfo level=29 basicCostEnergy=60 aetheriteTaken=1 energyGiven=28 energyLimit=31920 maxCycles=38></levelInfo>
+	<levelInfo level=30 basicCostEnergy=72 aetheriteTaken=1 energyGiven=30 energyLimit=36000 maxCycles=40></levelInfo>
+</powerPlantLevelsInfo>

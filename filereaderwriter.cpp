@@ -1,230 +1,197 @@
 #include "filereaderwriter.h"
+#include <QDebug>
+XmlFileReader::XmlFileReader() noexcept
+{
+    m_xmlReader=new QXmlStreamReader();
+}
 
 bool XmlFileReader::openXmlFile(const QString &path) noexcept
 {
-    m_xmlReader.setDevice(new QFile(path));
-    return isXmlFileOpened();
+    QFile *f=new QFile(path);
+    if (!f->open(QFile::ReadOnly))
+        return 0;
+    delete m_xmlReader;
+    m_xmlReader=new QXmlStreamReader(f);
+    return 1;
 }
 
-bool XmlFileReader::isXmlFileOpened() const noexcept
-{
-    return m_xmlReader.device()!=0 ? true : false;
-}
-
-TechTree *XmlFileReader::getTechTree() noexcept
-{
-    if (!isXmlFileOpened())
-        return NULL;
-
-    TechTreeBuilder *techTreeBuilder = new TechTreeBuilder();
-    if (m_xmlReader.readNextStartElement())
-    {
-        if (m_xmlReader.name()=="techtree")
-        {
-            while (m_xmlReader.readNextStartElement())
-            {
-                if (m_xmlReader.name()=="building")
-                {
-                    QPair < QPair <BaseEnums::Building, unsigned>, TechTreeBuildingRequirements> element;
-
-                    element.first.first = BaseEnums::fromQStringToBuildingEnum(m_xmlReader.attributes().value("name").toString());
-                    element.first.second = m_xmlReader.attributes().value("level").toUInt();
-
-                    while (m_xmlReader.readNextStartElement())
-                    {
-                        if (m_xmlReader.name()=="requirements")
-                        {
-                            element.second.requiredBuildingMaterials = m_xmlReader.attributes().value("resources").toUInt();
-                            element.second.requiredTime = m_xmlReader.attributes().value("time").toUInt();
-
-                            while (m_xmlReader.readNextStartElement())
-                            {
-                                if (m_xmlReader.name()=="building")
-                                {
-                                    QPair <BaseEnums::Building,unsigned> requiredBuilding;
-
-                                    requiredBuilding.first = BaseEnums::fromQStringToBuildingEnum(m_xmlReader.attributes().value("name").toString());
-                                    requiredBuilding.second = m_xmlReader.attributes().value("level").toUInt();
-
-                                    element.second.requiredBuildingLevels.insert(requiredBuilding.first,requiredBuilding.second);
-                                }
-                                else
-                                    m_xmlReader.skipCurrentElement();
-                            }
-                        }
-                        else
-                            m_xmlReader.skipCurrentElement();
-                    }
-                    techTreeBuilder->addUpgrade(element.first,element.second);
-                }
-                else
-                    m_xmlReader.skipCurrentElement();
-            }
-        }
-        else
-            m_xmlReader.raiseError("Incorrect file");
-    }
-    if (m_xmlReader.hasError())
-    {
-        delete techTreeBuilder;
-        return NULL;
-    }
-    TechTree *ret=techTreeBuilder->getTechTree();
-    delete techTreeBuilder;
-    return ret;
-}
-
-TechTree *XmlFileReader::getTechTree(const QString &path) noexcept
-{
-    return openXmlFile(path) ? getTechTree() : NULL;
-}
-
-QVector<CentralUnitLevelInfo> *XmlFileReader::getCentralUnitLevelsInfo(const QString &path) noexcept
+QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getCentralUnitLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <CentralUnitLevelInfo> *r=NULL;
+    QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="centralUnitLevelsInfo")
+        if (m_xmlReader->name()=="centralUnitLevelsInfo")
         {
-            r=new QVector <CentralUnitLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     CentralUnitLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<HospitalLevelInfo> *XmlFileReader::getHospitalLevelsInfo(const QString &path) noexcept
+QPair<QVector<HospitalLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getHospitalLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <HospitalLevelInfo> *r=NULL;
+    QPair<QVector<HospitalLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="hospitalLevelsInfo")
+        if (m_xmlReader->name()=="hospitalLevelsInfo")
         {
-            r=new QVector <HospitalLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     HospitalLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.perCapitaCostInEnergy=attrs.value("perCapitaCostEnergy").toUInt();
                     info.basicCostInFoodSupplies=attrs.value("basicCostFood").toUInt();
                     info.perCapitaCostInFoodSupplies=attrs.value("perCapitaCostFood").toUInt();
+                    info.hpRestored=attrs.value("hpRestored").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<TrainingGroundLevelInfo> *XmlFileReader::getTrainingGroundLevelsInfo(const QString &path) noexcept
+QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getTrainingGroundLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <TrainingGroundLevelInfo> *r=NULL;
+    QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="trainingGroundLevelsInfo")
+        if (m_xmlReader->name()=="trainingGroundLevelsInfo")
         {
-            r=new QVector <TrainingGroundLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     TrainingGroundLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.perCapitaCostInEnergy=attrs.value("perCapitaCostEnergy").toUInt();
+                    info.combatEffectivenessBonus=attrs.value("combatEffectivenessBonus").toInt();
+                    info.proficiencyBonus=attrs.value("proficiencyBonus").toInt();
+                    info.clevernessBonus=attrs.value("clevernessBonus").toInt();
+                    info.duration=attrs.value("duration").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<GymLevelInfo> *XmlFileReader::getGymLevelsInfo(const QString &path) noexcept
+QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getGymLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <GymLevelInfo> *r=NULL;
+    QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="gymLevelsInfo")
+        if (m_xmlReader->name()=="gymLevelsInfo")
         {
-            r=new QVector <GymLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     GymLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
@@ -232,44 +199,54 @@ QVector<GymLevelInfo> *XmlFileReader::getGymLevelsInfo(const QString &path) noex
                     info.combatEffectivenessBonus=attrs.value("combatEffectivenessBonus").toInt();
                     info.proficiencyBonus=attrs.value("proficiencyBonus").toInt();
                     info.clevernessBonus=attrs.value("clevernessBonus").toInt();
+                    info.duration=attrs.value("duration").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<LaboratoryLevelInfo> *XmlFileReader::getLaboratoryLevelsInfo(const QString &path) noexcept
+QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getLaboratoryLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <LaboratoryLevelInfo> *r=NULL;
+    QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="laboratoryLevelsInfo")
+        if (m_xmlReader->name()=="laboratoryLevelsInfo")
         {
-            r=new QVector <LaboratoryLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     LaboratoryLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
@@ -277,44 +254,54 @@ QVector<LaboratoryLevelInfo> *XmlFileReader::getLaboratoryLevelsInfo(const QStri
                     info.combatEffectivenessBonus=attrs.value("combatEffectivenessBonus").toInt();
                     info.proficiencyBonus=attrs.value("proficiencyBonus").toInt();
                     info.clevernessBonus=attrs.value("clevernessBonus").toInt();
+                    info.duration=attrs.value("duration").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<PlayingFieldLevelInfo> *XmlFileReader::getPlayingFieldLevelsInfo(const QString &path) noexcept
+QPair<QVector<PlayingFieldLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getPlayingFieldLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <PlayingFieldLevelInfo> *r=NULL;
+    QPair<QVector<PlayingFieldLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="playingFieldLevelsInfo")
+        if (m_xmlReader->name()=="playingFieldLevelsInfo")
         {
-            r=new QVector <PlayingFieldLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     PlayingFieldLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
@@ -324,43 +311,52 @@ QVector<PlayingFieldLevelInfo> *XmlFileReader::getPlayingFieldLevelsInfo(const Q
                     info.stressReductionForRecluse=attrs.value("stressReductionRecluse").toInt();
                     info.stressReductionForReligious=attrs.value("stressReductionReligious").toInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<BarLevelInfo> *XmlFileReader::getBarLevelsInfo(const QString &path) noexcept
+QPair<QVector<BarLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getBarLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <BarLevelInfo> *r=NULL;
+    QPair<QVector<BarLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="barLevelsInfo")
+        if (m_xmlReader->name()=="barLevelsInfo")
         {
-            r=new QVector <BarLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     BarLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
@@ -370,43 +366,52 @@ QVector<BarLevelInfo> *XmlFileReader::getBarLevelsInfo(const QString &path) noex
                     info.stressReductionForRecluse=attrs.value("stressReductionRecluse").toInt();
                     info.stressReductionForReligious=attrs.value("stressReductionReligious").toInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<ShrineLevelInfo> *XmlFileReader::getShrineLevelsInfo(const QString &path) noexcept
+QPair<QVector<ShrineLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getShrineLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <ShrineLevelInfo> *r=NULL;
+    QPair<QVector<ShrineLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="shrineLevelsInfo")
+        if (m_xmlReader->name()=="shrineLevelsInfo")
         {
-            r=new QVector <ShrineLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     ShrineLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
@@ -416,43 +421,52 @@ QVector<ShrineLevelInfo> *XmlFileReader::getShrineLevelsInfo(const QString &path
                     info.stressReductionForRecluse=attrs.value("stressReductionRecluse").toInt();
                     info.stressReductionForReligious=attrs.value("stressReductionReligious").toInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<SeclusionLevelInfo> *XmlFileReader::getSeclusionLevelsInfo(const QString &path) noexcept
+QPair<QVector<SeclusionLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getSeclusionLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <SeclusionLevelInfo> *r=NULL;
+    QPair<QVector<SeclusionLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="seclusionLevelsInfo")
+        if (m_xmlReader->name()=="seclusionLevelsInfo")
         {
-            r=new QVector <SeclusionLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     SeclusionLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
@@ -462,393 +476,417 @@ QVector<SeclusionLevelInfo> *XmlFileReader::getSeclusionLevelsInfo(const QString
                     info.stressReductionForRecluse=attrs.value("stressReductionRecluse").toInt();
                     info.stressReductionForReligious=attrs.value("stressReductionReligious").toInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<PowerPlantLevelInfo> *XmlFileReader::getPowerPlantLevelsInfo(const QString &path) noexcept
+QPair<QVector<PowerplantLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getPowerplantLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <PowerPlantLevelInfo> *r=NULL;
+    QPair<QVector<PowerplantLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="powerPlantLevelsInfo")
+        if (m_xmlReader->name()=="powerplantLevelsInfo")
         {
-            r=new QVector <PowerPlantLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
-                    PowerPlantLevelInfo info;
+                    PowerplantLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.aetheriteOreTaken=attrs.value("aetheriteTaken").toUInt();
                     info.energyGiven=attrs.value("energyGiven").toUInt();
+                    info.maxCycles=attrs.value("maxCycles").toUInt();
+                    info.energyLimit=attrs.value("energyLimit").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<FactoryLevelInfo> *XmlFileReader::getFactoryLevelsInfo(const QString &path) noexcept
+QPair<QVector<FactoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getFactoryLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <FactoryLevelInfo> *r=NULL;
+    QPair<QVector<FactoryLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="factoryLevelsInfo")
+        if (m_xmlReader->name()=="factoryLevelsInfo")
         {
-            r=new QVector <FactoryLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     FactoryLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.aetheriteOreTaken=attrs.value("aetheriteTaken").toUInt();
                     info.buildingMaterialsGiven=attrs.value("buildingMaterialsGiven").toUInt();
+                    info.maxCycles=attrs.value("maxCycles").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<CoolRoomLevelInfo> *XmlFileReader::getCoolRoomLevelsInfo(const QString &path) noexcept
+QPair<QVector<CoolRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getCoolRoomLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <CoolRoomLevelInfo> *r=NULL;
+    QPair<QVector<CoolRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="coolRoomLevelsInfo")
+        if (m_xmlReader->name()=="coolRoomLevelsInfo")
         {
-            r=new QVector <CoolRoomLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     CoolRoomLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.foodSuppliesLimit=attrs.value("foodSuppliesLimit").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<StorageRoomLevelInfo> *XmlFileReader::getStorageRoomLevelsInfo(const QString &path) noexcept
+QPair<QVector<StorageRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getStorageRoomLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <StorageRoomLevelInfo> *r=NULL;
+    QPair<QVector<StorageRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="storageRoomLevelsInfo")
+        if (m_xmlReader->name()=="storageRoomLevelsInfo")
         {
-            r=new QVector <StorageRoomLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     StorageRoomLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.buildingMaterialsLimit=attrs.value("buildingMaterialsLimit").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<AetheriteSiloLevelInfo> *XmlFileReader::getAetheriteSiloLevelsInfo(const QString &path) noexcept
+QPair<QVector<AetheriteSiloLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getAetheriteSiloLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <AetheriteSiloLevelInfo> *r=NULL;
+    QPair<QVector<AetheriteSiloLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="aetheriteSiloLevelsInfo")
+        if (m_xmlReader->name()=="aetheriteSiloLevelsInfo")
         {
-            r=new QVector <AetheriteSiloLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     AetheriteSiloLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.aetheriteOreLimit=attrs.value("aetheriteLimit").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<BarracksLevelInfo> *XmlFileReader::getBarracksLevelsInfo(const QString &path) noexcept
+QPair<QVector<BarracksLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getBarracksLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <BarracksLevelInfo> *r=NULL;
+    QPair<QVector<BarracksLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="barracksLevelsInfo")
+        if (m_xmlReader->name()=="barracksLevelsInfo")
         {
-            r=new QVector <BarracksLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     BarracksLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.heroesLimit=attrs.value("heroesLimit").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-QVector<DockingStationLevelInfo> *XmlFileReader::getDockingStationLevelsInfo(const QString &path) noexcept
+QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getDockingStationLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return NULL;
+        return {};
 
-    QVector <DockingStationLevelInfo> *r=NULL;
+    QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
-    if (m_xmlReader.readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader.name()=="dockingStationLevelsInfo")
+        if (m_xmlReader->name()=="dockingStationLevelsInfo")
         {
-            r=new QVector <DockingStationLevelInfo>;
-            while (m_xmlReader.readNextStartElement())
+            while (m_xmlReader->readNextStartElement())
             {
-                if (m_xmlReader.name()=="levelInfo")
+                if (m_xmlReader->name()=="levelInfo")
                 {
                     unsigned level=0;
                     DockingStationLevelInfo info;
 
-                    QXmlStreamAttributes attrs = m_xmlReader.attributes();
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.recruitsAmount=attrs.value("recruitsAmount").toUInt();
 
-                    r->insert(level,info);
+                    BuildingUpgradeRequirements reqs;
+
+                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="requirements")
+                    {
+                        attrs=m_xmlReader->attributes();
+                        reqs.requiredBuildingMaterials=attrs.value("buildingMaterials").toUInt();
+                        reqs.requiredEnergy=attrs.value("energy").toUInt();
+                        reqs.requiredTime=attrs.value("time").toUInt();
+                        m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.first.insert(level,info);
+                    r.second.insert(level,reqs);
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
-                    m_xmlReader.skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();
             }
         }
         else
-            m_xmlReader.raiseError("Incorrect file");
+            m_xmlReader->raiseError("Incorrect file");
     }
-    if (m_xmlReader.hasError())
-    {
-        delete r;
-        return NULL;
-    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }
 
-bool XmlFileWriter::openXmlFile(const QString &path) noexcept
-{
-    m_xmlWriter.setDevice(new QFile(path));
-    return isXmlFileOpened();
-}
-
-bool XmlFileWriter::isXmlFileOpened() const noexcept
-{
-    return m_xmlWriter.device()!=0 ? true : false;
-}
-
-void XmlFileWriter::saveTechTree(const TechTree &techTree) noexcept//FIXME
-{
-    if (!isXmlFileOpened())
-        return;
-
-    m_xmlWriter.setAutoFormatting(1);
-    m_xmlWriter.writeStartDocument();
-    m_xmlWriter.writeStartElement("techtree");
-
-    for (int buildingNameEnumValue=0; buildingNameEnumValue < static_cast <int> (BaseEnums::B_END); ++buildingNameEnumValue)
-        for (int buildingLevel=1; techTree.isThereSuchUpgrade(QPair <BaseEnums::Building, int> (static_cast <BaseEnums::Building> (buildingNameEnumValue), buildingLevel)); ++buildingLevel)
-        {
-            m_xmlWriter.writeStartElement("building");
-
-            m_xmlWriter.writeTextElement("name", BaseEnums::fromBuildingEnumToQString(static_cast <BaseEnums::Building> (buildingNameEnumValue)));
-            m_xmlWriter.writeTextElement("level", QString::number(buildingLevel));
-
-            m_xmlWriter.writeStartElement("requirements");
-
-            TechTreeBuildingRequirements reqs = techTree.getRequirementsForUpgrade(QPair <BaseEnums::Building, int> (static_cast <BaseEnums::Building> (buildingNameEnumValue), buildingLevel));
-
-            for (int requiredBuildingNameEnumValue=0; requiredBuildingNameEnumValue < static_cast <int> (BaseEnums::B_END); ++requiredBuildingNameEnumValue)
-                for (int requiredBuildingLevel=1; reqs.requiredBuildingLevels.contains(static_cast <BaseEnums::Building> (requiredBuildingNameEnumValue)); ++requiredBuildingLevel)
-                {
-                    m_xmlWriter.writeStartElement("building");
-
-                    m_xmlWriter.writeTextElement("name", BaseEnums::fromBuildingEnumToQString(static_cast <BaseEnums::Building> (requiredBuildingNameEnumValue)));
-                    m_xmlWriter.writeTextElement("level", QString::number(requiredBuildingLevel));
-
-                    m_xmlWriter.writeEndElement();
-                }
-            m_xmlWriter.writeTextElement("resource",QString::number(reqs.requiredBuildingMaterials));
-            m_xmlWriter.writeTextElement("time",QString::number(reqs.requiredTime));
-
-            m_xmlWriter.writeEndElement();
-        }
-    m_xmlWriter.writeEndElement();
-    m_xmlWriter.writeEndDocument();
-}
-
-void XmlFileWriter::saveTechTree(const TechTree &techTree, const QString &path) noexcept
-{
-    if (openXmlFile(path))
-        saveTechTree(techTree);
-}
-
-void XmlFileWriter::saveHospitalLevelInfo(QVector<HospitalLevelInfo> *info, const QString &path) noexcept
+QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescriptions(const QString &path) noexcept
 {
     if (!openXmlFile(path))
-        return;
+        return {};
 
-    m_xmlWriter.setAutoFormatting(1);
-    m_xmlWriter.writeStartDocument();
+    QVector <QPair <BaseEnums::Building, QString> > r;
 
-    m_xmlWriter.writeStartElement("hospitalLevelsInfo");
-
-    for (int i=0;i < info->size();++i)
+    if (m_xmlReader->readNextStartElement())
     {
-        m_xmlWriter.writeStartElement("levelInfo");
-
-        m_xmlWriter.writeAttribute("level",QString::number(i));
-        m_xmlWriter.writeAttribute("slots",QString::number((*info)[i].amountOfSlots));
-        m_xmlWriter.writeAttribute("basicCostEnergy",QString::number((*info)[i].basicCostInEnergy));
-        m_xmlWriter.writeAttribute("perCapitaCostEnergy",QString::number((*info)[i].perCapitaCostInEnergy));
-        m_xmlWriter.writeAttribute("basicCostFood",QString::number((*info)[i].basicCostInFoodSupplies));
-        m_xmlWriter.writeAttribute("perCapitaCostFood",QString::number((*info)[i].perCapitaCostInFoodSupplies));
-
-        m_xmlWriter.writeEndElement();
+        if (m_xmlReader->name()=="buildingDescriptions")
+        {
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="buildingDescription")
+                {
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
+                    r.push_back({BaseEnums::fromQStringToBuildingEnum(attrs.value("name").toString()),attrs.value("description").toString()});
+                    m_xmlReader->skipCurrentElement();
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
+        else
+            m_xmlReader->raiseError("Incorrect file");
     }
-
-    m_xmlWriter.writeEndElement();
-    m_xmlWriter.writeEndDocument();
+    if (m_xmlReader->hasError())
+    {
+        return {};
+    }
+    return r;
 }

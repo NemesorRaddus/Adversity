@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<factoryLevelsInfo>
+	<levelInfo level=1 basicCostEnergy=1 aetheriteTaken=1 buildingMaterialsGiven=1 maxCycles=1></levelInfo>
+	<levelInfo level=2 basicCostEnergy=1 aetheriteTaken=2 buildingMaterialsGiven=2 maxCycles=1></levelInfo>
+	<levelInfo level=3 basicCostEnergy=2 aetheriteTaken=3 buildingMaterialsGiven=3 maxCycles=1></levelInfo>
+	<levelInfo level=4 basicCostEnergy=2 aetheriteTaken=3 buildingMaterialsGiven=4 maxCycles=1></levelInfo>
+	<levelInfo level=5 basicCostEnergy=3 aetheriteTaken=2 buildingMaterialsGiven=3 maxCycles=2></levelInfo>
+	<levelInfo level=6 basicCostEnergy=3 aetheriteTaken=3 buildingMaterialsGiven=5 maxCycles=2></levelInfo>
+	<levelInfo level=7 basicCostEnergy=4 aetheriteTaken=3 buildingMaterialsGiven=5 maxCycles=3></levelInfo>
+	<levelInfo level=8 basicCostEnergy=4 aetheriteTaken=3 buildingMaterialsGiven=6 maxCycles=3></levelInfo>
+	<levelInfo level=9 basicCostEnergy=4 aetheriteTaken=4 buildingMaterialsGiven=8 maxCycles=3></levelInfo>
+	<levelInfo level=10 basicCostEnergy=4 aetheriteTaken=4 buildingMaterialsGiven=9 maxCycles=3></levelInfo>
+	<levelInfo level=11 basicCostEnergy=5 aetheriteTaken=4 buildingMaterialsGiven=10 maxCycles=3></levelInfo>
+	<levelInfo level=12 basicCostEnergy=6 aetheriteTaken=3 buildingMaterialsGiven=8 maxCycles=4></levelInfo>
+	<levelInfo level=13 basicCostEnergy=6 aetheriteTaken=4 buildingMaterialsGiven=13 maxCycles=4></levelInfo>
+	<levelInfo level=14 basicCostEnergy=8 aetheriteTaken=4 buildingMaterialsGiven=14 maxCycles=4></levelInfo>
+	<levelInfo level=15 basicCostEnergy=8 aetheriteTaken=3 buildingMaterialsGiven=12 maxCycles=5></levelInfo>
+	<levelInfo level=16 basicCostEnergy=10 aetheriteTaken=3 buildingMaterialsGiven=14 maxCycles=5></levelInfo>
+</factoryLevelsInfo>

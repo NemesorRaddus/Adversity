@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/BuildingMenu.qml</file>
+        <file>qml/BuildingsList.qml</file>
+        <file>qml/BuildingsListDelegate.qml</file>
+        <file>qml/BuildingsListScripts.js</file>
+        <file>qml/BuildingsModeGUI.qml</file>
+        <file>qml/CentralUnitMenu.qml</file>
+        <file>qml/Globals.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/MainGUI.ui.qml</file>
+        <file>qml/qmldir</file>
+    </qresource>
+</RCC>
