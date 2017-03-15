@@ -31,6 +31,8 @@ SaveData SaveParser::readData(const QString &path)
         str>>data.buildings.levels.bar;
         str>>data.buildings.levels.shrine;
         str>>data.buildings.levels.seclusion;
+        str>>data.buildings.cyclesSet.powerPlant;
+        str>>data.buildings.cyclesSet.factory;
         str>>data.resources.energy;
         str>>data.resources.buildingMaterials;
         str>>data.resources.foodSupplies;
@@ -60,6 +62,8 @@ SaveData SaveParser::readData(const QString &path)
         data.buildings.levels.bar=0;
         data.buildings.levels.shrine=0;
         data.buildings.levels.seclusion=0;
+        data.buildings.cyclesSet.powerPlant=0;
+        data.buildings.cyclesSet.factory=0;
         data.resources.energy=0;
         data.resources.buildingMaterials=0;
         data.resources.foodSupplies=0;
@@ -89,6 +93,8 @@ SaveData SaveParser::readData(const QString &path)
             str<<data.buildings.levels.bar;
             str<<data.buildings.levels.shrine;
             str<<data.buildings.levels.seclusion;
+            str<<data.buildings.cyclesSet.powerPlant;
+            str<<data.buildings.cyclesSet.factory;
             str<<data.resources.energy;
             str<<data.resources.buildingMaterials;
             str<<data.resources.foodSupplies;
@@ -126,6 +132,8 @@ void SaveParser::writeData(const QString &path, const SaveData& data)
         str<<data.buildings.levels.bar;
         str<<data.buildings.levels.shrine;
         str<<data.buildings.levels.seclusion;
+        str<<data.buildings.cyclesSet.powerPlant;
+        str<<data.buildings.cyclesSet.factory;
         str<<data.resources.energy;
         str<<data.resources.buildingMaterials;
         str<<data.resources.foodSupplies;

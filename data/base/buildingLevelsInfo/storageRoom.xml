@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <storageRoomLevelsInfo>
-	<levelInfo level=1 basicCostEnergy=1 buildingMaterialsLimit=5></levelInfo>
-	<levelInfo level=2 basicCostEnergy=2 buildingMaterialsLimit=10></levelInfo>
-	<levelInfo level=3 basicCostEnergy=3 buildingMaterialsLimit=15></levelInfo>
-	<levelInfo level=4 basicCostEnergy=4 buildingMaterialsLimit=20></levelInfo>
-	<levelInfo level=5 basicCostEnergy=6 buildingMaterialsLimit=30></levelInfo>
-	<levelInfo level=6 basicCostEnergy=8 buildingMaterialsLimit=42></levelInfo>
-	<levelInfo level=7 basicCostEnergy=14 buildingMaterialsLimit=70></levelInfo>
-	<levelInfo level=8 basicCostEnergy=21 buildingMaterialsLimit=105></levelInfo>
-	<levelInfo level=9 basicCostEnergy=25 buildingMaterialsLimit=126></levelInfo>
-	<levelInfo level=10 basicCostEnergy=34 buildingMaterialsLimit=168></levelInfo>
-	<levelInfo level=11 basicCostEnergy=38 buildingMaterialsLimit=189></levelInfo>
-	<levelInfo level=12 basicCostEnergy=54 buildingMaterialsLimit=270></levelInfo>
-	<levelInfo level=13 basicCostEnergy=60 buildingMaterialsLimit=300></levelInfo>
-	<levelInfo level=14 basicCostEnergy=64 buildingMaterialsLimit=320></levelInfo>
-	<levelInfo level=15 basicCostEnergy=104 buildingMaterialsLimit=520></levelInfo>
-	<levelInfo level=16 basicCostEnergy=112 buildingMaterialsLimit=560></levelInfo>
-	<levelInfo level=17 basicCostEnergy=120 buildingMaterialsLimit=600></levelInfo>
-	<levelInfo level=18 basicCostEnergy=144 buildingMaterialsLimit=720></levelInfo>
-	<levelInfo level=19 basicCostEnergy=168 buildingMaterialsLimit=840></levelInfo>
-	<levelInfo level=20 basicCostEnergy=2000 buildingMaterialsLimit=1000></levelInfo>
+        <levelInfo level="0" basicCostEnergy="0" buildingMaterialsLimit="0"></levelInfo>
+        <levelInfo level="1" basicCostEnergy="1" buildingMaterialsLimit="5"></levelInfo>
+        <levelInfo level="2" basicCostEnergy="2" buildingMaterialsLimit="10"></levelInfo>
+        <levelInfo level="3" basicCostEnergy="3" buildingMaterialsLimit="15"></levelInfo>
+        <levelInfo level="4" basicCostEnergy="4" buildingMaterialsLimit="20"></levelInfo>
+        <levelInfo level="5" basicCostEnergy="6" buildingMaterialsLimit="30"></levelInfo>
+        <levelInfo level="6" basicCostEnergy="8" buildingMaterialsLimit="42"></levelInfo>
+        <levelInfo level="7" basicCostEnergy="14" buildingMaterialsLimit="70"></levelInfo>
+        <levelInfo level="8" basicCostEnergy="21" buildingMaterialsLimit="105"></levelInfo>
+        <levelInfo level="9" basicCostEnergy="25" buildingMaterialsLimit="126"></levelInfo>
+        <levelInfo level="10" basicCostEnergy="34" buildingMaterialsLimit="168"></levelInfo>
+        <levelInfo level="11" basicCostEnergy="38" buildingMaterialsLimit="189"></levelInfo>
+        <levelInfo level="12" basicCostEnergy="54" buildingMaterialsLimit="270"></levelInfo>
+        <levelInfo level="13" basicCostEnergy="60" buildingMaterialsLimit="300"></levelInfo>
+        <levelInfo level="14" basicCostEnergy="64" buildingMaterialsLimit="320"></levelInfo>
+        <levelInfo level="15" basicCostEnergy="104" buildingMaterialsLimit="520"></levelInfo>
+        <levelInfo level="16" basicCostEnergy="112" buildingMaterialsLimit="560"></levelInfo>
+        <levelInfo level="17" basicCostEnergy="120" buildingMaterialsLimit="600"></levelInfo>
+        <levelInfo level="18" basicCostEnergy="144" buildingMaterialsLimit="720"></levelInfo>
+        <levelInfo level="19" basicCostEnergy="168" buildingMaterialsLimit="840"></levelInfo>
+        <levelInfo level="20" basicCostEnergy="2000" buildingMaterialsLimit="1000"></levelInfo>
 </storageRoomLevelsInfo>

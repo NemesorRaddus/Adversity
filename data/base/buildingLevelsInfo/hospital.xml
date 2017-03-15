@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hospitalLevelsInfo>
-	<levelInfo level=0 slots=0 basicCostEnergy=0 perCapitaCostEnergy=0 basicCostFood=0 perCapitaCostFood=0 hpRestored=0></levelInfo>
-	<levelInfo level=1 slots=1 basicCostEnergy=1 perCapitaCostEnergy=4 basicCostFood=0 perCapitaCostFood=1 hpRestored=1></levelInfo>
-	<levelInfo level=2 slots=1 basicCostEnergy=1 perCapitaCostEnergy=4 basicCostFood=0 perCapitaCostFood=2 hpRestored=2></levelInfo>
-	<levelInfo level=3 slots=1 basicCostEnergy=1 perCapitaCostEnergy=5 basicCostFood=0 perCapitaCostFood=2 hpRestored=3></levelInfo>
-	<levelInfo level=4 slots=2 basicCostEnergy=2 perCapitaCostEnergy=4 basicCostFood=0 perCapitaCostFood=2 hpRestored=3></levelInfo>
-	<levelInfo level=5 slots=2 basicCostEnergy=2 perCapitaCostEnergy=6 basicCostFood=0 perCapitaCostFood=2 hpRestored=4></levelInfo>
-	<levelInfo level=6 slots=2 basicCostEnergy=2 perCapitaCostEnergy=5 basicCostFood=0 perCapitaCostFood=2 hpRestored=4></levelInfo>
-	<levelInfo level=7 slots=3 basicCostEnergy=3 perCapitaCostEnergy=5 basicCostFood=0 perCapitaCostFood=2 hpRestored=4></levelInfo>
-	<levelInfo level=8 slots=3 basicCostEnergy=3 perCapitaCostEnergy=5 basicCostFood=0 perCapitaCostFood=2 hpRestored=5></levelInfo>
+        <levelInfo level="0" slots="0" basicCostEnergy="0" perCapitaCostEnergy="0" basicCostFood="0" perCapitaCostFood="0" hpRestored="0"></levelInfo>
+        <levelInfo level="1" slots="1" basicCostEnergy="1" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="1" hpRestored="1"></levelInfo>
+        <levelInfo level="2" slots="1" basicCostEnergy="1" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="2" hpRestored="2"></levelInfo>
+        <levelInfo level="3" slots="1" basicCostEnergy="1" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="3"></levelInfo>
+        <levelInfo level="4" slots="2" basicCostEnergy="2" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="2" hpRestored="3"></levelInfo>
+        <levelInfo level="5" slots="2" basicCostEnergy="2" perCapitaCostEnergy="6" basicCostFood="0" perCapitaCostFood="2" hpRestored="4"></levelInfo>
+        <levelInfo level="6" slots="2" basicCostEnergy="2" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="4"></levelInfo>
+        <levelInfo level="7" slots="3" basicCostEnergy="3" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="4"></levelInfo>
+        <levelInfo level="8" slots="3" basicCostEnergy="3" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="5"></levelInfo>
 </hospitalLevelsInfo>

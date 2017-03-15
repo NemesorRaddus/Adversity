@@ -1,5 +1,21 @@
 <RCC>
     <qresource prefix="/">
         <file>data/base/descriptions.xml</file>
+        <file>data/base/buildingLevelsInfo/aetheriteSilo.xml</file>
+        <file>data/base/buildingLevelsInfo/bar.xml</file>
+        <file>data/base/buildingLevelsInfo/barracks.xml</file>
+        <file>data/base/buildingLevelsInfo/centralUnit.xml</file>
+        <file>data/base/buildingLevelsInfo/coolRoom.xml</file>
+        <file>data/base/buildingLevelsInfo/dockingStation.xml</file>
+        <file>data/base/buildingLevelsInfo/factory.xml</file>
+        <file>data/base/buildingLevelsInfo/gym.xml</file>
+        <file>data/base/buildingLevelsInfo/hospital.xml</file>
+        <file>data/base/buildingLevelsInfo/laboratory.xml</file>
+        <file>data/base/buildingLevelsInfo/playingField.xml</file>
+        <file>data/base/buildingLevelsInfo/powerPlant.xml</file>
+        <file>data/base/buildingLevelsInfo/seclusion.xml</file>
+        <file>data/base/buildingLevelsInfo/shrine.xml</file>
+        <file>data/base/buildingLevelsInfo/storageRoom.xml</file>
+        <file>data/base/buildingLevelsInfo/trainingGround.xml</file>
     </qresource>
 </RCC>

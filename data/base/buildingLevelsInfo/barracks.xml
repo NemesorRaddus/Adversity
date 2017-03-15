@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <barracksLevelsInfo>
-	<levelInfo level=1 basicCostEnergy=3 heroesLimit=2></levelInfo>
-	<levelInfo level=2 basicCostEnergy=5 heroesLimit=3></levelInfo>
-	<levelInfo level=3 basicCostEnergy=7 heroesLimit=4></levelInfo>
-	<levelInfo level=4 basicCostEnergy=10 heroesLimit=5></levelInfo>
-	<levelInfo level=5 basicCostEnergy=13 heroesLimit=7></levelInfo>
-	<levelInfo level=6 basicCostEnergy=16 heroesLimit=9></levelInfo>
-	<levelInfo level=7 basicCostEnergy=20 heroesLimit=12></levelInfo>
-	<levelInfo level=8 basicCostEnergy=25 heroesLimit=15></levelInfo>
+        <levelInfo level="0" basicCostEnergy="0" heroesLimit="0"></levelInfo>
+        <levelInfo level="1" basicCostEnergy="3" heroesLimit="2"></levelInfo>
+        <levelInfo level="2" basicCostEnergy="5" heroesLimit="3"></levelInfo>
+        <levelInfo level="3" basicCostEnergy="7" heroesLimit="4"></levelInfo>
+        <levelInfo level="4" basicCostEnergy="10" heroesLimit="5"></levelInfo>
+        <levelInfo level="5" basicCostEnergy="13" heroesLimit="7"></levelInfo>
+        <levelInfo level="6" basicCostEnergy="16" heroesLimit="9"></levelInfo>
+        <levelInfo level="7" basicCostEnergy="20" heroesLimit="12"></levelInfo>
+        <levelInfo level="8" basicCostEnergy="25" heroesLimit="15"></levelInfo>
 </barracksLevelsInfo>

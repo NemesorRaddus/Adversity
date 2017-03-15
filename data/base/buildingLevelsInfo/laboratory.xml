@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <laboratoryLevelsInfo>
-	<levelInfo level=0 slots=0 basicCostEnergy=0 perCapitaCostEnergy=0 combatEffectivenessBonus=0 proficiencyBonus=0 clevernessBonus=0 duration=14></levelInfo>
-	<levelInfo level=1 slots=1 basicCostEnergy=2 perCapitaCostEnergy=3 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=13></levelInfo>
-	<levelInfo level=2 slots=1 basicCostEnergy=3 perCapitaCostEnergy=3 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=12></levelInfo>
-	<levelInfo level=3 slots=1 basicCostEnergy=4 perCapitaCostEnergy=3 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=11></levelInfo>
-	<levelInfo level=4 slots=1 basicCostEnergy=4 perCapitaCostEnergy=2 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=10></levelInfo>
-	<levelInfo level=5 slots=2 basicCostEnergy=7 perCapitaCostEnergy=5 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=9></levelInfo>
-	<levelInfo level=6 slots=2 basicCostEnergy=8 perCapitaCostEnergy=5 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=8></levelInfo>
-	<levelInfo level=7 slots=2 basicCostEnergy=9 perCapitaCostEnergy=4 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=7></levelInfo>
-	<levelInfo level=8 slots=3 basicCostEnergy=12 perCapitaCostEnergy=9 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=6></levelInfo>
-	<levelInfo level=9 slots=3 basicCostEnergy=14 perCapitaCostEnergy=9 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=5></levelInfo>
-	<levelInfo level=10 slots=3 basicCostEnergy=15 perCapitaCostEnergy=8 combatEffectivenessBonus=-1 proficiencyBonus=-1 clevernessBonus=1 duration=4></levelInfo>
+        <levelInfo level="0" slots="0" basicCostEnergy="0" perCapitaCostEnergy="0" combatEffectivenessBonus="0" proficiencyBonus="0" clevernessBonus="0" duration="14"></levelInfo>
+        <levelInfo level="1" slots="1" basicCostEnergy="2" perCapitaCostEnergy="3" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="13"></levelInfo>
+        <levelInfo level="2" slots="1" basicCostEnergy="3" perCapitaCostEnergy="3" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="12"></levelInfo>
+        <levelInfo level="3" slots="1" basicCostEnergy="4" perCapitaCostEnergy="3" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="11"></levelInfo>
+        <levelInfo level="4" slots="1" basicCostEnergy="4" perCapitaCostEnergy="2" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="10"></levelInfo>
+        <levelInfo level="5" slots="2" basicCostEnergy="7" perCapitaCostEnergy="5" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="9"></levelInfo>
+        <levelInfo level="6" slots="2" basicCostEnergy="8" perCapitaCostEnergy="5" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="8"></levelInfo>
+        <levelInfo level="7" slots="2" basicCostEnergy="9" perCapitaCostEnergy="4" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="7"></levelInfo>
+        <levelInfo level="8" slots="3" basicCostEnergy="12" perCapitaCostEnergy="9" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="6"></levelInfo>
+        <levelInfo level="9" slots="3" basicCostEnergy="14" perCapitaCostEnergy="9" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="5"></levelInfo>
+        <levelInfo level="10" slots="3" basicCostEnergy="15" perCapitaCostEnergy="8" combatEffectivenessBonus="-1" proficiencyBonus="-1" clevernessBonus="1" duration="4"></levelInfo>
 </laboratoryLevelsInfo>

@@ -40,6 +40,11 @@ struct SaveData
             quint8 shrine;
             quint8 seclusion;
         } levels;
+        struct CyclesSet
+        {
+            quint8 powerPlant;
+            quint8 factory;
+        } cyclesSet;
     } buildings;
     struct Resources
     {

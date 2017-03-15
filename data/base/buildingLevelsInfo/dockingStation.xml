@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dockingStationLevelsInfo>
-	<levelInfo level=0 basicCostEnergy=0 recruitsAmount=0></levelInfo>
-	<levelInfo level=1 basicCostEnergy=1 recruitsAmount=1></levelInfo>
-	<levelInfo level=2 basicCostEnergy=3 recruitsAmount=2></levelInfo>
-	<levelInfo level=3 basicCostEnergy=5 recruitsAmount=3></levelInfo>
-	<levelInfo level=4 basicCostEnergy=7 recruitsAmount=4></levelInfo>
-	<levelInfo level=5 basicCostEnergy=10 recruitsAmount=5></levelInfo>
+        <levelInfo level="0" basicCostEnergy="0" recruitsAmount="0"></levelInfo>
+        <levelInfo level="1" basicCostEnergy="1" recruitsAmount="1"></levelInfo>
+        <levelInfo level="2" basicCostEnergy="3" recruitsAmount="2"></levelInfo>
+        <levelInfo level="3" basicCostEnergy="5" recruitsAmount="3"></levelInfo>
+        <levelInfo level="4" basicCostEnergy="7" recruitsAmount="4"></levelInfo>
+        <levelInfo level="5" basicCostEnergy="10" recruitsAmount="5"></levelInfo>
 </dockingStationLevelsInfo>

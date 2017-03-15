@@ -145,5 +145,6 @@ void Game::loadAssets(const QString &pathToDir) noexcept
     m_base->dockingStation()->setLevelsInfo(dsli.first);
     for (int i=0;i<dsli.second.size();++i)
         bureqs.insert({BaseEnums::B_DockingStation,i},dsli.second[i]);
+
     m_base->setBuildingRequirements(bureqs);
 }

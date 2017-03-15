@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <centralUnitLevelsInfo>
-	<levelInfo level=1 basicCostEnergy=5></levelInfo>
-	<levelInfo level=2 basicCostEnergy=10></levelInfo>
+        <levelInfo level="0" basicCostEnergy="0"></levelInfo>
+        <levelInfo level="1" basicCostEnergy="5">
+                <requirements energy="1" buildingMaterials="2" time="3"></requirements>
+        </levelInfo>
+        <levelInfo level="2" basicCostEnergy="10"></levelInfo>
 </centralUnitLevelsInfo>
