@@ -1,5 +1,7 @@
 #include "hero.h"
 
+#include <QDebug>
+
 void Hero::setCombatEffectiveness(int combatEffectiveness) noexcept
 {
     if (combatEffectiveness>=0)

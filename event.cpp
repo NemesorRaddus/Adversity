@@ -1,5 +1,7 @@
 #include "event.h"
 
+#include <QDebug>
+
 ModifyAttributeEventResult::ModifyAttributeEventResult(const QMap<HeroEnums::Attribute, float> &modifications) noexcept
     : EventResult(EventEnums::R_ModifyAttribute)
 {

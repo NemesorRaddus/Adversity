@@ -3,6 +3,8 @@
 
 #include <QString>
 
+#include <QDebug>
+
 struct EquipmentEnums
 {
     enum Type

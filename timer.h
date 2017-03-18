@@ -6,6 +6,8 @@
 
 #include "base.h"
 
+#include <QDebug>
+
 struct TimerAlarmEnums
 {
     enum AlarmType
@@ -83,6 +85,8 @@ class GameClock : public TimerAlarmsContainer
 public:
     GameClock() noexcept;
 
+    void setBasePtr(Base *base) noexcept;
+
     Q_INVOKABLE void saveCurrentDate() noexcept;
 
     Q_INVOKABLE void updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept;//gets time from date time
@@ -128,6 +132,8 @@ private:
 
     const unsigned m_autosaveIntervalInMin = 15;//1-59
     unsigned m_latestAutosaveMinTimestamp;
+
+    Base *m_base;
 };
 
 #endif // GAMECLOCK_H

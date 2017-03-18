@@ -1,6 +1,8 @@
 #include "base.h"
-#include <QDebug>
+
 #include "timer.h"
+
+#include <QDebug>
 
 BaseEnums::Resource BaseEnums::fromQStringToResourceEnum(const QString &resource) noexcept
 {
@@ -391,7 +393,7 @@ void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo> &info) noexcept
 }
 
 Powerplant::Powerplant(Base *base, unsigned level, const QVector<PowerplantLevelInfo> &levelsInfo) noexcept
-    : Building(BaseEnums::B_Powerplant, base, level), m_levelsInfo(levelsInfo)
+    : Building(BaseEnums::B_Powerplant, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0)
 {
 
 }
@@ -422,7 +424,7 @@ void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo> &info) noexcep
 }
 
 Factory::Factory(Base *base, unsigned level, const QVector<FactoryLevelInfo> &levelsInfo) noexcept
-    : Building(BaseEnums::B_Factory, base, level), m_levelsInfo(levelsInfo)
+    : Building(BaseEnums::B_Factory, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0)
 {
 
 }
@@ -507,8 +509,9 @@ Base::Base(QObject *parent) noexcept
     m_aetherite=0;
 
     m_gameClock=new GameClock;
+    m_gameClock->setBasePtr(this);
 
-    m_centralUnit=new CentralUnit(this,0,QVector<CentralUnitLevelInfo>());//TESTINGONLY
+    m_centralUnit=new CentralUnit(this,1,QVector<CentralUnitLevelInfo>());//TESTINGONLY
     m_hospital=new Hospital(this,0,QVector <HospitalLevelInfo>());
     m_trainingGround=new TrainingGround(this,0,QVector<TrainingGroundLevelInfo>());
     m_gym=new Gym(this,0,QVector<GymLevelInfo>());
@@ -517,12 +520,12 @@ Base::Base(QObject *parent) noexcept
     m_bar=new Bar(this,0,QVector<BarLevelInfo>());
     m_shrine=new Shrine(this,0,QVector<ShrineLevelInfo>());
     m_seclusion=new Seclusion(this,0,QVector<SeclusionLevelInfo>());
-    m_powerplant=new Powerplant(this,0,QVector<PowerplantLevelInfo>());
-    m_factory=new Factory(this,0,QVector<FactoryLevelInfo>());
-    m_coolRoom=new CoolRoom(this,0,QVector<CoolRoomLevelInfo>());
-    m_storageRoom=new StorageRoom(this,0,QVector<StorageRoomLevelInfo>());
-    m_aetheriteSilo=new AetheriteSilo(this,0,QVector<AetheriteSiloLevelInfo>());
-    m_barracks=new Barracks(this,0,QVector<BarracksLevelInfo>());
+    m_powerplant=new Powerplant(this,1,QVector<PowerplantLevelInfo>());
+    m_factory=new Factory(this,1,QVector<FactoryLevelInfo>());
+    m_coolRoom=new CoolRoom(this,1,QVector<CoolRoomLevelInfo>());
+    m_storageRoom=new StorageRoom(this,1,QVector<StorageRoomLevelInfo>());
+    m_aetheriteSilo=new AetheriteSilo(this,1,QVector<AetheriteSiloLevelInfo>());
+    m_barracks=new Barracks(this,1,QVector<BarracksLevelInfo>());
     m_dockingStation=new DockingStation(this,0,QVector<DockingStationLevelInfo>());
 
     m_buildings.insert(BaseEnums::B_CentralUnit,m_centralUnit);
@@ -631,15 +634,28 @@ SaveData Base::getSaveData() noexcept
     return data;
 }
 
+void Base::startNewDay() noexcept
+{
+    activateBuildingsAtDayEnd();
+}
+
 void Base::activateBuildingsAtDayEnd() noexcept
 {
+    int basicEnergyCost=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        basicEnergyCost+=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy();
+    if (basicEnergyCost < m_energy)
+        m_energy-=basicEnergyCost;
+    else
+        m_energy=0;
+
     bar()->destressHeroes();
     factory()->exchangeResources();
     gym()->trainHeroes();
     hospital()->healHeroes();
     laboratory()->trainHeroes();
     playingField()->destressHeroes();
-    powerPlant()->exchangeResources();
+    powerplant()->exchangeResources();
     seclusion()->destressHeroes();
     shrine()->destressHeroes();
     trainingGround()->trainHeroes();

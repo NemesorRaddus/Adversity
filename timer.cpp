@@ -1,5 +1,7 @@
 #include "timer.h"
 
+#include <QDebug>
+
 TimerAlarmEnums::AlarmType TimerAlarm::type() const noexcept
 {
     return m_type;
@@ -94,6 +96,11 @@ GameClock::GameClock() noexcept
     : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_latestAutosaveMinTimestamp(0)
 {}
 
+void GameClock::setBasePtr(Base *base) noexcept
+{
+    m_base=base;
+}
+
 void GameClock::saveCurrentDate() noexcept
 {
     m_lastKnownDate=QDateTime::currentDateTime();
@@ -110,6 +117,11 @@ void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDa
     m_lastKnownMin=lastKnownMin;
 
     long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
+
+    int daysPassed=(m_lastKnownHour*60*60*1000 + m_lastKnownMin*60*1000 + ms)/1000/60/60/24;
+    for (int i=0;i<daysPassed;++i)
+        m_base->startNewDay();
+
     m_currentTimeInGameDay = m_lastKnownDay + ms/(1000*60*60);
     ms%=(1000*60*60);
     m_currentTimeInGameHour = m_lastKnownHour + ms/(1000*60*60/24);
@@ -119,6 +131,9 @@ void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDa
 
 void GameClock::updateClock(int minutesToAdd) noexcept
 {
+    int daysPassed=(minutesToAdd + m_currentTimeInGameHour*60 + m_currentTimeInGameMin)/(60*24);
+    for (int i=0;i<daysPassed;++i)
+        m_base->startNewDay();
     addMinutesToGameTime(minutesToAdd);
     tryAutosaving();
 }

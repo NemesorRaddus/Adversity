@@ -9,6 +9,8 @@
 #include "event.h"
 #include "hero.h"
 
+#include <QDebug>
+
 class XmlFileReader
 {
 public:

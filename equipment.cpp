@@ -1,5 +1,7 @@
 #include "equipment.h"
 
+#include <QDebug>
+
 void Equipment::reset() noexcept
 {
     m_name.clear();

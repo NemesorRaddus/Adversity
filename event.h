@@ -8,6 +8,8 @@
 #include "equipment.h"
 #include "base.h"
 
+#include <QDebug>
+
 namespace Randomizer
 {
     static void initialize() noexcept

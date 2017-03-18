@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include <QDebug>
+
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
@@ -34,7 +36,8 @@ void Game::loadExistingBase(const QString &pathToSaveFile, const QString &pathTo
 
     loadAssets(pathToAssetsDir);
 
-    m_base->loadSaveData(SaveParser::readData(pathToSaveFile));
+    if (QFile(pathToSaveFile).exists())
+        m_base->loadSaveData(SaveParser::readData(pathToSaveFile));
 
     connectAutosave();
 }
@@ -112,7 +115,7 @@ void Game::loadAssets(const QString &pathToDir) noexcept
         bureqs.insert({BaseEnums::B_Seclusion,i},s1li.second[i]);
 
     auto pli = xmlReader.getPowerplantLevelsInfo(pathToDir+"base/buildingLevelsInfo/powerplant.xml");
-    m_base->powerPlant()->setLevelsInfo(pli.first);
+    m_base->powerplant()->setLevelsInfo(pli.first);
     for (int i=0;i<pli.second.size();++i)
         bureqs.insert({BaseEnums::B_Powerplant,i},pli.second[i]);
 

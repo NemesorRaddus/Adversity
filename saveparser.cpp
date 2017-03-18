@@ -1,5 +1,7 @@
 #include "saveparser.h"
 
+#include <QDebug>
+
 //File generated using Raddus Binary Data Parser Generator v1.0.1 Beta
 
 
@@ -46,14 +48,14 @@ SaveData SaveParser::readData(const QString &path)
         data.overall.lastKnownDay=1;
         data.overall.lastKnownHour=12;
         data.overall.lastKnownMinute=0;
-        data.buildings.levels.centralUnit=0;
-        data.buildings.levels.powerplant=0;
-        data.buildings.levels.factory=0;
-        data.buildings.levels.coolRoom=0;
-        data.buildings.levels.storageRoom=0;
-        data.buildings.levels.aetheriteSilo=0;
+        data.buildings.levels.centralUnit=1;
+        data.buildings.levels.powerplant=1;
+        data.buildings.levels.factory=1;
+        data.buildings.levels.coolRoom=1;
+        data.buildings.levels.storageRoom=1;
+        data.buildings.levels.aetheriteSilo=1;
         data.buildings.levels.hospital=0;
-        data.buildings.levels.barracks=0;
+        data.buildings.levels.barracks=1;
         data.buildings.levels.dockingStation=0;
         data.buildings.levels.trainingGround=0;
         data.buildings.levels.gym=0;

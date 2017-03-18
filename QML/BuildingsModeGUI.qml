@@ -27,9 +27,39 @@ Item {
         height: root.height
 
         onBuildingClicked: {
-            if (buildingName == "centralUnit")
+            if (buildingName == "Central Unit")
                 menu.changeToCentralUnit();
-            //TODO
+            else if (buildingName == "Hospital")
+                menu.changeToHospital();
+            else if (buildingName == "Training Ground")
+                menu.changeToTrainingGround();
+            else if (buildingName == "Gym")
+                menu.changeToGym();
+            else if (buildingName == "Laboratory")
+                menu.changeToLaboratory();
+            else if (buildingName == "Playing Field")
+                menu.changeToPlayingField();
+            else if (buildingName == "Bar")
+                menu.changeToBar();
+            else if (buildingName == "Shrine")
+                menu.changeToShrine();
+            else if (buildingName == "Seclusion")
+                menu.changeToSeclusion();
+            else if (buildingName == "Powerplant")
+                menu.changeToPowerplant();
+            else if (buildingName == "Factory")
+                menu.changeToFactory();
+            else if (buildingName == "Cool Room")
+                menu.changeToCoolRoom();
+            else if (buildingName == "Storage Room")
+                menu.changeToStorageRoom();
+            else if (buildingName == "Aetherite Silo")
+                menu.changeToAetheriteSilo();
+            else if (buildingName == "Barracks")
+                menu.changeToBarracks();
+            else if (buildingName == "Docking Station")
+                menu.changeToDockingStation();
+
             state = "hidden";
             menu.state = "";
         }
@@ -43,7 +73,7 @@ Item {
         width: root.width
         height: root.height
 
-        onBackClicked: {
+        onBackClickedFwd: {
             list.state = "";
             state = "hidden";
         }

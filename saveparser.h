@@ -9,6 +9,8 @@
 #include <QString>
 #include <QDateTime>
 
+#include <QDebug>
+
 struct SaveData
 {
     struct Overall

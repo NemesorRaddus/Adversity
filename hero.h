@@ -6,6 +6,8 @@
 
 #include "equipment.h"
 
+#include <QDebug>
+
 class Mission;
 
 struct HeroEnums

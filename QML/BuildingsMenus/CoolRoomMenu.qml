@@ -36,7 +36,8 @@ Item {
         upgradeEnergyConsAmount.text = amount;
     }
 
-    signal backClickedd()
+    signal backClicked()
+    signal upgradeRequested()
 
     width: 1080
     height: 1920
@@ -69,7 +70,7 @@ Item {
         y: 3
         width: 256
         height: 256
-        source: "qrc:/graphics/Buildings/CentralUnit.png"
+        source: "qrc:/graphics/Buildings/CoolRoom.png"
     }
 
     Image {
@@ -86,7 +87,7 @@ Item {
         x: 280
         y: 10
         color: "#94ef94"
-        text: qsTr("Central Unit")
+        text: qsTr("Cool Room")
         font.pixelSize: 60
         font.family: "Stencil"
     }
@@ -96,7 +97,6 @@ Item {
         x: 280
         y: 70
         color: "#94ef94"
-        //text: qsTr("Level: 10")
         font.pixelSize: 40
         font.family: "Stencil"
     }
@@ -108,7 +108,6 @@ Item {
         width: 785
         height: 136
         color: "#568b56"
-        //text: qsTr("Energy for everyone!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         wrapMode: Text.WordWrap
         font.pixelSize: 30
         font.family: "Stencil"
@@ -140,7 +139,6 @@ Item {
         width: 56
         height: 47
         color: "#94ef94"
-        //text: qsTr("5")
         font.pixelSize: 40
         font.family: "Stencil"
     }
@@ -172,7 +170,6 @@ Item {
         width: 90
         height: 47
         color: "#94ef94"
-        //text: qsTr("5555")
         font.pixelSize: 40
         font.family: "Stencil"
     }
@@ -192,7 +189,6 @@ Item {
         width: 90
         height: 47
         color: "#94ef94"
-        //text: qsTr("5")
         font.pixelSize: 40
         font.family: "Stencil"
     }
@@ -209,17 +205,16 @@ Item {
         id: upgradeTimeAmount
         x: 576
         y: 327
-        width: 52
+        width: 90
         height: 47
         color: "#94ef94"
-        //text: qsTr("10")
         font.pixelSize: 40
         font.family: "Stencil"
     }
 
     Image {
         id: upgradeEnergyConsIcon
-        x: 523
+        x: 672
         y: 327
         width: 47
         height: 47
@@ -227,12 +222,11 @@ Item {
     }
     Text {
         id: upgradeEnergyConsAmount
-        x: 576
+        x: 725
         y: 327
-        width: 52
+        width: 90
         height: 47
         color: "#94ef94"
-        //text: qsTr("10")
         font.pixelSize: 40
         font.family: "Stencil"
     }
@@ -251,6 +245,8 @@ Item {
         y: 327
         width: 47
         height: 47
+
+        onClicked: upgradeRequested()
     }
 
     Image {
@@ -283,6 +279,6 @@ Item {
         width: 256
         height: 87
 
-        onClicked: backClickedd()
+        onClicked: backClicked()
     }
 }

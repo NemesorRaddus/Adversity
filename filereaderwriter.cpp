@@ -1,5 +1,7 @@
 #include "filereaderwriter.h"
+
 #include <QDebug>
+
 XmlFileReader::XmlFileReader() noexcept
 {
     m_xmlReader=new QXmlStreamReader();
@@ -794,7 +796,7 @@ QPair<QVector<AetheriteSiloLevelInfo>, QVector<BuildingUpgradeRequirements> > Xm
                     QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
-                    info.aetheriteOreLimit=attrs.value("aetheriteLimit").toUInt();
+                    info.aetheriteOreLimit=attrs.value("aetheriteOreLimit").toUInt();
 
                     BuildingUpgradeRequirements reqs;
 
@@ -939,7 +941,7 @@ QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > X
 }
 
 QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescriptions(const QString &path) noexcept
-{qDebug()<<path;
+{
     if (!openXmlFile(path))
         return {};
 

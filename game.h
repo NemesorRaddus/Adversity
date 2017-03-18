@@ -8,6 +8,8 @@
 #include "saveparser.h"
 #include "timer.h"
 
+#include <QDebug>
+
 class QQmlEngine;
 class QJSEngine;
 
@@ -18,7 +20,7 @@ class Game : public QObject
 public:
     Game(QObject *parent = 0) noexcept;
 
-    Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;
+    Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
     Q_INVOKABLE void loadExistingBase(const QString &pathToSaveFile, const QString &pathToAssetsDir) noexcept;
     Q_INVOKABLE void saveBase(const QString &pathToSaveFile) noexcept;
 

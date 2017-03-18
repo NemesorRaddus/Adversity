@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<powerPlantLevelsInfo>
+<powerplantLevelsInfo>
         <levelInfo level="0" basicCostEnergy="0" aetheriteTaken="0" energyGiven="0" energyLimit="0" maxCycles="0"></levelInfo>
         <levelInfo level="1" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="250" maxCycles="10"></levelInfo>
         <levelInfo level="2" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="300" maxCycles="12"></levelInfo>
@@ -32,4 +32,4 @@
         <levelInfo level="28" basicCostEnergy="48" aetheriteTaken="1" energyGiven="26" energyLimit="22750" maxCycles="35"></levelInfo>
         <levelInfo level="29" basicCostEnergy="60" aetheriteTaken="1" energyGiven="28" energyLimit="31920" maxCycles="38"></levelInfo>
         <levelInfo level="30" basicCostEnergy="72" aetheriteTaken="1" energyGiven="30" energyLimit="36000" maxCycles="40"></levelInfo>
-</powerPlantLevelsInfo>
+</powerplantLevelsInfo>

@@ -4,6 +4,8 @@
 #include "game.h"
 #include "timer.h"
 
+#include <QDebug>
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);

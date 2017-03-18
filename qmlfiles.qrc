@@ -5,10 +5,25 @@
         <file>qml/BuildingsListDelegate.qml</file>
         <file>qml/BuildingsListScripts.js</file>
         <file>qml/BuildingsModeGUI.qml</file>
-        <file>qml/CentralUnitMenu.qml</file>
         <file>qml/Globals.qml</file>
         <file>qml/main.qml</file>
         <file>qml/MainGUI.ui.qml</file>
         <file>qml/qmldir</file>
+        <file>qml/BuildingsMenus/AetheriteSiloMenu.qml</file>
+        <file>qml/BuildingsMenus/BarMenu.qml</file>
+        <file>qml/BuildingsMenus/BarracksMenu.qml</file>
+        <file>qml/BuildingsMenus/CentralUnitMenu.qml</file>
+        <file>qml/BuildingsMenus/CoolRoomMenu.qml</file>
+        <file>qml/BuildingsMenus/DockingStationMenu.qml</file>
+        <file>qml/BuildingsMenus/FactoryMenu.qml</file>
+        <file>qml/BuildingsMenus/GymMenu.qml</file>
+        <file>qml/BuildingsMenus/HospitalMenu.qml</file>
+        <file>qml/BuildingsMenus/LaboratoryMenu.qml</file>
+        <file>qml/BuildingsMenus/PlayingFieldMenu.qml</file>
+        <file>qml/BuildingsMenus/PowerplantMenu.qml</file>
+        <file>qml/BuildingsMenus/SeclusionMenu.qml</file>
+        <file>qml/BuildingsMenus/ShrineMenu.qml</file>
+        <file>qml/BuildingsMenus/StorageRoomMenu.qml</file>
+        <file>qml/BuildingsMenus/TrainingGroundMenu.qml</file>
     </qresource>
 </RCC>

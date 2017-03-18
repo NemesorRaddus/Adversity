@@ -12,7 +12,7 @@
         <file>data/base/buildingLevelsInfo/hospital.xml</file>
         <file>data/base/buildingLevelsInfo/laboratory.xml</file>
         <file>data/base/buildingLevelsInfo/playingField.xml</file>
-        <file>data/base/buildingLevelsInfo/powerPlant.xml</file>
+        <file>data/base/buildingLevelsInfo/powerplant.xml</file>
         <file>data/base/buildingLevelsInfo/seclusion.xml</file>
         <file>data/base/buildingLevelsInfo/shrine.xml</file>
         <file>data/base/buildingLevelsInfo/storageRoom.xml</file>

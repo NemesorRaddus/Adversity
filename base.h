@@ -8,6 +8,8 @@
 #include "hero.h"
 #include "saveparser.h"
 
+#include <QDebug>
+
 struct BaseEnums
 {
     enum Resource
@@ -65,25 +67,44 @@ class Building : public QObject
     Q_OBJECT
 public:
     Q_INVOKABLE virtual unsigned currentLevel() const noexcept;
+
     virtual BuildingUpgradeRequirements requirementsForNextLevel() const noexcept;
     Q_INVOKABLE virtual unsigned requirementsForNextLevelEnergy() const noexcept;
     Q_INVOKABLE virtual unsigned requirementsForNextLevelBM() const noexcept;
     Q_INVOKABLE virtual unsigned requirementsForNextLevelTime() const noexcept;
+
     Q_INVOKABLE virtual bool tryUpgrading() noexcept;
+
     Q_INVOKABLE virtual QString description() const noexcept;
 
     virtual int basicCostInEnergy() const noexcept = 0;
     virtual int basicCostInEnergyAfterUpgrade() const noexcept = 0;
     virtual int useCostInEnergy() const noexcept = 0;
+    Q_INVOKABLE virtual int currentCostInEnergy() const noexcept
+    {
+        return basicCostInEnergy()+useCostInEnergy();
+    }
 
     virtual int basicCostInFoodSupplies() const noexcept = 0;
     virtual int useCostInFoodSupplies() const noexcept = 0;
+    Q_INVOKABLE virtual int currentCostInFoodSupplies() const noexcept
+    {
+        return basicCostInFoodSupplies()+useCostInFoodSupplies();
+    }
 
     virtual int basicCostInBuildingMaterials() const noexcept = 0;
     virtual int useCostInBuildingMaterials() const noexcept = 0;
+    Q_INVOKABLE virtual int currentCostInBuildingMaterials() const noexcept
+    {
+        return basicCostInBuildingMaterials()+useCostInBuildingMaterials();
+    }
 
     virtual int basicCostInAetherite() const noexcept = 0;
     virtual int useCostInAetherite() const noexcept = 0;
+    Q_INVOKABLE virtual int currentCostInAetherite() const noexcept
+    {
+        return basicCostInAetherite()+useCostInAetherite();
+    }
 
 protected:
     explicit Building(BaseEnums::Building buildingName, Base *base, unsigned level) noexcept;
@@ -133,11 +154,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -836,7 +857,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return 0-m_levelsInfo.value(currentLevel()).energyGiven;
+        return (unsigned)0-(m_levelsInfo.value(currentLevel()).energyGiven * m_currentCycles);
     }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
@@ -863,7 +884,7 @@ public:
     }
     Q_INVOKABLE int useCostInAetherite() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).aetheriteOreTaken;
+        return m_levelsInfo.value(currentLevel()).aetheriteOreTaken * m_currentCycles;
     }
 
     Q_INVOKABLE int energyLimit() const noexcept
@@ -935,7 +956,7 @@ public:
     }
     Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
     {
-        return 0-m_levelsInfo.value(currentLevel()).buildingMaterialsGiven;
+        return (unsigned)0-(m_levelsInfo.value(currentLevel()).buildingMaterialsGiven * m_currentCycles);
     }
 
     Q_INVOKABLE int basicCostInAetherite() const noexcept
@@ -944,7 +965,7 @@ public:
     }
     Q_INVOKABLE int useCostInAetherite() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).aetheriteOreTaken;
+        return m_levelsInfo.value(currentLevel()).aetheriteOreTaken * m_currentCycles;
     }
 
     void exchangeResources() noexcept;
@@ -1366,7 +1387,7 @@ public:
     {
         return static_cast<Seclusion *>(m_buildings.value(BaseEnums::B_Seclusion));
     }
-    Powerplant *powerPlant() noexcept
+    Powerplant *powerplant() noexcept
     {
         return static_cast<Powerplant *>(m_buildings.value(BaseEnums::B_Powerplant));
     }
@@ -1395,6 +1416,7 @@ public:
         return static_cast<DockingStation *>(m_buildings.value(BaseEnums::B_DockingStation));
     }
 
+    Q_INVOKABLE void startNewDay() noexcept;
     Q_INVOKABLE void activateBuildingsAtDayEnd() noexcept;
 
     unsigned buildingLevel(BaseEnums::Building buildingName) const noexcept
@@ -1434,34 +1456,34 @@ public:
     {
         int r=0;
         for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInEnergy();
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInEnergy();
         return r;
     }
     Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept
     {
         int r=0;
         for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInFoodSupplies() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInFoodSupplies();
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
         return r;
     }
     Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept
     {
         int r=0;
         for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInBuildingMaterials() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInBuildingMaterials();
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInBuildingMaterials();
         return r;
     }
     Q_INVOKABLE int currentAetheriteIncome() const noexcept
     {
         int r=0;
         for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInAetherite() + m_buildings.value(static_cast<BaseEnums::Building>(i))->useCostInAetherite();
+            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInAetherite();
         return r;
     }
 
     Q_INVOKABLE int currentEnergyLimit() noexcept
     {
-        return powerPlant()->energyLimit();
+        return powerplant()->energyLimit();
     }
     Q_INVOKABLE int currentFoodSuppliesLimit() noexcept
     {
