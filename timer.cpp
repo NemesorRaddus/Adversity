@@ -2,9 +2,9 @@
 
 #include <QDebug>
 
-TimerAlarmEnums::AlarmType TimerAlarm::type() const noexcept
+void TimerAlarm::activate() noexcept
 {
-    return m_type;
+    m_isAlreadyActive=1;
 }
 
 bool TimerAlarm::isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept
@@ -30,6 +30,43 @@ TimerAlarm::TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive) no
 BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
     : TimerAlarm(TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
 {}
+
+QDataStream &BuildingUpgradeTimerAlarm::read(QDataStream &stream) noexcept
+{
+    quint8 n;
+    stream>>n;
+    m_type=static_cast<TimerAlarmEnums::AlarmType>(n);
+    stream>>m_isAlreadyActive;
+
+
+    stream>>n;
+    m_buildingName=static_cast<BaseEnums::Building>(n);
+    stream>>n;
+    m_buildingLevel=static_cast<unsigned>(n);
+
+    return stream;
+}
+
+QDataStream &BuildingUpgradeTimerAlarm::write(QDataStream &stream) const noexcept
+{
+    stream<<static_cast<quint8>(m_type);
+    stream<<m_isAlreadyActive;
+
+    stream<<static_cast<quint8>(m_buildingName);
+    stream<<static_cast<quint8>(m_buildingLevel);
+
+    return stream;
+}
+
+QDataStream &operator<<(QDataStream &stream, const BuildingUpgradeTimerAlarm &alarm) noexcept
+{
+    return alarm.write(stream);
+}
+
+QDataStream &operator>>(QDataStream &stream, BuildingUpgradeTimerAlarm &alarm) noexcept
+{
+    return alarm.read(stream);
+}
 
 bool BuildingUpgradeTimerAlarm::operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept
 {
@@ -59,11 +96,22 @@ void TimerAlarmsContainer::cancelAlarm(TimerAlarm *alarm) noexcept
         }
 }
 
+void TimerAlarmsContainer::clearAlarms() noexcept
+{
+    m_alarms.clear();
+}
+
 int TimerAlarmsContainer::checkDaysToTimeoutOfAlarm(TimerAlarm *alarm) const noexcept
 {
     for (int i=0; i<m_alarms.size(); ++i)
         if (m_alarms[i].second->isTrulyEqualTo(alarm))
             return m_alarms[i].first;
+    return -1;
+}
+
+bool TimerAlarmsContainer::checkIfAlarmIsSet(TimerAlarm *alarm) const noexcept
+{
+    return checkDaysToTimeoutOfAlarm(alarm)==-1 ? 0 : 1;
 }
 
 QVector<TimerAlarm *> TimerAlarmsContainer::moveToNextDayAndGetTimeoutedResults() noexcept
@@ -79,9 +127,13 @@ QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() con
 
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
 {
-    QPair <unsigned, TimerAlarm *> val;
-    foreach (val, m_alarms)
-        --val.first;
+    for (int i=0;i<m_alarms.size();++i)
+    {
+        if (m_alarms[i].second->isAlreadyActive())
+            --m_alarms[i].first;
+        else
+            m_alarms[i].second->activate();
+    }
 }
 
 QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() const noexcept

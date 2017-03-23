@@ -24,10 +24,17 @@ quint8		bar
 quint8		shrine
 quint8		seclusion
 END
+SECTION CyclesSet
+quint8		powerplant
+quint8		factory
+END
 END
 SECTION Resources
 quint16		energy
 quint16		buildingMaterials
 quint16		foodSupplies
 quint16		aetheriteOre
+END
+SECTION Alarms
+QVector<BuildingUpgradeTimerAlarm> buildingUpgrades
 END

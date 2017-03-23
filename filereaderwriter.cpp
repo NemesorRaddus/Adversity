@@ -18,7 +18,7 @@ bool XmlFileReader::openXmlFile(const QString &path) noexcept
 }
 
 QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getCentralUnitLevelsInfo(const QString &path) noexcept
-{qDebug()<<path;
+{
     if (!openXmlFile(path))
         return {};
 
@@ -67,7 +67,7 @@ QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlF
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
-        return {};qDebug()<<r.first.size();
+        return {};
     return r;
 }
 

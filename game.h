@@ -18,7 +18,7 @@ class Game : public QObject
     Q_OBJECT
     Q_PROPERTY(Base* base MEMBER m_base)
 public:
-    Game(QObject *parent = 0) noexcept;
+    explicit Game(QObject *parent = 0) noexcept;
 
     Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
     Q_INVOKABLE void loadExistingBase(const QString &pathToSaveFile, const QString &pathToAssetsDir) noexcept;

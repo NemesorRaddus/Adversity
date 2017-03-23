@@ -34,5 +34,5 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
-    exit(app.exec());
+    return app.exec();
 }

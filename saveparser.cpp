@@ -1,9 +1,10 @@
 #include "saveparser.h"
 
-#include <QDebug>
-
 //File generated using Raddus Binary Data Parser Generator v1.0.1 Beta
 
+#include "timer.h"
+
+#include <QDebug>
 
 SaveData SaveParser::readData(const QString &path)
 {
@@ -33,12 +34,13 @@ SaveData SaveParser::readData(const QString &path)
         str>>data.buildings.levels.bar;
         str>>data.buildings.levels.shrine;
         str>>data.buildings.levels.seclusion;
-        str>>data.buildings.cyclesSet.powerPlant;
+        str>>data.buildings.cyclesSet.powerplant;
         str>>data.buildings.cyclesSet.factory;
         str>>data.resources.energy;
         str>>data.resources.buildingMaterials;
         str>>data.resources.foodSupplies;
         str>>data.resources.aetheriteOre;
+        str>>data.alarms.buildingUpgrades;
         file.close();
     }
     else
@@ -64,12 +66,13 @@ SaveData SaveParser::readData(const QString &path)
         data.buildings.levels.bar=0;
         data.buildings.levels.shrine=0;
         data.buildings.levels.seclusion=0;
-        data.buildings.cyclesSet.powerPlant=0;
+        data.buildings.cyclesSet.powerplant=0;
         data.buildings.cyclesSet.factory=0;
         data.resources.energy=0;
         data.resources.buildingMaterials=0;
         data.resources.foodSupplies=0;
         data.resources.aetheriteOre=0;
+        data.alarms.buildingUpgrades.clear();
         QFile file2(path);
         if (file2.open(QFile::WriteOnly))
         {
@@ -95,12 +98,13 @@ SaveData SaveParser::readData(const QString &path)
             str<<data.buildings.levels.bar;
             str<<data.buildings.levels.shrine;
             str<<data.buildings.levels.seclusion;
-            str<<data.buildings.cyclesSet.powerPlant;
+            str<<data.buildings.cyclesSet.powerplant;
             str<<data.buildings.cyclesSet.factory;
             str<<data.resources.energy;
             str<<data.resources.buildingMaterials;
             str<<data.resources.foodSupplies;
             str<<data.resources.aetheriteOre;
+            str<<data.alarms.buildingUpgrades;
             file2.close();
         }
     }
@@ -134,12 +138,13 @@ void SaveParser::writeData(const QString &path, const SaveData& data)
         str<<data.buildings.levels.bar;
         str<<data.buildings.levels.shrine;
         str<<data.buildings.levels.seclusion;
-        str<<data.buildings.cyclesSet.powerPlant;
+        str<<data.buildings.cyclesSet.powerplant;
         str<<data.buildings.cyclesSet.factory;
         str<<data.resources.energy;
         str<<data.resources.buildingMaterials;
         str<<data.resources.foodSupplies;
         str<<data.resources.aetheriteOre;
+        str<<data.alarms.buildingUpgrades;
         file.close();
     }
     else

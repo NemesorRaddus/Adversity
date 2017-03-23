@@ -83,7 +83,7 @@ Item {
             if (isScrollingActive == true)
                 isScrollingActive = false;
             else
-            {console.log("kliknięto ",Scripts.getClickedItemName(y0));buildingClicked(Scripts.getClickedItemName(y0));}
+                buildingClicked(Scripts.getClickedItemName(y0));
             y0 = -1;
         }
     }

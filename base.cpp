@@ -133,7 +133,16 @@ bool Building::tryUpgrading() noexcept
     if (reqs.requiredEnergy > m_base->currentEnergyAmount())
         return 0;
 
-    m_base->gameClock()->addAlarm(reqs.requiredTime,new BuildingUpgradeTimerAlarm(m_buildingName,currentLevel()+1));
+    TimerAlarm *alrm=new BuildingUpgradeTimerAlarm(m_buildingName,currentLevel()+1);
+    if (m_base->gameClock()->checkIfAlarmIsSet(alrm))
+    {
+        delete alrm;
+        return 0;
+    }
+
+    m_base->setCurrentBuildingMaterialsAmount(m_base->currentBuildingMaterialsAmount() - reqs.requiredBuildingMaterials);
+    m_base->setCurrentEnergyAmount(m_base->currentEnergyAmount() - reqs.requiredEnergy);
+    m_base->gameClock()->addAlarm(reqs.requiredTime,alrm);
     return 1;
 }
 
@@ -503,10 +512,10 @@ void DockingStation::setLevelsInfo(const QVector<DockingStationLevelInfo> &info)
 Base::Base(QObject *parent) noexcept
     : QObject(parent)
 {
-    m_energy=0;
-    m_foodSupplies=0;
-    m_buildingMaterials=0;
-    m_aetherite=0;
+    m_energy=100;
+    m_foodSupplies=5;
+    m_buildingMaterials=5;
+    m_aetherite=5;
 
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
@@ -587,12 +596,18 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_buildingLevels.insert(BaseEnums::B_Barracks,data.buildings.levels.barracks);
     m_buildingLevels.insert(BaseEnums::B_DockingStation,data.buildings.levels.dockingStation);
 
-    //TODO slots,cycles...
+    //TODO slots
 
     m_energy=data.resources.energy;
     m_foodSupplies=data.resources.foodSupplies;
     m_buildingMaterials=data.resources.buildingMaterials;
     m_aetherite=data.resources.aetheriteOre;
+
+    m_gameClock->clearAlarms();
+    for (int i=0;i<data.alarms.buildingUpgrades.size();++i)
+    {
+        m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
+    }
 
     m_gameClock->updateClock(data.overall.lastKnownDate, data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute);
 }
@@ -618,7 +633,10 @@ SaveData Base::getSaveData() noexcept
     data.buildings.levels.barracks=m_buildingLevels.value(BaseEnums::B_Barracks,0);
     data.buildings.levels.dockingStation=m_buildingLevels.value(BaseEnums::B_DockingStation,0);
 
-    //TODO slots,cycles
+    data.buildings.cyclesSet.powerplant=m_powerplant->currentCycles();
+    data.buildings.cyclesSet.factory=m_factory->currentCycles();
+
+    //TODO slots
 
     data.resources.energy=m_energy;
     data.resources.foodSupplies=m_foodSupplies;
@@ -631,12 +649,35 @@ SaveData Base::getSaveData() noexcept
     data.overall.lastKnownHour=m_gameClock->currentHour();
     data.overall.lastKnownMinute=m_gameClock->currentMin();
 
+    QVector <QPair<unsigned,BuildingUpgradeTimerAlarm>> buTimerAlarms;
+    QVector <QPair<unsigned,TimerAlarm*>> timerAlarms = m_gameClock->getAllAlarms();
+    for (int i=0;i<timerAlarms.size();++i)
+    {
+        if (timerAlarms[i].second->type()==TimerAlarmEnums::AT_BuildingUpgrade)
+            buTimerAlarms.push_back({timerAlarms[i].first,*static_cast<BuildingUpgradeTimerAlarm*>(timerAlarms[i].second)});
+    }
+    data.alarms.buildingUpgrades=buTimerAlarms;
+    buTimerAlarms.clear();
+
     return data;
 }
 
 void Base::startNewDay() noexcept
 {
     activateBuildingsAtDayEnd();
+
+    QVector<TimerAlarm *> timeoutedAlarms = m_gameClock->moveToNextDayAndGetTimeoutedResults();
+
+    for (int i=0;i<timeoutedAlarms.size();++i)
+    {
+        if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_BuildingUpgrade)
+        {
+            m_buildingLevels.insert(static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName(), static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingLevel());
+        }
+    }
+
+    for (int i=0;i<timeoutedAlarms.size();++i)
+        delete timeoutedAlarms[i];
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

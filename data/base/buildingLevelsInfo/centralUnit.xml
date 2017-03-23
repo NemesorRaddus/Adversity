@@ -4,6 +4,6 @@
         <levelInfo level="0" basicCostEnergy="0"></levelInfo>
         <levelInfo level="1" basicCostEnergy="5"></levelInfo>
         <levelInfo level="2" basicCostEnergy="10">
-			<requirements energy="1" buildingMaterials="2" time="3"></requirements>
+			<requirements energy="3" buildingMaterials="2" time="1"></requirements>
 		</levelInfo>
 </centralUnitLevelsInfo>

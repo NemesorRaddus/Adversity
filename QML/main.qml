@@ -97,6 +97,8 @@ Window {
         missionsButton.onClicked: changeMode(0);
         baseButton.onClicked: changeMode(1);
         heroesButton.onClicked: changeMode(2);
+
+        buildingsGUI.onUpdateRequestedFromBuildingsModeGUI: updateEverything();
     }
 
     Timer {

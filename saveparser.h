@@ -8,8 +8,11 @@
 
 #include <QString>
 #include <QDateTime>
+#include <QVector>
 
 #include <QDebug>
+
+class BuildingUpgradeTimerAlarm;
 
 struct SaveData
 {
@@ -44,7 +47,7 @@ struct SaveData
         } levels;
         struct CyclesSet
         {
-            quint8 powerPlant;
+            quint8 powerplant;
             quint8 factory;
         } cyclesSet;
     } buildings;
@@ -55,6 +58,10 @@ struct SaveData
         quint16 foodSupplies;
         quint16 aetheriteOre;
     } resources;
+    struct Alarms
+    {
+        QVector<QPair<unsigned,BuildingUpgradeTimerAlarm>> buildingUpgrades;
+    } alarms;
 };
 
 class SaveParser

@@ -5,6 +5,8 @@ Item {
 
     clip: true
 
+    signal updateRequestedFromBuildingsModeGUI()
+
     function returnToDefault()
     {
         list.state = "";
@@ -76,6 +78,10 @@ Item {
         onBackClickedFwd: {
             list.state = "";
             state = "hidden";
+        }
+
+        onUpdateRequestedFromBuildingMenu: {
+            updateRequestedFromBuildingsModeGUI();
         }
 
         Component.onCompleted: state = "hidden";

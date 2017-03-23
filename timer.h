@@ -22,14 +22,23 @@ struct TimerAlarmEnums
 class TimerAlarm
 {
 public:
-    TimerAlarmEnums::AlarmType type() const noexcept;
+    TimerAlarmEnums::AlarmType type() const noexcept
+    {
+        return m_type;
+    }
+    bool isAlreadyActive() const noexcept
+    {
+        return m_isAlreadyActive;
+    }
+
+    void activate() noexcept;
 
     bool isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept;
 
 protected:
     explicit TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive = 0) noexcept;
+    TimerAlarm() noexcept{}//NEVER USE MANUALLY - ONLY FOR QT
 
-private:
     TimerAlarmEnums::AlarmType m_type;
     bool m_isAlreadyActive;//if true, decrease daysToTimeout in container at the end of current day
 };
@@ -38,6 +47,7 @@ class BuildingUpgradeTimerAlarm : public TimerAlarm
 {
 public:
     explicit BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept;
+    BuildingUpgradeTimerAlarm() noexcept{}//NEVER USE MANUALLY - ONLY FOR QT
 
     bool operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept;
     bool operator !=(const BuildingUpgradeTimerAlarm &other) const noexcept
@@ -54,10 +64,17 @@ public:
         return m_buildingLevel;
     }
 
+    QDataStream &read(QDataStream &stream) noexcept;
+    QDataStream &write(QDataStream &stream) const noexcept;
+
 private:
     BaseEnums::Building m_buildingName;
     unsigned m_buildingLevel;
 };
+
+QDataStream &operator<<(QDataStream &stream, const BuildingUpgradeTimerAlarm &alarm) noexcept;
+QDataStream &operator>>(QDataStream &stream, BuildingUpgradeTimerAlarm &alarm) noexcept;
+
 
 class TimerAlarmsContainer : public QObject
 {
@@ -65,8 +82,10 @@ class TimerAlarmsContainer : public QObject
 public:
     void addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept;
     void cancelAlarm(TimerAlarm *alarm) noexcept;
+    void clearAlarms() noexcept;
 
     int checkDaysToTimeoutOfAlarm(TimerAlarm *alarm) const noexcept;//returns -1 if no such alarm is set
+    bool checkIfAlarmIsSet(TimerAlarm *alarm) const noexcept;
 
     QVector <TimerAlarm *> moveToNextDayAndGetTimeoutedResults() noexcept;
 

@@ -8,7 +8,187 @@ Item {
     id: root
 
     signal backClickedFwd()
-    signal upgradeRequestedFwd(string buildingName)//upper camel case, but with spaces (e.g. Central Unit)
+    signal updateRequestedFromBuildingMenu()
+
+    function requestUpgrade(buildingName)//upper camel case, but with spaces (e.g. Central Unit)
+    {
+        if (buildingName === "Central Unit")
+        {
+            if (GameApi.base.centralUnit.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Hospital")
+        {
+            if (GameApi.base.hospital.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Training Ground")
+        {
+            if (GameApi.base.trainingGround.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Gym")
+        {
+            if (GameApi.base.gym.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Laboratory")
+        {
+            if (GameApi.base.laboratory.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Playing Field")
+        {
+            if (GameApi.base.playingField.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Bar")
+        {
+            if (GameApi.base.bar.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Shrine")
+        {
+            if (GameApi.base.shrine.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Seclusion")
+        {
+            if (GameApi.base.seclusion.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Powerplant")
+        {
+            if (GameApi.base.powerplant.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Factory")
+        {
+            if (GameApi.base.factory.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Cool Room")
+        {
+            if (GameApi.base.coolRoom.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Storage Room")
+        {
+            if (GameApi.base.storageRoom.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Aetherite Silo")
+        {
+            if (GameApi.base.aetheriteSilo.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Barracks")
+        {
+            if (GameApi.base.barracks.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+        else if (buildingName === "Docking Station")
+        {
+            if (GameApi.base.dockingStation.tryUpgrading())
+            {
+                updateRequestedFromBuildingMenu();
+            }
+            else
+            {
+
+            }
+        }
+    }
 
     function changeToCentralUnit()
     {
@@ -467,7 +647,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Central Unit")
+        onUpgradeRequested: requestUpgrade("Central Unit")
     }
     HospitalMenu {
         id: hospital
@@ -475,7 +655,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Hospital")
+        onUpgradeRequested: requestUpgrade("Hospital")
     }
     TrainingGroundMenu {
         id: trainingGround
@@ -483,7 +663,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Training Ground")
+        onUpgradeRequested: requestUpgrade("Training Ground")
     }
     GymMenu {
         id: gym
@@ -491,7 +671,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Gym")
+        onUpgradeRequested: requestUpgrade("Gym")
     }
     LaboratoryMenu {
         id: laboratory
@@ -499,7 +679,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Laboratory")
+        onUpgradeRequested: requestUpgrade("Laboratory")
     }
     PlayingFieldMenu {
         id: playingField
@@ -507,7 +687,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Playing Field")
+        onUpgradeRequested: requestUpgrade("Playing Field")
     }
     BarMenu {
         id: bar
@@ -515,7 +695,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Bar")
+        onUpgradeRequested: requestUpgrade("Bar")
     }
     ShrineMenu {
         id: shrine
@@ -523,7 +703,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Shrine")
+        onUpgradeRequested: requestUpgrade("Shrine")
     }
     SeclusionMenu {
         id: seclusion
@@ -531,7 +711,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Seclusion")
+        onUpgradeRequested: requestUpgrade("Seclusion")
     }
     PowerplantMenu {
         id: powerplant
@@ -539,7 +719,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Powerplant")
+        onUpgradeRequested: requestUpgrade("Powerplant")
     }
     FactoryMenu {
         id: factory
@@ -547,7 +727,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Factory")
+        onUpgradeRequested: requestUpgrade("Factory")
     }
     CoolRoomMenu {
         id: coolRoom
@@ -555,7 +735,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Cool Room")
+        onUpgradeRequested: requestUpgrade("Cool Room")
     }
     StorageRoomMenu {
         id: storageRoom
@@ -563,7 +743,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Storage Room")
+        onUpgradeRequested: requestUpgrade("Storage Room")
     }
     AetheriteSiloMenu {
         id: aetheriteSilo
@@ -571,7 +751,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Aetherite Silo")
+        onUpgradeRequested: requestUpgrade("Aetherite Silo")
     }
     BarracksMenu {
         id: barracks
@@ -579,7 +759,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Barracks")
+        onUpgradeRequested: requestUpgrade("Barracks")
     }
     DockingStationMenu {
         id: dockingStation
@@ -587,7 +767,7 @@ Item {
         anchors.fill: parent
 
         onBackClicked: backClickedFwd()
-        onUpgradeRequested: upgradeRequestedFwd("Docking Station")
+        onUpgradeRequested: requestUpgrade("Docking Station")
     }
 
     states: [
