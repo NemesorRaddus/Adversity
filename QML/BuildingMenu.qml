@@ -9,6 +9,7 @@ Item {
 
     signal backClickedFwd()
     signal updateRequestedFromBuildingMenu()
+    signal markAsUpgradedSignal(var buildingName)
 
     function requestUpgrade(buildingName)//upper camel case, but with spaces (e.g. Central Unit)
     {
@@ -17,6 +18,7 @@ Item {
             if (GameApi.base.centralUnit.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Central Unit");
             }
             else
             {
@@ -28,6 +30,7 @@ Item {
             if (GameApi.base.hospital.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Hospital");
             }
             else
             {
@@ -39,6 +42,7 @@ Item {
             if (GameApi.base.trainingGround.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Training Ground");
             }
             else
             {
@@ -50,6 +54,7 @@ Item {
             if (GameApi.base.gym.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Gym");
             }
             else
             {
@@ -61,6 +66,7 @@ Item {
             if (GameApi.base.laboratory.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Laboratory");
             }
             else
             {
@@ -72,6 +78,7 @@ Item {
             if (GameApi.base.playingField.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Playing Field");
             }
             else
             {
@@ -83,6 +90,7 @@ Item {
             if (GameApi.base.bar.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Bar");
             }
             else
             {
@@ -94,6 +102,7 @@ Item {
             if (GameApi.base.shrine.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Shrine");
             }
             else
             {
@@ -105,6 +114,7 @@ Item {
             if (GameApi.base.seclusion.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Seclusion");
             }
             else
             {
@@ -116,6 +126,7 @@ Item {
             if (GameApi.base.powerplant.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Powerplant");
             }
             else
             {
@@ -127,6 +138,7 @@ Item {
             if (GameApi.base.factory.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Factory");
             }
             else
             {
@@ -138,6 +150,7 @@ Item {
             if (GameApi.base.coolRoom.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Cool Room");
             }
             else
             {
@@ -149,6 +162,7 @@ Item {
             if (GameApi.base.storageRoom.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Storage Room");
             }
             else
             {
@@ -160,6 +174,7 @@ Item {
             if (GameApi.base.aetheriteSilo.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Aetherite Silo");
             }
             else
             {
@@ -171,6 +186,7 @@ Item {
             if (GameApi.base.barracks.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Barracks");
             }
             else
             {
@@ -182,6 +198,7 @@ Item {
             if (GameApi.base.dockingStation.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
+                markAsUpgradedSignal("Docking Station");
             }
             else
             {

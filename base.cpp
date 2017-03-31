@@ -154,7 +154,7 @@ QString Building::description() const noexcept
 }
 
 Building::Building(BaseEnums::Building buildingName, Base *base, unsigned level) noexcept
-    : m_buildingName(buildingName), m_base(base)
+    : m_buildingName(buildingName), m_base(base), m_isBeingUpgraded(0)
 {
     m_base->setBuildingLevel(m_buildingName,level);
 }
@@ -598,6 +598,26 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_buildingLevels.insert(BaseEnums::B_Barracks,data.buildings.levels.barracks);
     m_buildingLevels.insert(BaseEnums::B_DockingStation,data.buildings.levels.dockingStation);
 
+    m_powerplant->setCurrentCycles(data.buildings.cyclesSet.powerplant);
+    m_factory->setCurrentCycles(data.buildings.cyclesSet.factory);
+
+    m_centralUnit->setIsBeingUpgraded(data.buildings.upgrading.centralUnit);
+    m_powerplant->setIsBeingUpgraded(data.buildings.upgrading.powerplant);
+    m_factory->setIsBeingUpgraded(data.buildings.upgrading.factory);
+    m_coolRoom->setIsBeingUpgraded(data.buildings.upgrading.coolRoom);
+    m_storageRoom->setIsBeingUpgraded(data.buildings.upgrading.storageRoom);
+    m_aetheriteSilo->setIsBeingUpgraded(data.buildings.upgrading.aetheriteSilo);
+    m_hospital->setIsBeingUpgraded(data.buildings.upgrading.hospital);
+    m_barracks->setIsBeingUpgraded(data.buildings.upgrading.barracks);
+    m_dockingStation->setIsBeingUpgraded(data.buildings.upgrading.dockingStation);
+    m_trainingGround->setIsBeingUpgraded(data.buildings.upgrading.trainingGround);
+    m_gym->setIsBeingUpgraded(data.buildings.upgrading.gym);
+    m_laboratory->setIsBeingUpgraded(data.buildings.upgrading.laboratory);
+    m_playingField->setIsBeingUpgraded(data.buildings.upgrading.playingField);
+    m_bar->setIsBeingUpgraded(data.buildings.upgrading.bar);
+    m_shrine->setIsBeingUpgraded(data.buildings.upgrading.shrine);
+    m_seclusion->setIsBeingUpgraded(data.buildings.upgrading.seclusion);
+
     //TODO slots
 
     m_energy=data.resources.energy;
@@ -637,6 +657,23 @@ SaveData Base::getSaveData() noexcept
 
     data.buildings.cyclesSet.powerplant=m_powerplant->currentCycles();
     data.buildings.cyclesSet.factory=m_factory->currentCycles();
+
+    data.buildings.upgrading.centralUnit=m_centralUnit->isBeingUpgraded();
+    data.buildings.upgrading.powerplant=m_powerplant->isBeingUpgraded();
+    data.buildings.upgrading.factory=m_factory->isBeingUpgraded();
+    data.buildings.upgrading.coolRoom=m_coolRoom->isBeingUpgraded();
+    data.buildings.upgrading.storageRoom=m_storageRoom->isBeingUpgraded();
+    data.buildings.upgrading.aetheriteSilo=m_aetheriteSilo->isBeingUpgraded();
+    data.buildings.upgrading.hospital=m_hospital->isBeingUpgraded();
+    data.buildings.upgrading.barracks=m_barracks->isBeingUpgraded();
+    data.buildings.upgrading.dockingStation=m_dockingStation->isBeingUpgraded();
+    data.buildings.upgrading.trainingGround=m_trainingGround->isBeingUpgraded();
+    data.buildings.upgrading.gym=m_gym->isBeingUpgraded();
+    data.buildings.upgrading.laboratory=m_laboratory->isBeingUpgraded();
+    data.buildings.upgrading.playingField=m_playingField->isBeingUpgraded();
+    data.buildings.upgrading.bar=m_bar->isBeingUpgraded();
+    data.buildings.upgrading.shrine=m_shrine->isBeingUpgraded();
+    data.buildings.upgrading.seclusion=m_seclusion->isBeingUpgraded();
 
     //TODO slots
 

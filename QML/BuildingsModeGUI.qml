@@ -83,6 +83,7 @@ Item {
         onUpdateRequestedFromBuildingMenu: {
             updateRequestedFromBuildingsModeGUI();
         }
+        onMarkAsUpgradedSignal: list.markAsUpgraded(buildingName,true);
 
         Component.onCompleted: state = "hidden";
     }

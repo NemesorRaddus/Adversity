@@ -2,29 +2,79 @@
 
 <playingFieldLevelsInfo>
         <levelInfo level="0" slots="0" basicCostEnergy="0" perCapitaCostEnergy="0" stressReductionActive="0" stressReductionConvivial="0" stressReductionRecluse="0" stressReductionReligious="0"></levelInfo>
-        <levelInfo level="1" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="5" stressReductionConvivial="3" stressReductionRecluse="1" stressReductionReligious="3"></levelInfo>
-        <levelInfo level="2" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="6" stressReductionConvivial="3" stressReductionRecluse="1" stressReductionReligious="3"></levelInfo>
-        <levelInfo level="3" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="6" stressReductionConvivial="3" stressReductionRecluse="1" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="4" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="7" stressReductionConvivial="3" stressReductionRecluse="2" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="5" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="7" stressReductionConvivial="4" stressReductionRecluse="2" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="6" slots="2" basicCostEnergy="2" perCapitaCostEnergy="3" stressReductionActive="7" stressReductionConvivial="5" stressReductionRecluse="2" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="7" slots="2" basicCostEnergy="2" perCapitaCostEnergy="2" stressReductionActive="7" stressReductionConvivial="5" stressReductionRecluse="2" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="8" slots="2" basicCostEnergy="3" perCapitaCostEnergy="2" stressReductionActive="9" stressReductionConvivial="6" stressReductionRecluse="2" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="9" slots="2" basicCostEnergy="3" perCapitaCostEnergy="2" stressReductionActive="10" stressReductionConvivial="6" stressReductionRecluse="2" stressReductionReligious="4"></levelInfo>
-        <levelInfo level="10" slots="3" basicCostEnergy="5" perCapitaCostEnergy="2" stressReductionActive="11" stressReductionConvivial="6" stressReductionRecluse="2" stressReductionReligious="5"></levelInfo>
-        <levelInfo level="11" slots="3" basicCostEnergy="5" perCapitaCostEnergy="2" stressReductionActive="12" stressReductionConvivial="7" stressReductionRecluse="2" stressReductionReligious="6"></levelInfo>
-        <levelInfo level="12" slots="3" basicCostEnergy="6" perCapitaCostEnergy="3" stressReductionActive="15" stressReductionConvivial="7" stressReductionRecluse="2" stressReductionReligious="6"></levelInfo>
-        <levelInfo level="13" slots="3" basicCostEnergy="6" perCapitaCostEnergy="3" stressReductionActive="16" stressReductionConvivial="8" stressReductionRecluse="2" stressReductionReligious="6"></levelInfo>
-        <levelInfo level="14" slots="3" basicCostEnergy="7" perCapitaCostEnergy="4" stressReductionActive="20" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="8"></levelInfo>
-        <levelInfo level="15" slots="4" basicCostEnergy="10" perCapitaCostEnergy="4" stressReductionActive="21" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="8"></levelInfo>
-        <levelInfo level="16" slots="4" basicCostEnergy="8" perCapitaCostEnergy="4" stressReductionActive="21" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="9"></levelInfo>
-        <levelInfo level="17" slots="4" basicCostEnergy="9" perCapitaCostEnergy="4" stressReductionActive="22" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="18" slots="4" basicCostEnergy="12" perCapitaCostEnergy="2" stressReductionActive="22" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="19" slots="5" basicCostEnergy="18" perCapitaCostEnergy="2" stressReductionActive="22" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="20" slots="5" basicCostEnergy="20" perCapitaCostEnergy="2" stressReductionActive="23" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="21" slots="5" basicCostEnergy="18" perCapitaCostEnergy="2" stressReductionActive="23" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="22" slots="5" basicCostEnergy="20" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="23" slots="6" basicCostEnergy="25" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="24" slots="6" basicCostEnergy="23" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
-        <levelInfo level="25" slots="6" basicCostEnergy="20" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10"></levelInfo>
+        <levelInfo level="1" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="5" stressReductionConvivial="3" stressReductionRecluse="1" stressReductionReligious="3">
+			<requirements energy="2" buildingMaterials="2" time="1"></requirements>
+		</levelInfo>
+        <levelInfo level="2" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="6" stressReductionConvivial="3" stressReductionRecluse="1" stressReductionReligious="3">
+			<requirements energy="2" buildingMaterials="2" time="2"></requirements>
+		</levelInfo>
+        <levelInfo level="3" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="6" stressReductionConvivial="3" stressReductionRecluse="1" stressReductionReligious="4">
+			<requirements energy="2" buildingMaterials="2" time="3"></requirements>
+		</levelInfo>
+        <levelInfo level="4" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="7" stressReductionConvivial="3" stressReductionRecluse="2" stressReductionReligious="4">
+			<requirements energy="2" buildingMaterials="2" time="4"></requirements>
+		</levelInfo>
+        <levelInfo level="5" slots="1" basicCostEnergy="1" perCapitaCostEnergy="3" stressReductionActive="7" stressReductionConvivial="4" stressReductionRecluse="2" stressReductionReligious="4">
+			<requirements energy="2" buildingMaterials="2" time="5"></requirements>
+		</levelInfo>
+        <levelInfo level="6" slots="2" basicCostEnergy="2" perCapitaCostEnergy="3" stressReductionActive="7" stressReductionConvivial="5" stressReductionRecluse="2" stressReductionReligious="4">
+			<requirements energy="4" buildingMaterials="4" time="12"></requirements>
+		</levelInfo>
+        <levelInfo level="7" slots="2" basicCostEnergy="2" perCapitaCostEnergy="2" stressReductionActive="7" stressReductionConvivial="5" stressReductionRecluse="2" stressReductionReligious="4">
+			<requirements energy="4" buildingMaterials="4" time="14"></requirements>
+		</levelInfo>
+        <levelInfo level="8" slots="2" basicCostEnergy="3" perCapitaCostEnergy="2" stressReductionActive="9" stressReductionConvivial="6" stressReductionRecluse="2" stressReductionReligious="4">
+			<requirements energy="4" buildingMaterials="4" time="16"></requirements>
+		</levelInfo>
+        <levelInfo level="9" slots="2" basicCostEnergy="3" perCapitaCostEnergy="2" stressReductionActive="10" stressReductionConvivial="6" stressReductionRecluse="2" stressReductionReligious="4">
+			<requirements energy="4" buildingMaterials="4" time="18"></requirements>
+		</levelInfo>
+        <levelInfo level="10" slots="3" basicCostEnergy="5" perCapitaCostEnergy="2" stressReductionActive="11" stressReductionConvivial="6" stressReductionRecluse="2" stressReductionReligious="5">
+			<requirements energy="6" buildingMaterials="6" time="30"></requirements>
+		</levelInfo>
+        <levelInfo level="11" slots="3" basicCostEnergy="5" perCapitaCostEnergy="2" stressReductionActive="12" stressReductionConvivial="7" stressReductionRecluse="2" stressReductionReligious="6">
+			<requirements energy="6" buildingMaterials="6" time="33"></requirements>
+		</levelInfo>
+        <levelInfo level="12" slots="3" basicCostEnergy="6" perCapitaCostEnergy="3" stressReductionActive="15" stressReductionConvivial="7" stressReductionRecluse="2" stressReductionReligious="6">
+			<requirements energy="6" buildingMaterials="6" time="36"></requirements>
+		</levelInfo>
+        <levelInfo level="13" slots="3" basicCostEnergy="6" perCapitaCostEnergy="3" stressReductionActive="16" stressReductionConvivial="8" stressReductionRecluse="2" stressReductionReligious="6">
+			<requirements energy="6" buildingMaterials="6" time="39"></requirements>
+		</levelInfo>
+        <levelInfo level="14" slots="3" basicCostEnergy="7" perCapitaCostEnergy="4" stressReductionActive="20" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="8">
+			<requirements energy="6" buildingMaterials="6" time="42"></requirements>
+		</levelInfo>
+        <levelInfo level="15" slots="4" basicCostEnergy="10" perCapitaCostEnergy="4" stressReductionActive="21" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="8">
+			<requirements energy="8" buildingMaterials="8" time="60"></requirements>
+		</levelInfo>
+        <levelInfo level="16" slots="4" basicCostEnergy="8" perCapitaCostEnergy="4" stressReductionActive="21" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="9">
+			<requirements energy="8" buildingMaterials="8" time="64"></requirements>
+		</levelInfo>
+        <levelInfo level="17" slots="4" basicCostEnergy="9" perCapitaCostEnergy="4" stressReductionActive="22" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="8" buildingMaterials="8" time="68"></requirements>
+		</levelInfo>
+        <levelInfo level="18" slots="4" basicCostEnergy="12" perCapitaCostEnergy="2" stressReductionActive="22" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="8" buildingMaterials="8" time="72"></requirements>
+		</levelInfo>
+        <levelInfo level="19" slots="5" basicCostEnergy="18" perCapitaCostEnergy="2" stressReductionActive="22" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="10" buildingMaterials="10" time="95"></requirements>
+		</levelInfo>
+        <levelInfo level="20" slots="5" basicCostEnergy="20" perCapitaCostEnergy="2" stressReductionActive="23" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="10" buildingMaterials="10" time="100"></requirements>
+		</levelInfo>
+        <levelInfo level="21" slots="5" basicCostEnergy="18" perCapitaCostEnergy="2" stressReductionActive="23" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="10" buildingMaterials="10" time="105"></requirements>
+		</levelInfo>
+        <levelInfo level="22" slots="5" basicCostEnergy="20" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="10" buildingMaterials="10" time="110"></requirements>
+		</levelInfo>
+        <levelInfo level="23" slots="6" basicCostEnergy="25" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="15" buildingMaterials="15" time="138"></requirements>
+		</levelInfo>
+        <levelInfo level="24" slots="6" basicCostEnergy="23" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="15" buildingMaterials="15" time="144"></requirements>
+		</levelInfo>
+        <levelInfo level="25" slots="6" basicCostEnergy="20" perCapitaCostEnergy="2" stressReductionActive="25" stressReductionConvivial="10" stressReductionRecluse="2" stressReductionReligious="10">
+			<requirements energy="20" buildingMaterials="20" time="150"></requirements>
+		</levelInfo>
 </playingFieldLevelsInfo>

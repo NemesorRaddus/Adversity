@@ -33,6 +33,20 @@ Item {
         return name;
     }
 
+    function markAsUpgraded(isUpgraded)
+    {
+        if (isUpgraded)
+        {
+            currentlyUpgraded.visible = true;
+            currentlyUpgraded.anim.restart();
+        }
+        else
+        {
+            currentlyUpgraded.visible = false;
+            currentlyUpgraded.anim.stop();
+        }
+    }
+
     width: 1080
     height: 271
 
@@ -107,7 +121,7 @@ Item {
             y: 60
             color: "#94ef94"
             text: qsTr("Level: 1")
-            font.pixelSize: 40
+            font.pixelSize: 44
             font.family: fontStencil.name
         }
 
@@ -120,8 +134,32 @@ Item {
             color: "#568b56"
             text: qsTr("Description")
             wrapMode: Text.WordWrap
-            font.pixelSize: 30
+            font.pixelSize: 40
             font.family: fontStencil.name
+        }
+
+        Image {
+            id: currentlyUpgraded
+
+            property alias anim: anim
+
+            visible: false
+
+            x: 732
+            y: 0
+            width: 62
+            height: 62
+
+            source: "qrc:/graphics/GUI/Settings.png"
+
+            RotationAnimator on rotation {
+                id: anim
+                from: 0;
+                to: 360;
+                duration: 2500
+                loops: RotationAnimation.Infinite
+                running: false
+            }
         }
     }
 

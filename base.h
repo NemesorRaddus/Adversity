@@ -110,9 +110,13 @@ public:
     {
         m_isBeingUpgraded=0;
     }
-    bool isBeingUpgraded() const noexcept
+    Q_INVOKABLE bool isBeingUpgraded() const noexcept
     {
         return m_isBeingUpgraded;
+    }
+    void setIsBeingUpgraded(bool isUpgraded) noexcept
+    {
+        m_isBeingUpgraded=isUpgraded;
     }
 
 protected:

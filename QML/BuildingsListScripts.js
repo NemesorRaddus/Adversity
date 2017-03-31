@@ -62,3 +62,14 @@ function scrollList(y) {
         yAtTop += y;
     }
 }
+
+function setUpgradedStatus(name, isUpgraded)
+{
+    for (var i=0;i<actualAmountOfItems;++i)
+        if (itemsArray[i].getName().text === name)
+        {
+            itemsArray[i].markAsUpgraded(isUpgraded);
+
+            break;
+        }
+}

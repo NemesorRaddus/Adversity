@@ -71,22 +71,22 @@ Rectangle {
         Image {
             id: energyIcon
 
-            x: -3 * parent.width / 1080
-            y: 22 * parent.height / 1920
-            width: 72 * parent.width / 1080
-            height: 72 * parent.height / 1920
+            x: -12 * parent.width / 1080
+            y: 20 * parent.height / 1920
+            width: 90 * parent.width / 1080
+            height: 90 * parent.height / 1920
 
             source: "qrc:/graphics/GUI/Energy.png"
         }
         Text {
             id: energyText
 
-            x: 64 * parent.width / 1080
-            y: 22 * parent.height / 1920
+            x: 74 * parent.width / 1080
+            y: 18 * parent.height / 1920
             width: 53
 
-            color: "#94ef94"
-            text: qsTr("100/100")
+            color: "#c0efc0"
+            text: qsTr("1000/1000")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: fontStencil.name
@@ -94,12 +94,12 @@ Rectangle {
         Text {
             id: energyText2
 
-            x: 70 * parent.width / 1080
+            x: 80 * parent.width / 1080
             y: 64 * parent.height / 1920
             width: 47
 
-            color: "#94ef94"
-            text: qsTr("10/DAY")
+            color: "#c0efc0"
+            text: qsTr("100/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: fontStencil.name
@@ -108,21 +108,21 @@ Rectangle {
         Image {
             id: buildingMaterialsIcon
 
-            x: 190 * parent.width / 1080
+            x: 200 * parent.width / 1080
             y: 15 * parent.height / 1920
-            width: 88 * parent.width / 1080
-            height: 88 * parent.height / 1920
+            width: 98 * parent.width / 1080
+            height: 98 * parent.height / 1920
 
             source: "qrc:/graphics/GUI/Buildingmaterials.png"
         }
         Text {
             id: buildingMaterialsText
 
-            x: 276 * parent.width / 1080
-            y: 22 * parent.height / 1920
+            x: 286 * parent.width / 1080
+            y: 18 * parent.height / 1920
             width: 53
 
-            color: "#94ef94"
+            color: "#c0efc0"
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
@@ -131,11 +131,11 @@ Rectangle {
         Text {
             id: buildingMaterialsText2
 
-            x: 282 * parent.width / 1080
+            x: 292 * parent.width / 1080
             y: 64 * parent.height / 1920
             width: 47
 
-            color: "#94ef94"
+            color: "#c0efc0"
             text: qsTr("10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
@@ -146,9 +146,9 @@ Rectangle {
             id: foodSuppliesIcon
 
             x: 420 * parent.width / 1080
-            y: 23 * parent.height / 1920
-            width: 72 * parent.width / 1080
-            height: 72 * parent.height / 1920
+            y: 18 * parent.height / 1920
+            width: 88 * parent.width / 1080
+            height: 88 * parent.height / 1920
 
             source: "qrc:/graphics/GUI/Foodsupplies.png"
         }
@@ -156,10 +156,10 @@ Rectangle {
             id: foodSuppliesText
 
             x: 504 * parent.width / 1080
-            y: 22 * parent.height / 1920
+            y: 18 * parent.height / 1920
             width: 53
 
-            color: "#94ef94"
+            color: "#c0efc0"
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
@@ -172,8 +172,8 @@ Rectangle {
             y: 64 * parent.height / 1920
             width: 47
 
-            color: "#94ef94"
-            text: qsTr("10/DAY")
+            color: "#c0efc0"
+            text: qsTr("-10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: fontStencil.name
@@ -182,10 +182,10 @@ Rectangle {
         Image {
             id: aetheriteIcon
 
-            x: 638 * parent.width / 1080
-            y: 23 * parent.height / 1920
-            width: 72 * parent.width / 1080
-            height: 72 * parent.height / 1920
+            x: 628 * parent.width / 1080
+            y: 18 * parent.height / 1920
+            width: 90 * parent.width / 1080
+            height: 90 * parent.height / 1920
 
             source: "qrc:/graphics/GUI/Aetherite.png"
         }
@@ -193,10 +193,10 @@ Rectangle {
             id: aetheriteText
 
             x: 714 * parent.width / 1080
-            y: 22 * parent.height / 1920
+            y: 18 * parent.height / 1920
             width: 53
 
-            color: "#94ef94"
+            color: "#c0efc0"
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
@@ -209,8 +209,8 @@ Rectangle {
             y: 64 * parent.height / 1920
             width: 47
 
-            color: "#94ef94"
-            text: qsTr("10/DAY")
+            color: "#c0efc0"
+            text: qsTr("-10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
             font.family: fontStencil.name
@@ -223,7 +223,7 @@ Rectangle {
             y: 8 * parent.height / 1920
             width: 52
 
-            color: "#94ef94"
+            color: "#c0efc0"
             text: qsTr("12:00")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 20
@@ -235,7 +235,7 @@ Rectangle {
             x: 873 * parent.width / 1080
             y: 64 * parent.height / 1920
 
-            color: "#94ef94"
+            color: "#c0efc0"
             text: qsTr("DAY 1380")
             font.pixelSize: 18
             font.family: fontStencil.name

@@ -28,6 +28,24 @@ SECTION CyclesSet
 quint8		powerplant
 quint8		factory
 END
+SECTION Upgrading
+bool		centralUnit
+bool		powerPlant
+bool		factory
+bool		coolRoom
+bool		storageRoom
+bool		aetheriteSilo
+bool		hospital
+bool		barracks
+bool		dockingStation
+bool		trainingGround
+bool		gym
+bool		laboratory
+bool		playingField
+bool		bar
+bool		shrine
+bool		seclusion	
+END
 END
 SECTION Resources
 quint16		energy

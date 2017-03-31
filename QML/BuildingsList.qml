@@ -25,15 +25,41 @@ Item {
         Scripts.setItem(13,"Aetherite Silo","AetheriteSilo",GameApi.base.aetheriteSilo.currentLevel(), GameApi.base.aetheriteSilo.description());
         Scripts.setItem(14,"Barracks","Barracks",GameApi.base.barracks.currentLevel(), GameApi.base.barracks.description());
         Scripts.setItem(15,"Docking Station","DockingStation",GameApi.base.dockingStation.currentLevel(), GameApi.base.dockingStation.description());
+
+        Scripts.setUpgradedStatus("Central Unit",GameApi.base.centralUnit.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Hospital",GameApi.base.hospital.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Training Ground",GameApi.base.trainingGround.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Gym",GameApi.base.gym.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Laboratory",GameApi.base.laboratory.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Playing Field",GameApi.base.playingField.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Bar",GameApi.base.bar.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Shrine",GameApi.base.shrine.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Seclusion",GameApi.base.seclusion.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Powerplant",GameApi.base.powerplant.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Factory",GameApi.base.factory.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Cool Room",GameApi.base.coolRoom.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Storage Room",GameApi.base.storageRoom.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Aetherite Silo",GameApi.base.aetheriteSilo.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Barracks",GameApi.base.barracks.isBeingUpgraded());
+        Scripts.setUpgradedStatus("Docking Station",GameApi.base.dockingStation.isBeingUpgraded());
     }
 
     function returnToDefault()
     {
-        for (var i=0;i<1000;++i)
+        Scripts.scrollList(1000);
+        for (var i=0;i<10;++i)
+            Scripts.scrollList(100);
+        for (i=0;i<10;++i)
+            Scripts.scrollList(10);
+        for (i=0;i<10;++i)
             Scripts.scrollList(1);
     }
 
-    property double maxAmountOfItems: (height / Globals.dpcm) / (1.5 * Globals.dpcm)
+    function markAsUpgraded(buildingName, isUpgraded)
+    {
+        Scripts.setUpgradedStatus(buildingName,isUpgraded);
+    }
+
     property int startY
 
     clip: true

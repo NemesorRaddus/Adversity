@@ -50,6 +50,25 @@ struct SaveData
             quint8 powerplant;
             quint8 factory;
         } cyclesSet;
+        struct Upgrading
+        {
+            bool centralUnit;
+            bool powerplant;
+            bool factory;
+            bool coolRoom;
+            bool storageRoom;
+            bool aetheriteSilo;
+            bool hospital;
+            bool barracks;
+            bool dockingStation;
+            bool trainingGround;
+            bool gym;
+            bool laboratory;
+            bool playingField;
+            bool bar;
+            bool shrine;
+            bool seclusion;
+        } upgrading;
     } buildings;
     struct Resources
     {
