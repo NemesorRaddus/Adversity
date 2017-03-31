@@ -67,8 +67,8 @@ struct SaveData
 class SaveParser
 {
 public:
-    static SaveData readData(const QString &path);
-    static void writeData(const QString &path, const SaveData& data);
+    static SaveData readData(QByteArray &array);
+    static void writeData(QByteArray &array, const SaveData& data);
 };
 
 #endif // SAVEPARSER_H

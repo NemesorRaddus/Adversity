@@ -106,6 +106,15 @@ public:
         return basicCostInAetherite()+useCostInAetherite();
     }
 
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+    }
+    bool isBeingUpgraded() const noexcept
+    {
+        return m_isBeingUpgraded;
+    }
+
 protected:
     explicit Building(BaseEnums::Building buildingName, Base *base, unsigned level) noexcept;
     Base *base() noexcept
@@ -114,8 +123,14 @@ protected:
     }
 
 private:
+    void registerUpgradeStart() noexcept
+    {
+        m_isBeingUpgraded=1;
+    }
+
     Base *m_base;
     BaseEnums::Building m_buildingName;
+    bool m_isBeingUpgraded;
 };
 
 struct CentralUnitLevelInfo

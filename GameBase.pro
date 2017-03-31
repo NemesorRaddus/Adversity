@@ -41,17 +41,6 @@ HEADERS += \
 DISTFILES += \
     android-sources/AndroidManifest.xml
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8/release/' -lRDesignPattern
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8/debug/' -lRDesignPattern
-
-INCLUDEPATH += $$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8'
-DEPENDPATH += $$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8'
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8/release/libRDesignPattern.a'
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8/debug/libRDesignPattern.a'
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8/release/RDesignPattern.lib'
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/'libs/RDesignPattern 1.0.4 Desktop MinGW 5.3.0 Qt 5.8/debug/RDesignPattern.lib'
-
 CONFIG(release, debug|release) {
     #This is a release build
     DEFINES += QT_NO_DEBUG_OUTPUT

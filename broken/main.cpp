@@ -1,6 +1,5 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
 
 #include "game.h"
 #include "timer.h"
@@ -10,9 +9,6 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    QGuiApplication::setApplicationDisplayName("Game");
-    QGuiApplication::setApplicationName("Game");
-    QGuiApplication::setOrganizationName("Raddos Games");
 
     Randomizer::initialize();
 
@@ -36,7 +32,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<GameClock>("GameClock");
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/init.qml")));
 
     return app.exec();
 }

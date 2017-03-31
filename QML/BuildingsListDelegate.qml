@@ -1,5 +1,7 @@
 import QtQuick 2.5
 
+import "."
+
 Item {
     id: root
 
@@ -56,54 +58,76 @@ Item {
         source: "qrc:/graphics/GUI/Task_Border.png"
     }
 
-    Image {
-        id: art
-        x: 20
-        y: 3
-        width: 256
-        height: 256
-    }
+    Item {
+        id: artSegment
 
-    Image {
-        id: frame
         x: 17
         y: 0
         width: 262
         height: 262
-        source: "qrc:/graphics/GUI/Task_Picture.png"
+
+        Image {
+            id: art
+            x: 3
+            y: 3
+            width: 256
+            height: 256
+        }
+
+        Image {
+            id: frame
+            x: 0
+            y: 0
+            width: 262
+            height: 262
+            source: "qrc:/graphics/GUI/Task_Picture.png"
+        }
     }
 
-    Text {
-        id: name
+    Item {
+        id: textSegment
         x: 280
         y: 10
-        color: "#94ef94"
-        text: qsTr("Power Plant")
-        font.pixelSize: 60
-        font.family: "Stencil"
-    }
-
-    Text {
-        id: level
-        x: 280
-        y: 70
-        color: "#94ef94"
-        text: qsTr("Level: 10")
-        font.pixelSize: 40
-        font.family: "Stencil"
-    }
-
-    Text {
-        id: description
-        x: 280
-        y: 123
         width: 785
-        height: 136
-        color: "#568b56"
-        text: qsTr("Energy for everyone!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        wrapMode: Text.WordWrap
-        font.pixelSize: 30
-        font.family: "Stencil"
+        height: 249
+
+        Text {
+            id: name
+            x: 0
+            y: 0
+            color: "#94ef94"
+            text: qsTr("Powerplant")
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: level
+            x: 0
+            y: 60
+            color: "#94ef94"
+            text: qsTr("Level: 1")
+            font.pixelSize: 40
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: description
+            x: 0
+            y: 113
+            width: 785
+            height: 136
+            color: "#568b56"
+            text: qsTr("Description")
+            wrapMode: Text.WordWrap
+            font.pixelSize: 30
+            font.family: fontStencil.name
+        }
     }
 
+    FontLoader {
+        id: fontStencil
+
+        source: "qrc:/fonts/STENCIL.TTF"
+    }
 }

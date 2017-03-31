@@ -1,4 +1,5 @@
 import QtQuick 2.0
+
 import Game 1.0
 
 Item {
@@ -89,7 +90,7 @@ Item {
         color: "#94ef94"
         text: qsTr("Barracks")
         font.pixelSize: 60
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Text {
@@ -98,7 +99,7 @@ Item {
         y: 70
         color: "#94ef94"
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Text {
@@ -110,7 +111,7 @@ Item {
         color: "#568b56"
         wrapMode: Text.WordWrap
         font.pixelSize: 30
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Text {
@@ -122,7 +123,7 @@ Item {
         color: "#94ef94"
         text: qsTr("Energy consumption:")
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
     Image {
         id: energyConsIcon
@@ -140,7 +141,7 @@ Item {
         height: 47
         color: "#94ef94"
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Text {
@@ -152,7 +153,7 @@ Item {
         color: "#94ef94"
         text: qsTr("Upgrade:")
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Image {
@@ -171,7 +172,7 @@ Item {
         height: 47
         color: "#94ef94"
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Image {
@@ -190,7 +191,7 @@ Item {
         height: 47
         color: "#94ef94"
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Image {
@@ -209,7 +210,7 @@ Item {
         height: 47
         color: "#94ef94"
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Image {
@@ -228,7 +229,7 @@ Item {
         height: 47
         color: "#94ef94"
         font.pixelSize: 40
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
 
     Image {
@@ -269,7 +270,7 @@ Item {
         text: qsTr("Back")
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 50
-        font.family: "Stencil"
+        font.family: fontStencil.name
     }
     MouseArea {
         id: backButton
@@ -280,5 +281,11 @@ Item {
         height: 87
 
         onClicked: backClicked()
+    }
+
+    FontLoader {
+        id: fontStencil
+
+        source: "qrc:/fonts/STENCIL.TTF"
     }
 }

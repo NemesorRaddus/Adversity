@@ -6,13 +6,12 @@
 
 #include <QDebug>
 
-SaveData SaveParser::readData(const QString &path)
+SaveData SaveParser::readData(QByteArray &array)
 {
     SaveData data;
-    QFile file(path);
-    if (file.open(QFile::ReadOnly))
+    if (!array.isEmpty())
     {
-        QDataStream str(&file);
+        QDataStream str(&array,QIODevice::ReadOnly);
         str>>data.overall.baseName;
         str>>data.overall.lastKnownDate;
         str>>data.overall.lastKnownDay;
@@ -41,7 +40,6 @@ SaveData SaveParser::readData(const QString &path)
         str>>data.resources.foodSupplies;
         str>>data.resources.aetheriteOre;
         str>>data.alarms.buildingUpgrades;
-        file.close();
     }
     else
     {
@@ -68,55 +66,13 @@ SaveData SaveParser::readData(const QString &path)
         data.buildings.levels.seclusion=0;
         data.buildings.cyclesSet.powerplant=0;
         data.buildings.cyclesSet.factory=0;
-        data.resources.energy=0;
-        data.resources.buildingMaterials=0;
-        data.resources.foodSupplies=0;
-        data.resources.aetheriteOre=0;
+        data.resources.energy=200;
+        data.resources.buildingMaterials=5;
+        data.resources.foodSupplies=5;
+        data.resources.aetheriteOre=42;
         data.alarms.buildingUpgrades.clear();
-        QFile file2(path);
-        if (file2.open(QFile::WriteOnly))
-        {
-            QDataStream str(&file2);
-            str<<data.overall.baseName;
-            str<<data.overall.lastKnownDate;
-            str<<data.overall.lastKnownDay;
-            str<<data.overall.lastKnownHour;
-            str<<data.overall.lastKnownMinute;
-            str<<data.buildings.levels.centralUnit;
-            str<<data.buildings.levels.powerplant;
-            str<<data.buildings.levels.factory;
-            str<<data.buildings.levels.coolRoom;
-            str<<data.buildings.levels.storageRoom;
-            str<<data.buildings.levels.aetheriteSilo;
-            str<<data.buildings.levels.hospital;
-            str<<data.buildings.levels.barracks;
-            str<<data.buildings.levels.dockingStation;
-            str<<data.buildings.levels.trainingGround;
-            str<<data.buildings.levels.gym;
-            str<<data.buildings.levels.laboratory;
-            str<<data.buildings.levels.playingField;
-            str<<data.buildings.levels.bar;
-            str<<data.buildings.levels.shrine;
-            str<<data.buildings.levels.seclusion;
-            str<<data.buildings.cyclesSet.powerplant;
-            str<<data.buildings.cyclesSet.factory;
-            str<<data.resources.energy;
-            str<<data.resources.buildingMaterials;
-            str<<data.resources.foodSupplies;
-            str<<data.resources.aetheriteOre;
-            str<<data.alarms.buildingUpgrades;
-            file2.close();
-        }
-    }
-    return data;
-}
 
-void SaveParser::writeData(const QString &path, const SaveData& data)
-{
-    QFile file(path);
-    if (file.open(QFile::WriteOnly))
-    {
-        QDataStream str(&file);
+        QDataStream str(&array,QIODevice::WriteOnly);
         str<<data.overall.baseName;
         str<<data.overall.lastKnownDate;
         str<<data.overall.lastKnownDay;
@@ -145,10 +101,39 @@ void SaveParser::writeData(const QString &path, const SaveData& data)
         str<<data.resources.foodSupplies;
         str<<data.resources.aetheriteOre;
         str<<data.alarms.buildingUpgrades;
-        file.close();
     }
-    else
-    {
-        //insert your error handling here
-    }
+    return data;
+}
+
+void SaveParser::writeData(QByteArray &array, const SaveData& data)
+{
+    QDataStream str(&array,QIODevice::WriteOnly);
+    str<<data.overall.baseName;
+    str<<data.overall.lastKnownDate;
+    str<<data.overall.lastKnownDay;
+    str<<data.overall.lastKnownHour;
+    str<<data.overall.lastKnownMinute;
+    str<<data.buildings.levels.centralUnit;
+    str<<data.buildings.levels.powerplant;
+    str<<data.buildings.levels.factory;
+    str<<data.buildings.levels.coolRoom;
+    str<<data.buildings.levels.storageRoom;
+    str<<data.buildings.levels.aetheriteSilo;
+    str<<data.buildings.levels.hospital;
+    str<<data.buildings.levels.barracks;
+    str<<data.buildings.levels.dockingStation;
+    str<<data.buildings.levels.trainingGround;
+    str<<data.buildings.levels.gym;
+    str<<data.buildings.levels.laboratory;
+    str<<data.buildings.levels.playingField;
+    str<<data.buildings.levels.bar;
+    str<<data.buildings.levels.shrine;
+    str<<data.buildings.levels.seclusion;
+    str<<data.buildings.cyclesSet.powerplant;
+    str<<data.buildings.cyclesSet.factory;
+    str<<data.resources.energy;
+    str<<data.resources.buildingMaterials;
+    str<<data.resources.foodSupplies;
+    str<<data.resources.aetheriteOre;
+    str<<data.alarms.buildingUpgrades;
 }

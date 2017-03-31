@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <QObject>
+#include <QSettings>
 
 #include "base.h"
 #include "filereaderwriter.h"
@@ -21,11 +22,11 @@ public:
     explicit Game(QObject *parent = 0) noexcept;
 
     Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
-    Q_INVOKABLE void loadExistingBase(const QString &pathToSaveFile, const QString &pathToAssetsDir) noexcept;
-    Q_INVOKABLE void saveBase(const QString &pathToSaveFile) noexcept;
+    Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
+    Q_INVOKABLE void saveBase() noexcept;
 
 public slots:
-    void saveBase() noexcept;
+    void saveBase_slot() noexcept;
 
 private:
     void connectAutosave() noexcept;
@@ -35,7 +36,6 @@ private:
 
     Base *m_base;
     QString m_currentPathToAssets;
-    QString m_currentPathToSaveData;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

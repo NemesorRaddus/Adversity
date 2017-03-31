@@ -25,5 +25,6 @@
         <file>qml/BuildingsMenus/ShrineMenu.qml</file>
         <file>qml/BuildingsMenus/StorageRoomMenu.qml</file>
         <file>qml/BuildingsMenus/TrainingGroundMenu.qml</file>
+        <file>qml/SplashScreen.qml</file>
     </qresource>
 </RCC>

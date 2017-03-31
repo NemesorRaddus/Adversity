@@ -24,9 +24,8 @@ void Game::createNewBase(const QString &pathToAssetsDir) noexcept
     connectAutosave();
 }
 
-void Game::loadExistingBase(const QString &pathToSaveFile, const QString &pathToAssetsDir) noexcept
+void Game::loadExistingBase(const QString &pathToAssetsDir) noexcept
 {
-    m_currentPathToSaveData=pathToSaveFile;
     m_currentPathToAssets=pathToAssetsDir;
 
     disconnectAutosave();
@@ -36,31 +35,34 @@ void Game::loadExistingBase(const QString &pathToSaveFile, const QString &pathTo
 
     loadAssets(pathToAssetsDir);
 
-    if (QFile(pathToSaveFile).exists())
-        m_base->loadSaveData(SaveParser::readData(pathToSaveFile));
+    QByteArray ba=QSettings().value("save01").toByteArray();
+    m_base->loadSaveData(SaveParser::readData(ba));
 
     connectAutosave();
 }
 
-void Game::saveBase(const QString &pathToSaveFile) noexcept
-{
-    m_currentPathToSaveData=pathToSaveFile;
-    SaveParser::writeData(pathToSaveFile,m_base->getSaveData());
-}
-
 void Game::saveBase() noexcept
 {
-    SaveParser::writeData(m_currentPathToSaveData,m_base->getSaveData());
+    QByteArray ba;
+    SaveParser::writeData(ba,m_base->getSaveData());
+    QSettings().setValue("save01",ba);
+}
+
+void Game::saveBase_slot() noexcept
+{
+    QByteArray ba;
+    SaveParser::writeData(ba,m_base->getSaveData());
+    QSettings().setValue("save01",ba);
 }
 
 void Game::connectAutosave() noexcept
 {
-    connect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase()));
+    connect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase_slot()));
 }
 
 void Game::disconnectAutosave() noexcept
 {
-    disconnect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase()));
+    disconnect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase_slot()));
 }
 
 void Game::loadAssets(const QString &pathToDir) noexcept

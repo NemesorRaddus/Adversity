@@ -89,7 +89,7 @@ Rectangle {
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
         Text {
             id: energyText2
@@ -102,7 +102,7 @@ Rectangle {
             text: qsTr("10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
 
         Image {
@@ -126,7 +126,7 @@ Rectangle {
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
         Text {
             id: buildingMaterialsText2
@@ -139,7 +139,7 @@ Rectangle {
             text: qsTr("10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
 
         Image {
@@ -163,7 +163,7 @@ Rectangle {
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
         Text {
             id: foodSuppliesText2
@@ -176,7 +176,7 @@ Rectangle {
             text: qsTr("10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
 
         Image {
@@ -200,7 +200,7 @@ Rectangle {
             text: qsTr("100/100")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
         Text {
             id: aetheriteText2
@@ -213,7 +213,7 @@ Rectangle {
             text: qsTr("10/DAY")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 14
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
 
         Text {
@@ -227,7 +227,7 @@ Rectangle {
             text: qsTr("12:00")
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 20
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
         Text {
             id: day
@@ -238,7 +238,7 @@ Rectangle {
             color: "#94ef94"
             text: qsTr("DAY 1380")
             font.pixelSize: 18
-            font.family: "Stencil"
+            font.family: fontStencil.name
         }
         Item {
             id: settingsItem
@@ -272,5 +272,11 @@ Rectangle {
         y: 189 * parent.height / 1920
         width: parent.width
         height: 1464 * parent.height / 1920
+    }
+
+    FontLoader {
+        id: fontStencil
+
+        source: "qrc:/fonts/STENCIL.TTF"
     }
 }

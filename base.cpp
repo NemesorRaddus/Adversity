@@ -143,6 +143,8 @@ bool Building::tryUpgrading() noexcept
     m_base->setCurrentBuildingMaterialsAmount(m_base->currentBuildingMaterialsAmount() - reqs.requiredBuildingMaterials);
     m_base->setCurrentEnergyAmount(m_base->currentEnergyAmount() - reqs.requiredEnergy);
     m_base->gameClock()->addAlarm(reqs.requiredTime,alrm);
+
+    registerUpgradeStart();
     return 1;
 }
 
@@ -673,6 +675,7 @@ void Base::startNewDay() noexcept
         if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_BuildingUpgrade)
         {
             m_buildingLevels.insert(static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName(), static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingLevel());
+            m_buildings[static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName()]->registerUpgradeCompletion();
         }
     }
 
