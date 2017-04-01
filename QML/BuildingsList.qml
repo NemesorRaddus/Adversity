@@ -115,7 +115,7 @@ Item {
     }
 
     Component.onCompleted: {
-        Scripts.setupList(4, Globals.dpcm, 16, width, height);
+        Scripts.setupList((271/1080)*width, 16, width, height);
         Scripts.createItem("Central Unit","CentralUnit",GameApi.base.centralUnit.currentLevel(), GameApi.base.centralUnit.description());
         Scripts.createItem("Hospital","Hospital",GameApi.base.hospital.currentLevel(), GameApi.base.hospital.description());
         Scripts.createItem("Training Ground","TrainingGround",GameApi.base.trainingGround.currentLevel(), GameApi.base.trainingGround.description());

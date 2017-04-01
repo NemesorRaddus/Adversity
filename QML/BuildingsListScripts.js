@@ -1,18 +1,16 @@
 var listDelegate;
 var itemsArray;
-var heightOfElement;//in cm
+var heightOfElement;//in pixels
 var width;//in pixels
 var height;//in pixels
-var dpcm;
 var actualAmountOfItems = 0;
 var yAtTop = 0;
 
-function setupList(heightOfElementInCm, windowDpcm, amountOfItems, widthInPx, heightInPx)
+function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
 {
-    heightOfElement = heightOfElementInCm;
+    heightOfElement = heightOfElementInPx;
     width = widthInPx;
     height = heightInPx;
-    dpcm = windowDpcm;
     listDelegate = Qt.createComponent("qrc:/qml/BuildingsListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
@@ -33,15 +31,15 @@ function createItem(name, internalName, level, description) {
         var y00 = yAtTop;//not binded for sure
         itemsArray[actualAmountOfItems] = listDelegate.createObject(rootBuildingsList,
                                                 {"x": 0,
-                                                "y": actualAmountOfItems * heightOfElement * dpcm + y00,
-                                                "width": width, "height": heightOfElement * dpcm});
+                                                "y": actualAmountOfItems * heightOfElement + y00,
+                                                "width": width, "height": heightOfElement});
         setItem(actualAmountOfItems,name,internalName,level,description);
         ++actualAmountOfItems;
     }
 }
 
 function getClickedItemName(y) {
-    var h = heightOfElement * dpcm;
+    var h = heightOfElement;
     var y0 = 0;
     var y1 = h - 1;
     y -= yAtTop;
@@ -55,7 +53,7 @@ function getClickedItemName(y) {
 }
 
 function scrollList(y) {
-    if (yAtTop + y <= 0 && height - yAtTop - y < actualAmountOfItems * heightOfElement * dpcm)
+    if (yAtTop + y <= 0 && height - yAtTop - y < actualAmountOfItems * heightOfElement)
     {
         for (var i=0;i<actualAmountOfItems;++i)
             itemsArray[i].y += y;

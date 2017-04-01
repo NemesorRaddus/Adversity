@@ -144,7 +144,6 @@ Window {
         splash.show();
         Globals.windowWidth = width;
         Globals.windowHeight = height;
-        Globals.dpcm = Screen.pixelDensity*10;
         changeMode(0);
         GameApi.loadExistingBase(":/data/");
     }
