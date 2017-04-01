@@ -31,5 +31,22 @@
         <file>graphics/IconL.png</file>
         <file>graphics/IconS.png</file>
         <file>graphics/IconXXL.png</file>
+        <file>graphics/Mercs/Archeologist/MadeleineLacroix.png</file>
+        <file>graphics/Mercs/Archeologist/StevenBrown.png</file>
+        <file>graphics/Mercs/Archeologist/TakashiMatokai.png</file>
+        <file>graphics/Mercs/BountyHunter/AdamAnderson.png</file>
+        <file>graphics/Mercs/BountyHunter/BrianCartner.png</file>
+        <file>graphics/Mercs/BountyHunter/EdricSherman.png</file>
+        <file>graphics/Mercs/BountyHunter/HeinzWitt.png</file>
+        <file>graphics/Mercs/BountyHunter/IvanRepnin.png</file>
+        <file>graphics/Mercs/Criminal/AlanClark.png</file>
+        <file>graphics/Mercs/Criminal/ZbynekTichy.png</file>
+        <file>graphics/Mercs/Criminal/ZofiaWysocka.png</file>
+        <file>graphics/Mercs/Gunzerker/Paul Luft.png</file>
+        <file>graphics/Mercs/Gunzerker/SashaBohdanov.png</file>
+        <file>graphics/Mercs/SpaceNomad/AgdaSolberg.png</file>
+        <file>graphics/Mercs/SpaceNomad/EvanTurner.png</file>
+        <file>graphics/Mercs/SpaceNomad/MarekJakubowski.png</file>
+        <file>graphics/Mercs/SpaceNomad/StephanieBradley.png</file>
     </qresource>
 </RCC>
