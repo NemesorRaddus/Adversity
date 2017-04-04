@@ -93,7 +93,7 @@ public:
 
 private:
     void decreaseDaysToTimeout() noexcept;
-    QVector <TimerAlarm *> takeTimeoutedAlarms() const noexcept;
+    QVector <TimerAlarm *> takeTimeoutedAlarms() noexcept;
 
     QVector <QPair <unsigned, TimerAlarm *> > m_alarms;
 };

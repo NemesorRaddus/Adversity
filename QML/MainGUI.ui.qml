@@ -30,6 +30,15 @@ Rectangle {
         source: "qrc:/graphics/GUI/Background.png"
     }
 
+    BuildingsModeGUI {
+        id: buildingsMode
+
+        x: 0
+        y: 189 * parent.height / 1920
+        width: parent.width
+        height: 1464 * parent.height / 1920
+    }
+
     Image {
         id: topAndBottomBar
 
@@ -263,15 +272,6 @@ Rectangle {
                 anchors.fill: parent
             }
         }
-    }
-
-    BuildingsModeGUI {
-        id: buildingsMode
-
-        x: 0
-        y: 189 * parent.height / 1920
-        width: parent.width
-        height: 1464 * parent.height / 1920
     }
 
     FontLoader {

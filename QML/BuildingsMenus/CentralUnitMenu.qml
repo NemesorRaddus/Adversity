@@ -98,7 +98,7 @@ Item {
         x: 280
         y: 70
         color: "#94ef94"
-        font.pixelSize: 40
+        font.pixelSize: 44
         font.family: fontStencil.name
     }
 
@@ -110,7 +110,7 @@ Item {
         height: 136
         color: "#568b56"
         wrapMode: Text.WordWrap
-        font.pixelSize: 30
+        font.pixelSize: 40
         font.family: fontStencil.name
     }
 

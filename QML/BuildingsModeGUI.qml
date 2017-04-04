@@ -20,6 +20,20 @@ Item {
         menu.updateEverything();
     }
 
+    function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
+    {
+        if (menu.state == "")
+        {
+            list.state = "";
+            menu.state = "hidden";
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     BuildingsList {
         id: list
 

@@ -601,13 +601,7 @@ Item {
         seclusion.setUpgBMCost(GameApi.base.seclusion.requirementsForNextLevelBM());
         seclusion.setUpgTime(GameApi.base.seclusion.requirementsForNextLevelTime());
 
-        powerplant.setDescription(GameApi.base.powerplant.description());
-        powerplant.setLevel(GameApi.base.powerplant.currentLevel());
-        powerplant.setEnergyCons(GameApi.base.powerplant.basicCostInEnergy());
-        powerplant.setUpgEnergyCons(GameApi.base.powerplant.basicCostInEnergyAfterUpgrade());
-        powerplant.setUpgEnergyCost(GameApi.base.powerplant.requirementsForNextLevelEnergy());
-        powerplant.setUpgBMCost(GameApi.base.powerplant.requirementsForNextLevelBM());
-        powerplant.setUpgTime(GameApi.base.powerplant.requirementsForNextLevelTime());
+        powerplant.updateEverything();
 
         factory.setDescription(GameApi.base.factory.description());
         factory.setLevel(GameApi.base.factory.currentLevel());

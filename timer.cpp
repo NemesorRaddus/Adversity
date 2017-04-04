@@ -136,11 +136,13 @@ void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
     }
 }
 
-QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() const noexcept
+QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 {
     QVector <TimerAlarm *> r;
-    for (int i=0;i<m_alarms.size() && m_alarms[i].first==0;++i)
+    int i=0;
+    for (;i<m_alarms.size() && m_alarms[i].first==0;++i)
         r.push_back(m_alarms[i].second);
+    m_alarms.remove(0,i);
     return r;
 }
 

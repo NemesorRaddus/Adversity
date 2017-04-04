@@ -148,6 +148,22 @@ Window {
         GameApi.loadExistingBase(":/data/");
     }
     onClosing: {
-        GameApi.saveBase();
+        if (currentMode == 0)
+        {
+            GameApi.saveBase();
+        }
+        else if (currentMode == 1)
+        {
+            if (mainGUI.buildingsGUI.reactToBackOnToolbar())
+                close.accepted = false;
+            else
+            {
+                GameApi.saveBase();
+            }
+        }
+        else if (currentMode == 2)
+        {
+            GameApi.saveBase();
+        }
     }
 }
