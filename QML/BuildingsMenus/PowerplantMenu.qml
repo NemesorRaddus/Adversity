@@ -7,7 +7,7 @@ Item {
     id: root
 
     readonly property int theoreticalWidth: 1080
-    readonly property int theoreticalHeight: 1920
+    readonly property int theoreticalHeight: 1464
 
     signal backClicked()
     signal upgradeRequested()
@@ -21,7 +21,7 @@ Item {
     }
 
     width: 1080
-    height: 1920
+    height: 1464
 
     transform: [
         Scale {
@@ -41,8 +41,8 @@ Item {
 
         x: 0
         y: 0
-        width: 1080*450/parent.width
-        height: 271*800/parent.height
+        width: 1080
+        height: 271
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Powerplant.png");
@@ -139,7 +139,7 @@ Item {
             x: 430
             y: 64
             width: 66
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Energy.png"
         }
@@ -188,7 +188,7 @@ Item {
             x: 430
             y: 128
             width: 66
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Settings.png"
         }
@@ -237,7 +237,7 @@ Item {
             x: 430
             y: 192
             width: 66
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Aetherite.png"
         }
@@ -284,7 +284,7 @@ Item {
             x: 430
             y: 256
             width: 66
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Energy.png"
         }
@@ -333,7 +333,7 @@ Item {
             x: 430
             y: 310
             width: 66
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Energy.png"
         }
@@ -455,7 +455,7 @@ Item {
             y: 5
 
             width: 70
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Energy.png"
         }
@@ -480,7 +480,7 @@ Item {
             y: 0
 
             width: 80
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Buildingmaterials.png"
         }
@@ -505,7 +505,7 @@ Item {
             y: 5
 
             width: 70
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Time.png"
         }
@@ -531,7 +531,7 @@ Item {
             y: 95
 
             width: 60
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             source: "qrc:/graphics/GUI/Time.png"
         }
@@ -554,7 +554,7 @@ Item {
             x: 920
             y: 0
             width: 160
-            height: width / Globals.mainAreaHToWindowHRatio
+            height: width
 
             function markAsUpgraded(isUpgraded)
             {

@@ -130,6 +130,11 @@ public:
 
     void forceAutosave() noexcept;
 
+    Q_INVOKABLE int realMinutesToOneGameDayRatio() const noexcept
+    {
+        return 30;
+    }
+
 signals:
     void doAutosave();
 

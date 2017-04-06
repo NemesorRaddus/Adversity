@@ -78,31 +78,7 @@ Item {
 
         onPressed: {
             y0 = mouseY;
-        }
-
-        onMouseYChanged: {
-            if (isScrollingActive == true)
-            {
-                Scripts.scrollList(Math.ceil(mouseY) - y0);
-
-                y0 = Math.ceil(mouseY);
-            }
-            else
-            {
-                if (Math.abs(mouseY - y0) >= Globals.windowHeight * yChangedThresholdForScrolling / 100)
-                {
-                    isScrollingActive = true;
-                    if (y0 > mouseY)
-                    {
-                        Scripts.scrollList(1);
-                    }
-                    else
-                    {
-                        Scripts.scrollList(-1);
-                    }
-                    y0 = mouseY;
-                }
-            }
+            movementCheckTimer.start();
         }
 
         onReleased: {
@@ -111,11 +87,45 @@ Item {
             else
                 buildingClicked(Scripts.getClickedItemName(y0));
             y0 = -1;
+            movementCheckTimer.stop();
+        }
+
+        Timer {
+            id: movementCheckTimer
+
+            interval: 16
+            repeat: true
+            running: false
+
+            onTriggered: {
+                if (mouseArea.isScrollingActive == true)
+                {
+                    Scripts.scrollList(Math.ceil(mouseArea.mouseY) - mouseArea.y0);
+
+                    mouseArea.y0 = Math.ceil(mouseArea.mouseY);
+                }
+                else
+                {
+                    if (Math.abs(mouseArea.mouseY - mouseArea.y0) >= Globals.windowHeight * mouseArea.yChangedThresholdForScrolling / 100)
+                    {
+                        mouseArea.isScrollingActive = true;
+                        if (mouseArea.y0 > mouseArea.mouseY)
+                        {
+                            Scripts.scrollList(1);
+                        }
+                        else
+                        {
+                            Scripts.scrollList(-1);
+                        }
+                        mouseArea.y0 = mouseArea.mouseY;
+                    }
+                }
+            }
         }
     }
 
     Component.onCompleted: {
-        Scripts.setupList((271/1080)*width, 16, width, height);
+        Scripts.setupList(Math.round((271/1080)*width), 16, width, height);
         Scripts.createItem("Central Unit","CentralUnit",GameApi.base.centralUnit.currentLevel(), GameApi.base.centralUnit.description());
         Scripts.createItem("Hospital","Hospital",GameApi.base.hospital.currentLevel(), GameApi.base.hospital.description());
         Scripts.createItem("Training Ground","TrainingGround",GameApi.base.trainingGround.currentLevel(), GameApi.base.trainingGround.description());

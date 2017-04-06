@@ -53,9 +53,21 @@ function getClickedItemName(y) {
 }
 
 function scrollList(y) {
-    if (yAtTop + y <= 0 && height - yAtTop - y < actualAmountOfItems * heightOfElement)
+    if (yAtTop + y > 0)
     {
         for (var i=0;i<actualAmountOfItems;++i)
+            itemsArray[i].y -= yAtTop;
+        yAtTop = 0;
+    }
+    else if (height - yAtTop - y >= actualAmountOfItems * heightOfElement)
+    {
+        for (i=0;i<actualAmountOfItems;++i)
+            itemsArray[i].y -= actualAmountOfItems * heightOfElement + yAtTop - height;
+        yAtTop =  height - actualAmountOfItems * heightOfElement;
+    }
+    else
+    {
+        for (i=0;i<actualAmountOfItems;++i)
             itemsArray[i].y += y;
         yAtTop += y;
     }
