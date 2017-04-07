@@ -170,13 +170,18 @@ void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDa
     m_lastKnownHour=lastKnownHour;
     m_lastKnownMin=lastKnownMin;
 
+    m_currentTimeInGameDay=lastKnownDay;
+    m_currentTimeInGameHour=lastKnownHour;
+    m_currentTimeInGameMin=lastKnownMin;
+
     long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
 
     int daysPassed=(ms*24*60*60*1000/1000/60/realMinutesToOneGameDayRatio() + m_lastKnownHour*60*60*1000 + m_lastKnownMin*60*1000)/1000/60/60/24;
     for (int i=0;i<daysPassed;++i)
         m_base->startNewDay();
 
-    addMinutesToGameTime(ms*24*60/1000/60/realMinutesToOneGameDayRatio());
+    addMinutesToGameTime(ms*24*60/1000/60/realMinutesToOneGameDayRatio());// /1000 s /60 min /r dni *24 h *60 min
+    tryAutosaving();
 }
 
 void GameClock::updateClock(int minutesToAdd) noexcept

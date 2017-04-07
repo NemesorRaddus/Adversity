@@ -48,5 +48,7 @@
         <file>graphics/Mercs/SpaceNomad/EvanTurner.png</file>
         <file>graphics/Mercs/SpaceNomad/MarekJakubowski.png</file>
         <file>graphics/Mercs/SpaceNomad/StephanieBradley.png</file>
+        <file>graphics/GUI/HealthRestored.png</file>
+        <file>graphics/GUI/Slots.png</file>
     </qresource>
 </RCC>

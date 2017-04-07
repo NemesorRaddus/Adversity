@@ -598,7 +598,7 @@ Item {
         id: back
 
         x: 400
-        y: 1800
+        y: 1344
         width: 260
         height: 120
 

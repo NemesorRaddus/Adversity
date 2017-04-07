@@ -951,15 +951,15 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return (unsigned)0-(m_levelsInfo.value(currentLevel()).energyGiven * m_currentCycles);
+        return 0-(m_levelsInfo.value(currentLevel()).energyGiven * m_currentCycles);
     }
     Q_INVOKABLE int productionInEnergySingle() const noexcept
     {
-        return (unsigned)0-(m_levelsInfo.value(currentLevel())).energyGiven;
+        return 0-(m_levelsInfo.value(currentLevel())).energyGiven;
     }
     Q_INVOKABLE int productionInEnergySingleAfterUpgrade() const noexcept
     {
-        return (unsigned)0-(m_levelsInfo.value(currentLevel()+1)).energyGiven;
+        return 0-(m_levelsInfo.value(currentLevel()+1)).energyGiven;
     }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
@@ -971,11 +971,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -1075,13 +1075,21 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
-        return (unsigned)0-(m_levelsInfo.value(currentLevel()).buildingMaterialsGiven * m_currentCycles);
+        return 0-(m_levelsInfo.value(currentLevel()).buildingMaterialsGiven * m_currentCycles);
+    }
+    Q_INVOKABLE int productionInBuildingMaterialsSingle() const noexcept
+    {
+        return 0-(m_levelsInfo.value(currentLevel())).buildingMaterialsGiven;
+    }
+    Q_INVOKABLE int productionInBuildingMaterialsSingleAfterUpgrade() const noexcept
+    {
+        return 0-(m_levelsInfo.value(currentLevel()+1)).buildingMaterialsGiven;
     }
 
     Q_INVOKABLE int basicCostInAetherite() const noexcept
@@ -1091,6 +1099,14 @@ public:
     Q_INVOKABLE int useCostInAetherite() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).aetheriteOreTaken * m_currentCycles;
+    }
+    Q_INVOKABLE int useCostInAetheriteSingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).aetheriteOreTaken;
+    }
+    Q_INVOKABLE int useCostInAetheriteSingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).aetheriteOreTaken;
     }
 
     void exchangeResources() noexcept;
@@ -1103,6 +1119,10 @@ public:
     Q_INVOKABLE unsigned maxCycles() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).maxCycles;
+    }
+    Q_INVOKABLE unsigned maxCyclesAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).maxCycles;
     }
 
     void setLevelsInfo(const QVector <FactoryLevelInfo> &info) noexcept;
@@ -1178,6 +1198,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).foodSuppliesLimit;
     }
+    Q_INVOKABLE int foodSuppliesLimitAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).foodSuppliesLimit;
+    }
 
     void setLevelsInfo(const QVector <CoolRoomLevelInfo> &info) noexcept;
 
@@ -1250,6 +1274,10 @@ public:
     Q_INVOKABLE int buildingMaterialsLimit() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).buildingMaterialsLimit;
+    }
+    Q_INVOKABLE int buildingMaterialsLimitAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).buildingMaterialsLimit;
     }
 
     void setLevelsInfo(const QVector <StorageRoomLevelInfo> &info) noexcept;
@@ -1324,6 +1352,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).aetheriteOreLimit;
     }
+    Q_INVOKABLE int aetheriteLimitAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).aetheriteOreLimit;
+    }
 
     void setLevelsInfo(const QVector <AetheriteSiloLevelInfo> &info) noexcept;
 
@@ -1397,6 +1429,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).heroesLimit;
     }
+    Q_INVOKABLE int heroesLimitAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).heroesLimit;
+    }
 
     void setLevelsInfo(const QVector <BarracksLevelInfo> &info) noexcept;
 
@@ -1469,6 +1505,10 @@ public:
     Q_INVOKABLE int recruitsAmount() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).recruitsAmount;
+    }
+    Q_INVOKABLE int recruitsAmountAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).recruitsAmount;
     }
 
     void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept;
