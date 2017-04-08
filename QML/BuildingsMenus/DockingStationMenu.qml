@@ -61,17 +61,18 @@ Item {
         function update()
         {
             energyDrainAmount1.text = GameApi.base.dockingStation.basicCostInEnergy()+"/Day";
-            recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount();
+            recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Day";
 
             if (GameApi.base.dockingStation.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
-                recruitsAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                recruitsAmount2.visible = false;
             }
             else
             {
                 energyDrainAmount2.text = GameApi.base.dockingStation.basicCostInEnergyAfterUpgrade()+"/Day";
-                recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade();
+                recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade()+"/Day";
             }
         }
 
@@ -186,24 +187,26 @@ Item {
         Text {
             id: recruitsAmount1
 
-            x: 640
+            x: 560
             y: 128
+            width: 200
 
             color: "#94ef94"
-            text: "1"
-            horizontalAlignment: Text.AlignHCenter
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
             font.pixelSize: 60
             font.family: fontStencil.name
         }
         Text {
             id: recruitsAmount2
 
-            x: 940
+            x: 860
             y: 128
+            width: 200
 
             color: "#94ef94"
-            text: "1"
-            horizontalAlignment: Text.AlignHCenter
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
             font.pixelSize: 60
             font.family: fontStencil.name
         }

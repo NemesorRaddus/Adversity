@@ -2,6 +2,16 @@
 
 #include <QDebug>
 
+const QString &Hero::stressBorderEffectString() const noexcept
+{
+
+}
+
+const QString &Hero::natureString() const noexcept
+{
+
+}
+
 void Hero::setCombatEffectiveness(int combatEffectiveness) noexcept
 {
     if (combatEffectiveness>=0)
@@ -141,6 +151,12 @@ Hero::Hero() noexcept
 
 }
 
+void Hero::setID(unsigned id) noexcept
+{
+    if (id!=0)
+        m_id=id;
+}
+
 void Hero::setCarriedEnergy(int carriedEnergy) noexcept
 {
     m_carriedEnergy = carriedEnergy;
@@ -209,3 +225,77 @@ void Hero::deactivateStressBorderEffect() noexcept
     //TODO
 }
 
+HeroBuilder::HeroBuilder() noexcept
+{
+    m_hero=new Hero;
+}
+
+HeroBuilder::~HeroBuilder() noexcept
+{
+    delete m_hero;
+}
+
+Hero *HeroBuilder::getHero() noexcept
+{
+    Hero *r=m_hero;
+    m_hero=new Hero;
+    return r;
+}
+
+void HeroBuilder::resetHero() noexcept
+{
+    delete m_hero;
+    m_hero=new Hero;
+}
+
+HeroesContainer::HeroesContainer() noexcept
+    : m_preparedHero(NULL)
+{
+
+}
+
+HeroesContainer::~HeroesContainer() noexcept
+{
+    for (int i=0;i<m_heroes.size();++i)
+        delete m_heroes[i];
+}
+
+bool HeroesContainer::prepareHeroAt(unsigned id) noexcept
+{
+    int index=findHero(id);
+    if (index == -1)
+        return 0;
+    m_preparedHero=m_heroes[index];
+    return 1;
+}
+
+unsigned HeroesContainer::availableID() const noexcept
+{
+    if (m_heroes.isEmpty())
+        return 1;
+    else
+        return m_heroes.last()->id() + 1;
+}
+
+void HeroesContainer::addHero(Hero *hero) noexcept
+{
+    m_heroes+=hero;
+}
+
+void HeroesContainer::removeHero(unsigned id) noexcept
+{
+    int index=findHero(id);
+    if (index != -1)
+    {
+        delete m_heroes[index];
+        m_heroes.remove(index);
+    }
+}
+
+int HeroesContainer::findHero(unsigned id) const noexcept
+{
+    for (int i=0;i<m_heroes.size();++i)
+        if (m_heroes[i]->id() == id)
+            return i;
+    return -1;
+}

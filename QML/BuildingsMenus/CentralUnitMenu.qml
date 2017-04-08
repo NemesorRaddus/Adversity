@@ -64,7 +64,8 @@ Item {
 
             if (GameApi.base.centralUnit.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
             }
             else
             {

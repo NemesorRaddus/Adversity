@@ -11,6 +11,7 @@ Item {
 
     signal backClicked()
     signal upgradeRequested()
+    signal resourcesUpdateRequested()
 
     function updateEverything()
     {
@@ -66,13 +67,17 @@ Item {
             productionAmount1.text = 0-GameApi.base.powerplant.productionInEnergySingle();
             maxStorageAmount1.text = GameApi.base.powerplant.energyLimit();
 
+            cyclesAmount.amount = GameApi.base.powerplant.currentCycles();
+            cyclesAccept.setAnimationDuration(cyclesAmount.amount);
+
             if (GameApi.base.powerplant.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
-                maxCyclesAmount2.text = "-";
-                aetheriteUsedAmount2.text = "-";
-                productionAmount2.text = "-";
-                maxStorageAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                maxCyclesAmount2.visible = false;
+                aetheriteUsedAmount2.visible = false;
+                productionAmount2.visible = false;
+                maxStorageAmount2.visible = false;
             }
             else
             {
@@ -226,7 +231,7 @@ Item {
             y: 192
 
             color: "#94ef94"
-            text: "Aetherite"
+            text: "Cost"
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 60
             font.family: fontStencil.name
@@ -319,7 +324,7 @@ Item {
             id: maxStorageText
 
             x: 15
-            y: 310
+            y: 320
 
             color: "#94ef94"
             text: "Max Storage"
@@ -331,7 +336,7 @@ Item {
             id: maxStorageIcon
 
             x: 430
-            y: 310
+            y: 320
             width: 66
             height: width
 
@@ -341,7 +346,7 @@ Item {
             id: maxStorageAmount1
 
             x: 570
-            y: 310
+            y: 320
             width: 180
 
             color: "#94ef94"
@@ -354,7 +359,7 @@ Item {
             id: maxStorageAmount2
 
             x: 870
-            y: 310
+            y: 320
             width: 180
 
             color: "#94ef94"
@@ -368,7 +373,7 @@ Item {
             id: taskBorderBottom
 
             x: 17
-            y: 390
+            y: 400
 
             width: 1048
             height: 3
@@ -383,7 +388,7 @@ Item {
         x: 0
         y: table.y + table.height
         width: 1080
-        height: 200
+        height: 170
 
         function update()
         {
@@ -595,6 +600,175 @@ Item {
     }
 
     Item {
+        id: productionInfo
+
+        x: 0
+        y: upgradeInfo.y + upgradeInfo.height
+        width: 1080
+        height: 200
+
+        Text {
+            id: productionTextBigger
+
+            x: 15
+            y: 0
+
+            color: "#94ef94"
+            text: "Production: "
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 70
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: productionTextSmaller
+
+            x: 15
+            y: 95
+
+            color: "#94ef94"
+            text: "Cycles done per Day: "
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 48
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: cyclesAmount
+
+            property int amount
+
+            x: 660
+            y: 65
+            width: 120
+
+            color: "#94ef94"
+            text: amount
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 100
+            font.family: fontStencil.name
+        }
+
+        Item {
+            id: cyclesSubtract
+
+            x: 500
+            y: 35
+            width: 200
+            height: width
+
+            Text {
+                id: cyclesSubtractMinus
+
+                anchors.fill: parent
+
+                color: "#94ef94"
+                text: "-"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 160
+                font.family: fontStencil.name
+            }
+
+            MouseArea {
+                id: cyclesSubtractMA
+
+                anchors.fill: parent
+
+                onClicked: {
+                    if (cyclesAmount.amount > 0)
+                    {
+                        --cyclesAmount.amount;
+                    }
+                }
+            }
+        }
+
+        Item {
+            id: cyclesAdd
+
+            x: 750
+            y: 54
+            width: 200
+            height: width
+
+            Text {
+                id: cyclesAddPlus
+
+                anchors.fill: parent
+
+                color: "#94ef94"
+                text: "+"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 120
+                font.family: fontStencil.name
+            }
+
+            MouseArea {
+                id: cyclesAddMA
+
+                anchors.fill: parent
+
+                onClicked: {
+                    if (cyclesAmount.amount < GameApi.base.powerplant.maxCycles())
+                    {
+                        ++cyclesAmount.amount;
+                    }
+                }
+            }
+        }
+
+        Item {
+            id: cyclesAccept
+
+            function setAnimationDuration(cycles)
+            {
+                if (cycles === 0)
+                    animation.stop();
+                else
+                {
+                    animation.duration = 4000 - (cycles-1)*100;
+                    animation.restart();
+                }
+            }
+
+            x: 920
+            y: 50
+            width: 148
+            height: width
+
+            Image {
+                id: cyclesAcceptImage
+
+                anchors.fill: parent
+
+                source: "qrc:/graphics/GUI/Settings.png"
+
+                RotationAnimator on rotation {
+                    id: animation
+
+                    from: 0
+                    to: 360
+                    duration: 4000
+                    loops: RotationAnimation.Infinite
+                    running: false
+                }
+            }
+
+            MouseArea {
+                id: cyclesAcceptMA
+
+                anchors.fill: parent
+
+                onClicked: {
+                    GameApi.base.powerplant.setCurrentCycles(cyclesAmount.amount);
+                    cyclesAccept.setAnimationDuration(cyclesAmount.amount);
+                    resourcesUpdateRequested();
+                }
+            }
+        }
+    }
+
+    Item {
         id: back
 
         x: 400
@@ -617,7 +791,10 @@ Item {
 
             anchors.fill: parent
 
-            onClicked: backClicked()
+            onClicked: {
+                cyclesAmount.amount = GameApi.base.powerplant.currentCycles();
+                backClicked();
+            }
         }
     }
 

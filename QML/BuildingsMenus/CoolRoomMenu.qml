@@ -65,8 +65,9 @@ Item {
 
             if (GameApi.base.coolRoom.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
-                maxStorageAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                maxStorageAmount2.visible = false;
             }
             else
             {

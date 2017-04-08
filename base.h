@@ -111,7 +111,7 @@ public:
         return basicCostInAetherite()+useCostInAetherite();
     }
 
-    void registerUpgradeCompletion() noexcept
+    virtual void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
     }
@@ -133,6 +133,8 @@ protected:
         return m_base;
     }
 
+    bool m_isBeingUpgraded;
+
 private:
     void registerUpgradeStart() noexcept
     {
@@ -141,7 +143,6 @@ private:
 
     Base *m_base;
     BaseEnums::Building m_buildingName;
-    bool m_isBeingUpgraded;
 };
 
 struct CentralUnitLevelInfo
@@ -247,6 +248,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -256,12 +265,20 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(NULL));
     }
+    Q_INVOKABLE int useCostInFoodSuppliesSingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies;
+    }
+    Q_INVOKABLE int useCostInFoodSuppliesSingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInFoodSupplies;
+    }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -275,7 +292,14 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlots() const noexcept
+    {
+        return m_heroesBeingHealed.size();
+    }
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingHealed.value(index,NULL);
@@ -285,12 +309,22 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).hpRestored;
     }
+    Q_INVOKABLE int hpRestoredPerDayAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).hpRestored;
+    }
 
     void healHeroes() noexcept;
 
     void setLevelsInfo(const QVector <HospitalLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <HospitalLevelInfo> m_levelsInfo;
@@ -335,6 +369,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -345,11 +387,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -363,7 +405,14 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlots() const noexcept
+    {
+        return m_heroesBeingTrained.size();
+    }
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingTrained.value(index,NULL);
@@ -372,6 +421,10 @@ public:
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).combatEffectivenessBonus;
+    }
+    Q_INVOKABLE int combatEffectivenessBonusAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).combatEffectivenessBonus;
     }
     Q_INVOKABLE int proficiencyBonus() const noexcept
     {
@@ -387,6 +440,12 @@ public:
     void setLevelsInfo(const QVector <TrainingGroundLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <TrainingGroundLevelInfo> m_levelsInfo;
@@ -431,6 +490,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -441,11 +508,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -460,6 +527,10 @@ public:
     }
 
     Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingTrained.value(index,NULL);
@@ -473,6 +544,10 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).proficiencyBonus;
     }
+    Q_INVOKABLE int proficiencyBonusAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).proficiencyBonus;
+    }
     Q_INVOKABLE int clevernessBonus() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).clevernessBonus;
@@ -483,6 +558,12 @@ public:
     void setLevelsInfo(const QVector <GymLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <GymLevelInfo> m_levelsInfo;
@@ -527,6 +608,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -537,11 +626,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -556,6 +645,10 @@ public:
     }
 
     Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingTrained.value(index,NULL);
@@ -573,12 +666,22 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).clevernessBonus;
     }
+    Q_INVOKABLE int clevernessBonusAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).clevernessBonus;
+    }
 
     void trainHeroes() noexcept;
 
     void setLevelsInfo(const QVector <LaboratoryLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <LaboratoryLevelInfo> m_levelsInfo;
@@ -623,6 +726,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -633,11 +744,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -651,10 +762,50 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlots() const noexcept
+    {
+        return m_heroesBeingDestressed.size();
+    }
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,NULL);
+    }
+
+    Q_INVOKABLE int activeStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForActive;
+    }
+    Q_INVOKABLE int activeStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForActive;
+    }
+    Q_INVOKABLE int convivialStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int convivialStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int recluseStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int recluseStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int religiousStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForReligious;
+    }
+    Q_INVOKABLE int religiousStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
     void destressHeroes() noexcept;
@@ -662,6 +813,12 @@ public:
     void setLevelsInfo(const QVector <PlayingFieldLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <PlayingFieldLevelInfo> m_levelsInfo;
@@ -706,6 +863,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -716,11 +881,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -734,10 +899,50 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlots() const noexcept
+    {
+        return m_heroesBeingDestressed.size();
+    }
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,NULL);
+    }
+
+    Q_INVOKABLE int activeStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForActive;
+    }
+    Q_INVOKABLE int activeStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForActive;
+    }
+    Q_INVOKABLE int convivialStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int convivialStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int recluseStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int recluseStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int religiousStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForReligious;
+    }
+    Q_INVOKABLE int religiousStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
     void destressHeroes() noexcept;
@@ -745,6 +950,12 @@ public:
     void setLevelsInfo(const QVector <BarLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <BarLevelInfo> m_levelsInfo;
@@ -789,6 +1000,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -799,11 +1018,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -817,10 +1036,50 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int amountOfSlots() const noexcept;
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    Q_INVOKABLE int amountOfSlots() const noexcept
+    {
+        return m_heroesBeingDestressed.size();
+    }
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
+    Q_INVOKABLE Hero *slot(int index) noexcept//TODO change ret type to unsigned(id)
     {
         return m_heroesBeingDestressed.value(index,NULL);
+    }
+
+    Q_INVOKABLE int activeStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForActive;
+    }
+    Q_INVOKABLE int activeStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForActive;
+    }
+    Q_INVOKABLE int convivialStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int convivialStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int recluseStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int recluseStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int religiousStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForReligious;
+    }
+    Q_INVOKABLE int religiousStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
     void destressHeroes() noexcept;
@@ -828,6 +1087,12 @@ public:
     void setLevelsInfo(const QVector <ShrineLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <ShrineLevelInfo> m_levelsInfo;
@@ -872,6 +1137,14 @@ public:
     {
         return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
     }
+    Q_INVOKABLE int useCostInEnergySingle() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy;
+    }
+    Q_INVOKABLE int useCostInEnergySingleAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).perCapitaCostInEnergy;
+    }
 
     Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
     {
@@ -882,11 +1155,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -900,10 +1173,50 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int amountOfSlots() const noexcept;
+    Q_INVOKABLE int amountOfSlots() const noexcept
+    {
+        return m_heroesBeingDestressed.size();
+    }
+    Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
+    }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,NULL);
+    }
+
+    Q_INVOKABLE int activeStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForActive;
+    }
+    Q_INVOKABLE int activeStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForActive;
+    }
+    Q_INVOKABLE int convivialStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int convivialStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForConvivial;
+    }
+    Q_INVOKABLE int recluseStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int recluseStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForRecluse;
+    }
+    Q_INVOKABLE int religiousStressRelief() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).stressReductionForReligious;
+    }
+    Q_INVOKABLE int religiousStressReliefAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
     void destressHeroes() noexcept;
@@ -911,6 +1224,12 @@ public:
     void setLevelsInfo(const QVector <SeclusionLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    void registerUpgradeCompletion() noexcept
+    {
+        m_isBeingUpgraded=0;
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+    }
 
 private:
     QVector <SeclusionLevelInfo> m_levelsInfo;
@@ -1176,11 +1495,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -1253,11 +1572,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -1330,11 +1649,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -1407,11 +1726,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -1484,11 +1803,11 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE  int basicCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE  int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
@@ -1543,6 +1862,8 @@ class Base : public QObject
     Q_PROPERTY(DockingStation* dockingStation MEMBER m_dockingStation)
 
     Q_PROPERTY(GameClock* gameClock MEMBER m_gameClock)
+
+    Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
 
 public:
     explicit Base(QObject *parent=0) noexcept;
@@ -1707,7 +2028,7 @@ public:
     void setBuildingRequirements(const QMap <QPair <BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept;
 
     //heroes
-    QVector <Hero *> &heroes() noexcept
+    HeroesContainer &heroes() noexcept
     {
         return m_heroes;
     }
@@ -1750,7 +2071,7 @@ private:
     unsigned m_aetherite;
 
     //heroes
-    QVector <Hero *> m_heroes;
+    HeroesContainer m_heroes;
 
     //game clock/timer
     GameClock *m_gameClock;

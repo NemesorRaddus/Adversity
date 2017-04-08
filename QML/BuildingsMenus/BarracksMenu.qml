@@ -65,8 +65,9 @@ Item {
 
             if (GameApi.base.barracks.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
-                slotsAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                slotsAmount2.visible = false;
             }
             else
             {
@@ -191,7 +192,7 @@ Item {
             width: 77
 
             color: "#94ef94"
-            text: "100"
+            text: "10"
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 60
             font.family: fontStencil.name
@@ -204,7 +205,7 @@ Item {
             width: 77
 
             color: "#94ef94"
-            text: "100"
+            text: "10"
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 60
             font.family: fontStencil.name

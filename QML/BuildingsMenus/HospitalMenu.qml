@@ -61,14 +61,27 @@ Item {
         function update()
         {
             energyDrainAmount1.text = GameApi.base.hospital.basicCostInEnergy()+"/Day";
+            slotsAmount1.text = GameApi.base.hospital.amountOfSlots();
+            energyCostAmount1.text = GameApi.base.hospital.useCostInEnergySingle()+"/Day";
+            foodSuppliesCostAmount1.text = GameApi.base.hospital.useCostInFoodSuppliesSingle()+"/Day";
+            hpRestoredAmount1.text = GameApi.base.hospital.hpRestoredPerDay()+"/Day";
 
             if (GameApi.base.hospital.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                slotsAmount2.visible = false;
+                energyCostAmount2.visible = false;
+                foodSuppliesCostAmount2.visible = false;
+                hpRestoredAmount2.visible = false;
             }
             else
             {
                 energyDrainAmount2.text = GameApi.base.hospital.basicCostInEnergyAfterUpgrade()+"/Day";
+                slotsAmount2.text = GameApi.base.hospital.amountOfSlotsAfterUpgrade();
+                energyCostAmount2.text = GameApi.base.hospital.useCostInEnergySingleAfterUpgrade()+"/Day";
+                foodSuppliesCostAmount2.text = GameApi.base.hospital.useCostInFoodSuppliesSingleAfterUpgrade()+"/Day";
+                hpRestoredAmount2.text = GameApi.base.hospital.hpRestoredPerDayAfterUpgrade()+"/Day";
             }
         }
 
@@ -158,11 +171,207 @@ Item {
             font.family: fontStencil.name
         }
 
+        Text {
+            id: slotsText
+
+            x: 15
+            y: 128
+
+            color: "#94ef94"
+            text: "Slots"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: slotsIcon
+
+            x: 430
+            y: 128
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/Slots.png"
+        }
+        Text {
+            id: slotsAmount1
+
+            x: 620
+            y: 128
+            width: 77
+
+            color: "#94ef94"
+            text: "10"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: slotsAmount2
+
+            x: 920
+            y: 128
+            width: 77
+
+            color: "#94ef94"
+            text: "10"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: energyCostText
+
+            x: 15
+            y: 192
+
+            color: "#94ef94"
+            text: "Energy cost"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: energyCostIcon
+
+            x: 430
+            y: 192
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/Energy.png"
+        }
+        Text {
+            id: energyCostAmount1
+
+            x: 560
+            y: 192
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: energyCostAmount2
+
+            x: 860
+            y: 192
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: foodSuppliesCostText
+
+            x: 15
+            y: 256
+
+            color: "#94ef94"
+            text: "Food cost"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: foodSuppliesCostIcon
+
+            x: 430
+            y: 256
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/Foodsupplies.png"
+        }
+        Text {
+            id: foodSuppliesCostAmount1
+
+            x: 560
+            y: 256
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: foodSuppliesCostAmount2
+
+            x: 860
+            y: 256
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: hpRestoredText
+
+            x: 15
+            y: 320
+
+            color: "#94ef94"
+            text: "Hp restored"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: hpRestoredIcon
+
+            x: 430
+            y: 320
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/HealthRestored.png"
+        }
+        Text {
+            id: hpRestoredAmount1
+
+            x: 560
+            y: 320
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: hpRestoredAmount2
+
+            x: 860
+            y: 320
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
         Image {
             id: taskBorderBottom
 
             x: 17
-            y: 390
+            y: 400
 
             width: 1048
             height: 3

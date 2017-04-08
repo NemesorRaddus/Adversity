@@ -181,11 +181,6 @@ Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> 
     m_heroesBeingHealed.fill(NULL,levelsInfo.value(level).amountOfSlots);
 }
 
-int Hospital::amountOfSlots() const noexcept
-{
-    return m_heroesBeingHealed.size();
-}
-
 void Hospital::healHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
@@ -210,11 +205,6 @@ TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<Trainin
     : Building(BaseEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingTrained.fill(NULL,levelsInfo.value(level).amountOfSlots);
-}
-
-int TrainingGround::amountOfSlots() const noexcept
-{
-    return m_heroesBeingTrained.size();
 }
 
 void TrainingGround::trainHeroes() noexcept
@@ -317,11 +307,6 @@ PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFiel
     m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
 }
 
-int PlayingField::amountOfSlots() const noexcept
-{
-    return m_heroesBeingDestressed.size();
-}
-
 void PlayingField::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
@@ -356,11 +341,6 @@ Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) no
     : Building(BaseEnums::B_Bar, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
-}
-
-int Bar::amountOfSlots() const noexcept
-{
-    return m_heroesBeingDestressed.size();
 }
 
 void Bar::destressHeroes() noexcept
@@ -399,11 +379,6 @@ Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &level
     m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
 }
 
-int Shrine::amountOfSlots() const noexcept
-{
-    return m_heroesBeingDestressed.size();
-}
-
 void Shrine::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
@@ -438,11 +413,6 @@ Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInf
     : Building(BaseEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
-}
-
-int Seclusion::amountOfSlots() const noexcept
-{
-    return m_heroesBeingDestressed.size();
 }
 
 void Seclusion::destressHeroes() noexcept

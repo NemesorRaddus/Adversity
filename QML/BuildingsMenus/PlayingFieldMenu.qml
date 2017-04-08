@@ -61,14 +61,30 @@ Item {
         function update()
         {
             energyDrainAmount1.text = GameApi.base.playingField.basicCostInEnergy()+"/Day";
+            slotsAmount1.text = GameApi.base.playingField.amountOfSlots();
+            activeStressReliefAmount1.text = GameApi.base.playingField.activeStressRelief()+"/Day";
+            convivialStressReliefAmount1.text = GameApi.base.playingField.convivialStressRelief()+"/Day";
+            recluseStressReliefAmount1.text = GameApi.base.playingField.recluseStressRelief()+"/Day";
+            religiousStressReliefAmount1.text = GameApi.base.playingField.religiousStressRelief()+"/Day";
 
             if (GameApi.base.playingField.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                slotsAmount2.visible = false;
+                activeStressReliefAmount2.visible = false;
+                convivialStressReliefAmount2.visible = false;
+                recluseStressReliefAmount2.visible = false;
+                religiousStressReliefAmount2.visible = false;
             }
             else
             {
                 energyDrainAmount2.text = GameApi.base.playingField.basicCostInEnergyAfterUpgrade()+"/Day";
+                slotsAmount2.text = GameApi.base.playingField.amountOfSlotsAfterUpgrade();
+                activeStressReliefAmount2.text = GameApi.base.playingField.activeStressReliefAfterUpgrade()+"/Day";
+                convivialStressReliefAmount2.text = GameApi.base.playingField.convivialStressReliefAfterUpgrade()+"/Day";
+                recluseStressReliefAmount2.text = GameApi.base.playingField.recluseStressReliefAfterUpgrade()+"/Day";
+                religiousStressReliefAmount2.text = GameApi.base.playingField.religiousStressReliefAfterUpgrade()+"/Day";
             }
         }
 
@@ -158,11 +174,256 @@ Item {
             font.family: fontStencil.name
         }
 
+        Text {
+            id: slotsText
+
+            x: 15
+            y: 128
+
+            color: "#94ef94"
+            text: "Slots"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: slotsIcon
+
+            x: 430
+            y: 128
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/Slots.png"
+        }
+        Text {
+            id: slotsAmount1
+
+            x: 620
+            y: 128
+            width: 77
+
+            color: "#94ef94"
+            text: "10"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: slotsAmount2
+
+            x: 920
+            y: 128
+            width: 77
+
+            color: "#94ef94"
+            text: "10"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: activeStressReliefText
+
+            x: 15
+            y: 192
+
+            color: "#94ef94"
+            text: "Relief (ACT)"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: activeStressReliefIcon
+
+            x: 430
+            y: 192
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/StressRelief.png"
+        }
+        Text {
+            id: activeStressReliefAmount1
+
+            x: 560
+            y: 192
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: activeStressReliefAmount2
+
+            x: 860
+            y: 192
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: convivialStressReliefText
+
+            x: 15
+            y: 256
+
+            color: "#94ef94"
+            text: "Relief (CON)"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: convivialStressReliefIcon
+
+            x: 430
+            y: 256
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/StressRelief.png"
+        }
+        Text {
+            id: convivialStressReliefAmount1
+
+            x: 560
+            y: 256
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: convivialStressReliefAmount2
+
+            x: 860
+            y: 256
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: recluseStressReliefText
+
+            x: 15
+            y: 320
+
+            color: "#94ef94"
+            text: "Relief (REC)"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: recluseStressReliefIcon
+
+            x: 430
+            y: 320
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/StressRelief.png"
+        }
+        Text {
+            id: recluseStressReliefAmount1
+
+            x: 560
+            y: 320
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: recluseStressReliefAmount2
+
+            x: 860
+            y: 320
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: religiousStressReliefText
+
+            x: 15
+            y: 384
+
+            color: "#94ef94"
+            text: "Relief (REL)"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: religiousStressReliefIcon
+
+            x: 430
+            y: 384
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/StressRelief.png"
+        }
+        Text {
+            id: religiousStressReliefAmount1
+
+            x: 560
+            y: 384
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: religiousStressReliefAmount2
+
+            x: 860
+            y: 384
+            width: 200
+
+            color: "#94ef94"
+            text: "10/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
         Image {
             id: taskBorderBottom
 
             x: 17
-            y: 390
+            y: 464
 
             width: 1048
             height: 3

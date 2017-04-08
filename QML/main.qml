@@ -107,7 +107,7 @@ Window {
     Timer {
         id: gameTimer
 
-        interval: 2500 // 1000/48*60
+        interval: 1250 // 1000/48*60
         running: true
         repeat: true
         onTriggered: {

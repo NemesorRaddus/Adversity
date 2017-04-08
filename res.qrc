@@ -50,5 +50,17 @@
         <file>graphics/Mercs/SpaceNomad/StephanieBradley.png</file>
         <file>graphics/GUI/HealthRestored.png</file>
         <file>graphics/GUI/Slots.png</file>
+        <file>graphics/GUI/CE.png</file>
+        <file>graphics/GUI/CL.png</file>
+        <file>graphics/GUI/PR.png</file>
+        <file>graphics/GUI/StressRelief.png</file>
+        <file>graphics/GUI/HighStress20.png</file>
+        <file>graphics/GUI/HighStress40.png</file>
+        <file>graphics/GUI/HighStress60.png</file>
+        <file>graphics/GUI/HighStress80.png</file>
+        <file>graphics/GUI/LowHealth20.png</file>
+        <file>graphics/GUI/LowHealth40.png</file>
+        <file>graphics/GUI/LowHealth60.png</file>
+        <file>graphics/GUI/LowHealth80.png</file>
     </qresource>
 </RCC>

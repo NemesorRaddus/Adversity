@@ -626,6 +626,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Powerplant")
+        onResourcesUpdateRequested: updateRequestedFromBuildingMenu()
     }
     FactoryMenu {
         id: factory
@@ -634,6 +635,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Factory")
+        onResourcesUpdateRequested: updateRequestedFromBuildingMenu()
     }
     CoolRoomMenu {
         id: coolRoom

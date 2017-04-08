@@ -61,14 +61,24 @@ Item {
         function update()
         {
             energyDrainAmount1.text = GameApi.base.trainingGround.basicCostInEnergy()+"/Day";
+            slotsAmount1.text = GameApi.base.trainingGround.amountOfSlots();
+            energyCostAmount1.text = GameApi.base.trainingGround.useCostInEnergySingle()+"/Day";
+            combatEfficiencyBonusAmount1.text = GameApi.base.trainingGround.combatEffectivenessBonus()+"/Day";
 
             if (GameApi.base.trainingGround.maxLevelReached())
             {
-                energyDrainAmount2.text = "-";
+                levelText3.visible = false;
+                energyDrainAmount2.visible = false;
+                slotsAmount2.visible = false;
+                energyCostAmount2.visible = false;
+                combatEfficiencyBonusAmount2.visible = false;
             }
             else
             {
                 energyDrainAmount2.text = GameApi.base.trainingGround.basicCostInEnergyAfterUpgrade()+"/Day";
+                slotsAmount2.text = GameApi.base.trainingGround.amountOfSlotsAfterUpgrade();
+                energyCostAmount2.text = GameApi.base.trainingGround.useCostInEnergySingleAfterUpgrade()+"/Day";
+                combatEfficiencyBonusAmount2.text = GameApi.base.trainingGround.combatEffectivenessBonusAfterUpgrade()+"/Day";
             }
         }
 
@@ -158,11 +168,158 @@ Item {
             font.family: fontStencil.name
         }
 
+        Text {
+            id: slotsText
+
+            x: 15
+            y: 128
+
+            color: "#94ef94"
+            text: "Slots"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: slotsIcon
+
+            x: 430
+            y: 128
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/Slots.png"
+        }
+        Text {
+            id: slotsAmount1
+
+            x: 620
+            y: 128
+            width: 77
+
+            color: "#94ef94"
+            text: "10"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: slotsAmount2
+
+            x: 920
+            y: 128
+            width: 77
+
+            color: "#94ef94"
+            text: "10"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: energyCostText
+
+            x: 15
+            y: 192
+
+            color: "#94ef94"
+            text: "Energy cost"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: energyCostIcon
+
+            x: 430
+            y: 192
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/Energy.png"
+        }
+        Text {
+            id: energyCostAmount1
+
+            x: 560
+            y: 192
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: energyCostAmount2
+
+            x: 860
+            y: 192
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: combatEfficiencyBonusText
+
+            x: 15
+            y: 256
+
+            color: "#94ef94"
+            text: "CE bonus"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Image {
+            id: combatEfficiencyBonusIcon
+
+            x: 430
+            y: 256
+            width: 66
+            height: width
+
+            source: "qrc:/graphics/GUI/CE.png"
+        }
+        Text {
+            id: combatEfficiencyBonusAmount1
+
+            x: 560
+            y: 256
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        Text {
+            id: combatEfficiencyBonusAmount2
+
+            x: 860
+            y: 256
+            width: 200
+
+            color: "#94ef94"
+            text: "1/Day"
+            horizontalAlignment: Text.AlignRight
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+
         Image {
             id: taskBorderBottom
 
             x: 17
-            y: 390
+            y: 336
 
             width: 1048
             height: 3
