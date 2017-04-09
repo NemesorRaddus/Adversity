@@ -2028,7 +2028,7 @@ public:
     void setBuildingRequirements(const QMap <QPair <BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept;
 
     //heroes
-    HeroesContainer &heroes() noexcept
+    HeroesContainer *heroes() noexcept
     {
         return m_heroes;
     }
@@ -2071,7 +2071,7 @@ private:
     unsigned m_aetherite;
 
     //heroes
-    HeroesContainer m_heroes;
+    HeroesContainer *m_heroes;
 
     //game clock/timer
     GameClock *m_gameClock;

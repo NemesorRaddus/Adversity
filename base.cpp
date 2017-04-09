@@ -653,6 +653,8 @@ Base::Base(QObject *parent) noexcept
     m_buildings.insert(BaseEnums::B_AetheriteSilo,m_aetheriteSilo);
     m_buildings.insert(BaseEnums::B_Barracks,m_barracks);
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
+
+    m_heroes=new HeroesContainer;
 }
 
 Base::~Base() noexcept
@@ -675,6 +677,8 @@ Base::~Base() noexcept
     delete m_dockingStation;
 
     delete m_gameClock;
+
+    delete m_heroes;
 }
 
 void Base::loadSaveData(const SaveData &data) noexcept

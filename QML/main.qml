@@ -48,9 +48,60 @@ Window {
         function updateResources()
         {
             energyValue.text = GameApi.base.currentEnergyAmount() + '/' + GameApi.base.powerplant.energyLimit();
+            if (GameApi.base.currentEnergyAmount() === 0)
+            {
+                energyValue.color = "#b30000";
+            }
+            else if (GameApi.base.currentEnergyAmount() === GameApi.base.powerplant.energyLimit())
+            {
+                energyValue.color = "#ffd480";
+            }
+            else
+            {
+                energyValue.color = "#c0efc0";
+            }
+
             foodSuppliesValue.text = GameApi.base.currentFoodSuppliesAmount() + '/' + GameApi.base.coolRoom.foodSuppliesLimit();
+            if (GameApi.base.currentFoodSuppliesAmount() === 0)
+            {
+                foodSuppliesValue.color = "#b30000";
+            }
+            else if (GameApi.base.currentFoodSuppliesAmount() === GameApi.base.coolRoom.foodSuppliesLimit())
+            {
+                foodSuppliesValue.color = "#ffd480";
+            }
+            else
+            {
+                foodSuppliesValue.color = "#c0efc0";
+            }
+
             buildingMaterialsValue.text = GameApi.base.currentBuildingMaterialsAmount() + '/' + GameApi.base.storageRoom.buildingMaterialsLimit();
+            if (GameApi.base.currentBuildingMaterialsAmount() === 0)
+            {
+                buildingMaterialsValue.color = "#b30000";
+            }
+            else if (GameApi.base.currentBuildingMaterialsAmount() === GameApi.base.storageRoom.buildingMaterialsLimit())
+            {
+                buildingMaterialsValue.color = "#ffd480";
+            }
+            else
+            {
+                buildingMaterialsValue.color = "#c0efc0";
+            }
+
             aetheriteValue.text = GameApi.base.currentAetheriteAmount() + '/' + GameApi.base.aetheriteSilo.aetheriteLimit();
+            if (GameApi.base.currentAetheriteAmount() === 0)
+            {
+                aetheriteValue.color = "#b30000";
+            }
+            else if (GameApi.base.currentAetheriteAmount() === GameApi.base.aetheriteSilo.aetheriteLimit())
+            {
+                aetheriteValue.color = "#ffd480";
+            }
+            else
+            {
+                aetheriteValue.color = "#c0efc0";
+            }
 
             energyValue2.text = GameApi.base.currentEnergyIncome() + '/' + "day";
             foodSuppliesValue2.text = GameApi.base.currentFoodSuppliesIncome() + '/' + "day";

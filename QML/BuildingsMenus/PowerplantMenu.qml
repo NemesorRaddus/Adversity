@@ -732,7 +732,7 @@ Item {
             }
 
             x: 920
-            y: 50
+            y: 30
             width: 148
             height: width
 

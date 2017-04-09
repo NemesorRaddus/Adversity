@@ -225,6 +225,11 @@ void Hero::deactivateStressBorderEffect() noexcept
     //TODO
 }
 
+void Hero::die(HeroEnums::DyingReason reason) noexcept
+{
+
+}
+
 HeroBuilder::HeroBuilder() noexcept
 {
     m_hero=new Hero;
