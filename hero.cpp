@@ -2,6 +2,88 @@
 
 #include <QDebug>
 
+HeroEnums::Nature HeroEnums::fromQStringToNatureEnum(const QString &nature) noexcept
+{
+    if (nature == "Active")
+        return HeroEnums::N_Active;
+    if (nature == "Convivial")
+        return HeroEnums::N_Convivial;
+    if (nature == "Religious")
+        return HeroEnums::N_Religious;
+    if (nature == "Recluse")
+        return HeroEnums::N_Recluse;
+}
+
+QString HeroEnums::fromNatureEnumToQString(HeroEnums::Nature nature) noexcept
+{
+    if (nature == HeroEnums::N_Active)
+        return "Active";
+    if (nature == HeroEnums::N_Convivial)
+        return "Convivial";
+    if (nature == HeroEnums::N_Religious)
+        return "Religious";
+    if (nature == HeroEnums::N_Recluse)
+        return "Recluse";
+}
+
+HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept
+{
+    if (stressBorderEffect == "None")
+        return HeroEnums::SBE_None;
+    if (stressBorderEffect == "Faint")
+        return HeroEnums::SBE_Faint;
+    if (stressBorderEffect == "Desertion")
+        return HeroEnums::SBE_Desertion;
+    if (stressBorderEffect == "Fear")
+        return HeroEnums::SBE_Fear;
+    if (stressBorderEffect == "Rage")
+        return HeroEnums::SBE_Rage;
+    if (stressBorderEffect == "Fanatic Wrath")
+        return HeroEnums::SBE_FanaticWrath;
+    if (stressBorderEffect == "Paranoia")
+        return HeroEnums::SBE_Paranoia;
+    if (stressBorderEffect == "Bravery")
+        return HeroEnums::SBE_Bravery;
+    if (stressBorderEffect == "Hopeless")
+        return HeroEnums::SBE_Hopeless;
+    if (stressBorderEffect == "Confusion")
+        return HeroEnums::SBE_Confusion;
+}
+
+QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEffect stressBorderEffect) noexcept
+{
+    if (stressBorderEffect == HeroEnums::SBE_None)
+        return "None";
+    if (stressBorderEffect == HeroEnums::SBE_Faint)
+        return "Faint";
+    if (stressBorderEffect == HeroEnums::SBE_Desertion)
+        return "Desertion";
+    if (stressBorderEffect == HeroEnums::SBE_Fear)
+        return "Fear";
+    if (stressBorderEffect == HeroEnums::SBE_Rage)
+        return "Rage";
+    if (stressBorderEffect == HeroEnums::SBE_FanaticWrath)
+        return "Fanatic Wrath";
+    if (stressBorderEffect == HeroEnums::SBE_Paranoia)
+        return "Paranoia";
+    if (stressBorderEffect == HeroEnums::SBE_Bravery)
+        return "Bravery";
+    if (stressBorderEffect == HeroEnums::SBE_Hopeless)
+        return "Hopeless";
+    if (stressBorderEffect == HeroEnums::SBE_Confusion)
+        return "Confusion";
+}
+
+HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attribute) noexcept
+{
+
+}
+
+QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) noexcept
+{
+
+}
+
 const QString &Hero::stressBorderEffectString() const noexcept
 {
 
@@ -188,6 +270,83 @@ void Hero::setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept
     m_currentActivity=activity;
     if (activity==HeroEnums::CA_OnMission)
         m_assignedMission=NULL;
+}
+
+QDataStream &Hero::read(QDataStream &stream) noexcept
+{
+    qint16 ii;
+    qreal d;
+    quint8 n;
+
+    stream>>m_name;
+
+    stream>>ii;
+    m_combatEffectiveness=ii;
+
+    stream>>ii;
+    m_proficiency=ii;
+
+    stream>>ii;
+    m_cleverness=ii;
+
+    stream>>d;
+    m_luck=d;
+
+    stream>>ii;
+    m_health=ii;
+
+    stream>>ii;
+    m_healthLimit=ii;
+
+    stream>>ii;
+    m_dailyHealthRecovery=ii;
+
+    stream>>ii;
+    m_stress=ii;
+
+    stream>>d;
+    m_stressResistance=d;
+
+    stream>>ii;
+    m_stressLimit=ii;
+
+    stream>>ii;
+    m_stressBorder=ii;
+
+    stream>>m_stressBorderEffect;//make overload
+
+    stream>>ii;
+    m_dailyStressRecovery=ii;
+
+    stream>>ii;
+    m_salary=ii;
+
+    stream>>ii;
+    m_dailyFoodConsumption=ii;
+
+    stream>>n;
+    m_nature=static_cast<HeroEnums::Nature>(n);
+
+//do eq load and finish this f
+
+    return stream;
+}
+
+QDataStream &Hero::write(QDataStream &stream) const noexcept
+{
+
+
+    return stream;
+}
+
+QDataStream &operator<<(QDataStream &stream, const Hero &hero) noexcept
+{
+    return hero.write(stream);
+}
+
+QDataStream &operator>>(QDataStream &stream, Hero &hero) noexcept
+{
+    return hero.read(stream);
 }
 
 void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept

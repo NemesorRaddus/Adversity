@@ -2,6 +2,7 @@
 #define EQUIPMENT_H
 
 #include <QString>
+#include <QDataStream>
 
 #include <QDebug>
 
@@ -9,8 +10,8 @@ struct EquipmentEnums
 {
     enum Type
     {
-        WeaponTool,
-        Armor
+        T_WeaponTool,
+        T_Armor
     };
 };
 
@@ -90,6 +91,9 @@ public:
         return m_dailyFoodConsumptionBonus;
     }
 
+    QDataStream &read(QDataStream &stream) noexcept;
+    QDataStream &write(QDataStream &stream) const noexcept;
+
 private:
     Equipment() noexcept;
 
@@ -131,6 +135,9 @@ private:
     int m_salaryBonus;
     int m_dailyFoodConsumptionBonus;
 };
+
+QDataStream &operator<<(QDataStream &stream, const Equipment &equipment) noexcept;
+QDataStream &operator>>(QDataStream &stream, Equipment &equipment) noexcept;
 
 class EquipmentBuilder
 {

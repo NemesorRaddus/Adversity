@@ -73,6 +73,15 @@ struct HeroEnums
         DR_StressBorderAchieved,
         DR_END
     };
+
+    Nature fromQStringToNatureEnum(const QString &nature) noexcept;
+    QString fromNatureEnumToQString(Nature nature) noexcept;
+
+    StressBorderEffect fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept;
+    QString fromStressBorderEffectEnumToQString(StressBorderEffect stressBorderEffect) noexcept;
+
+    Attribute fromQStringToAttributeEnum(const QString &attribute) noexcept;
+    QString fromAttributeEnumToQString(Attribute attribute) noexcept;
 };
 
 struct HeroStressBorderEffect
@@ -253,6 +262,9 @@ public:
     }
     void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept;
 
+    QDataStream &read(QDataStream &stream) noexcept;
+    QDataStream &write(QDataStream &stream) const noexcept;
+
 private:
     Hero() noexcept;
 
@@ -303,6 +315,9 @@ private:
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
 };
+
+QDataStream &operator<<(QDataStream &stream, const Hero &hero) noexcept;
+QDataStream &operator>>(QDataStream &stream, Hero &hero) noexcept;
 
 class HeroBuilder
 {
