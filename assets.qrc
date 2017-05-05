@@ -17,5 +17,6 @@
         <file>data/base/buildingLevelsInfo/shrine.xml</file>
         <file>data/base/buildingLevelsInfo/storageRoom.xml</file>
         <file>data/base/buildingLevelsInfo/trainingGround.xml</file>
+        <file>versioninfo</file>
     </qresource>
 </RCC>

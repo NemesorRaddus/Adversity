@@ -37,6 +37,10 @@ public:
 
     QVector <QPair <BaseEnums::Building, QString> > getBuildingDescriptions(const QString &path) noexcept;
 
+    QVector <Hero *> getHeroes(const QString &path) noexcept;
+
+    QVector <Equipment *> getEquipment(const QString &path) noexcept;
+
 private:
     QXmlStreamReader *m_xmlReader;
 };

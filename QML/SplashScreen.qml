@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.5
+import Game 1.0
 
 Item {
     id: splashScreen
@@ -87,6 +88,24 @@ Item {
         id: splashImage
 
         anchors.fill: parent
+    }
+    Text {
+        id: buildInfo
+
+        x: parent.width/1000
+        y: parent.height/1000
+        width: parent.width*998/1000
+
+        text: "v"+GameApi.buildInfo.versionNumber()+" "+GameApi.buildInfo.buildTime()+" "+GameApi.buildInfo.buildType()+" "+GameApi.buildInfo.additionalBuildInfo()
+        font.family: fontStencil.name
+        color: "#ffffff"
+        font.pixelSize: 20*parent.width/450
+    }
+
+    FontLoader {
+        id: fontStencil
+
+        source: "qrc:/fonts/STENCIL.TTF"
     }
 
     states: [

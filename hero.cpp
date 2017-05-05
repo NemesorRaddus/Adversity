@@ -313,7 +313,7 @@ QDataStream &Hero::read(QDataStream &stream) noexcept
     stream>>ii;
     m_stressBorder=ii;
 
-    stream>>m_stressBorderEffect;//make overload
+    //stream>>m_stressBorderEffect;//TODO make overload
 
     stream>>ii;
     m_dailyStressRecovery=ii;

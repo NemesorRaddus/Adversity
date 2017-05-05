@@ -5,7 +5,7 @@
 void Equipment::reset() noexcept
 {
     m_name.clear();
-    m_type=EquipmentEnums::WeaponTool;
+    m_type=EquipmentEnums::T_WeaponTool;
     m_tier=1;
     m_combatEffectivenessBonus=0;
     m_proficiencyBonus=0;
@@ -219,8 +219,9 @@ EquipmentBuilder::~EquipmentBuilder() noexcept
 
 Equipment *EquipmentBuilder::getEquipment() noexcept
 {
-    Equipment *ret=new Equipment();
-    *ret=*m_equipment;
+    Equipment *ret;
+    ret=m_equipment;
+    m_equipment=new Equipment();
     return ret;
 }
 

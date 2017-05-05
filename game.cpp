@@ -5,6 +5,9 @@
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
+    m_buildInfo=new AppBuildInfo;
+    loadVersionInfo();
+
     m_base=new Base;
 
     connectAutosave();
@@ -152,4 +155,30 @@ void Game::loadAssets(const QString &pathToDir) noexcept
         bureqs.insert({BaseEnums::B_DockingStation,i},dsli.second[i]);
 
     m_base->setBuildingRequirements(bureqs);
+}
+
+void Game::loadVersionInfo() noexcept
+{
+    QFile f{":/versioninfo"};
+    if (f.open(QFile::ReadOnly))
+    {
+        QDataStream ds{&f};
+
+        QString s;
+
+        ds>>s;
+
+        ds>>s>>s;
+        m_buildInfo->setVersionNumber(s);
+        ds>>s>>s;
+        m_buildInfo->setBuildTime(s);
+        ds>>s>>s;
+        m_buildInfo->setBuildType(s);
+        ds>>s>>s;
+        m_buildInfo->setToolkitName(s);
+        ds>>s>>s;
+        m_buildInfo->setAdditionBuildInfo(s);
+
+        f.close();
+    }
 }

@@ -14,10 +14,62 @@
 class QQmlEngine;
 class QJSEngine;
 
+class AppBuildInfo : public QObject
+{
+    Q_OBJECT
+public:
+    Q_INVOKABLE QString versionNumber() const noexcept
+    {
+        return m_versionNumber;
+    }
+    Q_INVOKABLE QString buildTime() const noexcept
+    {
+        return m_buildTime;
+    }
+    Q_INVOKABLE QString buildType() const noexcept
+    {
+        return m_buildType;
+    }
+    Q_INVOKABLE QString toolkitName() const noexcept
+    {
+        return m_toolkitName;
+    }
+    Q_INVOKABLE QString additionalBuildInfo() const noexcept
+    {
+        return m_additionBuildInfo;
+    }
+
+    void setVersionNumber(const QString &versionNumber) noexcept
+    {
+        m_versionNumber=versionNumber;
+    }
+    void setBuildTime(const QString &buildTime) noexcept
+    {
+        m_buildTime=buildTime;
+    }
+    void setBuildType(const QString &buildType) noexcept
+    {
+        m_buildType=buildType;
+    }
+    void setToolkitName(const QString &toolkitName) noexcept
+    {
+        m_toolkitName=toolkitName;
+    }
+    void setAdditionBuildInfo(const QString &additionBuildInfo) noexcept
+    {
+        m_additionBuildInfo=additionBuildInfo;
+    }
+
+private:
+    QString m_versionNumber, m_buildTime, m_buildType, m_toolkitName, m_additionBuildInfo;
+};
+
 class Game : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Base* base MEMBER m_base)
+    Q_PROPERTY(AppBuildInfo* buildInfo MEMBER m_buildInfo)
+
 public:
     explicit Game(QObject *parent = 0) noexcept;
 
@@ -34,8 +86,11 @@ private:
 
     void loadAssets(const QString &pathToDir) noexcept;
 
+    void loadVersionInfo() noexcept;
+
     Base *m_base;
     QString m_currentPathToAssets;
+    AppBuildInfo *m_buildInfo;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

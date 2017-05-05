@@ -50,7 +50,7 @@ void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept
 
 void RemoveEquipmentEventResult::affectHero(Hero *hero) const noexcept
 {
-    if (m_equipmentType==EquipmentEnums::Armor)
+    if (m_equipmentType==EquipmentEnums::T_Armor)
         hero->setArmor(NULL);
     else
         hero->setWeaponTool(NULL,m_equipmentSlot);

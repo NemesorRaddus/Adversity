@@ -972,3 +972,153 @@ QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescrip
     }
     return r;
 }
+
+QVector<Hero *> XmlFileReader::getHeroes(const QString &path) noexcept
+{
+    if (!openXmlFile(path))
+        return {};
+
+    //TODO hero reader
+}
+
+QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
+{
+    if (!openXmlFile(path))
+        return {};
+
+    QVector <Equipment *> r;
+    EquipmentBuilder eqB;
+
+    if (m_xmlReader->readNextStartElement())
+    {
+        if (m_xmlReader->name()=="equipmentList")
+        {
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="weaponTool")
+                {
+                    eqB.setType(EquipmentEnums::T_WeaponTool);
+
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
+                    eqB.setName(attrs.value("name").toString());
+                    eqB.setTier(attrs.value("tier").toUInt());
+
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="effects")
+                        {
+                            while (m_xmlReader->readNextStartElement())
+                            {
+                                if (m_xmlReader->name()=="bonus")
+                                {
+                                    attrs = m_xmlReader->attributes();
+                                    if (attrs.value("varName")=="combatEfficiency")
+                                        eqB.setCombatEffectivenessBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="proficiency")
+                                        eqB.setProficiencyBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="cleverness")
+                                        eqB.setClevernessBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="luck")
+                                        eqB.setLuckBonus(attrs.value("value").toFloat());
+                                    else if (attrs.value("varName")=="health")
+                                        eqB.setHealthBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="healthLimit")
+                                        eqB.setHealthLimitBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="dailyHealthRecovery")
+                                        eqB.setDailyHealthRecoveryBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="stress")
+                                        eqB.setStressBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="stressResistance")
+                                        eqB.setStressResistanceBonus(attrs.value("value").toFloat());
+                                    else if (attrs.value("varName")=="stressLimit")
+                                        eqB.setStressLimitBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="stressBorder")
+                                        eqB.setStressBorderBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="dailyStressRecovery")
+                                        eqB.setDailyStressRecoveryBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="salary")
+                                        eqB.setSalaryBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="dailyFoodConsumption")
+                                        eqB.setDailyFoodConsumptionBonus(attrs.value("value").toInt());
+                                }
+                                else
+                                    m_xmlReader->skipCurrentElement();
+                            }
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.push_back(eqB.getEquipment());
+                }
+                else if (m_xmlReader->name()=="armor")
+                {
+                    eqB.setType(EquipmentEnums::T_Armor);
+
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
+                    eqB.setName(attrs.value("name").toString());
+                    eqB.setTier(attrs.value("tier").toUInt());
+
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="effects")
+                        {
+                            while (m_xmlReader->readNextStartElement())
+                            {
+                                if (m_xmlReader->name()=="bonus")
+                                {
+                                    attrs = m_xmlReader->attributes();
+                                    if (attrs.value("varName")=="combatEfficiency")
+                                        eqB.setCombatEffectivenessBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="proficiency")
+                                        eqB.setProficiencyBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="cleverness")
+                                        eqB.setClevernessBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="luck")
+                                        eqB.setLuckBonus(attrs.value("value").toFloat());
+                                    else if (attrs.value("varName")=="health")
+                                        eqB.setHealthBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="healthLimit")
+                                        eqB.setHealthLimitBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="dailyHealthRecovery")
+                                        eqB.setDailyHealthRecoveryBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="stress")
+                                        eqB.setStressBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="stressResistance")
+                                        eqB.setStressResistanceBonus(attrs.value("value").toFloat());
+                                    else if (attrs.value("varName")=="stressLimit")
+                                        eqB.setStressLimitBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="stressBorder")
+                                        eqB.setStressBorderBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="dailyStressRecovery")
+                                        eqB.setDailyStressRecoveryBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="salary")
+                                        eqB.setSalaryBonus(attrs.value("value").toInt());
+                                    else if (attrs.value("varName")=="dailyFoodConsumption")
+                                        eqB.setDailyFoodConsumptionBonus(attrs.value("value").toInt());
+                                }
+                                else
+                                    m_xmlReader->skipCurrentElement();
+                            }
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.push_back(eqB.getEquipment());
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
+        else
+            m_xmlReader->raiseError("Incorrect file");
+    }
+    if (m_xmlReader->hasError())
+    {
+        for (int i=0;i<r.size();++i)
+            delete r[i];
+        return {};
+    }
+    return r;
+}

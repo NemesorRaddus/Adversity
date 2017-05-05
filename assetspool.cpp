@@ -7,19 +7,19 @@ AssetsPool::AssetsPool()
 
 }
 
-void AssetsPool::load(const QString &pathToAssets)
+void AssetsPool::load(const QString &pathToAssets) noexcept
 {
-    //TODO add loading data assets from file, creating them using builder and adding them to the pool
+
 }
 
-bool AssetsPool::isReady() const
+bool AssetsPool::isReady() const noexcept
 {
     if (m_heroes.isEmpty() || m_heroes.isEmpty())
         return 0;
     return 1;
 }
 
-void AssetsPool::clear()
+void AssetsPool::clear() noexcept
 {
     for (int i=0;i<m_heroes.size();++i)
         delete m_heroes[i];
