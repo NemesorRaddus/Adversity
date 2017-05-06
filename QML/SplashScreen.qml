@@ -93,7 +93,7 @@ Item {
         id: buildInfo
 
         x: parent.width/1000
-        y: parent.height/1000
+        y: parent.height-font.pixelSize
         width: parent.width*998/1000
 
         text: "v"+GameApi.buildInfo.versionNumber()+" "+GameApi.buildInfo.buildTime()+" "+GameApi.buildInfo.buildType()+" "+GameApi.buildInfo.additionalBuildInfo()

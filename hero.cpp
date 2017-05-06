@@ -76,22 +76,108 @@ QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEf
 
 HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attribute) noexcept
 {
-
+    if (attribute == "Combat Effectiveness")
+        return HeroEnums::A_CombatEffectiveness;
+    if (attribute == "Proficiency")
+        return HeroEnums::A_Proficiency;
+    if (attribute == "Cleverness")
+        return HeroEnums::A_Cleverness;
+    if (attribute == "Luck")
+        return HeroEnums::A_Luck;
+    if (attribute == "Health")
+        return HeroEnums::A_Health;
+    if (attribute == "Health Limit")
+        return HeroEnums::A_HealthLimit;
+    if (attribute == "Daily Health Recovery")
+        return HeroEnums::A_DailyHealthRecovery;
+    if (attribute == "Stress")
+        return HeroEnums::A_Stress;
+    if (attribute == "Stress Resistance")
+        return HeroEnums::A_StressResistance;
+    if (attribute == "Stress Limit")
+        return HeroEnums::A_StressLimit;
+    if (attribute == "Stress Border")
+        return HeroEnums::A_StressBorder;
+    if (attribute == "Daily Stress Recovery")
+        return HeroEnums::A_DailyStressRecovery;
+    if (attribute == "Salary")
+        return HeroEnums::A_Salary;
+    if (attribute == "Daily Food Consumption")
+        return HeroEnums::A_DailyFoodConsumption;
 }
 
 QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) noexcept
 {
-
+    if (attribute == HeroEnums::A_CombatEffectiveness)
+        return "Combat Effectiveness";
+    if (attribute == HeroEnums::A_Proficiency)
+        return "Proficiency";
+    if (attribute == HeroEnums::A_Cleverness)
+        return "Cleverness";
+    if (attribute == HeroEnums::A_Luck)
+        return "Luck";
+    if (attribute == HeroEnums::A_Health)
+        return "Health";
+    if (attribute == HeroEnums::A_HealthLimit)
+        return "Health Limit";
+    if (attribute == HeroEnums::A_DailyHealthRecovery)
+        return "Daily Health Recovery";
+    if (attribute == HeroEnums::A_Stress)
+        return "Stress";
+    if (attribute == HeroEnums::A_StressResistance)
+        return "Stress Resistance";
+    if (attribute == HeroEnums::A_StressLimit)
+        return "Stress Limit";
+    if (attribute == HeroEnums::A_StressBorder)
+        return "Stress Border";
+    if (attribute == HeroEnums::A_DailyStressRecovery)
+        return "Daily Stress Recovery";
+    if (attribute == HeroEnums::A_Salary)
+        return "Salary";
+    if (attribute == HeroEnums::A_DailyFoodConsumption)
+        return "Daily Food Consumption";
 }
 
-const QString &Hero::stressBorderEffectString() const noexcept
+QDataStream &HeroStressBorderEffect::read(QDataStream &stream) noexcept
 {
+    quint8 n;
+    QVector <qreal> vd;
 
+    stream>>n;
+    effectName = static_cast<HeroEnums::StressBorderEffect>(n);
+
+    stream>>vd;
+    effectParams.resize(vd.size());
+    for (int i=0;i<vd.size();++i)
+        effectParams[i]=vd[i];
+
+    return stream;
 }
 
-const QString &Hero::natureString() const noexcept
+QDataStream &HeroStressBorderEffect::write(QDataStream &stream) const noexcept
 {
+    quint8 n;
+    QVector <qreal> vd;
 
+    n = static_cast<quint8>(effectName);
+    stream<<n;
+
+    vd.resize(effectParams.size());
+    for (int i=0;i<effectParams.size();++i)
+        vd[i]=effectParams[i];
+    stream<<vd;
+
+    return stream;
+}
+
+QDataStream &operator<<(QDataStream &stream, const HeroStressBorderEffect &effect) noexcept
+{
+    return effect.write(stream);
+}
+
+QDataStream &operator>>(QDataStream &stream, HeroStressBorderEffect &effect) noexcept
+{
+    return effect.read(stream);
 }
 
 void Hero::setCombatEffectiveness(int combatEffectiveness) noexcept
@@ -161,44 +247,110 @@ void Hero::setStress(int stress) noexcept
 {
     if (stress>=0)
     {
-        m_stress=stress;
-        //if (stress>=)
+        if (stress>=m_stressLimit)
+        {
+            m_stress=m_stressLimit;
+            die(HeroEnums::DR_StressLimitAchieved);
+        }
+        else if (stress>=m_stressBorder && !m_isStressBorderEffectActive)
+        {
+            m_stress=stress;
+            activateStressBorderEffect();
+        }
+        else if (stress<m_stressBorder && m_isStressBorderEffectActive)
+        {
+            m_stress=stress;
+            deactivateStressBorderEffect();
+        }
+        else
+            m_stress=stress;
     }
     else
+    {
         m_stress=0;
+        if (m_isStressBorderEffectActive)
+            deactivateStressBorderEffect();
+    }
+}
+
+void Hero::increaseStress(int amount) noexcept
+{
+    if (m_stress+amount*m_stressResistance>=m_stressLimit)
+    {
+        m_stress=m_stressLimit;
+        die(HeroEnums::DR_StressLimitAchieved);
+    }
+    else if (m_stress+amount*m_stressResistance>=m_stressBorder && !m_isStressBorderEffectActive)
+    {
+        m_stress+=amount*m_stressResistance;
+        activateStressBorderEffect();
+    }
+    else
+        m_stress+=amount*m_stressResistance;
+}
+
+void Hero::decreaseStress(int amount) noexcept
+{
+    if (m_stress-amount<m_stressBorder && m_isStressBorderEffectActive)
+    {
+        if (m_stress-amount>0)
+            m_stress-=amount;
+        else
+            m_stress=0;
+        deactivateStressBorderEffect();
+    }
+    else
+    {
+        if (m_stress-amount>0)
+            m_stress-=amount;
+        else
+            m_stress=0;
+    }
 }
 
 void Hero::setStressResistance(float stressResistance) noexcept
 {
-    m_stressResistance=stressResistance;
+    if (stressResistance>=0 && stressResistance<=1)
+        m_stressResistance=stressResistance;
 }
 
 void Hero::setStressLimit(int stressLimit) noexcept
 {
-    if (stressLimit>0)
+    if (stressLimit>1)
     {
         m_stressLimit=stressLimit;
-        if (m_stress>m_stressLimit)
+        if (m_stress>=m_stressLimit)
+        {
             m_stress=m_stressLimit;
+            die(HeroEnums::DR_StressLimitAchieved);
+        }
     }
     else
     {
         m_stressLimit=1;
-        if (m_stress>1)
+        if (m_stress>=1)
+        {
             m_stress=1;
+            die(HeroEnums::DR_StressLimitAchieved);
+        }
     }
 }
 
 void Hero::setStressBorder(int stressBorder) noexcept
 {
-    if (stressBorder<0)//TODO activate effect
-        stressBorder=0;
+    if (stressBorder<1)
+    {
+        m_stressBorder=0;
+        if (!m_isStressBorderEffectActive)
+            activateStressBorderEffect();
+    }
     else
     {
-        if (stressBorder<m_stressLimit)
-            m_stressBorder=stressBorder;
-        else
-            m_stressBorder=m_stressLimit;
+        m_stressBorder=stressBorder;
+        if (m_stress<stressBorder && m_isStressBorderEffectActive)
+            deactivateStressBorderEffect();
+        else if (m_stress>=stressBorder && !m_isStressBorderEffectActive)
+            activateStressBorderEffect();
     }
 }
 
@@ -217,20 +369,54 @@ void Hero::setDailyFoodConsumption(int dailyFoodConsumption) noexcept
     m_dailyFoodConsumption=dailyFoodConsumption;
 }
 
-void Hero::setArmor(Equipment *armor) noexcept
+void Hero::equipArmor(Equipment *armor) noexcept
 {
-    m_armor=armor;
+    if (armor!=NULL)
+    {
+        if (m_armor!=NULL)
+            unequipArmor();
+
+        applyArmorEffect(armor);
+        setArmor(armor);
+    }
 }
 
-void Hero::setWeaponTool(Equipment *weaponTool, int slot) noexcept
+void Hero::unequipArmor() noexcept
 {
-    if (slot<m_amountOfWeaponToolSlots)
-        m_weaponsTools[slot]=weaponTool;
+    if (m_armor!=NULL)
+    {
+        unapplyArmorEffect(m_armor);
+        setArmor(NULL);
+    }
+}
+
+void Hero::equipWeaponTool(Equipment *weaponTool, int slot) noexcept
+{
+    if (weaponTool!=NULL && slot>=0 && slot<m_amountOfWeaponToolSlots)
+    {
+        if (m_weaponsTools[slot]!=NULL)
+            unequipWeaponTool(slot);
+
+        applyWeaponToolEffect(weaponTool);
+        setWeaponTool(weaponTool,slot);
+    }
+}
+
+void Hero::unequipWeaponTool(int slot) noexcept
+{
+    if (slot>=0 && slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=NULL)
+    {
+        unapplyWeaponToolEffect(m_weaponsTools[slot]);
+        setWeaponTool(NULL,slot);
+    }
 }
 
 Hero::Hero() noexcept
+    : m_id(0), m_combatEffectiveness(1), m_proficiency(1), m_cleverness(1), m_luck(0), m_health(1), m_healthLimit(1), m_dailyHealthRecovery(0), m_stress(0), m_stressResistance(0), m_stressLimit(1), m_stressBorder(1), m_stressBorderEffect({HeroEnums::SBE_None,{}}), m_dailyStressRecovery(0), m_salary(0), m_dailyFoodConsumption(0), m_nature(HeroEnums::N_Active), m_armor(NULL), m_isDead(0), m_isStressBorderEffectActive(0), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(NULL), m_currentActivity(HeroEnums::CA_Idle)
 {
-
+    m_weaponsTools.reserve(2);
+    m_weaponsTools.push_back(NULL);
+    m_weaponsTools.push_back(NULL);
 }
 
 void Hero::setID(unsigned id) noexcept
@@ -313,7 +499,7 @@ QDataStream &Hero::read(QDataStream &stream) noexcept
     stream>>ii;
     m_stressBorder=ii;
 
-    //stream>>m_stressBorderEffect;//TODO make overload
+    stream>>m_stressBorderEffect;
 
     stream>>ii;
     m_dailyStressRecovery=ii;
@@ -334,7 +520,7 @@ QDataStream &Hero::read(QDataStream &stream) noexcept
 
 QDataStream &Hero::write(QDataStream &stream) const noexcept
 {
-
+//TODO Hero write
 
     return stream;
 }
@@ -385,6 +571,37 @@ void Hero::deactivateStressBorderEffect() noexcept
 }
 
 void Hero::die(HeroEnums::DyingReason reason) noexcept
+{
+
+}
+
+void Hero::setArmor(Equipment *armor) noexcept
+{
+    m_armor=armor;
+}
+
+void Hero::setWeaponTool(Equipment *weaponTool, int slot) noexcept
+{
+    if (slot<m_amountOfWeaponToolSlots)
+        m_weaponsTools[slot]=weaponTool;
+}
+
+void Hero::applyArmorEffect(Equipment *armor) noexcept
+{
+
+}
+
+void Hero::unapplyArmorEffect(Equipment *armor) noexcept
+{
+
+}
+
+void Hero::applyWeaponToolEffect(Equipment *weaponTool) noexcept
+{
+
+}
+
+void Hero::unapplyWeaponToolEffect(Equipment *weaponTool) noexcept
 {
 
 }

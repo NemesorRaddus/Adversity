@@ -7,6 +7,11 @@ XmlFileReader::XmlFileReader() noexcept
     m_xmlReader=new QXmlStreamReader();
 }
 
+XmlFileReader::~XmlFileReader() noexcept
+{
+    delete m_xmlReader;
+}
+
 bool XmlFileReader::openXmlFile(const QString &path) noexcept
 {
     QFile *f=new QFile(path);

@@ -70,25 +70,36 @@ struct HeroEnums
     {
         DR_NoReason,
         DR_AttributeCheckFailed,
-        DR_StressBorderAchieved,
+        DR_StressLimitAchieved,
         DR_END
     };
 
-    Nature fromQStringToNatureEnum(const QString &nature) noexcept;
-    QString fromNatureEnumToQString(Nature nature) noexcept;
+    static Nature fromQStringToNatureEnum(const QString &nature) noexcept;
+    static QString fromNatureEnumToQString(Nature nature) noexcept;
 
-    StressBorderEffect fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept;
-    QString fromStressBorderEffectEnumToQString(StressBorderEffect stressBorderEffect) noexcept;
+    static StressBorderEffect fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept;
+    static QString fromStressBorderEffectEnumToQString(StressBorderEffect stressBorderEffect) noexcept;
 
-    Attribute fromQStringToAttributeEnum(const QString &attribute) noexcept;
-    QString fromAttributeEnumToQString(Attribute attribute) noexcept;
+    static Attribute fromQStringToAttributeEnum(const QString &attribute) noexcept;
+    static QString fromAttributeEnumToQString(Attribute attribute) noexcept;
 };
 
 struct HeroStressBorderEffect
 {
+    HeroStressBorderEffect() noexcept
+        : effectName(HeroEnums::SBE_None) {}
+    HeroStressBorderEffect(HeroEnums::StressBorderEffect effectName_, const QVector <float> &effectParams_) noexcept
+        : effectName(effectName_), effectParams(effectParams_) {}
+
     HeroEnums::StressBorderEffect effectName;
     QVector <float> effectParams;
+
+    QDataStream &read(QDataStream &stream) noexcept;
+    QDataStream &write(QDataStream &stream) const noexcept;
 };
+
+QDataStream &operator<<(QDataStream &stream, const HeroStressBorderEffect &effect) noexcept;
+QDataStream &operator>>(QDataStream &stream, HeroStressBorderEffect &effect) noexcept;
 
 class Hero : public QObject
 {
@@ -156,7 +167,10 @@ public:
     {
         return m_stressBorderEffect;
     }
-    const QString &stressBorderEffectString() const noexcept;
+    Q_INVOKABLE QString stressBorderEffectNameString() const noexcept
+    {
+        return HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffect.effectName);
+    }
     Q_INVOKABLE int dailyStressRecovery() const noexcept
     {
         return m_dailyStressRecovery;
@@ -176,7 +190,10 @@ public:
     {
         return m_nature;
     }
-    const QString &natureString() const noexcept;
+    Q_INVOKABLE QString natureString() const noexcept
+    {
+        return HeroEnums::fromNatureEnumToQString(m_nature);
+    }
 
     void setCombatEffectiveness(int combatEffectiveness) noexcept;
     void setProficiency(int proficiency) noexcept;
@@ -188,7 +205,9 @@ public:
     void setHealthLimit(int healthLimit) noexcept;
     void setDailyHealthRecovery(int dailyHealthRecovery) noexcept;
 
-    void setStress(int stress) noexcept;
+    void setStress(int stress) noexcept;//use that when loading from save
+    void increaseStress(int amount) noexcept;//use that
+    void decreaseStress(int amount) noexcept;//and that when changing value during playtime
     void setStressResistance(float stressResistance) noexcept;
     void setStressLimit(int stressLimit) noexcept;
     void setStressBorder(int stressBorder) noexcept;
@@ -211,8 +230,10 @@ public:
         return m_amountOfWeaponToolSlots;
     }
 
-    void setArmor(Equipment *armor) noexcept;
-    void setWeaponTool(Equipment *weaponTool, int slot) noexcept;
+    void equipArmor(Equipment *armor) noexcept;
+    void unequipArmor() noexcept;
+    void equipWeaponTool(Equipment *weaponTool, int slot) noexcept;
+    void unequipWeaponTool(int slot) noexcept;
 
     Q_INVOKABLE bool isDead() const noexcept
     {
@@ -277,6 +298,13 @@ private:
     void deactivateStressBorderEffect() noexcept;
 
     void die(HeroEnums::DyingReason reason = HeroEnums::DR_NoReason) noexcept;
+
+    void setArmor(Equipment *armor) noexcept;
+    void setWeaponTool(Equipment *weaponTool, int slot) noexcept;
+    void applyArmorEffect(Equipment *armor) noexcept;
+    void unapplyArmorEffect(Equipment *armor) noexcept;
+    void applyWeaponToolEffect(Equipment *weaponTool) noexcept;
+    void unapplyWeaponToolEffect(Equipment *weaponTool) noexcept;
 
     unsigned m_id;
     QString m_name;

@@ -51,9 +51,9 @@ void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept
 void RemoveEquipmentEventResult::affectHero(Hero *hero) const noexcept
 {
     if (m_equipmentType==EquipmentEnums::T_Armor)
-        hero->setArmor(NULL);
+        hero->unequipArmor();
     else
-        hero->setWeaponTool(NULL,m_equipmentSlot);
+        hero->unequipWeaponTool(m_equipmentSlot);
 }
 
 CollectResourceEventResult::CollectResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept

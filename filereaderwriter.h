@@ -15,6 +15,7 @@ class XmlFileReader
 {
 public:
     XmlFileReader() noexcept;
+    ~XmlFileReader() noexcept;
 
     bool openXmlFile(const QString &path) noexcept;
 

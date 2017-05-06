@@ -8,6 +8,7 @@
 #include "filereaderwriter.h"
 #include "saveparser.h"
 #include "timer.h"
+#include "assetspool.h"
 
 #include <QDebug>
 
@@ -91,6 +92,7 @@ private:
     Base *m_base;
     QString m_currentPathToAssets;
     AppBuildInfo *m_buildInfo;
+    AssetsPool m_assetsPool;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

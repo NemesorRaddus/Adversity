@@ -155,6 +155,8 @@ void Game::loadAssets(const QString &pathToDir) noexcept
         bureqs.insert({BaseEnums::B_DockingStation,i},dsli.second[i]);
 
     m_base->setBuildingRequirements(bureqs);
+
+    m_assetsPool.load(pathToDir);
 }
 
 void Game::loadVersionInfo() noexcept
