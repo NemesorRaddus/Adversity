@@ -1044,7 +1044,7 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept//TODO change ret type to unsigned(id)
+    Q_INVOKABLE Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,NULL);
     }
@@ -1773,6 +1773,9 @@ struct DockingStationLevelInfo
 class DockingStation : public Building
 {
     Q_OBJECT
+
+    Q_PROPERTY(Hero* recruitPreparedForQML MEMBER m_recruitPreparedForQML)
+
 public:
     explicit DockingStation(Base *base, unsigned level, const QVector <DockingStationLevelInfo> &levelsInfo) noexcept;
 
@@ -1829,16 +1832,24 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).recruitsAmount;
     }
+    void prepareRecruits() noexcept;
+    Q_INVOKABLE void prepareRecruitForQML(unsigned slot) noexcept;
 
     void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
 
 private:
+    void loadRecruits() noexcept;
+    void clearRecruits() noexcept;
+
     QVector <DockingStationLevelInfo> m_levelsInfo;
+    QVector <Hero *> m_recruits;
+    Hero *m_recruitPreparedForQML;
 };
 
 class GameClock;
+class Game;
 
 class Base : public QObject
 {
@@ -1866,7 +1877,7 @@ class Base : public QObject
     Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
 
 public:
-    explicit Base(QObject *parent=0) noexcept;
+    explicit Base(Game *gameObject) noexcept;
     ~Base() noexcept;
 
     //save
@@ -2032,11 +2043,21 @@ public:
     {
         return m_heroes;
     }
+    QMap <QString, unsigned> &heroDockingStationBans() noexcept
+    {
+        return m_heroDockingStationBans;
+    }
 
     //game clock
     GameClock *gameClock() noexcept
     {
         return m_gameClock;
+    }
+
+    //game
+    Game *gameObject() noexcept
+    {
+        return m_gameObject;
     }
 
 private:
@@ -2072,9 +2093,13 @@ private:
 
     //heroes
     HeroesContainer *m_heroes;
+    QMap <QString, unsigned> m_heroDockingStationBans;//in days; when banned, hero won't appear in docking station menu
 
     //game clock/timer
     GameClock *m_gameClock;
+
+    //game
+    Game *m_gameObject;
 };
 
 #endif // BASE_H

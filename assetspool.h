@@ -18,12 +18,31 @@ public:
     bool isReady() const noexcept;
     void clear() noexcept;
 
+    QStringList allHeroes() const noexcept
+    {
+        return m_heroesAll;
+    }
+    const QVector <Hero *> &loadedHeroes() noexcept
+    {
+        return m_heroesLoaded;
+    }
+    void loadHeroAtPosFromList(unsigned index) noexcept;
+    void unloadHero(unsigned index) noexcept;
+
+    const QVector <Equipment *> &equipment() noexcept
+    {
+        return m_equipment;
+    }
+
 private:
-    void loadHeroes(const QString &path) noexcept;
+    void loadHeroesList(const QString &pathToDir) noexcept;
+    void loadHero(const QString &path) noexcept;
     void loadEquipment(const QString &path) noexcept;
 
     bool m_isReady;
-    QVector <Hero *> m_heroes;
+    QString m_pathToAssets;
+    QVector <Hero *> m_heroesLoaded;
+    QList <QString> m_heroesAll;
     QVector <Equipment *> m_equipment;
     XmlFileReader m_reader;
 };

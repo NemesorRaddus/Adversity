@@ -14,12 +14,15 @@ SOURCES += main.cpp \
     game.cpp \
     timer.cpp \
     saveparser.cpp \
-    assetspool.cpp
+    assetspool.cpp \
+    translations.cpp
 
 RESOURCES += \
-    res.qrc \
-    assets.qrc \
-    qmlfiles.qrc
+    qmlfiles.qrc \
+    locales.qrc \
+    dataassets.qrc \
+    graphics.qrc \
+    otherres.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -38,7 +41,8 @@ HEADERS += \
     game.h \
     timer.h \
     saveparser.h \
-    assetspool.h
+    assetspool.h \
+    translations.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \

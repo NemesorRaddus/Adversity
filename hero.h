@@ -449,6 +449,10 @@ public:
     unsigned availableID() const noexcept;
     void addHero(Hero *hero) noexcept;
     void removeHero(unsigned id) noexcept;
+    const QVector <Hero *> &heroes() noexcept
+    {
+        return m_heroes;
+    }
 
 private:
     int findHero(unsigned id) const noexcept;

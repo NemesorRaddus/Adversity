@@ -8,7 +8,17 @@ Game::Game(QObject *parent) noexcept
     m_buildInfo=new AppBuildInfo;
     loadVersionInfo();
 
-    m_base=new Base;
+    m_translations=new TranslationsDB(":/");
+    if (!QSettings().contains("lang"))
+    {
+        if (QLocale::system().name()!="pl_PL" && QLocale::system().name()!="en_GB")
+            QSettings().setValue("lang","en_GB");
+        else
+            QSettings().setValue("lang",QLocale::system().name());
+    }
+    setLocale(QSettings().value("lang").toString());
+
+    m_base=new Base(this);
 
     connectAutosave();
 }
@@ -20,7 +30,7 @@ void Game::createNewBase(const QString &pathToAssetsDir) noexcept
     disconnectAutosave();
 
     delete m_base;
-    m_base = new Base;
+    m_base = new Base(this);
 
     loadAssets(pathToAssetsDir);
 
@@ -34,7 +44,7 @@ void Game::loadExistingBase(const QString &pathToAssetsDir) noexcept
     disconnectAutosave();
 
     delete m_base;
-    m_base = new Base;
+    m_base = new Base(this);
 
     loadAssets(pathToAssetsDir);
 
@@ -49,6 +59,13 @@ void Game::saveBase() noexcept
     QByteArray ba;
     SaveParser::writeData(ba,m_base->getSaveData());
     QSettings().setValue("save01",ba);
+}
+
+void Game::setLocale(const QString &locale) noexcept
+{
+    if (locale!=m_translations->currentLanguage())
+        loadTranslations(locale);
+    //TODO in QML on lang selection screen add call to update() of everything
 }
 
 void Game::saveBase_slot() noexcept
@@ -183,4 +200,9 @@ void Game::loadVersionInfo() noexcept
 
         f.close();
     }
+}
+
+void Game::loadTranslations(const QString &lang) noexcept
+{
+    m_translations->loadLanguage(lang);
 }

@@ -45,7 +45,18 @@ void KillHeroEventResult::affectHero(Hero *hero) const noexcept
 
 void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept
 {
-
+    if (m_equipmentToAdd->type()==EquipmentEnums::T_Armor)
+        hero->equipArmor(m_equipmentToAdd);
+    else
+    {
+        for (int i=0;i<hero->amountOfWeaponToolSlots();++i)
+            if (hero->weaponTool(i)==NULL)
+            {
+                hero->equipWeaponTool(m_equipmentToAdd,i);
+                return;
+            }
+        hero->equipWeaponTool(m_equipmentToAdd,0);
+    }
 }
 
 void RemoveEquipmentEventResult::affectHero(Hero *hero) const noexcept
@@ -80,7 +91,7 @@ void NoSignalEventResult::affectHero(Hero *hero) const noexcept
 
 void ProlongMissionEventResult::affectHero(Hero *hero) const noexcept
 {
-
+    hero->assignedMission()->prolongDuration(m_additionalDays);
 }
 
 AttributeCheckEvent::AttributeCheckEvent(const QMap<HeroEnums::Attribute, float> &attributeChecks, float chancePositive, float chanceNegative, EventResult *eventResultPositivePositive, EventResult *eventResultPositiveNegative, EventResult *eventResultNegativePositive, EventResult *eventResultNegativeNegative) noexcept

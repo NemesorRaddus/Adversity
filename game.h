@@ -9,6 +9,7 @@
 #include "saveparser.h"
 #include "timer.h"
 #include "assetspool.h"
+#include "translations.h"
 
 #include <QDebug>
 
@@ -70,6 +71,7 @@ class Game : public QObject
     Q_OBJECT
     Q_PROPERTY(Base* base MEMBER m_base)
     Q_PROPERTY(AppBuildInfo* buildInfo MEMBER m_buildInfo)
+    Q_PROPERTY(TranslationsDB* translator MEMBER m_translations)
 
 public:
     explicit Game(QObject *parent = 0) noexcept;
@@ -77,6 +79,13 @@ public:
     Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
     Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
     Q_INVOKABLE void saveBase() noexcept;
+
+    Q_INVOKABLE void setLocale(const QString &locale) noexcept;
+
+    AssetsPool &assetsPool() noexcept
+    {
+        return m_assetsPool;
+    }
 
 public slots:
     void saveBase_slot() noexcept;
@@ -89,10 +98,13 @@ private:
 
     void loadVersionInfo() noexcept;
 
+    void loadTranslations(const QString &lang) noexcept;
+
     Base *m_base;
     QString m_currentPathToAssets;
     AppBuildInfo *m_buildInfo;
     AssetsPool m_assetsPool;
+    TranslationsDB *m_translations;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

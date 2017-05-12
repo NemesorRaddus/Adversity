@@ -62,7 +62,6 @@ QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlF
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -121,7 +120,6 @@ QPair<QVector<HospitalLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFile
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -181,7 +179,6 @@ QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > X
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -241,7 +238,6 @@ QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReade
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -301,7 +297,6 @@ QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFi
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -361,7 +356,6 @@ QPair<QVector<PlayingFieldLevelInfo>, QVector<BuildingUpgradeRequirements> > Xml
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -421,7 +415,6 @@ QPair<QVector<BarLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReade
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -481,7 +474,6 @@ QPair<QVector<ShrineLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileRe
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -541,7 +533,6 @@ QPair<QVector<SeclusionLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFil
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -599,7 +590,6 @@ QPair<QVector<PowerplantLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFi
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -656,7 +646,6 @@ QPair<QVector<FactoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileR
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -711,7 +700,6 @@ QPair<QVector<CoolRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFile
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -766,7 +754,6 @@ QPair<QVector<StorageRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlF
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -931,7 +918,6 @@ QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > X
 
                     r.first.insert(level,info);
                     r.second.insert(level,reqs);
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -978,7 +964,12 @@ QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescrip
     return r;
 }
 
-QVector<Hero *> XmlFileReader::getHeroes(const QString &path) noexcept
+QList<QString> XmlFileReader::getHeroesNamesList(const QString &pathToHeroesDir) noexcept
+{
+    return QDir(pathToHeroesDir).entryList({"*.xml"});
+}
+
+Hero *XmlFileReader::getHero(const QString &path) noexcept
 {
     if (!openXmlFile(path))
         return {};
@@ -1125,5 +1116,47 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
             delete r[i];
         return {};
     }
+    return r;
+}
+
+QMap<QString, QMap<QString, QString> > XmlFileReader::getTranslations(const QString &path) noexcept
+{
+    if (!openXmlFile(path))
+        return {};
+
+    QMap<QString, QMap<QString, QString> > r;
+
+    if (m_xmlReader->readNextStartElement())
+    {
+        if (m_xmlReader->name()=="translations")
+        {
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="text")
+                {
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
+                    QString originalText=attrs.value("original").toString();
+                    if (!r.contains(originalText))
+                        r.insert(originalText,{});
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="translation")
+                        {
+                            attrs = m_xmlReader->attributes();
+                            r[originalText].insert(attrs.value("context").toString(),attrs.value("translated").toString());
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
+        else
+            m_xmlReader->raiseError("Incorrect file");
+    }
+    if (m_xmlReader->hasError())
+        return {};
     return r;
 }

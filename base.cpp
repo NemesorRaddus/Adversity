@@ -1,6 +1,7 @@
 #include "base.h"
 
 #include "timer.h"
+#include "game.h"
 
 #include <QDebug>
 
@@ -596,6 +597,21 @@ DockingStation::DockingStation(Base *base, unsigned level, const QVector<Docking
 
 }
 
+void DockingStation::prepareRecruits() noexcept
+{
+    clearRecruits();
+    loadRecruits();
+    prepareRecruitForQML(0);
+}
+
+void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
+{
+    if (slot<m_recruits.size())
+        m_recruitPreparedForQML=m_recruits[slot];
+    else
+        m_recruitPreparedForQML=NULL;
+}
+
 void DockingStation::setLevelsInfo(const QVector<DockingStationLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -609,8 +625,42 @@ unsigned DockingStation::upgradeTimeRemaining() noexcept
     return r;
 }
 
-Base::Base(QObject *parent) noexcept
-    : QObject(parent)
+void DockingStation::loadRecruits() noexcept
+{
+    QStringList names{base()->gameObject()->assetsPool().allHeroes()};
+    for (int i=0;i<base()->heroes()->heroes().size();++i)
+        names.removeAt(names.indexOf(base()->heroes()->heroes()[i]->name()));
+    for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)
+    {
+        unsigned indexOfRecruit = Randomizer::randomBetweenAAndB(0,names.size()-1);
+        base()->gameObject()->assetsPool().loadHeroAtPosFromList(base()->gameObject()->assetsPool().allHeroes().indexOf(names[indexOfRecruit]));
+        for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
+            if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name()==names[indexOfRecruit])
+            {
+                m_recruits.push_back(base()->gameObject()->assetsPool().loadedHeroes()[j]);
+                break;
+            }
+        names.removeAt(indexOfRecruit);
+    }
+}
+
+void DockingStation::clearRecruits() noexcept
+{
+    for (int i=0;i<m_recruits.size();++i)
+        if (m_recruits[i]!=NULL)
+            for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
+                if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name()==m_recruits[i]->name())
+                {
+                    base()->gameObject()->assetsPool().unloadHero(j);
+                    break;
+                }
+    m_recruits.clear();
+
+    m_recruitPreparedForQML=NULL;
+}
+
+Base::Base(Game *gameObject) noexcept
+    : QObject(NULL), m_gameObject(gameObject)
 {
     m_energy=100;
     m_foodSupplies=5;
@@ -620,22 +670,22 @@ Base::Base(QObject *parent) noexcept
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
 
-    m_centralUnit=new CentralUnit(this,1,QVector<CentralUnitLevelInfo>());//TESTINGONLY
-    m_hospital=new Hospital(this,0,QVector <HospitalLevelInfo>());
-    m_trainingGround=new TrainingGround(this,0,QVector<TrainingGroundLevelInfo>());
-    m_gym=new Gym(this,0,QVector<GymLevelInfo>());
-    m_laboratory=new Laboratory(this,0,QVector<LaboratoryLevelInfo>());
-    m_playingField=new PlayingField(this,0,QVector<PlayingFieldLevelInfo>());
-    m_bar=new Bar(this,0,QVector<BarLevelInfo>());
-    m_shrine=new Shrine(this,0,QVector<ShrineLevelInfo>());
-    m_seclusion=new Seclusion(this,0,QVector<SeclusionLevelInfo>());
-    m_powerplant=new Powerplant(this,1,QVector<PowerplantLevelInfo>());
-    m_factory=new Factory(this,1,QVector<FactoryLevelInfo>());
-    m_coolRoom=new CoolRoom(this,1,QVector<CoolRoomLevelInfo>());
-    m_storageRoom=new StorageRoom(this,1,QVector<StorageRoomLevelInfo>());
-    m_aetheriteSilo=new AetheriteSilo(this,1,QVector<AetheriteSiloLevelInfo>());
-    m_barracks=new Barracks(this,1,QVector<BarracksLevelInfo>());
-    m_dockingStation=new DockingStation(this,0,QVector<DockingStationLevelInfo>());
+    m_centralUnit=new CentralUnit(this,1,{});
+    m_hospital=new Hospital(this,0,{});
+    m_trainingGround=new TrainingGround(this,0,{});
+    m_gym=new Gym(this,0,{});
+    m_laboratory=new Laboratory(this,0,{});
+    m_playingField=new PlayingField(this,0,{});
+    m_bar=new Bar(this,0,{});
+    m_shrine=new Shrine(this,0,{});
+    m_seclusion=new Seclusion(this,0,{});
+    m_powerplant=new Powerplant(this,1,{});
+    m_factory=new Factory(this,1,{});
+    m_coolRoom=new CoolRoom(this,1,{});
+    m_storageRoom=new StorageRoom(this,1,{});
+    m_aetheriteSilo=new AetheriteSilo(this,1,{});
+    m_barracks=new Barracks(this,1,{});
+    m_dockingStation=new DockingStation(this,0,{});
 
     m_buildings.insert(BaseEnums::B_CentralUnit,m_centralUnit);
     m_buildings.insert(BaseEnums::B_Hospital,m_hospital);
@@ -820,6 +870,16 @@ void Base::startNewDay() noexcept
 
     for (int i=0;i<timeoutedAlarms.size();++i)
         delete timeoutedAlarms[i];
+
+    for (auto heroName : m_heroDockingStationBans.keys())
+    {
+        if (m_heroDockingStationBans.value(heroName)==1)
+        {
+            m_heroDockingStationBans.erase(m_heroDockingStationBans.find(heroName));
+            continue;
+        }
+        m_heroDockingStationBans.insert(heroName,m_heroDockingStationBans.value(heroName)-1);
+    }
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

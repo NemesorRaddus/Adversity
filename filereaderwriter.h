@@ -3,6 +3,8 @@
 
 #include <QXmlStreamReader>
 #include <QFile>
+#include <QDir>
+#include <QList>
 
 #include "base.h"
 #include "equipment.h"
@@ -38,9 +40,12 @@ public:
 
     QVector <QPair <BaseEnums::Building, QString> > getBuildingDescriptions(const QString &path) noexcept;
 
-    QVector <Hero *> getHeroes(const QString &path) noexcept;
+    QList <QString> getHeroesNamesList(const QString &pathToHeroesDir) noexcept;
+    Hero *getHero(const QString &path) noexcept;
 
     QVector <Equipment *> getEquipment(const QString &path) noexcept;
+
+    QMap <QString, QMap<QString,QString> > getTranslations(const QString &path) noexcept;
 
 private:
     QXmlStreamReader *m_xmlReader;
