@@ -23,24 +23,27 @@ ModifyAttributeEventResult::ModifyAttributeEventResult(const QMap<HeroEnums::Att
 
 void ModifyAttributeEventResult::affectHero(Hero *hero) const noexcept
 {
-    hero->setCombatEffectiveness(hero->combatEffectiveness()+combatEffectiveness());
-    hero->setProficiency(hero->proficiency()+proficiency());
-    hero->setCleverness(hero->cleverness()+cleverness());
-    hero->setLuck(hero->luck()+luck());
-    hero->setHealth(hero->health()+health());
-    hero->setHealthLimit(hero->healthLimit()+healthLimit());
-    hero->setDailyHealthRecovery(hero->dailyHealthRecovery()+dailyHealthRecovery());
-    hero->setStress(hero->stress()+stress());
-    hero->setStressResistance(hero->stressResistance()+stressResistance());
-    hero->setStressLimit(hero->stressLimit()+stressLimit());
-    hero->setStressBorder(hero->stressBorder()+stressBorder());
-    hero->setDailyStressRecovery(hero->dailyStressRecovery()+dailyStressRecovery());
-    hero->setDailyFoodConsumption(hero->dailyFoodConsumption()+dailyFoodConsumption());
+    hero->changeCombatEffectiveness(combatEffectiveness());
+    hero->changeProficiency(proficiency());
+    hero->changeCleverness(cleverness());
+    hero->changeLuck(luck());
+    hero->changeHealth(health());
+    hero->changeHealthLimit(healthLimit());
+    hero->changeDailyHealthRecovery(dailyHealthRecovery());
+    if (stress()<0)
+        hero->decreaseStress(stress());
+    else if (stress()>0)
+        hero->increaseStress(stress());
+    hero->changeStressResistance(stressResistance());
+    hero->changeStressLimit(stressLimit());
+    hero->changeStressBorder(stressBorder());
+    hero->changeDailyStressRecovery(dailyStressRecovery());
+    hero->changeDailyFoodConsumption(dailyFoodConsumption());
 }
 
 void KillHeroEventResult::affectHero(Hero *hero) const noexcept
 {
-    hero->setIsDead(1);
+    hero->die(HeroEnums::DR_KillEvent);
 }
 
 void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept

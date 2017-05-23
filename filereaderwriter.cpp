@@ -1,5 +1,7 @@
 #include "filereaderwriter.h"
 
+#include "game.h"
+
 #include <QDebug>
 
 XmlFileReader::XmlFileReader() noexcept
@@ -974,7 +976,104 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
     if (!openXmlFile(path))
         return {};
 
-    //TODO hero reader
+    HeroBuilder hB;
+
+    if (m_xmlReader->readNextStartElement())
+    {
+        if (m_xmlReader->name()=="hero")
+        {
+            QXmlStreamAttributes attrs = m_xmlReader->attributes();
+            hB.setName(attrs.value("name").toString());
+
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="attributes")
+                {
+                    attrs = m_xmlReader->attributes();
+                    hB.setCombatEffectiveness(attrs.value("combatEffectiveness").toInt());
+                    hB.setProficiency(attrs.value("proficiency").toInt());
+                    hB.setCleverness(attrs.value("cleverness").toInt());
+                    hB.setLuck(attrs.value("luck").toFloat());
+                    hB.setHealth(attrs.value("health").toInt());
+                    hB.setHealthLimit(attrs.value("healthLimit").toInt());
+                    hB.setDailyHealthRecovery(attrs.value("dailyHealthRecovery").toInt());
+                    hB.setStress(attrs.value("stress").toInt());
+                    hB.setStressResistance(attrs.value("stressResistance").toFloat());
+                    hB.setStressLimit(attrs.value("stressLimit").toInt());
+                    hB.setStressBorder(attrs.value("stressBorder").toInt());
+                    hB.setDailyStressRecovery(attrs.value("dailyStressRecovery").toInt());
+                    hB.setSalary(attrs.value("salary").toInt());
+                    hB.setDailyFoodConsumption(attrs.value("dailyFoodConsumption").toInt());
+                    hB.setNature(HeroEnums::fromQStringToNatureEnum(attrs.value("nature").toString()));
+                }
+                else if (m_xmlReader->name()=="stressBorderEffect")
+                {
+                    attrs = m_xmlReader->attributes();
+
+                    HeroStressBorderEffect sbe;
+                    sbe.effectName=HeroEnums::fromQStringToStressBorderEffectEnum(attrs.value("name").toString());
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="param")
+                            sbe.effectParams.push_back(static_cast<QVariant>(m_xmlReader->attributes().value("value").toString()));
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    hB.setStressBorderEffect(sbe);
+                }
+                else if (m_xmlReader->name()=="equipment")
+                {
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="armor")
+                        {
+                            attrs = m_xmlReader->attributes();
+                            for (int i=0;i<ptrToGameObject->assetsPool().equipment().size();++i)
+                                if (ptrToGameObject->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
+                                {
+                                    hB.setAndEquipArmor(ptrToGameObject->assetsPool().equipment()[i]);
+                                    break;
+                                }
+                        }
+                        else if (m_xmlReader->name()=="weaponTool")
+                        {
+                            attrs = m_xmlReader->attributes();
+                            for (int i=0;i<ptrToGameObject->assetsPool().equipment().size();++i)
+                                if (ptrToGameObject->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
+                                {
+                                    hB.setAndEquipWeaponTool(ptrToGameObject->assetsPool().equipment()[i],attrs.value("slot").toInt());
+                                    break;
+                                }
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                }
+                else if (m_xmlReader->name()=="additionalData")
+                {
+                    attrs = m_xmlReader->attributes();
+
+                    hB.setIsDead(static_cast<bool>(attrs.value("dead").toInt()));
+                    hB.setIsDead(static_cast<bool>(attrs.value("stressBorderEffectActive").toInt()));
+
+                    hB.setNoSignalDaysRemaining(attrs.value("noSigDaysRem").toInt());
+
+                    hB.setCarriedEnergy(attrs.value("carriedEnergy").toInt());
+                    hB.setCarriedFoodSupplies(attrs.value("carriedFoodSupplies").toInt());
+                    hB.setCarriedBuildingMaterials(attrs.value("carriedBuildingMaterials").toInt());
+                    hB.setCarriedAetheriteOre(attrs.value("carriedAetheriteOre").toInt());
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
+        else
+            m_xmlReader->raiseError("Incorrect file");
+    }
+
+    if (m_xmlReader->hasError())
+        return NULL;
+    return hB.getHero();
 }
 
 QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept

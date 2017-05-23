@@ -1834,6 +1834,7 @@ public:
     }
     void prepareRecruits() noexcept;
     Q_INVOKABLE void prepareRecruitForQML(unsigned slot) noexcept;
+    Q_INVOKABLE void hireMercenary(unsigned index) noexcept;
 
     void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept;
 

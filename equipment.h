@@ -147,6 +147,7 @@ public:
 
     Equipment *getEquipment() noexcept;
     void resetEquiment() noexcept;
+    static Equipment *copyEquipment(const Equipment *equipment) noexcept;
 
     void setName(const QString &name) noexcept;
     void setType(EquipmentEnums::Type type) noexcept;

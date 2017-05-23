@@ -230,6 +230,13 @@ void EquipmentBuilder::resetEquiment() noexcept
     m_equipment->reset();
 }
 
+Equipment *EquipmentBuilder::copyEquipment(const Equipment *equipment) noexcept
+{
+    Equipment *r=new Equipment;
+    *r=*equipment;
+    return r;
+}
+
 void EquipmentBuilder::setName(const QString &name) noexcept
 {
     m_equipment->setName(name);

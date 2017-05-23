@@ -66,6 +66,8 @@ private:
     QString m_versionNumber, m_buildTime, m_buildType, m_toolkitName, m_additionBuildInfo;
 };
 
+static Game *ptrToGameObject;
+
 class Game : public QObject
 {
     Q_OBJECT
@@ -85,6 +87,11 @@ public:
     AssetsPool &assetsPool() noexcept
     {
         return m_assetsPool;
+    }
+
+    static Game *gameInstance() noexcept
+    {
+        return ptrToGameObject;
     }
 
 public slots:

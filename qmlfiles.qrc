@@ -26,5 +26,8 @@
         <file>qml/BuildingsMenus/StorageRoomMenu.qml</file>
         <file>qml/BuildingsMenus/TrainingGroundMenu.qml</file>
         <file>qml/SplashScreen.qml</file>
+        <file>qml/HeroesList/HeroesList.qml</file>
+        <file>qml/HeroesList/HeroesListDelegate.qml</file>
+        <file>qml/HeroesList/HeroesListScripts.js</file>
     </qresource>
 </RCC>

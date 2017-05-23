@@ -5,6 +5,8 @@
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
+    ptrToGameObject=this;
+
     m_buildInfo=new AppBuildInfo;
     loadVersionInfo();
 

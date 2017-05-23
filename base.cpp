@@ -186,7 +186,7 @@ void Hospital::healHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
         if (m_heroesBeingHealed[i]!=NULL)
-            m_heroesBeingHealed[i]->setHealth(m_heroesBeingHealed[i]->health() + m_levelsInfo.value(currentLevel()).hpRestored);
+            m_heroesBeingHealed[i]->changeHealth(m_levelsInfo.value(currentLevel()).hpRestored);
 }
 
 void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
@@ -213,9 +213,9 @@ void TrainingGround::trainHeroes() noexcept
     for (int i=0;i<m_heroesBeingTrained.size();++i)
         if (m_heroesBeingTrained[i]!=NULL)
         {
-            m_heroesBeingTrained[i]->setCombatEffectiveness(m_heroesBeingTrained[i]->combatEffectiveness() + m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
-            m_heroesBeingTrained[i]->setProficiency(m_heroesBeingTrained[i]->proficiency() + m_levelsInfo.value(currentLevel()).proficiencyBonus);
-            m_heroesBeingTrained[i]->setCleverness(m_heroesBeingTrained[i]->cleverness() + m_levelsInfo.value(currentLevel()).clevernessBonus);
+            m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
+            m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
+            m_heroesBeingTrained[i]->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
         }
 }
 
@@ -248,9 +248,9 @@ void Gym::trainHeroes() noexcept
     for (int i=0;i<m_heroesBeingTrained.size();++i)
         if (m_heroesBeingTrained[i]!=NULL)
         {
-            m_heroesBeingTrained[i]->setCombatEffectiveness(m_heroesBeingTrained[i]->combatEffectiveness() + m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
-            m_heroesBeingTrained[i]->setProficiency(m_heroesBeingTrained[i]->proficiency() + m_levelsInfo.value(currentLevel()).proficiencyBonus);
-            m_heroesBeingTrained[i]->setCleverness(m_heroesBeingTrained[i]->cleverness() + m_levelsInfo.value(currentLevel()).clevernessBonus);
+            m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
+            m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
+            m_heroesBeingTrained[i]->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
         }
 }
 
@@ -283,9 +283,9 @@ void Laboratory::trainHeroes() noexcept
     for (int i=0;i<m_heroesBeingTrained.size();++i)
         if (m_heroesBeingTrained[i]!=NULL)
         {
-            m_heroesBeingTrained[i]->setCombatEffectiveness(m_heroesBeingTrained[i]->combatEffectiveness() + m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
-            m_heroesBeingTrained[i]->setProficiency(m_heroesBeingTrained[i]->proficiency() + m_levelsInfo.value(currentLevel()).proficiencyBonus);
-            m_heroesBeingTrained[i]->setCleverness(m_heroesBeingTrained[i]->cleverness() + m_levelsInfo.value(currentLevel()).clevernessBonus);
+            m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
+            m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
+            m_heroesBeingTrained[i]->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
         }
 }
 
@@ -314,14 +314,13 @@ void PlayingField::destressHeroes() noexcept
         if (m_heroesBeingDestressed[i]!=NULL)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForReligious);
-
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
@@ -350,14 +349,13 @@ void Bar::destressHeroes() noexcept
         if (m_heroesBeingDestressed[i]!=NULL)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForReligious);
-
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
@@ -386,14 +384,13 @@ void Shrine::destressHeroes() noexcept
         if (m_heroesBeingDestressed[i]!=NULL)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForReligious);
-
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
@@ -422,14 +419,13 @@ void Seclusion::destressHeroes() noexcept
         if (m_heroesBeingDestressed[i]!=NULL)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->setStress(m_heroesBeingDestressed[i]->stress() - m_levelsInfo.value(currentLevel()).stressReductionForReligious);
-
+                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
@@ -612,6 +608,15 @@ void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
         m_recruitPreparedForQML=NULL;
 }
 
+void DockingStation::hireMercenary(unsigned index) noexcept
+{
+    if (index<m_recruits.size() && m_recruits[index]!=NULL)
+    {
+        base()->heroes()->addHero(m_recruits[index]);
+        m_recruits[index]=NULL;
+    }
+}
+
 void DockingStation::setLevelsInfo(const QVector<DockingStationLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -647,9 +652,9 @@ void DockingStation::loadRecruits() noexcept
 void DockingStation::clearRecruits() noexcept
 {
     for (int i=0;i<m_recruits.size();++i)
-        if (m_recruits[i]!=NULL)
+        if (m_recruits[i] != NULL)
             for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
-                if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name()==m_recruits[i]->name())
+                if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name() == m_recruits[i]->name())
                 {
                     base()->gameObject()->assetsPool().unloadHero(j);
                     break;
