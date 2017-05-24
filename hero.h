@@ -74,6 +74,21 @@ struct HeroEnums
         DR_KillEvent,
         DR_END
     };
+    enum Profession
+    {
+        P_BountyHunter,
+        P_Gunzerker,
+        P_PriestOfTheUniverse,
+        P_PriestessOfTheUniverse,
+        P_BattleDroid,
+        P_SpaceNomad,
+        P_Archeologist,
+        P_Criminal,
+        P_Cyborg,
+        P_Specialist,
+        P_Doomsayer,
+        P_END
+    };
 
     static Nature fromQStringToNatureEnum(const QString &nature) noexcept;
     static QString fromNatureEnumToQString(Nature nature) noexcept;
@@ -83,6 +98,12 @@ struct HeroEnums
 
     static Attribute fromQStringToAttributeEnum(const QString &attribute) noexcept;
     static QString fromAttributeEnumToQString(Attribute attribute) noexcept;
+
+    static CurrentActivity fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept;
+    static QString fromCurrentActivityEnumToQString(CurrentActivity currentActivity) noexcept;
+
+    static Profession fromQStringToProfessionEnum(const QString &profession) noexcept;
+    static QString fromProfessionEnumToQString(Profession profession) noexcept;
 };
 
 struct HeroStressBorderEffect
@@ -221,6 +242,15 @@ public:
         return HeroEnums::fromNatureEnumToQString(m_nature);
     }
 
+    HeroEnums::Profession profession() const noexcept
+    {
+        return m_profession;
+    }
+    Q_INVOKABLE QString professionString() const noexcept
+    {
+        return HeroEnums::fromProfessionEnumToQString(m_profession);
+    }
+
     void changeCombatEffectiveness(int amount) noexcept;//change by amount so increase or decrease by amount, not set amount!
     void changeProficiency(int amount) noexcept;
     void changeCleverness(int amount) noexcept;
@@ -264,13 +294,19 @@ public:
     {
         return m_isDead;
     }
-    void setIsDead(bool isDead) noexcept;
+    void setIsDead(bool isDead) noexcept
+    {
+        m_isDead = isDead;
+    }
 
     Q_INVOKABLE int noSignalDaysRemaining() const noexcept
     {
         return m_noSignalDaysRemaining;
     }
-    void setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept;
+    void setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
+    {
+        m_noSignalDaysRemaining = noSignalDaysRemaining;
+    }
 
     Q_INVOKABLE int carriedEnergy() const noexcept
     {
@@ -306,6 +342,10 @@ public:
     {
         return m_currentActivity;
     }
+    Q_INVOKABLE currentActivityString() const noexcept
+    {
+        return HeroEnums::fromCurrentActivityEnumToQString(m_currentActivity);
+    }
     void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept;
 
     QDataStream &read(QDataStream &stream) noexcept;
@@ -314,9 +354,22 @@ public:
 private:
     Hero() noexcept;
 
-    void setName(const QString &name) noexcept;
-    void setStressBorderEffect(const HeroStressBorderEffect &stressBorderEffect) noexcept;
-    void setNature(HeroEnums::Nature nature) noexcept;
+    void setName(const QString &name) noexcept
+    {
+        m_name=name;
+    }
+    void setStressBorderEffect(const HeroStressBorderEffect &stressBorderEffect) noexcept
+    {
+        m_stressBorderEffect=stressBorderEffect;
+    }
+    void setNature(HeroEnums::Nature nature) noexcept
+    {
+        m_nature=nature;
+    }
+    void setProfession(HeroEnums::Profession profession) noexcept
+    {
+        m_profession=profession;
+    }
 
     void activateStressBorderEffect() noexcept;
     void deactivateStressBorderEffect() noexcept;
@@ -341,6 +394,7 @@ private:
     HeroAttributesSet m_currentAttributesValues;//including eq bonuses, SBE impact
     HeroStressBorderEffect m_stressBorderEffect;
     HeroEnums::Nature m_nature;
+    HeroEnums::Profession m_profession;
 
     Equipment *m_armor;
     QVector <Equipment *> m_weaponsTools;
@@ -459,6 +513,11 @@ public:
         m_hero->m_nature=nature;
     }
 
+    void setProfession(HeroEnums::Profession profession) noexcept
+    {
+        m_hero->m_profession=profession;
+    }
+
     void setAndEquipArmor(Equipment *armor) noexcept
     {
         m_hero->equipArmor(armor);
@@ -529,6 +588,10 @@ public:
     const QVector <Hero *> &heroes() noexcept
     {
         return m_heroes;
+    }
+    Q_INVOKABLE int amountOfHeroes() const noexcept
+    {
+        return m_heroes.size();
     }
 
 private:

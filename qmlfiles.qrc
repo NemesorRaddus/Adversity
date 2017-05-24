@@ -1,33 +1,37 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/BuildingMenu.qml</file>
-        <file>qml/BuildingsList.qml</file>
-        <file>qml/BuildingsListDelegate.qml</file>
-        <file>qml/BuildingsListScripts.js</file>
-        <file>qml/BuildingsModeGUI.qml</file>
         <file>qml/Globals.qml</file>
         <file>qml/main.qml</file>
         <file>qml/MainGUI.ui.qml</file>
         <file>qml/qmldir</file>
-        <file>qml/BuildingsMenus/AetheriteSiloMenu.qml</file>
-        <file>qml/BuildingsMenus/BarMenu.qml</file>
-        <file>qml/BuildingsMenus/BarracksMenu.qml</file>
-        <file>qml/BuildingsMenus/CentralUnitMenu.qml</file>
-        <file>qml/BuildingsMenus/CoolRoomMenu.qml</file>
-        <file>qml/BuildingsMenus/DockingStationMenu.qml</file>
-        <file>qml/BuildingsMenus/FactoryMenu.qml</file>
-        <file>qml/BuildingsMenus/GymMenu.qml</file>
-        <file>qml/BuildingsMenus/HospitalMenu.qml</file>
-        <file>qml/BuildingsMenus/LaboratoryMenu.qml</file>
-        <file>qml/BuildingsMenus/PlayingFieldMenu.qml</file>
-        <file>qml/BuildingsMenus/PowerplantMenu.qml</file>
-        <file>qml/BuildingsMenus/SeclusionMenu.qml</file>
-        <file>qml/BuildingsMenus/ShrineMenu.qml</file>
-        <file>qml/BuildingsMenus/StorageRoomMenu.qml</file>
-        <file>qml/BuildingsMenus/TrainingGroundMenu.qml</file>
         <file>qml/SplashScreen.qml</file>
-        <file>qml/HeroesList/HeroesList.qml</file>
-        <file>qml/HeroesList/HeroesListDelegate.qml</file>
-        <file>qml/HeroesList/HeroesListScripts.js</file>
+        <file>qml/BuildingsMode/BuildingMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsList.qml</file>
+        <file>qml/BuildingsMode/BuildingsListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsListScripts.js</file>
+        <file>qml/BuildingsMode/BuildingsModeGUI.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/AetheriteSiloMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/BarMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/BarracksMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/CentralUnitMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/CoolRoomMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/FactoryMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/GymMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/HospitalMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/LaboratoryMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/PlayingFieldMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/PowerplantMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/SeclusionMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/ShrineMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/StorageRoomMenu.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/TrainingGroundMenu.qml</file>
+        <file>qml/BuildingsMode/HeroesList/HeroesList.qml</file>
+        <file>qml/BuildingsMode/HeroesList/HeroesListDelegate.qml</file>
+        <file>qml/BuildingsMode/HeroesList/HeroesListScripts.js</file>
+        <file>qml/MercenariesMode/HeroesList/HeroesList.qml</file>
+        <file>qml/MercenariesMode/HeroesList/HeroesListDelegate.qml</file>
+        <file>qml/MercenariesMode/HeroesList/HeroesListScripts.js</file>
+        <file>qml/BuildingsMode/BuildingsMenus/BuildingSlotView.qml</file>
     </qresource>
 </RCC>

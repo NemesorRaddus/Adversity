@@ -11,29 +11,31 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     heightOfElement = heightOfElementInPx;
     width = widthInPx;
     height = heightInPx;
-    listDelegate = Qt.createComponent("qrc:/qml/BuildingsListDelegate.qml");
+    listDelegate = Qt.createComponent("qrc:/qml/HeroesList/HeroesListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
     }
     itemsArray = new Array(amountOfItems);
 }
 
-function setItem(index, name, internalName, level, description) {
-    itemsArray[index].setArtSource("qrc:/graphics/Buildings/"+internalName+".png");
+function setItem(index, name, internalName, profession, ce, pr, cl) {
+    itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+profession+'/'+internalName+".png");
     itemsArray[index].setName(name);
-    itemsArray[index].setLevel("Level: "+level);
-    itemsArray[index].setDescription(description);
+    itemsArray[index].setProfession(profession);
+    itemsArray[index].setCE(ce);
+    itemsArray[index].setPR(pr);
+    itemsArray[index].setCL(cl);
 }
 
-function createItem(name, internalName, level, description) {
+function createItem(name, internalName, profession, ce, pr, cl) {
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootBuildingsList,
+        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootHeroesList,
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
-        setItem(actualAmountOfItems,name,internalName,level,description);
+        setItem(actualAmountOfItems,name,internalName,profession,ce,pr,cl);
         ++actualAmountOfItems;
     }
 }
@@ -71,15 +73,4 @@ function scrollList(y) {
             itemsArray[i].y += y;
         yAtTop += y;
     }
-}
-
-function setUpgradedStatus(name, isUpgraded)
-{
-    for (var i=0;i<actualAmountOfItems;++i)
-        if (itemsArray[i].getName().text === name)
-        {
-            itemsArray[i].markAsUpgraded(isUpgraded);
-
-            break;
-        }
 }

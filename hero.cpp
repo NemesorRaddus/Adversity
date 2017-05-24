@@ -140,6 +140,26 @@ QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) no
         return "Daily Food Consumption";
 }
 
+HeroEnums::CurrentActivity HeroEnums::fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept
+{
+    //TODO
+}
+
+QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity currentActivity) noexcept
+{
+    //TODO
+}
+
+HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &profession) noexcept
+{
+    //TODO
+}
+
+QString HeroEnums::fromProfessionEnumToQString(HeroEnums::Profession profession) noexcept
+{
+    //TODO
+}
+
 QDataStream &HeroStressBorderEffect::read(QDataStream &stream) noexcept
 {
     quint8 n;
@@ -533,6 +553,9 @@ QDataStream &Hero::read(QDataStream &stream) noexcept
     stream>>n;
     m_nature=static_cast<HeroEnums::Nature>(n);
 
+    stream>>n;
+    m_profession=static_cast<HeroEnums::Profession>(n);
+
     stream>>s;
     if (!s.isEmpty())
     {
@@ -597,6 +620,8 @@ QDataStream &Hero::write(QDataStream &stream) const noexcept
 
     stream<<static_cast<quint8>(m_nature);
 
+    stream<<static_cast<quint8>(m_profession);
+
     if (m_armor!=NULL)
         stream<<m_armor->name();
     else
@@ -641,31 +666,6 @@ QDataStream &operator<<(QDataStream &stream, const Hero &hero) noexcept
 QDataStream &operator>>(QDataStream &stream, Hero &hero) noexcept
 {
     return hero.read(stream);
-}
-
-void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
-{
-    m_noSignalDaysRemaining = noSignalDaysRemaining;
-}
-
-void Hero::setIsDead(bool isDead) noexcept
-{
-    m_isDead = isDead;
-}
-
-void Hero::setName(const QString &name) noexcept
-{
-    m_name=name;
-}
-
-void Hero::setStressBorderEffect(const HeroStressBorderEffect &stressBorderEffect) noexcept
-{
-    m_stressBorderEffect=stressBorderEffect;
-}
-
-void Hero::setNature(HeroEnums::Nature nature) noexcept
-{
-    m_nature=nature;
 }
 
 void Hero::activateStressBorderEffect() noexcept

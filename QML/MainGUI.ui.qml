@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import "./BuildingsMode"
 
 Rectangle {
     id: mainRoot

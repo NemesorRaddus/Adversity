@@ -62,5 +62,9 @@
         <file>graphics/GUI/LowHealth40.png</file>
         <file>graphics/GUI/LowHealth60.png</file>
         <file>graphics/GUI/LowHealth80.png</file>
+        <file>graphics/GUI/StressLimit.png</file>
+        <file>graphics/GUI/StressResistance.png</file>
+        <file>graphics/GUI/Abort.png</file>
+        <file>graphics/GUI/Task_Picture2.png</file>
     </qresource>
 </RCC>

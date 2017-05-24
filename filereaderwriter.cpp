@@ -1005,6 +1005,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setSalary(attrs.value("salary").toInt());
                     hB.setDailyFoodConsumption(attrs.value("dailyFoodConsumption").toInt());
                     hB.setNature(HeroEnums::fromQStringToNatureEnum(attrs.value("nature").toString()));
+                    hB.setProfession(HeroEnums::fromQStringToProfessionEnum(attrs.value("profession").toString()));
                 }
                 else if (m_xmlReader->name()=="stressBorderEffect")
                 {

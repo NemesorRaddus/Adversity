@@ -710,6 +710,14 @@ Base::Base(Game *gameObject) noexcept
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
 
     m_heroes=new HeroesContainer;
+
+    HeroBuilder hb;//TESTONLY
+    hb.setName("Mercenary Template");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
 }
 
 Base::~Base() noexcept

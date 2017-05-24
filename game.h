@@ -83,6 +83,14 @@ public:
     Q_INVOKABLE void saveBase() noexcept;
 
     Q_INVOKABLE void setLocale(const QString &locale) noexcept;
+    Q_INVOKABLE QString tr(const QString &text) noexcept
+    {
+        return m_translations->translate(text);
+    }
+    Q_INVOKABLE QString tr(const QString &text, const QString &context) noexcept
+    {
+        return m_translations->translate(text,context);
+    }
 
     AssetsPool &assetsPool() noexcept
     {
