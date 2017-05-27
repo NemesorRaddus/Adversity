@@ -12,6 +12,7 @@ Item {
         list.state = "";
         menu.state = "hidden";
         list.returnToDefault();
+        menu.returnToDefault();
     }
 
     function updateEverything()
@@ -24,8 +25,11 @@ Item {
     {
         if (menu.state == "")
         {
-            list.state = "";
-            menu.state = "hidden";
+            if (!menu.reactToBackOnToolbar())
+            {
+                list.state = "";
+                menu.state = "hidden";
+            }
             return true;
         }
         else

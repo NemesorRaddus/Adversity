@@ -158,7 +158,7 @@ class Hero : public QObject
     friend class HeroBuilder;
     friend class KillHeroEventResult;
 public:
-    Q_INVOKABLE const QString &name() const noexcept
+    Q_INVOKABLE QString name() const noexcept
     {
         return m_name;
     }
@@ -278,7 +278,7 @@ public:
     }
     Equipment *weaponTool(int slot) const noexcept
     {
-        return m_weaponsTools.value(slot,NULL);
+        return m_weaponsTools.value(slot,nullptr);
     }
     Q_INVOKABLE int amountOfWeaponToolSlots() const noexcept
     {
@@ -342,7 +342,7 @@ public:
     {
         return m_currentActivity;
     }
-    Q_INVOKABLE currentActivityString() const noexcept
+    Q_INVOKABLE QString currentActivityString() const noexcept
     {
         return HeroEnums::fromCurrentActivityEnumToQString(m_currentActivity);
     }
@@ -592,6 +592,11 @@ public:
     Q_INVOKABLE int amountOfHeroes() const noexcept
     {
         return m_heroes.size();
+    }
+    Q_INVOKABLE int findHero(const QString &name) const noexcept;
+    Hero *getHero(unsigned index) noexcept
+    {
+        return m_heroes.value(index,nullptr);
     }
 
 private:

@@ -179,13 +179,13 @@ unsigned CentralUnit::upgradeTimeRemaining() noexcept
 Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Hospital, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingHealed.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingHealed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 void Hospital::healHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
-        if (m_heroesBeingHealed[i]!=NULL)
+        if (m_heroesBeingHealed[i]!=nullptr)
             m_heroesBeingHealed[i]->changeHealth(m_levelsInfo.value(currentLevel()).hpRestored);
 }
 
@@ -205,13 +205,13 @@ unsigned Hospital::upgradeTimeRemaining() noexcept
 TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<TrainingGroundLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 void TrainingGround::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i]!=NULL)
+        if (m_heroesBeingTrained[i]!=nullptr)
         {
             m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
             m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
@@ -235,7 +235,7 @@ unsigned TrainingGround::upgradeTimeRemaining() noexcept
 Gym::Gym(Base *base, unsigned level, const QVector<GymLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Gym, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 int Gym::amountOfSlots() const noexcept
@@ -246,7 +246,7 @@ int Gym::amountOfSlots() const noexcept
 void Gym::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i]!=NULL)
+        if (m_heroesBeingTrained[i]!=nullptr)
         {
             m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
             m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
@@ -270,7 +270,7 @@ unsigned Gym::upgradeTimeRemaining() noexcept
 Laboratory::Laboratory(Base *base, unsigned level, const QVector<LaboratoryLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Laboratory, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 int Laboratory::amountOfSlots() const noexcept
@@ -281,7 +281,7 @@ int Laboratory::amountOfSlots() const noexcept
 void Laboratory::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i]!=NULL)
+        if (m_heroesBeingTrained[i]!=nullptr)
         {
             m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
             m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
@@ -305,13 +305,13 @@ unsigned Laboratory::upgradeTimeRemaining() noexcept
 PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFieldLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_PlayingField, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 void PlayingField::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=NULL)
+        if (m_heroesBeingDestressed[i]!=nullptr)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
@@ -340,13 +340,44 @@ unsigned PlayingField::upgradeTimeRemaining() noexcept
 Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Bar, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+}
+
+void Bar::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InBar);
+}
+
+void Bar::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
 void Bar::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=NULL)
+        if (m_heroesBeingDestressed[i]!=nullptr)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
@@ -375,13 +406,13 @@ unsigned Bar::upgradeTimeRemaining() noexcept
 Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Shrine, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 void Shrine::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=NULL)
+        if (m_heroesBeingDestressed[i]!=nullptr)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
@@ -410,13 +441,13 @@ unsigned Shrine::upgradeTimeRemaining() noexcept
 Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(NULL,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
 void Seclusion::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=NULL)
+        if (m_heroesBeingDestressed[i]!=nullptr)
         {
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
@@ -605,15 +636,15 @@ void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
     if (slot<m_recruits.size())
         m_recruitPreparedForQML=m_recruits[slot];
     else
-        m_recruitPreparedForQML=NULL;
+        m_recruitPreparedForQML=nullptr;
 }
 
 void DockingStation::hireMercenary(unsigned index) noexcept
 {
-    if (index<m_recruits.size() && m_recruits[index]!=NULL)
+    if (index<m_recruits.size() && m_recruits[index]!=nullptr)
     {
         base()->heroes()->addHero(m_recruits[index]);
-        m_recruits[index]=NULL;
+        m_recruits[index]=nullptr;
     }
 }
 
@@ -652,7 +683,7 @@ void DockingStation::loadRecruits() noexcept
 void DockingStation::clearRecruits() noexcept
 {
     for (int i=0;i<m_recruits.size();++i)
-        if (m_recruits[i] != NULL)
+        if (m_recruits[i] != nullptr)
             for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
                 if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name() == m_recruits[i]->name())
                 {
@@ -661,11 +692,11 @@ void DockingStation::clearRecruits() noexcept
                 }
     m_recruits.clear();
 
-    m_recruitPreparedForQML=NULL;
+    m_recruitPreparedForQML=nullptr;
 }
 
 Base::Base(Game *gameObject) noexcept
-    : QObject(NULL), m_gameObject(gameObject)
+    : QObject(nullptr), m_gameObject(gameObject)
 {
     m_energy=100;
     m_foodSupplies=5;
@@ -713,6 +744,55 @@ Base::Base(Game *gameObject) noexcept
 
     HeroBuilder hb;//TESTONLY
     hb.setName("Mercenary Template");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template1");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template2");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template3");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template4");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template5");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template6");
+    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setCombatEffectiveness(10);
+    hb.setProficiency(10);
+    hb.setCleverness(10);
+    m_heroes->addHero(hb.getHero());
+
+    hb.setName("Mercenary Template7");
     hb.setProfession(HeroEnums::P_Doomsayer);
     hb.setCombatEffectiveness(10);
     hb.setProficiency(10);

@@ -1073,7 +1073,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
     }
 
     if (m_xmlReader->hasError())
-        return NULL;
+        return nullptr;
     return hB.getHero();
 }
 

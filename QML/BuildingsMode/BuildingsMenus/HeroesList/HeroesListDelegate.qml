@@ -43,6 +43,11 @@ Item {
         return name;
     }
 
+    function getProfession()
+    {
+        return prof;
+    }
+
     width: 1080
     height: 271
 

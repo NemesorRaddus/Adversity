@@ -1,5 +1,5 @@
 var listDelegate;
-var itemsArray;
+var itemsArray = [];
 var heightOfElement;//in pixels
 var width;//in pixels
 var height;//in pixels
@@ -8,13 +8,17 @@ var yAtTop = 0;
 
 function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
 {
+    yAtTop = 0;
+    actualAmountOfItems = 0;
     heightOfElement = heightOfElementInPx;
     width = widthInPx;
     height = heightInPx;
-    listDelegate = Qt.createComponent("qrc:/qml/HeroesList/HeroesListDelegate.qml");
+    listDelegate = Qt.createComponent("qrc:/qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
     }
+    for (var i=0;i<itemsArray.length;++i)
+        itemsArray[i].destroy();
     itemsArray = new Array(amountOfItems);
 }
 
@@ -54,23 +58,40 @@ function getClickedItemName(y) {
     }
 }
 
+function getClickedItemName2(y) {
+    var h = heightOfElement;
+    var y0 = 0;
+    var y1 = h - 1;
+    y -= yAtTop;
+    for (var i=0;i<actualAmountOfItems;++i)
+    {
+        if (y >= y0 && y <= y1)
+            return itemsArray[i].getProfession().text;
+        y0 += h;
+        y1 += h;
+    }
+}
+
 function scrollList(y) {
-    if (yAtTop + y > 0)
+    if (actualAmountOfItems*heightOfElement>height)
     {
-        for (var i=0;i<actualAmountOfItems;++i)
-            itemsArray[i].y -= yAtTop;
-        yAtTop = 0;
-    }
-    else if (height - yAtTop - y >= actualAmountOfItems * heightOfElement)
-    {
-        for (i=0;i<actualAmountOfItems;++i)
-            itemsArray[i].y -= actualAmountOfItems * heightOfElement + yAtTop - height;
-        yAtTop =  height - actualAmountOfItems * heightOfElement;
-    }
-    else
-    {
-        for (i=0;i<actualAmountOfItems;++i)
-            itemsArray[i].y += y;
-        yAtTop += y;
+        if (yAtTop + y > 0)//up
+        {
+            for (var i=0;i<actualAmountOfItems;++i)
+                itemsArray[i].y -= yAtTop;
+            yAtTop = 0;
+        }
+        else if (height - yAtTop - y >= actualAmountOfItems * heightOfElement)//down
+        {
+            for (i=0;i<actualAmountOfItems;++i)
+                itemsArray[i].y -= actualAmountOfItems * heightOfElement + yAtTop - height;
+            yAtTop =  height - actualAmountOfItems * heightOfElement;
+        }
+        else
+        {
+            for (i=0;i<actualAmountOfItems;++i)
+                itemsArray[i].y += y;
+            yAtTop += y;
+        }
     }
 }

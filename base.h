@@ -246,7 +246,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -263,7 +263,7 @@ public:
     }
     Q_INVOKABLE int useCostInFoodSupplies() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(nullptr));
     }
     Q_INVOKABLE int useCostInFoodSuppliesSingle() const noexcept
     {
@@ -302,7 +302,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingHealed.value(index,NULL);
+        return m_heroesBeingHealed.value(index,nullptr);
     }
 
     Q_INVOKABLE int hpRestoredPerDay() const noexcept
@@ -367,7 +367,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -415,7 +415,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,NULL);
+        return m_heroesBeingTrained.value(index,nullptr);
     }
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
@@ -488,7 +488,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -533,7 +533,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,NULL);
+        return m_heroesBeingTrained.value(index,nullptr);
     }
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
@@ -606,7 +606,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -651,7 +651,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,NULL);
+        return m_heroesBeingTrained.value(index,nullptr);
     }
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
@@ -724,7 +724,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -772,7 +772,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,NULL);
+        return m_heroesBeingDestressed.value(index,nullptr);
     }
 
     Q_INVOKABLE int activeStressRelief() const noexcept
@@ -861,7 +861,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -907,10 +907,12 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    Hero *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,NULL);
+        return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -998,7 +1000,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -1046,7 +1048,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,NULL);
+        return m_heroesBeingDestressed.value(index,nullptr);
     }
 
     Q_INVOKABLE int activeStressRelief() const noexcept
@@ -1135,7 +1137,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(NULL));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -1183,7 +1185,7 @@ public:
     }
     Q_INVOKABLE Hero *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,NULL);
+        return m_heroesBeingDestressed.value(index,nullptr);
     }
 
     Q_INVOKABLE int activeStressRelief() const noexcept

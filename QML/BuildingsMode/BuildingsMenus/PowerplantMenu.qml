@@ -21,6 +21,16 @@ Item {
         upgradeInfo.update();
     }
 
+    function reactToBackOnToolbar()
+    {
+
+    }
+
+    function returnToDefault()
+    {
+
+    }
+
     width: 1080
     height: 1464
 

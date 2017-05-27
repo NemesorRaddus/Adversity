@@ -272,7 +272,7 @@ public:
     }
     EventResult *eventResult(int index) const noexcept
     {
-        return m_eventResults.value(index,NULL);
+        return m_eventResults.value(index,nullptr);
     }
     int amountOfEventResults() const noexcept
     {

@@ -53,7 +53,7 @@ void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept
     else
     {
         for (int i=0;i<hero->amountOfWeaponToolSlots();++i)
-            if (hero->weaponTool(i)==NULL)
+            if (hero->weaponTool(i)==nullptr)
             {
                 hero->equipWeaponTool(m_equipmentToAdd,i);
                 return;
@@ -215,7 +215,7 @@ void Mission::reset() noexcept
     m_description.clear();
     m_duration=1;
     m_events.clear();
-    m_assignedHero=NULL;
+    m_assignedHero=nullptr;
 }
 
 void Mission::setName(const QString &name) noexcept

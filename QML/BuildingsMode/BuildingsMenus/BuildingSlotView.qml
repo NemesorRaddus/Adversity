@@ -10,19 +10,19 @@ Item {
     property bool isConfirmed: false
 
     property int mode: 0//0-stress, 1-training, 2-hospital
-//y = 907 w barze
+
     width: theoreticalWidth
     height: theoreticalHeight
 
-    function setHero(pathToArt, val1)
+    function setHeroOneVal(pathToArt, val1)
     {
         artImage.source = pathToArt;
         artImage.visible = true;
 
         cost1Amount.text = val1;
-        cost1Amount.visible = true;
+        cost1.visible = true;
 
-        cost2Amount.visible = false;
+        cost2.visible = false;
 
         startAbortIcon.visible = true;
 
@@ -31,16 +31,16 @@ Item {
         isVacant = false;
     }
 
-    function setHero(pathToArt, val1, val2)
+    function setHeroTwoVals(pathToArt, val1, val2)
     {
         artImage.source = pathToArt;
         artImage.visible = true;
 
         cost1Amount.text = val1;
-        cost1Amount.visible = true;
+        cost1.visible = true;
 
         cost2Amount.text = val2;
-        cost2Amount.visible = false;
+        cost2.visible = false;
 
         startAbortIcon.visible = true;
 
@@ -53,8 +53,8 @@ Item {
     {
         artImage.visible = false;
         artMA.enabled = true;
-        cost1Amount.visible = false;
-        cost2Amount.visible = false;
+        cost1.visible = false;
+        cost2.visible = false;
         startAbortIcon.visible = false;
         startAbortMA.enabled = false;
         isVacant = true;
@@ -63,6 +63,7 @@ Item {
     signal artClicked()
     signal startClicked()
     signal abortClicked()
+    signal requestUnban()
 
     onModeChanged: {
         if (mode == 0)
@@ -122,6 +123,11 @@ Item {
             onClicked: {
                 if (isVacant)
                     artClicked();
+                else if (!isConfirmed)
+                {
+                    requestUnban();
+                    artClicked();
+                }
             }
         }
     }
@@ -142,6 +148,8 @@ Item {
             width: parent.width
             height: 70
 
+            visible: false
+
             Image {
                 id: cost1Icon
 
@@ -160,8 +168,7 @@ Item {
                 width: parent.width - x
                 height: parent.height
 
-                visible: false
-
+                color: "#94ef94"
                 font.pixelSize: 60
                 font.family: fontStencil.name
 
@@ -176,6 +183,8 @@ Item {
             y: cost1.y + cost1.height + 4
             width: parent.width
             height: 70
+
+            visible: false
 
             Image {
                 id: cost2Icon
@@ -195,8 +204,7 @@ Item {
                 width: parent.width - x
                 height: parent.height
 
-                visible: false
-
+                color: "#94ef94"
                 font.pixelSize: 60
                 font.family: fontStencil.name
 
@@ -219,6 +227,8 @@ Item {
             anchors.fill: parent
 
             visible: false
+
+            source: "qrc:/graphics/GUI/Settings.png"
         }
 
         MouseArea {

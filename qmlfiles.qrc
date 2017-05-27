@@ -26,12 +26,12 @@
         <file>qml/BuildingsMode/BuildingsMenus/ShrineMenu.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/StorageRoomMenu.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/TrainingGroundMenu.qml</file>
-        <file>qml/BuildingsMode/HeroesList/HeroesList.qml</file>
-        <file>qml/BuildingsMode/HeroesList/HeroesListDelegate.qml</file>
-        <file>qml/BuildingsMode/HeroesList/HeroesListScripts.js</file>
         <file>qml/MercenariesMode/HeroesList/HeroesList.qml</file>
         <file>qml/MercenariesMode/HeroesList/HeroesListDelegate.qml</file>
         <file>qml/MercenariesMode/HeroesList/HeroesListScripts.js</file>
         <file>qml/BuildingsMode/BuildingsMenus/BuildingSlotView.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListScripts.js</file>
     </qresource>
 </RCC>

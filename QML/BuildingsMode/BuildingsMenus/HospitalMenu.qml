@@ -2,6 +2,7 @@ import QtQuick 2.5
 
 import Game 1.0
 import ".."
+import "./HeroesList"
 
 Item {
     id: root
@@ -18,6 +19,16 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.hospital.currentLevel());
         table.update();
         upgradeInfo.update();
+    }
+
+    function reactToBackOnToolbar()
+    {
+
+    }
+
+    function returnToDefault()
+    {
+
     }
 
     width: 1080

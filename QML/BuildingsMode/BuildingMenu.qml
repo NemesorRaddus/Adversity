@@ -547,6 +547,78 @@ Item {
         dockingStation.updateEverything();
     }
 
+    function reactToBackOnToolbar()
+    {
+        if (centralUnit.visible)
+            return centralUnit.reactToBackOnToolbar();
+        if (hospital.visible)
+            return hospital.reactToBackOnToolbar();
+        if (trainingGround.visible)
+            return trainingGround.reactToBackOnToolbar();
+        if (gym.visible)
+            return gym.reactToBackOnToolbar();
+        if (laboratory.visible)
+            return laboratory.reactToBackOnToolbar();
+        if (playingField.visible)
+            return playingField.reactToBackOnToolbar();
+        if (bar.visible)
+            return bar.reactToBackOnToolbar();
+        if (shrine.visible)
+            return shrine.reactToBackOnToolbar();
+        if (seclusion.visible)
+            return seclusion.reactToBackOnToolbar();
+        if (powerplant.visible)
+            return powerplant.reactToBackOnToolbar();
+        if (factory.visible)
+            return factory.reactToBackOnToolbar();
+        if (coolRoom.visible)
+            return coolRoom.reactToBackOnToolbar();
+        if (storageRoom.visible)
+            return storageRoom.reactToBackOnToolbar();
+        if (aetheriteSilo.visible)
+            return aetheriteSilo.reactToBackOnToolbar();
+        if (barracks.visible)
+            return barracks.reactToBackOnToolbar();
+        if (dockingStation.visible)
+            return dockingStation.reactToBackOnToolbar();
+    }
+
+    function returnToDefault()
+    {
+        if (centralUnit.visible)
+            centralUnit.returnToDefault();
+        else if (hospital.visible)
+            hospital.returnToDefault();
+        else if (trainingGround.visible)
+            trainingGround.returnToDefault();
+        else if (gym.visible)
+            gym.returnToDefault();
+        else if (laboratory.visible)
+            laboratory.returnToDefault();
+        else if (playingField.visible)
+            playingField.returnToDefault();
+        else if (bar.visible)
+            bar.returnToDefault();
+        else if (shrine.visible)
+            shrine.returnToDefault();
+        else if (seclusion.visible)
+            seclusion.returnToDefault();
+        else if (powerplant.visible)
+            powerplant.returnToDefault();
+        else if (factory.visible)
+            factory.returnToDefault();
+        else if (coolRoom.visible)
+            coolRoom.returnToDefault();
+        else if (storageRoom.visible)
+            storageRoom.returnToDefault();
+        else if (aetheriteSilo.visible)
+            aetheriteSilo.returnToDefault();
+        else if (barracks.visible)
+            barracks.returnToDefault();
+        else if (dockingStation.visible)
+            dockingStation.returnToDefault();
+    }
+
     CentralUnitMenu {
         id: centralUnit
 
