@@ -19,16 +19,144 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.shrine.currentLevel());
         table.update();
         upgradeInfo.update();
+//        var amountOfSlotsAvailable = GameApi.base.shrine.amountOfSlots();
+//        if (amountOfSlotsAvailable>=1)
+//        {
+//            slotView1.visible=true;
+//            if (amountOfSlotsAvailable>=2)
+//            {
+//                slotView2.visible=true;
+//                if (amountOfSlotsAvailable>=3)
+//                {
+//                    slotView3.visible=true;
+//                    if (amountOfSlotsAvailable>=4)
+//                    {
+//                        slotView4.visible=true;
+//                        if (amountOfSlotsAvailable>=5)
+//                        {
+//                            slotView5.visible=true;
+//                            if (amountOfSlotsAvailable==6)
+//                                slotView6.visible=true;
+//                            else
+//                                slotView6.visible=false;
+//                        }
+//                        else
+//                        {
+//                            slotView5.visible=false;
+//                            slotView6.visible=false;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        slotView4.visible=false;
+//                        slotView5.visible=false;
+//                        slotView6.visible=false;
+//                    }
+//                }
+//                else
+//                {
+//                    slotView3.visible=false;
+//                    slotView4.visible=false;
+//                    slotView5.visible=false;
+//                    slotView6.visible=false;
+//                }
+//            }
+//            else
+//            {
+//                slotView2.visible=false;
+//                slotView3.visible=false;
+//                slotView4.visible=false;
+//                slotView5.visible=false;
+//                slotView6.visible=false;
+//            }
+//        }
+//        else
+//        {
+//            slotView1.visible=false;
+//            slotView2.visible=false;
+//            slotView3.visible=false;
+//            slotView4.visible=false;
+//            slotView5.visible=false;
+//            slotView6.visible=false;
+//        }
     }
 
     function reactToBackOnToolbar()
     {
-
+        if (heroSelectionList.state == "")
+        {
+            heroSelectionList.state = "hidden";
+            return true;
+        }
+        else
+        {
+            if (!slotView1.isConfirmed)
+            {
+                heroSelectionList.unbanHero(slotView1.heroName);
+                slotView1.removeHero();
+            }
+            if (!slotView2.isConfirmed)
+            {
+                heroSelectionList.unbanHero(slotView2.heroName);
+                slotView2.removeHero();
+            }
+            if (!slotView3.isConfirmed)
+            {
+                heroSelectionList.unbanHero(slotView3.heroName);
+                slotView3.removeHero();
+            }
+            if (!slotView4.isConfirmed)
+            {
+                heroSelectionList.unbanHero(slotView4.heroName);
+                slotView4.removeHero();
+            }
+            if (!slotView5.isConfirmed)
+            {
+                heroSelectionList.unbanHero(slotView5.heroName);
+                slotView5.removeHero();
+            }
+            if (!slotView6.isConfirmed)
+            {
+                heroSelectionList.unbanHero(slotView6.heroName);
+                slotView6.removeHero();
+            }
+            return false;
+        }
     }
 
     function returnToDefault()
     {
-
+        if (!slotView1.isConfirmed)
+        {
+            heroSelectionList.unbanHero(slotView1.heroName);
+            slotView1.removeHero();
+        }
+        if (!slotView2.isConfirmed)
+        {
+            heroSelectionList.unbanHero(slotView2.heroName);
+            slotView2.removeHero();
+        }
+        if (!slotView3.isConfirmed)
+        {
+            heroSelectionList.unbanHero(slotView3.heroName);
+            slotView3.removeHero();
+        }
+        if (!slotView4.isConfirmed)
+        {
+            heroSelectionList.unbanHero(slotView4.heroName);
+            slotView4.removeHero();
+        }
+        if (!slotView5.isConfirmed)
+        {
+            heroSelectionList.unbanHero(slotView5.heroName);
+            slotView5.removeHero();
+        }
+        if (!slotView6.isConfirmed)
+        {
+            heroSelectionList.unbanHero(slotView6.heroName);
+            slotView6.removeHero();
+        }
+        heroSelectionList.state = "hidden";
     }
 
     width: 1080
@@ -449,7 +577,7 @@ Item {
         x: 0
         y: table.y + table.height
         width: 1080
-        height: 200
+        height: taskBorderUpgradeBottom.y + taskBorderUpgradeBottom.height
 
         function update()
         {
@@ -661,6 +789,243 @@ Item {
     }
 
     Item {
+        id: slotsView
+
+        x: 0
+        y: 0
+        width: parent.theoreticalWidth
+        height: parent.theoreticalHeight
+
+        property int indexOfChangingSlot: 0
+
+        BuildingSlotView {
+            id: slotView1
+
+            x: 0
+            y: upgradeInfo.y + upgradeInfo.height + 2
+
+            property string heroName
+
+            mode: 0
+
+            onArtClicked: {
+                heroSelectionList.updateEverything();
+                parent.indexOfChangingSlot = 0;
+                heroSelectionList.state = "";
+            }
+
+            onStartClicked: {
+                GameApi.base.shrine.placeHeroInSlot(0,heroName);
+            }
+
+            onAbortClicked: {
+                GameApi.base.shrine.emptySlot(0);
+                heroSelectionList.unbanHero(heroName);
+            }
+
+            onRequestUnban: {
+                heroSelectionList.unbanHero(heroName);
+            }
+        }
+        BuildingSlotView {
+            id: slotView2
+
+            x: 180
+            y: slotView1.y
+
+            property string heroName
+
+            mode: 0
+
+            onArtClicked: {
+                heroSelectionList.updateEverything();
+                parent.indexOfChangingSlot = 1;
+                heroSelectionList.state = "";
+            }
+
+            onStartClicked: {
+                GameApi.base.shrine.placeHeroInSlot(1,heroName);
+            }
+
+            onAbortClicked: {
+                GameApi.base.shrine.emptySlot(1);
+                heroSelectionList.unbanHero(heroName);
+            }
+
+            onRequestUnban: {
+                heroSelectionList.unbanHero(heroName);
+            }
+        }
+        BuildingSlotView {
+            id: slotView3
+
+            x: 360
+            y: slotView1.y
+
+            property string heroName
+
+            mode: 0
+
+            onArtClicked: {
+                heroSelectionList.updateEverything();
+                parent.indexOfChangingSlot = 2;
+                heroSelectionList.state = "";
+            }
+
+            onStartClicked: {
+                GameApi.base.shrine.placeHeroInSlot(2,heroName);
+            }
+
+            onAbortClicked: {
+                GameApi.base.shrine.emptySlot(2);
+                heroSelectionList.unbanHero(heroName);
+            }
+
+            onRequestUnban: {
+                heroSelectionList.unbanHero(heroName);
+            }
+        }
+        BuildingSlotView {
+            id: slotView4
+
+            x: 540
+            y: slotView1.y
+
+            property string heroName
+
+            mode: 0
+
+            onArtClicked: {
+                heroSelectionList.updateEverything();
+                parent.indexOfChangingSlot = 3;
+                heroSelectionList.state = "";
+            }
+
+            onStartClicked: {
+                GameApi.base.shrine.placeHeroInSlot(3,heroName);
+            }
+
+            onAbortClicked: {
+                GameApi.base.shrine.emptySlot(3);
+                heroSelectionList.unbanHero(heroName);
+            }
+
+            onRequestUnban: {
+                heroSelectionList.unbanHero(heroName);
+            }
+        }
+        BuildingSlotView {
+            id: slotView5
+
+            x: 720
+            y: slotView1.y
+
+            property string heroName
+
+            mode: 0
+
+            onArtClicked: {
+                heroSelectionList.updateEverything();
+                parent.indexOfChangingSlot = 4;
+                heroSelectionList.state = "";
+            }
+
+            onStartClicked: {
+                GameApi.base.shrine.placeHeroInSlot(4,heroName);
+            }
+
+            onAbortClicked: {
+                GameApi.base.shrine.emptySlot(4);
+                heroSelectionList.unbanHero(heroName);
+            }
+
+            onRequestUnban: {
+                heroSelectionList.unbanHero(heroName);
+            }
+        }
+        BuildingSlotView {
+            id: slotView6
+
+            x: 900
+            y: slotView1.y
+
+            property string heroName
+
+            mode: 0
+
+            onArtClicked: {
+                heroSelectionList.updateEverything();
+                parent.indexOfChangingSlot = 5;
+                heroSelectionList.state = "";
+            }
+
+            onStartClicked: {
+                GameApi.base.shrine.placeHeroInSlot(5,heroName);
+            }
+
+            onAbortClicked: {
+                GameApi.base.shrine.emptySlot(5);
+                heroSelectionList.unbanHero(heroName);
+            }
+
+            onRequestUnban: {
+                heroSelectionList.unbanHero(heroName);
+            }
+        }
+
+        HeroesList {
+            id: heroSelectionList
+
+            x: 0
+            y: 0
+            width: parent.width
+            height: parent.height - back.height
+
+            state: "hidden"
+
+            onHeroClicked: {
+                if (parent.indexOfChangingSlot==0)//COULDDO that's nasty
+                {
+                    slotView1.heroName=heroName;
+                    slotView1.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName,GameApi.base.shrine.useCostInEnergySingle());
+                    state = "hidden";
+                }
+                else if (parent.indexOfChangingSlot==1)
+                {
+                    slotView2.heroName=heroName;
+                    slotView2.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName,GameApi.base.shrine.useCostInEnergySingle());
+                    state = "hidden";
+                }
+                else if (parent.indexOfChangingSlot==2)
+                {
+                    slotView3.heroName=heroName;
+                    slotView3.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName,GameApi.base.shrine.useCostInEnergySingle());
+                    state = "hidden";
+                }
+                else if (parent.indexOfChangingSlot==3)
+                {
+                    slotView4.heroName=heroName;
+                    slotView4.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName,GameApi.base.shrine.useCostInEnergySingle());
+                    state = "hidden";
+                }
+                else if (parent.indexOfChangingSlot==4)
+                {
+                    slotView5.heroName=heroName;
+                    slotView5.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName,GameApi.base.shrine.useCostInEnergySingle());
+                    state = "hidden";
+                }
+                else if (parent.indexOfChangingSlot==5)
+                {
+                    slotView6.heroName=heroName;
+                    slotView6.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName,GameApi.base.shrine.useCostInEnergySingle());
+                    state = "hidden";
+                }
+                heroSelectionList.banHero(heroName);
+            }
+        }
+    }
+
+    Item {
         id: back
 
         x: 400
@@ -683,7 +1048,58 @@ Item {
 
             anchors.fill: parent
 
-            onClicked: backClicked()
+            onClicked: {
+                if (heroSelectionList.state == "hidden")
+                {
+                    if (!slotView1.isConfirmed)
+                    {
+                        heroSelectionList.unbanHero(slotView1.heroName);
+                        slotView1.removeHero();
+                    }
+                    if (!slotView2.isConfirmed)
+                    {
+                        heroSelectionList.unbanHero(slotView2.heroName);
+                        slotView2.removeHero();
+                    }
+                    if (!slotView3.isConfirmed)
+                    {
+                        heroSelectionList.unbanHero(slotView3.heroName);
+                        slotView3.removeHero();
+                    }
+                    if (!slotView4.isConfirmed)
+                    {
+                        heroSelectionList.unbanHero(slotView4.heroName);
+                        slotView4.removeHero();
+                    }
+                    if (!slotView5.isConfirmed)
+                    {
+                        heroSelectionList.unbanHero(slotView5.heroName);
+                        slotView5.removeHero();
+                    }
+                    if (!slotView6.isConfirmed)
+                    {
+                        heroSelectionList.unbanHero(slotView6.heroName);
+                        slotView6.removeHero();
+                    }
+                    backClicked();
+                }
+                else
+                {
+                    if (slotsView.indexOfChangingSlot==0)
+                        heroSelectionList.banHero(slotView1.heroName);
+                    else if (slotsView.indexOfChangingSlot==1)
+                        heroSelectionList.banHero(slotView2.heroName);
+                    else if (slotsView.indexOfChangingSlot==2)
+                        heroSelectionList.banHero(slotView3.heroName);
+                    else if (slotsView.indexOfChangingSlot==3)
+                        heroSelectionList.banHero(slotView4.heroName);
+                    else if (slotsView.indexOfChangingSlot==4)
+                        heroSelectionList.banHero(slotView5.heroName);
+                    else if (slotsView.indexOfChangingSlot==5)
+                        heroSelectionList.banHero(slotView6.heroName);
+                    heroSelectionList.state = "hidden";
+                }
+            }
         }
     }
 

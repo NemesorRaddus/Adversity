@@ -304,6 +304,8 @@ public:
     {
         return m_heroesBeingHealed.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int hpRestoredPerDay() const noexcept
     {
@@ -417,6 +419,8 @@ public:
     {
         return m_heroesBeingTrained.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
     {
@@ -433,6 +437,15 @@ public:
     Q_INVOKABLE int clevernessBonus() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).clevernessBonus;
+    }
+
+    Q_INVOKABLE int duration() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).duration;
+    }
+    Q_INVOKABLE int durationAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).duration;
     }
 
     void trainHeroes() noexcept;
@@ -535,6 +548,8 @@ public:
     {
         return m_heroesBeingTrained.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
     {
@@ -551,6 +566,15 @@ public:
     Q_INVOKABLE int clevernessBonus() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).clevernessBonus;
+    }
+
+    Q_INVOKABLE int duration() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).duration;
+    }
+    Q_INVOKABLE int durationAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).duration;
     }
 
     void trainHeroes() noexcept;
@@ -653,6 +677,8 @@ public:
     {
         return m_heroesBeingTrained.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
     {
@@ -669,6 +695,15 @@ public:
     Q_INVOKABLE int clevernessBonusAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).clevernessBonus;
+    }
+
+    Q_INVOKABLE int duration() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).duration;
+    }
+    Q_INVOKABLE int durationAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).duration;
     }
 
     void trainHeroes() noexcept;
@@ -774,6 +809,8 @@ public:
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1050,6 +1087,8 @@ public:
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1187,6 +1226,8 @@ public:
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {

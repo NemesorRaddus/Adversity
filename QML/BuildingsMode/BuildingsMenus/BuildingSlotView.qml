@@ -40,7 +40,7 @@ Item {
         cost1.visible = true;
 
         cost2Amount.text = val2;
-        cost2.visible = false;
+        cost2.visible = true;
 
         startAbortIcon.visible = true;
 
@@ -74,14 +74,16 @@ Item {
         }
         else if (mode == 1)
         {
-            cost2.visible = true;
+            if (cost1.visible)
+                cost2.visible = true;
 
             cost1Icon.source = "qrc:/graphics/GUI/Energy.png"
             cost2Icon.source = "qrc:/graphics/GUI/Time.png"
         }
         else if (mode == 2)
         {
-            cost2.visible = true;
+            if (cost1.visible)
+                cost2.visible = true;
 
             cost1Icon.source = "qrc:/graphics/GUI/Energy.png"
             cost2Icon.source = "qrc:/graphics/GUI/Foodsupplies.png"
@@ -250,6 +252,7 @@ Item {
                 {
                     isConfirmed = true;
                     startAbortIcon.source = "qrc:/graphics/GUI/Abort.png";
+                    startClicked();
                 }
             }
         }

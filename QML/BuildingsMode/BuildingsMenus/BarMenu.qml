@@ -37,6 +37,8 @@ Item {
 //                        {
 //                            slotView5.visible=true;
 //                            if (amountOfSlotsAvailable==6)
+//                                slotView6.visible=true;
+//                            else
 //                                slotView6.visible=false;
 //                        }
 //                        else
@@ -576,7 +578,7 @@ Item {
         x: 0
         y: table.y + table.height
         width: 1080
-        height: 200
+        height: taskBorderUpgradeBottom.y + taskBorderUpgradeBottom.height
 
         function update()
         {
@@ -801,7 +803,7 @@ Item {
             id: slotView1
 
             x: 0
-            y: 907
+            y: upgradeInfo.y + upgradeInfo.height + 2
 
             property string heroName
 
@@ -830,7 +832,7 @@ Item {
             id: slotView2
 
             x: 180
-            y: 907
+            y: slotView1.y
 
             property string heroName
 
@@ -859,7 +861,7 @@ Item {
             id: slotView3
 
             x: 360
-            y: 907
+            y: slotView1.y
 
             property string heroName
 
@@ -888,7 +890,7 @@ Item {
             id: slotView4
 
             x: 540
-            y: 907
+            y: slotView1.y
 
             property string heroName
 
@@ -917,7 +919,7 @@ Item {
             id: slotView5
 
             x: 720
-            y: 907
+            y: slotView1.y
 
             property string heroName
 
@@ -946,7 +948,7 @@ Item {
             id: slotView6
 
             x: 900
-            y: 907
+            y: slotView1.y
 
             property string heroName
 

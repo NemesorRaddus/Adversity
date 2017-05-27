@@ -346,7 +346,7 @@ Item {
         x: 0
         y: table.y + table.height
         width: 1080
-        height: 170
+        height: taskBorderUpgradeBottom.y + taskBorderUpgradeBottom.height
 
         function update()
         {

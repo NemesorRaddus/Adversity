@@ -182,6 +182,37 @@ Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> 
     m_heroesBeingHealed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
+void Hospital::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingHealed.size())
+        return;
+
+    if (m_heroesBeingHealed[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingHealed[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingHealed[slotIndex]->setCurrentActivity(HeroEnums::CA_InHospital);
+}
+
+void Hospital::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingHealed.size())
+        return;
+
+    if (m_heroesBeingHealed[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingHealed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingHealed[slotIndex]=nullptr;
+}
+
 void Hospital::healHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
@@ -206,6 +237,37 @@ TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<Trainin
     : Building(BaseEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+}
+
+void TrainingGround::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingTrained.size())
+        return;
+
+    if (m_heroesBeingTrained[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingTrained[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_OnTrainingGround);
+}
+
+void TrainingGround::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingTrained.size())
+        return;
+
+    if (m_heroesBeingTrained[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingTrained[slotIndex]=nullptr;
 }
 
 void TrainingGround::trainHeroes() noexcept
@@ -243,6 +305,37 @@ int Gym::amountOfSlots() const noexcept
     return m_heroesBeingTrained.size();
 }
 
+void Gym::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingTrained.size())
+        return;
+
+    if (m_heroesBeingTrained[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingTrained[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_InGym);
+}
+
+void Gym::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingTrained.size())
+        return;
+
+    if (m_heroesBeingTrained[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingTrained[slotIndex]=nullptr;
+}
+
 void Gym::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
@@ -278,6 +371,37 @@ int Laboratory::amountOfSlots() const noexcept
     return m_heroesBeingTrained.size();
 }
 
+void Laboratory::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingTrained.size())
+        return;
+
+    if (m_heroesBeingTrained[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingTrained[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_InLaboratory);
+}
+
+void Laboratory::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingTrained.size())
+        return;
+
+    if (m_heroesBeingTrained[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingTrained[slotIndex]=nullptr;
+}
+
 void Laboratory::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
@@ -306,6 +430,37 @@ PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFiel
     : Building(BaseEnums::B_PlayingField, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+}
+
+void PlayingField::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InPlayingField);
+}
+
+void PlayingField::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
 void PlayingField::destressHeroes() noexcept
@@ -409,6 +564,37 @@ Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &level
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
+void Shrine::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InShrine);
+}
+
+void Shrine::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]=nullptr;
+}
+
 void Shrine::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
@@ -442,6 +628,37 @@ Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInf
     : Building(BaseEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+}
+
+void Seclusion::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+        emptySlot(slotIndex);
+
+    int pos = base()->heroes()->findHero(heroName);
+    if (pos==-1)
+        return;
+
+    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InSeclusion);
+}
+
+void Seclusion::emptySlot(unsigned slotIndex) noexcept
+{
+    if (slotIndex>=m_heroesBeingDestressed.size())
+        return;
+
+    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+        return;
+
+    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
 void Seclusion::destressHeroes() noexcept
