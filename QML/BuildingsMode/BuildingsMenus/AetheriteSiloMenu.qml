@@ -56,7 +56,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/AetheriteSilo.png");
-            setName("Aetherite Silo");
+            setName(GameApi.tr("AetheriteSilo"));
         }
     }
 

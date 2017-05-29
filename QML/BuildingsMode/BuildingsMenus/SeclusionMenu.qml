@@ -185,7 +185,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Seclusion.png");
-            setName("Seclusion");
+            setName(GameApi.tr("Seclusion"));
         }
     }
 

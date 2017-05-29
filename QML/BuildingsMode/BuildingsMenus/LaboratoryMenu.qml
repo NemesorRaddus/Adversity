@@ -119,7 +119,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Laboratory.png");
-            setName("Laboratory");
+            setName(GameApi.tr("Laboratory"));
         }
     }
 

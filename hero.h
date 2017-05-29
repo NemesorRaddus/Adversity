@@ -157,6 +157,7 @@ class Hero : public QObject
 
     friend class HeroBuilder;
     friend class KillHeroEventResult;
+    friend class QDataStream;
 public:
     Q_INVOKABLE QString name() const noexcept
     {
@@ -417,6 +418,33 @@ private:
 QDataStream &operator<<(QDataStream &stream, const Hero &hero) noexcept;
 QDataStream &operator>>(QDataStream &stream, Hero &hero) noexcept;
 
+struct HeroDataHelper
+{
+    QString m_name;
+
+    HeroAttributesSet m_baseAttributesValues;
+    HeroAttributesSet m_currentAttributesValues;
+    HeroStressBorderEffect m_stressBorderEffect;
+    HeroEnums::Nature m_nature;
+    HeroEnums::Profession m_profession;
+
+    QString m_armor;
+    QVector <QString> m_weaponsTools;
+
+    bool m_isDead;
+    bool m_isStressBorderEffectActive;
+
+    int m_noSignalDaysRemaining;
+
+    int m_carriedEnergy;
+    int m_carriedFoodSupplies;
+    int m_carriedBuildingMaterials;
+    int m_carriedAetheriteOre;
+
+    Mission *m_assignedMission;//TODO missions
+    HeroEnums::CurrentActivity m_currentActivity;
+};
+
 class HeroBuilder
 {
 public:
@@ -424,6 +452,10 @@ public:
     ~HeroBuilder() noexcept;
 
     Hero *getHero() noexcept;
+
+    Hero *qobjectifyHeroData(const HeroDataHelper &hero) noexcept;
+    HeroDataHelper antiqobjectifyHero(Hero *hero) noexcept;
+
     void resetHero() noexcept;
 
     void setName(const QString &name) noexcept

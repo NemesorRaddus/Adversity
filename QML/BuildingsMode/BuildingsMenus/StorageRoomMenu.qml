@@ -56,7 +56,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/StorageRoom.png");
-            setName("Storage Room");
+            setName(GameApi.tr("StorageRoom"));
         }
     }
 

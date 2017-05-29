@@ -56,7 +56,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/DockingStation.png");
-            setName("Docking Station");
+            setName(GameApi.tr("DockingStation"));
         }
     }
 

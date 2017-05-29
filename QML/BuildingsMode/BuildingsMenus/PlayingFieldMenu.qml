@@ -185,7 +185,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/PlayingField.png");
-            setName("Playing Field");
+            setName(GameApi.tr("PlayingField"));
         }
     }
 

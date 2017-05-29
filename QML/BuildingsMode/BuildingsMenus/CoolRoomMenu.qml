@@ -56,7 +56,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/CoolRoom.png");
-            setName("Cool Room");
+            setName(GameApi.tr("CoolRoom"));
         }
     }
 

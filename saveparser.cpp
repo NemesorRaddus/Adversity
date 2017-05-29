@@ -3,6 +3,7 @@
 //File generated using Raddus Binary Data Parser Generator v1.0.1 Beta
 
 #include "timer.h"
+#include "hero.h"
 
 #include <QDebug>
 
@@ -51,11 +52,20 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.buildings.upgrading.bar;
         str>>data.buildings.upgrading.shrine;
         str>>data.buildings.upgrading.seclusion;
+        str>>data.buildings.heroSlots.hospital;
+        str>>data.buildings.heroSlots.trainingGround;
+        str>>data.buildings.heroSlots.gym;
+        str>>data.buildings.heroSlots.laboratory;
+        str>>data.buildings.heroSlots.playingField;
+        str>>data.buildings.heroSlots.bar;
+        str>>data.buildings.heroSlots.shrine;
+        str>>data.buildings.heroSlots.seclusion;
         str>>data.resources.energy;
         str>>data.resources.buildingMaterials;
         str>>data.resources.foodSupplies;
         str>>data.resources.aetheriteOre;
         str>>data.alarms.buildingUpgrades;
+        //TODO str>>data.heroes.hiredHeroes;
     }
     else
     {
@@ -98,11 +108,20 @@ SaveData SaveParser::readData(QByteArray &array)
         data.buildings.upgrading.bar=false;
         data.buildings.upgrading.shrine=false;
         data.buildings.upgrading.seclusion=false;
+        data.buildings.heroSlots.hospital.clear();
+        data.buildings.heroSlots.trainingGround.clear();
+        data.buildings.heroSlots.gym.clear();
+        data.buildings.heroSlots.laboratory.clear();
+        data.buildings.heroSlots.playingField.clear();
+        data.buildings.heroSlots.bar.clear();
+        data.buildings.heroSlots.shrine.clear();
+        data.buildings.heroSlots.seclusion.clear();
         data.resources.energy=200;
         data.resources.buildingMaterials=5;
         data.resources.foodSupplies=5;
         data.resources.aetheriteOre=42;
         data.alarms.buildingUpgrades.clear();
+        //TODO data.heroes.hiredHeroes.clear();
 
         QDataStream str(&array,QIODevice::WriteOnly);
         str<<data.overall.baseName;
@@ -144,11 +163,20 @@ SaveData SaveParser::readData(QByteArray &array)
         str<<data.buildings.upgrading.bar;
         str<<data.buildings.upgrading.shrine;
         str<<data.buildings.upgrading.seclusion;
+        str<<data.buildings.heroSlots.hospital;
+        str<<data.buildings.heroSlots.trainingGround;
+        str<<data.buildings.heroSlots.gym;
+        str<<data.buildings.heroSlots.laboratory;
+        str<<data.buildings.heroSlots.playingField;
+        str<<data.buildings.heroSlots.bar;
+        str<<data.buildings.heroSlots.shrine;
+        str<<data.buildings.heroSlots.seclusion;
         str<<data.resources.energy;
         str<<data.resources.buildingMaterials;
         str<<data.resources.foodSupplies;
         str<<data.resources.aetheriteOre;
         str<<data.alarms.buildingUpgrades;
+        //TODO str<<data.heroes.hiredHeroes;
     }
     return data;
 }
@@ -195,9 +223,18 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.buildings.upgrading.bar;
     str<<data.buildings.upgrading.shrine;
     str<<data.buildings.upgrading.seclusion;
+    str<<data.buildings.heroSlots.hospital;
+    str<<data.buildings.heroSlots.trainingGround;
+    str<<data.buildings.heroSlots.gym;
+    str<<data.buildings.heroSlots.laboratory;
+    str<<data.buildings.heroSlots.playingField;
+    str<<data.buildings.heroSlots.bar;
+    str<<data.buildings.heroSlots.shrine;
+    str<<data.buildings.heroSlots.seclusion;
     str<<data.resources.energy;
     str<<data.resources.buildingMaterials;
     str<<data.resources.foodSupplies;
     str<<data.resources.aetheriteOre;
     str<<data.alarms.buildingUpgrades;
+    //TODO str<<data.heroes.hiredHeroes;
 }

@@ -25,17 +25,17 @@ Item {
 
     function setCE(amount)
     {
-        attrCEText.text = "CE: "+amount;
+        attrCEValue.text = amount;
     }
 
     function setPR(amount)
     {
-        attrPRText.text = "PR: "+amount;
+        attrPRValue.text = amount;
     }
 
     function setCL(amount)
     {
-        attrCLText.text = "CL: "+amount;
+        attrCLValue.text = amount;
     }
 
     function getName()
@@ -136,10 +136,10 @@ Item {
         }
         Text {
             id: attrCEText
-            x: 50
+            x: 52
             y: 86
-            width: 785
-            height: 136
+            width: 735
+            height: 50
             color: "#568b56"
             text: qsTr("CE: ")
             wrapMode: Text.WordWrap
@@ -148,10 +148,10 @@ Item {
         }
         Text {
             id: attrCEValue
-            x: 0
+            x: 122
             y: 86
-            width: 785
-            height: 136
+            width: 665
+            height: 50
             color: "#568b56"
             text: qsTr("99")
             wrapMode: Text.WordWrap
@@ -162,17 +162,17 @@ Item {
         Image {
             id: attrPRIcon
             x: 0
-            y: 86
+            y: 136
             width: 50
             height: 50
             source: "qrc:/graphics/GUI/PR.png"
         }
         Text {
             id: attrPRText
-            x: 50
-            y: 86
-            width: 785
-            height: 136
+            x: 52
+            y: 136
+            width: 735
+            height: 50
             color: "#568b56"
             text: qsTr("PR: ")
             wrapMode: Text.WordWrap
@@ -181,10 +181,10 @@ Item {
         }
         Text {
             id: attrPRValue
-            x: 0
-            y: 86
-            width: 785
-            height: 136
+            x: 122
+            y: 136
+            width: 665
+            height: 50
             color: "#568b56"
             text: qsTr("99")
             wrapMode: Text.WordWrap
@@ -195,17 +195,17 @@ Item {
         Image {
             id: attrCLIcon
             x: 0
-            y: 86
+            y: 186
             width: 50
             height: 50
             source: "qrc:/graphics/GUI/CL.png"
         }
         Text {
             id: attrCLText
-            x: 50
-            y: 86
-            width: 785
-            height: 136
+            x: 52
+            y: 186
+            width: 735
+            height: 50
             color: "#568b56"
             text: qsTr("CL: ")
             wrapMode: Text.WordWrap
@@ -214,10 +214,10 @@ Item {
         }
         Text {
             id: attrCLValue
-            x: 0
-            y: 86
-            width: 785
-            height: 136
+            x: 122
+            y: 186
+            width: 665
+            height: 50
             color: "#568b56"
             text: qsTr("99")
             wrapMode: Text.WordWrap

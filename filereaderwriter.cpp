@@ -1244,6 +1244,7 @@ QMap<QString, QMap<QString, QString> > XmlFileReader::getTranslations(const QStr
                         {
                             attrs = m_xmlReader->attributes();
                             r[originalText].insert(attrs.value("context").toString(),attrs.value("translated").toString());
+                            m_xmlReader->skipCurrentElement();
                         }
                         else
                             m_xmlReader->skipCurrentElement();

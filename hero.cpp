@@ -1019,6 +1019,24 @@ Hero *HeroBuilder::getHero() noexcept
     return r;
 }
 
+Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
+{
+//TODO
+}
+
+HeroDataHelper HeroBuilder::antiqobjectifyHero(Hero *hero) noexcept
+{
+    HeroDataHelper r;
+
+    r.m_name = hero->m_name;
+    r.m_baseAttributesValues = hero->m_baseAttributesValues;
+    r.m_currentAttributesValues = hero->m_currentAttributesValues;
+    r.m_stressBorderEffect = hero->m_stressBorderEffect;
+    r.m_nature = hero->m_nature;
+    r.m_profession = hero->m_profession;
+    //TODO continue with armor
+}
+
 void HeroBuilder::resetHero() noexcept
 {
     delete m_hero;

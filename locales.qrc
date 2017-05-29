@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>locales/en_GB.xml</file>
         <file>locales/pl_PL.xml</file>
+        <file>locales/override.xml</file>
     </qresource>
 </RCC>

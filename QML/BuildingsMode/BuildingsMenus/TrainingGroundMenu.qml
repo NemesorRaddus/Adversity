@@ -119,7 +119,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/TrainingGround.png");
-            setName("Training Ground");
+            setName(GameApi.tr("TrainingGround"));
         }
     }
 

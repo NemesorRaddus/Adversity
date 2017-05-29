@@ -13,6 +13,7 @@
 #include <QDebug>
 
 class BuildingUpgradeTimerAlarm;
+class Hero;
 
 struct SaveData
 {
@@ -69,6 +70,17 @@ struct SaveData
             bool shrine;
             bool seclusion;
         } upgrading;
+        struct Slots
+        {
+            QVector<QString> hospital;
+            QVector<QString> trainingGround;
+            QVector<QString> gym;
+            QVector<QString> laboratory;
+            QVector<QString> playingField;
+            QVector<QString> bar;
+            QVector<QString> shrine;
+            QVector<QString> seclusion;
+        } heroSlots;
     } buildings;
     struct Resources
     {
@@ -81,6 +93,10 @@ struct SaveData
     {
         QVector<QPair<unsigned,BuildingUpgradeTimerAlarm>> buildingUpgrades;
     } alarms;
+    struct Heroes
+    {
+        //TODO QVector<Hero> hiredHeroes;
+    } heroes;
 };
 
 class SaveParser

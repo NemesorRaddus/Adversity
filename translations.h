@@ -21,11 +21,11 @@ public:
 
     Q_INVOKABLE QString translate(const QString &text) noexcept
     {
-        return m_translations.value(text).value({});
+        return m_translations.value(text).value({},text);
     }
     Q_INVOKABLE QString translate(const QString &text, const QString &context) noexcept
     {
-        return m_translations.value(text).value(context);
+        return m_translations.value(text).value(context,text);
     }
 
     QString currentLanguage() const noexcept
@@ -34,6 +34,8 @@ public:
     }
 
 private:
+    void loadOverrides() noexcept;
+
     typedef QString Text;
     typedef QString Context;
     typedef QString Translation;

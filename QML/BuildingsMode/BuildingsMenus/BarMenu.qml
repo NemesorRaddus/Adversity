@@ -186,7 +186,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Bar.png");
-            setName("Bar");
+            setName(GameApi.tr("Bar"));
         }
     }
 

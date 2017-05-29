@@ -57,7 +57,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Powerplant.png");
-            setName("Powerplant");
+            setName(GameApi.tr("Powerplant"));
         }
     }
 

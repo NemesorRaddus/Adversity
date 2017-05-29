@@ -47,7 +47,8 @@ HEADERS += \
 DISTFILES += \
     android-sources/AndroidManifest.xml \
     android-sources/src/org/qtproject/qt5/android/bindings/QtActivity.java \
-    versionnumber.txt
+    versionnumber.txt \
+    save.txt
 
 CONFIG(release, debug|release) {
     #This is a release build

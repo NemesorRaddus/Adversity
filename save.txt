@@ -46,6 +46,16 @@ bool		bar
 bool		shrine
 bool		seclusion	
 END
+SECTION Slots
+QVector<QString> hospital
+QVector<QString> trainingGround
+QVector<QString> gym
+QVector<QString> laboratory
+QVector<QString> playingField
+QVector<QString> bar
+QVector<QString> shrine
+QVector<QString> seclusion
+END
 END
 SECTION Resources
 quint16		energy
@@ -55,4 +65,7 @@ quint16		aetheriteOre
 END
 SECTION Alarms
 QVector<BuildingUpgradeTimerAlarm> buildingUpgrades
+END
+SECTION Heroes
+QVector<Hero>   hiredHeroes
 END

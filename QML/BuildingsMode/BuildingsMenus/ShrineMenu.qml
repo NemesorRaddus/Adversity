@@ -185,7 +185,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Shrine.png");
-            setName("Shrine");
+            setName(GameApi.tr("Shrine"));
         }
     }
 

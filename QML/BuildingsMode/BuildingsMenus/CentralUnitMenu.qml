@@ -56,7 +56,7 @@ Item {
 
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/CentralUnit.png");
-            setName("Central Unit");
+            setName(GameApi.tr("CentralUnit"));
         }
     }
 

@@ -1,52 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <translations>
-    <text original="Central Unit">
-        <translation context="" translated="Central Unit"></translation>
-    </text>
-    <text original="Hospital">
-        <translation context="" translated="Hospital"></translation>
-    </text>
-    <text original="Training Ground">
-        <translation context="" translated="Training Ground"></translation>
-    </text>
-    <text original="Gym">
-        <translation context="" translated="Gym"></translation>
-    </text>
-    <text original="Laboratory">
-        <translation context="" translated="Laboratory"></translation>
-    </text>
-    <text original="Playing Field">
-        <translation context="" translated="Playing Field"></translation>
-    </text>
-    <text original="Bar">
-        <translation context="" translated="Bar"></translation>
-    </text>
-    <text original="Shrine">
-        <translation context="" translated="Shrine"></translation>
-    </text>
-    <text original="Seclusion">
-        <translation context="" translated="Seclusion"></translation>
-    </text>
-    <text original="Powerplant">
-        <translation context="" translated="Powerplant"></translation>
-    </text>
-    <text original="Factory">
-        <translation context="" translated="Factory"></translation>
-    </text>
-    <text original="Cool Room">
-        <translation context="" translated="Cool Room"></translation>
-    </text>
-    <text original="Storage Room">
-        <translation context="" translated="Storage Room"></translation>
-    </text>
-    <text original="Aetherite Silo">
-        <translation context="" translated="Aetherite Silo"></translation>
-    </text>
-    <text original="Barracks">
-        <translation context="" translated="Barracks"></translation>
-    </text>
-    <text original="Docking Station">
-        <translation context="" translated="Docking Station"></translation>
-    </text>
+    
 </translations>
