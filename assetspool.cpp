@@ -16,8 +16,8 @@ AssetsPool::~AssetsPool() noexcept
 void AssetsPool::load(const QString &pathToAssets) noexcept
 {
     clear();
-    loadHeroesList(pathToAssets+"expeditions/mercenaries/");
-    loadEquipment(pathToAssets+"expeditions/mercenaries/equipment.xml");
+    loadHeroesList(pathToAssets+"mercenaries/mercenaries/");
+    loadEquipment(pathToAssets+"mercenaries/equipment.xml");
     m_isReady=1;
     m_pathToAssets=pathToAssets;
 }

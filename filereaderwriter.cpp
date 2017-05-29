@@ -1136,6 +1136,7 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
                                         eqB.setSalaryBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="dailyFoodConsumption")
                                         eqB.setDailyFoodConsumptionBonus(attrs.value("value").toInt());
+                                    m_xmlReader->skipCurrentElement();
                                 }
                                 else
                                     m_xmlReader->skipCurrentElement();
@@ -1192,6 +1193,7 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
                                         eqB.setSalaryBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="dailyFoodConsumption")
                                         eqB.setDailyFoodConsumptionBonus(attrs.value("value").toInt());
+                                    m_xmlReader->skipCurrentElement();
                                 }
                                 else
                                     m_xmlReader->skipCurrentElement();

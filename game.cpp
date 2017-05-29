@@ -91,6 +91,8 @@ void Game::loadAssets(const QString &pathToDir) noexcept
 {
     XmlFileReader xmlReader;
     m_base->setBuildingDescriptions(xmlReader.getBuildingDescriptions(pathToDir+"base/descriptions.xml"));
+    //levels infos
+    {
     QMap <QPair <BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> bureqs;
 
     auto culi = xmlReader.getCentralUnitLevelsInfo(pathToDir+"base/buildingLevelsInfo/centralUnit.xml");
@@ -174,6 +176,7 @@ void Game::loadAssets(const QString &pathToDir) noexcept
         bureqs.insert({BaseEnums::B_DockingStation,i},dsli.second[i]);
 
     m_base->setBuildingRequirements(bureqs);
+    }
 
     m_assetsPool.load(pathToDir);
 }
