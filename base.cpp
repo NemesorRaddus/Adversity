@@ -1080,7 +1080,30 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_shrine->setIsBeingUpgraded(data.buildings.upgrading.shrine);
     m_seclusion->setIsBeingUpgraded(data.buildings.upgrading.seclusion);
 
-    //TODO slots
+    for (int i=0;i<data.equipments.freeArmor.size();++i)
+        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipment(data.equipments.freeArmor[i]));
+    for (int i=0;i<data.equipments.freeWeaponsTools.size();++i)
+        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipment(data.equipments.freeWeaponsTools[i]));
+
+    for (int i=0;i<data.heroes.hiredHeroes.size();++i)
+        m_heroes->addHero(HeroBuilder::qobjectifyHeroData(data.heroes.hiredHeroes[i]));
+
+    for (int i=0;i<data.buildings.heroSlots.hospital.size();++i)
+        m_hospital->setSlot(i,!data.buildings.heroSlots.hospital[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.hospital[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.trainingGround.size();++i)
+        m_trainingGround->setSlot(i,!data.buildings.heroSlots.trainingGround[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.trainingGround[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.gym.size();++i)
+        m_gym->setSlot(i,!data.buildings.heroSlots.gym[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.gym[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.laboratory.size();++i)
+        m_laboratory->setSlot(i,!data.buildings.heroSlots.laboratory[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.laboratory[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.playingField.size();++i)
+        m_playingField->setSlot(i,!data.buildings.heroSlots.playingField[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.playingField[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.bar.size();++i)
+        m_bar->setSlot(i,!data.buildings.heroSlots.bar[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.bar[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.shrine.size();++i)
+        m_shrine->setSlot(i,!data.buildings.heroSlots.shrine[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.shrine[i])) : nullptr);
+    for (int i=0;i<data.buildings.heroSlots.seclusion.size();++i)
+        m_seclusion->setSlot(i,!data.buildings.heroSlots.seclusion[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.seclusion[i])) : nullptr);
 
     m_energy=data.resources.energy;
     m_foodSupplies=data.resources.foodSupplies;
@@ -1137,7 +1160,33 @@ SaveData Base::getSaveData() noexcept
     data.buildings.upgrading.shrine=m_shrine->isBeingUpgraded();
     data.buildings.upgrading.seclusion=m_seclusion->isBeingUpgraded();
 
-    //TODO slots
+    for (int i=0;i<m_freeEquipment.size();++i)
+    {
+        if (m_freeEquipment[i]->type()==EquipmentEnums::T_Armor)
+            data.equipments.freeArmor.push_back(m_freeEquipment[i]->name());
+        else if (m_freeEquipment[i]->type()==EquipmentEnums::T_WeaponTool)
+            data.equipments.freeWeaponsTools.push_back(m_freeEquipment[i]->name());
+    }
+
+    for (int i=0;i<m_heroes->amountOfHeroes();++i)
+        data.heroes.hiredHeroes.push_back(HeroBuilder::deqobjectifyHero(m_heroes->heroes()[i]));
+
+    for (int i=0;i<m_hospital->amountOfSlots();++i)
+        data.buildings.heroSlots.hospital.push_back(m_hospital->slot(i)!=nullptr ? m_hospital->slot(i)->name() : "");
+    for (int i=0;i<m_trainingGround->amountOfSlots();++i)
+        data.buildings.heroSlots.trainingGround.push_back(m_trainingGround->slot(i)!=nullptr ? m_trainingGround->slot(i)->name() : "");
+    for (int i=0;i<m_gym->amountOfSlots();++i)
+        data.buildings.heroSlots.gym.push_back(m_gym->slot(i)!=nullptr ? m_gym->slot(i)->name() : "");
+    for (int i=0;i<m_laboratory->amountOfSlots();++i)
+        data.buildings.heroSlots.laboratory.push_back(m_laboratory->slot(i)!=nullptr ? m_laboratory->slot(i)->name() : "");
+    for (int i=0;i<m_playingField->amountOfSlots();++i)
+        data.buildings.heroSlots.playingField.push_back(m_playingField->slot(i)!=nullptr ? m_playingField->slot(i)->name() : "");
+    for (int i=0;i<m_bar->amountOfSlots();++i)
+        data.buildings.heroSlots.bar.push_back(m_bar->slot(i)!=nullptr ? m_bar->slot(i)->name() : "");
+    for (int i=0;i<m_shrine->amountOfSlots();++i)
+        data.buildings.heroSlots.shrine.push_back(m_shrine->slot(i)!=nullptr ? m_shrine->slot(i)->name() : "");
+    for (int i=0;i<m_seclusion->amountOfSlots();++i)
+        data.buildings.heroSlots.seclusion.push_back(m_seclusion->slot(i)!=nullptr ? m_seclusion->slot(i)->name() : "");
 
     data.resources.energy=m_energy;
     data.resources.foodSupplies=m_foodSupplies;

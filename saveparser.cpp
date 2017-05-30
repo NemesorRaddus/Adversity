@@ -65,7 +65,9 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.resources.foodSupplies;
         str>>data.resources.aetheriteOre;
         str>>data.alarms.buildingUpgrades;
-        //TODO str>>data.heroes.hiredHeroes;
+        str>>data.heroes.hiredHeroes;
+        str>>data.equipments.freeArmor;
+        str>>data.equipments.freeWeaponsTools;
     }
     else
     {
@@ -121,7 +123,9 @@ SaveData SaveParser::readData(QByteArray &array)
         data.resources.foodSupplies=5;
         data.resources.aetheriteOre=42;
         data.alarms.buildingUpgrades.clear();
-        //TODO data.heroes.hiredHeroes.clear();
+        data.heroes.hiredHeroes.clear();
+        data.equipments.freeArmor.clear();
+        data.equipments.freeWeaponsTools.clear();
 
         QDataStream str(&array,QIODevice::WriteOnly);
         str<<data.overall.baseName;
@@ -176,7 +180,9 @@ SaveData SaveParser::readData(QByteArray &array)
         str<<data.resources.foodSupplies;
         str<<data.resources.aetheriteOre;
         str<<data.alarms.buildingUpgrades;
-        //TODO str<<data.heroes.hiredHeroes;
+        str<<data.heroes.hiredHeroes;
+        str<<data.equipments.freeArmor;
+        str<<data.equipments.freeWeaponsTools;
     }
     return data;
 }
@@ -236,5 +242,7 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.resources.foodSupplies;
     str<<data.resources.aetheriteOre;
     str<<data.alarms.buildingUpgrades;
-    //TODO str<<data.heroes.hiredHeroes;
+    str<<data.heroes.hiredHeroes;
+    str<<data.equipments.freeArmor;
+    str<<data.equipments.freeWeaponsTools;
 }

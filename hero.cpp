@@ -615,139 +615,6 @@ void Hero::setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept
         m_assignedMission=nullptr;
 }
 
-QDataStream &Hero::read(QDataStream &stream) noexcept
-{
-    qint16 ii;
-    quint8 n;
-    QString s;
-    QVector <QString> vs;
-
-    stream>>m_name;
-
-    stream>>m_baseAttributesValues;
-
-    stream>>m_currentAttributesValues;
-
-    stream>>m_stressBorderEffect;
-
-    stream>>n;
-    m_nature=static_cast<HeroEnums::Nature>(n);
-
-    stream>>n;
-    m_profession=static_cast<HeroEnums::Profession>(n);
-
-    stream>>s;
-    if (!s.isEmpty())
-    {
-        for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
-            if (Game::gameInstance()->assetsPool().equipment()[i]->name() == s)
-            {
-                equipArmor(EquipmentBuilder::copyEquipment(Game::gameInstance()->assetsPool().equipment()[i]));
-                break;
-            }
-    }
-
-    stream>>vs;
-    for (int i=0;i<vs.size() && i<m_amountOfWeaponToolSlots;++i)
-    {
-        if (!vs[i].isEmpty())
-        {
-            for (int j=0;j<Game::gameInstance()->assetsPool().equipment().size();++j)
-                if (Game::gameInstance()->assetsPool().equipment()[j]->name() == s)
-                {
-                    equipWeaponTool(EquipmentBuilder::copyEquipment(Game::gameInstance()->assetsPool().equipment()[j]),i);
-                    break;
-                }
-        }
-    }
-
-    stream>>m_isDead;
-
-    stream>>m_isStressBorderEffectActive;
-
-    stream>>ii;
-    m_noSignalDaysRemaining=ii;
-
-    stream>>ii;
-    m_carriedEnergy=ii;
-
-    stream>>ii;
-    m_carriedFoodSupplies=ii;
-
-    stream>>ii;
-    m_carriedBuildingMaterials=ii;
-
-    stream>>ii;
-    m_carriedAetheriteOre=ii;
-
-    //TODO Mission loading
-
-    stream>>n;
-    m_currentActivity=static_cast<HeroEnums::CurrentActivity>(n);
-
-    return stream;
-}
-
-QDataStream &Hero::write(QDataStream &stream) const noexcept
-{
-    stream<<m_name;
-
-    stream<<m_baseAttributesValues;
-
-    stream<<m_currentAttributesValues;
-
-    stream<<m_stressBorderEffect;
-
-    stream<<static_cast<quint8>(m_nature);
-
-    stream<<static_cast<quint8>(m_profession);
-
-    if (m_armor!=nullptr)
-        stream<<m_armor->name();
-    else
-        stream<<QString("");
-
-    QVector <QString> vs;
-    for (int i=0;i<m_weaponsTools.size();++i)
-    {
-        if (m_weaponsTools[i]!=nullptr)
-            vs.push_back(m_weaponsTools[i]->name());
-        else
-            vs.push_back("");
-    }
-    stream<<vs;
-
-    stream<<m_isDead;
-
-    stream<<m_isStressBorderEffectActive;
-
-    stream<<static_cast<qint16>(m_noSignalDaysRemaining);
-
-    stream<<static_cast<qint16>(m_carriedEnergy);
-
-    stream<<static_cast<qint16>(m_carriedFoodSupplies);
-
-    stream<<static_cast<qint16>(m_carriedBuildingMaterials);
-
-    stream<<static_cast<qint16>(m_carriedAetheriteOre);
-
-    //TODO Mission saving
-
-    stream<<static_cast<quint8>(m_currentActivity);
-
-    return stream;
-}
-
-QDataStream &operator<<(QDataStream &stream, const Hero &hero) noexcept
-{
-    return hero.write(stream);
-}
-
-QDataStream &operator>>(QDataStream &stream, Hero &hero) noexcept
-{
-    return hero.read(stream);
-}
-
 void Hero::activateStressBorderEffect() noexcept
 {
     m_isStressBorderEffectActive=1;
@@ -1021,20 +888,160 @@ Hero *HeroBuilder::getHero() noexcept
 
 Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
 {
-//TODO
+    Hero *r=new Hero;
+    r->m_name = hero.name;
+    r->m_baseAttributesValues = hero.baseAttributesValues;
+    r->m_currentAttributesValues = hero.currentAttributesValues;
+    r->m_stressBorderEffect = hero.stressBorderEffect;
+    r->m_nature = hero.nature;
+    r->m_profession = hero.profession;
+    if (!hero.armor.isEmpty())
+        r->m_armor = Game::gameInstance()->assetsPool().makeEquipment(hero.armor);
+    else
+        r->m_armor = nullptr;
+    for (int i=0;i<hero.weaponsTools.size();++i)
+    {
+        if (!hero.weaponsTools[i].isEmpty())
+            r->m_weaponsTools[i]=Game::gameInstance()->assetsPool().makeEquipment(hero.weaponsTools[i]);
+        else
+            r->m_weaponsTools[i]=nullptr;
+    }
+    r->m_isDead = hero.isDead;
+    r->m_isStressBorderEffectActive = hero.isStressBorderEffectActive;
+    r->m_noSignalDaysRemaining = hero.noSignalDaysRemaining;
+    r->m_carriedEnergy = hero.carriedEnergy;
+    r->m_carriedFoodSupplies = hero.carriedFoodSupplies;
+    r->m_carriedBuildingMaterials = hero.carriedBuildingMaterials;
+    r->m_carriedAetheriteOre = hero.carriedAetheriteOre;
+    //TODO mission
+    r->m_currentActivity = hero.currentActivity;
+
+    return r;
 }
 
-HeroDataHelper HeroBuilder::antiqobjectifyHero(Hero *hero) noexcept
+HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
 {
     HeroDataHelper r;
 
-    r.m_name = hero->m_name;
-    r.m_baseAttributesValues = hero->m_baseAttributesValues;
-    r.m_currentAttributesValues = hero->m_currentAttributesValues;
-    r.m_stressBorderEffect = hero->m_stressBorderEffect;
-    r.m_nature = hero->m_nature;
-    r.m_profession = hero->m_profession;
-    //TODO continue with armor
+    r.name = hero->m_name;
+    r.baseAttributesValues = hero->m_baseAttributesValues;
+    r.currentAttributesValues = hero->m_currentAttributesValues;
+    r.stressBorderEffect = hero->m_stressBorderEffect;
+    r.nature = hero->m_nature;
+    r.profession = hero->m_profession;
+    if (hero->m_armor != nullptr)
+        r.armor = hero->m_armor->name();
+    else
+        r.armor = "";
+    for (int i=0;i<hero->amountOfWeaponToolSlots();++i)
+    {
+        if (hero->m_weaponsTools[i] != nullptr)
+            r.weaponsTools.push_back(hero->m_weaponsTools[i]->name());
+        else
+            r.weaponsTools.push_back("");
+    }
+    r.isDead = hero->m_isDead;
+    r.isStressBorderEffectActive = hero->m_isStressBorderEffectActive;
+    r.noSignalDaysRemaining = hero->m_noSignalDaysRemaining;
+    r.carriedEnergy = hero->m_carriedEnergy;
+    r.carriedFoodSupplies = hero->m_carriedFoodSupplies;
+    r.carriedBuildingMaterials = hero->m_carriedBuildingMaterials;
+    r.carriedAetheriteOre = hero->m_carriedAetheriteOre;
+    //TODO mission
+    r.currentActivity = hero->m_currentActivity;
+
+    return r;
+}
+
+QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcept
+{
+    stream<<hero.name;
+
+    stream<<hero.baseAttributesValues;
+
+    stream<<hero.currentAttributesValues;
+
+    stream<<hero.stressBorderEffect;
+
+    stream<<static_cast<quint8>(hero.nature);
+
+    stream<<static_cast<quint8>(hero.profession);
+
+    stream<<hero.armor;
+
+    stream<<hero.weaponsTools;
+
+    stream<<hero.isDead;
+
+    stream<<hero.isStressBorderEffectActive;
+
+    stream<<static_cast<qint16>(hero.noSignalDaysRemaining);
+
+    stream<<static_cast<qint16>(hero.carriedEnergy);
+
+    stream<<static_cast<qint16>(hero.carriedFoodSupplies);
+
+    stream<<static_cast<qint16>(hero.carriedBuildingMaterials);
+
+    stream<<static_cast<qint16>(hero.carriedAetheriteOre);
+
+    //TODO Mission saving
+
+    stream<<static_cast<quint8>(hero.currentActivity);
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
+{
+    qint16 ii;
+    quint8 n;
+    QString s;
+    QVector <QString> vs;
+
+    stream>>hero.name;
+
+    stream>>hero.baseAttributesValues;
+
+    stream>>hero.currentAttributesValues;
+
+    stream>>hero.stressBorderEffect;
+
+    stream>>n;
+    hero.nature=static_cast<HeroEnums::Nature>(n);
+
+    stream>>n;
+    hero.profession=static_cast<HeroEnums::Profession>(n);
+
+    stream>>hero.armor;
+
+    stream>>hero.weaponsTools;
+
+    stream>>hero.isDead;
+
+    stream>>hero.isStressBorderEffectActive;
+
+    stream>>ii;
+    hero.noSignalDaysRemaining=ii;
+
+    stream>>ii;
+    hero.carriedEnergy=ii;
+
+    stream>>ii;
+    hero.carriedFoodSupplies=ii;
+
+    stream>>ii;
+    hero.carriedBuildingMaterials=ii;
+
+    stream>>ii;
+    hero.carriedAetheriteOre=ii;
+
+    //TODO Mission loading
+
+    stream>>n;
+    hero.currentActivity=static_cast<HeroEnums::CurrentActivity>(n);
+
+    return stream;
 }
 
 void HeroBuilder::resetHero() noexcept

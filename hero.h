@@ -415,35 +415,35 @@ private:
     HeroEnums::CurrentActivity m_currentActivity;
 };
 
-QDataStream &operator<<(QDataStream &stream, const Hero &hero) noexcept;
-QDataStream &operator>>(QDataStream &stream, Hero &hero) noexcept;
-
 struct HeroDataHelper
 {
-    QString m_name;
+    QString name;
 
-    HeroAttributesSet m_baseAttributesValues;
-    HeroAttributesSet m_currentAttributesValues;
-    HeroStressBorderEffect m_stressBorderEffect;
-    HeroEnums::Nature m_nature;
-    HeroEnums::Profession m_profession;
+    HeroAttributesSet baseAttributesValues;
+    HeroAttributesSet currentAttributesValues;
+    HeroStressBorderEffect stressBorderEffect;
+    HeroEnums::Nature nature;
+    HeroEnums::Profession profession;
 
-    QString m_armor;
-    QVector <QString> m_weaponsTools;
+    QString armor;
+    QVector <QString> weaponsTools;
 
-    bool m_isDead;
-    bool m_isStressBorderEffectActive;
+    bool isDead;
+    bool isStressBorderEffectActive;
 
-    int m_noSignalDaysRemaining;
+    int noSignalDaysRemaining;
 
-    int m_carriedEnergy;
-    int m_carriedFoodSupplies;
-    int m_carriedBuildingMaterials;
-    int m_carriedAetheriteOre;
+    int carriedEnergy;
+    int carriedFoodSupplies;
+    int carriedBuildingMaterials;
+    int carriedAetheriteOre;
 
-    Mission *m_assignedMission;//TODO missions
-    HeroEnums::CurrentActivity m_currentActivity;
+    Mission *assignedMission;//TODO missions
+    HeroEnums::CurrentActivity currentActivity;
 };
+
+QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcept;
+QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept;
 
 class HeroBuilder
 {
@@ -453,8 +453,8 @@ public:
 
     Hero *getHero() noexcept;
 
-    Hero *qobjectifyHeroData(const HeroDataHelper &hero) noexcept;
-    HeroDataHelper antiqobjectifyHero(Hero *hero) noexcept;
+    static Hero *qobjectifyHeroData(const HeroDataHelper &hero) noexcept;
+    static HeroDataHelper deqobjectifyHero(Hero *hero) noexcept;
 
     void resetHero() noexcept;
 

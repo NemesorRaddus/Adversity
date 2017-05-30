@@ -61,6 +61,16 @@ void AssetsPool::unloadHero(unsigned index) noexcept
     }
 }
 
+Equipment *AssetsPool::makeEquipment(const QString &name) const noexcept
+{
+    for (int i=0;i<m_equipment.size();++i)
+    {
+        if (m_equipment[i]->name() == name)
+            return EquipmentBuilder::copyEquipment(m_equipment[i]);
+    }
+    return nullptr;
+}
+
 void AssetsPool::loadHeroesList(const QString &pathToDir) noexcept
 {
     m_heroesAll=m_reader.getHeroesNamesList(pathToDir);

@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QObject>
 
+#include "equipment.h"
 #include "hero.h"
 #include "saveparser.h"
 
@@ -228,6 +229,7 @@ struct HospitalLevelInfo
 class Hospital : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit Hospital(Base *base, unsigned level, const QVector <HospitalLevelInfo> &levelsInfo) noexcept;
 
@@ -329,6 +331,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingHealed.size())
+            m_heroesBeingHealed[index]=hero;
+    }
+
     QVector <HospitalLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingHealed;
@@ -351,6 +359,7 @@ struct TrainingGroundLevelInfo
 class TrainingGround : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit TrainingGround(Base *base, unsigned level, const QVector <TrainingGroundLevelInfo> &levelsInfo) noexcept;
 
@@ -461,6 +470,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingTrained.size())
+            m_heroesBeingTrained[index]=hero;
+    }
+
     QVector <TrainingGroundLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingTrained;
@@ -483,6 +498,7 @@ struct GymLevelInfo
 class Gym : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit Gym(Base *base, unsigned level, const QVector <GymLevelInfo> &levelsInfo) noexcept;
 
@@ -590,6 +606,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingTrained.size())
+            m_heroesBeingTrained[index]=hero;
+    }
+
     QVector <GymLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingTrained;
@@ -612,6 +634,7 @@ struct LaboratoryLevelInfo
 class Laboratory : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit Laboratory(Base *base, unsigned level, const QVector <LaboratoryLevelInfo> &levelsInfo) noexcept;
 
@@ -719,6 +742,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingTrained.size())
+            m_heroesBeingTrained[index]=hero;
+    }
+
     QVector <LaboratoryLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingTrained;
@@ -741,6 +770,7 @@ struct PlayingFieldLevelInfo
 class PlayingField : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit PlayingField(Base *base, unsigned level, const QVector <PlayingFieldLevelInfo> &levelsInfo) noexcept;
 
@@ -858,6 +888,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingDestressed.size())
+            m_heroesBeingDestressed[index]=hero;
+    }
+
     QVector <PlayingFieldLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingDestressed;
@@ -880,6 +916,7 @@ struct BarLevelInfo
 class Bar : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit Bar(Base *base, unsigned level, const QVector <BarLevelInfo> &levelsInfo) noexcept;
 
@@ -997,6 +1034,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingDestressed.size())
+            m_heroesBeingDestressed[index]=hero;
+    }
+
     QVector <BarLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingDestressed;
@@ -1019,6 +1062,7 @@ struct ShrineLevelInfo
 class Shrine : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit Shrine(Base *base, unsigned level, const QVector <ShrineLevelInfo> &levelsInfo) noexcept;
 
@@ -1136,6 +1180,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingDestressed.size())
+            m_heroesBeingDestressed[index]=hero;
+    }
+
     QVector <ShrineLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingDestressed;
@@ -1158,6 +1208,7 @@ struct SeclusionLevelInfo
 class Seclusion : public Building
 {
     Q_OBJECT
+    friend class Base;
 public:
     explicit Seclusion(Base *base, unsigned level, const QVector <SeclusionLevelInfo> &levelsInfo) noexcept;
 
@@ -1275,6 +1326,12 @@ public:
     }
 
 private:
+    void setSlot(unsigned index, Hero *hero) noexcept
+    {
+        if (index<m_heroesBeingDestressed.size())
+            m_heroesBeingDestressed[index]=hero;
+    }
+
     QVector <SeclusionLevelInfo> m_levelsInfo;
 
     QVector <Hero *> m_heroesBeingDestressed;
@@ -2138,6 +2195,9 @@ private:
     //heroes
     HeroesContainer *m_heroes;
     QMap <QString, unsigned> m_heroDockingStationBans;//in days; when banned, hero won't appear in docking station menu
+
+    //equipment
+    QVector <Equipment *> m_freeEquipment;
 
     //game clock/timer
     GameClock *m_gameClock;

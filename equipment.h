@@ -18,6 +18,9 @@ struct EquipmentEnums
 class Equipment
 {
     friend class EquipmentBuilder;
+    template <typename T>
+    friend class QVector;
+    friend class QDataStream;
 public:
     void reset() noexcept;
 
