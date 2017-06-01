@@ -236,7 +236,7 @@ unsigned Hospital::upgradeTimeRemaining() noexcept
 TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<TrainingGroundLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
 }
 
 void TrainingGround::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
@@ -244,7 +244,7 @@ void TrainingGround::placeHeroInSlot(unsigned slotIndex, const QString &heroName
     if (slotIndex>=m_heroesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex]!=nullptr)
+    if (m_heroesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
     int pos = base()->heroes()->findHero(heroName);
@@ -254,8 +254,9 @@ void TrainingGround::placeHeroInSlot(unsigned slotIndex, const QString &heroName
     if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
         return;
 
-    m_heroesBeingTrained[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_OnTrainingGround);
+    m_heroesBeingTrained[slotIndex].first=base()->heroes()->getHero(pos);
+    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_OnTrainingGround);
+    m_heroesBeingTrained[slotIndex].second=duration();
 }
 
 void TrainingGround::emptySlot(unsigned slotIndex) noexcept
@@ -263,21 +264,36 @@ void TrainingGround::emptySlot(unsigned slotIndex) noexcept
     if (slotIndex>=m_heroesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex]==nullptr)
+    if (m_heroesBeingTrained[slotIndex].first==nullptr)
         return;
 
-    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingTrained[slotIndex]=nullptr;
+    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingTrained[slotIndex].first=nullptr;
+    m_heroesBeingTrained[slotIndex].second=0;
 }
 
 void TrainingGround::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i]!=nullptr)
+        if (m_heroesBeingTrained[i].first!=nullptr)
         {
-            m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
-            m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
-            m_heroesBeingTrained[i]->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
+            if (m_heroesBeingTrained[i].second>0)
+                --m_heroesBeingTrained[i].second;
+            else if (m_heroesBeingTrained[i].second==0)
+            {
+                if (m_heroesBeingTrained[i].first->combatEffectiveness() > 7)
+                {
+                    m_heroesBeingTrained[i].first->changeProficiency(-1);
+                    m_heroesBeingTrained[i].first->changeCleverness(-1);
+                }
+                else if (m_heroesBeingTrained[i].first->combatEffectiveness() > 4)
+                    m_heroesBeingTrained[i].first->changeCleverness(-1);
+
+                m_heroesBeingTrained[i].first->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
+                m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+                m_heroesBeingTrained[i].first=nullptr;
+                m_heroesBeingTrained[i].second=0;
+            }
         }
 }
 
@@ -297,7 +313,7 @@ unsigned TrainingGround::upgradeTimeRemaining() noexcept
 Gym::Gym(Base *base, unsigned level, const QVector<GymLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Gym, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
 }
 
 int Gym::amountOfSlots() const noexcept
@@ -310,7 +326,7 @@ void Gym::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
     if (slotIndex>=m_heroesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex]!=nullptr)
+    if (m_heroesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
     int pos = base()->heroes()->findHero(heroName);
@@ -320,8 +336,9 @@ void Gym::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
     if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
         return;
 
-    m_heroesBeingTrained[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_InGym);
+    m_heroesBeingTrained[slotIndex].first=base()->heroes()->getHero(pos);
+    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_InGym);
+    m_heroesBeingTrained[slotIndex].second=duration();
 }
 
 void Gym::emptySlot(unsigned slotIndex) noexcept
@@ -329,21 +346,36 @@ void Gym::emptySlot(unsigned slotIndex) noexcept
     if (slotIndex>=m_heroesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex]==nullptr)
+    if (m_heroesBeingTrained[slotIndex].first==nullptr)
         return;
 
-    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingTrained[slotIndex]=nullptr;
+    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingTrained[slotIndex].first=nullptr;
+    m_heroesBeingTrained[slotIndex].second=0;
 }
 
 void Gym::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i]!=nullptr)
+        if (m_heroesBeingTrained[i].first!=nullptr)
         {
-            m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
-            m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
-            m_heroesBeingTrained[i]->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
+            if (m_heroesBeingTrained[i].second>0)
+                --m_heroesBeingTrained[i].second;
+            else if (m_heroesBeingTrained[i].second==0)
+            {
+                if (m_heroesBeingTrained[i].first->proficiency() > 7)
+                {
+                    m_heroesBeingTrained[i].first->changeCombatEffectiveness(-1);
+                    m_heroesBeingTrained[i].first->changeCleverness(-1);
+                }
+                else if (m_heroesBeingTrained[i].first->proficiency() > 4)
+                    m_heroesBeingTrained[i].first->changeCombatEffectiveness(-1);
+
+                m_heroesBeingTrained[i].first->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
+                m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+                m_heroesBeingTrained[i].first=nullptr;
+                m_heroesBeingTrained[i].second=0;
+            }
         }
 }
 
@@ -363,7 +395,7 @@ unsigned Gym::upgradeTimeRemaining() noexcept
 Laboratory::Laboratory(Base *base, unsigned level, const QVector<LaboratoryLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Laboratory, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
 }
 
 int Laboratory::amountOfSlots() const noexcept
@@ -376,7 +408,7 @@ void Laboratory::placeHeroInSlot(unsigned slotIndex, const QString &heroName) no
     if (slotIndex>=m_heroesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex]!=nullptr)
+    if (m_heroesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
     int pos = base()->heroes()->findHero(heroName);
@@ -386,8 +418,9 @@ void Laboratory::placeHeroInSlot(unsigned slotIndex, const QString &heroName) no
     if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
         return;
 
-    m_heroesBeingTrained[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_InLaboratory);
+    m_heroesBeingTrained[slotIndex].first=base()->heroes()->getHero(pos);
+    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_InLaboratory);
+    m_heroesBeingTrained[slotIndex].second=duration();
 }
 
 void Laboratory::emptySlot(unsigned slotIndex) noexcept
@@ -395,21 +428,36 @@ void Laboratory::emptySlot(unsigned slotIndex) noexcept
     if (slotIndex>=m_heroesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex]==nullptr)
+    if (m_heroesBeingTrained[slotIndex].first==nullptr)
         return;
 
-    m_heroesBeingTrained[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingTrained[slotIndex]=nullptr;
+    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingTrained[slotIndex].first=nullptr;
+    m_heroesBeingTrained[slotIndex].second=0;
 }
 
 void Laboratory::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i]!=nullptr)
+        if (m_heroesBeingTrained[i].first!=nullptr)
         {
-            m_heroesBeingTrained[i]->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
-            m_heroesBeingTrained[i]->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
-            m_heroesBeingTrained[i]->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
+            if (m_heroesBeingTrained[i].second>0)
+                --m_heroesBeingTrained[i].second;
+            else if (m_heroesBeingTrained[i].second==0)
+            {
+                if (m_heroesBeingTrained[i].first->cleverness() > 7)
+                {
+                    m_heroesBeingTrained[i].first->changeProficiency(-1);
+                    m_heroesBeingTrained[i].first->changeCombatEffectiveness(-1);
+                }
+                else if (m_heroesBeingTrained[i].first->cleverness() > 4)
+                    m_heroesBeingTrained[i].first->changeProficiency(-1);
+
+                m_heroesBeingTrained[i].first->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
+                m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+                m_heroesBeingTrained[i].first=nullptr;
+                m_heroesBeingTrained[i].second=0;
+            }
         }
 }
 
@@ -958,20 +1006,27 @@ Base::Base(Game *gameObject) noexcept
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
 
     m_heroes=new HeroesContainer;
+}
 
+void Base::setupNewBase() noexcept
+{
     HeroBuilder hb;//TESTONLY
-    hb.setName("Mercenary Template");
-    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setName("SashaBohdanov");
+    hb.setProfession(HeroEnums::P_Gunzerker);
     hb.setCombatEffectiveness(10);
     hb.setProficiency(10);
     hb.setCleverness(10);
+    hb.setHealthLimit(10);
+    hb.setHealth(1);
     m_heroes->addHero(hb.getHero());
 
-    hb.setName("Mercenary Template1");
-    hb.setProfession(HeroEnums::P_Doomsayer);
+    hb.setName("AlanClark");
+    hb.setProfession(HeroEnums::P_Criminal);
     hb.setCombatEffectiveness(10);
     hb.setProficiency(10);
     hb.setCleverness(10);
+    hb.setHealthLimit(10);
+    hb.setHealth(5);
     m_heroes->addHero(hb.getHero());
 
     hb.setName("Mercenary Template2");
@@ -979,6 +1034,8 @@ Base::Base(Game *gameObject) noexcept
     hb.setCombatEffectiveness(10);
     hb.setProficiency(10);
     hb.setCleverness(10);
+    hb.setStressLimit(10);
+    hb.setStress(1);
     m_heroes->addHero(hb.getHero());
 
     hb.setName("Mercenary Template3");
@@ -986,6 +1043,8 @@ Base::Base(Game *gameObject) noexcept
     hb.setCombatEffectiveness(10);
     hb.setProficiency(10);
     hb.setCleverness(10);
+    hb.setStressLimit(10);
+    hb.setStress(5);
     m_heroes->addHero(hb.getHero());
 
     hb.setName("Mercenary Template4");
@@ -1091,11 +1150,11 @@ void Base::loadSaveData(const SaveData &data) noexcept
     for (int i=0;i<data.buildings.heroSlots.hospital.size();++i)
         m_hospital->setSlot(i,!data.buildings.heroSlots.hospital[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.hospital[i])) : nullptr);
     for (int i=0;i<data.buildings.heroSlots.trainingGround.size();++i)
-        m_trainingGround->setSlot(i,!data.buildings.heroSlots.trainingGround[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.trainingGround[i])) : nullptr);
+        m_trainingGround->setSlot(i,!data.buildings.heroSlots.trainingGround[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.trainingGround[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.trainingGround[i].second));
     for (int i=0;i<data.buildings.heroSlots.gym.size();++i)
-        m_gym->setSlot(i,!data.buildings.heroSlots.gym[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.gym[i])) : nullptr);
+        m_gym->setSlot(i,!data.buildings.heroSlots.gym[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.gym[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.gym[i].second));
     for (int i=0;i<data.buildings.heroSlots.laboratory.size();++i)
-        m_laboratory->setSlot(i,!data.buildings.heroSlots.laboratory[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.laboratory[i])) : nullptr);
+        m_laboratory->setSlot(i,!data.buildings.heroSlots.laboratory[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.laboratory[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.laboratory[i].second));
     for (int i=0;i<data.buildings.heroSlots.playingField.size();++i)
         m_playingField->setSlot(i,!data.buildings.heroSlots.playingField[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.playingField[i])) : nullptr);
     for (int i=0;i<data.buildings.heroSlots.bar.size();++i)
@@ -1174,11 +1233,11 @@ SaveData Base::getSaveData() noexcept
     for (int i=0;i<m_hospital->amountOfSlots();++i)
         data.buildings.heroSlots.hospital.push_back(m_hospital->slot(i)!=nullptr ? m_hospital->slot(i)->name() : "");
     for (int i=0;i<m_trainingGround->amountOfSlots();++i)
-        data.buildings.heroSlots.trainingGround.push_back(m_trainingGround->slot(i)!=nullptr ? m_trainingGround->slot(i)->name() : "");
+        data.buildings.heroSlots.trainingGround.push_back({m_trainingGround->slot(i).first!=nullptr ? m_trainingGround->slot(i).first->name() : "", static_cast<quint8>(m_trainingGround->slot(i).second)});
     for (int i=0;i<m_gym->amountOfSlots();++i)
-        data.buildings.heroSlots.gym.push_back(m_gym->slot(i)!=nullptr ? m_gym->slot(i)->name() : "");
+        data.buildings.heroSlots.gym.push_back({m_gym->slot(i).first!=nullptr ? m_gym->slot(i).first->name() : "", static_cast<quint8>(m_gym->slot(i).second)});
     for (int i=0;i<m_laboratory->amountOfSlots();++i)
-        data.buildings.heroSlots.laboratory.push_back(m_laboratory->slot(i)!=nullptr ? m_laboratory->slot(i)->name() : "");
+        data.buildings.heroSlots.laboratory.push_back({m_laboratory->slot(i).first!=nullptr ? m_laboratory->slot(i).first->name() : "", static_cast<quint8>(m_laboratory->slot(i).second)});
     for (int i=0;i<m_playingField->amountOfSlots();++i)
         data.buildings.heroSlots.playingField.push_back(m_playingField->slot(i)!=nullptr ? m_playingField->slot(i)->name() : "");
     for (int i=0;i<m_bar->amountOfSlots();++i)

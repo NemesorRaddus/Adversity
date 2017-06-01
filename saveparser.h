@@ -74,9 +74,9 @@ struct SaveData
         struct Slots
         {
             QVector<QString> hospital;
-            QVector<QString> trainingGround;
-            QVector<QString> gym;
-            QVector<QString> laboratory;
+            QVector<QPair<QString,quint8>> trainingGround;
+            QVector<QPair<QString,quint8>> gym;
+            QVector<QPair<QString,quint8>> laboratory;
             QVector<QString> playingField;
             QVector<QString> bar;
             QVector<QString> shrine;

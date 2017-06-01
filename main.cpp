@@ -10,8 +10,8 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    QGuiApplication::setApplicationDisplayName("Game");
-    QGuiApplication::setApplicationName("Game");
+    QGuiApplication::setApplicationDisplayName("Adversity");
+    QGuiApplication::setApplicationName("Adversity");
     QGuiApplication::setOrganizationName("Raddos Games");
 
     Randomizer::initialize();

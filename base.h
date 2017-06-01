@@ -378,7 +378,11 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(nullptr));
+        int cnt=0;
+        for (int i=0;i<m_heroesBeingTrained.size();++i)
+            if (m_heroesBeingTrained[i].first==nullptr)
+                ++cnt;
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - cnt);
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -424,9 +428,9 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    const QPair <Hero *, unsigned> &slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,nullptr);
+        return m_heroesBeingTrained.value(index,{nullptr,0});
     }
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
@@ -470,15 +474,18 @@ public:
     }
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
     {
         if (index<m_heroesBeingTrained.size())
-            m_heroesBeingTrained[index]=hero;
+        {
+            m_heroesBeingTrained[index].first=hero;
+            m_heroesBeingTrained[index].second=duration;
+        }
     }
 
     QVector <TrainingGroundLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingTrained;
+    QVector <QPair <Hero *, unsigned>> m_heroesBeingTrained;
 };
 
 struct GymLevelInfo
@@ -517,7 +524,11 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(nullptr));
+        int cnt=0;
+        for (int i=0;i<m_heroesBeingTrained.size();++i)
+            if (m_heroesBeingTrained[i].first==nullptr)
+                ++cnt;
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - cnt);
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -560,9 +571,9 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    const QPair <Hero *, unsigned> &slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,nullptr);
+        return m_heroesBeingTrained.value(index,{nullptr,0});
     }
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
@@ -606,15 +617,18 @@ public:
     }
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
     {
         if (index<m_heroesBeingTrained.size())
-            m_heroesBeingTrained[index]=hero;
+        {
+            m_heroesBeingTrained[index].first=hero;
+            m_heroesBeingTrained[index].second=duration;
+        }
     }
 
     QVector <GymLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingTrained;
+    QVector <QPair <Hero *, unsigned>> m_heroesBeingTrained;
 };
 
 struct LaboratoryLevelInfo
@@ -653,7 +667,11 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - m_heroesBeingTrained.count(nullptr));
+        int cnt=0;
+        for (int i=0;i<m_heroesBeingTrained.size();++i)
+            if (m_heroesBeingTrained[i].first==nullptr)
+                ++cnt;
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - cnt);
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -696,9 +714,9 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    const QPair <Hero *, unsigned> &slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,nullptr);
+        return m_heroesBeingTrained.value(index,{nullptr,0});
     }
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
@@ -742,15 +760,18 @@ public:
     }
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
     {
         if (index<m_heroesBeingTrained.size())
-            m_heroesBeingTrained[index]=hero;
+        {
+            m_heroesBeingTrained[index].first=hero;
+            m_heroesBeingTrained[index].second=duration;
+        }
     }
 
     QVector <LaboratoryLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingTrained;
+    QVector <QPair <Hero *, unsigned>> m_heroesBeingTrained;
 };
 
 struct PlayingFieldLevelInfo
@@ -1979,6 +2000,7 @@ class Base : public QObject
 
 public:
     explicit Base(Game *gameObject) noexcept;
+    void setupNewBase() noexcept;
     ~Base() noexcept;
 
     //save

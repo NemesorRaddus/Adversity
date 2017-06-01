@@ -33,6 +33,7 @@ void Game::createNewBase(const QString &pathToAssetsDir) noexcept
 
     delete m_base;
     m_base = new Base(this);
+    m_base->setupNewBase();
 
     loadAssets(pathToAssetsDir);
 
@@ -41,6 +42,10 @@ void Game::createNewBase(const QString &pathToAssetsDir) noexcept
 
 void Game::loadExistingBase(const QString &pathToAssetsDir) noexcept
 {
+    QByteArray ba=QSettings().value("save01").toByteArray();
+    if (ba.isEmpty())
+        return createNewBase(pathToAssetsDir);
+
     m_currentPathToAssets=pathToAssetsDir;
 
     disconnectAutosave();
@@ -50,7 +55,6 @@ void Game::loadExistingBase(const QString &pathToAssetsDir) noexcept
 
     loadAssets(pathToAssetsDir);
 
-    QByteArray ba=QSettings().value("save01").toByteArray();
     m_base->loadSaveData(SaveParser::readData(ba));
 
     connectAutosave();

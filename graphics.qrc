@@ -66,5 +66,17 @@
         <file>graphics/GUI/StressResistance.png</file>
         <file>graphics/GUI/Abort.png</file>
         <file>graphics/GUI/Task_Picture2.png</file>
+        <file>graphics/Mercs/BattleDroid/AP-NGAI-V5.png</file>
+        <file>graphics/Mercs/BattleDroid/CAI-V2-DY11.png</file>
+        <file>graphics/Mercs/Cyborg/AlexFreeman.png</file>
+        <file>graphics/Mercs/Cyborg/JensNeumann.png</file>
+        <file>graphics/Mercs/Doomsayer/GregHofmann.png</file>
+        <file>graphics/Mercs/Doomsayer/ZuriUmcia.png</file>
+        <file>graphics/Mercs/PriestOfTheUniverse/AnnaTyler.png</file>
+        <file>graphics/Mercs/PriestOfTheUniverse/JuanMercado.png</file>
+        <file>graphics/Mercs/PriestOfTheUniverse/KaoriTokaji.png</file>
+        <file>graphics/Mercs/Specialist/DexterRoosvelt.png</file>
+        <file>graphics/Mercs/Specialist/OksanaSyrotiuk.png</file>
+        <file>graphics/Mercs/Specialist/SamThomas.png</file>
     </qresource>
 </RCC>
