@@ -22,16 +22,22 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     itemsArray = new Array(amountOfItems);
 }
 
-function setItem(index, name, internalName, profession, ce, pr, cl) {
+function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc) {
     itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+profession+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setProfession(profession);
     itemsArray[index].setCE(ce);
     itemsArray[index].setPR(pr);
     itemsArray[index].setCL(cl);
+    itemsArray[index].setHP(hp, hpMax);
+    itemsArray[index].setST(st);
+    itemsArray[index].setSL(sl);
+    itemsArray[index].setSR(sr);
+    itemsArray[index].setSA(sa);
+    itemsArray[index].setFC(fc);
 }
 
-function createItem(name, internalName, profession, ce, pr, cl) {
+function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc) {
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
@@ -39,7 +45,7 @@ function createItem(name, internalName, profession, ce, pr, cl) {
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
-        setItem(actualAmountOfItems,name,internalName,profession,ce,pr,cl);
+        setItem(actualAmountOfItems, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc);
         ++actualAmountOfItems;
     }
 }

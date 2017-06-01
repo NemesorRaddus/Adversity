@@ -1,8 +1,8 @@
 import QtQuick 2.5
 
-import "qrc:/qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListScripts.js" as Scripts
-import "../../.."
+import "qrc:/qml/MercenariesMode/HeroesListScripts.js" as Scripts
 import "../.."
+import "../."
 import Game 1.0
 
 Item {
@@ -10,28 +10,11 @@ Item {
 
     function updateEverything()
     {
-        var heroesAmount=0;
-        var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
+        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.heroes.amountOfHeroes(), width, height);
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
         {
             GameApi.base.heroes.prepareHeroAt(i);
-            if (GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
-            {
-                ++heroesAmount;
-                availableHeroes[i]=true;
-            }
-        }
-
-        Scripts.setupList(Math.round((271/1080)*width), heroesAmount, width, height);
-        var j=0;
-        for (i=0;i<GameApi.base.heroes.amountOfHeroes() && j<heroesAmount;++i)
-        {
-            if (availableHeroes[i] == true)
-            {
-                GameApi.base.heroes.prepareHeroAt(i);
-                Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(),GameApi.base.heroes.preparedHero.combatEffectiveness(),GameApi.base.heroes.preparedHero.proficiency(),GameApi.base.heroes.preparedHero.cleverness());
-                ++j;
-            }
+            Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(),GameApi.base.heroes.preparedHero.combatEffectiveness(),GameApi.base.heroes.preparedHero.proficiency(),GameApi.base.heroes.preparedHero.cleverness(),GameApi.base.heroes.preparedHero.health(),GameApi.base.heroes.preparedHero.healthLimit(),GameApi.base.heroes.preparedHero.stress(),GameApi.base.heroes.preparedHero.stressLimit(),GameApi.base.heroes.preparedHero.stressResistance(),GameApi.base.heroes.preparedHero.salary(),GameApi.base.heroes.preparedHero.dailyFoodConsumption(),GameApi.base.heroes.preparedHero.currentActivityString());
         }
     }
 
@@ -46,31 +29,11 @@ Item {
             Scripts.scrollList(1);
     }
 
-    property var bannedHeroes: []
-
-    function banHero(name) {
-        if (bannedHeroes.indexOf(name)==-1)
-            bannedHeroes.push(name);
-    }
-
-    function unbanHero(name) {
-        if (bannedHeroes.indexOf(name)!=-1)
-            bannedHeroes.splice(bannedHeroes.indexOf(name),1);
-    }
-
     property int startY
 
     clip: true
 
     signal heroClicked(string heroName, string heroProfession)
-
-    Image {
-        id: additionalBackground
-
-        anchors.fill: parent
-
-        source: "qrc:/graphics/GUI/Background.png"
-    }
 
     MouseArea {
         id: mouseArea
@@ -147,11 +110,11 @@ Item {
     states: [
         State {
             name: "hidden"
-            PropertyChanges { target: rootHeroesList; x: width }
+            PropertyChanges { target: rootHeroesList; y: -1*height }
         }
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
     }
 }

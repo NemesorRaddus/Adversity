@@ -1,5 +1,6 @@
 import QtQuick 2.5
 
+import Game 1.0
 import "../.."
 
 Item {
@@ -8,6 +9,9 @@ Item {
     readonly property int theoreticalWidth: 1080
     readonly property int theoreticalHeight: 271
 
+    property string name_
+    property string profession_
+
     function setArtSource(source)
     {
         art.source = source;
@@ -15,12 +19,14 @@ Item {
 
     function setName(text)
     {
-        name.text = text;
+        name_ = text;
+        name.text = GameApi.tr(text);
     }
 
     function setProfession(text)
     {
-        prof.text="The "+text;
+        profession_ = text;
+        prof.text="The "+GameApi.tr(text);
     }
 
     function setCE(amount)
@@ -36,6 +42,65 @@ Item {
     function setCL(amount)
     {
         attrCLValue.text = amount;
+    }
+
+    function setHP(current, max)
+    {
+        attrHPValue.text = current+'/'+max;
+        statusHPFrame.check(current,max);
+    }
+
+    function setST(amount)
+    {
+        attrSTValue.text = amount;
+        statusSTFrame.check(amount,attrSLValue.text);
+    }
+
+    function setSL(amount)
+    {
+        attrSLValue.text = amount;
+        statusSTFrame.check(attrSTValue.text,amount);
+    }
+
+    function setSR(amount)
+    {
+        attrSRValue.text = amount;
+    }
+
+    function setSA(amount)
+    {
+        attrSAValue.text = amount;
+    }
+
+    function setFC(amount)
+    {
+        attrFCValue.text = amount;
+    }
+
+    function setCurrentActivity(ca)
+    {
+        if (ca == "Idle")
+            currentlyBusy.source = "";
+        else if (ca == "OnMission")
+            currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
+        else if (ca == "InHospital")
+            currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
+        else if (ca == "OnTrainingGround")
+            currentlyBusy.source = "qrc:/graphics/Buildings/TrainingGround.png";
+        else if (ca == "InGym")
+            currentlyBusy.source = "qrc:/graphics/Buildings/Gym.png";
+        else if (ca == "InLaboratory")
+            currentlyBusy.source = "qrc:/graphics/Buildings/Laboratory.png";
+        else if (ca == "InPlayingField")
+            currentlyBusy.source = "qrc:/graphics/Buildings/PlayingField.png";
+        else if (ca == "InBar")
+            currentlyBusy.source = "qrc:/graphics/Buildings/Bar.png";
+        else if (ca == "InShrine")
+            currentlyBusy.source = "qrc:/graphics/Buildings/Shrine.png";
+        else if (ca == "InSeclusion")
+            currentlyBusy.source = "qrc:/graphics/Buildings/Seclusion.png";
+        else
+            currentlyBusy.source = "";
     }
 
     function getName()
@@ -118,6 +183,35 @@ Item {
                 else
                     source = "";
             }
+
+            NumberAnimation {
+                id: animHP
+                from: 0;
+                to: 1;
+
+                onRunningChanged: {
+                    if (running == false)
+                    {
+                        if (from == 0)
+                        {
+                            from = 1;
+                            to = 0;
+                            running = true;
+                        }
+                        else
+                        {
+                            from = 0;
+                            to = 1;
+                            running = true;
+                        }
+                    }
+                }
+
+                duration: 1500
+                target: statusHPFrame
+                property: "opacity"
+                running: true
+            }
         }
 
         Image {
@@ -139,6 +233,35 @@ Item {
                     source = "qrc:/graphics/GUI/HighStress20.png";
                 else
                     source = "";
+            }
+
+            NumberAnimation {
+                id: animST
+                from: 0;
+                to: 1;
+
+                onRunningChanged: {
+                    if (running == false)
+                    {
+                        if (from == 0)
+                        {
+                            from = 1;
+                            to = 0;
+                            running = true;
+                        }
+                        else
+                        {
+                            from = 0;
+                            to = 1;
+                            running = true;
+                        }
+                    }
+                }
+
+                duration: 1500
+                target: statusSTFrame
+                property: "opacity"
+                running: true
             }
         }
     }

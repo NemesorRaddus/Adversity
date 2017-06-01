@@ -15,27 +15,29 @@ Window {
         if (mode == 0)
         {
             currentMode = 0;
-            mainGUI.buildingsGUI.returnToDefault();
             mainGUI.buildingsGUI.state = "hiddenRight";
+            mainGUI.mercenariesGUI.state = "hiddenRight";
         }
         else if (mode == 1)
         {
             currentMode = 1;
             mainGUI.buildingsGUI.returnToDefault();
             mainGUI.buildingsGUI.state = "";
+            mainGUI.mercenariesGUI.state = "hiddenRight";
         }
         else if (mode == 2)
         {
             currentMode = 2;
-            mainGUI.buildingsGUI.returnToDefault();
             mainGUI.buildingsGUI.state = "hiddenLeft";
+            mainGUI.mercenariesGUI.returnToDefault();
+            mainGUI.mercenariesGUI.state = "";
         }
     }
 
     visible: true
     width: 450
     height: 800
-    title: "Game"
+    title: "Adversity"
 
     onWidthChanged: Globals.windowWidth = width;
     onHeightChanged: Globals.windowHeight = height;
@@ -124,7 +126,8 @@ Window {
 
         function updateMainContent()
         {
-            mainGUI.buildingsGUI.updateEverything();//TODO more
+            mainGUI.buildingsGUI.updateEverything();
+            mainGUI.mercenariesGUI.updateEverything();//TODO more
         }
 
         function updateEverything()
@@ -153,6 +156,7 @@ Window {
         heroesButton.onClicked: changeMode(2);
 
         buildingsGUI.onUpdateRequestedFromBuildingsModeGUI: updateEverything();
+        mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
     }
 
     Timer {
@@ -214,7 +218,12 @@ Window {
         }
         else if (currentMode == 2)
         {
-            GameApi.saveBase();
+            if (mainGUI.mercenariesGUI.reactToBackOnToolbar())
+                close.accepted = false;
+            else
+            {
+                GameApi.saveBase();
+            }
         }
     }
 }

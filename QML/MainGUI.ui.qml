@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import "./BuildingsMode"
+import "./MercenariesMode"
 
 Rectangle {
     id: mainRoot
@@ -19,6 +20,7 @@ Rectangle {
     property alias dayValue: day
     property alias settingsButton: settingsMA
     property alias buildingsGUI: buildingsMode
+    property alias mercenariesGUI: mercenariesMode
 
     width: 450
     height: 800
@@ -33,6 +35,15 @@ Rectangle {
 
     BuildingsModeGUI {
         id: buildingsMode
+
+        x: 0
+        y: 189 * parent.height / 1920
+        width: parent.width
+        height: 1464 * parent.height / 1920
+    }
+
+    MercenariesModeGUI {
+        id: mercenariesMode
 
         x: 0
         y: 189 * parent.height / 1920

@@ -1,5 +1,6 @@
 import QtQuick 2.5
 
+import Game 1.0
 import "../.."
 
 Item {
@@ -8,6 +9,9 @@ Item {
     readonly property int theoreticalWidth: 1080
     readonly property int theoreticalHeight: 271
 
+    property string name_
+    property string profession_
+
     function setArtSource(source)
     {
         art.source = source;
@@ -15,12 +19,14 @@ Item {
 
     function setName(text)
     {
-        name.text = text;
+        name_ = text;
+        name.text = GameApi.tr(text);
     }
 
     function setProfession(text)
     {
-        prof.text="The "+text;
+        profession_ = text;
+        prof.text="The "+GameApi.tr(text);
     }
 
     function setCE(amount)
@@ -38,14 +44,47 @@ Item {
         attrCLValue.text = amount;
     }
 
+    function setHP(current, max)
+    {
+        attrHPValue.text = current+'/'+max;
+        statusHPFrame.check(current,max);
+    }
+
+    function setST(amount)
+    {
+        attrSTValue.text = amount;
+        statusSTFrame.check(amount,attrSLValue.text);
+    }
+
+    function setSL(amount)
+    {
+        attrSLValue.text = amount;
+        statusSTFrame.check(attrSTValue.text,amount);
+    }
+
+    function setSR(amount)
+    {
+        attrSRValue.text = amount;
+    }
+
+    function setSA(amount)
+    {
+        attrSAValue.text = amount;
+    }
+
+    function setFC(amount)
+    {
+        attrFCValue.text = amount;
+    }
+
     function getName()
     {
-        return name;
+        return name_;
     }
 
     function getProfession()
     {
-        return prof;
+        return profession_;
     }
 
     width: 1080
@@ -96,6 +135,8 @@ Item {
             width: 256
             height: 256
 
+            visible: true
+
             function check(hp, hpMax)
             {
                 if (hp/hpMax <= 0.2)
@@ -109,6 +150,35 @@ Item {
                 else
                     source = "";
             }
+
+            NumberAnimation {
+                id: animHP
+                from: 0;
+                to: 1;
+
+                onRunningChanged: {
+                    if (running == false)
+                    {
+                        if (from == 0)
+                        {
+                            from = 1;
+                            to = 0;
+                            running = true;
+                        }
+                        else
+                        {
+                            from = 0;
+                            to = 1;
+                            running = true;
+                        }
+                    }
+                }
+
+                duration: 1500
+                target: statusHPFrame
+                property: "opacity"
+                running: true
+            }
         }
 
         Image {
@@ -117,6 +187,8 @@ Item {
             y: 3
             width: 256
             height: 256
+
+            visible: true
 
             function check(stress, stressLimit)
             {
@@ -130,6 +202,35 @@ Item {
                     source = "qrc:/graphics/GUI/HighStress20.png";
                 else
                     source = "";
+            }
+
+            NumberAnimation {
+                id: animST
+                from: 0;
+                to: 1;
+
+                onRunningChanged: {
+                    if (running == false)
+                    {
+                        if (from == 0)
+                        {
+                            from = 1;
+                            to = 0;
+                            running = true;
+                        }
+                        else
+                        {
+                            from = 0;
+                            to = 1;
+                            running = true;
+                        }
+                    }
+                }
+
+                duration: 1500
+                target: statusSTFrame
+                property: "opacity"
+                running: true
             }
         }
 
@@ -464,19 +565,6 @@ Item {
             wrapMode: Text.WordWrap
             font.pixelSize: 56
             font.family: fontStencil.name
-        }
-
-        Image {
-            id: currentlyBusy
-
-            visible: true
-
-            x: 708
-            y: -4
-            width: 88
-            height: 88
-
-            source: "qrc:/graphics/Buildings/Bar.png"
         }
     }
 
