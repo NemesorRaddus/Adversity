@@ -78,5 +78,6 @@
         <file>graphics/Mercs/Specialist/DexterRoosvelt.png</file>
         <file>graphics/Mercs/Specialist/OksanaSyrotiuk.png</file>
         <file>graphics/Mercs/Specialist/SamThomas.png</file>
+        <file>graphics/GUI/Light.png</file>
     </qresource>
 </RCC>

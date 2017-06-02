@@ -34,5 +34,10 @@
         <file>qml/MercenariesMode/HeroesList.qml</file>
         <file>qml/MercenariesMode/HeroesListDelegate.qml</file>
         <file>qml/MercenariesMode/HeroesListScripts.js</file>
+        <file>qml/ModeButtonLight.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/ResourcesTab.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesTab.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsTab.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/RecruitmentHeroesListDelegate.qml</file>
     </qresource>
 </RCC>

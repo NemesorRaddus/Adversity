@@ -92,6 +92,11 @@ public:
         return m_translations->translate(text,context);
     }
 
+    Q_INVOKABLE unsigned randomize(unsigned bottom, unsigned top) noexcept
+    {
+        return Randomizer::randomBetweenAAndB(bottom,top);
+    }
+
     AssetsPool &assetsPool() noexcept
     {
         return m_assetsPool;

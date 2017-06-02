@@ -19,66 +19,66 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.shrine.currentLevel());
         table.update();
         upgradeInfo.update();
-//        var amountOfSlotsAvailable = GameApi.base.shrine.amountOfSlots();
-//        if (amountOfSlotsAvailable>=1)
-//        {
-//            slotView1.visible=true;
-//            if (amountOfSlotsAvailable>=2)
-//            {
-//                slotView2.visible=true;
-//                if (amountOfSlotsAvailable>=3)
-//                {
-//                    slotView3.visible=true;
-//                    if (amountOfSlotsAvailable>=4)
-//                    {
-//                        slotView4.visible=true;
-//                        if (amountOfSlotsAvailable>=5)
-//                        {
-//                            slotView5.visible=true;
-//                            if (amountOfSlotsAvailable==6)
-//                                slotView6.visible=true;
-//                            else
-//                                slotView6.visible=false;
-//                        }
-//                        else
-//                        {
-//                            slotView5.visible=false;
-//                            slotView6.visible=false;
-//                        }
-//                    }
-//                    else
-//                    {
-//                        slotView4.visible=false;
-//                        slotView5.visible=false;
-//                        slotView6.visible=false;
-//                    }
-//                }
-//                else
-//                {
-//                    slotView3.visible=false;
-//                    slotView4.visible=false;
-//                    slotView5.visible=false;
-//                    slotView6.visible=false;
-//                }
-//            }
-//            else
-//            {
-//                slotView2.visible=false;
-//                slotView3.visible=false;
-//                slotView4.visible=false;
-//                slotView5.visible=false;
-//                slotView6.visible=false;
-//            }
-//        }
-//        else
-//        {
-//            slotView1.visible=false;
-//            slotView2.visible=false;
-//            slotView3.visible=false;
-//            slotView4.visible=false;
-//            slotView5.visible=false;
-//            slotView6.visible=false;
-//        }
+        var amountOfSlotsAvailable = GameApi.base.shrine.amountOfSlots();
+        if (amountOfSlotsAvailable>=1)
+        {
+            slotView1.visible=true;
+            if (amountOfSlotsAvailable>=2)
+            {
+                slotView2.visible=true;
+                if (amountOfSlotsAvailable>=3)
+                {
+                    slotView3.visible=true;
+                    if (amountOfSlotsAvailable>=4)
+                    {
+                        slotView4.visible=true;
+                        if (amountOfSlotsAvailable>=5)
+                        {
+                            slotView5.visible=true;
+                            if (amountOfSlotsAvailable==6)
+                                slotView6.visible=true;
+                            else
+                                slotView6.visible=false;
+                        }
+                        else
+                        {
+                            slotView5.visible=false;
+                            slotView6.visible=false;
+                        }
+                    }
+                    else
+                    {
+                        slotView4.visible=false;
+                        slotView5.visible=false;
+                        slotView6.visible=false;
+                    }
+                }
+                else
+                {
+                    slotView3.visible=false;
+                    slotView4.visible=false;
+                    slotView5.visible=false;
+                    slotView6.visible=false;
+                }
+            }
+            else
+            {
+                slotView2.visible=false;
+                slotView3.visible=false;
+                slotView4.visible=false;
+                slotView5.visible=false;
+                slotView6.visible=false;
+            }
+        }
+        else
+        {
+            slotView1.visible=false;
+            slotView2.visible=false;
+            slotView3.visible=false;
+            slotView4.visible=false;
+            slotView5.visible=false;
+            slotView6.visible=false;
+        }
     }
 
     function reactToBackOnToolbar()

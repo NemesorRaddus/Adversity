@@ -46,7 +46,7 @@ Item {
         x: 0
         y: 0
         width: parent.width
-        height: parent.height - taskBorder.height
+        height: parent.height
 
         onPressed: {
             y0 = mouseY;
@@ -94,17 +94,6 @@ Item {
                 }
             }
         }
-    }
-
-    Image {
-        id: taskBorder
-
-        x: 0
-        y: parent.height - height
-        width: parent.width
-        height: 3
-
-        source: "qrc:/graphics/GUI/Task_Border.png"
     }
 
     states: [

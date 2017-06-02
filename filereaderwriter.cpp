@@ -901,6 +901,9 @@ QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > X
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.recruitsAmount=attrs.value("recruitsAmount").toUInt();
+                    info.waitingTime=attrs.value("waitingTime").toUInt();
+                    info.equipmentsAmount=attrs.value("equipmentsAmount").toUInt();
+                    info.maxTier=attrs.value("maxTier").toUInt();
 
                     BuildingUpgradeRequirements reqs;
 

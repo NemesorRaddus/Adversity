@@ -8,6 +8,10 @@ Rectangle {
     property alias missionsButton: missionsButton
     property alias baseButton: baseButton
     property alias heroesButton: heroesButton
+    property alias missionsButtonLight: missionsButtonLight
+    property alias baseButtonLight: baseButtonLight
+    property alias heroesButtonLight: heroesButtonLight
+
     property alias energyValue: energyText
     property alias energyValue2: energyText2
     property alias buildingMaterialsValue: buildingMaterialsText
@@ -16,9 +20,12 @@ Rectangle {
     property alias foodSuppliesValue2: foodSuppliesText2
     property alias aetheriteValue: aetheriteText
     property alias aetheriteValue2: aetheriteText2
+
     property alias hourValue: hour
     property alias dayValue: day
+
     property alias settingsButton: settingsMA
+
     property alias buildingsGUI: buildingsMode
     property alias mercenariesGUI: mercenariesMode
 
@@ -68,6 +75,15 @@ Rectangle {
 
             visible: true
         }
+        ModeButtonLight {
+            id: missionsButtonLight
+
+            x: missionsButton.x + 2 * parent.width / 1080
+            y: missionsButton.y - 63.5 * parent.height / 1920
+            width: 268 * parent.width / 1080
+            height: 268 * parent.height / 1920
+        }
+
         MouseArea {
             id: baseButton
 
@@ -78,6 +94,15 @@ Rectangle {
 
             visible: true
         }
+        ModeButtonLight {
+            id: baseButtonLight
+
+            x: baseButton.x + 2 * parent.width / 1080
+            y: baseButton.y - 63.5 * parent.height / 1920
+            width: 268 * parent.width / 1080
+            height: 268 * parent.height / 1920
+        }
+
         MouseArea {
             id: heroesButton
 
@@ -87,6 +112,14 @@ Rectangle {
             height: 141 * parent.height / 1920
 
             visible: true
+        }
+        ModeButtonLight {
+            id: heroesButtonLight
+
+            x: heroesButton.x + 2 * parent.width / 1080
+            y: heroesButton.y - 63.5 * parent.height / 1920
+            width: 268 * parent.width / 1080
+            height: 268 * parent.height / 1920
         }
 
         Image {

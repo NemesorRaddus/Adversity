@@ -1885,9 +1885,12 @@ private:
 struct DockingStationLevelInfo
 {
     DockingStationLevelInfo()
-        : recruitsAmount(0), basicCostInEnergy(0){}
+        : recruitsAmount(0), waitingTime(0), equipmentsAmount(0), maxTier(0), basicCostInEnergy(0){}
 
     unsigned recruitsAmount;
+    unsigned waitingTime;
+    unsigned equipmentsAmount;
+    unsigned maxTier;
     unsigned basicCostInEnergy;
 };
 
@@ -1956,6 +1959,33 @@ public:
     void prepareRecruits() noexcept;
     Q_INVOKABLE void prepareRecruitForQML(unsigned slot) noexcept;
     Q_INVOKABLE void hireMercenary(unsigned index) noexcept;
+
+    Q_INVOKABLE int waitingTime() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).waitingTime;
+    }
+    Q_INVOKABLE int waitingTimeAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).waitingTime;
+    }
+
+    Q_INVOKABLE int equipmentsAmount() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).equipmentsAmount;
+    }
+    Q_INVOKABLE int equipmentsAmountAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).equipmentsAmount;
+    }
+
+    Q_INVOKABLE int maxTier() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).maxTier;
+    }
+    Q_INVOKABLE int maxTierAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).maxTier;
+    }
 
     void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept;
 

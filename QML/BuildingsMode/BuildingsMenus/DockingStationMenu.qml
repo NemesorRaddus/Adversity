@@ -2,6 +2,7 @@ import QtQuick 2.5
 
 import Game 1.0
 import ".."
+import "./DockingStationSubmenus"
 
 Item {
     id: root
@@ -449,6 +450,16 @@ Item {
                 onClicked: upgradeRequested()
             }
         }
+    }
+
+    HeroesTab {
+        id: heroesTab
+    }
+    ResourcesTab {
+        id: resourcesTab
+    }
+    EquipmentsTab {
+        id: equipmentsTab
     }
 
     Item {
