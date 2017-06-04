@@ -72,18 +72,27 @@ Item {
         function update()
         {
             energyDrainAmount1.text = GameApi.base.dockingStation.basicCostInEnergy()+"/Day";
+            waitingTimeAmount1.text = GameApi.base.dockingStation.waitingTime();
             recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Day";
+            equipmentAmount1.text = GameApi.base.dockingStation.equipmentsAmount()+"/Day";
+            maxTierAmount1.text = GameApi.base.dockingStation.maxTier();
 
             if (GameApi.base.dockingStation.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
+                waitingTimeAmount2.visible = false;
                 recruitsAmount2.visible = false;
+                equipmentAmount2.visible = false;
+                maxTierAmount2.visible = false;
             }
             else
             {
                 energyDrainAmount2.text = GameApi.base.dockingStation.basicCostInEnergyAfterUpgrade()+"/Day";
+                waitingTimeAmount2.text = GameApi.base.dockingStation.waitingTimeAfterUpgrade();
                 recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade()+"/Day";
+                equipmentAmount2.text = GameApi.base.dockingStation.equipmentsAmountAfterUpgrade()+"/Day";
+                maxTierAmount2.text = GameApi.base.dockingStation.maxTierAfterUpgrade();
             }
         }
 
@@ -124,109 +133,290 @@ Item {
             font.family: fontStencil.name
         }
 
-        Text {
-            id: energyDrainText
+        Item {
+            id: energyDrain
 
-            x: 15
-            y: 64
+            anchors.fill: parent
 
-            color: "#94ef94"
-            text: "Energy Drain"
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 60
-            font.family: fontStencil.name
+            Text {
+                id: energyDrainText
+
+                x: 15
+                y: 64
+
+                color: "#94ef94"
+                text: "Energy Drain"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Image {
+                id: energyDrainIcon
+
+                x: 430
+                y: 64
+                width: 66
+                height: width
+
+                source: "qrc:/graphics/GUI/Energy.png"
+            }
+            Text {
+                id: energyDrainAmount1
+
+                x: 530
+                y: 64
+                width: 230
+
+                color: "#94ef94"
+                text: "100/Day"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Text {
+                id: energyDrainAmount2
+
+                x: 830
+                y: 64
+                width: 230
+
+                color: "#94ef94"
+                text: "100/Day"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
         }
-        Image {
-            id: energyDrainIcon
 
-            x: 430
-            y: 64
-            width: 66
-            height: width
+        Item {
+            id: waitingTime
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            anchors.fill: parent
+
+            Text {
+                id: waitingTimeText
+
+                x: 15
+                y: 128
+
+                color: "#94ef94"
+                text: "Delivery"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Image {
+                id: waitingTimeIcon
+
+                x: 430
+                y: 128
+                width: 66
+                height: width
+
+                source: "qrc:/graphics/GUI/Time.png"
+            }
+            Text {
+                id: waitingTimeAmount1
+
+                x: 560
+                y: 128
+                width: 200
+
+                color: "#94ef94"
+                text: "10"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Text {
+                id: waitingTimeAmount2
+
+                x: 860
+                y: 128
+                width: 200
+
+                color: "#94ef94"
+                text: "10"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
         }
-        Text {
-            id: energyDrainAmount1
 
-            x: 530
-            y: 64
-            width: 230
+        Item {
+            id: recruits
 
-            color: "#94ef94"
-            text: "100/Day"
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: 60
-            font.family: fontStencil.name
+            anchors.fill: parent
+
+            Text {
+                id: recruitsText
+
+                x: 15
+                y: 192
+
+                color: "#94ef94"
+                text: "Recruits"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Image {
+                id: recruitsIcon
+
+                x: 430
+                y: 192
+                width: 66
+                height: width
+
+                source: "qrc:/graphics/GUI/Slots.png"
+            }
+            Text {
+                id: recruitsAmount1
+
+                x: 560
+                y: 192
+                width: 200
+
+                color: "#94ef94"
+                text: "1/Day"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Text {
+                id: recruitsAmount2
+
+                x: 860
+                y: 192
+                width: 200
+
+                color: "#94ef94"
+                text: "1/Day"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
         }
-        Text {
-            id: energyDrainAmount2
 
-            x: 830
-            y: 64
-            width: 230
+        Item {
+            id: equipment
 
-            color: "#94ef94"
-            text: "100/Day"
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: 60
-            font.family: fontStencil.name
+            anchors.fill: parent
+
+            visible: false
+
+            Text {
+                id: equipmentText
+
+                x: 15
+                y: 192
+
+                color: "#94ef94"
+                text: "Equipments"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Image {
+                id: equipmentIcon
+
+                x: 430
+                y: 192
+                width: 66
+                height: width
+
+                source: "qrc:/graphics/GUI/Settings.png"
+            }
+            Text {
+                id: equipmentAmount1
+
+                x: 560
+                y: 192
+                width: 200
+
+                color: "#94ef94"
+                text: "1/Day"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Text {
+                id: equipmentAmount2
+
+                x: 860
+                y: 192
+                width: 200
+
+                color: "#94ef94"
+                text: "1/Day"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
         }
 
-        Text {
-            id: recruitsText
+        Item {
+            id: maxTier
 
-            x: 15
-            y: 128
+            anchors.fill: parent
 
-            color: "#94ef94"
-            text: "Recruits"
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 60
-            font.family: fontStencil.name
-        }
-        Image {
-            id: recruitsIcon
+            visible: false
 
-            x: 430
-            y: 128
-            width: 66
-            height: width
+            Text {
+                id: maxTierText
 
-            source: "qrc:/graphics/GUI/Slots.png"
-        }
-        Text {
-            id: recruitsAmount1
+                x: 15
+                y: 256
 
-            x: 560
-            y: 128
-            width: 200
+                color: "#94ef94"
+                text: "Max tier"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Image {
+                id: maxTierIcon
 
-            color: "#94ef94"
-            text: "1/Day"
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: 60
-            font.family: fontStencil.name
-        }
-        Text {
-            id: recruitsAmount2
+                x: 430
+                y: 256
+                width: 66
+                height: width
 
-            x: 860
-            y: 128
-            width: 200
+                source: "qrc:/graphics/GUI/Settings.png"
+            }
+            Text {
+                id: maxTierAmount1
 
-            color: "#94ef94"
-            text: "1/Day"
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: 60
-            font.family: fontStencil.name
+                x: 560
+                y: 256
+                width: 200
+
+                color: "#94ef94"
+                text: "1"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Text {
+                id: maxTierAmount2
+
+                x: 860
+                y: 256
+                width: 200
+
+                color: "#94ef94"
+                text: "1"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
         }
 
         Image {
             id: taskBorderBottom
 
             x: 17
-            y: 208
+            y: 336
 
             width: 1048
             height: 3
@@ -452,14 +642,74 @@ Item {
         }
     }
 
-    HeroesTab {
-        id: heroesTab
-    }
-    ResourcesTab {
-        id: resourcesTab
-    }
-    EquipmentsTab {
-        id: equipmentsTab
+    Item {
+        id: tabs
+
+        x: 0
+        y: upgradeInfo.y + upgradeInfo.height
+        width: parent.theoreticalWidth
+        height: back.y - y
+
+        function update()
+        {
+
+        }
+
+        function returnToDefault()
+        {
+
+        }
+
+        HeroesTab {
+            id: heroesTab
+
+            anchors.fill: parent
+
+            onRequestSwitchingToResourcesTab: {
+                recruits.visible = false;
+                state = "hiddenLeft";
+                resourcesTab.state = "";
+                equipment.state = "hiddenRight";
+            }
+        }
+        ResourcesTab {
+            id: resourcesTab
+
+            anchors.fill: parent
+
+            onRequestSwitchingToHeroesTab: {
+                recruits.visible = true;
+                state = "hiddenRight";
+                heroesTab.state = "";
+                equipmentsTab.state = "hiddenRight2";
+            }
+
+            onRequestSwitchingToEquipmentTab: {
+                equipment.visible = true;
+                state = "hiddenLeft";
+                equipmentsTab.state = "";
+                heroesTab.state = "hiddenLeft2";
+            }
+        }
+        EquipmentsTab {
+            id: equipmentsTab
+
+            anchors.fill: parent
+
+            onRequestSwitchingToResourcesTab: {
+                equipment.visible = false;
+                state = "hiddenRight";
+                resourcesTab.state = "";
+                heroesTab.state = "hiddenLeft";
+            }
+        }
+
+        Component.onCompleted: {
+            recruits.visible = true;
+            resourcesTab.state = "hiddenRight";
+            heroesTab.state = "";
+            equipmentsTab.state = "hiddenRight2";
+        }
     }
 
     Item {

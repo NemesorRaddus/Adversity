@@ -110,6 +110,10 @@ Item {
         State {
             name: "hiddenRight"
             PropertyChanges { target: root; x: width }
+        },
+        State {
+            name: "hiddenRight2"
+            PropertyChanges { target: root; x: width * 2 }
         }
     ]
 

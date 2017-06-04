@@ -159,8 +159,6 @@ QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > X
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.perCapitaCostInEnergy=attrs.value("perCapitaCostEnergy").toUInt();
                     info.combatEffectivenessBonus=attrs.value("combatEffectivenessBonus").toInt();
-                    info.proficiencyBonus=attrs.value("proficiencyBonus").toInt();
-                    info.clevernessBonus=attrs.value("clevernessBonus").toInt();
                     info.duration=attrs.value("duration").toUInt();
 
                     BuildingUpgradeRequirements reqs;
@@ -217,9 +215,7 @@ QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReade
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.perCapitaCostInEnergy=attrs.value("perCapitaCostEnergy").toUInt();
-                    info.combatEffectivenessBonus=attrs.value("combatEffectivenessBonus").toInt();
                     info.proficiencyBonus=attrs.value("proficiencyBonus").toInt();
-                    info.clevernessBonus=attrs.value("clevernessBonus").toInt();
                     info.duration=attrs.value("duration").toUInt();
 
                     BuildingUpgradeRequirements reqs;
@@ -276,8 +272,6 @@ QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFi
                     info.amountOfSlots=attrs.value("slots").toInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.perCapitaCostInEnergy=attrs.value("perCapitaCostEnergy").toUInt();
-                    info.combatEffectivenessBonus=attrs.value("combatEffectivenessBonus").toInt();
-                    info.proficiencyBonus=attrs.value("proficiencyBonus").toInt();
                     info.clevernessBonus=attrs.value("clevernessBonus").toInt();
                     info.duration=attrs.value("duration").toUInt();
 

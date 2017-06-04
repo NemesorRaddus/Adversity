@@ -21,7 +21,6 @@ Item {
                 availableHeroes[i]=true;
             }
         }
-
         Scripts.setupList(Math.round((271/1080)*width), heroesAmount, width, height);
         var j=0;
         for (i=0;i<GameApi.base.heroes.amountOfHeroes() && j<heroesAmount;++i)
@@ -44,6 +43,11 @@ Item {
             Scripts.scrollList(10);
         for (i=0;i<10;++i)
             Scripts.scrollList(1);
+    }
+
+    function deleteObjects()
+    {
+        Scripts.clearList();
     }
 
     property var bannedHeroes: []

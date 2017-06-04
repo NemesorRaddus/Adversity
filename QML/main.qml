@@ -16,7 +16,7 @@ Window {
         {
             currentMode = 0;
             mainGUI.buildingsGUI.state = "hiddenRight";
-            mainGUI.mercenariesGUI.state = "hiddenRight";
+            mainGUI.mercenariesGUI.state = "hiddenRight2";
         }
         else if (mode == 1)
         {
@@ -185,7 +185,7 @@ Window {
 
         anchors.fill: parent
 
-        minDurationInMs: 2500
+        minDurationInMs: 1500
         splashDisappearAnimationDuration: 500
         canCloseRefreshingRateInMs: 100
         canClose: false

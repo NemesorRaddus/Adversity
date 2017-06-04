@@ -13,13 +13,22 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     heightOfElement = heightOfElementInPx;
     width = widthInPx;
     height = heightInPx;
+    for (var i=0;i<itemsArray.length;++i)
+        itemsArray[i].destroy();
     listDelegate = Qt.createComponent("qrc:/qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
     }
+    itemsArray = new Array(amountOfItems);
+}
+
+function clearList()
+{
+    yAtTop = 0;
+    actualAmountOfItems = 0;
     for (var i=0;i<itemsArray.length;++i)
         itemsArray[i].destroy();
-    itemsArray = new Array(amountOfItems);
+    itemsArray = [];
 }
 
 function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc) {
@@ -58,7 +67,7 @@ function getClickedItemName(y) {
     for (var i=0;i<actualAmountOfItems;++i)
     {
         if (y >= y0 && y <= y1)
-            return itemsArray[i].getName().text;
+            return itemsArray[i].getName();
         y0 += h;
         y1 += h;
     }
@@ -72,7 +81,7 @@ function getClickedItemName2(y) {
     for (var i=0;i<actualAmountOfItems;++i)
     {
         if (y >= y0 && y <= y1)
-            return itemsArray[i].getProfession().text;
+            return itemsArray[i].getProfession();
         y0 += h;
         y1 += h;
     }

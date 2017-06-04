@@ -345,14 +345,12 @@ private:
 struct TrainingGroundLevelInfo
 {
     TrainingGroundLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0), duration(0){}
+        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), duration(0){}
 
     unsigned amountOfSlots;
     unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
     int combatEffectivenessBonus;
-    int proficiencyBonus;
-    int clevernessBonus;
     unsigned duration;
 };
 
@@ -443,14 +441,6 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).combatEffectivenessBonus;
     }
-    Q_INVOKABLE int proficiencyBonus() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).proficiencyBonus;
-    }
-    Q_INVOKABLE int clevernessBonus() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).clevernessBonus;
-    }
 
     Q_INVOKABLE int duration() const noexcept
     {
@@ -491,14 +481,12 @@ private:
 struct GymLevelInfo
 {
     GymLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0), duration(0){}
+        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), proficiencyBonus(0), duration(0){}
 
     unsigned amountOfSlots;
     unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
-    int combatEffectivenessBonus;
     int proficiencyBonus;
-    int clevernessBonus;
     unsigned duration;
 };
 
@@ -578,10 +566,6 @@ public:
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
-    Q_INVOKABLE int combatEffectivenessBonus() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).combatEffectivenessBonus;
-    }
     Q_INVOKABLE int proficiencyBonus() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).proficiencyBonus;
@@ -589,10 +573,6 @@ public:
     Q_INVOKABLE int proficiencyBonusAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).proficiencyBonus;
-    }
-    Q_INVOKABLE int clevernessBonus() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).clevernessBonus;
     }
 
     Q_INVOKABLE int duration() const noexcept
@@ -634,13 +614,11 @@ private:
 struct LaboratoryLevelInfo
 {
     LaboratoryLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), proficiencyBonus(0), clevernessBonus(0), duration(0){}
+        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), clevernessBonus(0), duration(0){}
 
     unsigned amountOfSlots;
     unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
-    int combatEffectivenessBonus;
-    int proficiencyBonus;
     int clevernessBonus;
     unsigned duration;
 };
@@ -721,14 +699,6 @@ public:
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
-    Q_INVOKABLE int combatEffectivenessBonus() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).combatEffectivenessBonus;
-    }
-    Q_INVOKABLE int proficiencyBonus() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).proficiencyBonus;
-    }
     Q_INVOKABLE int clevernessBonus() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).clevernessBonus;
