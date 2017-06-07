@@ -121,7 +121,7 @@ SaveData SaveParser::readData(QByteArray &array)
         data.resources.energy=200;
         data.resources.buildingMaterials=5;
         data.resources.foodSupplies=5;
-        data.resources.aetheriteOre=42;
+        data.resources.aetheriteOre=50;
         data.alarms.buildingUpgrades.clear();
         data.heroes.hiredHeroes.clear();
         data.equipments.freeArmor.clear();

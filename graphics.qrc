@@ -79,5 +79,7 @@
         <file>graphics/Mercs/Specialist/OksanaSyrotiuk.png</file>
         <file>graphics/Mercs/Specialist/SamThomas.png</file>
         <file>graphics/GUI/Light.png</file>
+        <file>graphics/GUI/EquipmentAmount.png</file>
+        <file>graphics/GUI/Profitability.png</file>
     </qresource>
 </RCC>

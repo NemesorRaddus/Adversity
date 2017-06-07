@@ -39,5 +39,8 @@
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesTab.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsTab.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/RecruitmentHeroesListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesListScripts.js</file>
+        <file>qml/MercenariesMode/HeroView.qml</file>
     </qresource>
 </RCC>

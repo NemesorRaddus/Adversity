@@ -50,6 +50,8 @@ HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(con
         return SBE_Hopeless;
     if (stressBorderEffect == "Confusion")
         return SBE_Confusion;
+    if (stressBorderEffect == "Masochism")
+        return SBE_Masochism;
 }
 
 QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEffect stressBorderEffect) noexcept
@@ -74,6 +76,8 @@ QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEf
         return "Hopeless";
     if (stressBorderEffect == SBE_Confusion)
         return "Confusion";
+    if (stressBorderEffect == SBE_Masochism)
+        return "Masochism";
 }
 
 HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attribute) noexcept
@@ -162,6 +166,8 @@ HeroEnums::CurrentActivity HeroEnums::fromQStringToCurrentActivityEnum(const QSt
         return CA_InShrine;
     if (currentActivity == "In Seclusion")
         return CA_InSeclusion;
+    if (currentActivity == "Arriving")
+        return CA_Arriving;
 }
 
 QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity currentActivity) noexcept
@@ -186,6 +192,8 @@ QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity c
         return "In Shrine";
     if (currentActivity == CA_InSeclusion)
         return "In Seclusion";
+    if (currentActivity == CA_Arriving)
+        return "Arriving";
 }
 
 HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &profession) noexcept
@@ -196,7 +204,7 @@ HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &prof
         return P_Gunzerker;
     if (profession == "Priest Of The Universe")
         return P_PriestOfTheUniverse;
-    if (profession == "Priest Of The Universe")
+    if (profession == "Priestess Of The Universe")
         return P_PriestessOfTheUniverse;
     if (profession == "Battle Droid")
         return P_BattleDroid;
@@ -223,7 +231,7 @@ QString HeroEnums::fromProfessionEnumToQString(HeroEnums::Profession profession)
     if (profession == P_PriestOfTheUniverse)
         return "Priest Of The Universe";
     if (profession == P_PriestessOfTheUniverse)
-        return "Priest Of The Universe";
+        return "Priestess Of The Universe";
     if (profession == P_BattleDroid)
         return "Battle Droid";
     if (profession == P_SpaceNomad)

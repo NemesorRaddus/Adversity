@@ -92,18 +92,18 @@ Item {
     width: 1080
     height: 271
 
-//    transform: [
-//        Scale {
-//            id: someScale
+    transform: [
+        Scale {
+            id: someScale
 
-//            xScale: width/theoreticalWidth
-//            yScale: height/theoreticalHeight
-//        },
-//        Translate {
-//            x: (width-theoreticalWidth*someScale.xScale)/2
-//            y: (height-theoreticalHeight*someScale.yScale)/2
-//        }
-//    ]
+            xScale: width/theoreticalWidth
+            yScale: height/theoreticalHeight
+        },
+        Translate {
+            x: (width-theoreticalWidth*someScale.xScale)/2
+            y: (height-theoreticalHeight*someScale.yScale)/2
+        }
+    ]
 
     Image {
         id: itemBorder

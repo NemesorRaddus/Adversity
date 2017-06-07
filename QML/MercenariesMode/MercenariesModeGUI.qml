@@ -1,9 +1,30 @@
 import QtQuick 2.0
 
+import Game 1.0
+
 Item {
     id: root
 
-    clip: true
+    property int theoreticalWidth: 1080
+    property int theoreticalHeight: 1464
+
+    width: 1080
+    height: 1464
+
+    clip: false
+
+    transform: [
+        Scale {
+            id: someScale
+
+            xScale: width/theoreticalWidth
+            yScale: height/theoreticalHeight
+        },
+        Translate {
+            x: (width-theoreticalWidth*someScale.xScale)/2
+            y: (height-theoreticalHeight*someScale.yScale)/2
+        }
+    ]
 
     signal updateRequestedFromMercenariesModeGUI()
 
@@ -19,6 +40,7 @@ Item {
     {
         list.updateEverything();
 //        menu.updateEverything();
+        heroesAmountItem.update();
     }
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
@@ -38,13 +60,60 @@ Item {
 //        }
     }
 
+    Item {
+        id: heroesAmountItem
+
+        x: 0
+        y: 0
+        width: parent.theoreticalWidth
+        height: heroesAmountTaskBorder.y + heroesAmountTaskBorder.height + 4
+
+        function update()
+        {
+            heroesAmountAmount.text = GameApi.base.heroes.amountOfHeroes() + '/' + GameApi.base.heroes.amountOfSlots();
+        }
+
+        Text {
+            id: heroesAmountText
+
+            x: 240
+            y: -6
+
+            text: "Mercenaries:"
+            color: "#94ef94"
+            font.pixelSize: 70
+            font.family: fontStencil.name
+        }
+        Text {
+            id: heroesAmountAmount
+
+            x: 740
+            y: heroesAmountText.y
+
+            color: "#94ef94"
+            font.pixelSize: 70
+            font.family: fontStencil.name
+        }
+
+        Image {
+            id: heroesAmountTaskBorder
+
+            x: 17
+            y: 68
+            width: 1048
+            height: 3
+
+            source: "qrc:/graphics/GUI/Task_Border.png"
+        }
+    }
+
     HeroesList {
         id: list
 
         x: 0
-        y: 0
-        width: root.width
-        height: root.height
+        y: heroesAmountItem.height
+        width: root.theoreticalWidth
+        height: root.theoreticalHeight - heroesAmountItem.height
 
         onHeroClicked: {
 //            if (buildingName == "Central Unit")
@@ -105,6 +174,12 @@ Item {
 
 //        Component.onCompleted: state = "hidden";
 //    }
+
+    FontLoader {
+        id: fontStencil
+
+        source: "qrc:/fonts/STENCIL.TTF"
+    }
 
     states: [
         State {

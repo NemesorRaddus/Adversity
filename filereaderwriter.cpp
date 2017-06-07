@@ -896,6 +896,7 @@ QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > X
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
                     info.recruitsAmount=attrs.value("recruitsAmount").toUInt();
                     info.waitingTime=attrs.value("waitingTime").toUInt();
+                    info.profitability=attrs.value("profitability").toUInt();
                     info.equipmentsAmount=attrs.value("equipmentsAmount").toUInt();
                     info.maxTier=attrs.value("maxTier").toUInt();
 
@@ -1055,11 +1056,6 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setIsDead(static_cast<bool>(attrs.value("stressBorderEffectActive").toInt()));
 
                     hB.setNoSignalDaysRemaining(attrs.value("noSigDaysRem").toInt());
-
-                    hB.setCarriedEnergy(attrs.value("carriedEnergy").toInt());
-                    hB.setCarriedFoodSupplies(attrs.value("carriedFoodSupplies").toInt());
-                    hB.setCarriedBuildingMaterials(attrs.value("carriedBuildingMaterials").toInt());
-                    hB.setCarriedAetheriteOre(attrs.value("carriedAetheriteOre").toInt());
                 }
                 else
                     m_xmlReader->skipCurrentElement();

@@ -74,6 +74,7 @@ Item {
             energyDrainAmount1.text = GameApi.base.dockingStation.basicCostInEnergy()+"/Day";
             waitingTimeAmount1.text = GameApi.base.dockingStation.waitingTime();
             recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Day";
+            profitabilityAmount1.text = GameApi.base.dockingStation.profitability();
             equipmentAmount1.text = GameApi.base.dockingStation.equipmentsAmount()+"/Day";
             maxTierAmount1.text = GameApi.base.dockingStation.maxTier();
 
@@ -83,6 +84,7 @@ Item {
                 energyDrainAmount2.visible = false;
                 waitingTimeAmount2.visible = false;
                 recruitsAmount2.visible = false;
+                profitabilityAmount2.visible = false;
                 equipmentAmount2.visible = false;
                 maxTierAmount2.visible = false;
             }
@@ -91,6 +93,7 @@ Item {
                 energyDrainAmount2.text = GameApi.base.dockingStation.basicCostInEnergyAfterUpgrade()+"/Day";
                 waitingTimeAmount2.text = GameApi.base.dockingStation.waitingTimeAfterUpgrade();
                 recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade()+"/Day";
+                profitabilityAmount2.text = GameApi.base.dockingStation.profitabilityAfterUpgrade();
                 equipmentAmount2.text = GameApi.base.dockingStation.equipmentsAmountAfterUpgrade()+"/Day";
                 maxTierAmount2.text = GameApi.base.dockingStation.maxTierAfterUpgrade();
             }
@@ -299,6 +302,63 @@ Item {
         }
 
         Item {
+            id: profitability
+
+            anchors.fill: parent
+
+            visible: false
+
+            Text {
+                id: profitabilityText
+
+                x: 15
+                y: 192
+
+                color: "#94ef94"
+                text: "Trade level"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Image {
+                id: profitabilityIcon
+
+                x: 430
+                y: 192
+                width: 66
+                height: width
+
+                source: "qrc:/graphics/GUI/Profitability.png"
+            }
+            Text {
+                id: profitabilityAmount1
+
+                x: 560
+                y: 192
+                width: 200
+
+                color: "#94ef94"
+                text: "1"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+            Text {
+                id: profitabilityAmount2
+
+                x: 860
+                y: 192
+                width: 200
+
+                color: "#94ef94"
+                text: "1"
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+        }
+
+        Item {
             id: equipment
 
             anchors.fill: parent
@@ -325,7 +385,7 @@ Item {
                 width: 66
                 height: width
 
-                source: "qrc:/graphics/GUI/Settings.png"
+                source: "qrc:/graphics/GUI/EquipmentAmount.png"
             }
             Text {
                 id: equipmentAmount1
@@ -382,7 +442,7 @@ Item {
                 width: 66
                 height: width
 
-                source: "qrc:/graphics/GUI/Settings.png"
+                source: "qrc:/graphics/GUI/Profitability.png"
             }
             Text {
                 id: maxTierAmount1
@@ -652,21 +712,33 @@ Item {
 
         function update()
         {
-
+            heroesTab.update();
+            resourcesTab.update();
+            equipmentsTab.update();
         }
 
         function returnToDefault()
         {
+            heroesTab.returnToDefault();
+            resourcesTab.returnToDefault();
+            equipmentsTab.returnToDefault();
 
+            heroesTab.state = "";
+            resourcesTab.state = "hiddenRight";
+            equipmentsTab.state = "hiddenRight2";
         }
 
         HeroesTab {
             id: heroesTab
 
-            anchors.fill: parent
+            x: 0
+            y: 0
+            width: parent.width
+            height: parent.height
 
             onRequestSwitchingToResourcesTab: {
                 recruits.visible = false;
+                profitability.visible = true;
                 state = "hiddenLeft";
                 resourcesTab.state = "";
                 equipment.state = "hiddenRight";
@@ -675,17 +747,23 @@ Item {
         ResourcesTab {
             id: resourcesTab
 
-            anchors.fill: parent
+            x: 0
+            y: 0
+            width: parent.width
+            height: parent.height
 
             onRequestSwitchingToHeroesTab: {
                 recruits.visible = true;
+                profitability.visible = false;
                 state = "hiddenRight";
                 heroesTab.state = "";
                 equipmentsTab.state = "hiddenRight2";
             }
 
             onRequestSwitchingToEquipmentTab: {
+                profitability.visible = false;
                 equipment.visible = true;
+                maxTier.visible = true;
                 state = "hiddenLeft";
                 equipmentsTab.state = "";
                 heroesTab.state = "hiddenLeft2";
@@ -694,10 +772,15 @@ Item {
         EquipmentsTab {
             id: equipmentsTab
 
-            anchors.fill: parent
+            x: 0
+            y: 0
+            width: parent.width
+            height: parent.height
 
             onRequestSwitchingToResourcesTab: {
+                profitability.visible = true;
                 equipment.visible = false;
+                maxTier.visible = false;
                 state = "hiddenRight";
                 resourcesTab.state = "";
                 heroesTab.state = "hiddenLeft";
@@ -706,6 +789,8 @@ Item {
 
         Component.onCompleted: {
             recruits.visible = true;
+            equipment.visible = false;
+            maxTier.visible = false;
             resourcesTab.state = "hiddenRight";
             heroesTab.state = "";
             equipmentsTab.state = "hiddenRight2";

@@ -32,6 +32,7 @@ struct HeroEnums
         SBE_Bravery,
         SBE_Hopeless,
         SBE_Confusion,
+        SBE_Masochism,
         SBE_END
     };
     enum Attribute
@@ -64,6 +65,7 @@ struct HeroEnums
         CA_InBar,
         CA_InShrine,
         CA_InSeclusion,
+        CA_Arriving,
         CA_END
     };
     enum DyingReason
@@ -630,10 +632,23 @@ public:
     {
         return m_heroes.value(index,nullptr);
     }
+    void setAmountOfSlots(unsigned amount) noexcept
+    {
+        m_amountOfSlots=amount;
+    }
+    Q_INVOKABLE unsigned amountOfSlots() const noexcept
+    {
+        return m_amountOfSlots;
+    }
+    bool canAddHero() const noexcept
+    {
+        return m_heroes.size() < m_amountOfSlots;
+    }
 
 private:
     QVector <Hero *> m_heroes;
     Hero *m_preparedHero;
+    unsigned m_amountOfSlots;
 };
 
 #endif // HERO_H

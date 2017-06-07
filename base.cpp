@@ -904,12 +904,33 @@ void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
         m_recruitPreparedForQML=nullptr;
 }
 
-void DockingStation::hireMercenary(unsigned index) noexcept
+void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
 {
-    if (index<m_recruits.size() && m_recruits[index]!=nullptr)
+    if (base()->heroes()->canAddHero())
     {
-        base()->heroes()->addHero(m_recruits[index]);
-        m_recruits[index]=nullptr;
+        for (int i=0;i<m_recruits.size();++i)
+            if (m_recruits[i]->name() == name)
+            {
+                m_recruits[i]->setCurrentActivity(HeroEnums::CA_Arriving);
+                base()->heroes()->addHero(m_recruits[i]);
+                m_arrivingHero.push_back({m_recruits[i],eta});
+                m_recruits.remove(i);
+                break;
+            }
+    }
+}
+
+void DockingStation::doRecrutationStuff() noexcept
+{
+    for (int i=0;i<m_arrivingHero.size();++i)
+    {
+        if (m_arrivingHero[i].second == 0)
+        {
+            m_arrivingHero[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+            m_arrivingHero.remove(i);
+        }
+        else
+            --m_arrivingHero[i].second;
     }
 }
 
@@ -931,6 +952,13 @@ void DockingStation::loadRecruits() noexcept
     QStringList names{base()->gameObject()->assetsPool().allHeroes()};
     for (int i=0;i<base()->heroes()->heroes().size();++i)
         names.removeAt(names.indexOf(base()->heroes()->heroes()[i]->name()));
+    for (int i=0;i<names.size();)
+    {
+        if (base()->heroDockingStationBans().contains(names[i]))
+            names.removeAt(i);
+        else
+            ++i;
+    }
     for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)
     {
         unsigned indexOfRecruit = Randomizer::randomBetweenAAndB(0,names.size()-1);
@@ -939,7 +967,7 @@ void DockingStation::loadRecruits() noexcept
             if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name()==names[indexOfRecruit])
             {
                 m_recruits.push_back(base()->gameObject()->assetsPool().loadedHeroes()[j]);
-                break;
+                break;//TODO zresizeowac vector do odpowiedniej wielkosci
             }
         names.removeAt(indexOfRecruit);
     }
@@ -966,7 +994,7 @@ Base::Base(Game *gameObject) noexcept
     m_energy=100;
     m_foodSupplies=5;
     m_buildingMaterials=5;
-    m_aetherite=5;
+    m_aetherite=50;
 
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
@@ -986,7 +1014,7 @@ Base::Base(Game *gameObject) noexcept
     m_storageRoom=new StorageRoom(this,1,{});
     m_aetheriteSilo=new AetheriteSilo(this,1,{});
     m_barracks=new Barracks(this,1,{});
-    m_dockingStation=new DockingStation(this,0,{});
+    m_dockingStation=new DockingStation(this,1,{});
 
     m_buildings.insert(BaseEnums::B_CentralUnit,m_centralUnit);
     m_buildings.insert(BaseEnums::B_Hospital,m_hospital);
@@ -1118,6 +1146,8 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_buildingLevels.insert(BaseEnums::B_AetheriteSilo,data.buildings.levels.aetheriteSilo);
     m_buildingLevels.insert(BaseEnums::B_Barracks,data.buildings.levels.barracks);
     m_buildingLevels.insert(BaseEnums::B_DockingStation,data.buildings.levels.dockingStation);
+
+    m_heroes->setAmountOfSlots(m_dockingStation->recruitsAmount());
 
     m_powerplant->setCurrentCycles(data.buildings.cyclesSet.powerplant);
     m_factory->setCurrentCycles(data.buildings.cyclesSet.factory);
@@ -1289,6 +1319,8 @@ void Base::startNewDay() noexcept
     for (int i=0;i<timeoutedAlarms.size();++i)
         delete timeoutedAlarms[i];
 
+    m_heroes->setAmountOfSlots(m_dockingStation->recruitsAmount());
+
     for (auto heroName : m_heroDockingStationBans.keys())
     {
         if (m_heroDockingStationBans.value(heroName)==1)
@@ -1298,6 +1330,8 @@ void Base::startNewDay() noexcept
         }
         m_heroDockingStationBans.insert(heroName,m_heroDockingStationBans.value(heroName)-1);
     }
+    m_dockingStation->doRecrutationStuff();
+    m_dockingStation->prepareRecruits();
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

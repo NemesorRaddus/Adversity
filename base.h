@@ -1855,10 +1855,11 @@ private:
 struct DockingStationLevelInfo
 {
     DockingStationLevelInfo()
-        : recruitsAmount(0), waitingTime(0), equipmentsAmount(0), maxTier(0), basicCostInEnergy(0){}
+        : recruitsAmount(0), waitingTime(0), profitability(0), equipmentsAmount(0), maxTier(0), basicCostInEnergy(0){}
 
     unsigned recruitsAmount;
     unsigned waitingTime;
+    unsigned profitability;
     unsigned equipmentsAmount;
     unsigned maxTier;
     unsigned basicCostInEnergy;
@@ -1928,7 +1929,8 @@ public:
     }
     void prepareRecruits() noexcept;
     Q_INVOKABLE void prepareRecruitForQML(unsigned slot) noexcept;
-    Q_INVOKABLE void hireMercenary(unsigned index) noexcept;
+    Q_INVOKABLE void hireMercenary(const QString &name, unsigned eta) noexcept;
+    void doRecrutationStuff() noexcept;
 
     Q_INVOKABLE int waitingTime() const noexcept
     {
@@ -1937,6 +1939,15 @@ public:
     Q_INVOKABLE int waitingTimeAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).waitingTime;
+    }
+
+    Q_INVOKABLE int profitability() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()).profitability;
+    }
+    Q_INVOKABLE int profitabilityAfterUpgrade() const noexcept
+    {
+        return m_levelsInfo.value(currentLevel()+1).profitability;
     }
 
     Q_INVOKABLE int equipmentsAmount() const noexcept
@@ -1968,6 +1979,7 @@ private:
     QVector <DockingStationLevelInfo> m_levelsInfo;
     QVector <Hero *> m_recruits;
     Hero *m_recruitPreparedForQML;
+    QVector <QPair <Hero *, unsigned> > m_arrivingHero;//hero, ETA
 };
 
 class GameClock;
