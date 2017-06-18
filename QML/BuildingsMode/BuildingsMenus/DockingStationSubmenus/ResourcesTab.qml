@@ -1,5 +1,7 @@
 import QtQuick 2.0
 
+import Game 1.0
+
 Item {
     id: root
 
@@ -11,15 +13,16 @@ Item {
 
     signal requestSwitchingToHeroesTab()
     signal requestSwitchingToEquipmentTab()
+    signal requestResourcesUpdate()
 
     function update()
     {
-
+        tradingTable.update();
     }
 
     function returnToDefault()
     {
-
+        tradingTable.returnToDefault();
     }
 
     transform: [
@@ -90,6 +93,20 @@ Item {
             height: 3
 
             source: "qrc:/graphics/GUI/Task_Border.png"
+        }
+    }
+
+    TradingTable {
+        id: tradingTable
+
+        x: 0
+        y: modeNameBar.height
+        width: parent.theoreticalWidth
+        height: parent.theoreticalHeight - y
+
+        onTransactionAccepted: {
+            GameApi.base.dockingStation.startTransaction(sourceRes, targetRes, targetValue);
+            requestResourcesUpdate()
         }
     }
 

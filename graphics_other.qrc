@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/IconL.png</file>
+        <file>graphics/IconS.png</file>
+        <file>graphics/IconXXL.png</file>
+        <file>graphics/splash.png</file>
+        <file>fonts/STENCIL.TTF</file>
+    </qresource>
+</RCC>

@@ -29,6 +29,8 @@ Rectangle {
     property alias buildingsGUI: buildingsMode
     property alias mercenariesGUI: mercenariesMode
 
+    property alias h4xScreen: h4xScreen
+
     width: 450
     height: 800
 
@@ -317,6 +319,17 @@ Rectangle {
                 anchors.fill: parent
             }
         }
+    }
+
+    H4XScreen {
+        id: h4xScreen
+
+        x: 0
+        y: 0
+        width: 1080
+        height: 1920
+
+        visible: false
     }
 
     FontLoader {

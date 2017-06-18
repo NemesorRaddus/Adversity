@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hero name="PaulLuft">
+	<attributes combatEffectiveness="8" proficiency="4" cleverness="2" luck="0.9" health="18" healthLimit="18" dailyHealthRecovery="1" stress="0" stressResistance="0.85" stressLimit="120" stressBorder="100" dailyStressRecovery="0" salary="15" dailyFoodConsumption="4" nature="Active" profession="Gunzerker"></attributes>
+	<sbeList>
+		<sbe>Abandonce</sbe>
+		<sbe>Restive</sbe>
+		<sbe>Restive</sbe>
+		<sbe>Madness</sbe>
+		<sbe>Stupor</sbe>
+		<sbe>Bravery</sbe>
+	</sbeList>
+	<equipment>
+		<armor name=""></armor>
+		<weaponTool name="" slot=""></weaponTool>
+	</equipment>
+	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+</hero>

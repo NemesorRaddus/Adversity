@@ -18,5 +18,35 @@
         <file>data/base/buildingLevelsInfo/storageRoom.xml</file>
         <file>data/base/buildingLevelsInfo/trainingGround.xml</file>
         <file>data/mercenaries/equipment.xml</file>
+        <file>data/base/dockingStationTradingTables.xml</file>
+        <file>data/mercenaries/mercenaries/AdamAnderson.xml</file>
+        <file>data/mercenaries/mercenaries/AgdaSolberg.xml</file>
+        <file>data/mercenaries/mercenaries/AlanClark.xml</file>
+        <file>data/mercenaries/mercenaries/AlexFreeman.xml</file>
+        <file>data/mercenaries/mercenaries/AnnaTyler.xml</file>
+        <file>data/mercenaries/mercenaries/AP-NGAI-V5.xml</file>
+        <file>data/mercenaries/mercenaries/BrianCartner.xml</file>
+        <file>data/mercenaries/mercenaries/CAI-V2-DY11.xml</file>
+        <file>data/mercenaries/mercenaries/DexterRoosvelt.xml</file>
+        <file>data/mercenaries/mercenaries/EdricSherman.xml</file>
+        <file>data/mercenaries/mercenaries/EvanTurner.xml</file>
+        <file>data/mercenaries/mercenaries/GregHofmann.xml</file>
+        <file>data/mercenaries/mercenaries/HeinzWitt.xml</file>
+        <file>data/mercenaries/mercenaries/IvanRepnin.xml</file>
+        <file>data/mercenaries/mercenaries/JensNeumann.xml</file>
+        <file>data/mercenaries/mercenaries/JuanMercado.xml</file>
+        <file>data/mercenaries/mercenaries/KaoriTokaji.xml</file>
+        <file>data/mercenaries/mercenaries/MadeleineLacroix.xml</file>
+        <file>data/mercenaries/mercenaries/MarekJakubowski.xml</file>
+        <file>data/mercenaries/mercenaries/OksanaSyrotiuk.xml</file>
+        <file>data/mercenaries/mercenaries/PaulLuft.xml</file>
+        <file>data/mercenaries/mercenaries/SamThomas.xml</file>
+        <file>data/mercenaries/mercenaries/SashaBohdanov.xml</file>
+        <file>data/mercenaries/mercenaries/StephanieBradley.xml</file>
+        <file>data/mercenaries/mercenaries/StevenBrown.xml</file>
+        <file>data/mercenaries/mercenaries/TakashiMatokai.xml</file>
+        <file>data/mercenaries/mercenaries/ZbynekTichy.xml</file>
+        <file>data/mercenaries/mercenaries/ZofiaWysocka.xml</file>
+        <file>data/mercenaries/mercenaries/ZuriUmcia.xml</file>
     </qresource>
 </RCC>

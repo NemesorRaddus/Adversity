@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hero name="IvanRepnin">
+        <attributes combatEffectiveness="6" proficiency="5" cleverness="3" luck="1.05" health="13" healthLimit="13" dailyHealthRecovery="1" stress="0" stressResistance="1" stressLimit="110" stressBorder="90" dailyStressRecovery="10" salary="15" dailyFoodConsumption="4" nature="Convivial" profession="Bounty Hunter"></attributes>
+	<sbeList>
+		<sbe>Faint</sbe>
+		<sbe>Rage</sbe>
+		<sbe>Rage</sbe>
+		<sbe>Rage</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Madness</sbe>
+		<sbe>Abandonce</sbe>
+		<sbe>Stone Skin</sbe>
+		<sbe>Awareness</sbe>
+		<sbe>Bravery</sbe>
+		<sbe>Stress Resistat</sbe>
+	</sbeList>
+	<equipment>
+		<armor name=""></armor>
+		<weaponTool name="" slot=""></weaponTool>
+	</equipment>
+	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+</hero>

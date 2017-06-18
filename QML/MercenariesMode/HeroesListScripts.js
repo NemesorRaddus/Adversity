@@ -23,7 +23,7 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
 }
 
 function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca) {
-    itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+profession+'/'+internalName+".png");
+    itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setProfession(profession);
     itemsArray[index].setCE(ce);
@@ -31,8 +31,8 @@ function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, s
     itemsArray[index].setCL(cl);
     itemsArray[index].setHP(hp, hpMax);
     itemsArray[index].setST(st);
-    itemsArray[index].setSL(sl);
     itemsArray[index].setSR(sr);
+    itemsArray[index].setSL(sl);
     itemsArray[index].setSA(sa);
     itemsArray[index].setFC(fc);
     itemsArray[index].setCurrentActivity(ca);

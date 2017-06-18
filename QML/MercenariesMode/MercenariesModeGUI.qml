@@ -38,6 +38,7 @@ Item {
 
     function updateEverything()
     {
+        list.returnToDefault();
         list.updateEverything();
 //        menu.updateEverything();
         heroesAmountItem.update();
@@ -64,7 +65,7 @@ Item {
         id: heroesAmountItem
 
         x: 0
-        y: 0
+        y: 4
         width: parent.theoreticalWidth
         height: heroesAmountTaskBorder.y + heroesAmountTaskBorder.height + 4
 
@@ -111,7 +112,7 @@ Item {
         id: list
 
         x: 0
-        y: heroesAmountItem.height
+        y: heroesAmountItem.y+heroesAmountItem.height
         width: root.theoreticalWidth
         height: root.theoreticalHeight - heroesAmountItem.height
 

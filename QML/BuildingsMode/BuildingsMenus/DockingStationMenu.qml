@@ -12,6 +12,8 @@ Item {
 
     signal backClicked()
     signal upgradeRequested()
+    signal resourcesUpdateRequested()
+    signal heroesModeUpdateRequested()
 
     function updateEverything()
     {
@@ -19,16 +21,18 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.dockingStation.currentLevel());
         table.update();
         upgradeInfo.update();
+        tabs.update();
     }
 
     function reactToBackOnToolbar()
     {
+        returnToDefault();
         return false;
     }
 
     function returnToDefault()
     {
-
+        tabs.returnToDefault();
     }
 
     width: 1080
@@ -726,6 +730,11 @@ Item {
             heroesTab.state = "";
             resourcesTab.state = "hiddenRight";
             equipmentsTab.state = "hiddenRight2";
+
+            recruits.visible = true;
+            profitability.visible = false;
+            equipment.visible = false;
+            maxTier.visible = false;
         }
 
         HeroesTab {
@@ -743,6 +752,8 @@ Item {
                 resourcesTab.state = "";
                 equipment.state = "hiddenRight";
             }
+
+            onRequestUpdate: heroesModeUpdateRequested()
         }
         ResourcesTab {
             id: resourcesTab
@@ -755,12 +766,15 @@ Item {
             onRequestSwitchingToHeroesTab: {
                 recruits.visible = true;
                 profitability.visible = false;
+                equipment.visible = false;
+                maxTier.visible = false;
                 state = "hiddenRight";
                 heroesTab.state = "";
                 equipmentsTab.state = "hiddenRight2";
             }
 
             onRequestSwitchingToEquipmentTab: {
+                recruits.visible = false;
                 profitability.visible = false;
                 equipment.visible = true;
                 maxTier.visible = true;
@@ -768,6 +782,8 @@ Item {
                 equipmentsTab.state = "";
                 heroesTab.state = "hiddenLeft2";
             }
+
+            onRequestResourcesUpdate: root.resourcesUpdateRequested()
         }
         EquipmentsTab {
             id: equipmentsTab
@@ -820,7 +836,10 @@ Item {
 
             anchors.fill: parent
 
-            onClicked: backClicked()
+            onClicked: {
+                tabs.returnToDefault();
+                backClicked()
+            }
         }
     }
 

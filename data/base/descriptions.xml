@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <buildingDescriptions>
-	<buildingDescription name="B_CentralUnit" description="It is the hearth of your base, which distributes resources from magazines and is a place for your headquaters."></buildingDescription>
-	<buildingDescription name="B_Powerplant" description="Thanks to the newest technologies modern powerplants are able to unleash energy hidden in Aetherite."></buildingDescription>
-	<buildingDescription name="B_CoolRoom" description="Full of technologically advanced freezers, Cool Room is used to storage food supplies for later use."></buildingDescription>
-	<buildingDescription name="B_AetheriteSilo" description="This special silo prevents Aetherite ore from decaying by emitting radiation to its inside space."></buildingDescription>
-	<buildingDescription name="B_DockingStation" description="Precision involved in advanced calculation allows to land or set off spaceships to establish trade routes and hire mercenaries from nearby planet systems."></buildingDescription>
-	<buildingDescription name="B_StorageRoom" description="Huge open space is enough to keep building materials and the rest of minor resources and it is even more convenient because of machines designed to transport heavier objects."></buildingDescription>
-	<buildingDescription name="B_Factory" description="Aetherite has plenty of uses and one of them is creating extremely durable steel. It is complicated process but factory is suited for transforming Aetherite."></buildingDescription>
-	<buildingDescription name="B_Hospital" description="It only provides basic services compared to the hospitals built in Metropoly Cruisers, but it is enough to treat minor injuries."></buildingDescription>
-	<buildingDescription name="B_Barracks" description="Everyone needs a living space, and so do your mercenaries. Each of them has provided own room open for customization."></buildingDescription>
-	<buildingDescription name="B_TrainingGround" description="It is a place where mercenaries can practise both melee and ranged weapons usage."></buildingDescription>
-	<buildingDescription name="B_Gym" description="Keeping fit is crucial on a wild planet and that is what gym is for. Mercenaries can workout to increase their endurance."></buildingDescription>
-	<buildingDescription name="B_Laboratory" description="Knowing your enemy is as important as Knowing how to fight. In Laboratory mercenaries can experiment and widen their knowledge of the wild."></buildingDescription>
-	<buildingDescription name="B_PlayingField" description="Sport is a great way to rest from individual problems and general stress."></buildingDescription>
-	<buildingDescription name="B_Bar" description="Mercenaries sometimes just have to forget about what they saw on their missions. Bar is a place suited for relief."></buildingDescription>
-	<buildingDescription name="B_Shrine" description="Faith may bring bravery and hope. Religion is kind of a way to avoid falling into madness."></buildingDescription>
-	<buildingDescription name="B_Seclusion" description="Sometimes you need to be alone. Seclusion provides that and allows to cut off from problems of the world."></buildingDescription>
+        <buildingDescription name="Central Unit" description="It is the hearth of your base, which distributes resources from magazines and is a place for your headquaters."></buildingDescription>
+        <buildingDescription name="Powerplant" description="Thanks to the newest technologies modern powerplants are able to unleash energy hidden in Aetherite."></buildingDescription>
+        <buildingDescription name="Cool Room" description="Full of technologically advanced freezers, Cool Room is used to storage food supplies for later use."></buildingDescription>
+        <buildingDescription name="Aetherite Silo" description="This special silo prevents Aetherite ore from decaying by emitting radiation to its inside space."></buildingDescription>
+        <buildingDescription name="Docking Station" description="Precision involved in advanced calculation allows to land or set off spaceships to establish trade routes and hire mercenaries from nearby planet systems."></buildingDescription>
+        <buildingDescription name="Storage Room" description="Huge open space is enough to keep building materials and the rest of minor resources and it is even more convenient because of machines designed to transport heavier objects."></buildingDescription>
+        <buildingDescription name="Factory" description="Aetherite has plenty of uses and one of them is creating extremely durable steel. It is complicated process but factory is suited for transforming Aetherite."></buildingDescription>
+        <buildingDescription name="Hospital" description="It only provides basic services compared to the hospitals built in Metropoly Cruisers, but it is enough to treat minor injuries."></buildingDescription>
+        <buildingDescription name="Barracks" description="Everyone needs a living space, and so do your mercenaries. Each of them has provided own room open for customization."></buildingDescription>
+        <buildingDescription name="Training Ground" description="It is a place where mercenaries can practise both melee and ranged weapons usage."></buildingDescription>
+        <buildingDescription name="Gym" description="Keeping fit is crucial on a wild planet and that is what gym is for. Mercenaries can workout to increase their endurance."></buildingDescription>
+        <buildingDescription name="Laboratory" description="Knowing your enemy is as important as Knowing how to fight. In Laboratory mercenaries can experiment and widen their knowledge of the wild."></buildingDescription>
+        <buildingDescription name="Playing Field" description="Sport is a great way to rest from individual problems and general stress."></buildingDescription>
+        <buildingDescription name="Bar" description="Mercenaries sometimes just have to forget about what they saw on their missions. Bar is a place suited for relief."></buildingDescription>
+        <buildingDescription name="Shrine" description="Faith may bring bravery and hope. Religion is kind of a way to avoid falling into madness."></buildingDescription>
+        <buildingDescription name="Seclusion" description="Sometimes you need to be alone. Seclusion provides that and allows to cut off from problems of the world."></buildingDescription>
 </buildingDescriptions>

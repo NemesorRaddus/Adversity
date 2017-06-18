@@ -27,7 +27,10 @@ bool XmlFileReader::openXmlFile(const QString &path) noexcept
 QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getCentralUnitLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -73,14 +76,20 @@ QPair<QVector<CentralUnitLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlF
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<HospitalLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getHospitalLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<HospitalLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -131,14 +140,20 @@ QPair<QVector<HospitalLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFile
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getTrainingGroundLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -188,14 +203,20 @@ QPair<QVector<TrainingGroundLevelInfo>, QVector<BuildingUpgradeRequirements> > X
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getGymLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -245,14 +266,20 @@ QPair<QVector<GymLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReade
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getLaboratoryLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -302,14 +329,20 @@ QPair<QVector<LaboratoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFi
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<PlayingFieldLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getPlayingFieldLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<PlayingFieldLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -361,14 +394,20 @@ QPair<QVector<PlayingFieldLevelInfo>, QVector<BuildingUpgradeRequirements> > Xml
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<BarLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getBarLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<BarLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -420,14 +459,20 @@ QPair<QVector<BarLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReade
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<ShrineLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getShrineLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<ShrineLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -479,14 +524,20 @@ QPair<QVector<ShrineLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileRe
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<SeclusionLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getSeclusionLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<SeclusionLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -538,14 +589,20 @@ QPair<QVector<SeclusionLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFil
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<PowerplantLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getPowerplantLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<PowerplantLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -595,14 +652,20 @@ QPair<QVector<PowerplantLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFi
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<FactoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getFactoryLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<FactoryLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -651,14 +714,20 @@ QPair<QVector<FactoryLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileR
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<CoolRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getCoolRoomLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<CoolRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -705,14 +774,20 @@ QPair<QVector<CoolRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFile
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<StorageRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getStorageRoomLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<StorageRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -759,14 +834,20 @@ QPair<QVector<StorageRoomLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlF
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<AetheriteSiloLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getAetheriteSiloLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<AetheriteSiloLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -814,14 +895,20 @@ QPair<QVector<AetheriteSiloLevelInfo>, QVector<BuildingUpgradeRequirements> > Xm
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<BarracksLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getBarracksLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<BarracksLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -869,14 +956,20 @@ QPair<QVector<BarracksLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFile
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }
 
 QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFileReader::getDockingStationLevelsInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > r;
 
@@ -927,14 +1020,75 @@ QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > X
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
+    return r;
+}
+
+QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > XmlFileReader::getDockingStationTradingTable(const QString &path) noexcept
+{
+    if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
+        return {};
+    }
+
+    QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > r;
+
+    if (m_xmlReader->readNextStartElement())
+    {
+        if (m_xmlReader->name()=="dockingStationTradingTables")
+        {
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="tradingTable")
+                {
+                    unsigned level=0;
+
+                    QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> m;
+
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
+                    level=attrs.value("profitabilityLevel").toUInt();
+
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="entry")
+                        {
+                            attrs=m_xmlReader->attributes();
+
+                            m.insert({BaseEnums::fromQStringToResourceEnum(attrs.value("from").toString()), BaseEnums::fromQStringToResourceEnum(attrs.value("to").toString())}, Global::roundDouble(attrs.value("ratio").toFloat(),2));
+                            m_xmlReader->skipCurrentElement();
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+
+                    r.insert(level,m);
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
+        else
+            m_xmlReader->raiseError("Incorrect file");
+    }
+    if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
+        return {};
+    }
     return r;
 }
 
 QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescriptions(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QVector <QPair <BaseEnums::Building, QString> > r;
 
@@ -959,6 +1113,7 @@ QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescrip
     }
     if (m_xmlReader->hasError())
     {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
     }
     return r;
@@ -966,13 +1121,24 @@ QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescrip
 
 QList<QString> XmlFileReader::getHeroesNamesList(const QString &pathToHeroesDir) noexcept
 {
-    return QDir(pathToHeroesDir).entryList({"*.xml"});
+    if (!QDir(pathToHeroesDir).exists())
+        qCritical()<<"Directory "+pathToHeroesDir+" doesn't exist.";
+
+    auto r = QDir(pathToHeroesDir).entryList({"*.xml"});
+    for (int i=0;i<r.size();++i)
+        r[i].remove(r[i].size()-4,4);
+    if (r.isEmpty())
+        qCritical("No heroes detected.");
+    return r;
 }
 
 Hero *XmlFileReader::getHero(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     HeroBuilder hB;
 
@@ -991,12 +1157,12 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setCombatEffectiveness(attrs.value("combatEffectiveness").toInt());
                     hB.setProficiency(attrs.value("proficiency").toInt());
                     hB.setCleverness(attrs.value("cleverness").toInt());
-                    hB.setLuck(attrs.value("luck").toFloat());
+                    hB.setLuck(Global::roundDouble(attrs.value("luck").toFloat(),2));
                     hB.setHealth(attrs.value("health").toInt());
                     hB.setHealthLimit(attrs.value("healthLimit").toInt());
                     hB.setDailyHealthRecovery(attrs.value("dailyHealthRecovery").toInt());
                     hB.setStress(attrs.value("stress").toInt());
-                    hB.setStressResistance(attrs.value("stressResistance").toFloat());
+                    hB.setStressResistance(Global::roundDouble(attrs.value("stressResistance").toFloat(),2));
                     hB.setStressLimit(attrs.value("stressLimit").toInt());
                     hB.setStressBorder(attrs.value("stressBorder").toInt());
                     hB.setDailyStressRecovery(attrs.value("dailyStressRecovery").toInt());
@@ -1005,20 +1171,17 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setNature(HeroEnums::fromQStringToNatureEnum(attrs.value("nature").toString()));
                     hB.setProfession(HeroEnums::fromQStringToProfessionEnum(attrs.value("profession").toString()));
                 }
-                else if (m_xmlReader->name()=="stressBorderEffect")
+                else if (m_xmlReader->name()=="sbeList")
                 {
-                    attrs = m_xmlReader->attributes();
-
-                    HeroStressBorderEffect sbe;
-                    sbe.effectName=HeroEnums::fromQStringToStressBorderEffectEnum(attrs.value("name").toString());
+                    QVector <HeroStressBorderEffect> sbes;
                     while (m_xmlReader->readNextStartElement())
                     {
-                        if (m_xmlReader->name()=="param")
-                            sbe.effectParams.push_back(static_cast<QVariant>(m_xmlReader->attributes().value("value").toString()));
+                        if (m_xmlReader->name()=="sbe")
+                            sbes.push_back({HeroEnums::fromQStringToStressBorderEffectEnum(m_xmlReader->text().toString())});
                         else
                             m_xmlReader->skipCurrentElement();
                     }
-                    hB.setStressBorderEffect(sbe);
+                    hB.setStressBorderEffects(sbes);
                 }
                 else if (m_xmlReader->name()=="equipment")
                 {
@@ -1027,20 +1190,20 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                         if (m_xmlReader->name()=="armor")
                         {
                             attrs = m_xmlReader->attributes();
-                            for (int i=0;i<ptrToGameObject->assetsPool().equipment().size();++i)
-                                if (ptrToGameObject->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
+                            for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
+                                if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                                 {
-                                    hB.setAndEquipArmor(ptrToGameObject->assetsPool().equipment()[i]);
+                                    hB.setAndEquipArmor(Game::gameInstance()->assetsPool().equipment()[i]);
                                     break;
                                 }
                         }
                         else if (m_xmlReader->name()=="weaponTool")
                         {
                             attrs = m_xmlReader->attributes();
-                            for (int i=0;i<ptrToGameObject->assetsPool().equipment().size();++i)
-                                if (ptrToGameObject->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
+                            for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
+                                if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                                 {
-                                    hB.setAndEquipWeaponTool(ptrToGameObject->assetsPool().equipment()[i],attrs.value("slot").toInt());
+                                    hB.setAndEquipWeaponTool(Game::gameInstance()->assetsPool().equipment()[i],attrs.value("slot").toInt());
                                     break;
                                 }
                         }
@@ -1066,14 +1229,20 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
     }
 
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return nullptr;
+    }
     return hB.getHero();
 }
 
 QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QVector <Equipment *> r;
     EquipmentBuilder eqB;
@@ -1209,6 +1378,7 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
     {
         for (int i=0;i<r.size();++i)
             delete r[i];
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
     }
     return r;
@@ -1217,7 +1387,10 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
 QMap<QString, QMap<QString, QString> > XmlFileReader::getTranslations(const QString &path) noexcept
 {
     if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
         return {};
+    }
 
     QMap<QString, QMap<QString, QString> > r;
 
@@ -1253,6 +1426,9 @@ QMap<QString, QMap<QString, QString> > XmlFileReader::getTranslations(const QStr
             m_xmlReader->raiseError("Incorrect file");
     }
     if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
         return {};
+    }
     return r;
 }

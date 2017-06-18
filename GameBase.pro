@@ -15,14 +15,18 @@ SOURCES += main.cpp \
     timer.cpp \
     saveparser.cpp \
     assetspool.cpp \
-    translations.cpp
+    translations.cpp \
+    h4x.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
     locales.qrc \
     dataassets.qrc \
-    graphics.qrc \
-    otherres.qrc
+    otherres.qrc \
+    graphics_mercs.qrc \
+    graphics_buildings.qrc \
+    graphics_other.qrc \
+    graphics_gui.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -42,11 +46,12 @@ HEADERS += \
     timer.h \
     saveparser.h \
     assetspool.h \
-    translations.h
+    translations.h \
+    h4x.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \
-    android-sources/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android-sources/src/org/qtproject/qt5/android/bindings/MyActivity.java \
     versionnumber.txt \
     save.txt \
     Gra-spis.rtf

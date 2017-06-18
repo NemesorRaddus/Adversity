@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "h4x.h"
 #include "game.h"
 #include "timer.h"
 
@@ -34,8 +35,16 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
     qmlRegisterInterface<GameClock>("GameClock");
+
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
+
     QQmlApplicationEngine engine;
+
+    H4X *hacksLogic=new H4X(&engine);
+
+    QJSValue globalsObj = engine.newQObject(new Global);
+    engine.globalObject().setProperty("GlobalsCpp", globalsObj);
+
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
     return app.exec();

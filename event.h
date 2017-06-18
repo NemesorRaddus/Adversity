@@ -14,7 +14,7 @@ namespace Randomizer
 {
     static void initialize() noexcept
     {
-        qsrand(qrand());
+        qsrand(static_cast<quint64>(QTime::currentTime().msecsSinceStartOfDay()));
     }
     static unsigned randomBetweenAAndB(unsigned a, unsigned b) noexcept
     {

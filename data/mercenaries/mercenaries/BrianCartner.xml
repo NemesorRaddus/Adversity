@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hero name="BrianCartner">
+        <attributes combatEffectiveness="6" proficiency="4" cleverness="6" luck="0.9" health="14" healthLimit="14" dailyHealthRecovery="0" stress="0" stressResistance="1" stressLimit="100" stressBorder="60" dailyStressRecovery="4" salary="10" dailyFoodConsumption="3" nature="Convivial" profession="Bounty Hunter"></attributes>
+	<sbeList>
+		<sbe>Fear</sbe>
+		<sbe>Fear</sbe>
+		<sbe>Confusion</sbe>
+		<sbe>Rage</sbe>
+		<sbe>Stone Skin</sbe>
+		<sbe>Caution</sbe>
+	</sbeList>
+	<equipment>
+		<armor name=""></armor>
+		<weaponTool name="" slot=""></weaponTool>
+	</equipment>
+	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+</hero>

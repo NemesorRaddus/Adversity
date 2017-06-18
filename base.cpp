@@ -7,98 +7,102 @@
 
 BaseEnums::Resource BaseEnums::fromQStringToResourceEnum(const QString &resource) noexcept
 {
-    if (resource=="R_Energy")
+    if (resource=="Energy")
         return R_Energy;
-    if (resource=="R_FoodSupplies")
+    if (resource=="Food Supplies")
         return R_FoodSupplies;
-    if (resource=="R_BuildingMaterials")
+    if (resource=="Building Materials")
         return R_BuildingMaterials;
-    if (resource=="R_AetheriteOre")
+    if (resource=="Aetherite")
         return R_AetheriteOre;
+    qWarning()<<"QString->enum conversion failed for "<<resource;
 }
 
 QString BaseEnums::fromResourceEnumToQString(BaseEnums::Resource resource) noexcept
 {
     if (resource==R_Energy)
-        return "R_Energy";
+        return "Energy";
     if (resource==R_FoodSupplies)
-        return "R_FoodSupplies";
+        return "Food Supplies";
     if (resource==R_BuildingMaterials)
-        return "R_BuildingMaterials";
+        return "Building Materials";
     if (resource==R_AetheriteOre)
-        return "R_AetheriteOre";
+        return "Aetherite";
+    qWarning()<<"enum->QString conversion failed for "<<resource;
 }
 
 BaseEnums::Building BaseEnums::fromQStringToBuildingEnum(const QString &building) noexcept
 {
-    if (building=="B_CentralUnit")
+    if (building=="Central Unit")
         return B_CentralUnit;
-    if (building=="B_Powerplant")
+    if (building=="Powerplant")
         return B_Powerplant;
-    if (building=="B_Factory")
+    if (building=="Factory")
         return B_Factory;
-    if (building=="B_CoolRoom")
+    if (building=="Cool Room")
         return B_CoolRoom;
-    if (building=="B_StorageRoom")
+    if (building=="Storage Room")
         return B_StorageRoom;
-    if (building=="B_AetheriteSilo")
+    if (building=="Aetherite Silo")
         return B_AetheriteSilo;
-    if (building=="B_Hospital")
+    if (building=="Hospital")
         return B_Hospital;
-    if (building=="B_Barracks")
+    if (building=="Barracks")
         return B_Barracks;
-    if (building=="B_DockingStation")
+    if (building=="Docking Station")
         return B_DockingStation;
-    if (building=="B_TrainingGround")
+    if (building=="Training Ground")
         return B_TrainingGround;
-    if (building=="B_Gym")
+    if (building=="Gym")
         return B_Gym;
-    if (building=="B_Laboratory")
+    if (building=="Laboratory")
         return B_Laboratory;
-    if (building=="B_PlayingField")
+    if (building=="Playing Field")
         return B_PlayingField;
-    if (building=="B_Bar")
+    if (building=="Bar")
         return B_Bar;
-    if (building=="B_Shrine")
+    if (building=="Shrine")
         return B_Shrine;
-    if (building=="B_Seclusion")
+    if (building=="Seclusion")
         return B_Seclusion;
+    qWarning()<<"QString->enum conversion failed for "<<building;
 }
 
 QString BaseEnums::fromBuildingEnumToQString(BaseEnums::Building building) noexcept
 {
     if (building==B_CentralUnit)
-        return "B_CentralUnit";
+        return "Central Unit";
     if (building==B_Powerplant)
-        return "B_Powerplant";
+        return "Powerplant";
     if (building==B_Factory)
-        return "B_Factory";
+        return "Factory";
     if (building==B_CoolRoom)
-        return "B_CoolRoom";
+        return "Cool Room";
     if (building==B_StorageRoom)
-        return "B_StorageRoom";
+        return "Storage Room";
     if (building==B_AetheriteSilo)
-        return "B_AetheriteSilo";
+        return "Aetherite Silo";
     if (building==B_Hospital)
-        return "B_Hospital";
+        return "Hospital";
     if (building==B_Barracks)
-        return "B_Barracks";
+        return "Barracks";
     if (building==B_DockingStation)
-        return "B_DockingStation";
+        return "Docking Station";
     if (building==B_TrainingGround)
-        return "B_TrainingGround";
+        return "Training Ground";
     if (building==B_Gym)
-        return "B_Gym";
+        return "Gym";
     if (building==B_Laboratory)
-        return "B_Laboratory";
+        return "Laboratory";
     if (building==B_PlayingField)
-        return "B_PlayingField";
+        return "Playing Field";
     if (building==B_Bar)
-        return "B_Bar";
+        return "Bar";
     if (building==B_Shrine)
-        return "B_Shrine";
+        return "Shrine";
     if (building==B_Seclusion)
-        return "B_Seclusion";
+        return "Seclusion";
+    qWarning()<<"enum->QString conversion failed for "<<building;
 }
 
 unsigned Building::currentLevel() const noexcept
@@ -883,6 +887,39 @@ unsigned Barracks::upgradeTimeRemaining() noexcept
     return r;
 }
 
+QDataStream &operator<<(QDataStream &stream, const ActiveTransaction &transaction) noexcept
+{
+    stream<<static_cast<quint8>(transaction.sourceRes);
+
+    stream<<static_cast<quint8>(transaction.targetRes);
+
+    stream<<static_cast<quint16>(transaction.sourceAmount);
+
+    stream<<static_cast<quint16>(transaction.targetAmount);
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, ActiveTransaction &transaction) noexcept
+{
+    quint8 n;
+    quint16 ii;
+
+    stream>>n;
+    transaction.sourceRes=static_cast<BaseEnums::Resource>(n);
+
+    stream>>n;
+    transaction.targetRes=static_cast<BaseEnums::Resource>(n);
+
+    stream>>ii;
+    transaction.sourceAmount=ii;
+
+    stream>>ii;
+    transaction.targetAmount=ii;
+
+    return stream;
+}
+
 DockingStation::DockingStation(Base *base, unsigned level, const QVector<DockingStationLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_DockingStation, base, level), m_levelsInfo(levelsInfo)
 {
@@ -911,32 +948,45 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
         for (int i=0;i<m_recruits.size();++i)
             if (m_recruits[i]->name() == name)
             {
-                m_recruits[i]->setCurrentActivity(HeroEnums::CA_Arriving);
-                base()->heroes()->addHero(m_recruits[i]);
-                m_arrivingHero.push_back({m_recruits[i],eta});
-                m_recruits.remove(i);
-                break;
+                if (eta>0)
+                {
+                    m_recruits[i]->setCurrentActivity(HeroEnums::CA_Arriving);
+                    base()->heroes()->addHero(m_recruits[i]);
+                    m_arrivingHeroes.push_back({m_recruits[i],eta});
+                    m_recruits.remove(i);
+                    break;
+                }
+                else//instant
+                {
+                    base()->heroes()->addHero(m_recruits[i]);
+                    m_recruits.remove(i);
+                    break;
+                }
             }
     }
 }
 
 void DockingStation::doRecrutationStuff() noexcept
 {
-    for (int i=0;i<m_arrivingHero.size();++i)
+    for (int i=0;i<m_arrivingHeroes.size();++i)
     {
-        if (m_arrivingHero[i].second == 0)
+        if (m_arrivingHeroes[i].second == 0)
         {
-            m_arrivingHero[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-            m_arrivingHero.remove(i);
+            Hero *h=m_arrivingHeroes[i].first;//antibug thing, leave it as it is
+            h->setCurrentActivity(HeroEnums::CA_Idle);
+            m_arrivingHeroes.remove(i);
         }
         else
-            --m_arrivingHero[i].second;
+            --m_arrivingHeroes[i].second;
     }
 }
 
-void DockingStation::setLevelsInfo(const QVector<DockingStationLevelInfo> &info) noexcept
+QStringList DockingStation::getRecruitsNames() const noexcept
 {
-    m_levelsInfo=info;
+    QStringList r;
+    for (int i=0;i<m_recruits.size();++i)
+        r+=m_recruits[i]->name();
+    return r;
 }
 
 unsigned DockingStation::upgradeTimeRemaining() noexcept
@@ -947,27 +997,79 @@ unsigned DockingStation::upgradeTimeRemaining() noexcept
     return r;
 }
 
+unsigned DockingStation::calculateTransaction(BaseEnums::Resource sourceRes, BaseEnums::Resource targetRes, unsigned sourceAmount) const noexcept
+{
+    return m_tradingTables.value(m_levelsInfo.value(currentLevel()).profitability).value({sourceRes,targetRes}) * sourceAmount;
+}
+
+unsigned DockingStation::calculateTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) const noexcept
+{
+    return ceilf(static_cast<float>(targetAmount) / m_tradingTables.value(m_levelsInfo.value(currentLevel()).profitability).value({static_cast<BaseEnums::Resource>(sourceRes), static_cast<BaseEnums::Resource>(targetRes)}));
+}
+
+void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) noexcept
+{
+    unsigned sA = calculateTransaction(sourceRes, targetRes, targetAmount);
+    BaseEnums::Resource sR = static_cast<BaseEnums::Resource>(sourceRes);
+    BaseEnums::Resource tR = static_cast<BaseEnums::Resource>(targetRes);
+
+    if (sR == BaseEnums::R_Energy)
+        base()->setCurrentEnergyAmount(base()->currentEnergyAmount() - sA);
+    else if (sR == BaseEnums::R_FoodSupplies)
+        base()->setCurrentFoodSuppliesAmount(base()->currentFoodSuppliesAmount() - sA);
+    else if (sR == BaseEnums::R_BuildingMaterials)
+        base()->setCurrentBuildingMaterialsAmount(base()->currentBuildingMaterialsAmount() - sA);
+    else
+        base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - sA);
+
+    m_activeTransactions.push_back({{sR,tR,sA,targetAmount},m_levelsInfo.value(currentLevel()).waitingTime});
+}
+
+void DockingStation::handleActiveTransactions() noexcept
+{
+    for (int i=0;i<m_activeTransactions.size();++i)
+    {
+        if (m_activeTransactions[i].second == 0)
+        {
+            if (m_activeTransactions[i].first.targetRes == BaseEnums::R_Energy)
+                base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + m_activeTransactions[i].first.targetAmount);
+            else if (m_activeTransactions[i].first.targetRes == BaseEnums::R_FoodSupplies)
+                base()->setCurrentFoodSuppliesAmount(base()->currentFoodSuppliesAmount() + m_activeTransactions[i].first.targetAmount);
+            else if (m_activeTransactions[i].first.targetRes == BaseEnums::R_BuildingMaterials)
+                base()->setCurrentBuildingMaterialsAmount(base()->currentBuildingMaterialsAmount() + m_activeTransactions[i].first.targetAmount);
+            else
+                base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() + m_activeTransactions[i].first.targetAmount);
+
+            m_activeTransactions.remove(i);
+            --i;
+        }
+        else
+            --m_activeTransactions[i].second;
+    }
+}
+
 void DockingStation::loadRecruits() noexcept
 {
-    QStringList names{base()->gameObject()->assetsPool().allHeroes()};
-    for (int i=0;i<base()->heroes()->heroes().size();++i)
+    QStringList names{base()->gameObject()->assetsPool().allHeroes()};//load all mercs names
+    for (int i=0;i<base()->heroes()->heroes().size();++i)//remove mercs that are already hired
         names.removeAt(names.indexOf(base()->heroes()->heroes()[i]->name()));
-    for (int i=0;i<names.size();)
+    for (int i=0;i<names.size();)//remove mercs banned in DoSt
     {
         if (base()->heroDockingStationBans().contains(names[i]))
             names.removeAt(i);
         else
             ++i;
     }
-    for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)
+    m_recruits.clear();//prepare vector
+    for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)//add random recruits
     {
         unsigned indexOfRecruit = Randomizer::randomBetweenAAndB(0,names.size()-1);
-        base()->gameObject()->assetsPool().loadHeroAtPosFromList(base()->gameObject()->assetsPool().allHeroes().indexOf(names[indexOfRecruit]));
+        base()->gameObject()->assetsPool().loadHeroNamedFromList(names[indexOfRecruit]);
         for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
             if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name()==names[indexOfRecruit])
             {
                 m_recruits.push_back(base()->gameObject()->assetsPool().loadedHeroes()[j]);
-                break;//TODO zresizeowac vector do odpowiedniej wielkosci
+                break;
             }
         names.removeAt(indexOfRecruit);
     }
@@ -989,13 +1091,8 @@ void DockingStation::clearRecruits() noexcept
 }
 
 Base::Base(Game *gameObject) noexcept
-    : QObject(nullptr), m_gameObject(gameObject)
+    : QObject(nullptr), m_gameObject(gameObject), m_freezeGameProgress(false)
 {
-    m_energy=100;
-    m_foodSupplies=5;
-    m_buildingMaterials=5;
-    m_aetherite=50;
-
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
 
@@ -1038,70 +1135,14 @@ Base::Base(Game *gameObject) noexcept
 
 void Base::setupNewBase() noexcept
 {
-    HeroBuilder hb;//TESTONLY
-    hb.setName("SashaBohdanov");
-    hb.setProfession(HeroEnums::P_Gunzerker);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    hb.setHealthLimit(10);
-    hb.setHealth(1);
-    m_heroes->addHero(hb.getHero());
+    m_energy=100;
+    m_foodSupplies=5;
+    m_buildingMaterials=5;
+    m_aetherite=50;
 
-    hb.setName("AlanClark");
-    hb.setProfession(HeroEnums::P_Criminal);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    hb.setHealthLimit(10);
-    hb.setHealth(5);
-    m_heroes->addHero(hb.getHero());
+    m_dockingStation->prepareRecruits();
 
-    hb.setName("Mercenary Template2");
-    hb.setProfession(HeroEnums::P_Doomsayer);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    hb.setStressLimit(10);
-    hb.setStress(1);
-    m_heroes->addHero(hb.getHero());
-
-    hb.setName("Mercenary Template3");
-    hb.setProfession(HeroEnums::P_Doomsayer);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    hb.setStressLimit(10);
-    hb.setStress(5);
-    m_heroes->addHero(hb.getHero());
-
-    hb.setName("Mercenary Template4");
-    hb.setProfession(HeroEnums::P_Doomsayer);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    m_heroes->addHero(hb.getHero());
-
-    hb.setName("Mercenary Template5");
-    hb.setProfession(HeroEnums::P_Doomsayer);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    m_heroes->addHero(hb.getHero());
-
-    hb.setName("Mercenary Template6");
-    hb.setProfession(HeroEnums::P_Doomsayer);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    m_heroes->addHero(hb.getHero());
-
-    hb.setName("Mercenary Template7");
-    hb.setProfession(HeroEnums::P_Doomsayer);
-    hb.setCombatEffectiveness(10);
-    hb.setProficiency(10);
-    hb.setCleverness(10);
-    m_heroes->addHero(hb.getHero());
+    m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
 }
 
 Base::~Base() noexcept
@@ -1130,7 +1171,7 @@ Base::~Base() noexcept
 
 void Base::loadSaveData(const SaveData &data) noexcept
 {
-    m_buildingLevels.insert(BaseEnums::B_CentralUnit,data.buildings.levels.centralUnit);
+    m_buildingLevels.insert(BaseEnums::B_CentralUnit,data.buildings.levels.centralUnit);//buildings levels loading
     m_buildingLevels.insert(BaseEnums::B_Hospital,data.buildings.levels.hospital);
     m_buildingLevels.insert(BaseEnums::B_TrainingGround,data.buildings.levels.trainingGround);
     m_buildingLevels.insert(BaseEnums::B_Gym,data.buildings.levels.gym);
@@ -1147,12 +1188,26 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_buildingLevels.insert(BaseEnums::B_Barracks,data.buildings.levels.barracks);
     m_buildingLevels.insert(BaseEnums::B_DockingStation,data.buildings.levels.dockingStation);
 
-    m_heroes->setAmountOfSlots(m_dockingStation->recruitsAmount());
+    m_hospital->resizeSlotsAfterUpgrade();//resizing slots in buildings
+    m_trainingGround->resizeSlotsAfterUpgrade();
+    m_gym->resizeSlotsAfterUpgrade();
+    m_laboratory->resizeSlotsAfterUpgrade();
+    m_playingField->resizeSlotsAfterUpgrade();
+    m_bar->resizeSlotsAfterUpgrade();
+    m_shrine->resizeSlotsAfterUpgrade();
+    m_seclusion->resizeSlotsAfterUpgrade();
 
-    m_powerplant->setCurrentCycles(data.buildings.cyclesSet.powerplant);
+    for (int i=0;i<data.buildings.dockingStationThings.recruits.size();++i)//loading needed mercenaries in AssetsPool
+        m_gameObject->assetsPool().loadHeroNamedFromList(data.buildings.dockingStationThings.recruits[i]);
+    for (int i=0;i<data.heroes.hiredHeroes.size();++i)
+        m_gameObject->assetsPool().loadHeroNamedFromList(data.heroes.hiredHeroes[i].name);
+
+    m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
+
+    m_powerplant->setCurrentCycles(data.buildings.cyclesSet.powerplant);//setting cycles
     m_factory->setCurrentCycles(data.buildings.cyclesSet.factory);
 
-    m_centralUnit->setIsBeingUpgraded(data.buildings.upgrading.centralUnit);
+    m_centralUnit->setIsBeingUpgraded(data.buildings.upgrading.centralUnit);//setting upgrades
     m_powerplant->setIsBeingUpgraded(data.buildings.upgrading.powerplant);
     m_factory->setIsBeingUpgraded(data.buildings.upgrading.factory);
     m_coolRoom->setIsBeingUpgraded(data.buildings.upgrading.coolRoom);
@@ -1169,15 +1224,28 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_shrine->setIsBeingUpgraded(data.buildings.upgrading.shrine);
     m_seclusion->setIsBeingUpgraded(data.buildings.upgrading.seclusion);
 
-    for (int i=0;i<data.equipments.freeArmor.size();++i)
+    for (int i=0;i<data.equipments.freeArmor.size();++i)//creating owned equipment
         m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipment(data.equipments.freeArmor[i]));
     for (int i=0;i<data.equipments.freeWeaponsTools.size();++i)
         m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipment(data.equipments.freeWeaponsTools[i]));
 
-    for (int i=0;i<data.heroes.hiredHeroes.size();++i)
+    for (int i=0;i<data.heroes.hiredHeroes.size();++i)//adding mercenaries
         m_heroes->addHero(HeroBuilder::qobjectifyHeroData(data.heroes.hiredHeroes[i]));
 
-    for (int i=0;i<data.buildings.heroSlots.hospital.size();++i)
+    for (int i=0;i<data.buildings.dockingStationThings.recruits.size();++i)//adding possible recruits
+        for (int j=0;j<m_gameObject->assetsPool().loadedHeroes().size();++j)
+            if (m_gameObject->assetsPool().loadedHeroes()[j]->name() == data.buildings.dockingStationThings.recruits[i])
+            {
+                m_dockingStation->addRecruitFromSave(m_gameObject->assetsPool().loadedHeroes()[j]);
+                break;
+            }
+
+    QVector <QPair <ActiveTransaction, unsigned> > actTr;
+    for (int i=0;i<data.buildings.dockingStationThings.activeResourceTransactions.size();++i)//set active resource transactions
+        actTr+={data.buildings.dockingStationThings.activeResourceTransactions[i].first, static_cast<unsigned>(data.buildings.dockingStationThings.activeResourceTransactions[i].second)};
+    m_dockingStation->setActiveTransactionsFromSave(actTr);
+
+    for (int i=0;i<data.buildings.heroSlots.hospital.size();++i)//setting slots in buildings
         m_hospital->setSlot(i,!data.buildings.heroSlots.hospital[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.hospital[i])) : nullptr);
     for (int i=0;i<data.buildings.heroSlots.trainingGround.size();++i)
         m_trainingGround->setSlot(i,!data.buildings.heroSlots.trainingGround[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.trainingGround[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.trainingGround[i].second));
@@ -1194,18 +1262,18 @@ void Base::loadSaveData(const SaveData &data) noexcept
     for (int i=0;i<data.buildings.heroSlots.seclusion.size();++i)
         m_seclusion->setSlot(i,!data.buildings.heroSlots.seclusion[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.seclusion[i])) : nullptr);
 
-    m_energy=data.resources.energy;
+    m_energy=data.resources.energy;//setting resources
     m_foodSupplies=data.resources.foodSupplies;
     m_buildingMaterials=data.resources.buildingMaterials;
     m_aetherite=data.resources.aetheriteOre;
 
-    m_gameClock->clearAlarms();
+    m_gameClock->clearAlarms();//setting alarms in GameClock
     for (int i=0;i<data.alarms.buildingUpgrades.size();++i)
     {
         m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
     }
 
-    m_gameClock->updateClock(data.overall.lastKnownDate, data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute);
+    m_gameClock->updateClock(data.overall.freezeGameProgress ? QDateTime::currentDateTime() : data.overall.lastKnownDate, data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute);//setting date and time in GameClock
 }
 
 SaveData Base::getSaveData() noexcept
@@ -1260,14 +1328,38 @@ SaveData Base::getSaveData() noexcept
     for (int i=0;i<m_heroes->amountOfHeroes();++i)
         data.heroes.hiredHeroes.push_back(HeroBuilder::deqobjectifyHero(m_heroes->heroes()[i]));
 
+    data.buildings.dockingStationThings.recruits=m_dockingStation->getRecruitsNames().toVector();
+
+    auto actTr=m_dockingStation->activeTransactions();
+    for (int i=0;i<actTr.size();++i)
+        data.buildings.dockingStationThings.activeResourceTransactions+={actTr[i].first,static_cast<quint8>(actTr[i].second)};
+
     for (int i=0;i<m_hospital->amountOfSlots();++i)
         data.buildings.heroSlots.hospital.push_back(m_hospital->slot(i)!=nullptr ? m_hospital->slot(i)->name() : "");
     for (int i=0;i<m_trainingGround->amountOfSlots();++i)
-        data.buildings.heroSlots.trainingGround.push_back({m_trainingGround->slot(i).first!=nullptr ? m_trainingGround->slot(i).first->name() : "", static_cast<quint8>(m_trainingGround->slot(i).second)});
+    {
+        auto p=m_trainingGround->slot(i);
+        if (p.first!=nullptr)
+            data.buildings.heroSlots.trainingGround.push_back({p.first->name(), static_cast<quint8>(p.second)});
+        else
+            data.buildings.heroSlots.trainingGround.push_back({"",0});
+    }
     for (int i=0;i<m_gym->amountOfSlots();++i)
-        data.buildings.heroSlots.gym.push_back({m_gym->slot(i).first!=nullptr ? m_gym->slot(i).first->name() : "", static_cast<quint8>(m_gym->slot(i).second)});
+    {
+        auto p=m_gym->slot(i);
+        if (p.first!=nullptr)
+            data.buildings.heroSlots.gym.push_back({p.first->name(), static_cast<quint8>(p.second)});
+        else
+            data.buildings.heroSlots.gym.push_back({"",0});
+    }
     for (int i=0;i<m_laboratory->amountOfSlots();++i)
-        data.buildings.heroSlots.laboratory.push_back({m_laboratory->slot(i).first!=nullptr ? m_laboratory->slot(i).first->name() : "", static_cast<quint8>(m_laboratory->slot(i).second)});
+    {
+        auto p=m_laboratory->slot(i);
+        if (p.first!=nullptr)
+            data.buildings.heroSlots.laboratory.push_back({p.first->name(), static_cast<quint8>(p.second)});
+        else
+            data.buildings.heroSlots.laboratory.push_back({"",0});
+    }
     for (int i=0;i<m_playingField->amountOfSlots();++i)
         data.buildings.heroSlots.playingField.push_back(m_playingField->slot(i)!=nullptr ? m_playingField->slot(i)->name() : "");
     for (int i=0;i<m_bar->amountOfSlots();++i)
@@ -1287,6 +1379,7 @@ SaveData Base::getSaveData() noexcept
     data.overall.lastKnownDay=m_gameClock->currentDay();
     data.overall.lastKnownHour=m_gameClock->currentHour();
     data.overall.lastKnownMinute=m_gameClock->currentMin();
+    data.overall.freezeGameProgress=m_freezeGameProgress;
 
     QVector <QPair<unsigned,BuildingUpgradeTimerAlarm>> buTimerAlarms;
     QVector <QPair<unsigned,TimerAlarm*>> timerAlarms = m_gameClock->getAllAlarms();
@@ -1303,6 +1396,17 @@ SaveData Base::getSaveData() noexcept
 
 void Base::startNewDay() noexcept
 {
+    if (m_gameClock->currentDay() % 7 == 1)
+        startNewWeek();
+
+    int dailyFoodConsumptionCost=0;
+    for (int i=0;i<m_heroes->amountOfHeroes();++i)
+        dailyFoodConsumptionCost+=m_heroes->getHero(i)->dailyFoodConsumption();
+    if (dailyFoodConsumptionCost < m_foodSupplies)
+        m_foodSupplies-=dailyFoodConsumptionCost;
+    else
+        m_foodSupplies=0;
+
     activateBuildingsAtDayEnd();
 
     QVector<TimerAlarm *> timeoutedAlarms = m_gameClock->moveToNextDayAndGetTimeoutedResults();
@@ -1319,7 +1423,7 @@ void Base::startNewDay() noexcept
     for (int i=0;i<timeoutedAlarms.size();++i)
         delete timeoutedAlarms[i];
 
-    m_heroes->setAmountOfSlots(m_dockingStation->recruitsAmount());
+    m_heroes->setAmountOfSlots(m_barracks->heroesLimit());
 
     for (auto heroName : m_heroDockingStationBans.keys())
     {
@@ -1331,7 +1435,8 @@ void Base::startNewDay() noexcept
         m_heroDockingStationBans.insert(heroName,m_heroDockingStationBans.value(heroName)-1);
     }
     m_dockingStation->doRecrutationStuff();
-    m_dockingStation->prepareRecruits();
+
+    m_dockingStation->handleActiveTransactions();
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept
@@ -1354,6 +1459,19 @@ void Base::activateBuildingsAtDayEnd() noexcept
     seclusion()->destressHeroes();
     shrine()->destressHeroes();
     trainingGround()->trainHeroes();
+}
+
+void Base::startNewWeek() noexcept
+{
+    m_dockingStation->prepareRecruits();
+
+    int salaryAetheriteCost=0;
+    for (int i=0;i<m_heroes->amountOfHeroes();++i)
+        salaryAetheriteCost+=m_heroes->getHero(i)->salary();
+    if (salaryAetheriteCost < m_aetherite)
+        m_aetherite-=salaryAetheriteCost;
+    else
+        m_aetherite=0;
 }
 
 BuildingUpgradeRequirements Base::buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept
@@ -1404,4 +1522,45 @@ void Base::setBuildingDescriptions(const QVector<QPair<BaseEnums::Building, QStr
 void Base::setBuildingRequirements(const QMap<QPair<BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept
 {
     m_buildingRequirements=reqs;
+}
+
+Building *Base::getBuilding(BaseEnums::Building buildingName) noexcept
+{
+    switch (buildingName) {
+    case BaseEnums::B_AetheriteSilo:
+        return m_aetheriteSilo;
+    case BaseEnums::B_Bar:
+        return m_bar;
+    case BaseEnums::B_Barracks:
+        return m_barracks;
+    case BaseEnums::B_CentralUnit:
+        return m_centralUnit;
+    case BaseEnums::B_CoolRoom:
+        return m_coolRoom;
+    case BaseEnums::B_DockingStation:
+        return m_dockingStation;
+    case BaseEnums::B_Factory:
+        return m_factory;
+    case BaseEnums::B_Gym:
+        return m_gym;
+    case BaseEnums::B_Hospital:
+        return m_hospital;
+    case BaseEnums::B_Laboratory:
+        return m_laboratory;
+    case BaseEnums::B_PlayingField:
+        return m_playingField;
+    case BaseEnums::B_Powerplant:
+        return m_powerplant;
+    case BaseEnums::B_Seclusion:
+        return m_seclusion;
+    case BaseEnums::B_Shrine:
+        return m_shrine;
+    case BaseEnums::B_StorageRoom:
+        return m_storageRoom;
+    case BaseEnums::B_TrainingGround:
+        return m_trainingGround;
+    default:
+        qWarning()<<"BaseEnums::Building enum->Building * conversion failed for "<<buildingName;
+        return nullptr;
+    }
 }

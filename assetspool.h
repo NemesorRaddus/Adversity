@@ -27,6 +27,7 @@ public:
         return m_heroesLoaded;
     }
     void loadHeroAtPosFromList(unsigned index) noexcept;
+    void loadHeroNamedFromList(const QString &name) noexcept;
     void unloadHero(unsigned index) noexcept;
 
     const QVector <Equipment *> &equipment() noexcept

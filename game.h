@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QElapsedTimer>
 
 #include "base.h"
 #include "filereaderwriter.h"
@@ -10,8 +11,17 @@
 #include "timer.h"
 #include "assetspool.h"
 #include "translations.h"
+#include "h4x.h"
 
 #include <QDebug>
+
+class Global : public QObject
+{
+    Q_OBJECT
+public:
+    Q_INVOKABLE static double roundDouble(double d, unsigned prec) noexcept;
+    Q_INVOKABLE static QString alterNormalTextToInternal(QString normalText) noexcept;
+};
 
 class QQmlEngine;
 class QJSEngine;
@@ -19,6 +29,9 @@ class QJSEngine;
 class AppBuildInfo : public QObject
 {
     Q_OBJECT
+
+    friend class H4X;
+
 public:
     Q_INVOKABLE QString versionNumber() const noexcept
     {
@@ -66,17 +79,22 @@ private:
     QString m_versionNumber, m_buildTime, m_buildType, m_toolkitName, m_additionBuildInfo;
 };
 
-static Game *ptrToGameObject;
+
 
 class Game : public QObject
 {
     Q_OBJECT
+
     Q_PROPERTY(Base* base MEMBER m_base)
     Q_PROPERTY(AppBuildInfo* buildInfo MEMBER m_buildInfo)
     Q_PROPERTY(TranslationsDB* translator MEMBER m_translations)
+    Q_PROPERTY(H4X* h4xLogic MEMBER m_h4xLogic)
+
+    friend class H4X;
 
 public:
     explicit Game(QObject *parent = 0) noexcept;
+    ~Game() noexcept;
 
     Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
     Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
@@ -107,6 +125,13 @@ public:
         return ptrToGameObject;
     }
 
+    Q_INVOKABLE int startupTimerElapsed() noexcept
+    {
+        return m_startupTimer!=nullptr ? m_startupTimer->elapsed() : 0;
+    }
+
+    void addDoStBan(QString name, unsigned daysAmount) noexcept;
+
 public slots:
     void saveBase_slot() noexcept;
 
@@ -120,11 +145,15 @@ private:
 
     void loadTranslations(const QString &lang) noexcept;
 
+    static Game *ptrToGameObject;
+
     Base *m_base;
     QString m_currentPathToAssets;
     AppBuildInfo *m_buildInfo;
     AssetsPool m_assetsPool;
     TranslationsDB *m_translations;
+    QElapsedTimer *m_startupTimer;
+    H4X *m_h4xLogic;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

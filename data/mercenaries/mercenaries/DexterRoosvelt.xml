@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hero name="DexterRoosvelt">
+	<attributes combatEffectiveness="5" proficiency="3" cleverness="7" luck="0.9" health="10" healthLimit="10" dailyHealthRecovery="1" stress="0" stressResistance="0.8" stressLimit="150" stressBorder="80" dailyStressRecovery="0" salary="12" dailyFoodConsumption="3" nature="Recluse" profession="Specialist"></attributes>
+	<sbeList>
+		<sbe>Abandonce</sbe>
+		<sbe>Restlessness</sbe>
+		<sbe>Fear</sbe>
+		<sbe>Caution</sbe>
+		<sbe>Stress Resistant</sbe>
+	</sbeList>
+	<equipment>
+		<armor name=""></armor>
+		<weaponTool name="" slot=""></weaponTool>
+	</equipment>
+	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+</hero>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hero name="MadeleineLacroix">
+	<attributes combatEffectiveness="0" proficiency="8" cleverness="7" luck="1" health="11" healthLimit="11" dailyHealthRecovery="0" stress="0" stressResistance="1.2" stressLimit="90" stressBorder="80" dailyStressRecovery="6" salary="12" dailyFoodConsumption="2" nature="Recluse" profession="Archeologist"></attributes>
+	<sbeList>
+		<sbe>Faint</sbe>
+		<sbe>Faint</sbe>
+		<sbe>Cofusion</sbe>
+		<sbe>Desertion</sbe>
+		<sbe>Masochism</sbe>
+		<sbe>Restive</sbe>
+		<sbe>Multitasking</sbe>
+		<sbe>Excellence</sbe>
+	</sbeList>
+	<equipment>
+		<armor name=""></armor>
+		<weaponTool name="" slot=""></weaponTool>
+	</equipment>
+	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+</hero>

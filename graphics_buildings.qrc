@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Buildings/AetheriteSilo.png</file>
+        <file>graphics/Buildings/Bar.png</file>
+        <file>graphics/Buildings/Barracks.png</file>
+        <file>graphics/Buildings/CentralUnit.png</file>
+        <file>graphics/Buildings/CoolRoom.png</file>
+        <file>graphics/Buildings/DockingStation.png</file>
+        <file>graphics/Buildings/Factory.png</file>
+        <file>graphics/Buildings/Gym.png</file>
+        <file>graphics/Buildings/Hospital.png</file>
+        <file>graphics/Buildings/Laboratory.png</file>
+        <file>graphics/Buildings/PlayingField.png</file>
+        <file>graphics/Buildings/Powerplant.png</file>
+        <file>graphics/Buildings/Seclusion.png</file>
+        <file>graphics/Buildings/Shrine.png</file>
+        <file>graphics/Buildings/StorageRoom.png</file>
+        <file>graphics/Buildings/TrainingGround.png</file>
+    </qresource>
+</RCC>

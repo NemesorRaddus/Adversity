@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hero name="StephanieBradley">
+        <attributes combatEffectiveness="3" proficiency="6" cleverness="4" luck="0.8" health="12" healthLimit="12" dailyHealthRecovery="0" stress="0" stressResistance="0.9" stressLimit="120" stressBorder="95" dailyStressRecovery="5" salary="12" dailyFoodConsumption="2" nature="Convivial" profession="Space Nomad"></attributes>
+	<sbeList>
+		<sbe>Fear</sbe>
+		<sbe>Fear</sbe>
+		<sbe>Paranoia</sbe>
+		<sbe>Rage</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Bravery</sbe>
+		<sbe>Excellence</sbe>
+	</sbeList>
+	<equipment>
+		<armor name=""></armor>
+		<weaponTool name="" slot=""></weaponTool>
+	</equipment>
+	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+</hero>

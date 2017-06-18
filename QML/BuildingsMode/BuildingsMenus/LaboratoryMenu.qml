@@ -12,6 +12,7 @@ Item {
 
     signal backClicked()
     signal upgradeRequested()
+    signal showSpecial()
 
     function updateEverything()
     {
@@ -120,6 +121,49 @@ Item {
         Component.onCompleted: {
             setArtSource("qrc:/graphics/Buildings/Laboratory.png");
             setName(GameApi.tr("Laboratory"));
+        }
+    }
+    Item {
+        id: h4xEntrance
+
+        anchors.fill: topBar
+
+        property int clicks: 0
+        property double startTime: 0
+
+        function add()
+        {
+            ++clicks;
+            if (startTime==0)
+                startTime = new Date().getTime();
+            else
+            {
+                if (clicks>=10)
+                {
+                    if (new Date().getTime() - startTime <= 5000)
+                    {
+                        clicks=0;
+                        startTime=0;
+                        showSpecial();
+                    }
+                    else
+                    {
+                        clicks=0;
+                        startTime=0;
+                    }
+                }
+                else if (new Date().getTime() - startTime > 5000)
+                {
+                    clicks=0;
+                    startTime=0;
+                }
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+
+            onClicked: parent.add()
         }
     }
 

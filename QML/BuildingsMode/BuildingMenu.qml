@@ -10,6 +10,7 @@ Item {
     signal backClickedFwd()
     signal updateRequestedFromBuildingMenu()
     signal markAsUpgradedSignal(var buildingName)
+    signal showSpecial()
 
     function requestUpgrade(buildingName)//upper camel case, but with spaces (e.g. Central Unit)
     {
@@ -658,6 +659,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Laboratory")
+        onShowSpecial: parent.showSpecial()
     }
     PlayingFieldMenu {
         id: playingField
@@ -748,6 +750,8 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Docking Station")
+        onResourcesUpdateRequested: updateRequestedFromBuildingMenu()
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
 
     states: [

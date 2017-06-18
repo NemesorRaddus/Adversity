@@ -10,11 +10,11 @@ Item {
 
     function update()
     {
-        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.dockingStation.recruitsAmount(), width, height);
-        for (var i=0;i<GameApi.base.dockingStation.recruitsAmount();++i)
+        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.dockingStation.readyRecruitsAmount(), width, height);
+        for (var i=0;i<GameApi.base.dockingStation.readyRecruitsAmount();++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
-            Scripts.createItem(GameApi.base.heroes.recruitPreparedForQML.name(), GameApi.base.heroes.recruitPreparedForQML.name(), GameApi.base.heroes.recruitPreparedForQML.professionString(), GameApi.base.heroes.recruitPreparedForQML.combatEffectiveness(), GameApi.base.heroes.recruitPreparedForQML.proficiency(), GameApi.base.heroes.recruitPreparedForQML.cleverness(),  GameApi.base.heroes.recruitPreparedForQML.health(), GameApi.base.heroes.recruitPreparedForQML.healthLimit(), GameApi.base.heroes.recruitPreparedForQML.stress(), GameApi.base.heroes.recruitPreparedForQML.stressLimit(), GameApi.base.heroes.recruitPreparedForQML.stressResistance(), GameApi.base.heroes.recruitPreparedForQML.salary(), GameApi.base.heroes.recruitPreparedForQML.dailyFoodConsumption());
+            GameApi.base.dockingStation.prepareRecruitForQML(i);
+            Scripts.createItem(GameApi.base.dockingStation.recruitPreparedForQML.name(), GameApi.base.dockingStation.recruitPreparedForQML.name(), GameApi.base.dockingStation.recruitPreparedForQML.professionString(), GameApi.base.dockingStation.recruitPreparedForQML.combatEffectiveness(), GameApi.base.dockingStation.recruitPreparedForQML.proficiency(), GameApi.base.dockingStation.recruitPreparedForQML.cleverness(),  GameApi.base.dockingStation.recruitPreparedForQML.health(), GameApi.base.dockingStation.recruitPreparedForQML.healthLimit(), GameApi.base.dockingStation.recruitPreparedForQML.stress(), GameApi.base.dockingStation.recruitPreparedForQML.stressLimit(), GameApi.base.dockingStation.recruitPreparedForQML.stressResistance(), GameApi.base.dockingStation.recruitPreparedForQML.salary(), GameApi.base.dockingStation.recruitPreparedForQML.dailyFoodConsumption());
         }
     }
 
@@ -59,7 +59,7 @@ Item {
         x: 0
         y: 0
         width: parent.width
-        height: parent.height - taskBorder.height
+        height: parent.height
 
         onPressed: {
             y0 = mouseY;

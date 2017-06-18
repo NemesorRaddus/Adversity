@@ -49,7 +49,17 @@ void AssetsPool::loadHeroAtPosFromList(unsigned index) noexcept
         if (m_heroesLoaded[i]->name()==m_heroesAll[index])
             return;
 
-    loadHero(m_pathToAssets+"expeditions/mercenaries/"+m_heroesAll[index]+".xml");
+    loadHero(m_pathToAssets+"mercenaries/mercenaries/"+m_heroesAll[index]+".xml");
+}
+
+void AssetsPool::loadHeroNamedFromList(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesAll.size();++i)
+        if (m_heroesAll[i] == name)
+        {
+            loadHeroAtPosFromList(i);
+            break;
+        }
 }
 
 void AssetsPool::unloadHero(unsigned index) noexcept

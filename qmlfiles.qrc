@@ -42,5 +42,7 @@
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesList.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesListScripts.js</file>
         <file>qml/MercenariesMode/HeroView.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/TradingTable.qml</file>
+        <file>qml/H4XScreen.qml</file>
     </qresource>
 </RCC>

@@ -15,7 +15,7 @@ Item {
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
         {
             GameApi.base.heroes.prepareHeroAt(i);
-            if (GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
+            if (!GameApi.base.heroes.preparedHero.isDead() && GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
             {
                 ++heroesAmount;
                 availableHeroes[i]=true;

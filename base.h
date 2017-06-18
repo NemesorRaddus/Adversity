@@ -327,7 +327,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingHealed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingHealed.push_back(nullptr);
+        m_heroesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -426,7 +433,7 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    const QPair <Hero *, unsigned> &slot(int index) noexcept
+    QPair <Hero *, unsigned> slot(int index) noexcept
     {
         return m_heroesBeingTrained.value(index,{nullptr,0});
     }
@@ -460,7 +467,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingTrained+={nullptr,0};
+        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -559,7 +573,7 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    const QPair <Hero *, unsigned> &slot(int index) noexcept
+    QPair <Hero *, unsigned> slot(int index) noexcept
     {
         return m_heroesBeingTrained.value(index,{nullptr,0});
     }
@@ -593,7 +607,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingTrained+={nullptr,0};
+        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -692,7 +713,7 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    const QPair <Hero *, unsigned> &slot(int index) noexcept
+    QPair <Hero *, unsigned> slot(int index) noexcept
     {
         return m_heroesBeingTrained.value(index,{nullptr,0});
     }
@@ -726,7 +747,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingTrained+={nullptr,0};
+        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -875,7 +903,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingDestressed.push_back(nullptr);
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -1021,7 +1056,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingDestressed.push_back(nullptr);
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -1167,7 +1209,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingDestressed.push_back(nullptr);
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -1313,7 +1362,14 @@ public:
     void registerUpgradeCompletion() noexcept
     {
         m_isBeingUpgraded=0;
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);
+        resizeSlotsAfterUpgrade();
+    }
+
+    void resizeSlotsAfterUpgrade() noexcept
+    {
+        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_heroesBeingDestressed.push_back(nullptr);
+        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
 private:
@@ -1865,11 +1921,27 @@ struct DockingStationLevelInfo
     unsigned basicCostInEnergy;
 };
 
+struct ActiveTransaction
+{
+    ActiveTransaction()
+        : sourceRes(BaseEnums::R_Energy), targetRes(BaseEnums::R_Energy), sourceAmount(0), targetAmount(0){}
+    ActiveTransaction(BaseEnums::Resource _sourceRes, BaseEnums::Resource _targetRes, unsigned _sourceAmount, unsigned _targetAmount)
+        : sourceRes(_sourceRes), targetRes(_targetRes), sourceAmount(_sourceAmount), targetAmount(_targetAmount){}
+
+    BaseEnums::Resource sourceRes, targetRes;
+    unsigned sourceAmount, targetAmount;
+};
+
+QDataStream &operator<<(QDataStream &stream, const ActiveTransaction &transaction) noexcept;
+QDataStream &operator>>(QDataStream &stream, ActiveTransaction &transaction) noexcept;
+
 class DockingStation : public Building
 {
     Q_OBJECT
 
     Q_PROPERTY(Hero* recruitPreparedForQML MEMBER m_recruitPreparedForQML)
+
+    friend class Base;
 
 public:
     explicit DockingStation(Base *base, unsigned level, const QVector <DockingStationLevelInfo> &levelsInfo) noexcept;
@@ -1927,10 +1999,15 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).recruitsAmount;
     }
+    Q_INVOKABLE int readyRecruitsAmount() const noexcept
+    {
+        return m_recruits.size();
+    }
     void prepareRecruits() noexcept;
     Q_INVOKABLE void prepareRecruitForQML(unsigned slot) noexcept;
     Q_INVOKABLE void hireMercenary(const QString &name, unsigned eta) noexcept;
     void doRecrutationStuff() noexcept;
+    QStringList getRecruitsNames() const noexcept;
 
     Q_INVOKABLE int waitingTime() const noexcept
     {
@@ -1968,18 +2045,45 @@ public:
         return m_levelsInfo.value(currentLevel()+1).maxTier;
     }
 
-    void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept;
+    void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept
+    {
+        m_levelsInfo=info;
+    }
+    void setTradingTables(const QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > &tradingTables) noexcept
+    {
+        m_tradingTables=tradingTables;
+    }
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
+
+    unsigned calculateTransaction(BaseEnums::Resource sourceRes, BaseEnums::Resource targetRes, unsigned sourceAmount) const noexcept;
+    Q_INVOKABLE unsigned calculateTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) const noexcept;
+
+    Q_INVOKABLE void startTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) noexcept;
+    void handleActiveTransactions() noexcept;
+    const QVector <QPair <ActiveTransaction, unsigned> > &activeTransactions() const noexcept
+    {
+        return m_activeTransactions;
+    }
 
 private:
     void loadRecruits() noexcept;
     void clearRecruits() noexcept;
+    void addRecruitFromSave(Hero *hero) noexcept
+    {
+        m_recruits.push_back(hero);
+    }
+    void setActiveTransactionsFromSave(const QVector <QPair <ActiveTransaction, unsigned> > &transactions) noexcept
+    {
+        m_activeTransactions=transactions;
+    }
 
     QVector <DockingStationLevelInfo> m_levelsInfo;
+    QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > m_tradingTables;
     QVector <Hero *> m_recruits;
     Hero *m_recruitPreparedForQML;
-    QVector <QPair <Hero *, unsigned> > m_arrivingHero;//hero, ETA
+    QVector <QPair <Hero *, unsigned> > m_arrivingHeroes;//hero, ETA
+    QVector <QPair <ActiveTransaction, unsigned> > m_activeTransactions;
 };
 
 class GameClock;
@@ -2009,6 +2113,8 @@ class Base : public QObject
     Q_PROPERTY(GameClock* gameClock MEMBER m_gameClock)
 
     Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
+
+    friend class H4X;
 
 public:
     explicit Base(Game *gameObject) noexcept;
@@ -2087,6 +2193,8 @@ public:
 
     Q_INVOKABLE void startNewDay() noexcept;
     Q_INVOKABLE void activateBuildingsAtDayEnd() noexcept;
+
+    Q_INVOKABLE void startNewWeek() noexcept;
 
     unsigned buildingLevel(BaseEnums::Building buildingName) const noexcept
     {
@@ -2173,6 +2281,8 @@ public:
 
     void setBuildingRequirements(const QMap <QPair <BaseEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept;
 
+    Building *getBuilding(BaseEnums::Building buildingName) noexcept;
+
     //heroes
     HeroesContainer *heroes() noexcept
     {
@@ -2238,6 +2348,7 @@ private:
 
     //game
     Game *m_gameObject;
+    bool m_freezeGameProgress;
 };
 
 #endif // BASE_H

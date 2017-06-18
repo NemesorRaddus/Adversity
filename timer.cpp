@@ -96,6 +96,12 @@ void TimerAlarmsContainer::cancelAlarm(TimerAlarm *alarm) noexcept
         }
 }
 
+void TimerAlarmsContainer::cancelAlarmAtPos(unsigned index) noexcept
+{
+    if (index<m_alarms.size())
+        m_alarms.removeAt(index);
+}
+
 void TimerAlarmsContainer::clearAlarms() noexcept
 {
     m_alarms.clear();
@@ -177,10 +183,17 @@ void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDa
     long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
 
     int daysPassed=(ms*24*60*60*1000/1000/60/realMinutesToOneGameDayRatio() + m_lastKnownHour*60*60*1000 + m_lastKnownMin*60*1000)/1000/60/60/24;
+    int minutesToAdd=ms*24*60/1000/60/realMinutesToOneGameDayRatio();// /1000 s /60 min /r dni *24 h *60 min
     for (int i=0;i<daysPassed;++i)
-        m_base->startNewDay();
+    {
+        addMinutesToGameTime(60*24);
+        minutesToAdd-=60*24;
+        ++m_currentTimeInGameDay;
 
-    addMinutesToGameTime(ms*24*60/1000/60/realMinutesToOneGameDayRatio());// /1000 s /60 min /r dni *24 h *60 min
+        m_base->startNewDay();
+    }
+
+    addMinutesToGameTime(minutesToAdd);
     tryAutosaving();
 }
 
@@ -188,8 +201,15 @@ void GameClock::updateClock(int minutesToAdd) noexcept
 {
     int daysPassed=(minutesToAdd + m_currentTimeInGameHour*60 + m_currentTimeInGameMin)/(60*24);
     for (int i=0;i<daysPassed;++i)
+    {
+        addMinutesToGameTime(60*24);
+        minutesToAdd-=60*24;
+
         m_base->startNewDay();
+    }
+
     addMinutesToGameTime(minutesToAdd);
+
     tryAutosaving();
 }
 
@@ -231,8 +251,16 @@ void GameClock::addDaysToGameTime(int days) noexcept
 
 void GameClock::tryAutosaving() noexcept
 {
-    if ((m_latestAutosaveMinTimestamp+m_autosaveIntervalInMin)%60 <= m_currentTimeInGameMin)
-        autosave();
+    if (m_currentTimeInGameMin>m_latestAutosaveMinTimestamp)
+    {
+        if (m_currentTimeInGameMin>=m_latestAutosaveMinTimestamp+m_autosaveIntervalInMin)
+            autosave();
+    }
+    else
+    {
+        if (m_currentTimeInGameMin+60-m_latestAutosaveMinTimestamp>=m_autosaveIntervalInMin)
+            autosave();
+    }
 }
 
 void GameClock::autosave() noexcept

@@ -13,8 +13,9 @@
 #include <QDebug>
 
 class BuildingUpgradeTimerAlarm;
-class HeroDataHelper;
+struct HeroDataHelper;
 class Equipment;
+struct ActiveTransaction;
 
 struct SaveData
 {
@@ -25,6 +26,7 @@ struct SaveData
         quint16 lastKnownDay;
         quint16 lastKnownHour;
         quint16 lastKnownMinute;
+        bool freezeGameProgress;
     } overall;
     struct Buildings
     {
@@ -82,6 +84,11 @@ struct SaveData
             QVector<QString> shrine;
             QVector<QString> seclusion;
         } heroSlots;
+        struct DockingStationThings
+        {
+            QVector<QString> recruits;
+            QVector<QPair<ActiveTransaction,quint8>> activeResourceTransactions;
+        } dockingStationThings;
     } buildings;
     struct Resources
     {

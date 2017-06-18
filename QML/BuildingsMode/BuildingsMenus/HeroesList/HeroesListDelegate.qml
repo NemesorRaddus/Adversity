@@ -58,8 +58,17 @@ Item {
 
     function setSL(amount)
     {
-        attrSLValue.text = amount;
-        statusSTFrame.check(attrSTValue.text,amount);
+        if (amount==-1)
+        {
+            attrSTValue.text = "N/A";
+            attrSLValue.text = "N/A";
+            attrSRValue.text = "N/A";
+        }
+        else
+        {
+            attrSLValue.text = amount;
+            statusSTFrame.check(attrSTValue.text,amount);
+        }
     }
 
     function setSR(amount)
@@ -492,11 +501,12 @@ Item {
             id: attrSRValue
             x: 640
             y: 86
-            width: 58
+            width: 138
             height: 50
             color: "#568b56"
             text: "9.9"
-            wrapMode: Text.WordWrap
+            wrapMode: Text.Wrap
+            maximumLineCount: 1
             font.pixelSize: 56
             font.family: fontStencil.name
         }

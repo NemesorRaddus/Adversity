@@ -96,10 +96,11 @@ Item {
         y: parent.height-font.pixelSize
         width: parent.width*998/1000
 
-        text: "v"+GameApi.buildInfo.versionNumber()+" "+GameApi.buildInfo.buildTime()+" "+GameApi.buildInfo.buildType()+" "+GameApi.buildInfo.additionalBuildInfo()
         font.family: fontStencil.name
         color: "#ffffff"
         font.pixelSize: 20*parent.width/450
+
+        Component.onCompleted: text = "v"+GameApi.buildInfo.versionNumber()+" "+GameApi.buildInfo.buildTime()+" "+GameApi.buildInfo.buildType()+" "+GameApi.buildInfo.additionalBuildInfo()
     }
 
     FontLoader {

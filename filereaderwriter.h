@@ -37,6 +37,7 @@ public:
     QPair <QVector <AetheriteSiloLevelInfo>, QVector <BuildingUpgradeRequirements> > getAetheriteSiloLevelsInfo(const QString &path) noexcept;
     QPair <QVector <BarracksLevelInfo>, QVector <BuildingUpgradeRequirements> > getBarracksLevelsInfo(const QString &path) noexcept;
     QPair <QVector <DockingStationLevelInfo>, QVector <BuildingUpgradeRequirements> > getDockingStationLevelsInfo(const QString &path) noexcept;
+    QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > getDockingStationTradingTable(const QString &path) noexcept;
 
     QVector <QPair <BaseEnums::Building, QString> > getBuildingDescriptions(const QString &path) noexcept;
 

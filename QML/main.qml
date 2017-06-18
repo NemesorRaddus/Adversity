@@ -34,6 +34,15 @@ Window {
         }
     }
 
+    function updateEveryting()
+    {
+        mainGUI.updateEverything();
+    }
+
+    //for h4x
+    property alias gameTimerInterval: gameTimer.interval
+    property alias gameTimerRunning: gameTimer.running
+
     visible: true
     width: 450
     height: 800
@@ -157,6 +166,8 @@ Window {
 
         buildingsGUI.onUpdateRequestedFromBuildingsModeGUI: updateEverything();
         mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
+
+        buildingsGUI.onShowSpecial: h4xScreen.visible = true;
     }
 
     Timer {
@@ -172,6 +183,7 @@ Window {
             {
                 mainGUI.updateEverything();
                 updateEverythingInAMoment=false;
+                console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] QML part is ready");
             }
             else if (GameApi.base.gameClock.hasDayChangedLately())
             {
@@ -192,7 +204,11 @@ Window {
         splashImageSource: "qrc:/graphics/splash.png"
 
         onShowing: mainGUI.visible = false;
-        onHiding: mainGUI.visible = true;
+        onHiding: {
+            mainGUI.visible = true;
+            console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Splash screen has started hiding");
+            console.info("[",Math.floor((GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)/1000),'.',('00' + (GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)%1000).substr(-3),"] Splash screen has hidden");
+        }
     }
 
     Component.onCompleted: {
@@ -201,6 +217,7 @@ Window {
         Globals.windowHeight = height;
         changeMode(0);
         GameApi.loadExistingBase(":/data/");
+        console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
     onClosing: {
         if (currentMode == 0)

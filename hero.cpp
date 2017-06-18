@@ -14,6 +14,7 @@ HeroEnums::Nature HeroEnums::fromQStringToNatureEnum(const QString &nature) noex
         return N_Religious;
     if (nature == "Recluse")
         return N_Recluse;
+    qWarning()<<"QString->enum conversion failed for "<<nature;
 }
 
 QString HeroEnums::fromNatureEnumToQString(HeroEnums::Nature nature) noexcept
@@ -26,6 +27,7 @@ QString HeroEnums::fromNatureEnumToQString(HeroEnums::Nature nature) noexcept
         return "Religious";
     if (nature == N_Recluse)
         return "Recluse";
+    qWarning()<<"enum->QString conversion failed for "<<nature;
 }
 
 HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept
@@ -52,6 +54,39 @@ HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(con
         return SBE_Confusion;
     if (stressBorderEffect == "Masochism")
         return SBE_Masochism;
+    if (stressBorderEffect == "Abandonce")
+        return SBE_Abandonce;
+    if (stressBorderEffect == "Restive")
+        return SBE_Restive;
+    if (stressBorderEffect == "Madness")
+        return SBE_Madness;
+    if (stressBorderEffect == "Restlessness")
+        return SBE_Restlessness;
+    if (stressBorderEffect == "Stupor")
+        return SBE_Stupor;
+    if (stressBorderEffect == "Consciousness")
+        return SBE_Consciousness;
+    if (stressBorderEffect == "Caution")
+        return SBE_Caution;
+    if (stressBorderEffect == "Awareness")
+        return SBE_Awareness;
+    if (stressBorderEffect == "StoneSkin")
+        return SBE_StoneSkin;
+    if (stressBorderEffect == "Multitasking")
+        return SBE_Multitasking;
+    if (stressBorderEffect == "Equilibrium")
+        return SBE_Equilibrium;
+    if (stressBorderEffect == "StressResistant")
+        return SBE_StressResistant;
+    if (stressBorderEffect == "TheLuckyOne")
+        return SBE_TheLuckyOne;
+    if (stressBorderEffect == "Doombringer")
+        return SBE_Doombringer;
+    if (stressBorderEffect == "Excellence")
+        return SBE_Excellence;
+    if (stressBorderEffect == "Absolute")
+        return SBE_Absolute;
+    qWarning()<<"QString->enum conversion failed for "<<stressBorderEffect;
 }
 
 QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEffect stressBorderEffect) noexcept
@@ -78,6 +113,39 @@ QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEf
         return "Confusion";
     if (stressBorderEffect == SBE_Masochism)
         return "Masochism";
+    if (stressBorderEffect == SBE_Abandonce)
+        return "Abandonce";
+    if (stressBorderEffect == SBE_Restive)
+        return "Restive";
+    if (stressBorderEffect == SBE_Madness)
+        return "Madness";
+    if (stressBorderEffect == SBE_Restlessness)
+        return "Restlessness";
+    if (stressBorderEffect == SBE_Stupor)
+        return "Stupor";
+    if (stressBorderEffect == SBE_Consciousness)
+        return "Consciousness";
+    if (stressBorderEffect == SBE_Caution)
+        return "Caution";
+    if (stressBorderEffect == SBE_Awareness)
+        return "Awareness";
+    if (stressBorderEffect == SBE_StoneSkin)
+        return "StoneSkin";
+    if (stressBorderEffect == SBE_Multitasking)
+        return "Multitasking";
+    if (stressBorderEffect == SBE_Equilibrium)
+        return "Equilibrium";
+    if (stressBorderEffect == SBE_StressResistant)
+        return "StressResistant";
+    if (stressBorderEffect == SBE_TheLuckyOne)
+        return "TheLuckyOne";
+    if (stressBorderEffect == SBE_Doombringer)
+        return "Doombringer";
+    if (stressBorderEffect == SBE_Excellence)
+        return "Excellence";
+    if (stressBorderEffect == SBE_Absolute)
+        return "Absolute";
+    qWarning()<<"enum->QString conversion failed for "<<stressBorderEffect;
 }
 
 HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attribute) noexcept
@@ -110,6 +178,7 @@ HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attrib
         return A_Salary;
     if (attribute == "Daily Food Consumption")
         return A_DailyFoodConsumption;
+    qWarning()<<"QString->enum conversion failed for "<<attribute;
 }
 
 QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) noexcept
@@ -142,6 +211,7 @@ QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) no
         return "Salary";
     if (attribute == A_DailyFoodConsumption)
         return "Daily Food Consumption";
+    qWarning()<<"enum->QString conversion failed for "<<attribute;
 }
 
 HeroEnums::CurrentActivity HeroEnums::fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept
@@ -168,6 +238,7 @@ HeroEnums::CurrentActivity HeroEnums::fromQStringToCurrentActivityEnum(const QSt
         return CA_InSeclusion;
     if (currentActivity == "Arriving")
         return CA_Arriving;
+    qWarning()<<"QString->enum conversion failed for "<<currentActivity;
 }
 
 QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity currentActivity) noexcept
@@ -194,6 +265,7 @@ QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity c
         return "In Seclusion";
     if (currentActivity == CA_Arriving)
         return "Arriving";
+    qWarning()<<"enum->QString conversion failed for "<<currentActivity;
 }
 
 HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &profession) noexcept
@@ -220,6 +292,7 @@ HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &prof
         return P_Specialist;
     if (profession == "Doomsayer")
         return P_Doomsayer;
+    qWarning()<<"QString->enum conversion failed for "<<profession;
 }
 
 QString HeroEnums::fromProfessionEnumToQString(HeroEnums::Profession profession) noexcept
@@ -246,34 +319,22 @@ QString HeroEnums::fromProfessionEnumToQString(HeroEnums::Profession profession)
         return "Specialist";
     if (profession == P_Doomsayer)
         return "Doomsayer";
+    qWarning()<<"enum->QString conversion failed for "<<profession;
 }
 
 QDataStream &HeroStressBorderEffect::read(QDataStream &stream) noexcept
 {
     quint8 n;
-    QVector <QVariant> vd;
 
     stream>>n;
     effectName = static_cast<HeroEnums::StressBorderEffect>(n);
-
-    stream>>vd;
-    effectParams.resize(vd.size());
-    for (int i=0;i<vd.size();++i)
-        effectParams[i]=vd[i];
 
     return stream;
 }
 
 QDataStream &HeroStressBorderEffect::write(QDataStream &stream) const noexcept
 {
-    QVector <QVariant> vd;
-
     stream<<static_cast<quint8>(effectName);
-
-    vd.resize(effectParams.size());
-    for (int i=0;i<effectParams.size();++i)
-        vd[i]=effectParams[i];
-    stream<<vd;
 
     return stream;
 }
@@ -358,6 +419,54 @@ QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept
     return stream;
 }
 
+void Hero::handleSBEAtDayEnd()  noexcept
+{
+    if (!isStressBorderEffectActive())
+        return;
+
+    if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Desertion)
+    {
+        int chance = 100*m_currentAttributesValues.stress/m_currentAttributesValues.stressLimit;
+
+        if (chance >= Randomizer::randomBetweenAAndB(1,100))
+        {
+            ranAway(m_name,21);
+        }
+    }
+    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Confusion)
+    {
+        if (m_currentActivity == HeroEnums::CA_OnMission)
+        {
+            if (10 >= Randomizer::randomBetweenAAndB(1,100))
+                m_noSignalDaysRemaining=-1;
+        }
+    }
+    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Masochism)
+    {
+        if (60 >= Randomizer::randomBetweenAAndB(1,100))
+        {
+            if (m_currentAttributesValues.health>2)
+            {
+                m_currentAttributesValues.health-=2;
+                int amount = Randomizer::randomBetweenAAndB(0,20) - 10;
+                if (amount<0)
+                    decreaseStress(-amount);
+                else if (amount>0)
+                    increaseStress(amount);
+            }
+            else
+            {
+                m_currentAttributesValues.health=0;
+                die(HeroEnums::DR_Masochism);
+            }
+        }
+    }
+    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Restlessness)
+    {
+        increaseStress(m_currentAttributesValues.stressLimit/20);
+    }
+}
+
 void Hero::changeCombatEffectiveness(int amount) noexcept
 {
     if (m_baseAttributesValues.combatEffectiveness+amount >= 0)
@@ -365,7 +474,7 @@ void Hero::changeCombatEffectiveness(int amount) noexcept
     else
         m_baseAttributesValues.combatEffectiveness=0;
 
-    calculateCurrentAttributeValue(HeroEnums::A_CombatEffectiveness);
+    calculateCurrentAttributeValues();
 }
 
 void Hero::changeProficiency(int amount) noexcept
@@ -375,7 +484,7 @@ void Hero::changeProficiency(int amount) noexcept
     else
         m_baseAttributesValues.proficiency=0;
 
-    calculateCurrentAttributeValue(HeroEnums::A_Proficiency);
+    calculateCurrentAttributeValues();
 }
 
 void Hero::changeCleverness(int amount) noexcept
@@ -385,7 +494,7 @@ void Hero::changeCleverness(int amount) noexcept
     else
         m_baseAttributesValues.cleverness=0;
 
-    calculateCurrentAttributeValue(HeroEnums::A_Cleverness);
+    calculateCurrentAttributeValues();
 }
 
 void Hero::changeLuck(float amount) noexcept
@@ -411,7 +520,16 @@ void Hero::changeHealth(int amount) noexcept
     }
     else
     {
-        m_currentAttributesValues.health=0;//hero dies :c
+        if (isStressBorderEffectActive() && m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Bravery && 10 >= Randomizer::randomBetweenAAndB(1,100))
+        {
+            m_currentAttributesValues.health=1;
+            m_carriedAetheriteOre=0;
+            m_carriedBuildingMaterials=0;
+            m_carriedEnergy=0;
+            m_carriedFoodSupplies=0;
+        }
+        else
+            m_currentAttributesValues.health=0;//hero dies :c
     }
 }
 
@@ -434,93 +552,111 @@ void Hero::changeDailyHealthRecovery(int amount) noexcept
 
 void Hero::increaseStress(unsigned amount) noexcept
 {
-    if (m_currentAttributesValues.stress+amount*m_currentAttributesValues.stressResistance>=m_currentAttributesValues.stressLimit)
+    if (!isImmuneToStress())
     {
-        m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
-        die(HeroEnums::DR_StressLimitAchieved);
+        if (m_currentAttributesValues.stress+amount*m_currentAttributesValues.stressResistance>=m_currentAttributesValues.stressLimit)
+        {
+            m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
+            die(HeroEnums::DR_StressLimitAchieved);
+        }
+        else if (m_currentAttributesValues.stress + amount * m_currentAttributesValues.stressResistance >= m_currentAttributesValues.stressBorder && !isStressBorderEffectActive())
+        {
+            m_currentAttributesValues.stress+=amount*m_currentAttributesValues.stressResistance;
+            activateStressBorderEffect();
+        }
+        else
+            m_currentAttributesValues.stress+=amount*m_currentAttributesValues.stressResistance;
     }
-    else if (m_currentAttributesValues.stress + amount * m_currentAttributesValues.stressResistance >= m_currentAttributesValues.stressBorder && !m_isStressBorderEffectActive)
-    {
-        m_currentAttributesValues.stress+=amount*m_currentAttributesValues.stressResistance;
-        activateStressBorderEffect();
-    }
-    else
-        m_currentAttributesValues.stress+=amount*m_currentAttributesValues.stressResistance;
 }
 
 void Hero::decreaseStress(unsigned amount) noexcept
 {
-    if (m_currentAttributesValues.stress-amount<m_currentAttributesValues.stressBorder && m_isStressBorderEffectActive)
+    if (!isImmuneToStress())
     {
-        if (m_currentAttributesValues.stress-amount>0)
-            m_currentAttributesValues.stress-=amount;
+        if (m_currentAttributesValues.stress-amount<m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
+        {
+            if (m_currentAttributesValues.stress-amount>0)
+                m_currentAttributesValues.stress-=amount;
+            else
+                m_currentAttributesValues.stress=0;
+            deactivateStressBorderEffect();
+        }
         else
-            m_currentAttributesValues.stress=0;
-        deactivateStressBorderEffect();
-    }
-    else
-    {
-        if (m_currentAttributesValues.stress-amount>0)
-            m_currentAttributesValues.stress-=amount;
-        else
-            m_currentAttributesValues.stress=0;
+        {
+            if (m_currentAttributesValues.stress-amount>0)
+                m_currentAttributesValues.stress-=amount;
+            else
+                m_currentAttributesValues.stress=0;
+        }
     }
 }
 
 void Hero::changeStressResistance(float amount) noexcept
 {
-    if (m_currentAttributesValues.stressResistance+amount>=0)
-        m_currentAttributesValues.stressResistance+=amount;
+    if (!isImmuneToStress())
+    {
+        if (m_currentAttributesValues.stressResistance+amount>=0)
+            m_currentAttributesValues.stressResistance+=amount;
+    }
 }
 
 void Hero::changeStressLimit(int amount) noexcept
 {
-    if (m_baseAttributesValues.stressLimit+amount>1)
+    if (!isImmuneToStress())
     {
-        m_baseAttributesValues.stressLimit+=amount;
-
-        calculateCurrentAttributeValue(HeroEnums::A_StressLimit);
-
-        if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressLimit)
+        if (m_baseAttributesValues.stressLimit+amount>1)
         {
-            m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
-            die(HeroEnums::DR_StressLimitAchieved);
+            m_baseAttributesValues.stressLimit+=amount;
+
+            calculateCurrentAttributeValue(HeroEnums::A_StressLimit);
+
+            if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressLimit)
+            {
+                m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
+                die(HeroEnums::DR_StressLimitAchieved);
+            }
         }
-    }
-    else
-    {
-        m_baseAttributesValues.stressLimit=1;
-
-        calculateCurrentAttributeValue(HeroEnums::A_StressLimit);
-
-        if (m_currentAttributesValues.stress>=1)
+        else
         {
-            m_currentAttributesValues.stress=1;
-            die(HeroEnums::DR_StressLimitAchieved);
+            m_baseAttributesValues.stressLimit=1;
+
+            calculateCurrentAttributeValue(HeroEnums::A_StressLimit);
+
+            if (m_currentAttributesValues.stress>=1)
+            {
+                m_currentAttributesValues.stress=1;
+                die(HeroEnums::DR_StressLimitAchieved);
+            }
         }
     }
 }
 
 void Hero::changeStressBorder(int amount) noexcept
 {
-    if (m_baseAttributesValues.stressBorder+amount<1)
-        m_baseAttributesValues.stressBorder=0;
-    else
-        m_baseAttributesValues.stressBorder+=amount;
+    if (!isImmuneToStress())
+    {
+        if (m_baseAttributesValues.stressBorder+amount<1)
+            m_baseAttributesValues.stressBorder=0;
+        else
+            m_baseAttributesValues.stressBorder+=amount;
 
-    calculateCurrentAttributeValue(HeroEnums::A_StressBorder);
+        calculateCurrentAttributeValue(HeroEnums::A_StressBorder);
 
-    if (m_currentAttributesValues.stress<m_currentAttributesValues.stressBorder && m_isStressBorderEffectActive)
-        deactivateStressBorderEffect();
-    else if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressBorder && !m_isStressBorderEffectActive)
-        activateStressBorderEffect();
+        if (m_currentAttributesValues.stress<m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
+            deactivateStressBorderEffect();
+        else if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressBorder && !isStressBorderEffectActive())
+            activateStressBorderEffect();
+    }
 }
 
 void Hero::changeDailyStressRecovery(int amount) noexcept
 {
-    m_baseAttributesValues.dailyStressRecovery+=amount;
+    if (!isImmuneToStress())
+    {
+        m_baseAttributesValues.dailyStressRecovery+=amount;
 
-    calculateCurrentAttributeValue(HeroEnums::A_DailyStressRecovery);
+        calculateCurrentAttributeValue(HeroEnums::A_DailyStressRecovery);
+    }
 }
 
 void Hero::changeSalary(int amount) noexcept
@@ -583,8 +719,11 @@ void Hero::unequipWeaponTool(int slot) noexcept
 }
 
 Hero::Hero() noexcept
-    : m_stressBorderEffect({HeroEnums::SBE_None,{}}), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_isDead(0), m_isStressBorderEffectActive(0), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+    : m_nature(HeroEnums::N_Active), m_armor(nullptr), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
+    m_stressBorderEffects.reserve(1);
+    m_stressBorderEffects.push_back({HeroEnums::SBE_None});
+    
     m_weaponsTools.reserve(2);
     m_weaponsTools.push_back(nullptr);
     m_weaponsTools.push_back(nullptr);
@@ -623,20 +762,42 @@ void Hero::setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept
         m_assignedMission=nullptr;
 }
 
+void Hero::dismiss(unsigned banDays) noexcept
+{
+    emit ranAway(name(),banDays);
+    //TODO
+}
+
 void Hero::activateStressBorderEffect() noexcept
 {
-    m_isStressBorderEffectActive=1;
-    calculateCurrentAttributeValues();
+    if (!isImmuneToStress())
+    {
+        m_indexOfCurrentSBE = Randomizer::randomBetweenAAndB(0,m_stressBorderEffects.size()-1);
+
+        if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Consciousness)
+        {
+            m_carriedBuildingMaterials = 0;
+        }
+
+        calculateCurrentAttributeValues();
+    }
 }
 
 void Hero::deactivateStressBorderEffect() noexcept
 {
-    m_isStressBorderEffectActive=0;
-    calculateCurrentAttributeValues();
+    if (!isImmuneToStress())
+    {
+        m_indexOfCurrentSBE = -1;
+
+        calculateCurrentAttributeValues();
+    }
 }
 
 void Hero::die(HeroEnums::DyingReason reason) noexcept
 {
+    m_isDead=1;
+    m_currentAttributesValues.health=0;
+    emit died(name(),reason);
     //TODO
 }
 
@@ -661,13 +822,35 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     if (attributeName == HeroEnums::A_Cleverness)
     {
         int x=m_baseAttributesValues.cleverness;
-        if (m_isStressBorderEffectActive && m_stressBorderEffect.effectName!=HeroEnums::SBE_None)
-            x+=m_stressBorderEffect.effectParams[2].toInt();
-        if (m_armor!=nullptr)
-            x+=m_armor->clevernessBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->clevernessBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Faint)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_FanaticWrath)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Abandonce)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Rage)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Consciousness)
+                x+=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Caution)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Awareness)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Bravery)
+                x+=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
+                x+=4;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->clevernessBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->clevernessBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.cleverness=x;
@@ -677,13 +860,41 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_CombatEffectiveness)
     {
         int x=m_baseAttributesValues.combatEffectiveness;
-        if (m_isStressBorderEffectActive && m_stressBorderEffect.effectName!=HeroEnums::SBE_None)
-            x+=m_stressBorderEffect.effectParams[0].toInt();
-        if (m_armor!=nullptr)
-            x+=m_armor->combatEffectivenessBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->combatEffectivenessBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Faint)
+                x-=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Fear)
+                x-=3;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_FanaticWrath)
+                x+=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Confusion)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Abandonce)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Rage)
+                x+=4;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Restive)
+                x+=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Consciousness)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Caution)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Awareness)
+                x+=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Bravery)
+                x+=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
+                x+=6;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->combatEffectivenessBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->combatEffectivenessBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.combatEffectiveness=x;
@@ -693,11 +904,19 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_DailyFoodConsumption)
     {
         int x=m_baseAttributesValues.dailyFoodConsumption;
-        if (m_armor!=nullptr)
-            x+=m_armor->dailyFoodConsumptionBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->dailyFoodConsumptionBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Awareness)
+                x+=1;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->dailyFoodConsumptionBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->dailyFoodConsumptionBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.dailyFoodConsumption=x;
@@ -707,11 +926,19 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_DailyHealthRecovery)
     {
         int x=m_baseAttributesValues.dailyHealthRecovery;
-        if (m_armor!=nullptr)
-            x+=m_armor->dailyHealthRecoveryBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->dailyHealthRecoveryBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StoneSkin)
+                x-=5;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->dailyHealthRecoveryBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->dailyHealthRecoveryBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.dailyHealthRecovery=x;
@@ -721,11 +948,21 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_DailyStressRecovery)
     {
         int x=m_baseAttributesValues.dailyStressRecovery;
-        if (m_armor!=nullptr)
-            x+=m_armor->dailyStressRecoveryBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->dailyStressRecoveryBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_FanaticWrath)
+                x+=10;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
+                x+=10;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->dailyStressRecoveryBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->dailyStressRecoveryBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.dailyStressRecovery=x;
@@ -735,11 +972,19 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_HealthLimit)
     {
         int x=m_baseAttributesValues.healthLimit;
-        if (m_armor!=nullptr)
-            x+=m_armor->healthLimitBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->healthLimitBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StoneSkin)
+                x+=10;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->healthLimitBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->healthLimitBonus();
+        }
 
         if (x>1)
             m_currentAttributesValues.healthLimit=x;
@@ -752,13 +997,21 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_Luck)
     {
         float x=m_baseAttributesValues.luck;
-        if (m_isStressBorderEffectActive && m_stressBorderEffect.effectName==HeroEnums::SBE_Hopeless)
-            x+=m_stressBorderEffect.effectParams[4].toFloat();
-        if (m_armor!=nullptr)
-            x+=m_armor->luckBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->luckBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Hopeless)
+                x-=0.35;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_TheLuckyOne)
+                x+=1;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->luckBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->luckBonus();
+        }
 
         if (x<0)
             m_currentAttributesValues.luck=0;
@@ -770,13 +1023,33 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_Proficiency)
     {
         int x=m_baseAttributesValues.proficiency;
-        if (m_isStressBorderEffectActive && m_stressBorderEffect.effectName!=HeroEnums::SBE_None)
-            x+=m_stressBorderEffect.effectParams[1].toInt();
-        if (m_armor!=nullptr)
-            x+=m_armor->proficiencyBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->proficiencyBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Faint)
+                x-=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_FanaticWrath)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Confusion)
+                x-=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Abandonce)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Rage)
+                x-=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Caution)
+                x+=2;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Bravery)
+                x+=1;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
+                x+=4;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->proficiencyBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->proficiencyBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.proficiency=x;
@@ -786,11 +1059,14 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_Salary)
     {
         int x=m_baseAttributesValues.salary;
-        if (m_armor!=nullptr)
-            x+=m_armor->salaryBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->salaryBonus();
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->salaryBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->salaryBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.salary=x;
@@ -800,30 +1076,48 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_StressBorder)
     {
         int x=m_baseAttributesValues.stressBorder;
-        if (m_armor!=nullptr)
-            x+=m_armor->stressBorderBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->stressBorderBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StressResistant)
+                x-=30;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->stressBorderBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->stressBorderBonus();
+        }
 
         if (x>0)
             m_currentAttributesValues.stressBorder=x;
         else
             m_currentAttributesValues.stressBorder=0;
 
-        if (!m_isStressBorderEffectActive && m_currentAttributesValues.stress>=m_currentAttributesValues.stressBorder)
+        if (!isStressBorderEffectActive() && m_currentAttributesValues.stress>=m_currentAttributesValues.stressBorder)
             activateStressBorderEffect();
-        if (m_isStressBorderEffectActive && m_currentAttributesValues.stress<m_currentAttributesValues.stressBorder)
+        if (isStressBorderEffectActive() && m_currentAttributesValues.stress<m_currentAttributesValues.stressBorder)
             deactivateStressBorderEffect();
     }
     else if (attributeName == HeroEnums::A_StressLimit)
     {
         int x=m_baseAttributesValues.stressLimit;
-        if (m_armor!=nullptr)
-            x+=m_armor->stressLimitBonus();
-        for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-            if (m_weaponsTools[i]!=nullptr)
-                x+=m_weaponsTools[i]->stressLimitBonus();
+        if (isStressBorderEffectActive())
+        {
+            if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Abandonce)
+                x-=30;
+            else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StressResistant)
+                x+=30;
+        }
+        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        {
+            if (m_armor!=nullptr)
+                x+=m_armor->stressLimitBonus();
+            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                if (m_weaponsTools[i]!=nullptr)
+                    x+=m_weaponsTools[i]->stressLimitBonus();
+        }
 
         if (x>1)
             m_currentAttributesValues.stressLimit=x;
@@ -844,13 +1138,29 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             m_currentAttributesValues.stressResistance=-1;
         else
         {
-            if (m_isStressBorderEffectActive && m_stressBorderEffect.effectName!=HeroEnums::SBE_None)
-                x+=m_stressBorderEffect.effectParams[3].toFloat();
-            if (m_armor!=nullptr)
-                x+=m_armor->stressResistanceBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
-                if (m_weaponsTools[i]!=nullptr)
-                    x+=m_weaponsTools[i]->stressResistanceBonus();
+            if (isStressBorderEffectActive())
+            {
+                if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Faint)
+                    x+=0.2;
+                else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Paranoia)
+                    x+=0.5;
+                else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Rage)
+                    x-=0.3;
+                else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Restive)
+                    x+=0.1;
+                else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Consciousness)
+                    x-=0.2;
+                else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Absolute)
+                    x+=0.2;
+            }
+            if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+            {
+                if (m_armor!=nullptr)
+                    x+=m_armor->stressResistanceBonus();
+                for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                    if (m_weaponsTools[i]!=nullptr)
+                        x+=m_weaponsTools[i]->stressResistanceBonus();
+            }
 
             if (x>0)
                 m_currentAttributesValues.stressResistance=x;
@@ -866,14 +1176,117 @@ void Hero::calculateCurrentAttributeValues() noexcept
     calculateCurrentAttributeValue(HeroEnums::A_CombatEffectiveness);
     calculateCurrentAttributeValue(HeroEnums::A_DailyFoodConsumption);
     calculateCurrentAttributeValue(HeroEnums::A_DailyHealthRecovery);
-    calculateCurrentAttributeValue(HeroEnums::A_DailyStressRecovery);
+    if (!isImmuneToStress())
+    {
+        calculateCurrentAttributeValue(HeroEnums::A_DailyStressRecovery);
+        calculateCurrentAttributeValue(HeroEnums::A_StressBorder);
+        calculateCurrentAttributeValue(HeroEnums::A_StressLimit);
+        calculateCurrentAttributeValue(HeroEnums::A_StressResistance);
+    }
     calculateCurrentAttributeValue(HeroEnums::A_HealthLimit);
     calculateCurrentAttributeValue(HeroEnums::A_Luck);
     calculateCurrentAttributeValue(HeroEnums::A_Proficiency);
     calculateCurrentAttributeValue(HeroEnums::A_Salary);
-    calculateCurrentAttributeValue(HeroEnums::A_StressBorder);
-    calculateCurrentAttributeValue(HeroEnums::A_StressLimit);
-    calculateCurrentAttributeValue(HeroEnums::A_StressResistance);
+
+    if (isStressBorderEffectActive())//calculate those effect results which are more "meta"-like
+    {
+        if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Stupor)
+        {
+            int minVal = qMin(m_currentAttributesValues.combatEffectiveness, qMin(m_currentAttributesValues.proficiency, m_currentAttributesValues.cleverness));
+
+            m_currentAttributesValues.combatEffectiveness = minVal;
+            m_currentAttributesValues.proficiency = minVal;
+            m_currentAttributesValues.cleverness = minVal;
+        }
+        else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Equilibrium)
+        {
+            int minVal = qMin(m_currentAttributesValues.combatEffectiveness, qMin(m_currentAttributesValues.proficiency, m_currentAttributesValues.cleverness)) + 1;
+
+            m_currentAttributesValues.combatEffectiveness = minVal;
+            m_currentAttributesValues.proficiency = minVal;
+            m_currentAttributesValues.cleverness = minVal;
+        }
+        else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Excellence)
+        {
+            int maxVal = qMax(m_currentAttributesValues.combatEffectiveness, qMax(m_currentAttributesValues.proficiency, m_currentAttributesValues.cleverness));
+
+            m_currentAttributesValues.combatEffectiveness = maxVal;
+            m_currentAttributesValues.proficiency = maxVal;
+            m_currentAttributesValues.cleverness = maxVal;
+        }
+        else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Absolute)
+        {
+            int maxVal = qMax(m_currentAttributesValues.combatEffectiveness, qMax(m_currentAttributesValues.proficiency, m_currentAttributesValues.cleverness));
+
+            QVector <int *> acceptedAttrs;
+            if (m_currentAttributesValues.combatEffectiveness == maxVal)
+                acceptedAttrs.push_back(&m_currentAttributesValues.combatEffectiveness);
+            if (m_currentAttributesValues.proficiency == maxVal)
+                acceptedAttrs.push_back(&m_currentAttributesValues.proficiency);
+            if (m_currentAttributesValues.cleverness == maxVal)
+                acceptedAttrs.push_back(&m_currentAttributesValues.cleverness);
+
+            *(acceptedAttrs[Randomizer::randomBetweenAAndB(0,acceptedAttrs.size()-1)])+=3;
+        }
+        else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Multitasking)
+        {
+            int val = (m_currentAttributesValues.combatEffectiveness+m_currentAttributesValues.proficiency+m_currentAttributesValues.cleverness)/3;
+
+            m_currentAttributesValues.combatEffectiveness=val;
+            m_currentAttributesValues.proficiency=val;
+            m_currentAttributesValues.cleverness=val;
+        }
+    }
+}
+
+void Hero::setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept
+{
+    switch (attrName) {
+    case HeroEnums::A_Cleverness:
+        m_currentAttributesValues.cleverness=val;
+        break;
+    case HeroEnums::A_CombatEffectiveness:
+        m_currentAttributesValues.combatEffectiveness=val;
+        break;
+    case HeroEnums::A_DailyFoodConsumption:
+        m_currentAttributesValues.dailyFoodConsumption=val;
+        break;
+    case HeroEnums::A_DailyHealthRecovery:
+        m_currentAttributesValues.dailyHealthRecovery=val;
+        break;
+    case HeroEnums::A_DailyStressRecovery:
+        m_currentAttributesValues.dailyStressRecovery=val;
+        break;
+    case HeroEnums::A_Health:
+        m_currentAttributesValues.health=val;
+        break;
+    case HeroEnums::A_HealthLimit:
+        m_currentAttributesValues.healthLimit=val;
+        break;
+    case HeroEnums::A_Luck:
+        m_currentAttributesValues.luck=val;
+        break;
+    case HeroEnums::A_Proficiency:
+        m_currentAttributesValues.proficiency=val;
+        break;
+    case HeroEnums::A_Salary:
+        m_currentAttributesValues.salary=val;
+        break;
+    case HeroEnums::A_Stress:
+        m_currentAttributesValues.stress=val;
+        break;
+    case HeroEnums::A_StressBorder:
+        m_currentAttributesValues.stressBorder=val;
+        break;
+    case HeroEnums::A_StressLimit:
+        m_currentAttributesValues.stressLimit=val;
+        break;
+    case HeroEnums::A_StressResistance:
+        m_currentAttributesValues.stressResistance=val;
+        break;
+    default:
+        break;
+    }
 }
 
 HeroBuilder::HeroBuilder() noexcept
@@ -900,7 +1313,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_name = hero.name;
     r->m_baseAttributesValues = hero.baseAttributesValues;
     r->m_currentAttributesValues = hero.currentAttributesValues;
-    r->m_stressBorderEffect = hero.stressBorderEffect;
+    r->m_stressBorderEffects = hero.stressBorderEffects;
     r->m_nature = hero.nature;
     r->m_profession = hero.profession;
     if (!hero.armor.isEmpty())
@@ -915,7 +1328,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
             r->m_weaponsTools[i]=nullptr;
     }
     r->m_isDead = hero.isDead;
-    r->m_isStressBorderEffectActive = hero.isStressBorderEffectActive;
+    r->m_indexOfCurrentSBE = hero.indexOfCurrentSBE;
     r->m_noSignalDaysRemaining = hero.noSignalDaysRemaining;
     r->m_carriedEnergy = hero.carriedEnergy;
     r->m_carriedFoodSupplies = hero.carriedFoodSupplies;
@@ -934,7 +1347,7 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
     r.name = hero->m_name;
     r.baseAttributesValues = hero->m_baseAttributesValues;
     r.currentAttributesValues = hero->m_currentAttributesValues;
-    r.stressBorderEffect = hero->m_stressBorderEffect;
+    r.stressBorderEffects = hero->m_stressBorderEffects;
     r.nature = hero->m_nature;
     r.profession = hero->m_profession;
     if (hero->m_armor != nullptr)
@@ -949,7 +1362,7 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
             r.weaponsTools.push_back("");
     }
     r.isDead = hero->m_isDead;
-    r.isStressBorderEffectActive = hero->m_isStressBorderEffectActive;
+    r.indexOfCurrentSBE = hero->m_indexOfCurrentSBE;
     r.noSignalDaysRemaining = hero->m_noSignalDaysRemaining;
     r.carriedEnergy = hero->m_carriedEnergy;
     r.carriedFoodSupplies = hero->m_carriedFoodSupplies;
@@ -969,7 +1382,7 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
 
     stream<<hero.currentAttributesValues;
 
-    stream<<hero.stressBorderEffect;
+    stream<<hero.stressBorderEffects;
 
     stream<<static_cast<quint8>(hero.nature);
 
@@ -981,7 +1394,7 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
 
     stream<<hero.isDead;
 
-    stream<<hero.isStressBorderEffectActive;
+    stream<<static_cast<qint16>(hero.indexOfCurrentSBE);
 
     stream<<static_cast<qint16>(hero.noSignalDaysRemaining);
 
@@ -1004,8 +1417,6 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
 {
     qint16 ii;
     quint8 n;
-    QString s;
-    QVector <QString> vs;
 
     stream>>hero.name;
 
@@ -1013,7 +1424,7 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
 
     stream>>hero.currentAttributesValues;
 
-    stream>>hero.stressBorderEffect;
+    stream>>hero.stressBorderEffects;
 
     stream>>n;
     hero.nature=static_cast<HeroEnums::Nature>(n);
@@ -1027,7 +1438,8 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
 
     stream>>hero.isDead;
 
-    stream>>hero.isStressBorderEffectActive;
+    stream>>ii;
+    hero.indexOfCurrentSBE=ii;
 
     stream>>ii;
     hero.noSignalDaysRemaining=ii;
@@ -1080,13 +1492,14 @@ bool HeroesContainer::prepareHeroAt(unsigned index) noexcept
 void HeroesContainer::addHero(Hero *hero) noexcept
 {
     m_heroes+=hero;
+    connectHeroToBanSystem(hero->name());
 }
 
 void HeroesContainer::removeHero(unsigned index) noexcept
 {
     if (index < m_heroes.size())
     {
-        m_heroes.remove(index);
+        m_heroes.remove(index);//COULDDO possibly unload?
     }
 }
 
@@ -1096,4 +1509,29 @@ int HeroesContainer::findHero(const QString &name) const noexcept
         if (m_heroes[i]->name() == name)
             return i;
     return -1;
+}
+
+void HeroesContainer::addDoStBan(QString name, unsigned daysAmount) noexcept
+{
+    disconnectHeroFromBanSystem(name);
+    Game::gameInstance()->addDoStBan(name,daysAmount);
+    removeHero(findHero(name));
+    //TODO remove hero from anywhere he can be
+}
+
+void HeroesContainer::addDoStBan(QString name, HeroEnums::DyingReason) noexcept
+{
+    addDoStBan(name,-1/*that's unsigned so yeah...*/);
+}
+
+void HeroesContainer::connectHeroToBanSystem(const QString &name) noexcept
+{
+    connect(m_heroes[findHero(name)],SIGNAL(died(QString,HeroEnums::DyingReason)),this,SLOT(addDoStBan(QString,HeroEnums::DyingReason)));
+    connect(m_heroes[findHero(name)],SIGNAL(ranAway(QString,uint)),this,SLOT(addDoStBan(QString,uint)));
+}
+
+void HeroesContainer::disconnectHeroFromBanSystem(const QString &name) noexcept
+{
+    disconnect(m_heroes[findHero(name)],SIGNAL(died(QString,HeroEnums::DyingReason)),this,SLOT(addDoStBan(QString,HeroEnums::DyingReason)));
+    disconnect(m_heroes[findHero(name)],SIGNAL(ranAway(QString,uint)),this,SLOT(addDoStBan(QString,uint)));
 }

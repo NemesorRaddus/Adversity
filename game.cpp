@@ -1,10 +1,47 @@
 #include "game.h"
 
 #include <QDebug>
+#include <h4x.h>
+
+Game *Game::ptrToGameObject;
+
+double Global::roundDouble(double d, unsigned prec) noexcept
+{
+    return static_cast<double>(static_cast<int>(d*pow(10,prec)+0.5))/100.0;
+}
+
+QString Global::alterNormalTextToInternal(QString normalText) noexcept
+{
+    normalText.remove(' ');
+
+    normalText.replace('ć','c');
+    normalText.replace('ę','e');
+    normalText.replace('ł','l');
+    normalText.replace('ń','n');
+    normalText.replace('ó','o');
+    normalText.replace('ś','s');
+    normalText.replace('ź','z');
+    normalText.replace('ż','z');
+
+    normalText.replace('Ć','C');
+    normalText.replace('Ę','E');
+    normalText.replace('Ł','L');
+    normalText.replace('Ń','N');
+    normalText.replace('Ó','O');
+    normalText.replace('Ś','S');
+    normalText.replace('Ź','Z');
+    normalText.replace('Ż','Z');
+
+    return normalText;
+}
 
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
+    m_startupTimer=new QElapsedTimer;
+    m_startupTimer->start();
+    qInfo()<<QString("[0.000] Game object initialization has started");
+
     ptrToGameObject=this;
 
     m_buildInfo=new AppBuildInfo;
@@ -22,7 +59,26 @@ Game::Game(QObject *parent) noexcept
 
     m_base=new Base(this);
 
+    m_h4xLogic=new H4X;
+
     connectAutosave();
+}
+
+Game::~Game() noexcept
+{
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
+    disconnectAutosave();
+
+    delete m_h4xLogic;
+
+    delete m_base;
+
+    delete m_translations;
+
+    delete m_buildInfo;
+
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Game has been deleted";
+    delete m_startupTimer;
 }
 
 void Game::createNewBase(const QString &pathToAssetsDir) noexcept
@@ -33,9 +89,13 @@ void Game::createNewBase(const QString &pathToAssetsDir) noexcept
 
     delete m_base;
     m_base = new Base(this);
-    m_base->setupNewBase();
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been created";
 
     loadAssets(pathToAssetsDir);
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
+
+    m_base->setupNewBase();
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been set up";
 
     connectAutosave();
 }
@@ -52,10 +112,13 @@ void Game::loadExistingBase(const QString &pathToAssetsDir) noexcept
 
     delete m_base;
     m_base = new Base(this);
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been created";
 
     loadAssets(pathToAssetsDir);
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
 
     m_base->loadSaveData(SaveParser::readData(ba));
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Save has been loaded";
 
     connectAutosave();
 }
@@ -79,6 +142,11 @@ void Game::saveBase_slot() noexcept
     QByteArray ba;
     SaveParser::writeData(ba,m_base->getSaveData());
     QSettings().setValue("save01",ba);
+}
+
+void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
+{
+    m_base->heroDockingStationBans().insert(name,daysAmount);
 }
 
 void Game::connectAutosave() noexcept
@@ -181,6 +249,7 @@ void Game::loadAssets(const QString &pathToDir) noexcept
 
     m_base->setBuildingRequirements(bureqs);
     }
+    m_base->dockingStation()->setTradingTables(xmlReader.getDockingStationTradingTable(pathToDir+"base/dockingStationTradingTables.xml"));
 
     m_assetsPool.load(pathToDir);
 }

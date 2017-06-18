@@ -33,6 +33,22 @@ struct HeroEnums
         SBE_Hopeless,
         SBE_Confusion,
         SBE_Masochism,
+        SBE_Abandonce,
+        SBE_Restive,
+        SBE_Madness,
+        SBE_Restlessness,
+        SBE_Stupor,
+        SBE_Consciousness,
+        SBE_Caution,
+        SBE_Awareness,
+        SBE_StoneSkin,
+        SBE_Multitasking,
+        SBE_Equilibrium,
+        SBE_StressResistant,
+        SBE_TheLuckyOne,
+        SBE_Doombringer,
+        SBE_Excellence,
+        SBE_Absolute,
         SBE_END
     };
     enum Attribute
@@ -74,6 +90,7 @@ struct HeroEnums
         DR_AttributeCheckFailed,
         DR_StressLimitAchieved,
         DR_KillEvent,
+        DR_Masochism,
         DR_END
     };
     enum Profession
@@ -112,11 +129,10 @@ struct HeroStressBorderEffect
 {
     HeroStressBorderEffect() noexcept
         : effectName(HeroEnums::SBE_None) {}
-    HeroStressBorderEffect(HeroEnums::StressBorderEffect effectName_, const QVector <QVariant> &effectParams_) noexcept
-        : effectName(effectName_), effectParams(effectParams_) {}
+    HeroStressBorderEffect(HeroEnums::StressBorderEffect effectName_) noexcept
+        : effectName(effectName_) {}
 
     HeroEnums::StressBorderEffect effectName;
-    QVector <QVariant> effectParams;
 
     QDataStream &read(QDataStream &stream) noexcept;
     QDataStream &write(QDataStream &stream) const noexcept;
@@ -160,6 +176,8 @@ class Hero : public QObject
     friend class HeroBuilder;
     friend class KillHeroEventResult;
     friend class QDataStream;
+    friend class H4X;
+
 public:
     Q_INVOKABLE QString name() const noexcept
     {
@@ -207,20 +225,38 @@ public:
     }
     Q_INVOKABLE int stressLimit() const noexcept
     {
-        return m_currentAttributesValues.stressLimit;
+        return m_baseAttributesValues.stressLimit!=-1 ? m_currentAttributesValues.stressLimit : -1;
     }
     Q_INVOKABLE int stressBorder() const noexcept
     {
         return m_currentAttributesValues.stressBorder;
     }
-    const HeroStressBorderEffect &stressBorderEffect() const noexcept
+
+    const QVector <HeroStressBorderEffect> &stressBorderEffects() const noexcept
     {
-        return m_stressBorderEffect;
+        return m_stressBorderEffects;
     }
-    Q_INVOKABLE QString stressBorderEffectNameString() const noexcept
+    const HeroStressBorderEffect *currentSBE() const noexcept
     {
-        return HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffect.effectName);
+        return m_indexOfCurrentSBE==-1 ? nullptr : &(m_stressBorderEffects[m_indexOfCurrentSBE]);
     }
+    Q_INVOKABLE int amountOfSBEs() const noexcept
+    {
+        return m_stressBorderEffects.size();
+    }
+    Q_INVOKABLE QString stressBorderEffectNameString(unsigned index) const noexcept
+    {
+        return index<m_stressBorderEffects.size() ? HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffects[index].effectName) : "";
+    }
+    Q_INVOKABLE int indexOfCurrentSBE() const noexcept
+    {
+        return m_indexOfCurrentSBE;
+    }
+    Q_INVOKABLE bool isStressBorderEffectActive() const noexcept
+    {
+        return m_indexOfCurrentSBE!=-1;
+    }
+    void handleSBEAtDayEnd() noexcept;
     Q_INVOKABLE int dailyStressRecovery() const noexcept
     {
         return m_currentAttributesValues.dailyStressRecovery;
@@ -270,6 +306,10 @@ public:
     void changeStressLimit(int amount) noexcept;
     void changeStressBorder(int amount) noexcept;
     void changeDailyStressRecovery(int amount) noexcept;
+    bool isImmuneToStress() const noexcept
+    {
+        return m_baseAttributesValues.stressLimit==-1;
+    }
 
     void changeSalary(int amount) noexcept;
 
@@ -310,7 +350,10 @@ public:
     {
         m_noSignalDaysRemaining = noSignalDaysRemaining;
     }
-
+    Q_INVOKABLE bool isCommunicationAvailable() const noexcept
+    {
+        return m_noSignalDaysRemaining==0;
+    }
     Q_INVOKABLE int carriedEnergy() const noexcept
     {
         return m_carriedEnergy;
@@ -351,8 +394,11 @@ public:
     }
     void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept;
 
-    QDataStream &read(QDataStream &stream) noexcept;
-    QDataStream &write(QDataStream &stream) const noexcept;
+    void dismiss(unsigned banDays) noexcept;
+
+signals:
+    void died(QString name, HeroEnums::DyingReason dyingReason);
+    void ranAway(QString name, unsigned daysOfDoStBan);
 
 private:
     Hero() noexcept;
@@ -361,9 +407,9 @@ private:
     {
         m_name=name;
     }
-    void setStressBorderEffect(const HeroStressBorderEffect &stressBorderEffect) noexcept
+    void setStressBorderEffects(const QVector <HeroStressBorderEffect> &stressBorderEffects) noexcept
     {
-        m_stressBorderEffect=stressBorderEffect;
+        m_stressBorderEffects=stressBorderEffects;
     }
     void setNature(HeroEnums::Nature nature) noexcept
     {
@@ -378,7 +424,6 @@ private:
     void deactivateStressBorderEffect() noexcept;
 
     void die(HeroEnums::DyingReason reason = HeroEnums::DR_NoReason) noexcept;
-
     void setArmor(Equipment *armor) noexcept;
     void setWeaponTool(Equipment *weaponTool, int slot) noexcept;
 
@@ -388,14 +433,16 @@ private:
         applyEquipmentEffect();
     }
 
-    void calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) noexcept;
-    void calculateCurrentAttributeValues() noexcept;
+    void calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) noexcept;//shouldn't be used in most situations (big NO when calc. CE, PR or CL)
+    void calculateCurrentAttributeValues() noexcept;//use this instead
+
+    void setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept;//only for H4X
 
     QString m_name;
 
     HeroAttributesSet m_baseAttributesValues;
     HeroAttributesSet m_currentAttributesValues;//including eq bonuses, SBE impact
-    HeroStressBorderEffect m_stressBorderEffect;
+    QVector <HeroStressBorderEffect> m_stressBorderEffects;
     HeroEnums::Nature m_nature;
     HeroEnums::Profession m_profession;
 
@@ -404,9 +451,9 @@ private:
     const int m_amountOfWeaponToolSlots = 2;
 
     bool m_isDead;
-    bool m_isStressBorderEffectActive;
+    int m_indexOfCurrentSBE;
 
-    int m_noSignalDaysRemaining;
+    int m_noSignalDaysRemaining;//if -1, it doesn't end on its own after some time
 
     int m_carriedEnergy;
     int m_carriedFoodSupplies;
@@ -419,11 +466,14 @@ private:
 
 struct HeroDataHelper
 {
+    HeroDataHelper()
+        : nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+
     QString name;
 
     HeroAttributesSet baseAttributesValues;
     HeroAttributesSet currentAttributesValues;
-    HeroStressBorderEffect stressBorderEffect;
+    QVector <HeroStressBorderEffect> stressBorderEffects;
     HeroEnums::Nature nature;
     HeroEnums::Profession profession;
 
@@ -431,7 +481,7 @@ struct HeroDataHelper
     QVector <QString> weaponsTools;
 
     bool isDead;
-    bool isStressBorderEffectActive;
+    int indexOfCurrentSBE;
 
     int noSignalDaysRemaining;
 
@@ -514,7 +564,7 @@ public:
     }
     void setStressLimit(int stressLimit) noexcept
     {
-        if (stressLimit>0)
+        if (stressLimit!=0)
             m_hero->m_baseAttributesValues.stressLimit=stressLimit;
     }
     void setStressBorder(int stressBorder) noexcept
@@ -522,9 +572,9 @@ public:
         if (stressBorder>=0)
             m_hero->m_baseAttributesValues.stressBorder=stressBorder;
     }
-    void setStressBorderEffect(const HeroStressBorderEffect &stressBorderEffect) noexcept
+    void setStressBorderEffects(const QVector <HeroStressBorderEffect> &stressBorderEffects) noexcept
     {
-        m_hero->setStressBorderEffect(stressBorderEffect);
+        m_hero->setStressBorderEffects(stressBorderEffects);
     }
     void setDailyStressRecovery(int dailyStressRecovery) noexcept
     {
@@ -566,12 +616,12 @@ public:
     {
         m_hero->m_isDead=dead;
     }
-    void setIsSBEActive(bool active) noexcept
+    void setIndexOfCurrentSBE(int index) noexcept
     {
-        m_hero->m_isStressBorderEffectActive=active;
+        m_hero->m_indexOfCurrentSBE=index;
     }
 
-    void setNoSignalDaysRemaining(unsigned amount) noexcept
+    void setNoSignalDaysRemaining(int amount) noexcept
     {
         m_hero->m_noSignalDaysRemaining=amount;
     }
@@ -645,7 +695,14 @@ public:
         return m_heroes.size() < m_amountOfSlots;
     }
 
+public slots:
+    void addDoStBan(QString name, unsigned daysAmount) noexcept;
+    void addDoStBan(QString name, HeroEnums::DyingReason) noexcept;//permanent :c
+
 private:
+    void connectHeroToBanSystem(const QString &name) noexcept;
+    void disconnectHeroFromBanSystem(const QString &name) noexcept;
+
     QVector <Hero *> m_heroes;
     Hero *m_preparedHero;
     unsigned m_amountOfSlots;

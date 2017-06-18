@@ -82,6 +82,7 @@ class TimerAlarmsContainer : public QObject
 public:
     void addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept;
     void cancelAlarm(TimerAlarm *alarm) noexcept;
+    void cancelAlarmAtPos(unsigned index) noexcept;
     void clearAlarms() noexcept;
 
     int checkDaysToTimeoutOfAlarm(TimerAlarm *alarm) const noexcept;//returns -1 if no such alarm is set
@@ -101,6 +102,9 @@ private:
 class GameClock : public TimerAlarmsContainer
 {
     Q_OBJECT
+
+    friend class H4X;
+
 public:
     GameClock() noexcept;
 
@@ -132,7 +136,7 @@ public:
 
     Q_INVOKABLE int realMinutesToOneGameDayRatio() const noexcept
     {
-        return 30;
+        return m_realMinutesToOneGameDayRatio;
     }
 
 signals:
@@ -156,6 +160,8 @@ private:
 
     const unsigned m_autosaveIntervalInMin = 15;//1-59
     unsigned m_latestAutosaveMinTimestamp;
+
+    unsigned m_realMinutesToOneGameDayRatio = 30;
 
     Base *m_base;
 };

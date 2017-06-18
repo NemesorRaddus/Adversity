@@ -22,6 +22,7 @@ Item {
     }
 
     signal requestSwitchingToResourcesTab()
+    signal requestUpdate()
 
     transform: [
         Scale {
@@ -95,6 +96,7 @@ Item {
         onHeroClicked: {
             GameApi.base.dockingStation.hireMercenary(heroName,GameApi.base.dockingStation.waitingTime());
             update();
+            root.requestUpdate();
         }
     }
 

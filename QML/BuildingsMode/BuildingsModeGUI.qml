@@ -6,6 +6,7 @@ Item {
     clip: true
 
     signal updateRequestedFromBuildingsModeGUI()
+    signal showSpecial()
 
     function returnToDefault()
     {
@@ -102,6 +103,8 @@ Item {
             updateRequestedFromBuildingsModeGUI();
         }
         onMarkAsUpgradedSignal: list.markAsUpgraded(buildingName,true);
+
+        onShowSpecial: parent.showSpecial()
 
         Component.onCompleted: state = "hidden";
     }
