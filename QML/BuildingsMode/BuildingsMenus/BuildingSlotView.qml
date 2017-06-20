@@ -60,6 +60,12 @@ Item {
         isVacant = true;
     }
 
+    function forceAbortIcon()
+    {
+        startAbortIcon.source = "qrc:/graphics/GUI/Abort.png";
+        isConfirmed = true;
+    }
+
     signal artClicked()
     signal startClicked()
     signal abortClicked()

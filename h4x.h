@@ -26,9 +26,11 @@ public:
     Q_INVOKABLE void setBuildingMaterials(unsigned amount) noexcept;
     Q_INVOKABLE void setEnergy(unsigned amount) noexcept;
     Q_INVOKABLE void setFoodSupplies(unsigned amount) noexcept;
+    Q_INVOKABLE void refill() noexcept;
 
     //docking station hacks
     Q_INVOKABLE void getFreshMeat() noexcept;
+    Q_INVOKABLE void getNewStuff() noexcept;
     
     //building hacks
     Q_INVOKABLE void upgradeBuilding(const QString &buildingName) noexcept;

@@ -71,7 +71,14 @@ void AssetsPool::unloadHero(unsigned index) noexcept
     }
 }
 
-Equipment *AssetsPool::makeEquipment(const QString &name) const noexcept
+Equipment *AssetsPool::makeEquipmentAtPos(unsigned index) noexcept
+{
+    if (index<m_equipment.size())
+        return EquipmentBuilder::copyEquipment(m_equipment[index]);
+    return nullptr;
+}
+
+Equipment *AssetsPool::makeEquipmentNamed(const QString &name) const noexcept
 {
     for (int i=0;i<m_equipment.size();++i)
     {

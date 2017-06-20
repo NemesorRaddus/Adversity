@@ -44,5 +44,9 @@
         <file>qml/MercenariesMode/HeroView.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/TradingTable.qml</file>
         <file>qml/H4XScreen.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsListScripts.js</file>
+        <file>qml/ConfirmDialog.qml</file>
     </qresource>
 </RCC>

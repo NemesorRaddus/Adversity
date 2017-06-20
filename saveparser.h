@@ -87,7 +87,10 @@ struct SaveData
         struct DockingStationThings
         {
             QVector<QString> recruits;
+            QVector<QPair<QString,quint8>> arrivingHeroes;
             QVector<QPair<ActiveTransaction,quint8>> activeResourceTransactions;
+            QVector<QString> equipments;
+            QVector<QPair<QString,quint8>> arrivingEquipments;
         } dockingStationThings;
     } buildings;
     struct Resources

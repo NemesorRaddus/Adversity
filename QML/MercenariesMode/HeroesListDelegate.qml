@@ -90,24 +90,26 @@ Item {
     {
         if (ca == "Idle")
             currentlyBusy.source = "";
-        else if (ca == "OnMission")
+        else if (ca == "On Mission")
             currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
-        else if (ca == "InHospital")
+        else if (ca == "In Hospital")
             currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
-        else if (ca == "OnTrainingGround")
+        else if (ca == "On TrainingGround")
             currentlyBusy.source = "qrc:/graphics/Buildings/TrainingGround.png";
-        else if (ca == "InGym")
+        else if (ca == "In Gym")
             currentlyBusy.source = "qrc:/graphics/Buildings/Gym.png";
-        else if (ca == "InLaboratory")
+        else if (ca == "In Laboratory")
             currentlyBusy.source = "qrc:/graphics/Buildings/Laboratory.png";
-        else if (ca == "InPlayingField")
+        else if (ca == "In PlayingField")
             currentlyBusy.source = "qrc:/graphics/Buildings/PlayingField.png";
-        else if (ca == "InBar")
+        else if (ca == "In Bar")
             currentlyBusy.source = "qrc:/graphics/Buildings/Bar.png";
-        else if (ca == "InShrine")
+        else if (ca == "In Shrine")
             currentlyBusy.source = "qrc:/graphics/Buildings/Shrine.png";
-        else if (ca == "InSeclusion")
+        else if (ca == "In Seclusion")
             currentlyBusy.source = "qrc:/graphics/Buildings/Seclusion.png";
+        else if (ca == "Arriving")
+            currentlyBusy.source = "qrc:/graphics/Buildings/DockingStation.png";
         else
             currentlyBusy.source = "";
     }
@@ -602,9 +604,7 @@ Item {
         Image {
             id: currentlyBusy
 
-            visible: false
-
-            x: 708
+            x: 698
             y: -4
             width: 88
             height: 88

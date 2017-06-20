@@ -801,6 +801,8 @@ Item {
                 resourcesTab.state = "";
                 heroesTab.state = "hiddenLeft";
             }
+
+            onRequestResourcesUpdate: root.resourcesUpdateRequested()
         }
 
         Component.onCompleted: {

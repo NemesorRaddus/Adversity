@@ -1277,17 +1277,13 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
                                     else if (attrs.value("varName")=="cleverness")
                                         eqB.setClevernessBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="luck")
-                                        eqB.setLuckBonus(attrs.value("value").toFloat());
-                                    else if (attrs.value("varName")=="health")
-                                        eqB.setHealthBonus(attrs.value("value").toInt());
+                                        eqB.setLuckBonus(Global::roundDouble(attrs.value("value").toFloat(),2));
                                     else if (attrs.value("varName")=="healthLimit")
                                         eqB.setHealthLimitBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="dailyHealthRecovery")
                                         eqB.setDailyHealthRecoveryBonus(attrs.value("value").toInt());
-                                    else if (attrs.value("varName")=="stress")
-                                        eqB.setStressBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="stressResistance")
-                                        eqB.setStressResistanceBonus(attrs.value("value").toFloat());
+                                        eqB.setStressResistanceBonus(Global::roundDouble(attrs.value("value").toFloat(),2));
                                     else if (attrs.value("varName")=="stressLimit")
                                         eqB.setStressLimitBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="stressBorder")
@@ -1334,17 +1330,13 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
                                     else if (attrs.value("varName")=="cleverness")
                                         eqB.setClevernessBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="luck")
-                                        eqB.setLuckBonus(attrs.value("value").toFloat());
-                                    else if (attrs.value("varName")=="health")
-                                        eqB.setHealthBonus(attrs.value("value").toInt());
+                                        eqB.setLuckBonus(Global::roundDouble(attrs.value("value").toFloat(),2));
                                     else if (attrs.value("varName")=="healthLimit")
                                         eqB.setHealthLimitBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="dailyHealthRecovery")
                                         eqB.setDailyHealthRecoveryBonus(attrs.value("value").toInt());
-                                    else if (attrs.value("varName")=="stress")
-                                        eqB.setStressBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="stressResistance")
-                                        eqB.setStressResistanceBonus(attrs.value("value").toFloat());
+                                        eqB.setStressResistanceBonus(Global::roundDouble(attrs.value("value").toFloat(),2));
                                     else if (attrs.value("varName")=="stressLimit")
                                         eqB.setStressLimitBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="stressBorder")

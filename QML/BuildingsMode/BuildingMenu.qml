@@ -635,6 +635,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Hospital")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     TrainingGroundMenu {
         id: trainingGround
@@ -643,6 +644,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Training Ground")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     GymMenu {
         id: gym
@@ -651,6 +653,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Gym")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     LaboratoryMenu {
         id: laboratory
@@ -659,6 +662,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Laboratory")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
         onShowSpecial: parent.showSpecial()
     }
     PlayingFieldMenu {
@@ -668,6 +672,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Playing Field")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     BarMenu {
         id: bar
@@ -676,6 +681,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Bar")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     ShrineMenu {
         id: shrine
@@ -684,6 +690,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Shrine")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     SeclusionMenu {
         id: seclusion
@@ -692,6 +699,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Seclusion")
+        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
     PowerplantMenu {
         id: powerplant

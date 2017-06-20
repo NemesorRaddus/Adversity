@@ -13,86 +13,96 @@ struct EquipmentEnums
         T_WeaponTool,
         T_Armor
     };
+    enum Category
+    {
+        C_BiohazardProtection,
+        C_Climbing,
+        C_LightSource,
+        C_END
+    };
+    enum Bonus
+    {
+        B_CombatEffectiveness,
+        B_Proficiency,
+        B_Cleverness,
+        B_Luck,
+        B_HealthLimit,
+        B_DailyHealthRecovery,
+        B_StressResistance,
+        B_StressLimit,
+        B_StressBorder,
+        B_DailyStressRecovery,
+        B_Salary,
+        B_DailyFoodConsumption,
+        B_END
+    };
+
+    static Type fromQStringToTypeEnum(const QString &type) noexcept;
+    static QString fromTypeEnumToQString(Type type) noexcept;
+
+    static Category fromQStringToCategoryEnum(const QString &category) noexcept;
+    static QString fromCategoryEnumToQString(Category category) noexcept;
+
+    static Bonus fromQStringToBonusEnum(const QString &bonus) noexcept;
+    static QString fromBonusEnumToQString(Bonus bonus) noexcept;
 };
 
-class Equipment
+class Equipment : public QObject
 {
+    Q_OBJECT
+
     friend class EquipmentBuilder;
     template <typename T>
     friend class QVector;
     friend class QDataStream;
-public:
-    void reset() noexcept;
 
-    QString name() const
+public:
+    Q_INVOKABLE QString name() const noexcept
     {
         return m_name;
     }
-    EquipmentEnums::Type type() const
+    EquipmentEnums::Type type() const noexcept
     {
         return m_type;
     }
-    int tier() const
+    Q_INVOKABLE QString typeString() const noexcept
+    {
+        return EquipmentEnums::fromTypeEnumToQString(m_type);
+    }
+    Q_INVOKABLE int tier() const
     {
         return m_tier;
     }
 
-    int combatEffectivenessBonus() const noexcept
+    Q_INVOKABLE int combatEffectivenessBonus() const noexcept;
+    Q_INVOKABLE int proficiencyBonus() const noexcept;
+    Q_INVOKABLE int clevernessBonus() const noexcept;
+
+    Q_INVOKABLE float luckBonus() const noexcept;
+
+    Q_INVOKABLE int healthLimitBonus() const noexcept;
+    Q_INVOKABLE int dailyHealthRecoveryBonus() const noexcept;
+
+    Q_INVOKABLE float stressResistanceBonus() const noexcept;
+    Q_INVOKABLE int stressLimitBonus() const noexcept;
+    Q_INVOKABLE int stressBorderBonus() const noexcept;
+    Q_INVOKABLE int dailyStressRecoveryBonus() const noexcept;
+
+    Q_INVOKABLE int salaryBonus() const noexcept;
+    Q_INVOKABLE int dailyFoodConsumptionBonus() const noexcept;
+
+    Q_INVOKABLE unsigned amountOfBonuses() const noexcept;
+    Q_INVOKABLE QString bonusAtPosName(unsigned pos) const noexcept;
+    Q_INVOKABLE float bonusAtPosValue(unsigned pos) const noexcept;
+
+    QVector <EquipmentEnums::Category> categories() const noexcept
     {
-        return m_combatEffectivenessBonus;
+        return m_categories;
     }
-    int proficiencyBonus() const noexcept
-    {
-        return m_proficiencyBonus;
-    }
-    int clevernessBonus() const noexcept
-    {
-        return m_clevernessBonus;
-    }
-    float luckBonus() const noexcept
-    {
-        return m_luckBonus;
-    }
-    int healthBonus() const noexcept
-    {
-        return m_healthBonus;
-    }
-    int healthLimitBonus() const noexcept
-    {
-        return m_healthLimitBonus;
-    }
-    int dailyHealthRecoveryBonus() const noexcept
-    {
-        return m_dailyHealthRecoveryBonus;
-    }
-    int stressBonus() const noexcept
-    {
-        return m_stressBonus;
-    }
-    float stressResistanceBonus() const noexcept
-    {
-        return m_stressResistanceBonus;
-    }
-    int stressLimitBonus() const noexcept
-    {
-        return m_stressLimitBonus;
-    }
-    int stressBorderBonus() const noexcept
-    {
-        return m_stressBorderBonus;
-    }
-    int dailyStressRecoveryBonus() const noexcept
-    {
-        return m_dailyStressRecoveryBonus;
-    }
-    int salaryBonus() const noexcept
-    {
-        return m_salaryBonus;
-    }
-    int dailyFoodConsumptionBonus() const noexcept
-    {
-        return m_dailyFoodConsumptionBonus;
-    }
+
+    Q_INVOKABLE unsigned buyingAetheriteCost() const noexcept;
+    Q_INVOKABLE unsigned maintenanceEnergyCost() const noexcept;
+    Q_INVOKABLE unsigned maintenanceBuildingMaterialsCost() const noexcept;
 
 private:
     Equipment() noexcept;
@@ -100,15 +110,17 @@ private:
     void setName(const QString &name) noexcept;
     void setType(EquipmentEnums::Type type) noexcept;
     void setTier(int tier) noexcept;
+    void setCategories(const QVector <EquipmentEnums::Category> &cats) noexcept
+    {
+        m_categories=cats;
+    }
 
     void setCombatEffectivenessBonus(int combatEffectivenessBonus) noexcept;
     void setProficiencyBonus(int proficiencyBonus) noexcept;
     void setClevernessBonus(int clevernessBonus) noexcept;
     void setLuckBonus(float luckBonus) noexcept;
-    void setHealthBonus(int healthBonus) noexcept;
     void setHealthLimitBonus(int healthLimitBonus) noexcept;
     void setDailyHealthRecoveryBonus(int dailyHealthRecoveryBonus) noexcept;
-    void setStressBonus(int stressBonus) noexcept;
     void setStressResistanceBonus(float stressResistanceBonus) noexcept;
     void setStressLimitBonus(int stressLimitBonus) noexcept;
     void setStressBorderBonus(int stressBorderBonus) noexcept;
@@ -119,21 +131,8 @@ private:
     QString m_name;
     EquipmentEnums::Type m_type;
     int m_tier;
-
-    int m_combatEffectivenessBonus;
-    int m_proficiencyBonus;
-    int m_clevernessBonus;
-    float m_luckBonus;
-    int m_healthBonus;
-    int m_healthLimitBonus;
-    int m_dailyHealthRecoveryBonus;
-    int m_stressBonus;
-    float m_stressResistanceBonus;
-    int m_stressLimitBonus;
-    int m_stressBorderBonus;
-    int m_dailyStressRecoveryBonus;
-    int m_salaryBonus;
-    int m_dailyFoodConsumptionBonus;
+    QVector <EquipmentEnums::Category> m_categories;
+    QMap <EquipmentEnums::Bonus, float> m_bonuses;
 };
 
 class EquipmentBuilder
@@ -149,15 +148,14 @@ public:
     void setName(const QString &name) noexcept;
     void setType(EquipmentEnums::Type type) noexcept;
     void setTier(int tier) noexcept;
+    void addCategory(EquipmentEnums::Category cat) noexcept;
 
     void setCombatEffectivenessBonus(int combatEffectivenessBonus) noexcept;
     void setProficiencyBonus(int proficiencyBonus) noexcept;
     void setClevernessBonus(int clevernessBonus) noexcept;
     void setLuckBonus(float luckBonus) noexcept;
-    void setHealthBonus(int healthBonus) noexcept;
     void setHealthLimitBonus(int healthLimitBonus) noexcept;
     void setDailyHealthRecoveryBonus(int dailyHealthRecoveryBonus) noexcept;
-    void setStressBonus(int stressBonus) noexcept;
     void setStressResistanceBonus(float stressResistanceBonus) noexcept;
     void setStressLimitBonus(int stressLimitBonus) noexcept;
     void setStressBorderBonus(int stressBorderBonus) noexcept;

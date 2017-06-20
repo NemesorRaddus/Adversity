@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Equipment/WeaponTool/Tier_1/NSXAutomaticPistol.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/TR01MobileMotionSpotter.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/TR04Flashlight.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/UEGPocketScanner.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/UPOAClimbingPickaxe.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/AdvancedTerrainScanner.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/HiBSv1_5Syringes.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/LiquidRageExperimentalSyringes.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/TR09HuntsmanRifle.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/UEGClimbingLinev2_05.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/UPOAGranadeLauncher.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/UPOAHarvesterShotgun.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_3/MastermindExperimentalSyringes.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_3/TR05LynxAssaultRifle.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png</file>
+        <file>graphics/Equipment/Armor/Tier_1/BasicUPOAArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_1/EngineerUniform.png</file>
+        <file>graphics/Equipment/Armor/Tier_1/ExplorersSuit.png</file>
+        <file>graphics/Equipment/Armor/Tier_1/HCPrototypeSuit.png</file>
+        <file>graphics/Equipment/Armor/Tier_1/RoEScoutsSuit.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/BiohazardProtectionSuit.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/CAHBCExperimentalExoskeleton.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/DP4SkirmisherArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/EliteUPOAArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/LightMercenaryArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/SFI10BruteArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_2/VeteranAdventurersArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_3/AdvancedEngineerSuit.png</file>
+        <file>graphics/Equipment/Armor/Tier_3/ExperimentalNanometalArmour.png</file>
+        <file>graphics/Equipment/Armor/Tier_3/UPOASpecialForcesArmour.png</file>
+    </qresource>
+</RCC>

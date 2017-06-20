@@ -186,6 +186,20 @@ Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> 
     m_heroesBeingHealed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
+QString Hospital::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingHealed.size() && m_heroesBeingHealed[index]!=nullptr)
+        return m_heroesBeingHealed[index]->name();
+    return "";
+}
+
+QString Hospital::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingHealed.size() && m_heroesBeingHealed[index]!=nullptr)
+        return m_heroesBeingHealed[index]->professionString();
+    return "";
+}
+
 void Hospital::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
 {
     if (slotIndex>=m_heroesBeingHealed.size())
@@ -217,6 +231,24 @@ void Hospital::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingHealed[slotIndex]=nullptr;
 }
 
+int Hospital::daysToFullRecovery(const QString &name) const noexcept
+{
+    for (int i=0;i<m_heroesBeingHealed.size();++i)
+        if (m_heroesBeingHealed[i]!=nullptr && m_heroesBeingHealed[i]->name()==name)
+            return daysToFullRecovery(i);
+}
+
+int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
+{
+    if (slotIndex<m_heroesBeingHealed.size())
+    {
+        if (m_heroesBeingHealed[slotIndex]==nullptr)
+            return -1;
+
+        return ceil(static_cast<float>(m_heroesBeingHealed[slotIndex]->healthLimit()-m_heroesBeingHealed[slotIndex]->health())/static_cast<float>(hpRestoredPerDay()));
+    }
+}
+
 void Hospital::healHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
@@ -241,6 +273,20 @@ TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<Trainin
     : Building(BaseEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+}
+
+QString TrainingGround::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
+        return m_heroesBeingTrained[index].first->name();
+    return "";
+}
+
+QString TrainingGround::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
+        return m_heroesBeingTrained[index].first->professionString();
+    return "";
 }
 
 void TrainingGround::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
@@ -325,6 +371,20 @@ int Gym::amountOfSlots() const noexcept
     return m_heroesBeingTrained.size();
 }
 
+QString Gym::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
+        return m_heroesBeingTrained[index].first->name();
+    return "";
+}
+
+QString Gym::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
+        return m_heroesBeingTrained[index].first->professionString();
+    return "";
+}
+
 void Gym::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
 {
     if (slotIndex>=m_heroesBeingTrained.size())
@@ -407,6 +467,20 @@ int Laboratory::amountOfSlots() const noexcept
     return m_heroesBeingTrained.size();
 }
 
+QString Laboratory::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
+        return m_heroesBeingTrained[index].first->name();
+    return "";
+}
+
+QString Laboratory::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
+        return m_heroesBeingTrained[index].first->professionString();
+    return "";
+}
+
 void Laboratory::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
 {
     if (slotIndex>=m_heroesBeingTrained.size())
@@ -484,6 +558,20 @@ PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFiel
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
+QString PlayingField::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->name();
+    return "";
+}
+
+QString PlayingField::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->professionString();
+    return "";
+}
+
 void PlayingField::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
 {
     if (slotIndex>=m_heroesBeingDestressed.size())
@@ -548,6 +636,20 @@ Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) no
     : Building(BaseEnums::B_Bar, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+}
+
+QString Bar::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->name();
+    return "";
+}
+
+QString Bar::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->professionString();
+    return "";
 }
 
 void Bar::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
@@ -616,6 +718,20 @@ Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &level
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
+QString Shrine::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->name();
+    return "";
+}
+
+QString Shrine::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->professionString();
+    return "";
+}
+
 void Shrine::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
 {
     if (slotIndex>=m_heroesBeingDestressed.size())
@@ -680,6 +796,20 @@ Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInf
     : Building(BaseEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)
 {
     m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+}
+
+QString Seclusion::heroNameInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->name();
+    return "";
+}
+
+QString Seclusion::heroProfessionInSlot(unsigned index) const noexcept
+{
+    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
+        return m_heroesBeingDestressed[index]->professionString();
+    return "";
 }
 
 void Seclusion::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
@@ -953,12 +1083,30 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
                     m_recruits[i]->setCurrentActivity(HeroEnums::CA_Arriving);
                     base()->heroes()->addHero(m_recruits[i]);
                     m_arrivingHeroes.push_back({m_recruits[i],eta});
+                    if (m_recruitPreparedForQML==m_recruits[i])
+                    {
+                        if (m_recruits.size()>i+1)
+                            m_recruitPreparedForQML=m_recruits[i+1];
+                        else if (i>0)
+                            m_recruitPreparedForQML=m_recruits[i-1];
+                        else
+                            m_recruitPreparedForQML=nullptr;
+                    }
                     m_recruits.remove(i);
                     break;
                 }
                 else//instant
                 {
                     base()->heroes()->addHero(m_recruits[i]);
+                    if (m_recruitPreparedForQML==m_recruits[i])
+                    {
+                        if (m_recruits.size()>i+1)
+                            m_recruitPreparedForQML=m_recruits[i+1];
+                        else if (i>0)
+                            m_recruitPreparedForQML=m_recruits[i-1];
+                        else
+                            m_recruitPreparedForQML=nullptr;
+                    }
                     m_recruits.remove(i);
                     break;
                 }
@@ -1048,6 +1196,78 @@ void DockingStation::handleActiveTransactions() noexcept
     }
 }
 
+void DockingStation::prepareEquipments() noexcept
+{
+    clearEquipments();
+    loadEquipments();
+    m_equipmentPreparedForQML=m_equipments.value(0,nullptr);
+}
+
+void DockingStation::prepareEquipmentForQML(unsigned pos) noexcept
+{
+    if (pos<m_equipments.size())
+        m_equipmentPreparedForQML=m_equipments[pos];
+}
+
+void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
+{
+    if (pos<m_equipments.size())
+    {
+        if (eta>0)
+        {
+            m_arrivingEquipments.push_back({m_equipments[pos],eta});
+            if (m_equipmentPreparedForQML==m_equipments[pos])
+            {
+                if (m_equipments.size()>pos+1)
+                    m_equipmentPreparedForQML=m_equipments[pos+1];
+                else if (pos>0)
+                    m_equipmentPreparedForQML=m_equipments[pos-1];
+                else
+                    m_equipmentPreparedForQML=nullptr;
+            }
+            m_equipments.remove(pos);
+        }
+        else//instant
+        {
+            base()->freeEquipment().push_back(m_equipments[pos]);
+            if (m_equipmentPreparedForQML==m_equipments[pos])
+            {
+                if (m_equipments.size()>pos+1)
+                    m_equipmentPreparedForQML=m_equipments[pos+1];
+                else if (pos>0)
+                    m_equipmentPreparedForQML=m_equipments[pos-1];
+                else
+                    m_equipmentPreparedForQML=nullptr;
+            }
+            m_equipments.remove(pos);
+        }
+    }
+}
+
+void DockingStation::doBuyingEquipmentStuff() noexcept
+{
+    for (int i=0;i<m_arrivingEquipments.size();++i)
+    {
+        if (m_arrivingEquipments[i].second == 0)
+        {
+            Equipment *eq=m_arrivingEquipments[i].first;
+            base()->freeEquipment().push_back(eq);
+            m_arrivingEquipments.remove(i);
+        }
+        else
+            --m_arrivingEquipments[i].second;
+    }
+}
+
+int DockingStation::remainingDaysUntilHeroArrival(const QString &heroName) const noexcept
+{
+    for (int i=0;i<m_arrivingHeroes.size();++i)
+        if (m_arrivingHeroes[i].first->name() == heroName)
+            return m_arrivingHeroes[i].second;
+
+    return -1;
+}
+
 void DockingStation::loadRecruits() noexcept
 {
     QStringList names{base()->gameObject()->assetsPool().allHeroes()};//load all mercs names
@@ -1060,7 +1280,6 @@ void DockingStation::loadRecruits() noexcept
         else
             ++i;
     }
-    m_recruits.clear();//prepare vector
     for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)//add random recruits
     {
         unsigned indexOfRecruit = Randomizer::randomBetweenAAndB(0,names.size()-1);
@@ -1078,7 +1297,7 @@ void DockingStation::loadRecruits() noexcept
 void DockingStation::clearRecruits() noexcept
 {
     for (int i=0;i<m_recruits.size();++i)
-        if (m_recruits[i] != nullptr)
+        if (m_recruits[i] != nullptr)//TODO possibly remove that if
             for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
                 if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name() == m_recruits[i]->name())
                 {
@@ -1088,6 +1307,38 @@ void DockingStation::clearRecruits() noexcept
     m_recruits.clear();
 
     m_recruitPreparedForQML=nullptr;
+}
+
+void DockingStation::loadEquipments() noexcept
+{
+    auto allEq=base()->gameObject()->assetsPool().equipment();
+    for (int i=0;i<allEq.size();)
+    {
+        if (allEq[i]->tier()<=maxTier())
+            ++i;
+        else
+            allEq.remove(i);
+    }
+    for (int i=0;i<equipmentsAmount();++i)
+    {
+        unsigned indexOfEquipment = Randomizer::randomBetweenAAndB(0,allEq.size()-1);
+        m_equipments.push_back(base()->gameObject()->assetsPool().makeEquipmentNamed(allEq[indexOfEquipment]->name()));
+    }
+}
+
+void DockingStation::clearEquipments() noexcept
+{
+    for (int i=0;i<m_equipments.size();++i)
+        delete m_equipments[i];
+
+    m_equipments.clear();
+
+    m_equipmentPreparedForQML=nullptr;
+}
+
+void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
+{
+    m_equipments.push_back(eq);
 }
 
 Base::Base(Game *gameObject) noexcept
@@ -1141,6 +1392,7 @@ void Base::setupNewBase() noexcept
     m_aetherite=50;
 
     m_dockingStation->prepareRecruits();
+    m_dockingStation->prepareEquipments();
 
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
 }
@@ -1225,9 +1477,9 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_seclusion->setIsBeingUpgraded(data.buildings.upgrading.seclusion);
 
     for (int i=0;i<data.equipments.freeArmor.size();++i)//creating owned equipment
-        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipment(data.equipments.freeArmor[i]));
+        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeArmor[i]));
     for (int i=0;i<data.equipments.freeWeaponsTools.size();++i)
-        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipment(data.equipments.freeWeaponsTools[i]));
+        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeWeaponsTools[i]));
 
     for (int i=0;i<data.heroes.hiredHeroes.size();++i)//adding mercenaries
         m_heroes->addHero(HeroBuilder::qobjectifyHeroData(data.heroes.hiredHeroes[i]));
@@ -1237,6 +1489,25 @@ void Base::loadSaveData(const SaveData &data) noexcept
             if (m_gameObject->assetsPool().loadedHeroes()[j]->name() == data.buildings.dockingStationThings.recruits[i])
             {
                 m_dockingStation->addRecruitFromSave(m_gameObject->assetsPool().loadedHeroes()[j]);
+                break;
+            }
+
+    for (int i=0;i<data.buildings.dockingStationThings.equipments.size();++i)//adding buyable equipments
+        m_dockingStation->addEquipmentFromSave(m_gameObject->assetsPool().makeEquipmentNamed(data.buildings.dockingStationThings.equipments[i]));
+
+    for (int i=0;i<data.buildings.dockingStationThings.arrivingHeroes.size();++i)//adding arriving mercenaries
+        for (int j=0;j<m_gameObject->assetsPool().loadedHeroes().size();++j)
+            if (m_gameObject->assetsPool().loadedHeroes()[j]->name() == data.buildings.dockingStationThings.arrivingHeroes[i].first)
+            {
+                m_dockingStation->addArrivingHeroFromSave({m_gameObject->assetsPool().loadedHeroes()[j],static_cast<unsigned>(data.buildings.dockingStationThings.arrivingHeroes[i].second)});
+                break;
+            }
+
+    for (int i=0;i<data.buildings.dockingStationThings.arrivingEquipments.size();++i)//adding arriving equipments
+        for (int j=0;j<m_gameObject->assetsPool().equipment().size();++j)
+            if (m_gameObject->assetsPool().equipment()[j]->name() == data.buildings.dockingStationThings.arrivingEquipments[i].first)
+            {
+                m_dockingStation->addArrivingEquipmentFromSave({m_gameObject->assetsPool().equipment()[j],static_cast<unsigned>(data.buildings.dockingStationThings.arrivingEquipments[i].second)});
                 break;
             }
 
@@ -1329,6 +1600,14 @@ SaveData Base::getSaveData() noexcept
         data.heroes.hiredHeroes.push_back(HeroBuilder::deqobjectifyHero(m_heroes->heroes()[i]));
 
     data.buildings.dockingStationThings.recruits=m_dockingStation->getRecruitsNames().toVector();
+
+    data.buildings.dockingStationThings.equipments=m_dockingStation->availableEquipmentsNames();
+
+    for (int i=0;i<m_dockingStation->arrivingHeroes().size();++i)
+        data.buildings.dockingStationThings.arrivingHeroes.push_back({m_dockingStation->arrivingHeroes()[i].first->name(), static_cast<quint8>(m_dockingStation->arrivingHeroes()[i].second)});
+
+    for (int i=0;i<m_dockingStation->arrivingEquipments().size();++i)
+        data.buildings.dockingStationThings.arrivingEquipments.push_back({m_dockingStation->arrivingEquipments()[i].first->name(), static_cast<quint8>(m_dockingStation->arrivingEquipments()[i].second)});
 
     auto actTr=m_dockingStation->activeTransactions();
     for (int i=0;i<actTr.size();++i)
@@ -1435,6 +1714,7 @@ void Base::startNewDay() noexcept
         m_heroDockingStationBans.insert(heroName,m_heroDockingStationBans.value(heroName)-1);
     }
     m_dockingStation->doRecrutationStuff();
+    m_dockingStation->doBuyingEquipmentStuff();
 
     m_dockingStation->handleActiveTransactions();
 }
@@ -1464,6 +1744,7 @@ void Base::activateBuildingsAtDayEnd() noexcept
 void Base::startNewWeek() noexcept
 {
     m_dockingStation->prepareRecruits();
+    m_dockingStation->prepareEquipments();
 
     int salaryAetheriteCost=0;
     for (int i=0;i<m_heroes->amountOfHeroes();++i)

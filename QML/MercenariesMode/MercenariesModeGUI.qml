@@ -27,47 +27,48 @@ Item {
     ]
 
     signal updateRequestedFromMercenariesModeGUI()
+    signal buildingMenuRequested(string buildingName)
 
     function returnToDefault()
     {
         list.state = "";
-//        menu.state = "hidden";
+        view.state = "hidden";
         list.returnToDefault();
-//        menu.returnToDefault();
+        view.returnToDefault();
     }
 
     function updateEverything()
     {
         list.returnToDefault();
         list.updateEverything();
-//        menu.updateEverything();
+        view.updateEverything();
         heroesAmountItem.update();
     }
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
     {
-//        if (menu.state == "")
-//        {
-//            if (!menu.reactToBackOnToolbar())
-//            {
-//                list.state = "";
-//                menu.state = "hidden";
-//            }
-//            return true;
-//        }
-//        else
-//        {
+        if (view.state == "")
+        {
+            if (!view.reactToBackOnToolbar())
+            {
+                list.state = "";
+                view.state = "hidden";
+            }
+            return true;
+        }
+        else
+        {
             return false;
-//        }
+        }
     }
 
     Item {
         id: heroesAmountItem
 
         x: 0
-        y: 4
+        y: 12
         width: parent.theoreticalWidth
-        height: heroesAmountTaskBorder.y + heroesAmountTaskBorder.height + 4
+        height: heroesAmountTaskBorder.y + heroesAmountTaskBorder.height - 4
 
         function update()
         {
@@ -106,6 +107,17 @@ Item {
 
             source: "qrc:/graphics/GUI/Task_Border.png"
         }
+
+        states: [
+            State {
+                name: "hidden"
+                PropertyChanges { target: heroesAmountItem; y: -height-10 }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        }
     }
 
     HeroesList {
@@ -117,64 +129,32 @@ Item {
         height: root.theoreticalHeight - heroesAmountItem.height
 
         onHeroClicked: {
-//            if (buildingName == "Central Unit")
-//                menu.changeToCentralUnit();
-//            else if (buildingName == "Hospital")
-//                menu.changeToHospital();
-//            else if (buildingName == "Training Ground")
-//                menu.changeToTrainingGround();
-//            else if (buildingName == "Gym")
-//                menu.changeToGym();
-//            else if (buildingName == "Laboratory")
-//                menu.changeToLaboratory();
-//            else if (buildingName == "Playing Field")
-//                menu.changeToPlayingField();
-//            else if (buildingName == "Bar")
-//                menu.changeToBar();
-//            else if (buildingName == "Shrine")
-//                menu.changeToShrine();
-//            else if (buildingName == "Seclusion")
-//                menu.changeToSeclusion();
-//            else if (buildingName == "Powerplant")
-//                menu.changeToPowerplant();
-//            else if (buildingName == "Factory")
-//                menu.changeToFactory();
-//            else if (buildingName == "Cool Room")
-//                menu.changeToCoolRoom();
-//            else if (buildingName == "Storage Room")
-//                menu.changeToStorageRoom();
-//            else if (buildingName == "Aetherite Silo")
-//                menu.changeToAetheriteSilo();
-//            else if (buildingName == "Barracks")
-//                menu.changeToBarracks();
-//            else if (buildingName == "Docking Station")
-//                menu.changeToDockingStation();
+            view.setMercenary(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
 
-//            state = "hidden";
-//            menu.state = "";
+            state = "hidden";
+            heroesAmountItem.state = "hidden";
+            view.state = "";
         }
     }
 
-//    BuildingMenu {
-//        id: menu
+    HeroView {
+        id: view
 
-//        x: 0
-//        y: 0
-//        width: root.width
-//        height: root.height
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
 
-//        onBackClickedFwd: {
-//            list.state = "";
-//            state = "hidden";
-//        }
+        onBackClicked: {
+            state = "hidden";
+            list.state = "";
+            heroesAmountItem.state = "";
+        }
 
-//        onUpdateRequestedFromBuildingMenu: {
-//            updateRequestedFromBuildingsModeGUI();
-//        }
-//        onMarkAsUpgradedSignal: list.markAsUpgraded(buildingName,true);
+        onBuildingMenuRequested: root.buildingMenuRequested(buildingName);
 
-//        Component.onCompleted: state = "hidden";
-//    }
+        Component.onCompleted: state = "hidden";
+    }
 
     FontLoader {
         id: fontStencil

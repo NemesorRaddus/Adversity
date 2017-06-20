@@ -66,9 +66,22 @@ void H4X::setFoodSupplies(unsigned amount) noexcept
     Game::gameInstance()->m_base->m_foodSupplies=amount;
 }
 
+void H4X::refill() noexcept
+{
+    Game::gameInstance()->m_base->m_aetherite = Game::gameInstance()->m_base->currentAetheriteLimit();
+    Game::gameInstance()->m_base->m_buildingMaterials = Game::gameInstance()->m_base->currentBuildingMaterialsLimit();
+    Game::gameInstance()->m_base->m_energy = Game::gameInstance()->m_base->currentEnergyLimit();
+    Game::gameInstance()->m_base->m_foodSupplies = Game::gameInstance()->m_base->currentFoodSuppliesLimit();
+}
+
 void H4X::getFreshMeat() noexcept
 {
     Game::gameInstance()->m_base->m_dockingStation->prepareRecruits();
+}
+
+void H4X::getNewStuff() noexcept
+{
+    Game::gameInstance()->m_base->m_dockingStation->prepareEquipments();
 }
 
 void H4X::upgradeBuilding(const QString &buildingName) noexcept
@@ -176,9 +189,13 @@ void H4X::dismiss(const QString &mercenaryName, unsigned banTime) noexcept
 
 void H4X::killThemAll() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
+    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();)
+    {
         if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
             Game::gameInstance()->m_base->m_heroes->getHero(i)->die();
+        else
+            ++i;
+    }
 }
 
 void H4X::engulfThemInPain() noexcept

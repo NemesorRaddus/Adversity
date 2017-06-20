@@ -302,10 +302,12 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    Hero *slot(int index) noexcept
     {
         return m_heroesBeingHealed.value(index,nullptr);
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -317,6 +319,8 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).hpRestored;
     }
+    Q_INVOKABLE int daysToFullRecovery(const QString &name) const noexcept;
+    int daysToFullRecovery(unsigned slotIndex) const noexcept;
 
     void healHeroes() noexcept;
 
@@ -437,6 +441,8 @@ public:
     {
         return m_heroesBeingTrained.value(index,{nullptr,0});
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -577,6 +583,8 @@ public:
     {
         return m_heroesBeingTrained.value(index,{nullptr,0});
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -717,6 +725,8 @@ public:
     {
         return m_heroesBeingTrained.value(index,{nullptr,0});
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -854,10 +864,12 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -1011,6 +1023,8 @@ public:
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -1160,10 +1174,12 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -1313,10 +1329,12 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Q_INVOKABLE Hero *slot(int index) noexcept
+    Hero *slot(int index) noexcept
     {
         return m_heroesBeingDestressed.value(index,nullptr);
     }
+    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
 
@@ -1940,6 +1958,7 @@ class DockingStation : public Building
     Q_OBJECT
 
     Q_PROPERTY(Hero* recruitPreparedForQML MEMBER m_recruitPreparedForQML)
+    Q_PROPERTY(Equipment* equipmentPreparedForQML MEMBER m_equipmentPreparedForQML)
 
     friend class Base;
 
@@ -2008,6 +2027,10 @@ public:
     Q_INVOKABLE void hireMercenary(const QString &name, unsigned eta) noexcept;
     void doRecrutationStuff() noexcept;
     QStringList getRecruitsNames() const noexcept;
+    QVector <QPair <Hero *, unsigned> > arrivingHeroes() noexcept
+    {
+        return m_arrivingHeroes;
+    }
 
     Q_INVOKABLE int waitingTime() const noexcept
     {
@@ -2066,6 +2089,24 @@ public:
         return m_activeTransactions;
     }
 
+    QVector <QString> availableEquipmentsNames() const noexcept
+    {
+        QVector <QString> r;
+        for (int i=0;i<m_equipments.size();++i)
+            r+=m_equipments[i]->name();
+        return r;
+    }
+    void prepareEquipments() noexcept;
+    Q_INVOKABLE void prepareEquipmentForQML(unsigned pos) noexcept;
+    Q_INVOKABLE void buyEquipment(unsigned pos, unsigned eta) noexcept;
+    void doBuyingEquipmentStuff() noexcept;
+    QVector <QPair <Equipment *, unsigned> > arrivingEquipments() noexcept
+    {
+        return m_arrivingEquipments;
+    }
+
+    Q_INVOKABLE int remainingDaysUntilHeroArrival(const QString &heroName) const noexcept;
+
 private:
     void loadRecruits() noexcept;
     void clearRecruits() noexcept;
@@ -2077,6 +2118,17 @@ private:
     {
         m_activeTransactions=transactions;
     }
+    void addArrivingHeroFromSave(const QPair <Hero *, unsigned> &arrHero) noexcept
+    {
+        m_arrivingHeroes+=arrHero;
+    }
+    void loadEquipments() noexcept;
+    void clearEquipments() noexcept;
+    void addEquipmentFromSave(Equipment *eq) noexcept;
+    void addArrivingEquipmentFromSave(const QPair <Equipment *, unsigned> &arrEq) noexcept
+    {
+        m_arrivingEquipments+=arrEq;
+    }
 
     QVector <DockingStationLevelInfo> m_levelsInfo;
     QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > m_tradingTables;
@@ -2084,6 +2136,9 @@ private:
     Hero *m_recruitPreparedForQML;
     QVector <QPair <Hero *, unsigned> > m_arrivingHeroes;//hero, ETA
     QVector <QPair <ActiveTransaction, unsigned> > m_activeTransactions;
+    QVector <Equipment *> m_equipments;
+    Equipment *m_equipmentPreparedForQML;
+    QVector <QPair <Equipment *, unsigned> > m_arrivingEquipments;//eq, ETA
 };
 
 class GameClock;
@@ -2291,6 +2346,13 @@ public:
     QMap <QString, unsigned> &heroDockingStationBans() noexcept
     {
         return m_heroDockingStationBans;
+    }
+
+
+    //equipment
+    QVector <Equipment *> &freeEquipment() noexcept
+    {
+        return m_freeEquipment;
     }
 
     //game clock

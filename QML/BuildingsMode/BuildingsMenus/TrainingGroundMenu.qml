@@ -12,6 +12,7 @@ Item {
 
     signal backClicked()
     signal upgradeRequested()
+    signal heroesModeUpdateRequested()
 
     function updateEverything()
     {
@@ -22,12 +23,33 @@ Item {
         var amountOfSlotsAvailable = GameApi.base.trainingGround.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
+            if (GameApi.base.trainingGround.heroNameInSlot(0)!="")
+            {
+                slotView1.heroName=GameApi.base.trainingGround.heroNameInSlot(0);
+                slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.trainingGround.heroProfessionInSlot(0))+"/"+GameApi.base.trainingGround.heroNameInSlot(0)+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(), GameApi.base.trainingGround.duration());
+                slotView1.forceAbortIcon();
+            }
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
+                if (GameApi.base.trainingGround.heroNameInSlot(1)!="")
+                {
+                    slotView2.heroName=GameApi.base.trainingGround.heroNameInSlot(1);
+                    slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.trainingGround.heroProfessionInSlot(1))+"/"+GameApi.base.trainingGround.heroNameInSlot(1)+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(), GameApi.base.trainingGround.duration());
+                    slotView2.forceAbortIcon();
+                }
                 slotView2.visible=true;
-                if (amountOfSlotsAvailable==3)
+                if (amountOfSlotsAvailable>=3)
+                {
+                    if (GameApi.base.trainingGround.heroNameInSlot(2)!="")
+                    {
+                        slotView3.heroName=GameApi.base.trainingGround.heroNameInSlot(2);
+                        slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.trainingGround.heroProfessionInSlot(2))+"/"+GameApi.base.trainingGround.heroNameInSlot(2)+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(), GameApi.base.trainingGround.duration());
+                        slotView3.forceAbortIcon();
+                    }
+
                     slotView3.visible=true;
+                }
                 else
                     slotView3.visible=false;
             }
@@ -646,11 +668,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.trainingGround.placeHeroInSlot(0,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.trainingGround.emptySlot(0);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -675,11 +699,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.trainingGround.placeHeroInSlot(1,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.trainingGround.emptySlot(1);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -704,11 +730,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.trainingGround.placeHeroInSlot(2,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.trainingGround.emptySlot(2);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -730,19 +758,19 @@ Item {
                 if (parent.indexOfChangingSlot==0)//COULDDO that's nasty
                 {
                     slotView1.heroName=heroName;
-                    slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(),GameApi.base.trainingGround.duration());
+                    slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(),GameApi.base.trainingGround.duration());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==1)
                 {
                     slotView2.heroName=heroName;
-                    slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(),GameApi.base.trainingGround.duration());
+                    slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(),GameApi.base.trainingGround.duration());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==2)
                 {
                     slotView3.heroName=heroName;
-                    slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(),GameApi.base.trainingGround.duration());
+                    slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(),GameApi.base.trainingGround.duration());
                     state = "hidden";
                 }
                 heroSelectionList.banHero(heroName);

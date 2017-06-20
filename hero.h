@@ -236,18 +236,12 @@ public:
     {
         return m_stressBorderEffects;
     }
-    const HeroStressBorderEffect *currentSBE() const noexcept
-    {
-        return m_indexOfCurrentSBE==-1 ? nullptr : &(m_stressBorderEffects[m_indexOfCurrentSBE]);
-    }
+    const HeroStressBorderEffect *currentSBE() const noexcept;
     Q_INVOKABLE int amountOfSBEs() const noexcept
     {
         return m_stressBorderEffects.size();
     }
-    Q_INVOKABLE QString stressBorderEffectNameString(unsigned index) const noexcept
-    {
-        return index<m_stressBorderEffects.size() ? HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffects[index].effectName) : "";
-    }
+    Q_INVOKABLE QString stressBorderEffectNameString(unsigned index) const noexcept;
     Q_INVOKABLE int indexOfCurrentSBE() const noexcept
     {
         return m_indexOfCurrentSBE;
@@ -276,19 +270,13 @@ public:
     {
         return m_nature;
     }
-    Q_INVOKABLE QString natureString() const noexcept
-    {
-        return HeroEnums::fromNatureEnumToQString(m_nature);
-    }
+    Q_INVOKABLE QString natureString() const noexcept;
 
     HeroEnums::Profession profession() const noexcept
     {
         return m_profession;
     }
-    Q_INVOKABLE QString professionString() const noexcept
-    {
-        return HeroEnums::fromProfessionEnumToQString(m_profession);
-    }
+    Q_INVOKABLE QString professionString() const noexcept;
 
     void changeCombatEffectiveness(int amount) noexcept;//change by amount so increase or decrease by amount, not set amount!
     void changeProficiency(int amount) noexcept;
@@ -319,10 +307,7 @@ public:
     {
         return m_armor;
     }
-    Equipment *weaponTool(int slot) const noexcept
-    {
-        return m_weaponsTools.value(slot,nullptr);
-    }
+    Equipment *weaponTool(int slot) const noexcept;
     Q_INVOKABLE int amountOfWeaponToolSlots() const noexcept
     {
         return m_amountOfWeaponToolSlots;
@@ -388,10 +373,7 @@ public:
     {
         return m_currentActivity;
     }
-    Q_INVOKABLE QString currentActivityString() const noexcept
-    {
-        return HeroEnums::fromCurrentActivityEnumToQString(m_currentActivity);
-    }
+    Q_INVOKABLE QString currentActivityString() const noexcept;
     void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept;
 
     void dismiss(unsigned banDays) noexcept;
@@ -515,82 +497,29 @@ public:
         m_hero->setName(name);
     }
 
-    void setCombatEffectiveness(int combatEffectiveness) noexcept
-    {
-        if (combatEffectiveness>=0)
-            m_hero->m_baseAttributesValues.combatEffectiveness=combatEffectiveness;
-    }
-    void setProficiency(int proficiency) noexcept
-    {
-        if (proficiency>=0)
-            m_hero->m_baseAttributesValues.proficiency=proficiency;
-    }
-    void setCleverness(int cleverness) noexcept
-    {
-        if (cleverness>=0)
-            m_hero->m_baseAttributesValues.cleverness=cleverness;
-    }
+    void setCombatEffectiveness(int combatEffectiveness) noexcept;
+    void setProficiency(int proficiency) noexcept;
+    void setCleverness(int cleverness) noexcept;
 
-    void setLuck(float luck) noexcept
-    {
-        if (luck>=0 && luck<=1)
-            m_hero->m_baseAttributesValues.luck=luck;
-    }
+    void setLuck(float luck) noexcept;
 
-    void setHealth(int health) noexcept
-    {
-        if (health>=0)
-            m_hero->m_currentAttributesValues.health=health;
-    }
-    void setHealthLimit(int healthLimit) noexcept
-    {
-        if (healthLimit>0)
-            m_hero->m_baseAttributesValues.healthLimit=healthLimit;
-    }
-    void setDailyHealthRecovery(int dailyHealthRecovery) noexcept
-    {
-        m_hero->m_baseAttributesValues.dailyHealthRecovery=dailyHealthRecovery;
-    }
+    void setHealth(int health) noexcept;
+    void setHealthLimit(int healthLimit) noexcept;
+    void setDailyHealthRecovery(int dailyHealthRecovery) noexcept;
 
-    void setStress(int stress) noexcept
-    {
-        if (stress>=0)
-            m_hero->m_currentAttributesValues.stress=stress;
-    }
-    void setStressResistance(float stressResistance) noexcept
-    {
-        if (stressResistance>=0)
-            m_hero->m_baseAttributesValues.stressResistance=stressResistance;
-    }
-    void setStressLimit(int stressLimit) noexcept
-    {
-        if (stressLimit!=0)
-            m_hero->m_baseAttributesValues.stressLimit=stressLimit;
-    }
-    void setStressBorder(int stressBorder) noexcept
-    {
-        if (stressBorder>=0)
-            m_hero->m_baseAttributesValues.stressBorder=stressBorder;
-    }
+    void setStress(int stress) noexcept;
+    void setStressResistance(float stressResistance) noexcept;
+    void setStressLimit(int stressLimit) noexcept;
+    void setStressBorder(int stressBorder) noexcept;
     void setStressBorderEffects(const QVector <HeroStressBorderEffect> &stressBorderEffects) noexcept
     {
         m_hero->setStressBorderEffects(stressBorderEffects);
     }
-    void setDailyStressRecovery(int dailyStressRecovery) noexcept
-    {
-        m_hero->m_baseAttributesValues.dailyStressRecovery=dailyStressRecovery;
-    }
+    void setDailyStressRecovery(int dailyStressRecovery) noexcept;
 
-    void setSalary(int salary) noexcept
-    {
-        m_hero->m_baseAttributesValues.salary=salary;
-    }
+    void setSalary(int salary) noexcept;
 
-    void setDailyFoodConsumption(int dailyFoodConsumption) noexcept
-    {
-        if (dailyFoodConsumption>=0)
-            m_hero->m_baseAttributesValues.dailyFoodConsumption=dailyFoodConsumption;
-    }
+    void setDailyFoodConsumption(int dailyFoodConsumption) noexcept;
 
     void setNature(HeroEnums::Nature nature) noexcept
     {
@@ -606,11 +535,7 @@ public:
     {
         m_hero->equipArmor(armor);
     }
-    void setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept
-    {
-        if (slot<m_hero->amountOfWeaponToolSlots())
-            m_hero->equipWeaponTool(weaponTool,slot);
-    }
+    void setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept;
 
     void setIsDead(bool dead) noexcept
     {
@@ -626,22 +551,10 @@ public:
         m_hero->m_noSignalDaysRemaining=amount;
     }
 
-    void setCarriedEnergy(int amount) noexcept
-    {
-        m_hero->m_carriedEnergy=amount;
-    }
-    void setCarriedFoodSupplies(int amount) noexcept
-    {
-        m_hero->m_carriedFoodSupplies=amount;
-    }
-    void setCarriedBuildingMaterials(int amount) noexcept
-    {
-        m_hero->m_carriedBuildingMaterials=amount;
-    }
-    void setCarriedAetheriteOre(int amount) noexcept
-    {
-        m_hero->m_carriedAetheriteOre=amount;
-    }
+    void setCarriedEnergy(int amount) noexcept;
+    void setCarriedFoodSupplies(int amount) noexcept;
+    void setCarriedBuildingMaterials(int amount) noexcept;
+    void setCarriedAetheriteOre(int amount) noexcept;
 
     void setAssignedMission(Mission *mission) noexcept
     {

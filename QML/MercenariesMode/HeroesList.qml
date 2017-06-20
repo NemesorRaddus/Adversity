@@ -28,7 +28,7 @@ Item {
             if (availableHeroes[i] == true)
             {
                 GameApi.base.heroes.prepareHeroAt(i);
-                Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(),GameApi.base.heroes.preparedHero.combatEffectiveness(),GameApi.base.heroes.preparedHero.proficiency(),GameApi.base.heroes.preparedHero.cleverness(),GameApi.base.heroes.preparedHero.health(),GameApi.base.heroes.preparedHero.healthLimit(),GameApi.base.heroes.preparedHero.stress(),GameApi.base.heroes.preparedHero.stressLimit(),GameApi.base.heroes.preparedHero.stressResistance(),GameApi.base.heroes.preparedHero.salary(),GameApi.base.heroes.preparedHero.dailyFoodConsumption());
+                Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(), GameApi.base.heroes.preparedHero.combatEffectiveness(), GameApi.base.heroes.preparedHero.proficiency(), GameApi.base.heroes.preparedHero.cleverness(), GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit(), GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit(), GameApi.base.heroes.preparedHero.stressResistance(), GameApi.base.heroes.preparedHero.salary(), GameApi.base.heroes.preparedHero.dailyFoodConsumption(), GameApi.base.heroes.preparedHero.currentActivityString());
                 ++j;
             }
         }

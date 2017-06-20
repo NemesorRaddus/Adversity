@@ -12,6 +12,7 @@ Item {
 
     signal backClicked()
     signal upgradeRequested()
+    signal heroesModeUpdateRequested()
 
     function updateEverything()
     {
@@ -22,44 +23,82 @@ Item {
         var amountOfSlotsAvailable = GameApi.base.playingField.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
+            if (GameApi.base.playingField.heroNameInSlot(0)!="")
+            {
+                slotView1.heroName=GameApi.base.playingField.heroNameInSlot(0);
+                slotView1.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.playingField.heroProfessionInSlot(0))+"/"+GameApi.base.playingField.heroNameInSlot(0)+".png",GameApi.base.playingField.useCostInEnergySingle());
+                slotView1.forceAbortIcon();
+            }
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
-                slotView2.visible=true;
-        if (amountOfSlotsAvailable>=3)
-        {
-            slotView3.visible=true;
-            if (amountOfSlotsAvailable>=4)
-            {
-                slotView4.visible=true;
-                if (amountOfSlotsAvailable>=5)
+                if (GameApi.base.playingField.heroNameInSlot(1)!="")
                 {
-                    slotView5.visible=true;
-                    if (amountOfSlotsAvailable==6)
-                        slotView6.visible=true;
+                    slotView2.heroName=GameApi.base.playingField.heroNameInSlot(1);
+                    slotView2.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.playingField.heroProfessionInSlot(1))+"/"+GameApi.base.playingField.heroNameInSlot(1)+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView2.forceAbortIcon();
+                }
+                slotView2.visible=true;
+                if (amountOfSlotsAvailable>=3)
+                {
+                    if (GameApi.base.playingField.heroNameInSlot(2)!="")
+                    {
+                        slotView3.heroName=GameApi.base.playingField.heroNameInSlot(2);
+                        slotView3.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.playingField.heroProfessionInSlot(2))+"/"+GameApi.base.playingField.heroNameInSlot(2)+".png",GameApi.base.playingField.useCostInEnergySingle());
+                        slotView3.forceAbortIcon();
+                    }
+                    slotView3.visible=true;
+                    if (amountOfSlotsAvailable>=4)
+                    {
+                        if (GameApi.base.playingField.heroNameInSlot(3)!="")
+                        {
+                            slotView4.heroName=GameApi.base.playingField.heroNameInSlot(3);
+                            slotView4.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.playingField.heroProfessionInSlot(3))+"/"+GameApi.base.playingField.heroNameInSlot(3)+".png",GameApi.base.playingField.useCostInEnergySingle());
+                            slotView4.forceAbortIcon();
+                        }
+                        slotView4.visible=true;
+                        if (amountOfSlotsAvailable>=5)
+                        {
+                            if (GameApi.base.playingField.heroNameInSlot(4)!="")
+                            {
+                                slotView5.heroName=GameApi.base.playingField.heroNameInSlot(4);
+                                slotView5.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.playingField.heroProfessionInSlot(4))+"/"+GameApi.base.playingField.heroNameInSlot(4)+".png",GameApi.base.playingField.useCostInEnergySingle());
+                                slotView5.forceAbortIcon();
+                            }
+                            slotView5.visible=true;
+                            if (amountOfSlotsAvailable==6)
+                            {
+                                if (GameApi.base.playingField.heroNameInSlot(5)!="")
+                                {
+                                    slotView6.heroName=GameApi.base.playingField.heroNameInSlot(5);
+                                    slotView6.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.playingField.heroProfessionInSlot(5))+"/"+GameApi.base.playingField.heroNameInSlot(5)+".png",GameApi.base.playingField.useCostInEnergySingle());
+                                    slotView6.forceAbortIcon();
+                                }
+                                slotView6.visible=true;
+                            }
+                            else
+                                slotView6.visible=false;
+                        }
+                        else
+                        {
+                            slotView5.visible=false;
+                            slotView6.visible=false;
+                        }
+                    }
                     else
+                    {
+                        slotView4.visible=false;
+                        slotView5.visible=false;
                         slotView6.visible=false;
+                    }
                 }
                 else
                 {
+                    slotView3.visible=false;
+                    slotView4.visible=false;
                     slotView5.visible=false;
                     slotView6.visible=false;
                 }
-            }
-            else
-            {
-                slotView4.visible=false;
-                slotView5.visible=false;
-                slotView6.visible=false;
-            }
-        }
-        else
-        {
-            slotView3.visible=false;
-            slotView4.visible=false;
-            slotView5.visible=false;
-            slotView6.visible=false;
-        }
             }
             else
             {
@@ -816,11 +855,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.playingField.placeHeroInSlot(0,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.playingField.emptySlot(0);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -845,11 +886,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.playingField.placeHeroInSlot(1,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.playingField.emptySlot(1);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -874,11 +917,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.playingField.placeHeroInSlot(2,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.playingField.emptySlot(2);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -903,11 +948,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.playingField.placeHeroInSlot(3,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.playingField.emptySlot(3);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -932,11 +979,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.playingField.placeHeroInSlot(4,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.playingField.emptySlot(4);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -961,11 +1010,13 @@ Item {
 
             onStartClicked: {
                 GameApi.base.playingField.placeHeroInSlot(5,heroName);
+                heroesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.playingField.emptySlot(5);
                 heroSelectionList.unbanHero(heroName);
+                heroesModeUpdateRequested();
             }
 
             onRequestUnban: {
@@ -987,37 +1038,37 @@ Item {
                 if (parent.indexOfChangingSlot==0)//COULDDO that's nasty
                 {
                     slotView1.heroName=heroName;
-                    slotView1.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView1.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==1)
                 {
                     slotView2.heroName=heroName;
-                    slotView2.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView2.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==2)
                 {
                     slotView3.heroName=heroName;
-                    slotView3.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView3.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==3)
                 {
                     slotView4.heroName=heroName;
-                    slotView4.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView4.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==4)
                 {
                     slotView5.heroName=heroName;
-                    slotView5.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView5.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
                     state = "hidden";
                 }
                 else if (parent.indexOfChangingSlot==5)
                 {
                     slotView6.heroName=heroName;
-                    slotView6.setHeroOneVal("qrc:/graphics/Mercs/"+heroProfession+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
+                    slotView6.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.playingField.useCostInEnergySingle());
                     state = "hidden";
                 }
                 heroSelectionList.banHero(heroName);

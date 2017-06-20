@@ -13,6 +13,7 @@ double Global::roundDouble(double d, unsigned prec) noexcept
 QString Global::alterNormalTextToInternal(QString normalText) noexcept
 {
     normalText.remove(' ');
+    normalText.remove('/');
 
     normalText.replace('ć','c');
     normalText.replace('ę','e');
@@ -61,6 +62,8 @@ Game::Game(QObject *parent) noexcept
 
     m_h4xLogic=new H4X;
 
+    m_globalsExportToQML=new Global;
+
     connectAutosave();
 }
 
@@ -68,6 +71,8 @@ Game::~Game() noexcept
 {
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
     disconnectAutosave();
+
+    delete m_globalsExportToQML;
 
     delete m_h4xLogic;
 

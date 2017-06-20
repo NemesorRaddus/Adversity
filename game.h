@@ -89,6 +89,7 @@ class Game : public QObject
     Q_PROPERTY(AppBuildInfo* buildInfo MEMBER m_buildInfo)
     Q_PROPERTY(TranslationsDB* translator MEMBER m_translations)
     Q_PROPERTY(H4X* h4xLogic MEMBER m_h4xLogic)
+    Q_PROPERTY(Global* globalsCpp MEMBER m_globalsExportToQML)
 
     friend class H4X;
 
@@ -154,6 +155,7 @@ private:
     TranslationsDB *m_translations;
     QElapsedTimer *m_startupTimer;
     H4X *m_h4xLogic;
+    Global *m_globalsExportToQML;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

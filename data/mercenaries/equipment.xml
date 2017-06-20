@@ -46,7 +46,7 @@
 			<bonus varName="stressResistance" value="-0.2"></bonus>
         </effects>
     </armor>
-	<armor name="BioHazardProtectionSuit" tier="2">
+        <armor name="BiohazardProtectionSuit" tier="2">
         <effects>
             <bonus varName="proficiency" value="3"></bonus>
 			<bonus varName="healthLimit" value="2"></bonus>
@@ -129,7 +129,7 @@
 			<bonus varName="stressResistance" value="-0.1"></bonus>
         </effects>
     </weaponTool>
-	<weaponTool name="TR01MobileMotionSpotter" tier="1">
+        <weaponTool name="TR01MobileMotionSpotter" tier="1">
         <effects>
             <bonus varName="proficiency" value="1"></bonus>
 			<bonus varName="stressResistance" value="-0.1"></bonus>

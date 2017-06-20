@@ -11,8 +11,6 @@ Item {
     width: 1080
     height: 1920
 
-    clip: false
-
     transform: [
         Scale {
             id: someScale
@@ -45,15 +43,15 @@ Item {
     TextInput {
         id: con
 
-        x: 20
-        y: 200
-        width: 640
-        height: font.pixelSize+20
+        x: 48
+        y: 480
+        width: root.width - 2*x
+        height: font.pixelSize
 
         color: "#94ef94"
         wrapMode: TextInput.Wrap
-        font.pixelSize: 26
-        font.family: "Courier"
+        font.pixelSize: 62
+        font.family: "Consolas"
 
         onAccepted: {
             eval("GameApi.h4xLogic."+text);

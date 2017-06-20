@@ -12,24 +12,34 @@ Window {
 
     function changeMode(mode)
     {
+        if (currentMode == 0)
+        {
+
+        }
+        else if (currentMode == 1)
+        {
+            mainGUI.buildingsGUI.returnToDefault();
+        }
+        else if (currentMode == 2)
+        {
+            mainGUI.mercenariesGUI.returnToDefault();
+        }
+
+        currentMode = mode;
+
         if (mode == 0)
         {
-            currentMode = 0;
             mainGUI.buildingsGUI.state = "hiddenRight";
             mainGUI.mercenariesGUI.state = "hiddenRight2";
         }
         else if (mode == 1)
         {
-            currentMode = 1;
-            mainGUI.buildingsGUI.returnToDefault();
             mainGUI.buildingsGUI.state = "";
             mainGUI.mercenariesGUI.state = "hiddenRight";
         }
         else if (mode == 2)
         {
-            currentMode = 2;
             mainGUI.buildingsGUI.state = "hiddenLeft";
-            mainGUI.mercenariesGUI.returnToDefault();
             mainGUI.mercenariesGUI.state = "";
         }
     }
@@ -168,6 +178,11 @@ Window {
         mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
 
         buildingsGUI.onShowSpecial: h4xScreen.visible = true;
+
+        mercenariesGUI.onBuildingMenuRequested: {
+            changeMode(1);
+            buildingsGUI.changeBuilding(buildingName);
+        }
     }
 
     Timer {
@@ -220,26 +235,34 @@ Window {
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
     onClosing: {
-        if (currentMode == 0)
+        if (mainGUI.h4xScreen.visible)
         {
-            GameApi.saveBase();
+            mainGUI.h4xScreen.visible = false;
+            close.accepted = false;
         }
-        else if (currentMode == 1)
+        else
         {
-            if (mainGUI.buildingsGUI.reactToBackOnToolbar())
-                close.accepted = false;
-            else
+            if (currentMode == 0)
             {
                 GameApi.saveBase();
             }
-        }
-        else if (currentMode == 2)
-        {
-            if (mainGUI.mercenariesGUI.reactToBackOnToolbar())
-                close.accepted = false;
-            else
+            else if (currentMode == 1)
             {
-                GameApi.saveBase();
+                if (mainGUI.buildingsGUI.reactToBackOnToolbar())
+                    close.accepted = false;
+                else
+                {
+                    GameApi.saveBase();
+                }
+            }
+            else if (currentMode == 2)
+            {
+                if (mainGUI.mercenariesGUI.reactToBackOnToolbar())
+                    close.accepted = false;
+                else
+                {
+                    GameApi.saveBase();
+                }
             }
         }
     }

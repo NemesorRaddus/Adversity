@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <translations>
+    <!-- Buildings -->
     <text original="CentralUnit">
         <translation context="" translated="Central Unit"></translation>
     </text>
@@ -49,6 +50,8 @@
     <text original="DockingStation">
         <translation context="" translated="Docking Station"></translation>
     </text>
+
+    <!-- Mercenaries -->
     <text original="MadeleineLacroix">
         <translation context="" translated="Madeleine Lacroix"></translation>
     </text>
@@ -144,5 +147,94 @@
     </text>
     <text original="SpaceNomad">
         <translation context="" translated="Space Nomad"></translation>
+    </text>
+
+    <!--Equipment-->
+    <!--Armor-->
+    <text original="BasicUPOAArmour">
+        <translation context="" translated="Basic UPOA Armour"></translation>
+    </text>
+    <text original="ExplorersSuite">
+        <translation context="" translated="Explorer's Suite"></translation>
+    </text>
+    <text original="RoEScoutsSuit">
+        <translation context="" translated="RoE Scout's Suit"></translation>
+    </text>
+    <text original="EngineerUniform">
+        <translation context="" translated="Engineer Uniform"></translation>
+    </text>
+    <text original="HCPrototypeSuit">
+        <translation context="" translated="HC Prototype Suit"></translation>
+    </text>
+    <text original="EliteUPOAArmour">
+        <translation context="" translated="Elite UPOA Armour"></translation>
+    </text>
+    <text original="BiohazardProtectionSuit">
+        <translation context="" translated="Biohazard Protection Suit"></translation>
+    </text>
+    <text original="LightMercenaryArmour">
+        <translation context="" translated="Light Mercenary Armour"></translation>
+    </text>
+    <text original="VeteranAdventurersArmour">
+        <translation context="" translated="Veteran Adventurer's Armour"></translation>
+    </text>
+    <text original="DP4SkirmisherArmour">
+        <translation context="" translated="DP-4 Skirmisher Armour"></translation>
+    </text>
+    <text original="SFI10BruteArmour">
+        <translation context="" translated="SFI-10 Brute Armour"></translation>
+    </text>
+    <text original="CAHBCExperimentalExoskeleton">
+        <translation context="" translated="CAHBC Experimental Exoskeleton"></translation>
+    </text>
+    <text original="UPOASpecialForcesArmour">
+        <translation context="" translated="UPOA Special Forces Armour"></translation>
+    </text>
+    <text original="ExperimentalNanometalArmour">
+        <translation context="" translated="Experimental Nanometal Armour"></translation>
+    </text>
+    <text original="AdvancedEngineeerSuit">
+        <translation context="" translated="Advanced Engineeer Suit"></translation>
+    </text>
+
+    <!-- Weapons/Tools -->
+    <text original="NSXAutomaticPistol">
+        <translation context="" translated="NSX Automatic Pistol"></translation>
+    </text>
+    <text original="TR01MobileMotionSpotter">
+        <translation context="" translated="TR-01 Mobile Motion Spotter"></translation>
+    </text>
+    <text original="UEGPocketScanner">
+        <translation context="" translated="UEG Pocket Scanner"></translation>
+    </text>
+    <text original="TR04Flashlight">
+        <translation context="" translated="TR-04 Flashlight"></translation>
+    </text>
+    <text original="UPOAClimbingPickaxe">
+        <translation context="" translated="UPOA Climbing Pickaxe"></translation>
+    </text>
+    <text original="UPOAHarversterShotgun">
+        <translation context="" translated="UPOA &quot;Harverster&quot; Shotgun"></translation>
+    </text>
+    <text original="TR09HuntsmanRifle">
+        <translation context="" translated="TR-09 &quot;Huntsman&quot; Rifle"></translation>
+    </text>
+    <text original="UPOAGrenadeLauncher">
+        <translation context="" translated="UPOA Grenade Launcher"></translation>
+    </text>
+    <text original="UEGClimbingLinev2_05">
+        <translation context="" translated="UEG Climbing Line v2.05"></translation>
+    </text>
+    <text original="AdvancedTerrainScanner">
+        <translation context="" translated="Advanced Terrain Scanner"></translation>
+    </text>
+    <text original="HiBSv1_5Syringes">
+        <translation context="" translated="HiBS v1.5 Syringes"></translation>
+    </text>
+    <text original="LiquidRageExperimentalSyringes">
+        <translation context="" translated="Liquid Rage Experimental Syringes"></translation>
+    </text>
+    <text original="UEGArsonistFlameThrower">
+        <translation context="" translated="UEG Arsonist Flame Thrower"></translation>
     </text>
 </translations>

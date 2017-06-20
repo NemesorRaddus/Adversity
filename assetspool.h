@@ -34,7 +34,8 @@ public:
     {
         return m_equipment;
     }
-    Equipment *makeEquipment(const QString &name) const noexcept;
+    Equipment *makeEquipmentAtPos(unsigned index) noexcept;
+    Equipment *makeEquipmentNamed(const QString &name) const noexcept;
 
 private:
     void loadHeroesList(const QString &pathToDir) noexcept;

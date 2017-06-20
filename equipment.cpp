@@ -2,30 +2,260 @@
 
 #include <QDebug>
 
-void Equipment::reset() noexcept
+EquipmentEnums::Type EquipmentEnums::fromQStringToTypeEnum(const QString &type) noexcept
 {
-    m_name.clear();
-    m_type=EquipmentEnums::T_WeaponTool;
-    m_tier=1;
-    m_combatEffectivenessBonus=0;
-    m_proficiencyBonus=0;
-    m_clevernessBonus=0;
-    m_luckBonus=0;
-    m_healthBonus=0;
-    m_healthLimitBonus=0;
-    m_dailyHealthRecoveryBonus=0;
-    m_stressBonus=0;
-    m_stressResistanceBonus=0;
-    m_stressLimitBonus=0;
-    m_stressBorderBonus=0;
-    m_dailyStressRecoveryBonus=0;
-    m_salaryBonus=0;
-    m_dailyFoodConsumptionBonus=0;
+    if (type == "Armor")
+        return T_Armor;
+    if (type == "Weapon/Tool")
+        return T_WeaponTool;
+    qWarning()<<"QString->enum conversion failed for "<<type;
+}
+
+QString EquipmentEnums::fromTypeEnumToQString(EquipmentEnums::Type type) noexcept
+{
+    if (type == T_Armor)
+        return "Armor";
+    if (type == T_WeaponTool)
+        return "Weapon/Tool";
+    qWarning()<<"QString->enum conversion failed for "<<type;
+}
+
+EquipmentEnums::Category EquipmentEnums::fromQStringToCategoryEnum(const QString &category) noexcept
+{
+    if (category == "Biohazard Protection")
+        return C_BiohazardProtection;
+    if (category == "Climbing")
+        return C_Climbing;
+    if (category == "Light Source")
+        return C_LightSource;
+    qWarning()<<"QString->enum conversion failed for "<<category;
+}
+
+QString EquipmentEnums::fromCategoryEnumToQString(EquipmentEnums::Category category) noexcept
+{
+    if (category == C_BiohazardProtection)
+        return "Biohazard Protection";
+    if (category == C_Climbing)
+        return "Climbing";
+    if (category == C_LightSource)
+        return "Light Source";
+    qWarning()<<"QString->enum conversion failed for "<<category;
+}
+
+EquipmentEnums::Bonus EquipmentEnums::fromQStringToBonusEnum(const QString &bonus) noexcept
+{
+    if (bonus == "Combat Effectiveness")
+        return B_CombatEffectiveness;
+    if (bonus == "Proficiency")
+        return B_Proficiency;
+    if (bonus == "Cleverness")
+        return B_Cleverness;
+    if (bonus == "Luck")
+        return B_Luck;
+    if (bonus == "Health Limit")
+        return B_HealthLimit;
+    if (bonus == "Daily Health Recovery")
+        return B_DailyHealthRecovery;
+    if (bonus == "Stress Resistance")
+        return B_StressResistance;
+    if (bonus == "Stress Limit")
+        return B_StressLimit;
+    if (bonus == "Stress Border")
+        return B_StressBorder;
+    if (bonus == "Daily Stress Recovery")
+        return B_DailyStressRecovery;
+    if (bonus == "Salary")
+        return B_Salary;
+    if (bonus == "Daily Food Consumption")
+        return B_DailyFoodConsumption;
+    qWarning()<<"QString->enum conversion failed for "<<bonus;
+}
+
+QString EquipmentEnums::fromBonusEnumToQString(EquipmentEnums::Bonus bonus) noexcept
+{
+    if (bonus == B_CombatEffectiveness)
+        return "Combat Effectiveness";
+    if (bonus == B_Proficiency)
+        return "Proficiency";
+    if (bonus == B_Cleverness)
+        return "Cleverness";
+    if (bonus == B_Luck)
+        return "Luck";
+    if (bonus == B_HealthLimit)
+        return "Health Limit";
+    if (bonus == B_DailyHealthRecovery)
+        return "Daily Health Recovery";
+    if (bonus == B_StressResistance)
+        return "Stress Resistance";
+    if (bonus == B_StressLimit)
+        return "Stress Limit";
+    if (bonus == B_StressBorder)
+        return "Stress Border";
+    if (bonus == B_DailyStressRecovery)
+        return "Daily Stress Recovery";
+    if (bonus == B_Salary)
+        return "Salary";
+    if (bonus == B_DailyFoodConsumption)
+        return "Daily Food Consumption";
+    qWarning()<<"enum->QString conversion failed for "<<bonus;
+}
+
+int Equipment::combatEffectivenessBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_CombatEffectiveness, 0);
+}
+
+int Equipment::proficiencyBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_Proficiency, 0);
+}
+
+int Equipment::clevernessBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_Cleverness, 0);
+}
+
+float Equipment::luckBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_Luck, 0);
+}
+
+int Equipment::healthLimitBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_HealthLimit, 0);
+}
+
+int Equipment::dailyHealthRecoveryBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_DailyHealthRecovery, 0);
+}
+
+float Equipment::stressResistanceBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_StressResistance, 0);
+}
+
+int Equipment::stressLimitBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_StressLimit, 0);
+}
+
+int Equipment::stressBorderBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_StressBorder, 0);
+}
+
+int Equipment::dailyStressRecoveryBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_DailyStressRecovery, 0);
+}
+
+int Equipment::salaryBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_Salary, 0);
+}
+
+int Equipment::dailyFoodConsumptionBonus() const noexcept
+{
+    return m_bonuses.value(EquipmentEnums::B_DailyFoodConsumption, 0);
+}
+
+unsigned Equipment::amountOfBonuses() const noexcept
+{
+    unsigned a=0;
+    for (int i=0;i<static_cast<int>(EquipmentEnums::B_END);++i)
+        if (m_bonuses.contains(static_cast<EquipmentEnums::Bonus>(i)))
+            ++a;
+    return a;
+}
+
+QString Equipment::bonusAtPosName(unsigned pos) const noexcept
+{
+    for (auto b : m_bonuses.keys())
+    {
+        if (pos)
+            --pos;
+        else
+            return EquipmentEnums::fromBonusEnumToQString(b);
+    }
+}
+
+float Equipment::bonusAtPosValue(unsigned pos) const noexcept
+{
+    for (auto b : m_bonuses.keys())
+    {
+        if (pos)
+            --pos;
+        else
+            return m_bonuses.value(b);
+    }
+}
+
+unsigned Equipment::buyingAetheriteCost() const noexcept
+{
+    switch (m_tier) {
+    case 1:
+        return 150;
+    case 2:
+        return 400;
+    case 3:
+        return 800;
+    }
+}
+
+unsigned Equipment::maintenanceEnergyCost() const noexcept
+{
+    if (m_type == EquipmentEnums::T_Armor)
+    {
+        switch (m_tier) {
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        case 3:
+            return 4;
+        }
+    }
+    else
+    {
+        switch (m_tier) {
+        case 1:
+            return 1;
+        case 2:
+        case 3:
+            return 2;
+        }
+    }
+}
+
+unsigned Equipment::maintenanceBuildingMaterialsCost() const noexcept
+{
+    if (m_type == EquipmentEnums::T_Armor)
+    {
+        switch (m_tier) {
+        case 1:
+        case 2:
+        case 3:
+            return 1;
+        }
+    }
+    else
+    {
+        switch (m_tier) {
+        case 1:
+            return 0;
+        case 2:
+            return 1;
+        case 3:
+            return 2;
+        }
+    }
 }
 
 Equipment::Equipment() noexcept
+    : m_type(EquipmentEnums::T_WeaponTool), m_tier(1)
 {
-    reset();
+
 }
 
 void Equipment::setName(const QString &name) noexcept
@@ -40,79 +270,68 @@ void Equipment::setType(EquipmentEnums::Type type) noexcept
 
 void Equipment::setTier(int tier) noexcept
 {
-    if (tier<1)
-        return;
-    m_tier = tier;
+    if (tier>=1)
+        m_tier = tier;
 }
 
 void Equipment::setCombatEffectivenessBonus(int combatEffectivenessBonus) noexcept
 {
-    m_combatEffectivenessBonus = combatEffectivenessBonus;
+    m_bonuses.insert(EquipmentEnums::B_CombatEffectiveness,combatEffectivenessBonus);
 }
 
 void Equipment::setProficiencyBonus(int proficiencyBonus) noexcept
 {
-    m_proficiencyBonus = proficiencyBonus;
+    m_bonuses.insert(EquipmentEnums::B_Proficiency,proficiencyBonus);
 }
 
 void Equipment::setClevernessBonus(int clevernessBonus) noexcept
 {
-    m_clevernessBonus = clevernessBonus;
+    m_bonuses.insert(EquipmentEnums::B_Cleverness,clevernessBonus);
 }
 
 void Equipment::setLuckBonus(float luckBonus) noexcept
 {
-    m_luckBonus = luckBonus;
-}
-
-void Equipment::setHealthBonus(int healthBonus) noexcept
-{
-    m_healthBonus = healthBonus;
+    m_bonuses.insert(EquipmentEnums::B_Luck,luckBonus);
 }
 
 void Equipment::setHealthLimitBonus(int healthLimitBonus) noexcept
 {
-    m_healthLimitBonus = healthLimitBonus;
+    m_bonuses.insert(EquipmentEnums::B_HealthLimit,healthLimitBonus);
 }
 
 void Equipment::setDailyHealthRecoveryBonus(int dailyHealthRecoveryBonus) noexcept
 {
-    m_dailyHealthRecoveryBonus = dailyHealthRecoveryBonus;
-}
-
-void Equipment::setStressBonus(int stressBonus) noexcept
-{
-    m_stressBonus = stressBonus;
+    m_bonuses.insert(EquipmentEnums::B_DailyHealthRecovery,dailyHealthRecoveryBonus);
 }
 
 void Equipment::setStressResistanceBonus(float stressResistanceBonus) noexcept
 {
-    m_stressResistanceBonus = stressResistanceBonus;
+   m_bonuses.insert(EquipmentEnums::B_StressResistance,stressResistanceBonus);
 }
 
 void Equipment::setStressLimitBonus(int stressLimitBonus) noexcept
 {
-    m_stressLimitBonus = stressLimitBonus;
+    m_bonuses.insert(EquipmentEnums::B_StressLimit,stressLimitBonus);
 }
 
 void Equipment::setStressBorderBonus(int stressBorderBonus) noexcept
 {
-    m_stressBorderBonus = stressBorderBonus;
+    m_bonuses.insert(EquipmentEnums::B_StressBorder,stressBorderBonus);
 }
 
 void Equipment::setDailyStressRecoveryBonus(int dailyStressRecoveryBonus) noexcept
 {
-    m_dailyStressRecoveryBonus = dailyStressRecoveryBonus;
+    m_bonuses.insert(EquipmentEnums::B_DailyStressRecovery,dailyStressRecoveryBonus);
 }
 
 void Equipment::setSalaryBonus(int salaryBonus) noexcept
 {
-    m_salaryBonus = salaryBonus;
+    m_bonuses.insert(EquipmentEnums::B_Salary,salaryBonus);
 }
 
 void Equipment::setDailyFoodConsumptionBonus(int dailyFoodConsumptionBonus) noexcept
 {
-    m_dailyFoodConsumptionBonus = dailyFoodConsumptionBonus;
+    m_bonuses.insert(EquipmentEnums::B_DailyFoodConsumption,dailyFoodConsumptionBonus);
 }
 
 EquipmentBuilder::EquipmentBuilder() noexcept
@@ -135,13 +354,18 @@ Equipment *EquipmentBuilder::getEquipment() noexcept
 
 void EquipmentBuilder::resetEquiment() noexcept
 {
-    m_equipment->reset();
+    delete m_equipment;
+    m_equipment=new Equipment();
 }
 
 Equipment *EquipmentBuilder::copyEquipment(const Equipment *equipment) noexcept
 {
     Equipment *r=new Equipment;
-    *r=*equipment;
+    r->m_name=equipment->m_name;
+    r->m_type=equipment->m_type;
+    r->m_tier=equipment->m_tier;
+    r->m_categories=equipment->m_categories;
+    r->m_bonuses=equipment->m_bonuses;
     return r;
 }
 
@@ -158,6 +382,11 @@ void EquipmentBuilder::setType(EquipmentEnums::Type type) noexcept
 void EquipmentBuilder::setTier(int tier) noexcept
 {
     m_equipment->setTier(tier);
+}
+
+void EquipmentBuilder::addCategory(EquipmentEnums::Category cat) noexcept
+{
+    m_equipment->m_categories+=cat;
 }
 
 void EquipmentBuilder::setCombatEffectivenessBonus(int combatEffectivenessBonus) noexcept
@@ -180,11 +409,6 @@ void EquipmentBuilder::setLuckBonus(float luckBonus) noexcept
     m_equipment->setLuckBonus(luckBonus);
 }
 
-void EquipmentBuilder::setHealthBonus(int healthBonus) noexcept
-{
-    m_equipment->setHealthBonus(healthBonus);
-}
-
 void EquipmentBuilder::setHealthLimitBonus(int healthLimitBonus) noexcept
 {
     m_equipment->setHealthLimitBonus(healthLimitBonus);
@@ -193,11 +417,6 @@ void EquipmentBuilder::setHealthLimitBonus(int healthLimitBonus) noexcept
 void EquipmentBuilder::setDailyHealthRecoveryBonus(int dailyHealthRecoveryBonus) noexcept
 {
     m_equipment->setDailyHealthRecoveryBonus(dailyHealthRecoveryBonus);
-}
-
-void EquipmentBuilder::setStressBonus(int stressBonus) noexcept
-{
-    m_equipment->setStressBonus(stressBonus);
 }
 
 void EquipmentBuilder::setStressResistanceBonus(float stressResistanceBonus) noexcept

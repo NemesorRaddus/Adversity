@@ -9,10 +9,12 @@
 
 SaveData SaveParser::readData(QByteArray &array)
 {
+    QByteArray t=qUncompress(array);
+
     SaveData data;
-    if (!array.isEmpty())
+    if (!t.isEmpty())
     {
-        QDataStream str(&array,QIODevice::ReadOnly);
+        QDataStream str(&t,QIODevice::ReadOnly);
         str>>data.overall.baseName;
         str>>data.overall.lastKnownDate;
         str>>data.overall.lastKnownDay;
@@ -62,7 +64,10 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.buildings.heroSlots.shrine;
         str>>data.buildings.heroSlots.seclusion;
         str>>data.buildings.dockingStationThings.recruits;
+        str>>data.buildings.dockingStationThings.arrivingHeroes;
         str>>data.buildings.dockingStationThings.activeResourceTransactions;
+        str>>data.buildings.dockingStationThings.equipments;
+        str>>data.buildings.dockingStationThings.arrivingEquipments;
         str>>data.resources.energy;
         str>>data.resources.buildingMaterials;
         str>>data.resources.foodSupplies;
@@ -123,7 +128,10 @@ SaveData SaveParser::readData(QByteArray &array)
         data.buildings.heroSlots.shrine.clear();
         data.buildings.heroSlots.seclusion.clear();
         data.buildings.dockingStationThings.recruits.clear();
+        data.buildings.dockingStationThings.arrivingHeroes.clear();
         data.buildings.dockingStationThings.activeResourceTransactions.clear();
+        data.buildings.dockingStationThings.equipments.clear();
+        data.buildings.dockingStationThings.arrivingEquipments.clear();
         data.resources.energy=200;
         data.resources.buildingMaterials=5;
         data.resources.foodSupplies=5;
@@ -140,7 +148,9 @@ SaveData SaveParser::readData(QByteArray &array)
 
 void SaveParser::writeData(QByteArray &array, const SaveData& data)
 {
-    QDataStream str(&array,QIODevice::WriteOnly);
+    QByteArray t;
+
+    QDataStream str(&t,QIODevice::WriteOnly);
     str<<data.overall.baseName;
     str<<data.overall.lastKnownDate;
     str<<data.overall.lastKnownDay;
@@ -190,7 +200,10 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.buildings.heroSlots.shrine;
     str<<data.buildings.heroSlots.seclusion;
     str<<data.buildings.dockingStationThings.recruits;
+    str<<data.buildings.dockingStationThings.arrivingHeroes;
     str<<data.buildings.dockingStationThings.activeResourceTransactions;
+    str<<data.buildings.dockingStationThings.equipments;
+    str<<data.buildings.dockingStationThings.arrivingEquipments;
     str<<data.resources.energy;
     str<<data.resources.buildingMaterials;
     str<<data.resources.foodSupplies;
@@ -199,4 +212,6 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.heroes.hiredHeroes;
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;
+
+    array=qCompress(t);
 }

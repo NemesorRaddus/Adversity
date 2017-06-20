@@ -1,5 +1,7 @@
 import QtQuick 2.0
 
+import Game 1.0
+
 Item {
     id: root
 
@@ -11,15 +13,16 @@ Item {
 
     function update()
     {
-
+        equipmentsList.update();
     }
 
     function returnToDefault()
     {
-
+        equipmentsList.returnToDefault();
     }
 
     signal requestSwitchingToResourcesTab()
+    signal requestResourcesUpdate()
 
     transform: [
         Scale {
@@ -79,6 +82,25 @@ Item {
             height: 3
 
             source: "qrc:/graphics/GUI/Task_Border.png"
+        }
+    }
+
+    EquipmentsList {
+        id: equipmentsList
+
+        x: 0
+        y: modeNameBar.height
+        width: parent.theoreticalWidth
+        height: parent.theoreticalHeight - y
+
+        onBuyClicked: {
+            GameApi.base.dockingStation.prepareEquipmentForQML(index);
+            if (GameApi.base.dockingStation.equipmentPreparedForQML.buyingAetheriteCost() <= GameApi.base.currentAetheriteAmount())
+            {
+                GameApi.base.dockingStation.buyEquipment(index,GameApi.base.dockingStation.waitingTime());
+                update();
+                root.requestResourcesUpdate();
+            }
         }
     }
 

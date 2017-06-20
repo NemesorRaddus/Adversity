@@ -39,6 +39,7 @@ struct EventEnums
     enum Type
     {
         T_AttributeCheck,
+        T_EquipmentCheck,
         T_END
     };
 };

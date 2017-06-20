@@ -62,7 +62,7 @@ function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, s
 function getClickedItemName(x,y) {
     var h = heightOfElement;
     var y0 = 4;
-    var y1 = 79;
+    var y1 = y0 + 79;
     y -= yAtTop;
     for (var i=0;i<actualAmountOfItems;++i)
     {

@@ -419,6 +419,16 @@ QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept
     return stream;
 }
 
+const HeroStressBorderEffect *Hero::currentSBE() const noexcept
+{
+    return m_indexOfCurrentSBE==-1 ? nullptr : &(m_stressBorderEffects[m_indexOfCurrentSBE]);
+}
+
+QString Hero::stressBorderEffectNameString(unsigned index) const noexcept
+{
+    return index<m_stressBorderEffects.size() ? HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffects[index].effectName) : "";
+}
+
 void Hero::handleSBEAtDayEnd()  noexcept
 {
     if (!isStressBorderEffectActive())
@@ -465,6 +475,16 @@ void Hero::handleSBEAtDayEnd()  noexcept
     {
         increaseStress(m_currentAttributesValues.stressLimit/20);
     }
+}
+
+QString Hero::natureString() const noexcept
+{
+    return HeroEnums::fromNatureEnumToQString(m_nature);
+}
+
+QString Hero::professionString() const noexcept
+{
+    return HeroEnums::fromProfessionEnumToQString(m_profession);
 }
 
 void Hero::changeCombatEffectiveness(int amount) noexcept
@@ -676,6 +696,11 @@ void Hero::changeDailyFoodConsumption(int amount) noexcept
     calculateCurrentAttributeValue(HeroEnums::A_DailyFoodConsumption);
 }
 
+Equipment *Hero::weaponTool(int slot) const noexcept
+{
+    return m_weaponsTools.value(slot,nullptr);
+}
+
 void Hero::equipArmor(Equipment *armor) noexcept
 {
     if (armor!=nullptr)
@@ -753,6 +778,11 @@ void Hero::assignMission(Mission *mission) noexcept
 {
     m_assignedMission=mission;
     m_currentActivity=HeroEnums::CA_OnMission;
+}
+
+QString Hero::currentActivityString() const noexcept
+{
+    return HeroEnums::fromCurrentActivityEnumToQString(m_currentActivity);
 }
 
 void Hero::setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept
@@ -1317,13 +1347,13 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_nature = hero.nature;
     r->m_profession = hero.profession;
     if (!hero.armor.isEmpty())
-        r->m_armor = Game::gameInstance()->assetsPool().makeEquipment(hero.armor);
+        r->m_armor = Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.armor);
     else
         r->m_armor = nullptr;
     for (int i=0;i<hero.weaponsTools.size();++i)
     {
         if (!hero.weaponsTools[i].isEmpty())
-            r->m_weaponsTools[i]=Game::gameInstance()->assetsPool().makeEquipment(hero.weaponsTools[i]);
+            r->m_weaponsTools[i]=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.weaponsTools[i]);
         else
             r->m_weaponsTools[i]=nullptr;
     }
@@ -1468,6 +1498,117 @@ void HeroBuilder::resetHero() noexcept
 {
     delete m_hero;
     m_hero=new Hero;
+}
+
+void HeroBuilder::setCombatEffectiveness(int combatEffectiveness) noexcept
+{
+    if (combatEffectiveness>=0)
+        m_hero->m_baseAttributesValues.combatEffectiveness=combatEffectiveness;
+}
+
+void HeroBuilder::setProficiency(int proficiency) noexcept
+{
+    if (proficiency>=0)
+        m_hero->m_baseAttributesValues.proficiency=proficiency;
+}
+
+void HeroBuilder::setCleverness(int cleverness) noexcept
+{
+    if (cleverness>=0)
+        m_hero->m_baseAttributesValues.cleverness=cleverness;
+}
+
+void HeroBuilder::setLuck(float luck) noexcept
+{
+    if (luck>=0 && luck<=1)
+        m_hero->m_baseAttributesValues.luck=luck;
+}
+
+void HeroBuilder::setHealth(int health) noexcept
+{
+    if (health>=0)
+        m_hero->m_currentAttributesValues.health=health;
+}
+
+void HeroBuilder::setHealthLimit(int healthLimit) noexcept
+{
+    if (healthLimit>0)
+        m_hero->m_baseAttributesValues.healthLimit=healthLimit;
+}
+
+void HeroBuilder::setDailyHealthRecovery(int dailyHealthRecovery) noexcept
+{
+    m_hero->m_baseAttributesValues.dailyHealthRecovery=dailyHealthRecovery;
+}
+
+void HeroBuilder::setStress(int stress) noexcept
+{
+    if (stress>=0)
+        m_hero->m_currentAttributesValues.stress=stress;
+}
+
+void HeroBuilder::setStressResistance(float stressResistance) noexcept
+{
+    if (stressResistance>=0)
+        m_hero->m_baseAttributesValues.stressResistance=stressResistance;
+}
+
+void HeroBuilder::setStressLimit(int stressLimit) noexcept
+{
+    if (stressLimit!=0)
+        m_hero->m_baseAttributesValues.stressLimit=stressLimit;
+}
+
+void HeroBuilder::setStressBorder(int stressBorder) noexcept
+{
+    if (stressBorder>=0)
+        m_hero->m_baseAttributesValues.stressBorder=stressBorder;
+}
+
+void HeroBuilder::setDailyStressRecovery(int dailyStressRecovery) noexcept
+{
+    m_hero->m_baseAttributesValues.dailyStressRecovery=dailyStressRecovery;
+}
+
+void HeroBuilder::setSalary(int salary) noexcept
+{
+    m_hero->m_baseAttributesValues.salary=salary;
+}
+
+void HeroBuilder::setDailyFoodConsumption(int dailyFoodConsumption) noexcept
+{
+    if (dailyFoodConsumption>=0)
+        m_hero->m_baseAttributesValues.dailyFoodConsumption=dailyFoodConsumption;
+}
+
+void HeroBuilder::setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept
+{
+    if (slot<m_hero->amountOfWeaponToolSlots())
+        m_hero->equipWeaponTool(weaponTool,slot);
+}
+
+void HeroBuilder::setCarriedEnergy(int amount) noexcept
+{
+    if (amount >= 0)
+        m_hero->m_carriedEnergy=amount;
+}
+
+void HeroBuilder::setCarriedFoodSupplies(int amount) noexcept
+{
+    if (amount >= 0)
+        m_hero->m_carriedFoodSupplies=amount;
+}
+
+void HeroBuilder::setCarriedBuildingMaterials(int amount) noexcept
+{
+    if (amount >= 0)
+        m_hero->m_carriedBuildingMaterials=amount;
+}
+
+void HeroBuilder::setCarriedAetheriteOre(int amount) noexcept
+{
+    if (amount >= 0)
+        m_hero->m_carriedAetheriteOre=amount;
 }
 
 HeroesContainer::HeroesContainer() noexcept
