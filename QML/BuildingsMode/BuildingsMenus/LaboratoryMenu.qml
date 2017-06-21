@@ -21,6 +21,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.laboratory.currentLevel());
         table.update();
         upgradeInfo.update();
+        heroSelectionList.updateEverything();
         var amountOfSlotsAvailable = GameApi.base.laboratory.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -30,6 +31,8 @@ Item {
                 slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.laboratory.heroProfessionInSlot(0))+"/"+GameApi.base.laboratory.heroNameInSlot(0)+".png",GameApi.base.laboratory.useCostInEnergySingle()*GameApi.base.laboratory.duration(), GameApi.base.laboratory.duration());
                 slotView1.forceAbortIcon();
             }
+            else
+                slotView1.removeHero();
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
@@ -39,6 +42,8 @@ Item {
                     slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.laboratory.heroProfessionInSlot(1))+"/"+GameApi.base.laboratory.heroNameInSlot(1)+".png",GameApi.base.laboratory.useCostInEnergySingle()*GameApi.base.laboratory.duration(), GameApi.base.laboratory.duration());
                     slotView2.forceAbortIcon();
                 }
+                else
+                    slotView2.removeHero();
                 slotView2.visible=true;
                 if (amountOfSlotsAvailable>=3)
                 {
@@ -48,6 +53,8 @@ Item {
                         slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.laboratory.heroProfessionInSlot(2))+"/"+GameApi.base.laboratory.heroNameInSlot(2)+".png",GameApi.base.laboratory.useCostInEnergySingle()*GameApi.base.laboratory.duration(), GameApi.base.laboratory.duration());
                         slotView3.forceAbortIcon();
                     }
+                    else
+                        slotView3.removeHero();
                     slotView3.visible=true;
                 }
                 else

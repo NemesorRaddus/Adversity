@@ -310,6 +310,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int hpRestoredPerDay() const noexcept
     {
@@ -445,6 +446,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
     {
@@ -587,6 +589,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int proficiencyBonus() const noexcept
     {
@@ -729,6 +732,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int clevernessBonus() const noexcept
     {
@@ -872,6 +876,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1027,6 +1032,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1182,6 +1188,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1337,6 +1344,7 @@ public:
     Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
     Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
+    void removeHero(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -2031,7 +2039,7 @@ public:
     {
         return m_arrivingHeroes;
     }
-
+    void cancelHeroArrival(const QString &name) noexcept;
     Q_INVOKABLE int waitingTime() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).waitingTime;
@@ -2347,7 +2355,6 @@ public:
     {
         return m_heroDockingStationBans;
     }
-
 
     //equipment
     QVector <Equipment *> &freeEquipment() noexcept

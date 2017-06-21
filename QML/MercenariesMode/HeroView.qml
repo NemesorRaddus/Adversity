@@ -11,10 +11,13 @@ Item {
 
     property string heroName
     property string currentActivity_
+    property bool dismissConfirmDialogVisible: false
 
     signal backClicked()
     signal upgradeRequested()
     signal buildingMenuRequested(string buildingName)
+    signal dismissClicked()
+    signal guiUpdateRequested()
 
     function setMercenary(name)
     {
@@ -38,13 +41,23 @@ Item {
                     topBar.setSL(GameApi.base.heroes.preparedHero.stressLimit());
                     topBar.setSA(GameApi.base.heroes.preparedHero.salary());
                     topBar.setFC(GameApi.base.heroes.preparedHero.dailyFoodConsumption());
+
                     currentActivity_=GameApi.base.heroes.preparedHero.currentActivityString();
                     topBar.setCurrentActivity(currentActivity_);
                     currentActivity.setCurrentActivity(currentActivity_);
+
+                    salaryDismissSalaryValue.text = GameApi.base.heroes.preparedHero.salary()+"/Week";
+                    salaryDismissFoodConsumptionValue.text = GameApi.base.heroes.preparedHero.dailyFoodConsumption()+"/Day";
                     break;
                 }
             }
         }
+    }
+    function dismissMercenary()
+    {
+        dismissConfirmDialogVisible = false;
+        GameApi.base.heroes.dismissHero(heroName);
+        guiUpdateRequested();
     }
 
     function updateEverything()
@@ -65,18 +78,18 @@ Item {
     width: 1080
     height: 1464
 
-    transform: [
-        Scale {
-            id: someScale
+//    transform: [
+//        Scale {
+//            id: someScale
 
-            xScale: width/theoreticalWidth
-            yScale: height/theoreticalHeight
-        },
-        Translate {
-            x: (width-theoreticalWidth*someScale.xScale)/2
-            y: (height-theoreticalHeight*someScale.yScale)/2
-        }
-    ]
+//            xScale: width/theoreticalWidth
+//            yScale: height/theoreticalHeight
+//        },
+//        Translate {
+//            x: (width-theoreticalWidth*someScale.xScale)/2
+//            y: (height-theoreticalHeight*someScale.yScale)/2
+//        }
+//    ]
 
     HeroesListDelegate {
         id: topBar
@@ -218,7 +231,7 @@ Item {
             x: 900
             y: currentActivityDescription.y + 10
             width: 150
-            height: (font.pixelSize+4)*3
+            height: font.pixelSize
 
             color: "#94ef94"
             text: "Go to"
@@ -266,12 +279,130 @@ Item {
     }
 
     Item {
+        id: salaryDismiss
+
+        x: 17
+        y: currentActivity.y + currentActivity.height
+        width: 1048
+        height: salaryDismissTaskBorder.y + salaryDismissTaskBorder.height
+
+        Text {
+            id: salaryDismissSalaryText
+
+            x: 0
+            y: 0
+            width: 220
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "Salary"
+            font.pixelSize: 65
+            font.family: fontStencil.name
+        }
+        Image {
+            id: salaryDismissSalaryIcon
+
+            x: 266
+            y: 0
+            width: height
+            height: salaryDismissSalaryText.height
+
+            source: "qrc:/graphics/GUI/Aetherite.png"
+        }
+        Text {
+            id: salaryDismissSalaryValue
+
+            x: 359
+            y: salaryDismissSalaryText.y
+            width: 250
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "9/week"
+            font.pixelSize: 65
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: salaryDismissFoodConsumptionText
+
+            x: 0
+            y: salaryDismissSalaryText.y + salaryDismissSalaryText.height
+            width: 220
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "Food"
+            font.pixelSize: 65
+            font.family: fontStencil.name
+        }
+        Image {
+            id: salaryDismissFoodConsumptionIcon
+
+            x: salaryDismissSalaryIcon.x
+            y: 69
+            width: height
+            height: salaryDismissFoodConsumptionText.height
+
+            source: "qrc:/graphics/GUI/Foodsupplies.png"
+        }
+        Text {
+            id: salaryDismissFoodConsumptionValue
+
+            x: salaryDismissSalaryValue.x
+            y: salaryDismissFoodConsumptionText.y
+            width: 250
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "9/day"
+            font.pixelSize: 65
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: salaryDismissButtonText
+
+            x: 747
+            y: 33
+            width: 280
+            height: font.pixelSize + 4
+
+            color: "#b30000"
+            text: "Dismiss"
+            font.pixelSize: 75
+            font.family: fontStencil.name
+        }
+        MouseArea {
+            id: salaryDismissButtonMA
+
+            anchors.fill: salaryDismissButtonText
+
+            onClicked: {
+                dismissConfirmDialogVisible = true;
+                dismissClicked();
+            }
+        }
+
+        Image {
+            id: salaryDismissTaskBorder
+
+            x: 0
+            y: salaryDismissFoodConsumptionText.y + salaryDismissFoodConsumptionText.height + 4
+            width: 1048
+            height: 3
+
+            source: "qrc:/graphics/GUI/Task_Border.png"
+        }
+    }
+
+    Item {
         id: stressBorderEffect
 
         x: 0
         y: currentActivity.y + currentActivity.height
         width: 1080
-        height: stressBorderEffectTaskBorder.y + stressBorderEffect.height + 4
+        //height: stressBorderEffectTaskBorder.y + stressBorderEffect.height + 4
 
         Text {
             //id:

@@ -231,6 +231,17 @@ void Hospital::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingHealed[slotIndex]=nullptr;
 }
 
+void Hospital::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingHealed.size();++i)
+        if (m_heroesBeingHealed[i]!=nullptr && m_heroesBeingHealed[i]->name() == name)
+        {
+            m_heroesBeingHealed[i]->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingHealed[i]=nullptr;
+            break;
+        }
+}
+
 int Hospital::daysToFullRecovery(const QString &name) const noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
@@ -320,6 +331,18 @@ void TrainingGround::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
     m_heroesBeingTrained[slotIndex].first=nullptr;
     m_heroesBeingTrained[slotIndex].second=0;
+}
+
+void TrainingGround::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingTrained.size();++i)
+        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name() == name)
+        {
+            m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingTrained[i].first=nullptr;
+            m_heroesBeingTrained[i].second=0;
+            break;
+        }
 }
 
 void TrainingGround::trainHeroes() noexcept
@@ -418,6 +441,18 @@ void Gym::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingTrained[slotIndex].second=0;
 }
 
+void Gym::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingTrained.size();++i)
+        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name() == name)
+        {
+            m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingTrained[i].first=nullptr;
+            m_heroesBeingTrained[i].second=0;
+            break;
+        }
+}
+
 void Gym::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
@@ -514,6 +549,18 @@ void Laboratory::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingTrained[slotIndex].second=0;
 }
 
+void Laboratory::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingTrained.size();++i)
+        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name() == name)
+        {
+            m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingTrained[i].first=nullptr;
+            m_heroesBeingTrained[i].second=0;
+            break;
+        }
+}
+
 void Laboratory::trainHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingTrained.size();++i)
@@ -603,6 +650,17 @@ void PlayingField::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
+void PlayingField::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+        {
+            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingDestressed[i]=nullptr;
+            break;
+        }
+}
+
 void PlayingField::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
@@ -681,6 +739,17 @@ void Bar::emptySlot(unsigned slotIndex) noexcept
 
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
     m_heroesBeingDestressed[slotIndex]=nullptr;
+}
+
+void Bar::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+        {
+            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingDestressed[i]=nullptr;
+            break;
+        }
 }
 
 void Bar::destressHeroes() noexcept
@@ -763,6 +832,17 @@ void Shrine::emptySlot(unsigned slotIndex) noexcept
     m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
+void Shrine::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+        {
+            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingDestressed[i]=nullptr;
+            break;
+        }
+}
+
 void Shrine::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
@@ -841,6 +921,17 @@ void Seclusion::emptySlot(unsigned slotIndex) noexcept
 
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
     m_heroesBeingDestressed[slotIndex]=nullptr;
+}
+
+void Seclusion::removeHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+        {
+            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
+            m_heroesBeingDestressed[i]=nullptr;
+            break;
+        }
 }
 
 void Seclusion::destressHeroes() noexcept
@@ -1137,6 +1228,16 @@ QStringList DockingStation::getRecruitsNames() const noexcept
     return r;
 }
 
+void DockingStation::cancelHeroArrival(const QString &name) noexcept
+{
+    for (int i=0;i<m_arrivingHeroes.size();++i)
+        if (m_arrivingHeroes[i].first->name() == name)
+        {
+            m_arrivingHeroes.remove(i);
+            break;
+        }
+}
+
 unsigned DockingStation::upgradeTimeRemaining() noexcept
 {
     BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_DockingStation,currentLevel()+1);
@@ -1381,7 +1482,7 @@ Base::Base(Game *gameObject) noexcept
     m_buildings.insert(BaseEnums::B_Barracks,m_barracks);
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
 
-    m_heroes=new HeroesContainer;
+    m_heroes=new HeroesContainer(this);
 }
 
 void Base::setupNewBase() noexcept

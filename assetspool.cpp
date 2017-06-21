@@ -71,6 +71,16 @@ void AssetsPool::unloadHero(unsigned index) noexcept
     }
 }
 
+void AssetsPool::unloadHero(const QString &name) noexcept
+{
+    for (int i=0;i<m_heroesLoaded.size();++i)
+        if (m_heroesLoaded[i]->name() == name)
+        {
+            unloadHero(i);
+            break;
+        }
+}
+
 Equipment *AssetsPool::makeEquipmentAtPos(unsigned index) noexcept
 {
     if (index<m_equipment.size())

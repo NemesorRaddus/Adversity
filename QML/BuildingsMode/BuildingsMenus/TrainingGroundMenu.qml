@@ -20,6 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.trainingGround.currentLevel());
         table.update();
         upgradeInfo.update();
+        heroSelectionList.updateEverything();
         var amountOfSlotsAvailable = GameApi.base.trainingGround.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -29,6 +30,8 @@ Item {
                 slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.trainingGround.heroProfessionInSlot(0))+"/"+GameApi.base.trainingGround.heroNameInSlot(0)+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(), GameApi.base.trainingGround.duration());
                 slotView1.forceAbortIcon();
             }
+            else
+                slotView1.removeHero();
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
@@ -38,6 +41,8 @@ Item {
                     slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.trainingGround.heroProfessionInSlot(1))+"/"+GameApi.base.trainingGround.heroNameInSlot(1)+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(), GameApi.base.trainingGround.duration());
                     slotView2.forceAbortIcon();
                 }
+                else
+                    slotView2.removeHero();
                 slotView2.visible=true;
                 if (amountOfSlotsAvailable>=3)
                 {
@@ -47,7 +52,8 @@ Item {
                         slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.trainingGround.heroProfessionInSlot(2))+"/"+GameApi.base.trainingGround.heroNameInSlot(2)+".png",GameApi.base.trainingGround.useCostInEnergySingle()*GameApi.base.trainingGround.duration(), GameApi.base.trainingGround.duration());
                         slotView3.forceAbortIcon();
                     }
-
+                    else
+                        slotView3.removeHero();
                     slotView3.visible=true;
                 }
                 else

@@ -1611,8 +1611,8 @@ void HeroBuilder::setCarriedAetheriteOre(int amount) noexcept
         m_hero->m_carriedAetheriteOre=amount;
 }
 
-HeroesContainer::HeroesContainer() noexcept
-    : m_preparedHero(nullptr)
+HeroesContainer::HeroesContainer(Base *base) noexcept
+    : m_preparedHero(nullptr), m_basePtr(base)
 {
 
 }
@@ -1640,7 +1640,28 @@ void HeroesContainer::removeHero(unsigned index) noexcept
 {
     if (index < m_heroes.size())
     {
-        m_heroes.remove(index);//COULDDO possibly unload?
+        if (m_heroes[index]->currentActivity() == HeroEnums::CA_InHospital)
+            m_basePtr->hospital()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_OnTrainingGround)
+            m_basePtr->trainingGround()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_InGym)
+            m_basePtr->gym()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_InLaboratory)
+            m_basePtr->laboratory()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_InPlayingField)
+            m_basePtr->playingField()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_InBar)
+            m_basePtr->bar()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_InShrine)
+            m_basePtr->shrine()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_InSeclusion)
+            m_basePtr->seclusion()->removeHero(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_Arriving)
+            m_basePtr->dockingStation()->cancelHeroArrival(m_heroes[index]->name());
+        else if (m_heroes[index]->currentActivity() == HeroEnums::CA_OnMission)
+            ;//TODO missions
+        Game::gameInstance()->assetsPool().unloadHero(m_heroes[index]->name());
+        m_heroes.remove(index);
     }
 }
 
@@ -1657,7 +1678,6 @@ void HeroesContainer::addDoStBan(QString name, unsigned daysAmount) noexcept
     disconnectHeroFromBanSystem(name);
     Game::gameInstance()->addDoStBan(name,daysAmount);
     removeHero(findHero(name));
-    //TODO remove hero from anywhere he can be
 }
 
 void HeroesContainer::addDoStBan(QString name, HeroEnums::DyingReason) noexcept

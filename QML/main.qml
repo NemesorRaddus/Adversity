@@ -183,6 +183,9 @@ Window {
             changeMode(1);
             buildingsGUI.changeBuilding(buildingName);
         }
+
+        mercenariesGUI.onDismissClickedFwd: mercenaryDismissConfirmDialog.show()
+        mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
     }
 
     Timer {

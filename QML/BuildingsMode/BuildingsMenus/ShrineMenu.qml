@@ -20,6 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.shrine.currentLevel());
         table.update();
         upgradeInfo.update();
+        heroSelectionList.updateEverything();
         var amountOfSlotsAvailable = GameApi.base.shrine.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -29,6 +30,8 @@ Item {
                 slotView1.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.shrine.heroProfessionInSlot(0))+"/"+GameApi.base.shrine.heroNameInSlot(0)+".png",GameApi.base.shrine.useCostInEnergySingle());
                 slotView1.forceAbortIcon();
             }
+            else
+                slotView1.removeHero();
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
@@ -38,6 +41,8 @@ Item {
                     slotView2.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.shrine.heroProfessionInSlot(1))+"/"+GameApi.base.shrine.heroNameInSlot(1)+".png",GameApi.base.shrine.useCostInEnergySingle());
                     slotView2.forceAbortIcon();
                 }
+                else
+                    slotView2.removeHero();
                 slotView2.visible=true;
                 if (amountOfSlotsAvailable>=3)
                 {
@@ -47,6 +52,8 @@ Item {
                         slotView3.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.shrine.heroProfessionInSlot(2))+"/"+GameApi.base.shrine.heroNameInSlot(2)+".png",GameApi.base.shrine.useCostInEnergySingle());
                         slotView3.forceAbortIcon();
                     }
+                    else
+                        slotView3.removeHero();
                     slotView3.visible=true;
                     if (amountOfSlotsAvailable>=4)
                     {
@@ -56,6 +63,8 @@ Item {
                             slotView4.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.shrine.heroProfessionInSlot(3))+"/"+GameApi.base.shrine.heroNameInSlot(3)+".png",GameApi.base.shrine.useCostInEnergySingle());
                             slotView4.forceAbortIcon();
                         }
+                        else
+                            slotView4.removeHero();
                         slotView4.visible=true;
                         if (amountOfSlotsAvailable>=5)
                         {
@@ -65,6 +74,8 @@ Item {
                                 slotView5.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.shrine.heroProfessionInSlot(4))+"/"+GameApi.base.shrine.heroNameInSlot(4)+".png",GameApi.base.shrine.useCostInEnergySingle());
                                 slotView5.forceAbortIcon();
                             }
+                            else
+                                slotView5.removeHero();
                             slotView5.visible=true;
                             if (amountOfSlotsAvailable==6)
                             {
@@ -74,6 +85,8 @@ Item {
                                     slotView6.setHeroOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.shrine.heroProfessionInSlot(5))+"/"+GameApi.base.shrine.heroNameInSlot(5)+".png",GameApi.base.shrine.useCostInEnergySingle());
                                     slotView6.forceAbortIcon();
                                 }
+                                else
+                                    slotView6.removeHero();
                                 slotView6.visible=true;
                             }
                             else

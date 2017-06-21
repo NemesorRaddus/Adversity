@@ -13,12 +13,14 @@ Item {
     {
         confirmBox.visible = true;
         backgroundHider.state = "hidingContent";
+        backgroundClicksCatcher.visible = true;
     }
 
     function hide()
     {
         confirmBox.visible = false;
         backgroundHider.state = "";
+        backgroundClicksCatcher.visible = false;
     }
 
     signal accepted()
@@ -58,20 +60,36 @@ Item {
         }
     }
 
+    MouseArea {
+        id: backgroundClicksCatcher
+
+        visible: false
+
+        anchors.fill: parent
+    }
+
     Item {
         id: confirmBox
 
         visible: false
 
         width: 600
-        height: 300
+        height: 400
         anchors.centerIn: parent
+
+        Image {
+            id: confirmBoxRectBackground
+
+            anchors.fill: parent
+
+            source: "qrc:/graphics/GUI/Background.png"
+        }
 
         Text {
             id: pleaseConfirmText
 
             x: 0
-            y: 0
+            y: 50
             width: parent.width
             height: font.pixelSize+5
 
@@ -86,7 +104,7 @@ Item {
             id: yesText
 
             x: 10
-            y: parent.height - height - 30
+            y: parent.height - height - 50
             width: parent.width/2 - 2*x
             height: font.pixelSize+4
 
@@ -101,14 +119,17 @@ Item {
 
             anchors.fill: yesText
 
-            onClicked: root.accepted()
+            onClicked: {
+                root.hide();
+                root.accepted();
+            }
         }
 
         Text {
             id: noText
 
             x: parent.width/2 + 10
-            y: parent.height - height - 30
+            y: parent.height - height - 50
             width: parent.width/2 - 20
             height: font.pixelSize+4
 
@@ -123,7 +144,10 @@ Item {
 
             anchors.fill: noText
 
-            onClicked: root.declined()
+            onClicked: {
+                root.hide();
+                root.declined();
+            }
         }
     }
 

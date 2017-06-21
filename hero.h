@@ -569,6 +569,8 @@ private:
     Hero *m_hero;
 };
 
+class Base;
+
 class HeroesContainer : public QObject
 {
     Q_OBJECT
@@ -576,7 +578,7 @@ class HeroesContainer : public QObject
     Q_PROPERTY(Hero* preparedHero MEMBER m_preparedHero)
 
 public:
-    HeroesContainer() noexcept;
+    HeroesContainer(Base *base) noexcept;
     ~HeroesContainer() noexcept;
 
     Q_INVOKABLE bool prepareHeroAt(unsigned index) noexcept;
@@ -607,6 +609,10 @@ public:
     {
         return m_heroes.size() < m_amountOfSlots;
     }
+    Q_INVOKABLE dismissHero(const QString &name) noexcept
+    {
+        addDoStBan(name,21);
+    }
 
 public slots:
     void addDoStBan(QString name, unsigned daysAmount) noexcept;
@@ -619,6 +625,7 @@ private:
     QVector <Hero *> m_heroes;
     Hero *m_preparedHero;
     unsigned m_amountOfSlots;
+    Base *m_basePtr;
 };
 
 #endif // HERO_H

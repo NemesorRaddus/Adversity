@@ -29,6 +29,7 @@ public:
     void loadHeroAtPosFromList(unsigned index) noexcept;
     void loadHeroNamedFromList(const QString &name) noexcept;
     void unloadHero(unsigned index) noexcept;
+    void unloadHero(const QString &name) noexcept;
 
     const QVector <Equipment *> &equipment() noexcept
     {

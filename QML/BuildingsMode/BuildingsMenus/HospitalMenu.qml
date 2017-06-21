@@ -20,6 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.hospital.currentLevel());
         table.update();
         upgradeInfo.update();
+        heroSelectionList.updateEverything();
         var amountOfSlotsAvailable = GameApi.base.hospital.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -29,6 +30,8 @@ Item {
                 slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.heroProfessionInSlot(0))+"/"+GameApi.base.hospital.heroNameInSlot(0)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                 slotView1.forceAbortIcon();
             }
+            else
+                slotView1.removeHero();
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
@@ -38,6 +41,8 @@ Item {
                     slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.heroProfessionInSlot(1))+"/"+GameApi.base.hospital.heroNameInSlot(1)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                     slotView2.forceAbortIcon();
                 }
+                else
+                    slotView2.removeHero();
                 slotView2.visible=true;
                 if (amountOfSlotsAvailable>=3)
                 {
@@ -47,6 +52,8 @@ Item {
                         slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.heroProfessionInSlot(2))+"/"+GameApi.base.hospital.heroNameInSlot(2)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                         slotView3.forceAbortIcon();
                     }
+                    else
+                        slotView3.removeHero();
                     slotView3.visible=true;
                 }
                 else

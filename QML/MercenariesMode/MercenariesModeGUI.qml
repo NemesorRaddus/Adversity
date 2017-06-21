@@ -28,10 +28,13 @@ Item {
 
     signal updateRequestedFromMercenariesModeGUI()
     signal buildingMenuRequested(string buildingName)
+    signal dismissClickedFwd()
+    signal dismissDialogHidingRequested()
 
     function returnToDefault()
     {
         list.state = "";
+        heroesAmountItem.state = "";
         view.state = "hidden";
         list.returnToDefault();
         view.returnToDefault();
@@ -49,17 +52,27 @@ Item {
     {
         if (view.state == "")
         {
-            if (!view.reactToBackOnToolbar())
+            if (view.dismissConfirmDialogVisible)
+                dismissDialogHidingRequested();
+            else
             {
-                list.state = "";
-                view.state = "hidden";
+                if (!view.reactToBackOnToolbar())
+                {
+                    list.state = "";
+                    view.state = "hidden";
+                }
+                return true;
             }
-            return true;
         }
         else
         {
             return false;
         }
+    }
+
+    function dismissMercenaryFwd()
+    {
+        view.dismissMercenary();
     }
 
     Item {
@@ -152,6 +165,14 @@ Item {
         }
 
         onBuildingMenuRequested: root.buildingMenuRequested(buildingName);
+
+        onDismissClicked: root.dismissClickedFwd();
+
+        onGuiUpdateRequested: {
+            root.returnToDefault();
+            root.updateEverything();
+            updateRequestedFromMercenariesModeGUI();
+        }
 
         Component.onCompleted: state = "hidden";
     }

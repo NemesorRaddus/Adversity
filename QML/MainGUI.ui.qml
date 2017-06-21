@@ -31,6 +31,8 @@ Rectangle {
 
     property alias h4xScreen: h4xScreen
 
+    property alias mercenaryDismissConfirmDialog: mercenaryDismissConfirmDialog
+
     width: 1080
     height: 1920
 
@@ -336,6 +338,12 @@ Rectangle {
         anchors.fill: parent
 
         visible: false
+    }
+
+    ConfirmDialog {
+        id: mercenaryDismissConfirmDialog
+
+        anchors.fill: parent
     }
 
     FontLoader {
