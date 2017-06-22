@@ -36,28 +36,20 @@ Item {
                     topBar.setPR(GameApi.base.heroes.preparedHero.proficiency());
                     topBar.setCL(GameApi.base.heroes.preparedHero.cleverness());
                     topBar.setHP(GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit());
-                    topBar.setST(GameApi.base.heroes.preparedHero.stress());
-                    topBar.setSR(GameApi.base.heroes.preparedHero.stressResistance());
-                    topBar.setSL(GameApi.base.heroes.preparedHero.stressLimit());
-                    topBar.setSA(GameApi.base.heroes.preparedHero.salary());
-                    topBar.setFC(GameApi.base.heroes.preparedHero.dailyFoodConsumption());
+                    topBar.setST(GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit());
+//                    topBar.setSR(GameApi.base.heroes.preparedHero.stressResistance());
 
                     currentActivity_=GameApi.base.heroes.preparedHero.currentActivityString();
-                    topBar.setCurrentActivity(currentActivity_);
+//                    topBar.setCurrentActivity(currentActivity_);
                     currentActivity.setCurrentActivity(currentActivity_);
 
                     salaryDismissSalaryValue.text = GameApi.base.heroes.preparedHero.salary()+"/Week";
                     salaryDismissFoodConsumptionValue.text = GameApi.base.heroes.preparedHero.dailyFoodConsumption()+"/Day";
 
-                    stressBorderEffect.resetSBEChances();
                     if (GameApi.base.heroes.preparedHero.isImmuneToStress())
-                    {
                         stressBorderEffect.setImmunity();
-                    }
                     else
                     {
-                        for (var j=0; j<GameApi.base.heroes.preparedHero.amountOfDiverseSBEs(); ++j)
-                            stressBorderEffect.addSBEChance(GameApi.base.heroes.preparedHero.nameOfSBESummed(j), GameApi.globalsCpp.roundDouble(GameApi.base.heroes.preparedHero.chanceOfSBESummed(j) * 100, 2));
                         if (GameApi.base.heroes.preparedHero.isStressBorderEffectActive())
                             stressBorderEffect.setCurrentSBE(GameApi.base.heroes.preparedHero.currentStressBorderEffectNameString());
                         else
@@ -106,13 +98,465 @@ Item {
 //        }
 //    ]
 
-    HeroesListDelegate {
+    Item {
         id: topBar
 
-        x: 0
-        y: 0
         width: 1080
-        height: 271
+        height: itemBorder.y + itemBorder.height
+
+        function setArtSource(source)
+        {
+            art.source = source;
+        }
+
+        function setName(text)
+        {
+            name.text = GameApi.tr(text);
+        }
+
+        function setProfession(text)
+        {
+            prof.text="The "+GameApi.tr(text);
+        }
+
+        function setCE(amount)
+        {
+            attrCEValue.text = amount;
+        }
+
+        function setPR(amount)
+        {
+            attrPRValue.text = amount;
+        }
+
+        function setCL(amount)
+        {
+            attrCLValue.text = amount;
+        }
+
+        function setHP(current, max)
+        {
+            attrHPValue.text = current+'/'+max;
+            statusHPFrame.check(current,max);
+        }
+
+        function setST(st,sl)
+        {
+            if (sl==-1)
+            {
+                attrSTValue.text = "N/A";
+            }
+            else
+            {
+                attrSTValue.text = st+"/"+sl;
+                statusSTFrame.check(st,sl);
+            }
+        }
+
+        function setSR(amount)
+        {
+            attrSRValue.text = amount;
+        }
+
+        function setCurrentActivity(ca)
+        {
+            if (ca == "Idle")
+                currentlyBusy.source = "";
+            else if (ca == "On Mission")
+                currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
+            else if (ca == "In Hospital")
+                currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
+            else if (ca == "On TrainingGround")
+                currentlyBusy.source = "qrc:/graphics/Buildings/TrainingGround.png";
+            else if (ca == "In Gym")
+                currentlyBusy.source = "qrc:/graphics/Buildings/Gym.png";
+            else if (ca == "In Laboratory")
+                currentlyBusy.source = "qrc:/graphics/Buildings/Laboratory.png";
+            else if (ca == "In PlayingField")
+                currentlyBusy.source = "qrc:/graphics/Buildings/PlayingField.png";
+            else if (ca == "In Bar")
+                currentlyBusy.source = "qrc:/graphics/Buildings/Bar.png";
+            else if (ca == "In Shrine")
+                currentlyBusy.source = "qrc:/graphics/Buildings/Shrine.png";
+            else if (ca == "In Seclusion")
+                currentlyBusy.source = "qrc:/graphics/Buildings/Seclusion.png";
+            else if (ca == "Arriving")
+                currentlyBusy.source = "qrc:/graphics/Buildings/DockingStation.png";
+            else
+                currentlyBusy.source = "";
+        }
+
+        function getName()
+        {
+            return name;
+        }
+
+        function getProfession()
+        {
+            return prof;
+        }
+
+        Image {
+            id: itemBorder
+            x: 17
+            y: attrSRText.y + attrSRText.height + 6
+            width: 1048
+            height: 3
+            source: "qrc:/graphics/GUI/Task_Border.png"
+        }
+
+        Item {
+            id: artSegment
+
+            x: 17
+            y: 0
+            width: 262
+            height: 262
+
+            Image {
+                id: art
+                x: 3
+                y: 3
+                width: 256
+                height: 256
+            }
+
+            Image {
+                id: frame
+                x: 0
+                y: 0
+                width: 262
+                height: 262
+                source: "qrc:/graphics/GUI/Task_Picture.png"
+            }
+
+            Image {
+                id: statusHPFrame
+                x: 3
+                y: 3
+                width: 256
+                height: 256
+
+                function check(hp, hpMax)
+                {
+                    if (hp/hpMax <= 0.2)
+                        source = "qrc:/graphics/GUI/LowHealth80.png";
+                    else if (hp/hpMax <= 0.4)
+                        source = "qrc:/graphics/GUI/LowHealth60.png";
+                    else if (hp/hpMax <= 0.6)
+                        source = "qrc:/graphics/GUI/LowHealth40.png";
+                    else if (hp/hpMax <= 0.8)
+                        source = "qrc:/graphics/GUI/LowHealth20.png";
+                    else
+                        source = "";
+                }
+
+                NumberAnimation {
+                    id: animHP
+                    from: 0;
+                    to: 1;
+
+                    onRunningChanged: {
+                        if (running == false)
+                        {
+                            if (from == 0)
+                            {
+                                from = 1;
+                                to = 0;
+                                running = true;
+                            }
+                            else
+                            {
+                                from = 0;
+                                to = 1;
+                                running = true;
+                            }
+                        }
+                    }
+
+                    duration: 1500
+                    target: statusHPFrame
+                    property: "opacity"
+                    running: true
+                }
+            }
+
+            Image {
+                id: statusSTFrame
+                x: 3
+                y: 3
+                width: 256
+                height: 256
+
+                function check(stress, stressLimit)
+                {
+                    if (stress/stressLimit >= 0.8)
+                        source = "qrc:/graphics/GUI/HighStress80.png";
+                    else if (stress/stressLimit >= 0.6)
+                        source = "qrc:/graphics/GUI/HighStress60.png";
+                    else if (stress/stressLimit >= 0.4)
+                        source = "qrc:/graphics/GUI/HighStress40.png";
+                    else if (stress/stressLimit >= 0.2)
+                        source = "qrc:/graphics/GUI/HighStress20.png";
+                    else
+                        source = "";
+                }
+
+                NumberAnimation {
+                    id: animST
+                    from: 0;
+                    to: 1;
+
+                    onRunningChanged: {
+                        if (running == false)
+                        {
+                            if (from == 0)
+                            {
+                                from = 1;
+                                to = 0;
+                                running = true;
+                            }
+                            else
+                            {
+                                from = 0;
+                                to = 1;
+                                running = true;
+                            }
+                        }
+                    }
+
+                    duration: 1500
+                    target: statusSTFrame
+                    property: "opacity"
+                    running: true
+                }
+            }
+        }
+
+        Item {
+            id: textSegment
+            x: 280
+            y: 10
+            width: 785
+            height: 249
+
+            Text {
+                id: name
+                x: 0
+                y: -6
+                color: "#94ef94"
+                text: "Marek Jakubowski"
+                font.pixelSize: 60
+                font.family: fontStencil.name
+            }
+
+            Text {
+                id: prof
+                x: 0
+                y: 45
+                color: "#94ef94"
+                text: "The Bounty Hunter"
+                font.pixelSize: 45
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrCEIcon
+                x: -264
+                y: 269
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/CE.png"
+            }
+            Text {
+                id: attrCEText
+                x: -206
+                y: 274
+                width: 620
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Combat Effectiveness: "
+                font.pixelSize: 50
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrCEValue
+                x: attrCEText.x + attrCEText.width
+                y: attrCEText.y
+                width: 100
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "99"
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrPRIcon
+                x: attrCEIcon.x
+                y: attrCEIcon.y + attrCEText.height
+                width: attrCEIcon.width
+                height: width
+                source: "qrc:/graphics/GUI/PR.png"
+            }
+            Text {
+                id: attrPRText
+                x: attrCEText.x
+                y: attrCEText.y + attrCEText.height
+                width: 350
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Proficiency: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrPRValue
+                x: attrPRText.x + attrPRText.width
+                y: attrPRText.y
+                width: 100
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "99"
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrCLIcon
+                x: attrPRIcon.x
+                y: attrPRIcon.y + attrPRText.height
+                width: attrPRIcon.width
+                height: width
+                source: "qrc:/graphics/GUI/CL.png"
+            }
+            Text {
+                id: attrCLText
+                x: attrPRText.x
+                y: attrPRText.y + attrPRText.height
+                width: 340
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Cleverness: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrCLValue
+                x: attrCLText.x + attrCLText.width
+                y: attrCLText.y
+                width: 100
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "99"
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrHPIcon
+                x: 8
+                y: 105
+                width: 50
+                height: 50
+                source: "qrc:/graphics/GUI/HealthRestored.png"
+            }
+            Text {
+                id: attrHPText
+                x: 69
+                y: 109
+                width: 200
+                height: font.pixelSize + 6
+                color: "#568b56"
+                text: "Health: "
+                font.pixelSize: 56
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrHPValue
+                x: 350
+                y: attrHPText.y
+                width: 140
+                height: font.pixelSize + 6
+                color: "#568b56"
+                text: "99/99"
+                font.pixelSize: 56
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrSTIcon
+                x: 8
+                y: 167
+                width: 50
+                height: 50
+                source: "qrc:/graphics/GUI/StressRelief.png"
+            }
+            Text {
+                id: attrSTText
+                x: attrHPText.x
+                y: 171
+                width: 200
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Stress:"
+                font.pixelSize: 56
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrSTValue
+                x: attrHPValue.x
+                y: attrSTText.y
+                width: 250
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "666/666"
+                font.pixelSize: 56
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrSRIcon
+                x: attrCLIcon.x
+                y: attrCLIcon.y + attrCLText.height
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/StressResistance.png"
+            }
+            Text {
+                id: attrSRText
+                x: attrCLText.x
+                y: attrCLText.y + attrCLText.height
+                width: 520
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Stress Resistance: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrSRValue
+                x: attrSRText.x + attrSRText.width
+                y: attrSRText.y
+                width: 138
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "9.9"
+                wrapMode: Text.Wrap
+                maximumLineCount: 1
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: currentlyBusy
+
+                x: 698
+                y: -4
+                width: 88
+                height: 88
+            }
+        }
     }
 
     Item {
@@ -437,16 +881,6 @@ Item {
             stressBorderEffectDescription.text = "This mercenary is immune to stress. Thus, he/she is never affected by any stress border effect.";
         }
 
-        function addSBEChance(sbeName, percChance)
-        {
-            stressBorderEffectChances.text = stressBorderEffectChances.text+"\n"+percChance+"% "+sbeName;
-        }
-
-        function resetSBEChances()
-        {
-            stressBorderEffectChances.text = "";
-        }
-
         Text {
             id: stressBorderEffectText
 
@@ -489,26 +923,11 @@ Item {
             font.family: fontStencil.name
         }
 
-        Text {
-            id: stressBorderEffectChances
-
-            x: 0
-            y: stressBorderEffectDescription.y + stressBorderEffectDescription.height
-            width: parent.width
-            height: (font.pixelSize+8)*lineCount
-
-            color: "#94ef94"
-            text: "50% None\n30% Paranoia\n20% Bravery"
-            wrapMode: Text.WordWrap
-            font.pixelSize: 45
-            font.family: fontStencil.name
-        }
-
         Image {
             id: stressBorderEffectTaskBorder
 
             x: 0
-            y: stressBorderEffectChances.y + stressBorderEffectChances.height
+            y: stressBorderEffectDescription.y + stressBorderEffectDescription.height
             width: 1048
             height: 3
 

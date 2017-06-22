@@ -73,24 +73,27 @@ Item {
 
         visible: false
 
-        width: 600
+        width: 700
         height: 400
         anchors.centerIn: parent
 
-        Image {
-            id: confirmBoxRectBackground
+        Rectangle {
+            id: confirmBoxRect
 
             anchors.fill: parent
 
-            source: "qrc:/graphics/GUI/Background.png"
+            color: "#171717"
+
+            border.color: "#94ef94"
+            border.width: 5
         }
 
         Text {
             id: pleaseConfirmText
 
-            x: 0
+            x: 50
             y: 50
-            width: parent.width
+            width: parent.width - 2*x
             height: font.pixelSize+5
 
             color: "#94ef94"
@@ -103,9 +106,9 @@ Item {
         Text {
             id: yesText
 
-            x: 10
+            x: 60
             y: parent.height - height - 50
-            width: parent.width/2 - 2*x
+            width: parent.width/2 - 70
             height: font.pixelSize+4
 
             color: "#94ef94"
@@ -130,7 +133,7 @@ Item {
 
             x: parent.width/2 + 10
             y: parent.height - height - 50
-            width: parent.width/2 - 20
+            width: parent.width/2 - 70
             height: font.pixelSize+4
 
             color: "#94ef94"

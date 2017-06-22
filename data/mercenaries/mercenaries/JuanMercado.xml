@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="JuanMercado">
-        <attributes combatEffectiveness="5" proficiency="3" cleverness="4" luck="1.35" health="12" healthLimit="12" dailyHealthRecovery="1" stress="0" stressResistance="1.05" stressLimit="135" stressBorder="40" dailyStressRecovery="15" salary="9" dailyFoodConsumption="2" nature="Religious" profession="Priest Of The Universe"></attributes>
+	<attributes combatEffectiveness="5" proficiency="3" cleverness="4" luck="1.35" health="12" healthLimit="12" dailyHealthRecovery="1" stress="0" stressResistance="1.05" stressLimit="135" stressBorder="40" dailyStressRecovery="15" salary="9" dailyFoodConsumption="2" nature="Religious" profession="Priest of the Universe"></attributes>
 	<sbeList>
-	<sbe></sbe>
-		</sbeList>
+		<sbe>Confusion</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Fanatic Wrath</sbe>
+		<sbe>Madness</sbe>
+		<sbe>Restlessess</sbe>
+		<sbe>Multitasking</sbe>
+		<sbe>Doombringer</sbe>
+	</sbeList>
 	<equipment>
 		<armor name=""></armor>
 		<weaponTool name="" slot=""></weaponTool>

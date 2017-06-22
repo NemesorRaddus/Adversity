@@ -243,6 +243,7 @@ Window {
         if (mainGUI.h4xScreen.visible)
         {
             mainGUI.h4xScreen.visible = false;
+            mainGUI.h4xScreen.cursorLoseFocus();
             close.accepted = false;
         }
         else

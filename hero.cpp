@@ -76,9 +76,9 @@ HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(con
         return SBE_Multitasking;
     if (stressBorderEffect == "Equilibrium")
         return SBE_Equilibrium;
-    if (stressBorderEffect == "StressResistant")
+    if (stressBorderEffect == "Stress Resistant")
         return SBE_StressResistant;
-    if (stressBorderEffect == "TheLuckyOne")
+    if (stressBorderEffect == "The Lucky One")
         return SBE_TheLuckyOne;
     if (stressBorderEffect == "Doombringer")
         return SBE_Doombringer;
@@ -136,9 +136,9 @@ QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEf
     if (stressBorderEffect == SBE_Equilibrium)
         return "Equilibrium";
     if (stressBorderEffect == SBE_StressResistant)
-        return "StressResistant";
+        return "Stress Resistant";
     if (stressBorderEffect == SBE_TheLuckyOne)
-        return "TheLuckyOne";
+        return "The Lucky One";
     if (stressBorderEffect == SBE_Doombringer)
         return "Doombringer";
     if (stressBorderEffect == SBE_Excellence)

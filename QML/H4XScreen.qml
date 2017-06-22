@@ -11,6 +11,11 @@ Item {
     width: 1080
     height: 1920
 
+    function cursorLoseFocus()
+    {
+        root.forceActiveFocus();
+    }
+
     transform: [
         Scale {
             id: someScale
