@@ -241,7 +241,7 @@ public:
     {
         return m_stressBorderEffects.size();
     }
-    Q_INVOKABLE QString stressBorderEffectNameString(unsigned index) const noexcept;
+    Q_INVOKABLE QString currentStressBorderEffectNameString(unsigned index) const noexcept;
     Q_INVOKABLE int indexOfCurrentSBE() const noexcept
     {
         return m_indexOfCurrentSBE;
@@ -255,6 +255,11 @@ public:
     {
         return m_currentAttributesValues.dailyStressRecovery;
     }
+
+    QVector <QPair <HeroStressBorderEffect, unsigned> > diverseSBEs() const noexcept;//with amount of copies
+    Q_INVOKABLE int amountOfDiverseSBEs() const noexcept;
+    Q_INVOKABLE QString nameOfSBESummed(unsigned index) const noexcept;
+    Q_INVOKABLE float chanceOfSBESummed(unsigned index) const noexcept;
 
     Q_INVOKABLE int salary() const noexcept
     {
@@ -294,7 +299,7 @@ public:
     void changeStressLimit(int amount) noexcept;
     void changeStressBorder(int amount) noexcept;
     void changeDailyStressRecovery(int amount) noexcept;
-    bool isImmuneToStress() const noexcept
+    Q_INVOKABLE bool isImmuneToStress() const noexcept
     {
         return m_baseAttributesValues.stressLimit==-1;
     }
@@ -317,6 +322,9 @@ public:
     void unequipArmor() noexcept;
     void equipWeaponTool(Equipment *weaponTool, int slot) noexcept;
     void unequipWeaponTool(int slot) noexcept;
+
+    QVector <EquipmentEnums::Category> currentEquipmentCategories() const noexcept;
+    bool hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept;
 
     Q_INVOKABLE bool isDead() const noexcept
     {
@@ -418,6 +426,8 @@ private:
     void calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) noexcept;//shouldn't be used in most situations (big NO when calc. CE, PR or CL)
     void calculateCurrentAttributeValues() noexcept;//use this instead
 
+    void sumEquipmentCategories() noexcept;
+
     void setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept;//only for H4X
 
     QString m_name;
@@ -431,6 +441,7 @@ private:
     Equipment *m_armor;
     QVector <Equipment *> m_weaponsTools;
     const int m_amountOfWeaponToolSlots = 2;
+    QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
 
     bool m_isDead;
     int m_indexOfCurrentSBE;
@@ -461,6 +472,7 @@ struct HeroDataHelper
 
     QString armor;
     QVector <QString> weaponsTools;
+    QVector <EquipmentEnums::Category> equipmentCategories;
 
     bool isDead;
     int indexOfCurrentSBE;
@@ -609,7 +621,7 @@ public:
     {
         return m_heroes.size() < m_amountOfSlots;
     }
-    Q_INVOKABLE dismissHero(const QString &name) noexcept
+    Q_INVOKABLE void dismissHero(const QString &name) noexcept
     {
         addDoStBan(name,21);
     }

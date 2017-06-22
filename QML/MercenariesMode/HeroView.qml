@@ -48,6 +48,21 @@ Item {
 
                     salaryDismissSalaryValue.text = GameApi.base.heroes.preparedHero.salary()+"/Week";
                     salaryDismissFoodConsumptionValue.text = GameApi.base.heroes.preparedHero.dailyFoodConsumption()+"/Day";
+
+                    stressBorderEffect.resetSBEChances();
+                    if (GameApi.base.heroes.preparedHero.isImmuneToStress())
+                    {
+                        stressBorderEffect.setImmunity();
+                    }
+                    else
+                    {
+                        for (var j=0; j<GameApi.base.heroes.preparedHero.amountOfDiverseSBEs(); ++j)
+                            stressBorderEffect.addSBEChance(GameApi.base.heroes.preparedHero.nameOfSBESummed(j), GameApi.globalsCpp.roundDouble(GameApi.base.heroes.preparedHero.chanceOfSBESummed(j) * 100, 2));
+                        if (GameApi.base.heroes.preparedHero.isStressBorderEffectActive())
+                            stressBorderEffect.setCurrentSBE(GameApi.base.heroes.preparedHero.currentStressBorderEffectNameString());
+                        else
+                            stressBorderEffect.setNoCurrentSBE();
+                    }
                     break;
                 }
             }
@@ -284,7 +299,7 @@ Item {
         x: 17
         y: currentActivity.y + currentActivity.height
         width: 1048
-        height: salaryDismissTaskBorder.y + salaryDismissTaskBorder.height
+        height: salaryDismissTaskBorder.y + salaryDismissTaskBorder.height + 4
 
         Text {
             id: salaryDismissSalaryText
@@ -399,20 +414,101 @@ Item {
     Item {
         id: stressBorderEffect
 
-        x: 0
-        y: currentActivity.y + currentActivity.height
-        width: 1080
-        //height: stressBorderEffectTaskBorder.y + stressBorderEffect.height + 4
+        x: 17
+        y: salaryDismiss.y + salaryDismiss.height
+        width: 1048
+        height: stressBorderEffectTaskBorder.y + stressBorderEffectTaskBorder.height + 4
+
+        function setNoCurrentSBE()
+        {
+            stressBorderEffectValue.text = "-";
+            stressBorderEffectDescription.text = "This mercenary isn't currently affected by any effect.";
+        }
+
+        function setCurrentSBE(sbeName)
+        {
+            stressBorderEffectValue.text = sbeName;
+            stressBorderEffectDescription.text = "{Enter the description here}"
+        }
+
+        function setImmunity()
+        {
+            stressBorderEffectValue.text = "N/A";
+            stressBorderEffectDescription.text = "This mercenary is immune to stress. Thus, he/she is never affected by any stress border effect.";
+        }
+
+        function addSBEChance(sbeName, percChance)
+        {
+            stressBorderEffectChances.text = stressBorderEffectChances.text+"\n"+percChance+"% "+sbeName;
+        }
+
+        function resetSBEChances()
+        {
+            stressBorderEffectChances.text = "";
+        }
 
         Text {
-            //id:
+            id: stressBorderEffectText
+
+            x: 0
+            y: 0
+            width: 220
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "Effect:"
+            font.pixelSize: 65
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: stressBorderEffectValue
+
+            x: 350
+            y: stressBorderEffectText.y
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "N/A"
+            font.pixelSize: 65
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: stressBorderEffectDescription
+
+            x: 0
+            y: stressBorderEffectText.y + stressBorderEffectText.height
+            width: parent.width - x
+            height: (font.pixelSize + 4)*lineCount
+
+            color: "#94ef94"
+            text: "This mercenary is immune to stress. Thus, he/she is never affected by any stress border effect."
+            wrapMode: Text.WordWrap
+            font.pixelSize: 45
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: stressBorderEffectChances
+
+            x: 0
+            y: stressBorderEffectDescription.y + stressBorderEffectDescription.height
+            width: parent.width
+            height: (font.pixelSize+8)*lineCount
+
+            color: "#94ef94"
+            text: "50% None\n30% Paranoia\n20% Bravery"
+            wrapMode: Text.WordWrap
+            font.pixelSize: 45
+            font.family: fontStencil.name
         }
 
         Image {
             id: stressBorderEffectTaskBorder
 
-            x: 17
-
+            x: 0
+            y: stressBorderEffectChances.y + stressBorderEffectChances.height
             width: 1048
             height: 3
 

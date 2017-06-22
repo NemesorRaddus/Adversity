@@ -3,7 +3,7 @@
 <hero name="SashaBohdanov">
 	<attributes combatEffectiveness="7" proficiency="5" cleverness="2" luck="0.95" health="17" healthLimit="17" dailyHealthRecovery="1" stress="0" stressResistance="0.9" stressLimit="130" stressBorder="105" dailyStressRecovery="0" salary="13" dailyFoodConsumption="5" nature="Active" profession="Gunzerker"></attributes>
 	<sbeList>
-		<sbe>Masochism</sbe>
+                <sbe>Masochism</sbe>
 		<sbe>Masochism</sbe>
 		<sbe>Abandonce</sbe>
 		<sbe>Rage</sbe>

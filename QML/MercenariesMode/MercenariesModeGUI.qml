@@ -53,7 +53,11 @@ Item {
         if (view.state == "")
         {
             if (view.dismissConfirmDialogVisible)
+            {
                 dismissDialogHidingRequested();
+                view.dismissConfirmDialogVisible=false;
+                return true;
+            }
             else
             {
                 if (!view.reactToBackOnToolbar())
@@ -73,6 +77,11 @@ Item {
     function dismissMercenaryFwd()
     {
         view.dismissMercenary();
+    }
+
+    function acknowledgeConfirmDialogClosing()
+    {
+        view.dismissConfirmDialogVisible = false;
     }
 
     Item {

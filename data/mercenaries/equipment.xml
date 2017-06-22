@@ -8,7 +8,7 @@
 			<bonus varName="stressResistance" value="-0.1"></bonus>
         </effects>
     </armor>
-	<armor name="ExplorersSuite" tier="1">
+        <armor name="ExplorersSuit" tier="1">
         <effects>
             <bonus varName="proficiency" value="2"></bonus>
 			<bonus varName="cleverness" value="1"></bonus>

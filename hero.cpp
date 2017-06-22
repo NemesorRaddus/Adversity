@@ -424,7 +424,7 @@ const HeroStressBorderEffect *Hero::currentSBE() const noexcept
     return m_indexOfCurrentSBE==-1 ? nullptr : &(m_stressBorderEffects[m_indexOfCurrentSBE]);
 }
 
-QString Hero::stressBorderEffectNameString(unsigned index) const noexcept
+QString Hero::currentStressBorderEffectNameString(unsigned index) const noexcept
 {
     return index<m_stressBorderEffects.size() ? HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffects[index].effectName) : "";
 }
@@ -475,6 +475,46 @@ void Hero::handleSBEAtDayEnd()  noexcept
     {
         increaseStress(m_currentAttributesValues.stressLimit/20);
     }
+}
+
+QVector<QPair<HeroStressBorderEffect, unsigned> > Hero::diverseSBEs() const noexcept
+{
+    QVector<QPair<HeroStressBorderEffect, unsigned> > r;
+    for (int i=0;i<m_stressBorderEffects.size();++i)
+    {
+        bool done=0;
+        for (int j=0;j<r.size();++j)
+            if (m_stressBorderEffects[i].effectName == r[j].first.effectName)
+            {
+                done=1;
+                ++r[j].second;
+                break;
+            }
+        if (!done)
+            r+={m_stressBorderEffects[i],1};
+    }
+    return r;
+}
+
+int Hero::amountOfDiverseSBEs() const noexcept
+{
+    return diverseSBEs().size();
+}
+
+QString Hero::nameOfSBESummed(unsigned index) const noexcept
+{
+    auto sbes=diverseSBEs();
+    if (index<sbes.size())
+        return HeroEnums::fromStressBorderEffectEnumToQString(sbes[index].first.effectName);
+    return "";
+}
+
+float Hero::chanceOfSBESummed(unsigned index) const noexcept
+{
+    auto sbes=diverseSBEs();
+    if (index<sbes.size())
+        return static_cast<float>(sbes[index].second)/static_cast<float>(m_stressBorderEffects.size());
+    return 0;
 }
 
 QString Hero::natureString() const noexcept
@@ -741,6 +781,16 @@ void Hero::unequipWeaponTool(int slot) noexcept
         unapplyEquipmentEffect();
         setWeaponTool(nullptr,slot);
     }
+}
+
+QVector<EquipmentEnums::Category> Hero::currentEquipmentCategories() const noexcept
+{
+    return m_currentEquipmentCategories;
+}
+
+bool Hero::hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept
+{
+    return m_currentEquipmentCategories.contains(cat);
 }
 
 Hero::Hero() noexcept
@@ -1269,6 +1319,18 @@ void Hero::calculateCurrentAttributeValues() noexcept
     }
 }
 
+void Hero::sumEquipmentCategories() noexcept
+{
+    m_currentEquipmentCategories.clear();
+    if (m_armor!=nullptr)
+        m_currentEquipmentCategories=m_armor->categories();
+    for (int i=0;i<m_weaponsTools.size();++i)
+        if (m_weaponsTools[i]!=nullptr)
+            for (int j=0;j<m_weaponsTools[j]->categories().size();++j)
+                if (!m_currentEquipmentCategories.contains(m_weaponsTools[i]->categories()[j]))
+                    m_currentEquipmentCategories+=m_weaponsTools[i]->categories()[j];
+}
+
 void Hero::setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept
 {
     switch (attrName) {
@@ -1357,6 +1419,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
         else
             r->m_weaponsTools[i]=nullptr;
     }
+    r->m_currentEquipmentCategories = hero.equipmentCategories;
     r->m_isDead = hero.isDead;
     r->m_indexOfCurrentSBE = hero.indexOfCurrentSBE;
     r->m_noSignalDaysRemaining = hero.noSignalDaysRemaining;
@@ -1391,6 +1454,7 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
         else
             r.weaponsTools.push_back("");
     }
+    r.equipmentCategories = hero->m_currentEquipmentCategories;
     r.isDead = hero->m_isDead;
     r.indexOfCurrentSBE = hero->m_indexOfCurrentSBE;
     r.noSignalDaysRemaining = hero->m_noSignalDaysRemaining;
@@ -1421,6 +1485,11 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
     stream<<hero.armor;
 
     stream<<hero.weaponsTools;
+
+    QVector <quint8> cats;
+    for (int i=0;i<hero.equipmentCategories.size();++i)
+        cats+=static_cast<quint8>(hero.equipmentCategories[i]);
+    stream<<cats;
 
     stream<<hero.isDead;
 
@@ -1465,6 +1534,11 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     stream>>hero.armor;
 
     stream>>hero.weaponsTools;
+
+    QVector <quint8> cats;
+    stream>>cats;
+    for (int _i=0;_i<cats.size();++_i)
+        hero.equipmentCategories+=static_cast<EquipmentEnums::Category>(cats[_i]);
 
     stream>>hero.isDead;
 

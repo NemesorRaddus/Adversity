@@ -185,7 +185,9 @@ Window {
         }
 
         mercenariesGUI.onDismissClickedFwd: mercenaryDismissConfirmDialog.show()
+        mercenariesGUI.onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide()
         mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
+        mercenaryDismissConfirmDialog.onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing()
     }
 
     Timer {

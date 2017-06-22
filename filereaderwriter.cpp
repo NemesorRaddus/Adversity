@@ -1170,6 +1170,8 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setDailyFoodConsumption(attrs.value("dailyFoodConsumption").toInt());
                     hB.setNature(HeroEnums::fromQStringToNatureEnum(attrs.value("nature").toString()));
                     hB.setProfession(HeroEnums::fromQStringToProfessionEnum(attrs.value("profession").toString()));
+
+                    m_xmlReader->skipCurrentElement();
                 }
                 else if (m_xmlReader->name()=="sbeList")
                 {
@@ -1177,11 +1179,13 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     while (m_xmlReader->readNextStartElement())
                     {
                         if (m_xmlReader->name()=="sbe")
-                            sbes.push_back({HeroEnums::fromQStringToStressBorderEffectEnum(m_xmlReader->text().toString())});
+                            sbes.push_back({HeroEnums::fromQStringToStressBorderEffectEnum(m_xmlReader->readElementText())});
                         else
-                            m_xmlReader->skipCurrentElement();
+                            ;//m_xmlReader->skipCurrentElement();
                     }
                     hB.setStressBorderEffects(sbes);
+
+                    //m_xmlReader->skipCurrentElement();
                 }
                 else if (m_xmlReader->name()=="equipment")
                 {
@@ -1210,6 +1214,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                         else
                             m_xmlReader->skipCurrentElement();
                     }
+                    m_xmlReader->skipCurrentElement();
                 }
                 else if (m_xmlReader->name()=="additionalData")
                 {
@@ -1219,6 +1224,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setIsDead(static_cast<bool>(attrs.value("stressBorderEffectActive").toInt()));
 
                     hB.setNoSignalDaysRemaining(attrs.value("noSigDaysRem").toInt());
+                    m_xmlReader->skipCurrentElement();
                 }
                 else
                     m_xmlReader->skipCurrentElement();
