@@ -77,7 +77,7 @@ Item {
         {
             energyDrainAmount1.text = GameApi.base.dockingStation.basicCostInEnergy()+"/Day";
             waitingTimeAmount1.text = GameApi.base.dockingStation.waitingTime();
-            recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Day";
+            recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Week";
             profitabilityAmount1.text = GameApi.base.dockingStation.profitability();
             equipmentAmount1.text = GameApi.base.dockingStation.equipmentsAmount()+"/Day";
             maxTierAmount1.text = GameApi.base.dockingStation.maxTier();
@@ -285,7 +285,7 @@ Item {
                 width: 200
 
                 color: "#94ef94"
-                text: "1/Day"
+                text: "1/Week"
                 horizontalAlignment: Text.AlignRight
                 font.pixelSize: 60
                 font.family: fontStencil.name

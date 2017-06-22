@@ -70,7 +70,7 @@ HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(con
         return SBE_Caution;
     if (stressBorderEffect == "Awareness")
         return SBE_Awareness;
-    if (stressBorderEffect == "StoneSkin")
+    if (stressBorderEffect == "Stone Skin")
         return SBE_StoneSkin;
     if (stressBorderEffect == "Multitasking")
         return SBE_Multitasking;

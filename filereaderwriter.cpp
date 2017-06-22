@@ -1276,7 +1276,7 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
                                 if (m_xmlReader->name()=="bonus")
                                 {
                                     attrs = m_xmlReader->attributes();
-                                    if (attrs.value("varName")=="combatEfficiency")
+                                    if (attrs.value("varName")=="combatEffectiveness")
                                         eqB.setCombatEffectivenessBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="proficiency")
                                         eqB.setProficiencyBonus(attrs.value("value").toInt());
@@ -1329,7 +1329,7 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
                                 if (m_xmlReader->name()=="bonus")
                                 {
                                     attrs = m_xmlReader->attributes();
-                                    if (attrs.value("varName")=="combatEfficiency")
+                                    if (attrs.value("varName")=="combatEffectiveness")
                                         eqB.setCombatEffectivenessBonus(attrs.value("value").toInt());
                                     else if (attrs.value("varName")=="proficiency")
                                         eqB.setProficiencyBonus(attrs.value("value").toInt());

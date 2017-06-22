@@ -37,14 +37,86 @@ Item {
                     topBar.setCL(GameApi.base.heroes.preparedHero.cleverness());
                     topBar.setHP(GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit());
                     topBar.setST(GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit());
-//                    topBar.setSR(GameApi.base.heroes.preparedHero.stressResistance());
+                    topBar.setSR(GameApi.base.heroes.preparedHero.stressResistance());
+                    topBar.setDSR(GameApi.base.heroes.preparedHero.dailyStressRecovery());
+                    topBar.setDHR(GameApi.base.heroes.preparedHero.dailyHealthRecovery());
+                    topBar.setDFC(GameApi.base.heroes.preparedHero.dailyFoodConsumption());
+                    topBar.setSA(GameApi.base.heroes.preparedHero.salary())
+                    topBar.setNature(GameApi.base.heroes.preparedHero.natureString());
+
+                    if (GameApi.base.heroes.preparedHero.healthLimit() == GameApi.base.heroes.preparedHero.baseHealthLimit())
+                        topBar.setColorHL("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.healthLimit() > GameApi.base.heroes.preparedHero.baseHealthLimit())
+                        topBar.setColorHL("#439b20");
+                    else
+                        topBar.setColorHL("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.stressLimit() == GameApi.base.heroes.preparedHero.baseStressLimit())
+                        topBar.setColorSL("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.stressLimit() > GameApi.base.heroes.preparedHero.baseStressLimit())
+                        topBar.setColorSL("#439b20");
+                    else
+                        topBar.setColorSL("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.combatEffectiveness() == GameApi.base.heroes.preparedHero.baseCombatEffectiveness())
+                        topBar.setColorCE("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.combatEffectiveness() > GameApi.base.heroes.preparedHero.baseCombatEffectiveness())
+                        topBar.setColorCE("#439b20");
+                    else
+                        topBar.setColorCE("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.proficiency() == GameApi.base.heroes.preparedHero.baseProficiency())
+                        topBar.setColorPR("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.proficiency() > GameApi.base.heroes.preparedHero.baseProficiency())
+                        topBar.setColorPR("#439b20");
+                    else
+                        topBar.setColorPR("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.cleverness() == GameApi.base.heroes.preparedHero.baseCleverness())
+                        topBar.setColorCL("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.cleverness() > GameApi.base.heroes.preparedHero.baseCleverness())
+                        topBar.setColorCL("#439b20");
+                    else
+                        topBar.setColorCL("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.stressResistance() == GameApi.base.heroes.preparedHero.baseStressResistance())
+                        topBar.setColorSR("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.stressResistance() > GameApi.base.heroes.preparedHero.baseStressResistance())
+                        topBar.setColorSR("#439b20");
+                    else
+                        topBar.setColorSR("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.dailyStressRecovery() == GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
+                        topBar.setColorDSR("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.dailyStressRecovery() > GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
+                        topBar.setColorDSR("#439b20");
+                    else
+                        topBar.setColorDSR("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.dailyHealthRecovery() == GameApi.base.heroes.preparedHero.baseDailyHealthRecovery())
+                        topBar.setColorDHR("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.dailyHealthRecovery() > GameApi.base.heroes.preparedHero.baseDailyHealthRecovery())
+                        topBar.setColorDHR("#439b20");
+                    else
+                        topBar.setColorDHR("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() == GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
+                        topBar.setColorDFC("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() > GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
+                        topBar.setColorDFC("#439b20");
+                    else
+                        topBar.setColorDFC("#bf0000");
+
+                    if (GameApi.base.heroes.preparedHero.salary() == GameApi.base.heroes.preparedHero.baseSalary())
+                        topBar.setColorSA("#568b56");
+                    else if (GameApi.base.heroes.preparedHero.salary() > GameApi.base.heroes.preparedHero.baseSalary())
+                        topBar.setColorSA("#439b20");
+                    else
+                        topBar.setColorSA("#bf0000");
 
                     currentActivity_=GameApi.base.heroes.preparedHero.currentActivityString();
-//                    topBar.setCurrentActivity(currentActivity_);
+                    topBar.setCurrentActivity(currentActivity_);
                     currentActivity.setCurrentActivity(currentActivity_);
-
-                    salaryDismissSalaryValue.text = GameApi.base.heroes.preparedHero.salary()+"/Week";
-                    salaryDismissFoodConsumptionValue.text = GameApi.base.heroes.preparedHero.dailyFoodConsumption()+"/Day";
 
                     if (GameApi.base.heroes.preparedHero.isImmuneToStress())
                         stressBorderEffect.setImmunity();
@@ -155,7 +227,82 @@ Item {
 
         function setSR(amount)
         {
-            attrSRValue.text = amount;
+            attrSRValue.text = Math.floor(amount)+"."+Math.round(amount*100);
+        }
+
+        function setDSR(amount)
+        {
+            attrDSRValue.text = amount+"/Day";
+        }
+
+        function setDHR(amount)
+        {
+            attrDHRValue.text = amount+"/Day";
+        }
+
+        function setDFC(amount)
+        {
+            attrDFCValue.text = amount+"/Day";
+        }
+
+        function setSA(amount)
+        {
+            attrSAValue.text = amount+"/Week";
+        }
+
+        function setColorCE(col)
+        {
+            attrCEValue.color = col;
+        }
+
+        function setColorPR(col)
+        {
+            attrPRValue.color = col;
+        }
+
+        function setColorCL(col)
+        {
+            attrCLValue.color = col;
+        }
+
+        function setColorHL(col)
+        {
+            attrHPValue.color = col;
+        }
+
+        function setColorSL(col)
+        {
+            attrSTValue.color = col;
+        }
+
+        function setColorSR(col)
+        {
+            attrSRValue.color = col;
+        }
+
+        function setColorDSR(col)
+        {
+            attrDSRValue.color = col;
+        }
+
+        function setColorDHR(col)
+        {
+            attrDHRValue.color = col;
+        }
+
+        function setColorDFC(col)
+        {
+            attrDFCValue.color = col;
+        }
+
+        function setColorSA(col)
+        {
+            attrSAValue.color = col;
+        }
+
+        function setNature(nat)
+        {
+            natureValue.text = nat;
         }
 
         function setCurrentActivity(ca)
@@ -199,7 +346,7 @@ Item {
         Image {
             id: itemBorder
             x: 17
-            y: attrSRText.y + attrSRText.height + 6
+            y: natureText.y + natureText.height + 12
             width: 1048
             height: 3
             source: "qrc:/graphics/GUI/Task_Border.png"
@@ -361,99 +508,6 @@ Item {
             }
 
             Image {
-                id: attrCEIcon
-                x: -264
-                y: 269
-                width: 50
-                height: width
-                source: "qrc:/graphics/GUI/CE.png"
-            }
-            Text {
-                id: attrCEText
-                x: -206
-                y: 274
-                width: 620
-                height: font.pixelSize+6
-                color: "#568b56"
-                text: "Combat Effectiveness: "
-                font.pixelSize: 50
-                font.family: fontStencil.name
-            }
-            Text {
-                id: attrCEValue
-                x: attrCEText.x + attrCEText.width
-                y: attrCEText.y
-                width: 100
-                height: font.pixelSize+6
-                color: "#568b56"
-                text: "99"
-                font.pixelSize: attrCEText.font.pixelSize
-                font.family: fontStencil.name
-            }
-
-            Image {
-                id: attrPRIcon
-                x: attrCEIcon.x
-                y: attrCEIcon.y + attrCEText.height
-                width: attrCEIcon.width
-                height: width
-                source: "qrc:/graphics/GUI/PR.png"
-            }
-            Text {
-                id: attrPRText
-                x: attrCEText.x
-                y: attrCEText.y + attrCEText.height
-                width: 350
-                height: font.pixelSize+6
-                color: "#568b56"
-                text: "Proficiency: "
-                font.pixelSize: attrCEText.font.pixelSize
-                font.family: fontStencil.name
-            }
-            Text {
-                id: attrPRValue
-                x: attrPRText.x + attrPRText.width
-                y: attrPRText.y
-                width: 100
-                height: font.pixelSize+6
-                color: "#568b56"
-                text: "99"
-                font.pixelSize: attrCEText.font.pixelSize
-                font.family: fontStencil.name
-            }
-
-            Image {
-                id: attrCLIcon
-                x: attrPRIcon.x
-                y: attrPRIcon.y + attrPRText.height
-                width: attrPRIcon.width
-                height: width
-                source: "qrc:/graphics/GUI/CL.png"
-            }
-            Text {
-                id: attrCLText
-                x: attrPRText.x
-                y: attrPRText.y + attrPRText.height
-                width: 340
-                height: font.pixelSize+6
-                color: "#568b56"
-                text: "Cleverness: "
-                font.pixelSize: attrCEText.font.pixelSize
-                font.family: fontStencil.name
-            }
-            Text {
-                id: attrCLValue
-                x: attrCLText.x + attrCLText.width
-                y: attrCLText.y
-                width: 100
-                height: font.pixelSize+6
-                color: "#568b56"
-                text: "99"
-                font.pixelSize: attrCEText.font.pixelSize
-                font.family: fontStencil.name
-            }
-
-            Image {
                 id: attrHPIcon
                 x: 8
                 y: 105
@@ -516,6 +570,102 @@ Item {
             }
 
             Image {
+                id: attrCEIcon
+                x: -264
+                y: 269
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/CE.png"
+            }
+            Text {
+                id: attrCEText
+                x: -206
+                y: 274
+                width: 620
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Combat Effectiveness: "
+                font.pixelSize: 50
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrCEValue
+                x: 500
+                y: attrCEText.y
+                width: 250
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "99"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrPRIcon
+                x: attrCEIcon.x
+                y: attrCEIcon.y + attrCEText.height
+                width: attrCEIcon.width
+                height: width
+                source: "qrc:/graphics/GUI/PR.png"
+            }
+            Text {
+                id: attrPRText
+                x: attrCEText.x
+                y: attrCEText.y + attrCEText.height
+                width: 350
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Proficiency: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrPRValue
+                x: attrCEValue.x
+                y: attrPRText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "99"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrCLIcon
+                x: attrPRIcon.x
+                y: attrPRIcon.y + attrPRText.height
+                width: attrPRIcon.width
+                height: width
+                source: "qrc:/graphics/GUI/CL.png"
+            }
+            Text {
+                id: attrCLText
+                x: attrPRText.x
+                y: attrPRText.y + attrPRText.height
+                width: 340
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Cleverness: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrCLValue
+                x: attrCEValue.x
+                y: attrCLText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "99"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
                 id: attrSRIcon
                 x: attrCLIcon.x
                 y: attrCLIcon.y + attrCLText.height
@@ -536,14 +686,175 @@ Item {
             }
             Text {
                 id: attrSRValue
-                x: attrSRText.x + attrSRText.width
+                x: attrCEValue.x
                 y: attrSRText.y
-                width: 138
+                width: attrCEValue.width
                 height: font.pixelSize+6
                 color: "#568b56"
                 text: "9.9"
+                horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.Wrap
                 maximumLineCount: 1
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrDSRIcon
+                x: attrSRIcon.x
+                y: attrSRIcon.y + attrSRText.height
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/StressRelief.png"
+            }
+            Text {
+                id: attrDSRText
+                x: attrSRText.x
+                y: attrSRText.y + attrSRText.height
+                width: 520
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Stress Relief: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrDSRValue
+                x: attrCEValue.x
+                y: attrDSRText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "9/Day"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrDHRIcon
+                x: attrDSRIcon.x
+                y: attrDSRIcon.y + attrDSRText.height
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/HealthRestored.png"
+            }
+            Text {
+                id: attrDHRText
+                x: attrDSRText.x
+                y: attrDSRText.y + attrDSRText.height
+                width: 520
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Health Recovery: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrDHRValue
+                x: attrCEValue.x
+                y: attrDHRText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "9/Day"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrDFCIcon
+                x: attrDHRIcon.x
+                y: attrDHRIcon.y + attrDHRText.height
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/HealthRestored.png"
+            }
+            Text {
+                id: attrDFCText
+                x: attrDHRText.x
+                y: attrDHRText.y + attrDHRText.height
+                width: 520
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Food Consumption: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrDFCValue
+                x: attrCEValue.x
+                y: attrDFCText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "9/Day"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: attrSAIcon
+                x: attrDFCIcon.x
+                y: attrDFCIcon.y + attrDFCText.height
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/HealthRestored.png"
+            }
+            Text {
+                id: attrSAText
+                x: attrDFCText.x
+                y: attrDFCText.y + attrDFCText.height
+                width: 520
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Salary: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: attrSAValue
+                x: attrCEValue.x
+                y: attrSAText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "9/Week"
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+
+            Image {
+                id: natureIcon
+                x: attrSAIcon.x
+                y: attrSAIcon.y + attrSAText.height
+                width: 50
+                height: width
+                source: "qrc:/graphics/GUI/Slots.png"
+            }
+            Text {
+                id: natureText
+                x: attrSAText.x
+                y: attrSAText.y + attrSAText.height
+                width: 520
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Nature: "
+                font.pixelSize: attrCEText.font.pixelSize
+                font.family: fontStencil.name
+            }
+            Text {
+                id: natureValue
+                x: attrCEValue.x
+                y: natureText.y
+                width: attrCEValue.width
+                height: font.pixelSize+6
+                color: "#568b56"
+                text: "Convivial"
+                horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: attrCEText.font.pixelSize
                 font.family: fontStencil.name
             }
@@ -563,7 +874,7 @@ Item {
         id: currentActivity
 
         x: 0
-        y: topBar.height
+        y: topBar.height + 6
         width: 1080
         height: currentActivityTaskBorder.y + currentActivityTaskBorder.height
 
@@ -585,7 +896,7 @@ Item {
             }
             else if (ca == "In Hospital")
             {
-                currentActivityDescription.text = "The mercenary is being healed. Days to full recovery: "+GameApi.base.hospital.daysToFullRecovery(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+                currentActivityDescription.text = "The mercenary is under treatment. Days to full recovery: "+GameApi.base.hospital.daysToFullRecovery(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
@@ -738,128 +1049,10 @@ Item {
     }
 
     Item {
-        id: salaryDismiss
-
-        x: 17
-        y: currentActivity.y + currentActivity.height
-        width: 1048
-        height: salaryDismissTaskBorder.y + salaryDismissTaskBorder.height + 4
-
-        Text {
-            id: salaryDismissSalaryText
-
-            x: 0
-            y: 0
-            width: 220
-            height: font.pixelSize + 4
-
-            color: "#94ef94"
-            text: "Salary"
-            font.pixelSize: 65
-            font.family: fontStencil.name
-        }
-        Image {
-            id: salaryDismissSalaryIcon
-
-            x: 266
-            y: 0
-            width: height
-            height: salaryDismissSalaryText.height
-
-            source: "qrc:/graphics/GUI/Aetherite.png"
-        }
-        Text {
-            id: salaryDismissSalaryValue
-
-            x: 359
-            y: salaryDismissSalaryText.y
-            width: 250
-            height: font.pixelSize + 4
-
-            color: "#94ef94"
-            text: "9/week"
-            font.pixelSize: 65
-            font.family: fontStencil.name
-        }
-
-        Text {
-            id: salaryDismissFoodConsumptionText
-
-            x: 0
-            y: salaryDismissSalaryText.y + salaryDismissSalaryText.height
-            width: 220
-            height: font.pixelSize + 4
-
-            color: "#94ef94"
-            text: "Food"
-            font.pixelSize: 65
-            font.family: fontStencil.name
-        }
-        Image {
-            id: salaryDismissFoodConsumptionIcon
-
-            x: salaryDismissSalaryIcon.x
-            y: 69
-            width: height
-            height: salaryDismissFoodConsumptionText.height
-
-            source: "qrc:/graphics/GUI/Foodsupplies.png"
-        }
-        Text {
-            id: salaryDismissFoodConsumptionValue
-
-            x: salaryDismissSalaryValue.x
-            y: salaryDismissFoodConsumptionText.y
-            width: 250
-            height: font.pixelSize + 4
-
-            color: "#94ef94"
-            text: "9/day"
-            font.pixelSize: 65
-            font.family: fontStencil.name
-        }
-
-        Text {
-            id: salaryDismissButtonText
-
-            x: 747
-            y: 33
-            width: 280
-            height: font.pixelSize + 4
-
-            color: "#b30000"
-            text: "Dismiss"
-            font.pixelSize: 75
-            font.family: fontStencil.name
-        }
-        MouseArea {
-            id: salaryDismissButtonMA
-
-            anchors.fill: salaryDismissButtonText
-
-            onClicked: {
-                dismissConfirmDialogVisible = true;
-                dismissClicked();
-            }
-        }
-
-        Image {
-            id: salaryDismissTaskBorder
-
-            x: 0
-            y: salaryDismissFoodConsumptionText.y + salaryDismissFoodConsumptionText.height + 4
-            width: 1048
-            height: 3
-
-            source: "qrc:/graphics/GUI/Task_Border.png"
-        }
-    }
-
-    Item {
         id: stressBorderEffect
 
         x: 17
-        y: salaryDismiss.y + salaryDismiss.height
+        y: currentActivity.y + currentActivity.height
         width: 1048
         height: stressBorderEffectTaskBorder.y + stressBorderEffectTaskBorder.height + 4
 
@@ -890,7 +1083,7 @@ Item {
             height: font.pixelSize + 4
 
             color: "#94ef94"
-            text: "Effect:"
+            text: "Quirk:"
             font.pixelSize: 65
             font.family: fontStencil.name
         }
@@ -927,11 +1120,35 @@ Item {
             id: stressBorderEffectTaskBorder
 
             x: 0
-            y: stressBorderEffectDescription.y + stressBorderEffectDescription.height
+            y: stressBorderEffectDescription.y + stressBorderEffectDescription.height + 6
             width: 1048
             height: 3
 
             source: "qrc:/graphics/GUI/Task_Border.png"
+        }
+    }
+
+    Text {
+        id: dismissButtonText
+
+        x: 747
+        y: stressBorderEffect.y + stressBorderEffect.height
+        width: 280
+        height: font.pixelSize + 4
+
+        color: "#b30000"
+        text: "Dismiss"
+        font.pixelSize: 75
+        font.family: fontStencil.name
+    }
+    MouseArea {
+        id: dismissButtonMA
+
+        anchors.fill: dismissButtonText
+
+        onClicked: {
+            dismissConfirmDialogVisible = true;
+            dismissClicked();
         }
     }
 

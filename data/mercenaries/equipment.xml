@@ -192,7 +192,7 @@
     </weaponTool>
 	<weaponTool name="HiBSv1_5Syringes" tier="2">
         <effects>
-            <bonus varName="stressResistance" value="0.4"></bonus>
+            <bonus varName="stressResistance" value="-0.4"></bonus>
 			<bonus varName="stressBorder" value="10"></bonus>
 			<bonus varName="stressLimit" value="15"></bonus>
 			<bonus varName="healthLimit" value="-3"></bonus>
@@ -208,10 +208,27 @@
     </weaponTool>
 	<weaponTool name="UEGArsonistFlameThrower" tier="3">
         <effects>
-            <bonus varName="stressResistance" value="0.4"></bonus>
-			<bonus varName="stressBorder" value="10"></bonus>
-			<bonus varName="stressLimit" value="15"></bonus>
-			<bonus varName="healthLimit" value="-3"></bonus>
+            <bonus varName="combatEffectiveness" value="4"></bonus>
+			<bonus varName="proficiency" value="3"></bonus>
+			<bonus varName="cleverness" value="-2"></bonus>
+			<bonus varName="stressResistance" value="0.1"></bonus>
+			<bonus varName="dailyStressRecovery" value="-10"></bonus>
+        </effects>
+    </weaponTool>
+	<weaponTool name="TR05LynxAssaultRifle" tier="3">
+        <effects>
+            <bonus varName="combatEffectiveness" value="5"></bonus>
+			<bonus varName="proficiency" value="-1"></bonus>
+			<bonus varName="dailyFoodConsumption" value="1"></bonus>
+        </effects>
+    </weaponTool>
+	<weaponTool name="MastermindExperimentalSyringes" tier="3">
+        <effects>
+            <bonus varName="proficiency" value="1"></bonus>
+			<bonus varName="cleverness" value="4"></bonus>
+			<bonus varName="stressLimit" value="-30"></bonus>
+			<bonus varName="dailyFoodConsumption" value="1"></bonus>
+			<bonus varname="salary" value="1"></bonus>
         </effects>
     </weaponTool>
 </equipmentList>

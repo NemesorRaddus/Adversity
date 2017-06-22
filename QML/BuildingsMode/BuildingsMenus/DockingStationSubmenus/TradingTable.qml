@@ -793,7 +793,7 @@ Item {
                 anchors.fill: parent
 
                 onClicked: {
-                    if (!warningText1.isShowing && !warningText2.isShowing)
+                    if (!warningText2.isShowing)
                     {
                         transactionAccepted(forRes.mode, buyRes.mode, buyAmount.value);
                         reset();

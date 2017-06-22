@@ -283,6 +283,47 @@ public:
     }
     Q_INVOKABLE QString professionString() const noexcept;
 
+    Q_INVOKABLE int baseHealthLimit() const noexcept
+    {
+        return m_baseAttributesValues.healthLimit;
+    }
+    Q_INVOKABLE int baseStressLimit() const noexcept
+    {
+        return m_baseAttributesValues.stressLimit;
+    }
+    Q_INVOKABLE float baseStressResistance() const noexcept
+    {
+        return m_baseAttributesValues.stressResistance;
+    }
+    Q_INVOKABLE int baseCombatEffectiveness() const noexcept
+    {
+        return m_baseAttributesValues.combatEffectiveness;
+    }
+    Q_INVOKABLE int baseProficiency() const noexcept
+    {
+        return m_baseAttributesValues.proficiency;
+    }
+    Q_INVOKABLE int baseCleverness() const noexcept
+    {
+        return m_baseAttributesValues.cleverness;
+    }
+    Q_INVOKABLE int baseDailyHealthRecovery() const noexcept
+    {
+        return m_baseAttributesValues.dailyHealthRecovery;
+    }
+    Q_INVOKABLE int baseDailyStressRecovery() const noexcept
+    {
+        return m_baseAttributesValues.dailyStressRecovery;
+    }
+    Q_INVOKABLE int baseDailyFoodConsumption() const noexcept
+    {
+        return m_baseAttributesValues.dailyFoodConsumption;
+    }
+    Q_INVOKABLE int baseSalary() const noexcept
+    {
+        return m_baseAttributesValues.salary;
+    }
+
     void changeCombatEffectiveness(int amount) noexcept;//change by amount so increase or decrease by amount, not set amount!
     void changeProficiency(int amount) noexcept;
     void changeCleverness(int amount) noexcept;

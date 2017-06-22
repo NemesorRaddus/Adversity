@@ -114,6 +114,46 @@ Item {
             currentlyBusy.source = "";
     }
 
+    function setColorCE(col)
+    {
+        attrCEValue.color = col;
+    }
+
+    function setColorPR(col)
+    {
+        attrPRValue.color = col;
+    }
+
+    function setColorCL(col)
+    {
+        attrCLValue.color = col;
+    }
+
+    function setColorHL(col)
+    {
+        attrHPValue.color = col;
+    }
+
+    function setColorSL(col)
+    {
+        attrSLValue.color = col;
+    }
+
+    function setColorSR(col)
+    {
+        attrSRValue.color = col;
+    }
+
+    function setColorFC(col)
+    {
+        attrFCValue.color = col;
+    }
+
+    function setColorSA(col)
+    {
+        attrSAValue.color = col;
+    }
+
     function getName()
     {
         return name;

@@ -235,6 +235,12 @@
         <translation context="" translated="Liquid Rage Experimental Syringes"></translation>
     </text>
     <text original="UEGArsonistFlameThrower">
-        <translation context="" translated="UEG Arsonist Flame Thrower"></translation>
+        <translation context="" translated="UEG &quot;Arsonist&quot; Flame Thrower"></translation>
+    </text>
+	<text original="TR05LynxAssaultRifle">
+        <translation context="" translated="TR-05 &quot;Lynx&quot; Assault Rifle"></translation>
+    </text>
+	<text original="MastermindExperimentalSyringes">
+        <translation context="" translated="&quot;Mastermind&quot; Experimental Syringes"></translation>
     </text>
 </translations>

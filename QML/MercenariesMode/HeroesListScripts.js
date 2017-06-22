@@ -22,7 +22,7 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     itemsArray = new Array(amountOfItems);
 }
 
-function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca) {
+function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
     itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setProfession(profession);
@@ -35,10 +35,67 @@ function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, s
     itemsArray[index].setSL(sl);
     itemsArray[index].setSA(sa);
     itemsArray[index].setFC(fc);
+
+    if (hpMax == bhpMax)
+        itemsArray[index].setColorHL("#568b56");
+    else if (hpMax > bhpMax)
+        itemsArray[index].setColorHL("#439b20");
+    else
+        itemsArray[index].setColorHL("#bf0000");
+
+    if (sl == bsl)
+        itemsArray[index].setColorSL("#568b56");
+    else if (sl > bsl)
+        itemsArray[index].setColorSL("#439b20");
+    else
+        itemsArray[index].setColorSL("#bf0000");
+
+    if (ce == bce)
+        itemsArray[index].setColorCE("#568b56");
+    else if (ce > bce)
+        itemsArray[index].setColorCE("#439b20");
+    else
+        itemsArray[index].setColorCE("#bf0000");
+
+    if (pr == bpr)
+        itemsArray[index].setColorPR("#568b56");
+    else if (pr > bpr)
+        itemsArray[index].setColorPR("#439b20");
+    else
+        itemsArray[index].setColorPR("#bf0000");
+
+    if (cl == bcl)
+        itemsArray[index].setColorCL("#568b56");
+    else if (cl > bcl)
+        itemsArray[index].setColorCL("#439b20");
+    else
+        itemsArray[index].setColorCL("#bf0000");
+
+    if (sr == bsr)
+        itemsArray[index].setColorSR("#568b56");
+    else if (sr > bsr)
+        itemsArray[index].setColorSR("#439b20");
+    else
+        itemsArray[index].setColorSR("#bf0000");
+
+    if (fc == bfc)
+        itemsArray[index].setColorDFC("#568b56");
+    else if (fc > bfc)
+        itemsArray[index].setColorDFC("#439b20");
+    else
+        itemsArray[index].setColorDFC("#bf0000");
+
+    if (sa == bsa)
+        itemsArray[index].setColorSA("#568b56");
+    else if (sa > bsa)
+        itemsArray[index].setColorSA("#439b20");
+    else
+        itemsArray[index].setColorSA("#bf0000");
+
     itemsArray[index].setCurrentActivity(ca);
 }
 
-function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca) {
+function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
@@ -46,7 +103,7 @@ function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, s
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
-        setItem(actualAmountOfItems, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca);
+        setItem(actualAmountOfItems, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc);
         ++actualAmountOfItems;
     }
 }
