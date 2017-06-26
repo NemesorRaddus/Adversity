@@ -79,11 +79,11 @@ function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, s
         itemsArray[index].setColorSR("#bf0000");
 
     if (fc == bfc)
-        itemsArray[index].setColorDFC("#568b56");
+        itemsArray[index].setColorFC("#568b56");
     else if (fc > bfc)
-        itemsArray[index].setColorDFC("#439b20");
+        itemsArray[index].setColorFC("#439b20");
     else
-        itemsArray[index].setColorDFC("#bf0000");
+        itemsArray[index].setColorFC("#bf0000");
 
     if (sa == bsa)
         itemsArray[index].setColorSA("#568b56");

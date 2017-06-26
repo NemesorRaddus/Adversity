@@ -313,13 +313,13 @@ Item {
                 currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
             else if (ca == "In Hospital")
                 currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
-            else if (ca == "On TrainingGround")
+            else if (ca == "On Training Ground")
                 currentlyBusy.source = "qrc:/graphics/Buildings/TrainingGround.png";
             else if (ca == "In Gym")
                 currentlyBusy.source = "qrc:/graphics/Buildings/Gym.png";
             else if (ca == "In Laboratory")
                 currentlyBusy.source = "qrc:/graphics/Buildings/Laboratory.png";
-            else if (ca == "In PlayingField")
+            else if (ca == "In Playing Field")
                 currentlyBusy.source = "qrc:/graphics/Buildings/PlayingField.png";
             else if (ca == "In Bar")
                 currentlyBusy.source = "qrc:/graphics/Buildings/Bar.png";
@@ -896,55 +896,55 @@ Item {
             }
             else if (ca == "In Hospital")
             {
-                currentActivityDescription.text = "The mercenary is under treatment. Days to full recovery: "+GameApi.base.hospital.daysToFullRecovery(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+                currentActivityDescription.text = topBar.getName().text+" is under treatment.\nDays to full recovery: "+GameApi.base.hospital.daysToFullRecovery(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "On Training Ground")
             {
-                currentActivityDescription.text = "Useful text";//TODO
+                //currentActivityDescription.text = topBar.getName().text+" is training combat skills.\nThe training will end in "++" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Gym")
             {
-                currentActivityDescription.text = "Useful text";
+                //currentActivityDescription.text = topBar.getName().text+" is working out at the gym.\nVisible effects will appear in "++" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Laboratory")
             {
-                currentActivityDescription.text = "Useful text";
+                //currentActivityDescription.text = topBar.getName().text+" is expanding knowledge.\nThe study will end after "++" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Playing Field")
             {
-                currentActivityDescription.text = "Useful text";
+                currentActivityDescription.text = topBar.getName().text+" currently rests at playing field.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Bar")
             {
-                currentActivityDescription.text = "Useful text";
+                currentActivityDescription.text = topBar.getName().text+" chills out in bar.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Shrine")
             {
-                currentActivityDescription.text = "Useful text";
+                currentActivityDescription.text = topBar.getName().text+" is focused on prayer.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Seclusion")
             {
-                currentActivityDescription.text = "Useful text";
+                currentActivityDescription.text = topBar.getName().text+" meditates in total silence.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "Arriving")
             {
-                currentActivityDescription.text = "The mercenary is on his/her way to our base.\nETA: "+GameApi.base.dockingStation.remainingDaysUntilHeroArrival(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+                currentActivityDescription.text = topBar.getName().text+" is travelling to your base.\nEstimated time of arrival: "+GameApi.base.dockingStation.remainingDaysUntilHeroArrival(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
                 currentActivityGoToText.visible = false;
                 currentActivityGoToMA.visible = false;
             }
@@ -960,7 +960,7 @@ Item {
 
             color: "#94ef94"
             text: "Current Activity:"
-            font.pixelSize: 52
+            font.pixelSize: 56
             font.family: fontStencil.name
         }
 
@@ -974,7 +974,7 @@ Item {
 
             color: "#94ef94"
             text: "On Training Ground"
-            font.pixelSize: 52
+            font.pixelSize: 56
             font.family: fontStencil.name
             horizontalAlignment: Text.AlignRight
         }
@@ -991,7 +991,7 @@ Item {
             text: "This mercenary is awaiting orders in the barracks"
             wrapMode: Text.WordWrap
             maximumLineCount: 3
-            font.pixelSize: 35
+            font.pixelSize: 40
             font.family: fontStencil.name
         }
 
@@ -1084,7 +1084,7 @@ Item {
 
             color: "#94ef94"
             text: "Quirk:"
-            font.pixelSize: 65
+            font.pixelSize: 56
             font.family: fontStencil.name
         }
 
@@ -1097,7 +1097,7 @@ Item {
 
             color: "#94ef94"
             text: "N/A"
-            font.pixelSize: 65
+            font.pixelSize: 56
             font.family: fontStencil.name
         }
 
@@ -1112,7 +1112,7 @@ Item {
             color: "#94ef94"
             text: "This mercenary is immune to stress. Thus, he/she is never affected by any stress border effect."
             wrapMode: Text.WordWrap
-            font.pixelSize: 45
+            font.pixelSize: 40
             font.family: fontStencil.name
         }
 

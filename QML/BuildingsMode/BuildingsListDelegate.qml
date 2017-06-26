@@ -108,10 +108,10 @@ Item {
         Text {
             id: name
             x: 0
-            y: 0
+            y: -4
             color: "#94ef94"
             text: qsTr("Powerplant")
-            font.pixelSize: 60
+            font.pixelSize: 76
             font.family: fontStencil.name
         }
 

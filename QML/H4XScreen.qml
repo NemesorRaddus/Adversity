@@ -45,6 +45,16 @@ Item {
         source: "qrc:/graphics/GUI/Background.png"
     }
 
+    Image {
+        id: background2
+
+        anchors.fill: parent
+
+        opacity: 0.15
+
+        source: "qrc:/graphics/splash.png"
+    }
+
     TextInput {
         id: con
 

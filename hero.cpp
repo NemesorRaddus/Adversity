@@ -635,7 +635,7 @@ void Hero::decreaseStress(unsigned amount) noexcept
     {
         if (m_currentAttributesValues.stress-amount<m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
         {
-            if (m_currentAttributesValues.stress-amount>0)
+            if (m_currentAttributesValues.stress-static_cast<int>(amount)>0)
                 m_currentAttributesValues.stress-=amount;
             else
                 m_currentAttributesValues.stress=0;
@@ -643,7 +643,7 @@ void Hero::decreaseStress(unsigned amount) noexcept
         }
         else
         {
-            if (m_currentAttributesValues.stress-amount>0)
+            if (m_currentAttributesValues.stress-static_cast<int>(amount)>0)
                 m_currentAttributesValues.stress-=amount;
             else
                 m_currentAttributesValues.stress=0;

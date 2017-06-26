@@ -94,13 +94,13 @@ Item {
             currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
         else if (ca == "In Hospital")
             currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
-        else if (ca == "On TrainingGround")
+        else if (ca == "On Training Ground")
             currentlyBusy.source = "qrc:/graphics/Buildings/TrainingGround.png";
         else if (ca == "In Gym")
             currentlyBusy.source = "qrc:/graphics/Buildings/Gym.png";
         else if (ca == "In Laboratory")
             currentlyBusy.source = "qrc:/graphics/Buildings/Laboratory.png";
-        else if (ca == "In PlayingField")
+        else if (ca == "In Playing Field")
             currentlyBusy.source = "qrc:/graphics/Buildings/PlayingField.png";
         else if (ca == "In Bar")
             currentlyBusy.source = "qrc:/graphics/Buildings/Bar.png";
