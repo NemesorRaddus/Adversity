@@ -241,7 +241,7 @@ public:
     {
         return m_stressBorderEffects.size();
     }
-    Q_INVOKABLE QString currentStressBorderEffectNameString(unsigned index) const noexcept;
+    Q_INVOKABLE QString currentStressBorderEffectNameString() const noexcept;
     Q_INVOKABLE int indexOfCurrentSBE() const noexcept
     {
         return m_indexOfCurrentSBE;

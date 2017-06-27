@@ -424,9 +424,11 @@ const HeroStressBorderEffect *Hero::currentSBE() const noexcept
     return m_indexOfCurrentSBE==-1 ? nullptr : &(m_stressBorderEffects[m_indexOfCurrentSBE]);
 }
 
-QString Hero::currentStressBorderEffectNameString(unsigned index) const noexcept
+QString Hero::currentStressBorderEffectNameString() const noexcept
 {
-    return index<m_stressBorderEffects.size() ? HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffects[index].effectName) : "";
+    if (m_indexOfCurrentSBE!=-1)
+        return HeroEnums::fromStressBorderEffectEnumToQString(m_stressBorderEffects[m_indexOfCurrentSBE].effectName);
+    return "";
 }
 
 void Hero::handleSBEAtDayEnd()  noexcept

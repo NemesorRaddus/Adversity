@@ -383,6 +383,14 @@ unsigned TrainingGround::upgradeTimeRemaining() noexcept
     return r;
 }
 
+int TrainingGround::remainingDaysOfTraining(const QString &heroName) const noexcept
+{
+    for (int i=0;i<m_heroesBeingTrained.size();++i)
+        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name()==heroName)
+            return m_heroesBeingTrained[i].second;
+    return -1;
+}
+
 Gym::Gym(Base *base, unsigned level, const QVector<GymLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Gym, base, level), m_levelsInfo(levelsInfo)
 {
@@ -491,6 +499,14 @@ unsigned Gym::upgradeTimeRemaining() noexcept
     return r;
 }
 
+int Gym::remainingDaysOfTraining(const QString &heroName) const noexcept
+{
+    for (int i=0;i<m_heroesBeingTrained.size();++i)
+        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name()==heroName)
+            return m_heroesBeingTrained[i].second;
+    return -1;
+}
+
 Laboratory::Laboratory(Base *base, unsigned level, const QVector<LaboratoryLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Laboratory, base, level), m_levelsInfo(levelsInfo)
 {
@@ -597,6 +613,14 @@ unsigned Laboratory::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+int Laboratory::remainingDaysOfTraining(const QString &heroName) const noexcept
+{
+    for (int i=0;i<m_heroesBeingTrained.size();++i)
+        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name()==heroName)
+            return m_heroesBeingTrained[i].second;
+    return -1;
 }
 
 PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFieldLevelInfo> &levelsInfo) noexcept

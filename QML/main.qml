@@ -188,6 +188,10 @@ Window {
         mercenariesGUI.onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide()
         mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
         mercenaryDismissConfirmDialog.onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing()
+
+        mercenariesGUI.onArtPreviewRequested: heroArtPreview.show(artSource)
+        mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
+        heroArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
     }
 
     Timer {

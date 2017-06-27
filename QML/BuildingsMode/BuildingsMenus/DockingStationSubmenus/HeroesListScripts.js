@@ -83,23 +83,23 @@ function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, s
     if (sr == bsr)
         itemsArray[index].setColorSR("#568b56");
     else if (sr > bsr)
-        itemsArray[index].setColorSR("#439b20");
-    else
         itemsArray[index].setColorSR("#bf0000");
+    else
+        itemsArray[index].setColorSR("#439b20");
 
     if (fc == bfc)
         itemsArray[index].setColorFC("#568b56");
     else if (fc > bfc)
-        itemsArray[index].setColorFC("#439b20");
-    else
         itemsArray[index].setColorFC("#bf0000");
+    else
+        itemsArray[index].setColorFC("#439b20");
 
     if (sa == bsa)
         itemsArray[index].setColorSA("#568b56");
     else if (sa > bsa)
-        itemsArray[index].setColorSA("#439b20");
-    else
         itemsArray[index].setColorSA("#bf0000");
+    else
+        itemsArray[index].setColorSA("#439b20");
 }
 
 function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {

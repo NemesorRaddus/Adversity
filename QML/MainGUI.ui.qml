@@ -33,6 +33,8 @@ Rectangle {
 
     property alias mercenaryDismissConfirmDialog: mercenaryDismissConfirmDialog
 
+    property alias heroArtPreview: heroArtPreview
+
     width: 1080
     height: 1920
 
@@ -338,6 +340,12 @@ Rectangle {
         anchors.fill: parent
 
         visible: false
+    }
+
+    HeroArtPreview {
+        id: heroArtPreview
+
+        anchors.fill: parent
     }
 
     ConfirmDialog {

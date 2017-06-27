@@ -485,6 +485,8 @@ public:
         m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
+    Q_INVOKABLE int remainingDaysOfTraining(const QString &heroName) const noexcept;
+
 private:
     void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
     {
@@ -628,6 +630,8 @@ public:
         m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
+    Q_INVOKABLE int remainingDaysOfTraining(const QString &heroName) const noexcept;
+
 private:
     void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
     {
@@ -770,6 +774,8 @@ public:
             m_heroesBeingTrained+={nullptr,0};
         m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
+
+    Q_INVOKABLE int remainingDaysOfTraining(const QString &heroName) const noexcept;
 
 private:
     void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
@@ -2354,6 +2360,10 @@ public:
     QMap <QString, unsigned> &heroDockingStationBans() noexcept
     {
         return m_heroDockingStationBans;
+    }
+    void recalculateAmountOfHeroSlots() const noexcept
+    {
+        m_heroes->setAmountOfSlots(m_barracks->heroesLimit());;
     }
 
     //equipment

@@ -12,12 +12,14 @@ Item {
     property string heroName
     property string currentActivity_
     property bool dismissConfirmDialogVisible: false
+    property bool artPreviewVisible: false
 
     signal backClicked()
     signal upgradeRequested()
     signal buildingMenuRequested(string buildingName)
     signal dismissClicked()
     signal guiUpdateRequested()
+    signal artPreviewRequested(string artSource)
 
     function setMercenary(name)
     {
@@ -82,9 +84,9 @@ Item {
                     if (GameApi.base.heroes.preparedHero.stressResistance() == GameApi.base.heroes.preparedHero.baseStressResistance())
                         topBar.setColorSR("#568b56");
                     else if (GameApi.base.heroes.preparedHero.stressResistance() > GameApi.base.heroes.preparedHero.baseStressResistance())
-                        topBar.setColorSR("#439b20");
-                    else
                         topBar.setColorSR("#bf0000");
+                    else
+                        topBar.setColorSR("#439b20");
 
                     if (GameApi.base.heroes.preparedHero.dailyStressRecovery() == GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
                         topBar.setColorDSR("#568b56");
@@ -103,16 +105,16 @@ Item {
                     if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() == GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
                         topBar.setColorDFC("#568b56");
                     else if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() > GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
-                        topBar.setColorDFC("#439b20");
-                    else
                         topBar.setColorDFC("#bf0000");
+                    else
+                        topBar.setColorDFC("#439b20");
 
                     if (GameApi.base.heroes.preparedHero.salary() == GameApi.base.heroes.preparedHero.baseSalary())
                         topBar.setColorSA("#568b56");
                     else if (GameApi.base.heroes.preparedHero.salary() > GameApi.base.heroes.preparedHero.baseSalary())
-                        topBar.setColorSA("#439b20");
-                    else
                         topBar.setColorSA("#bf0000");
+                    else
+                        topBar.setColorSA("#439b20");
 
                     currentActivity_=GameApi.base.heroes.preparedHero.currentActivityString();
                     topBar.setCurrentActivity(currentActivity_);
@@ -478,6 +480,17 @@ Item {
                     running: true
                 }
             }
+
+            MouseArea {
+                id: artPreviewMA
+
+                anchors.fill: parent
+
+                onClicked: {
+                    root.artPreviewVisible = true;
+                    root.artPreviewRequested(art.source);
+                }
+            }
         }
 
         Item {
@@ -769,7 +782,7 @@ Item {
                 y: attrDHRIcon.y + attrDHRText.height
                 width: 50
                 height: width
-                source: "qrc:/graphics/GUI/HealthRestored.png"
+                source: "qrc:/graphics/GUI/Foodsupplies.png"
             }
             Text {
                 id: attrDFCText
@@ -801,7 +814,7 @@ Item {
                 y: attrDFCIcon.y + attrDFCText.height
                 width: 50
                 height: width
-                source: "qrc:/graphics/GUI/HealthRestored.png"
+                source: "qrc:/graphics/GUI/Aetherite.png"
             }
             Text {
                 id: attrSAText
@@ -902,19 +915,19 @@ Item {
             }
             else if (ca == "On Training Ground")
             {
-                //currentActivityDescription.text = topBar.getName().text+" is training combat skills.\nThe training will end in "++" days.";
+                currentActivityDescription.text = topBar.getName().text+" is training combat skills.\nThe training will end in "+GameApi.base.trainingGround.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Gym")
             {
-                //currentActivityDescription.text = topBar.getName().text+" is working out at the gym.\nVisible effects will appear in "++" days.";
+                currentActivityDescription.text = topBar.getName().text+" is working out at the gym.\nVisible effects will appear in "+GameApi.base.gym.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Laboratory")
             {
-                //currentActivityDescription.text = topBar.getName().text+" is expanding knowledge.\nThe study will end after "++" days.";
+                currentActivityDescription.text = topBar.getName().text+" is expanding knowledge.\nThe study will end after "+GameApi.base.laboratory.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
@@ -1059,19 +1072,74 @@ Item {
         function setNoCurrentSBE()
         {
             stressBorderEffectValue.text = "-";
-            stressBorderEffectDescription.text = "This mercenary isn't currently affected by any effect.";
+            stressBorderEffectDescription.text = "";
         }
 
         function setCurrentSBE(sbeName)
         {
             stressBorderEffectValue.text = sbeName;
-            stressBorderEffectDescription.text = "{Enter the description here}"
+            if (sbeName == "None")
+                stressBorderEffectDescription.text = "";
+            else if (sbeName == "Faint")
+                stressBorderEffectDescription.text = topBar.getName().text+" is feeling sick and overwhelmed, which results in overall worse performance and greater vulnerability to stress.";
+            else if (sbeName == "Desertion")
+                stressBorderEffectDescription.text = "Some crew members say they heard rumors that "+topBar.getName().text+" is about to leave base without your permission.";
+            else if (sbeName == "Fear")
+                stressBorderEffectDescription.text = topBar.getName().text+" is afraid of going on mission. Additionally, fear clearly decreases the ability to fight.";
+            else if (sbeName == "Fanatic Wrath")
+                stressBorderEffectDescription.text = topBar.getName().text+" believes to be the chosen one, which turns out in reckless behaviour, yet effective in combat. However this state fades quickly after the danger disappears.";
+            else if (sbeName == "Paranoia")
+                stressBorderEffectDescription.text = "Everything seems unnatural and suspicious to "+topBar.getName().text+", which strengthens "+topBar.getName().text+"'s restlessness.";
+            else if (sbeName == "Hopeless")
+                stressBorderEffectDescription.text = "The amount of stress put on "+topBar.getName().text+" destroyed any belief in success, causing many opportunities unused.";
+            else if (sbeName == "Confusion")
+                stressBorderEffectDescription.text = topBar.getName().text+" is disorientated. Clumsiness affects "+topBar.getName().text+"'s combat and survival skills.";
+            else if (sbeName == "Masochism")
+                stressBorderEffectDescription.text = "Pain occurs to "+topBar.getName().text+" as the only solution to madness "+topBar.getName().text+" is exposed to.";
+            else if (sbeName == "Abandonce")
+                stressBorderEffectDescription.text = topBar.getName().text+" feels alienated and misunderstood by others, which slightly affects "+topBar.getName().text+"'s overall performance and decreases an ability to bear stress.";
+            else if (sbeName == "Madness")
+                stressBorderEffectDescription.text = topBar.getName().text+" behaves irrationally refusing to use equipment.";
+            else if (sbeName == "Rage")
+                stressBorderEffectDescription.text = "All "+topBar.getName().text+"'s thoughts concentrate on agression, decreasing other skills and vulnerability to stress.";
+            else if (sbeName == "Restive")
+                stressBorderEffectDescription.text = "Anxiety helps "+topBar.getName().text+" in combat, but disables the mercenary from recovering after a failure.";
+            else if (sbeName == "Restlessness")
+                stressBorderEffectDescription.text = topBar.getName().text+" is anxious, being put on stress every day.";
+            else if (sbeName == "Stuppor")
+                stressBorderEffectDescription.text = "Because of stress, "+topBar.getName().text+" behaves unprofessionally causing a decrease in talents to the level of the least developed ability.";
+            else if (sbeName == "Consciousness")
+                stressBorderEffectDescription.text = "Curiosity takes over "+topBar.getName().text+", icreasing mind potential at the cost of being caught off guard and leaving heavier resources.";
+            else if (sbeName == "Caution")
+                stressBorderEffectDescription.text = "In extreme conditions "+topBar.getName().text+" desires to survive at all costs which affects "+topBar.getName().text+"'s combat skills and logical thinking.";
+            else if (sbeName == "Awareness")
+                stressBorderEffectDescription.text = topBar.getName().text+" focuses on being ready to fight, making "+topBar.getName().text+" less agile and less contributed to other tasks.";
+            else if (sbeName == "Stone Skin")
+                stressBorderEffectDescription.text = "Huge amount of stress caused a shock after which "+topBar.getName().text+" doesn't feel pain, making the mercenary able to handle more injuries.";
+            else if (sbeName == "Multitasking")
+                stressBorderEffectDescription.text = topBar.getName().text+" is obsessed with being better than all of the crew, which results in unified but not impressive skills.";
+            else if (sbeName == "Equilibrium")
+                stressBorderEffectDescription.text = "Traumatic experience had made "+topBar.getName().text+" wanting to be able to overcome any situation.";
+            else if (sbeName == "Bravery")
+                stressBorderEffectDescription.text = "Stress had awoken a hidden hero in "+topBar.getName().text+", increasing overall performance and making "+topBar.getName().text+" unwilling to die.";
+            else if (sbeName == "Stress Resistant")
+                stressBorderEffectDescription.text = "Extensive exposure to stress made "+topBar.getName().text+" much better at handling with stress.";
+            else if (sbeName == "The Lucky One")
+                stressBorderEffectDescription.text = topBar.getName().text+" seems to be unbelievably lucky under stress.";
+            else if (sbeName == "Doombringer")
+                stressBorderEffectDescription.text = "Traumatic experience let "+topBar.getName().text+" unleash the true potential of this mercenary.";
+            else if (sbeName == "Excellence")
+                stressBorderEffectDescription.text = "Under pressure "+topBar.getName().text+" becomes incredibly efficient in any given task.";
+            else if (sbeName == "Absolute")
+                stressBorderEffectDescription.text = topBar.getName().text+" can focus on the most developed skill, pushing its limits even further.";
+            else
+                stressBorderEffectDescription.text = "";
         }
 
         function setImmunity()
         {
             stressBorderEffectValue.text = "N/A";
-            stressBorderEffectDescription.text = "This mercenary is immune to stress. Thus, he/she is never affected by any stress border effect.";
+            stressBorderEffectDescription.text = "Because of mechanical nature, this mercenary cannot have any quirks.";
         }
 
         Text {

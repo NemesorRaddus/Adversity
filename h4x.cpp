@@ -106,6 +106,7 @@ void H4X::setBuildingLevel(const QString &buildingName, unsigned level) noexcept
     }
     Game::gameInstance()->m_base->getBuilding(BaseEnums::fromQStringToBuildingEnum(buildingName))->registerUpgradeCompletion();//slots resized
 
+    Game::gameInstance()->m_base->recalculateAmountOfHeroSlots();//barracks slots
 }
 
 void H4X::completeUpgrade(const QString &buildingName) noexcept
@@ -209,7 +210,11 @@ void H4X::chaosComesForYou() noexcept
 {
     for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
         if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
+        {
             Game::gameInstance()->m_base->m_heroes->getHero(i)->m_currentAttributesValues.stress = Game::gameInstance()->m_base->m_heroes->getHero(i)->m_currentAttributesValues.stressLimit-1;
+            if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isStressBorderEffectActive())
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->activateStressBorderEffect();
+        }
 }
 
 void H4X::forceUIUpdate() noexcept

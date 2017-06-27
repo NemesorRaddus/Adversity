@@ -30,6 +30,8 @@ Item {
     signal buildingMenuRequested(string buildingName)
     signal dismissClickedFwd()
     signal dismissDialogHidingRequested()
+    signal artPreviewRequested(string artSource)
+    signal artPreviewHidingRequested()
 
     function returnToDefault()
     {
@@ -58,15 +60,19 @@ Item {
                 view.dismissConfirmDialogVisible=false;
                 return true;
             }
-            else
+            if (view.artPreviewVisible)
             {
-                if (!view.reactToBackOnToolbar())
-                {
-                    list.state = "";
-                    view.state = "hidden";
-                }
+                artPreviewHidingRequested();
+                view.artPreviewVisible=false;
                 return true;
             }
+
+            if (!view.reactToBackOnToolbar())
+            {
+                list.state = "";
+                view.state = "hidden";
+            }
+            return true;
         }
         else
         {
@@ -82,6 +88,11 @@ Item {
     function acknowledgeConfirmDialogClosing()
     {
         view.dismissConfirmDialogVisible = false;
+    }
+
+    function acknowledgeArtPreviewClosing()
+    {
+        view.artPreviewVisible = false;
     }
 
     Item {
@@ -182,6 +193,8 @@ Item {
             root.updateEverything();
             updateRequestedFromMercenariesModeGUI();
         }
+
+        onArtPreviewRequested: root.artPreviewRequested(artSource);
 
         Component.onCompleted: state = "hidden";
     }
