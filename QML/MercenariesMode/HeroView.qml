@@ -915,19 +915,19 @@ Item {
             }
             else if (ca == "On Training Ground")
             {
-                currentActivityDescription.text = topBar.getName().text+" is training combat skills.\nThe training will end in "+GameApi.base.trainingGround.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+" days.";
+                currentActivityDescription.text = topBar.getName().text+" is training combat skills.\nThe training will end in "+(GameApi.base.trainingGround.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+1)+" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Gym")
             {
-                currentActivityDescription.text = topBar.getName().text+" is working out at the gym.\nVisible effects will appear in "+GameApi.base.gym.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+" days.";
+                currentActivityDescription.text = topBar.getName().text+" is working out at the gym.\nVisible effects will appear in "+(GameApi.base.gym.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+1)+" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Laboratory")
             {
-                currentActivityDescription.text = topBar.getName().text+" is expanding knowledge.\nThe study will end after "+GameApi.base.laboratory.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+" days.";
+                currentActivityDescription.text = topBar.getName().text+" is expanding knowledge.\nThe study will end after "+(GameApi.base.laboratory.remainingDaysOfTraining(GameApi.globalsCpp.alterNormalTextToInternal(topBar.getName().text))+1)+" days.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
@@ -957,7 +957,7 @@ Item {
             }
             else if (ca == "Arriving")
             {
-                currentActivityDescription.text = topBar.getName().text+" is travelling to your base.\nEstimated time of arrival: "+GameApi.base.dockingStation.remainingDaysUntilHeroArrival(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+                currentActivityDescription.text = topBar.getName().text+" is travelling to your base.\nEstimated time of arrival: "+(GameApi.base.dockingStation.remainingDaysUntilHeroArrival(GameApi.globalsCpp.alterNormalTextToInternal(heroName))+1)+" days.";
                 currentActivityGoToText.visible = false;
                 currentActivityGoToMA.visible = false;
             }

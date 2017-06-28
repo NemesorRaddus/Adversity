@@ -2298,6 +2298,18 @@ public:
     void setCurrentBuildingMaterialsAmount(unsigned amount) noexcept;
     void setCurrentAetheriteAmount(unsigned amount) noexcept;
 
+    bool canDecreaseEnergyAmount(unsigned amount) const noexcept
+    {
+        return m_energy>=amount;
+    }
+    bool canDecreaseFoodSuppliesAmount(unsigned amount) const noexcept
+    {
+        return m_foodSupplies>=amount;
+    }
+
+    void decreaseEnergyAmount(unsigned amount) noexcept;
+    void decreaseFoodSuppliesAmount(unsigned amount) noexcept;
+
     Q_INVOKABLE int currentEnergyIncome() const noexcept
     {
         int r=0;

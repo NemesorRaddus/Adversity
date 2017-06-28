@@ -263,8 +263,13 @@ int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
 void Hospital::healHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingHealed.size();++i)
-        if (m_heroesBeingHealed[i]!=nullptr)
+        if (m_heroesBeingHealed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy) && base()->canDecreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies))
+        {
+            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+            base()->decreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies);
+
             m_heroesBeingHealed[i]->changeHealth(m_levelsInfo.value(currentLevel()).hpRestored);
+        }
 }
 
 void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
@@ -350,8 +355,12 @@ void TrainingGround::trainHeroes() noexcept
     for (int i=0;i<m_heroesBeingTrained.size();++i)
         if (m_heroesBeingTrained[i].first!=nullptr)
         {
-            if (m_heroesBeingTrained[i].second>0)
+            if (m_heroesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            {
+                base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
                 --m_heroesBeingTrained[i].second;
+            }
             else if (m_heroesBeingTrained[i].second==0)
             {
                 if (m_heroesBeingTrained[i].first->combatEffectiveness() > 7)
@@ -466,8 +475,12 @@ void Gym::trainHeroes() noexcept
     for (int i=0;i<m_heroesBeingTrained.size();++i)
         if (m_heroesBeingTrained[i].first!=nullptr)
         {
-            if (m_heroesBeingTrained[i].second>0)
+            if (m_heroesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            {
+                base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
                 --m_heroesBeingTrained[i].second;
+            }
             else if (m_heroesBeingTrained[i].second==0)
             {
                 if (m_heroesBeingTrained[i].first->proficiency() > 7)
@@ -582,8 +595,12 @@ void Laboratory::trainHeroes() noexcept
     for (int i=0;i<m_heroesBeingTrained.size();++i)
         if (m_heroesBeingTrained[i].first!=nullptr)
         {
-            if (m_heroesBeingTrained[i].second>0)
+            if (m_heroesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            {
+                base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
                 --m_heroesBeingTrained[i].second;
+            }
             else if (m_heroesBeingTrained[i].second==0)
             {
                 if (m_heroesBeingTrained[i].first->cleverness() > 7)
@@ -688,8 +705,10 @@ void PlayingField::removeHero(const QString &name) noexcept
 void PlayingField::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
+        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
+            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
@@ -779,8 +798,10 @@ void Bar::removeHero(const QString &name) noexcept
 void Bar::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
+        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
+            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
@@ -870,8 +891,10 @@ void Shrine::removeHero(const QString &name) noexcept
 void Shrine::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
+        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
+            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
@@ -961,8 +984,10 @@ void Seclusion::removeHero(const QString &name) noexcept
 void Seclusion::destressHeroes() noexcept
 {
     for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
+        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
+            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+
             if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
                 m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
             else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
@@ -1907,6 +1932,16 @@ void Base::setCurrentAetheriteAmount(unsigned amount) noexcept
 {
     if (amount <= currentAetheriteLimit())
         m_aetherite = amount;
+}
+
+void Base::decreaseEnergyAmount(unsigned amount) noexcept
+{
+    m_energy = m_energy>amount ? m_energy-amount : 0;
+}
+
+void Base::decreaseFoodSuppliesAmount(unsigned amount) noexcept
+{
+    m_foodSupplies = m_foodSupplies>amount ? m_foodSupplies-amount : 0;
 }
 
 void Base::setBuildingLevel(BaseEnums::Building buildingName, unsigned level) noexcept

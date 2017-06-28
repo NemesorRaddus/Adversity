@@ -79,7 +79,7 @@ Item {
             waitingTimeAmount1.text = GameApi.base.dockingStation.waitingTime();
             recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Week";
             profitabilityAmount1.text = GameApi.base.dockingStation.profitability();
-            equipmentAmount1.text = GameApi.base.dockingStation.equipmentsAmount()+"/Day";
+            equipmentAmount1.text = GameApi.base.dockingStation.equipmentsAmount()+"/Week";
             maxTierAmount1.text = GameApi.base.dockingStation.maxTier();
 
             if (GameApi.base.dockingStation.maxLevelReached())
@@ -96,9 +96,9 @@ Item {
             {
                 energyDrainAmount2.text = GameApi.base.dockingStation.basicCostInEnergyAfterUpgrade()+"/Day";
                 waitingTimeAmount2.text = GameApi.base.dockingStation.waitingTimeAfterUpgrade();
-                recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade()+"/Day";
+                recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade()+"/Week";
                 profitabilityAmount2.text = GameApi.base.dockingStation.profitabilityAfterUpgrade();
-                equipmentAmount2.text = GameApi.base.dockingStation.equipmentsAmountAfterUpgrade()+"/Day";
+                equipmentAmount2.text = GameApi.base.dockingStation.equipmentsAmountAfterUpgrade()+"/Week";
                 maxTierAmount2.text = GameApi.base.dockingStation.maxTierAfterUpgrade();
             }
         }
@@ -298,7 +298,7 @@ Item {
                 width: 200
 
                 color: "#94ef94"
-                text: "1/Day"
+                text: "1/Week"
                 horizontalAlignment: Text.AlignRight
                 font.pixelSize: 60
                 font.family: fontStencil.name
@@ -399,7 +399,7 @@ Item {
                 width: 200
 
                 color: "#94ef94"
-                text: "1/Day"
+                text: "1/Week"
                 horizontalAlignment: Text.AlignRight
                 font.pixelSize: 60
                 font.family: fontStencil.name
@@ -412,7 +412,7 @@ Item {
                 width: 200
 
                 color: "#94ef94"
-                text: "1/Day"
+                text: "1/Week"
                 horizontalAlignment: Text.AlignRight
                 font.pixelSize: 60
                 font.family: fontStencil.name

@@ -36,13 +36,7 @@ Item {
 
     function returnToDefault()
     {
-        Scripts.scrollList(1000);
-        for (var i=0;i<10;++i)
-            Scripts.scrollList(100);
-        for (i=0;i<10;++i)
-            Scripts.scrollList(10);
-        for (i=0;i<10;++i)
-            Scripts.scrollList(1);
+        Scripts.scrollList(3000);
     }
 
     function deleteObjects()
