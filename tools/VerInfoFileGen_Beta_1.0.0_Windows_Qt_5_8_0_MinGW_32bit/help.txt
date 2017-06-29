@@ -1,0 +1,5 @@
+in Project settings (Qt Creator):
+
+add custom process step
+command: [projectDir]\tools\VerInfoFileGen_Beta_1.0.0_Windows_Qt_5_8_0_MinGW_32bit\VersionInfoFileGenerator.exe
+args (standard debug version): /path %{CurrentProject:Path}/versioninfo /binary 1 /appVerFromFile %{CurrentProject:Path}/versionnumber.txt /compileTime "%{CurrentDate:ISO} %{CurrentTime:ISO}" /buildType %{CurrentBuild:Type}

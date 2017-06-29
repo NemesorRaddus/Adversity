@@ -153,7 +153,7 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 }
 
 GameClock::GameClock() noexcept
-    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_latestAutosaveMinTimestamp(0)
+    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)})
 {}
 
 void GameClock::setBasePtr(Base *base) noexcept
@@ -167,6 +167,8 @@ void GameClock::saveCurrentDate() noexcept
     m_lastKnownDay=m_currentTimeInGameDay;
     m_lastKnownHour=m_currentTimeInGameHour;
     m_lastKnownMin=m_currentTimeInGameMin;
+
+    updateDateFromPreviousClockUpdate();
 }
 
 void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept
@@ -179,6 +181,8 @@ void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDa
     m_currentTimeInGameDay=lastKnownDay;
     m_currentTimeInGameHour=lastKnownHour;
     m_currentTimeInGameMin=lastKnownMin;
+
+    updateDateFromPreviousClockUpdate();
 
     long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
 
@@ -210,7 +214,17 @@ void GameClock::updateClock(int minutesToAdd) noexcept
 
     addMinutesToGameTime(minutesToAdd);
 
+    updateDateFromPreviousClockUpdate();
+
     tryAutosaving();
+}
+
+void GameClock::updateClock() noexcept
+{
+    if (isClockHealthy())
+        updateClock(1);
+    else
+        updateClock(m_lastKnownDate,m_lastKnownDay,m_lastKnownHour,m_lastKnownMin);
 }
 
 void GameClock::forceAutosave() noexcept
@@ -247,6 +261,21 @@ void GameClock::addHoursToGameTime(int hours) noexcept
 void GameClock::addDaysToGameTime(int days) noexcept
 {
     m_currentTimeInGameDay+=days;
+}
+
+bool GameClock::isClockHealthy() const noexcept
+{
+    return m_dateFromPreviousClockUpdate.msecsTo(QDateTime::currentDateTime())<realMsToOneGameMin()*2;
+}
+
+void GameClock::updateDateFromPreviousClockUpdate() noexcept
+{
+    m_dateFromPreviousClockUpdate=QDateTime::currentDateTime();
+}
+
+int GameClock::realMsToOneGameMin() const noexcept
+{
+    return static_cast<float>(m_realMinutesToOneGameDayRatio)/0.024;
 }
 
 void GameClock::tryAutosaving() noexcept

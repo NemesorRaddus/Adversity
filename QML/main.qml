@@ -201,7 +201,7 @@ Window {
         running: true
         repeat: true
         onTriggered: {
-            GameApi.base.gameClock.updateClock(1);
+            GameApi.base.gameClock.updateClock();
             mainGUI.updateClock();
             if (updateEverythingInAMoment)
             {

@@ -114,6 +114,7 @@ public:
 
     Q_INVOKABLE void updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept;//gets time from date time
     Q_INVOKABLE void updateClock(int minutesToAdd) noexcept;//enforces time change
+    Q_INVOKABLE void updateClock() noexcept;//changes time smartly
     Q_INVOKABLE bool hasDayChangedLately() const noexcept
     {
         return (m_currentTimeInGameHour==0 && m_currentTimeInGameMin==0);
@@ -146,6 +147,12 @@ private:
     void addMinutesToGameTime(int minutes) noexcept;
     void addHoursToGameTime(int hours) noexcept;
     void addDaysToGameTime(int days) noexcept;
+
+    bool isClockHealthy() const noexcept;//for clock freezes
+    void updateDateFromPreviousClockUpdate() noexcept;
+
+    int realMsToOneGameMin() const noexcept;
+
     void tryAutosaving() noexcept;
     void autosave() noexcept;
 
@@ -157,6 +164,8 @@ private:
     unsigned m_currentTimeInGameDay;
     unsigned m_currentTimeInGameHour;
     unsigned m_currentTimeInGameMin;
+
+    QDateTime m_dateFromPreviousClockUpdate;//to handle all clock freezes (game freezes on Android, etc.)
 
     const unsigned m_autosaveIntervalInMin = 15;//1-59
     unsigned m_latestAutosaveMinTimestamp;

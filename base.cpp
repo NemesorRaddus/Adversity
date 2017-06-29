@@ -1646,10 +1646,10 @@ void Base::loadSaveData(const SaveData &data) noexcept
         m_dockingStation->addEquipmentFromSave(m_gameObject->assetsPool().makeEquipmentNamed(data.buildings.dockingStationThings.equipments[i]));
 
     for (int i=0;i<data.buildings.dockingStationThings.arrivingHeroes.size();++i)//adding arriving mercenaries
-        for (int j=0;j<m_gameObject->assetsPool().loadedHeroes().size();++j)
-            if (m_gameObject->assetsPool().loadedHeroes()[j]->name() == data.buildings.dockingStationThings.arrivingHeroes[i].first)
+        for (int j=0;j<m_heroes->amountOfHeroes();++j)
+            if (m_heroes->getHero(j)->name() == data.buildings.dockingStationThings.arrivingHeroes[i].first)
             {
-                m_dockingStation->addArrivingHeroFromSave({m_gameObject->assetsPool().loadedHeroes()[j],static_cast<unsigned>(data.buildings.dockingStationThings.arrivingHeroes[i].second)});
+                m_dockingStation->addArrivingHeroFromSave({m_heroes->getHero(j),static_cast<unsigned>(data.buildings.dockingStationThings.arrivingHeroes[i].second)});
                 break;
             }
 
