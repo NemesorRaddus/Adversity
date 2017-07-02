@@ -78,7 +78,7 @@ Item {
         onReleased: {
             if (isScrollingActive == true)
                 isScrollingActive = false;
-            else
+            else if (rootBuildingsList.state == "")
                 buildingClicked(Scripts.getClickedItemName(y0));
             y0 = -1;
             movementCheckTimer.stop();

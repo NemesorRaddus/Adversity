@@ -91,6 +91,9 @@ void H4X::upgradeBuilding(const QString &buildingName) noexcept
 
 void H4X::setBuildingLevel(const QString &buildingName, unsigned level) noexcept
 {
+    if (level > Game::gameInstance()->m_base->getBuilding(BaseEnums::fromQStringToBuildingEnum(buildingName))->maxLevel())
+        return;
+
     Game::gameInstance()->m_base->setBuildingLevel(BaseEnums::fromQStringToBuildingEnum(buildingName),level);
 
     if (Game::gameInstance()->m_base->getBuilding(BaseEnums::fromQStringToBuildingEnum(buildingName))->isBeingUpgraded())

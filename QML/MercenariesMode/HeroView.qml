@@ -159,18 +159,20 @@ Item {
     width: 1080
     height: 1464
 
-//    transform: [
-//        Scale {
-//            id: someScale
-
-//            xScale: width/theoreticalWidth
-//            yScale: height/theoreticalHeight
-//        },
-//        Translate {
-//            x: (width-theoreticalWidth*someScale.xScale)/2
-//            y: (height-theoreticalHeight*someScale.yScale)/2
-//        }
-//    ]
+    onStateChanged: {
+        if (state == "")
+        {
+            artPreviewMA.enabled = true;
+            dismissButtonMA.enabled = true;
+            backButton.enabled = true;
+        }
+        else
+        {
+            artPreviewMA.enabled = false;
+            dismissButtonMA.enabled = false;
+            backButton.enabled = false;
+        }
+    }
 
     Item {
         id: topBar

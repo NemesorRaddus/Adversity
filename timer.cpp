@@ -153,7 +153,7 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 }
 
 GameClock::GameClock() noexcept
-    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)})
+    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_lastKnownDate(QDateTime::currentDateTime()), m_lastKnownDay(1), m_lastKnownHour(12), m_lastKnownMin(0), m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)})
 {}
 
 void GameClock::setBasePtr(Base *base) noexcept
