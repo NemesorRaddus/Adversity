@@ -2336,6 +2336,8 @@ public:
         int r=0;
         for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
             r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
+        for (auto e : m_heroes->heroes())
+            r-=e->dailyFoodConsumption();
         return r;
     }
     Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept
@@ -2350,6 +2352,8 @@ public:
         int r=0;
         for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
             r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInAetherite();
+        for (auto e : m_heroes->heroes())
+            r-=e->salary();
         return r;
     }
 
