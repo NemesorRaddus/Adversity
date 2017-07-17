@@ -1363,6 +1363,7 @@ void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
 {
     if (pos<m_equipments.size())
     {
+        base()->decreaseAetheriteAmount(m_equipments[pos]->buyingAetheriteCost());
         if (eta>0)
         {
             m_arrivingEquipments.push_back({m_equipments[pos],eta});
@@ -1942,6 +1943,16 @@ void Base::decreaseEnergyAmount(unsigned amount) noexcept
 void Base::decreaseFoodSuppliesAmount(unsigned amount) noexcept
 {
     m_foodSupplies = m_foodSupplies>amount ? m_foodSupplies-amount : 0;
+}
+
+void Base::decreaseBuildingMaterialsAmount(unsigned amount) noexcept
+{
+    m_buildingMaterials = m_buildingMaterials>amount ? m_buildingMaterials-amount : 0;
+}
+
+void Base::decreaseAetheriteAmount(unsigned amount) noexcept
+{
+    m_aetherite = m_aetherite>amount ? m_aetherite-amount : 0;
 }
 
 void Base::setBuildingLevel(BaseEnums::Building buildingName, unsigned level) noexcept

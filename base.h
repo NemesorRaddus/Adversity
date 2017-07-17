@@ -2110,6 +2110,10 @@ public:
             r+=m_equipments[i]->name();
         return r;
     }
+    Q_INVOKABLE unsigned readyEquipmentsAmount() const noexcept
+    {
+        return m_equipments.size();
+    }
     void prepareEquipments() noexcept;
     Q_INVOKABLE void prepareEquipmentForQML(unsigned pos) noexcept;
     Q_INVOKABLE void buyEquipment(unsigned pos, unsigned eta) noexcept;
@@ -2306,9 +2310,19 @@ public:
     {
         return m_foodSupplies>=amount;
     }
+    bool canDecreaseBuildingMaterialsAmount(unsigned amount) const noexcept
+    {
+        return m_buildingMaterials>=amount;
+    }
+    bool canDecreaseAetheriteAmount(unsigned amount) const noexcept
+    {
+        return m_aetherite>=amount;
+    }
 
     void decreaseEnergyAmount(unsigned amount) noexcept;
     void decreaseFoodSuppliesAmount(unsigned amount) noexcept;
+    void decreaseBuildingMaterialsAmount(unsigned amount) noexcept;
+    void decreaseAetheriteAmount(unsigned amount) noexcept;
 
     Q_INVOKABLE int currentEnergyIncome() const noexcept
     {

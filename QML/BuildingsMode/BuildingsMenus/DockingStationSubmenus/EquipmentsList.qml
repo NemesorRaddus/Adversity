@@ -6,12 +6,12 @@ import "../.."
 import Game 1.0
 
 Item {
-    id: rootHeroesList
+    id: rootEquipmentsList
 
     function update()
     {
-        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.dockingStation.equipmentsAmount(), width, height);
-        for (var i=0;i<GameApi.base.dockingStation.equipmentsAmount();++i)
+        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.dockingStation.readyEquipmentsAmount(), width, height);
+        for (var i=0;i<GameApi.base.dockingStation.readyEquipmentsAmount();++i)
         {
             GameApi.base.dockingStation.prepareEquipmentForQML(i);
             var n1,v1,n2,v2,n3,v3,n4,v4,n5,v5,n6,v6;
