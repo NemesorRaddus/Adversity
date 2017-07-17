@@ -116,7 +116,7 @@
 			<bonus varName="proficiency" value="-1"></bonus>
         </effects>
     </armor>
-	<armor name="AdvancedEngineeerSuit" tier="3">
+        <armor name="AdvancedEngineerSuit" tier="3">
         <effects>
             <bonus varName="cleverness" value="4"></bonus>
 			<bonus varName="proficiency" value="2"></bonus>
@@ -154,7 +154,7 @@
 			<bonus varName="dailyFoodConsumption" value="1"></bonus>
         </effects>
     </weaponTool>
-	<weaponTool name="UPOAHarversterShotgun" tier="2">
+        <weaponTool name="UPOAHarvesterShotgun" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="3"></bonus>
 			<bonus varName="stressResistance" value="-0.1"></bonus>
