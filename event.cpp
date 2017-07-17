@@ -2,51 +2,118 @@
 
 #include <QDebug>
 
-ModifyAttributeEventResult::ModifyAttributeEventResult(const QMap<HeroEnums::Attribute, float> &modifications) noexcept
-    : EventResult(EventEnums::R_ModifyAttribute)
+Expression::Expression() noexcept
+    : m_isExprValid(0)
 {
-    m_combatEffectiveness=modifications.value(HeroEnums::A_CombatEffectiveness,0);
-    m_proficiency=modifications.value(HeroEnums::A_Proficiency,0);
-    m_cleverness=modifications.value(HeroEnums::A_Cleverness,0);
-    m_luck=modifications.value(HeroEnums::A_Luck,0);
-    m_health=modifications.value(HeroEnums::A_Health,0);
-    m_healthLimit=modifications.value(HeroEnums::A_HealthLimit,0);
-    m_dailyHealthRecovery=modifications.value(HeroEnums::A_DailyHealthRecovery,0);
-    m_stress=modifications.value(HeroEnums::A_Stress,0);
-    m_stressResistance=modifications.value(HeroEnums::A_StressResistance,0);
-    m_stressLimit=modifications.value(HeroEnums::A_StressLimit,0);
-    m_stressBorder=modifications.value(HeroEnums::A_StressBorder,0);
-    m_dailyStressRecovery=modifications.value(HeroEnums::A_DailyStressRecovery,0);
-    m_salary=modifications.value(HeroEnums::A_Salary,0);
-    m_dailyFoodConsumption=modifications.value(HeroEnums::A_DailyFoodConsumption,0);
+    handleEngine();
 }
 
-void ModifyAttributeEventResult::affectHero(Hero *hero) const noexcept
+Expression::Expression(const QString &expr) noexcept
+    : m_expr(expr)
 {
-    hero->changeCombatEffectiveness(combatEffectiveness());
-    hero->changeProficiency(proficiency());
-    hero->changeCleverness(cleverness());
-    hero->changeLuck(luck());
-    hero->changeHealth(health());
-    hero->changeHealthLimit(healthLimit());
-    hero->changeDailyHealthRecovery(dailyHealthRecovery());
-    if (stress()<0)
-        hero->decreaseStress(stress());
-    else if (stress()>0)
-        hero->increaseStress(stress());
-    hero->changeStressResistance(stressResistance());
-    hero->changeStressLimit(stressLimit());
-    hero->changeStressBorder(stressBorder());
-    hero->changeDailyStressRecovery(dailyStressRecovery());
-    hero->changeDailyFoodConsumption(dailyFoodConsumption());
+    handleEngine();
+    validateExpr();
 }
 
-void KillHeroEventResult::affectHero(Hero *hero) const noexcept
+Expression::Expression(const Expression &other) noexcept
+    : m_expr(other.m_expr)
+{
+    handleEngine();
+    validateExpr();
+}
+
+void Expression::set(const QString &expr) noexcept
+{
+    m_expr=expr;
+    validateExpr();
+}
+
+bool Expression::isValid() const noexcept
+{
+    return m_isExprValid;
+}
+
+QVariant Expression::evaluate(const Hero *context) const noexcept
+{
+    if (context==nullptr)
+        return {};
+
+    m_engine->globalObject().setProperty("CE",context->combatEffectiveness());
+    m_engine->globalObject().setProperty("PR",context->proficiency());
+    m_engine->globalObject().setProperty("CL",context->cleverness());
+    m_engine->globalObject().setProperty("HP",context->health());
+    m_engine->globalObject().setProperty("HL",context->healthLimit());
+    m_engine->globalObject().setProperty("DHR",context->dailyHealthRecovery());
+    m_engine->globalObject().setProperty("ST",context->stress());
+    m_engine->globalObject().setProperty("SB",context->stressBorder());
+    m_engine->globalObject().setProperty("SL",context->stressLimit());
+    m_engine->globalObject().setProperty("SR",context->stressResistance());
+    m_engine->globalObject().setProperty("DSR",context->dailyStressRecovery());
+    m_engine->globalObject().setProperty("LU",context->luck());
+    m_engine->globalObject().setProperty("SA",context->salary());
+    m_engine->globalObject().setProperty("DFC",context->dailyFoodConsumption());
+
+    return m_engine->evaluate(m_expr).toVariant();
+}
+
+void Expression::validateExpr() noexcept
+{
+    QJSValue v=m_engine->evaluate(m_expr);
+    if (v.isError())
+        m_isExprValid=0;
+    else
+        m_isExprValid=1;
+}
+
+void Expression::handleEngine() noexcept
+{
+    static QJSEngine *theEngine=nullptr;
+    if (theEngine==nullptr)
+    {
+        theEngine=new QJSEngine();
+
+        theEngine->globalObject().setProperty("CE",0);
+        theEngine->globalObject().setProperty("PR",0);
+        theEngine->globalObject().setProperty("CL",0);
+        theEngine->globalObject().setProperty("HP",0);
+        theEngine->globalObject().setProperty("HL",0);
+        theEngine->globalObject().setProperty("DHR",0);
+        theEngine->globalObject().setProperty("ST",0);
+        theEngine->globalObject().setProperty("SB",0);
+        theEngine->globalObject().setProperty("SL",0);
+        theEngine->globalObject().setProperty("SR",0);
+        theEngine->globalObject().setProperty("DSR",0);
+        theEngine->globalObject().setProperty("LU",0);
+        theEngine->globalObject().setProperty("SA",0);
+        theEngine->globalObject().setProperty("DFC",0);
+    }
+
+    m_engine=theEngine;
+}
+
+void MultiEvent::execute(Hero *context) noexcept
+{
+    for (auto e : m_eventsToExecute)
+        e->execute(context);
+}
+
+ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModification &modification) noexcept
+    : ActionEvent(EventEnums::A_ModifyAttribute), m_modification(modification)
+{
+
+}
+
+void ModifyAttributeEventResult::execute(Hero *hero) noexcept
+{
+
+}
+
+void KillHeroEventResult::execute(Hero *hero) noexcept
 {
     hero->die(HeroEnums::DR_KillEvent);
 }
 
-void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept
+void AddEquipmentEventResult::execute(Hero *hero) noexcept
 {
     if (m_equipmentToAdd->type()==EquipmentEnums::T_Armor)
         hero->equipArmor(m_equipmentToAdd);
@@ -62,7 +129,7 @@ void AddEquipmentEventResult::affectHero(Hero *hero) const noexcept
     }
 }
 
-void RemoveEquipmentEventResult::affectHero(Hero *hero) const noexcept
+void RemoveEquipmentEventResult::execute(Hero *hero) noexcept
 {
     if (m_equipmentType==EquipmentEnums::T_Armor)
         hero->unequipArmor();
@@ -71,7 +138,7 @@ void RemoveEquipmentEventResult::affectHero(Hero *hero) const noexcept
 }
 
 CollectResourceEventResult::CollectResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept
-    : EventResult(EventEnums::R_CollectResource)
+    : ActionEvent(EventEnums::A_CollectResource)
 {
     m_energy=resources.value(BaseEnums::R_Energy,0);
     m_foodSupplies=resources.value(BaseEnums::R_FoodSupplies,0);
@@ -79,7 +146,7 @@ CollectResourceEventResult::CollectResourceEventResult(const QMap<BaseEnums::Res
     m_aetheriteOre=resources.value(BaseEnums::R_AetheriteOre,0);
 }
 
-void CollectResourceEventResult::affectHero(Hero *hero) const noexcept
+void CollectResourceEventResult::execute(Hero *hero) noexcept
 {
     hero->setCarriedEnergy(hero->carriedEnergy()+m_energy);
     hero->setCarriedFoodSupplies(hero->carriedFoodSupplies()+m_foodSupplies);
@@ -87,104 +154,157 @@ void CollectResourceEventResult::affectHero(Hero *hero) const noexcept
     hero->setCarriedAetheriteOre(hero->carriedAetheriteOre()+m_aetheriteOre);
 }
 
-void NoSignalEventResult::affectHero(Hero *hero) const noexcept
+void NoSignalEventResult::execute(Hero *hero) noexcept
 {
-    hero->setNoSignalDaysRemaining(hero->noSignalDaysRemaining()+m_durationInDays);
+    hero->setNoSignalDaysRemaining(m_durationInDays);
 }
 
-void ProlongMissionEventResult::affectHero(Hero *hero) const noexcept
+void ProlongMissionEventResult::execute(Hero *hero) noexcept
 {
     hero->assignedMission()->prolongDuration(m_additionalDays);
 }
 
-AttributeCheckEvent::AttributeCheckEvent(const QMap<HeroEnums::Attribute, float> &attributeChecks, float chancePositive, float chanceNegative, EventResult *eventResultPositivePositive, EventResult *eventResultPositiveNegative, EventResult *eventResultNegativePositive, EventResult *eventResultNegativeNegative) noexcept
-    : Event(EventEnums::T_AttributeCheck, QVector <EventResult *>(std::initializer_list <EventResult *>{eventResultPositivePositive, eventResultPositiveNegative, eventResultNegativePositive, eventResultNegativeNegative}))
+CheckEventResults::CheckEventResults(const CheckEventResults &other) noexcept
+    : m_positive(other.m_positive), m_negative(other.m_negative)
 {
-    m_combatEffectiveness=attributeChecks.value(HeroEnums::A_CombatEffectiveness,0);
-    m_proficiency=attributeChecks.value(HeroEnums::A_Proficiency,0);
-    m_cleverness=attributeChecks.value(HeroEnums::A_Cleverness,0);
-    m_luck=attributeChecks.value(HeroEnums::A_Luck,0);
-    m_health=attributeChecks.value(HeroEnums::A_Health,0);
-    m_healthLimit=attributeChecks.value(HeroEnums::A_HealthLimit,0);
-    m_dailyHealthRecovery=attributeChecks.value(HeroEnums::A_DailyHealthRecovery,0);
-    m_stress=attributeChecks.value(HeroEnums::A_Stress,0);
-    m_stressResistance=attributeChecks.value(HeroEnums::A_StressResistance,0);
-    m_stressLimit=attributeChecks.value(HeroEnums::A_StressLimit,0);
-    m_stressBorder=attributeChecks.value(HeroEnums::A_StressBorder,0);
-    m_dailyStressRecovery=attributeChecks.value(HeroEnums::A_DailyStressRecovery,0);
-    m_salary=attributeChecks.value(HeroEnums::A_Salary,0);
-    m_dailyFoodConsumption=attributeChecks.value(HeroEnums::A_DailyFoodConsumption,0);
+
 }
 
-void AttributeCheckEvent::execute(Hero *hero) const noexcept
+CheckEventResults CheckEventResultsBuilder::get() noexcept
 {
-    if (hero==0)
+    validateJustBeforeReturning();
+    auto r=m_results;
+    reset();
+    return r;
+}
+
+void CheckEventResultsBuilder::reset() noexcept
+{
+    m_results.m_positive.clear();
+    m_results.m_negative.clear();
+}
+
+void CheckEventResultsBuilder::addPositive(const QPair<Event *, Chance> &result) noexcept
+{
+    if (result.first != nullptr)
+        m_results.m_positive+=result;
+}
+
+void CheckEventResultsBuilder::addNegative(const QPair<Event *, Chance> &result) noexcept
+{
+    if (result.first != nullptr)
+        m_results.m_negative+=result;
+}
+
+void CheckEventResultsBuilder::validateJustBeforeReturning() noexcept
+{
+    int x=100;
+    for (auto e : m_results.m_positive)
+    {
+        if (e.second <= x)
+            x-=e.second;
+        else
+        {
+            e.second=x;
+            x=0;
+        }
+    }
+    if (x!=0)
+    {
+        if (m_results.m_positive.isEmpty())
+            m_results.m_positive+={new NullEventResult(), 100};
+        else
+            m_results.m_positive.last().second=m_results.m_positive.last().second+x;
+    }
+
+    x=100;
+    for (auto e : m_results.m_negative)
+    {
+        if (e.second <= x)
+            x-=e.second;
+        else
+        {
+            e.second=x;
+            x=0;
+        }
+    }
+    if (x!=0)
+    {
+        if (m_results.m_negative.isEmpty())
+            m_results.m_negative+={new NullEventResult(), 100};
+        else
+            m_results.m_negative.last().second=m_results.m_negative.last().second+x;
+    }
+}
+
+CheckEvent::CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results) noexcept
+    : Event(EventEnums::T_Check), m_eventSubtype(eventSubtype), m_results(results)
+{
+
+}
+
+AttributeCheckEvent::AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept
+    : CheckEvent(EventEnums::C_AttributeCheck, results), m_condition(condition)
+{
+
+}
+
+void AttributeCheckEvent::execute(Hero *hero) noexcept
+{
+    if (hero==nullptr)
         return;
 
-    EventResult *result;
-    if (checkIfResultPositive(hero))
+    Event *result=nullptr;
+
+    QVariant var=m_condition.evaluate(hero);
+    if (!var.canConvert(QVariant::Bool))
+        return;
+
+    if (var.toBool())
     {
-        if (Randomizer::randomBetweenAAndB(0,100)<=m_chancePositive*100)
-            result=eventResult(0);
-        else
-            result=eventResult(1);
+        int x=Randomizer::randomBetweenAAndB(1,100);
+        for (auto e : m_results.positive())
+        {
+            if (e.second>=x)
+            {
+                result=e.first;
+                break;
+            }
+            else
+                x-=e.second;
+        }
     }
     else
     {
-        if ((Randomizer::randomBetweenAAndB(0,100)<=m_chanceNegative*100))
-            result=eventResult(2);
-        else
-            result=eventResult(3);
+        int x=Randomizer::randomBetweenAAndB(1,100);
+        for (auto e : m_results.negative())
+        {
+            if (e.second>=x)
+            {
+                result=e.first;
+                break;
+            }
+            else
+                x-=e.second;
+        }
     }
 
-    if (result->eventResultType()==EventEnums::R_Null)
-        static_cast<NullEventResult *>(result)->affectHero(hero);
-    else if (result->eventResultType()==EventEnums::R_ModifyAttribute)
-        static_cast<ModifyAttributeEventResult *>(result)->affectHero(hero);
-    else if (result->eventResultType()==EventEnums::R_KillHero)
-        static_cast<KillHeroEventResult *>(result)->affectHero(hero);
-    else if (result->eventResultType()==EventEnums::R_AddEquipment)
-        static_cast<AddEquipmentEventResult *>(result)->affectHero(hero);
-    else if (result->eventResultType()==EventEnums::R_RemoveEquipment)
-        static_cast<RemoveEquipmentEventResult *>(result)->affectHero(hero);
-    else if (result->eventResultType()==EventEnums::R_CollectResource)
-        static_cast<CollectResourceEventResult *>(result)->affectHero(hero);
-    else if (result->eventResultType()==EventEnums::R_NoSignal)
-        static_cast<NoSignalEventResult *>(result)->affectHero(hero);
-    else
-        static_cast<ProlongMissionEventResult *>(result)->affectHero(hero);
+    if (result==nullptr)
+        return;
+
+    result->execute(hero);
 }
 
-bool AttributeCheckEvent::checkIfResultPositive(Hero *hero) const noexcept
+PossibilityEvent::PossibilityEvent(Chance chance, Event *event) noexcept
+    : Event(EventEnums::T_Possibility), m_chance(chance), m_event(event) {}
+
+void PossibilityEvent::execute(Hero *hero) noexcept
 {
-    if (hero->combatEffectiveness()<m_combatEffectiveness)
-        return 0;
-    if (hero->proficiency()<m_proficiency)
-        return 0;
-    if (hero->cleverness()<m_cleverness)
-        return 0;
-    if (hero->luck()<m_luck)
-        return 0;
-    if (hero->health()<m_health)
-        return 0;
-    if (hero->healthLimit()<m_healthLimit)
-        return 0;
-    if (hero->dailyHealthRecovery()<m_dailyHealthRecovery)
-        return 0;
-    if (hero->stress()<m_stress)
-        return 0;
-    if (hero->stressResistance()<m_stressResistance)
-        return 0;
-    if (hero->stressLimit()<m_stressLimit)
-        return 0;
-    if (hero->stressBorder()<m_stressBorder)
-        return 0;
-    if (hero->dailyStressRecovery()<m_dailyStressRecovery)
-        return 0;
-    if (hero->salary()<m_salary)
-        return 0;
-    if (hero->dailyFoodConsumption()<m_dailyFoodConsumption)
-        return 0;
+    if (hero==nullptr || m_event==nullptr)
+        return;
+
+    if (m_chance<=Randomizer::randomBetweenAAndB(1,100))
+    m_event->execute(hero);
 }
 
 Event *Mission::takeRandomEvent() noexcept
@@ -211,21 +331,9 @@ void Mission::assignHero(Hero *hero) noexcept
 
 void Mission::reset() noexcept
 {
-    m_name.clear();
-    m_description.clear();
     m_duration=1;
     m_events.clear();
     m_assignedHero=nullptr;
-}
-
-void Mission::setName(const QString &name) noexcept
-{
-    m_name=name;
-}
-
-void Mission::setDescription(const QString &description) noexcept
-{
-    m_description=description;
 }
 
 void Mission::setDuration(int days) noexcept
@@ -260,16 +368,6 @@ Mission *MissionBuilder::getMission() const noexcept
 void MissionBuilder::resetMission() noexcept
 {
     m_mission->reset();
-}
-
-void MissionBuilder::setName(const QString &name) noexcept
-{
-    m_mission->setName(name);
-}
-
-void MissionBuilder::setDescription(const QString &description) noexcept
-{
-    m_mission->setDescription(description);
 }
 
 void MissionBuilder::setDuration(int duration) noexcept

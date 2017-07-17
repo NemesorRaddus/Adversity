@@ -169,6 +169,8 @@ struct HeroAttributesSet
 QDataStream &operator<<(QDataStream &stream, const HeroAttributesSet &attrs) noexcept;
 QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept;
 
+struct AttributeModification;
+
 class Hero : public QObject
 {
     Q_OBJECT
@@ -493,6 +495,8 @@ private:
     int m_carriedFoodSupplies;
     int m_carriedBuildingMaterials;
     int m_carriedAetheriteOre;
+
+    QVector <AttributeModification *> m_attributeModifications;
 
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
