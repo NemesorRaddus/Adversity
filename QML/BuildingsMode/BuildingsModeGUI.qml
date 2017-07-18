@@ -6,6 +6,7 @@ Item {
     clip: true
 
     signal updateRequestedFromBuildingsModeGUI()
+    signal heroesModeUpdateRequested()
     signal showSpecial()
 
     function returnToDefault()
@@ -107,6 +108,7 @@ Item {
         onUpdateRequestedFromBuildingMenu: {
             updateRequestedFromBuildingsModeGUI();
         }
+        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
         onMarkAsUpgradedSignal: list.markAsUpgraded(buildingName,true);
 
         onShowSpecial: parent.showSpecial()
