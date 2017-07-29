@@ -2,6 +2,7 @@ import QtQuick 2.5
 
 import Game 1.0
 import "../.."
+import "../../.."
 
 Item {
     id: root
@@ -580,14 +581,16 @@ Item {
         width: 785
         height: 249
 
-        Text {
+        MarqueeText {
             id: name
             x: 0
             y: -6
+            width: parent.width
             color: "#94ef94"
             text: "Biohazard Protection Suit"
             font.pixelSize: 56
             font.family: fontStencil.name
+            scrollingSpeed: 16
         }
 
         Text {
