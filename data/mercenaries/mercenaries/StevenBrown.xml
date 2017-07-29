@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="StevenBrown">
-	<attributes combatEffectiveness="2" proficiency="7" cleverness="5" luck="1.05" health="12" healthLimit="12" dailyHealthRecovery="0" stress="0" stressResistance="1.1" stressLimit="120" stressBorder="70" dailyStressRecovery="5" salary="10" dailyFoodConsumption="3" nature="Convivial" profession="Archeologist"></attributes>
-	<sbeList>
-		<sbe>Paranoia</sbe>
-		<sbe>Paranoia</sbe>
-		<sbe>Paranoia</sbe>
-		<sbe>Masochism</sbe>
-		<sbe>Fear</sbe>
-		<sbe>Fear</sbe>
-		<sbe>Faint</sbe>
-		<sbe>Restive</sbe>
-                <sbe>Multitasking</sbe>
-		<sbe>Excellence</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="2" proficiency="7" cleverness="5" luck="1.05" health="12" healthLimit="12" dailyHealthRecovery="0" stress="0" stressResistance="1.1" stressLimit="120" stressBorder="70" dailyStressRecovery="5" salary="10" dailyFoodConsumption="3" nature="Convivial" profession="Archeologist"></attributes>
+    <sbeList>
+        <sbe>Paranoia</sbe>
+        <sbe>Paranoia</sbe>
+        <sbe>Paranoia</sbe>
+        <sbe>Masochism</sbe>
+        <sbe>Fear</sbe>
+        <sbe>Fear</sbe>
+        <sbe>Faint</sbe>
+        <sbe>Restive</sbe>
+        <sbe>Multitasking</sbe>
+        <sbe>Excellence</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

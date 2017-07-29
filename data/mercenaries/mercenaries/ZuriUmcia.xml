@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="ZuriUmcia">
-	<attributes combatEffectiveness="3" proficiency="4" cleverness="3" luck="1.45" health="10" healthLimit="10" dailyHealthRecovery="0" stress="0" stressResistance="1.1" stressLimit="180" stressBorder="60" dailyStressRecovery="10" salary="8" dailyFoodConsumption="2" nature="Religious" profession="Doomsayer"></attributes>
-	<sbeList>
-		<sbe>Faint</sbe>
-		<sbe>Fanatic Wrath</sbe>
-		<sbe>Fanatic Wrath</sbe>
-		<sbe>Fanatic Wrath</sbe>
-		<sbe>Rage</sbe>
-		<sbe>Rage</sbe>
-		<sbe>Doombringer</sbe>
-		<sbe>Doombringer</sbe>
-		<sbe>Doombringer</sbe>
-		<sbe>Doombringer</sbe>
-		<sbe>Doombringer</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="3" proficiency="4" cleverness="3" luck="1.45" health="10" healthLimit="10" dailyHealthRecovery="0" stress="0" stressResistance="1.1" stressLimit="180" stressBorder="60" dailyStressRecovery="10" salary="8" dailyFoodConsumption="2" nature="Religious" profession="Doomsayer"></attributes>
+    <sbeList>
+        <sbe>Faint</sbe>
+        <sbe>Fanatic Wrath</sbe>
+        <sbe>Fanatic Wrath</sbe>
+        <sbe>Fanatic Wrath</sbe>
+        <sbe>Rage</sbe>
+        <sbe>Rage</sbe>
+        <sbe>Doombringer</sbe>
+        <sbe>Doombringer</sbe>
+        <sbe>Doombringer</sbe>
+        <sbe>Doombringer</sbe>
+        <sbe>Doombringer</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

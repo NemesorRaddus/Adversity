@@ -761,23 +761,23 @@ Item {
             state: "hidden"
 
             onHeroClicked: {
-                if (parent.indexOfChangingSlot==0)//COULDDO that's nasty
+                switch (parent.indexOfChangingSlot)
                 {
+                case 0:
                     slotView1.heroName=heroName;
                     slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle(), GameApi.base.trainingGround.duration()+1);
                     state = "hidden";
-                }
-                else if (parent.indexOfChangingSlot==1)
-                {
+                    break;
+                case 1:
                     slotView2.heroName=heroName;
                     slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle(), GameApi.base.trainingGround.duration()+1);
                     state = "hidden";
-                }
-                else if (parent.indexOfChangingSlot==2)
-                {
+                    break;
+                case 2:
                     slotView3.heroName=heroName;
                     slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.trainingGround.useCostInEnergySingle(), GameApi.base.trainingGround.duration()+1);
                     state = "hidden";
+                    break;
                 }
                 heroSelectionList.banHero(heroName);
             }

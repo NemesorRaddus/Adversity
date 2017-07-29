@@ -4,231 +4,231 @@
     <armor name="BasicUPOAArmour" tier="1">
         <effects>
             <bonus varName="combatEffectiveness" value="2"></bonus>
-			<bonus varName="healthLimit" value="2"></bonus>
-			<bonus varName="stressResistance" value="-0.1"></bonus>
+            <bonus varName="healthLimit" value="2"></bonus>
+            <bonus varName="stressResistance" value="-0.1"></bonus>
         </effects>
     </armor>
         <armor name="ExplorersSuit" tier="1">
         <effects>
             <bonus varName="proficiency" value="2"></bonus>
-			<bonus varName="cleverness" value="1"></bonus>
-			<bonus varName="dailyStressRecovery" value="2"></bonus>
-			<bonus varName="combatEffectiveness" value="2"></bonus>
+            <bonus varName="cleverness" value="1"></bonus>
+            <bonus varName="dailyStressRecovery" value="2"></bonus>
+            <bonus varName="combatEffectiveness" value="2"></bonus>
         </effects>
     </armor>
 	<armor name="RoEScoutsSuit" tier="1">
         <effects>
             <bonus varName="proficiency" value="1"></bonus>
-			<bonus varName="stressBorder" value="10"></bonus>
-			<bonus varName="salary" value="1"></bonus>
+            <bonus varName="stressBorder" value="10"></bonus>
+            <bonus varName="salary" value="1"></bonus>
         </effects>
     </armor>
 	<armor name="EngineerUniform" tier="1">
         <effects>
             <bonus varName="cleverness" value="2"></bonus>
-			<bonus varName="stressBorder" value="10"></bonus>
-			<bonus varName="salary" value="1"></bonus>
+            <bonus varName="stressBorder" value="10"></bonus>
+            <bonus varName="salary" value="1"></bonus>
         </effects>
     </armor>
 	<armor name="HCPrototypeSuit" tier="1">
         <effects>
             <bonus varName="dailyHealthRecovery" value="1"></bonus>
-			<bonus varName="dailyStressRecovery" value="4"></bonus>
-			<bonus varName="stressBorder" value="10"></bonus>
-			<bonus varName="stressLimit" value="10"></bonus>
-			<bonus varName="combatEffectiveness" value="-1"></bonus>
+            <bonus varName="dailyStressRecovery" value="4"></bonus>
+            <bonus varName="stressBorder" value="10"></bonus>
+            <bonus varName="stressLimit" value="10"></bonus>
+            <bonus varName="combatEffectiveness" value="-1"></bonus>
         </effects>
     </armor>
 	<armor name="EliteUPOAArmour" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="3"></bonus>
-			<bonus varName="healthLimit" value="5"></bonus>
-			<bonus varName="stressResistance" value="-0.2"></bonus>
+            <bonus varName="healthLimit" value="5"></bonus>
+            <bonus varName="stressResistance" value="-0.2"></bonus>
         </effects>
     </armor>
         <armor name="BiohazardProtectionSuit" tier="2">
         <effects>
             <bonus varName="proficiency" value="3"></bonus>
-			<bonus varName="healthLimit" value="2"></bonus>
-			<bonus varName="stressResistance" value="-0.2"></bonus>
-			<bonus varName="dailyStressRecovery" value="-3"></bonus>
-			<bonus varName="combatEffectiveness" value="-1"></bonus>
+            <bonus varName="healthLimit" value="2"></bonus>
+            <bonus varName="stressResistance" value="-0.2"></bonus>
+            <bonus varName="dailyStressRecovery" value="-3"></bonus>
+            <bonus varName="combatEffectiveness" value="-1"></bonus>
         </effects>
     </armor>
 	<armor name="LightMercenaryArmour" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="1"></bonus>
-			<bonus varName="proficiency" value="1"></bonus>
-			<bonus varName="healthLimit" value="4"></bonus>
-			<bonus varName="stressBorder" value="15"></bonus>
+            <bonus varName="proficiency" value="1"></bonus>
+            <bonus varName="healthLimit" value="4"></bonus>
+            <bonus varName="stressBorder" value="15"></bonus>
         </effects>
     </armor>
 	<armor name="VeteranAdventurersArmour" tier="2">
         <effects>
             <bonus varName="proficiency" value="3"></bonus>
-			<bonus varName="cleverness" value="1"></bonus>
-			<bonus varName="dailyStressRecovery" value="5"></bonus>
-			<bonus varName="combatEffectiveness" value="-1"></bonus>
-			<bonus varName="salary" value="3"></bonus>
+            <bonus varName="cleverness" value="1"></bonus>
+            <bonus varName="dailyStressRecovery" value="5"></bonus>
+            <bonus varName="combatEffectiveness" value="-1"></bonus>
+            <bonus varName="salary" value="3"></bonus>
         </effects>
     </armor>
 	<armor name="DP4SkirmisherArmour" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="2"></bonus>
-			<bonus varName="cleverness" value="2"></bonus>
-			<bonus varName="healthLimit" value="2"></bonus>
-			<bonus varName="proficiency" value="-1"></bonus>
+            <bonus varName="cleverness" value="2"></bonus>
+            <bonus varName="healthLimit" value="2"></bonus>
+            <bonus varName="proficiency" value="-1"></bonus>
         </effects>
     </armor>
 	<armor name="SFI10BruteArmour" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="1"></bonus>
-			<bonus varName="healthLimit" value="10"></bonus>
-			<bonus varName="stressResistance" value="-0.2"></bonus>
-			<bonus varName="proficiency" value="-2"></bonus>
-			<bonus varName="dailyFoodConsumption" value="1"></bonus>
+            <bonus varName="healthLimit" value="10"></bonus>
+            <bonus varName="stressResistance" value="-0.2"></bonus>
+            <bonus varName="proficiency" value="-2"></bonus>
+            <bonus varName="dailyFoodConsumption" value="1"></bonus>
         </effects>
     </armor>
 	<armor name="CAHBCExperimentalExoskeleton" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="3"></bonus>
-			<bonus varName="proficiency" value="3"></bonus>
-			<bonus varName="cleverness" value="3"></bonus>
-			<bonus varName="healthLimit" value="-4"></bonus>
-			<bonus varName="stressResistance" value="0.3"></bonus>
-			<bonus varName="dailyFoodConsumption" value="2"></bonus>
+            <bonus varName="proficiency" value="3"></bonus>
+            <bonus varName="cleverness" value="3"></bonus>
+            <bonus varName="healthLimit" value="-4"></bonus>
+            <bonus varName="stressResistance" value="0.3"></bonus>
+            <bonus varName="dailyFoodConsumption" value="2"></bonus>
         </effects>
     </armor>
 	<armor name="UPOASpecialForcesArmour" tier="3">
         <effects>
             <bonus varName="combatEffectiveness" value="3"></bonus>
-			<bonus varName="proficiency" value="2"></bonus>
-			<bonus varName="stressResistance" value="-0.1"></bonus>
-			<bonus varName="salary" value="2"></bonus>
+            <bonus varName="proficiency" value="2"></bonus>
+            <bonus varName="stressResistance" value="-0.1"></bonus>
+            <bonus varName="salary" value="2"></bonus>
         </effects>
     </armor>
 	<armor name="ExperimentalNanometalArmour" tier="3">
         <effects>
             <bonus varName="healthLimit" value="16"></bonus>
-			<bonus varName="stressLimit" value="10"></bonus>
-			<bonus varName="stressResistance" value="-0.2"></bonus>
-			<bonus varName="salary" value="2"></bonus>
-			<bonus varName="proficiency" value="-1"></bonus>
+            <bonus varName="stressLimit" value="10"></bonus>
+            <bonus varName="stressResistance" value="-0.2"></bonus>
+            <bonus varName="salary" value="2"></bonus>
+            <bonus varName="proficiency" value="-1"></bonus>
         </effects>
     </armor>
         <armor name="AdvancedEngineerSuit" tier="3">
         <effects>
             <bonus varName="cleverness" value="4"></bonus>
-			<bonus varName="proficiency" value="2"></bonus>
-			<bonus varName="salary" value="2"></bonus>
+            <bonus varName="proficiency" value="2"></bonus>
+            <bonus varName="salary" value="2"></bonus>
         </effects>
     </armor>
 	<weaponTool name="NSXAutomaticPistol" tier="1">
         <effects>
             <bonus varName="combatEffectiveness" value="1"></bonus>
-			<bonus varName="stressResistance" value="-0.1"></bonus>
+            <bonus varName="stressResistance" value="-0.1"></bonus>
         </effects>
     </weaponTool>
         <weaponTool name="TR01MobileMotionSpotter" tier="1">
         <effects>
             <bonus varName="proficiency" value="1"></bonus>
-			<bonus varName="stressResistance" value="-0.1"></bonus>
+            <bonus varName="stressResistance" value="-0.1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="UEGPocketScanner" tier="1">
         <effects>
             <bonus varName="cleverness" value="2"></bonus>
-			<bonus varName="salary" value="1"></bonus>
+            <bonus varName="salary" value="1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="TR04Flashlight" tier="1">
         <effects>
             <bonus varName="proficiency" value="1"></bonus>
-			<bonus varName="stressBorder" value="5"></bonus>
+            <bonus varName="stressBorder" value="5"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="UPOAClimbingPickaxe" tier="1">
         <effects>
             <bonus varName="combatEffectiveness" value="1"></bonus>
-			<bonus varName="proficiency" value="1"></bonus>
-			<bonus varName="dailyFoodConsumption" value="1"></bonus>
+            <bonus varName="proficiency" value="1"></bonus>
+            <bonus varName="dailyFoodConsumption" value="1"></bonus>
         </effects>
     </weaponTool>
         <weaponTool name="UPOAHarvesterShotgun" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="3"></bonus>
-			<bonus varName="stressResistance" value="-0.1"></bonus>
-			<bonus varName="proficiency" value="-1"></bonus>
-			<bonus varName="salary" value="1"></bonus>
+            <bonus varName="stressResistance" value="-0.1"></bonus>
+            <bonus varName="proficiency" value="-1"></bonus>
+            <bonus varName="salary" value="1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="TR09HuntsmanRifle" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="2"></bonus>
-			<bonus varName="proficiency" value="-1"></bonus>
-			<bonus varName="cleverness" value="-1"></bonus>
+            <bonus varName="proficiency" value="-1"></bonus>
+            <bonus varName="cleverness" value="-1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="UPOAGrenadeLauncher" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="4"></bonus>
-			<bonus varName="proficiency" value="-1"></bonus>
-			<bonus varName="cleverness" value="-1"></bonus>
+            <bonus varName="proficiency" value="-1"></bonus>
+            <bonus varName="cleverness" value="-1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="UEGClimbingLinev2_05" tier="2">
         <effects>
-			<bonus varName="proficiency" value="3"></bonus>
-			<bonus varName="healthLimit" value="-2"></bonus>
-			<bonus varName="stressResistance" value="0.1"></bonus>
+            <bonus varName="proficiency" value="3"></bonus>
+            <bonus varName="healthLimit" value="-2"></bonus>
+            <bonus varName="stressResistance" value="0.1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="AdvancedTerrainScanner" tier="2">
         <effects>
-			<bonus varName="proficiency" value="2"></bonus>
-			<bonus varName="cleverness" value="1"></bonus>
-			<bonus varName="combatEffectiveness" value="-1"></bonus>
+            <bonus varName="proficiency" value="2"></bonus>
+            <bonus varName="cleverness" value="1"></bonus>
+            <bonus varName="combatEffectiveness" value="-1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="HiBSv1_5Syringes" tier="2">
         <effects>
             <bonus varName="stressResistance" value="-0.4"></bonus>
-			<bonus varName="stressBorder" value="10"></bonus>
-			<bonus varName="stressLimit" value="15"></bonus>
-			<bonus varName="healthLimit" value="-3"></bonus>
+            <bonus varName="stressBorder" value="10"></bonus>
+            <bonus varName="stressLimit" value="15"></bonus>
+            <bonus varName="healthLimit" value="-3"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="LiquidRageExperimentalSyringes" tier="2">
         <effects>
             <bonus varName="combatEffectiveness" value="4"></bonus>
-			<bonus varName="stressResistance" value="0.3"></bonus>
-			<bonus varName="stressBorder" value="-20"></bonus>
-			<bonus varName="stressLimit" value="-20"></bonus>
+            <bonus varName="stressResistance" value="0.3"></bonus>
+            <bonus varName="stressBorder" value="-20"></bonus>
+            <bonus varName="stressLimit" value="-20"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="UEGArsonistFlameThrower" tier="3">
         <effects>
             <bonus varName="combatEffectiveness" value="4"></bonus>
-			<bonus varName="proficiency" value="3"></bonus>
-			<bonus varName="cleverness" value="-2"></bonus>
-			<bonus varName="stressResistance" value="0.1"></bonus>
-			<bonus varName="dailyStressRecovery" value="-10"></bonus>
+            <bonus varName="proficiency" value="3"></bonus>
+            <bonus varName="cleverness" value="-2"></bonus>
+            <bonus varName="stressResistance" value="0.1"></bonus>
+            <bonus varName="dailyStressRecovery" value="-10"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="TR05LynxAssaultRifle" tier="3">
         <effects>
             <bonus varName="combatEffectiveness" value="5"></bonus>
-			<bonus varName="proficiency" value="-1"></bonus>
-			<bonus varName="dailyFoodConsumption" value="1"></bonus>
+            <bonus varName="proficiency" value="-1"></bonus>
+            <bonus varName="dailyFoodConsumption" value="1"></bonus>
         </effects>
     </weaponTool>
 	<weaponTool name="MastermindExperimentalSyringes" tier="3">
         <effects>
             <bonus varName="proficiency" value="1"></bonus>
-			<bonus varName="cleverness" value="4"></bonus>
-			<bonus varName="stressLimit" value="-30"></bonus>
-			<bonus varName="dailyFoodConsumption" value="1"></bonus>
-			<bonus varname="salary" value="1"></bonus>
+            <bonus varName="cleverness" value="4"></bonus>
+            <bonus varName="stressLimit" value="-30"></bonus>
+            <bonus varName="dailyFoodConsumption" value="1"></bonus>
+            <bonus varname="salary" value="1"></bonus>
         </effects>
     </weaponTool>
 </equipmentList>
