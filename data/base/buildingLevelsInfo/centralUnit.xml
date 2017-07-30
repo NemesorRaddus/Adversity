@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <centralUnitLevelsInfo>
-        <levelInfo level="0" basicCostEnergy="0"></levelInfo>
-        <levelInfo level="1" basicCostEnergy="5"></levelInfo>
+    <levelInfo level="0" basicCostEnergy="0"></levelInfo>
+    <levelInfo level="1" basicCostEnergy="5"></levelInfo>
 </centralUnitLevelsInfo>

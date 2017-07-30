@@ -44,7 +44,7 @@ Window {
         }
     }
 
-    function updateEveryting()
+    function updateEverything()
     {
         mainGUI.updateEverything();
     }
@@ -176,6 +176,8 @@ Window {
 
         buildingsGUI.onUpdateRequestedFromBuildingsModeGUI: updateEverything();
         mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
+
+        buildingsGUI.onHeroesModeUpdateRequested: mercenariesGUI.updateEverything();
 
         buildingsGUI.onShowSpecial: h4xScreen.visible = true;
 

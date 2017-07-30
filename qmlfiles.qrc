@@ -49,5 +49,6 @@
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsListScripts.js</file>
         <file>qml/ConfirmDialog.qml</file>
         <file>qml/HeroArtPreview.qml</file>
+        <file>qml/MarqueeText.qml</file>
     </qresource>
 </RCC>

@@ -193,8 +193,8 @@
     <text original="ExperimentalNanometalArmour">
         <translation context="" translated="Experimental Nanometal Armour"></translation>
     </text>
-    <text original="AdvancedEngineeerSuit">
-        <translation context="" translated="Advanced Engineeer Suit"></translation>
+    <text original="AdvancedEngineerSuit">
+        <translation context="" translated="Advanced Engineer Suit"></translation>
     </text>
 
     <!-- Weapons/Tools -->
@@ -213,8 +213,8 @@
     <text original="UPOAClimbingPickaxe">
         <translation context="" translated="UPOA Climbing Pickaxe"></translation>
     </text>
-    <text original="UPOAHarversterShotgun">
-        <translation context="" translated="UPOA &quot;Harverster&quot; Shotgun"></translation>
+    <text original="UPOAHarvesterShotgun">
+        <translation context="" translated="UPOA &quot;Harvester&quot; Shotgun"></translation>
     </text>
     <text original="TR09HuntsmanRifle">
         <translation context="" translated="TR-09 &quot;Huntsman&quot; Rifle"></translation>
@@ -237,10 +237,10 @@
     <text original="UEGArsonistFlameThrower">
         <translation context="" translated="UEG &quot;Arsonist&quot; Flame Thrower"></translation>
     </text>
-	<text original="TR05LynxAssaultRifle">
+    <text original="TR05LynxAssaultRifle">
         <translation context="" translated="TR-05 &quot;Lynx&quot; Assault Rifle"></translation>
     </text>
-	<text original="MastermindExperimentalSyringes">
+    <text original="MastermindExperimentalSyringes">
         <translation context="" translated="&quot;Mastermind&quot; Experimental Syringes"></translation>
     </text>
 </translations>

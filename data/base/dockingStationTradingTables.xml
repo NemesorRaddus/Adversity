@@ -1,112 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dockingStationTradingTables>
-	<tradingTable profitabilityLevel="0">
-                <entry from="Energy" to="Energy" ratio="0"></entry>
-                <entry from="Energy" to="Food Supplies" ratio="0"></entry>
-                <entry from="Energy" to="Building Materials" ratio="0"></entry>
-                <entry from="Energy" to="Aetherite" ratio="0"></entry>
-                <entry from="Food Supplies" to="Energy" ratio="0"></entry>
-                <entry from="Food Supplies" to="Food Supplies" ratio="0"></entry>
-                <entry from="Food Supplies" to="Building Materials" ratio="0"></entry>
-                <entry from="Food Supplies" to="Aetherite" ratio="0"></entry>
-                <entry from="Building Materials" to="Energy" ratio="0"></entry>
-                <entry from="Building Materials" to="Food Supplies" ratio="0"></entry>
-                <entry from="Building Materials" to="Building Materials" ratio="0"></entry>
-                <entry from="Building Materials" to="Aetherite" ratio="0"></entry>
-                <entry from="Aetherite" to="Energy" ratio="0"></entry>
-                <entry from="Aetherite" to="Food Supplies" ratio="0"></entry>
-                <entry from="Aetherite" to="Building Materials" ratio="0"></entry>
-                <entry from="Aetherite" to="Aetherite" ratio="0"></entry>
-        </tradingTable>
-	<tradingTable profitabilityLevel="1">
-                <entry from="Energy" to="Energy" ratio="1"></entry>
-                <entry from="Energy" to="Food Supplies" ratio="0.4"></entry>
-                <entry from="Energy" to="Building Materials" ratio="0.24"></entry>
-                <entry from="Energy" to="Aetherite" ratio="0.2"></entry>
-                <entry from="Food Supplies" to="Energy" ratio="2.5"></entry>
-                <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
-                <entry from="Food Supplies" to="Building Materials" ratio="0.6"></entry>
-                <entry from="Food Supplies" to="Aetherite" ratio="0.5"></entry>
-                <entry from="Building Materials" to="Energy" ratio="4.1666"></entry>
-                <entry from="Building Materials" to="Food Supplies" ratio="1.6666"></entry>
-                <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
-                <entry from="Building Materials" to="Aetherite" ratio="0.8333"></entry>
-                <entry from="Aetherite" to="Energy" ratio="5"></entry>
-                <entry from="Aetherite" to="Food Supplies" ratio="2"></entry>
-                <entry from="Aetherite" to="Building Materials" ratio="1.2"></entry>
-                <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
-        </tradingTable>
-	<tradingTable profitabilityLevel="2">
-                <entry from="Energy" to="Energy" ratio="1"></entry>
-                <entry from="Energy" to="Food Supplies" ratio="0.5"></entry>
-                <entry from="Energy" to="Building Materials" ratio="0.2777"></entry>
-                <entry from="Energy" to="Aetherite" ratio="0.1666"></entry>
-                <entry from="Food Supplies" to="Energy" ratio="2"></entry>
-                <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
-                <entry from="Food Supplies" to="Building Materials" ratio="0.5555"></entry>
-                <entry from="Food Supplies" to="Aetherite" ratio="0.3333"></entry>
-                <entry from="Building Materials" to="Energy" ratio="3.6014"></entry>
-                <entry from="Building Materials" to="Food Supplies" ratio="1.8"></entry>
-                <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
-                <entry from="Building Materials" to="Aetherite" ratio="0.6"></entry>
-                <entry from="Aetherite" to="Energy" ratio="6"></entry>
-                <entry from="Aetherite" to="Food Supplies" ratio="3"></entry>
-                <entry from="Aetherite" to="Building Materials" ratio="1.6666"></entry>
-                <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
-        </tradingTable>
-	<tradingTable profitabilityLevel="3">
-                <entry from="Energy" to="Energy" ratio="1"></entry>
-                <entry from="Energy" to="Food Supplies" ratio="2.75"></entry>
-                <entry from="Energy" to="Building Materials" ratio="0.2045"></entry>
-                <entry from="Energy" to="Aetherite" ratio="0.0909"></entry>
-                <entry from="Food Supplies" to="Energy" ratio="0.3636"></entry>
-                <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
-                <entry from="Food Supplies" to="Building Materials" ratio="0.5625"></entry>
-                <entry from="Food Supplies" to="Aetherite" ratio="0.25"></entry>
-                <entry from="Building Materials" to="Energy" ratio="4.8888"></entry>
-                <entry from="Building Materials" to="Food Supplies" ratio="1.7777"></entry>
-                <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
-                <entry from="Building Materials" to="Aetherite" ratio="0.4444"></entry>
-                <entry from="Aetherite" to="Energy" ratio="11"></entry>
-                <entry from="Aetherite" to="Food Supplies" ratio="4"></entry>
-                <entry from="Aetherite" to="Building Materials" ratio="2.25"></entry>
-                <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
-        </tradingTable>
-	<tradingTable profitabilityLevel="4">
-                <entry from="Energy" to="Energy" ratio="1"></entry>
-                <entry from="Energy" to="Food Supplies" ratio="0.2857"></entry>
-                <entry from="Energy" to="Building Materials" ratio="0.1547"></entry>
-                <entry from="Energy" to="Aetherite" ratio="0.0476"></entry>
-                <entry from="Food Supplies" to="Energy" ratio="3.5"></entry>
-                <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
-                <entry from="Food Supplies" to="Building Materials" ratio="0.5416"></entry>
-                <entry from="Food Supplies" to="Aetherite" ratio="0.1666"></entry>
-                <entry from="Building Materials" to="Energy" ratio="6.4615"></entry>
-                <entry from="Building Materials" to="Food Supplies" ratio="1.8461"></entry>
-                <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
-                <entry from="Building Materials" to="Aetherite" ratio="0.3076"></entry>
-                <entry from="Aetherite" to="Energy" ratio="21"></entry>
-                <entry from="Aetherite" to="Food Supplies" ratio="6"></entry>
-                <entry from="Aetherite" to="Building Materials" ratio="3.25"></entry>
-                <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
-        </tradingTable>
-	<tradingTable profitabilityLevel="5">
-                <entry from="Energy" to="Energy" ratio="1"></entry>
-                <entry from="Energy" to="Food Supplies" ratio="0.2413"></entry>
-                <entry from="Energy" to="Building Materials" ratio="0.1609"></entry>
-                <entry from="Energy" to="Aetherite" ratio="0.0344"></entry>
-                <entry from="Food Supplies" to="Energy" ratio="4.1428"></entry>
-                <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
-                <entry from="Food Supplies" to="Building Materials" ratio="0.6666"></entry>
-                <entry from="Food Supplies" to="Aetherite" ratio="0.1428"></entry>
-                <entry from="Building Materials" to="Energy" ratio="6.2143"></entry>
-                <entry from="Building Materials" to="Food Supplies" ratio="1.5"></entry>
-                <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
-                <entry from="Building Materials" to="Aetherite" ratio="0.2142"></entry>
-                <entry from="Aetherite" to="Energy" ratio="29"></entry>
-                <entry from="Aetherite" to="Food Supplies" ratio="7"></entry>
-                <entry from="Aetherite" to="Building Materials" ratio="4.6666"></entry>
-                <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
-	</tradingTable>
+    <tradingTable profitabilityLevel="0">
+        <entry from="Energy" to="Energy" ratio="0"></entry>
+        <entry from="Energy" to="Food Supplies" ratio="0"></entry>
+        <entry from="Energy" to="Building Materials" ratio="0"></entry>
+        <entry from="Energy" to="Aetherite" ratio="0"></entry>
+        <entry from="Food Supplies" to="Energy" ratio="0"></entry>
+        <entry from="Food Supplies" to="Food Supplies" ratio="0"></entry>
+        <entry from="Food Supplies" to="Building Materials" ratio="0"></entry>
+        <entry from="Food Supplies" to="Aetherite" ratio="0"></entry>
+        <entry from="Building Materials" to="Energy" ratio="0"></entry>
+        <entry from="Building Materials" to="Food Supplies" ratio="0"></entry>
+        <entry from="Building Materials" to="Building Materials" ratio="0"></entry>
+        <entry from="Building Materials" to="Aetherite" ratio="0"></entry>
+        <entry from="Aetherite" to="Energy" ratio="0"></entry>
+        <entry from="Aetherite" to="Food Supplies" ratio="0"></entry>
+        <entry from="Aetherite" to="Building Materials" ratio="0"></entry>
+        <entry from="Aetherite" to="Aetherite" ratio="0"></entry>
+    </tradingTable>
+    <tradingTable profitabilityLevel="1">
+        <entry from="Energy" to="Energy" ratio="1"></entry>
+        <entry from="Energy" to="Food Supplies" ratio="0.4"></entry>
+        <entry from="Energy" to="Building Materials" ratio="0.24"></entry>
+        <entry from="Energy" to="Aetherite" ratio="0.2"></entry>
+        <entry from="Food Supplies" to="Energy" ratio="2.5"></entry>
+        <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
+        <entry from="Food Supplies" to="Building Materials" ratio="0.6"></entry>
+        <entry from="Food Supplies" to="Aetherite" ratio="0.5"></entry>
+        <entry from="Building Materials" to="Energy" ratio="4.1666"></entry>
+        <entry from="Building Materials" to="Food Supplies" ratio="1.6666"></entry>
+        <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
+        <entry from="Building Materials" to="Aetherite" ratio="0.8333"></entry>
+        <entry from="Aetherite" to="Energy" ratio="5"></entry>
+        <entry from="Aetherite" to="Food Supplies" ratio="2"></entry>
+        <entry from="Aetherite" to="Building Materials" ratio="1.2"></entry>
+        <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
+    </tradingTable>
+    <tradingTable profitabilityLevel="2">
+        <entry from="Energy" to="Energy" ratio="1"></entry>
+        <entry from="Energy" to="Food Supplies" ratio="0.5"></entry>
+        <entry from="Energy" to="Building Materials" ratio="0.2777"></entry>
+        <entry from="Energy" to="Aetherite" ratio="0.1666"></entry>
+        <entry from="Food Supplies" to="Energy" ratio="2"></entry>
+        <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
+        <entry from="Food Supplies" to="Building Materials" ratio="0.5555"></entry>
+        <entry from="Food Supplies" to="Aetherite" ratio="0.3333"></entry>
+        <entry from="Building Materials" to="Energy" ratio="3.6014"></entry>
+        <entry from="Building Materials" to="Food Supplies" ratio="1.8"></entry>
+        <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
+        <entry from="Building Materials" to="Aetherite" ratio="0.6"></entry>
+        <entry from="Aetherite" to="Energy" ratio="6"></entry>
+        <entry from="Aetherite" to="Food Supplies" ratio="3"></entry>
+        <entry from="Aetherite" to="Building Materials" ratio="1.6666"></entry>
+        <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
+    </tradingTable>
+    <tradingTable profitabilityLevel="3">
+        <entry from="Energy" to="Energy" ratio="1"></entry>
+        <entry from="Energy" to="Food Supplies" ratio="2.75"></entry>
+        <entry from="Energy" to="Building Materials" ratio="0.2045"></entry>
+        <entry from="Energy" to="Aetherite" ratio="0.0909"></entry>
+        <entry from="Food Supplies" to="Energy" ratio="0.3636"></entry>
+        <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
+        <entry from="Food Supplies" to="Building Materials" ratio="0.5625"></entry>
+        <entry from="Food Supplies" to="Aetherite" ratio="0.25"></entry>
+        <entry from="Building Materials" to="Energy" ratio="4.8888"></entry>
+        <entry from="Building Materials" to="Food Supplies" ratio="1.7777"></entry>
+        <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
+        <entry from="Building Materials" to="Aetherite" ratio="0.4444"></entry>
+        <entry from="Aetherite" to="Energy" ratio="11"></entry>
+        <entry from="Aetherite" to="Food Supplies" ratio="4"></entry>
+        <entry from="Aetherite" to="Building Materials" ratio="2.25"></entry>
+        <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
+    </tradingTable>
+    <tradingTable profitabilityLevel="4">
+        <entry from="Energy" to="Energy" ratio="1"></entry>
+        <entry from="Energy" to="Food Supplies" ratio="0.2857"></entry>
+        <entry from="Energy" to="Building Materials" ratio="0.1547"></entry>
+        <entry from="Energy" to="Aetherite" ratio="0.0476"></entry>
+        <entry from="Food Supplies" to="Energy" ratio="3.5"></entry>
+        <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
+        <entry from="Food Supplies" to="Building Materials" ratio="0.5416"></entry>
+        <entry from="Food Supplies" to="Aetherite" ratio="0.1666"></entry>
+        <entry from="Building Materials" to="Energy" ratio="6.4615"></entry>
+        <entry from="Building Materials" to="Food Supplies" ratio="1.8461"></entry>
+        <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
+        <entry from="Building Materials" to="Aetherite" ratio="0.3076"></entry>
+        <entry from="Aetherite" to="Energy" ratio="21"></entry>
+        <entry from="Aetherite" to="Food Supplies" ratio="6"></entry>
+        <entry from="Aetherite" to="Building Materials" ratio="3.25"></entry>
+        <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
+    </tradingTable>
+    <tradingTable profitabilityLevel="5">
+        <entry from="Energy" to="Energy" ratio="1"></entry>
+        <entry from="Energy" to="Food Supplies" ratio="0.2413"></entry>
+        <entry from="Energy" to="Building Materials" ratio="0.1609"></entry>
+        <entry from="Energy" to="Aetherite" ratio="0.0344"></entry>
+        <entry from="Food Supplies" to="Energy" ratio="4.1428"></entry>
+        <entry from="Food Supplies" to="Food Supplies" ratio="1"></entry>
+        <entry from="Food Supplies" to="Building Materials" ratio="0.6666"></entry>
+        <entry from="Food Supplies" to="Aetherite" ratio="0.1428"></entry>
+        <entry from="Building Materials" to="Energy" ratio="6.2143"></entry>
+        <entry from="Building Materials" to="Food Supplies" ratio="1.5"></entry>
+        <entry from="Building Materials" to="Building Materials" ratio="1"></entry>
+        <entry from="Building Materials" to="Aetherite" ratio="0.2142"></entry>
+        <entry from="Aetherite" to="Energy" ratio="29"></entry>
+        <entry from="Aetherite" to="Food Supplies" ratio="7"></entry>
+        <entry from="Aetherite" to="Building Materials" ratio="4.6666"></entry>
+        <entry from="Aetherite" to="Aetherite" ratio="1"></entry>
+    </tradingTable>
 </dockingStationTradingTables>

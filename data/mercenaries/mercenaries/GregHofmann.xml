@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="GregHofmann">
-	<attributes combatEffectiveness="3" proficiency="3" cleverness="3" luck="1.5" health="12" healthLimit="12" dailyHealthRecovery="0" stress="0" stressResistance="1.3" stressLimit="200" stressBorder="100" dailyStressRecovery="10" salary="10" dailyFoodConsumption="3" nature="Religious" profession="Doomsayer"></attributes>
-	<sbeList>
-		<sbe>Hopeless</sbe>
-		<sbe>Hopeless</sbe>
-		<sbe>Fanatic Wrath</sbe>
-		<sbe>Fanatic Wrath</sbe>
-		<sbe>Fanatic Wrath</sbe>
-		<sbe>Doombringer</sbe>
-		<sbe>Doombringer</sbe>
-		<sbe>Doombringer</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="3" proficiency="3" cleverness="3" luck="1.5" health="12" healthLimit="12" dailyHealthRecovery="0" stress="0" stressResistance="1.3" stressLimit="200" stressBorder="100" dailyStressRecovery="10" salary="10" dailyFoodConsumption="3" nature="Religious" profession="Doomsayer"></attributes>
+    <sbeList>
+        <sbe>Hopeless</sbe>
+        <sbe>Hopeless</sbe>
+        <sbe>Fanatic Wrath</sbe>
+        <sbe>Fanatic Wrath</sbe>
+        <sbe>Fanatic Wrath</sbe>
+        <sbe>Doombringer</sbe>
+        <sbe>Doombringer</sbe>
+        <sbe>Doombringer</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

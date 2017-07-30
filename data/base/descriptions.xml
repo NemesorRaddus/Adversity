@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <buildingDescriptions>
-        <buildingDescription name="Central Unit" description="The heart of your base, used to control resource flow."></buildingDescription>
-        <buildingDescription name="Powerplant" description="The energy hidden in Aetherite can be unleashed here."></buildingDescription>
-        <buildingDescription name="Cool Room" description="Starvation can be an even greater threat than wilderness itself."></buildingDescription>
-        <buildingDescription name="Aetherite Silo" description="Aetherite, both precious and unstable, has to be sustained until it comes in handy."></buildingDescription>
-        <buildingDescription name="Docking Station" description="New faces, supplies and equipment, all needed to proceed in our futile ramble."></buildingDescription>
-        <buildingDescription name="Storage Room" description="Provision is as important as a strong character."></buildingDescription>
-        <buildingDescription name="Factory" description="Aetherite can solve various problems. Including constructing houses of steel."></buildingDescription>
-        <buildingDescription name="Hospital" description="Even the strongest will and augmentation cannot overcome the weakness of body."></buildingDescription>
-        <buildingDescription name="Barracks" description="Even in isolation from the world, all seek private space."></buildingDescription>
-        <buildingDescription name="Training Ground" description="At least we can pretend to be prepared for facing horrors awaiting in the wilderness."></buildingDescription>
-        <buildingDescription name="Gym" description="Exhausting workout can pay off in survival in critical situation."></buildingDescription>
-        <buildingDescription name="Laboratory" description="A clever mind can find a solution in any situation. A useful ability indeed."></buildingDescription>
-        <buildingDescription name="Playing Field" description="Playing outside - such a basic activity and so unbelievably relaxing at the same time."></buildingDescription>
-        <buildingDescription name="Bar" description="What's better than alcohol accompanied by an honest talk."></buildingDescription>
-        <buildingDescription name="Shrine" description="In the chasm of madness, divinity calls to the faithful."></buildingDescription>
-        <buildingDescription name="Seclusion" description="Meditation in strict seclusion can calm even the most tormented soul."></buildingDescription>
+    <buildingDescription name="Central Unit" description="The heart of your base, used to control resource flow."></buildingDescription>
+    <buildingDescription name="Powerplant" description="The energy hidden in Aetherite can be unleashed here."></buildingDescription>
+    <buildingDescription name="Cool Room" description="Starvation can be an even greater threat than wilderness itself."></buildingDescription>
+    <buildingDescription name="Aetherite Silo" description="Aetherite, both precious and unstable, has to be sustained until it comes in handy."></buildingDescription>
+    <buildingDescription name="Docking Station" description="New faces, supplies and equipment, all needed to proceed in our futile ramble."></buildingDescription>
+    <buildingDescription name="Storage Room" description="Provision is as important as a strong character."></buildingDescription>
+    <buildingDescription name="Factory" description="Aetherite can solve various problems. Including constructing houses of steel."></buildingDescription>
+    <buildingDescription name="Hospital" description="Even the strongest will and augmentation cannot overcome the weakness of body."></buildingDescription>
+    <buildingDescription name="Barracks" description="Even in isolation from the world, all seek private space."></buildingDescription>
+    <buildingDescription name="Training Ground" description="At least we can pretend to be prepared for facing horrors awaiting in the wilderness."></buildingDescription>
+    <buildingDescription name="Gym" description="Exhausting workout can pay off in survival in critical situation."></buildingDescription>
+    <buildingDescription name="Laboratory" description="A clever mind can find a solution in any situation. A useful ability indeed."></buildingDescription>
+    <buildingDescription name="Playing Field" description="Playing outside - such a basic activity and so unbelievably relaxing at the same time."></buildingDescription>
+    <buildingDescription name="Bar" description="What's better than alcohol accompanied by an honest talk."></buildingDescription>
+    <buildingDescription name="Shrine" description="In the chasm of madness, divinity calls to the faithful."></buildingDescription>
+    <buildingDescription name="Seclusion" description="Meditation in strict seclusion can calm even the most tormented soul."></buildingDescription>
 </buildingDescriptions>

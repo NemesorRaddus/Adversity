@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <trainingGroundLevelsInfo>
-        <levelInfo level="0" slots="0" basicCostEnergy="0" perCapitaCostEnergy="0" combatEffectivenessBonus="0" duration="14"></levelInfo>
-        <levelInfo level="1" slots="1" basicCostEnergy="2" perCapitaCostEnergy="3" combatEffectivenessBonus="1" duration="13">
-			<requirements energy="10" buildingMaterials="3" time="1"></requirements>
-		</levelInfo>
-        <levelInfo level="2" slots="1" basicCostEnergy="3" perCapitaCostEnergy="3" combatEffectivenessBonus="1" duration="12">
-			<requirements energy="15" buildingMaterials="3" time="2"></requirements>
-		</levelInfo>
-        <levelInfo level="3" slots="1" basicCostEnergy="4" perCapitaCostEnergy="3" combatEffectivenessBonus="1" duration="11">
-			<requirements energy="20" buildingMaterials="3" time="4"></requirements>
-		</levelInfo>
-        <levelInfo level="4" slots="1" basicCostEnergy="4" perCapitaCostEnergy="2" combatEffectivenessBonus="1" duration="10">
-			<requirements energy="20" buildingMaterials="3" time="8"></requirements>
-		</levelInfo>
-        <levelInfo level="5" slots="2" basicCostEnergy="7" perCapitaCostEnergy="5" combatEffectivenessBonus="1" duration="9">
-			<requirements energy="35" buildingMaterials="6" time="12"></requirements>
-		</levelInfo>
-        <levelInfo level="6" slots="2" basicCostEnergy="8" perCapitaCostEnergy="5" combatEffectivenessBonus="1" duration="8">
-			<requirements energy="40" buildingMaterials="6" time="16"></requirements>
-		</levelInfo>
-        <levelInfo level="7" slots="2" basicCostEnergy="9" perCapitaCostEnergy="4" combatEffectivenessBonus="1" duration="7">
-			<requirements energy="45" buildingMaterials="6" time="20"></requirements>
-		</levelInfo>
-        <levelInfo level="8" slots="3" basicCostEnergy="12" perCapitaCostEnergy="9" combatEffectivenessBonus="1" duration="6">
-			<requirements energy="60" buildingMaterials="9" time="24"></requirements>
-		</levelInfo>
-        <levelInfo level="9" slots="3" basicCostEnergy="14" perCapitaCostEnergy="9" combatEffectivenessBonus="1" duration="5">
-			<requirements energy="70" buildingMaterials="9" time="28"></requirements>
-		</levelInfo>
-        <levelInfo level="10" slots="3" basicCostEnergy="15" perCapitaCostEnergy="8" combatEffectivenessBonus="1" duration="4">
-			<requirements energy="75" buildingMaterials="9" time="32"></requirements>
-		</levelInfo>
+    <levelInfo level="0" slots="0" basicCostEnergy="0" perCapitaCostEnergy="0" combatEffectivenessBonus="0" duration="14"></levelInfo>
+    <levelInfo level="1" slots="1" basicCostEnergy="2" perCapitaCostEnergy="3" combatEffectivenessBonus="1" duration="13">
+        <requirements energy="10" buildingMaterials="3" time="1"></requirements>
+    </levelInfo>
+    <levelInfo level="2" slots="1" basicCostEnergy="3" perCapitaCostEnergy="3" combatEffectivenessBonus="1" duration="12">
+        <requirements energy="15" buildingMaterials="3" time="2"></requirements>
+    </levelInfo>
+    <levelInfo level="3" slots="1" basicCostEnergy="4" perCapitaCostEnergy="3" combatEffectivenessBonus="1" duration="11">
+        <requirements energy="20" buildingMaterials="3" time="4"></requirements>
+    </levelInfo>
+    <levelInfo level="4" slots="1" basicCostEnergy="4" perCapitaCostEnergy="2" combatEffectivenessBonus="1" duration="10">
+        <requirements energy="20" buildingMaterials="3" time="8"></requirements>
+    </levelInfo>
+    <levelInfo level="5" slots="2" basicCostEnergy="7" perCapitaCostEnergy="5" combatEffectivenessBonus="1" duration="9">
+        <requirements energy="35" buildingMaterials="6" time="12"></requirements>
+    </levelInfo>
+    <levelInfo level="6" slots="2" basicCostEnergy="8" perCapitaCostEnergy="5" combatEffectivenessBonus="1" duration="8">
+        <requirements energy="40" buildingMaterials="6" time="16"></requirements>
+    </levelInfo>
+    <levelInfo level="7" slots="2" basicCostEnergy="9" perCapitaCostEnergy="4" combatEffectivenessBonus="1" duration="7">
+        <requirements energy="45" buildingMaterials="6" time="20"></requirements>
+    </levelInfo>
+    <levelInfo level="8" slots="3" basicCostEnergy="12" perCapitaCostEnergy="9" combatEffectivenessBonus="1" duration="6">
+        <requirements energy="60" buildingMaterials="9" time="24"></requirements>
+    </levelInfo>
+    <levelInfo level="9" slots="3" basicCostEnergy="14" perCapitaCostEnergy="9" combatEffectivenessBonus="1" duration="5">
+        <requirements energy="70" buildingMaterials="9" time="28"></requirements>
+    </levelInfo>
+    <levelInfo level="10" slots="3" basicCostEnergy="15" perCapitaCostEnergy="8" combatEffectivenessBonus="1" duration="4">
+        <requirements energy="75" buildingMaterials="9" time="32"></requirements>
+    </levelInfo>
 </trainingGroundLevelsInfo>

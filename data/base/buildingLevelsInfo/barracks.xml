@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <barracksLevelsInfo>
-        <levelInfo level="0" basicCostEnergy="0" heroesLimit="0"></levelInfo>
-        <levelInfo level="1" basicCostEnergy="3" heroesLimit="2"></levelInfo>
-        <levelInfo level="2" basicCostEnergy="5" heroesLimit="3">
-			<requirements energy="15" buildingMaterials="4" time="1"></requirements>
-		</levelInfo>
-        <levelInfo level="3" basicCostEnergy="7" heroesLimit="4">
-			<requirements energy="21" buildingMaterials="4" time="2"></requirements>
-		</levelInfo>
-        <levelInfo level="4" basicCostEnergy="10" heroesLimit="5">
-			<requirements energy="30" buildingMaterials="4" time="4"></requirements>
-		</levelInfo>
-        <levelInfo level="5" basicCostEnergy="13" heroesLimit="7">
-			<requirements energy="39" buildingMaterials="8" time="8"></requirements>
-		</levelInfo>
-        <levelInfo level="6" basicCostEnergy="16" heroesLimit="9">
-			<requirements energy="48" buildingMaterials="8" time="16"></requirements>
-		</levelInfo>
-        <levelInfo level="7" basicCostEnergy="20" heroesLimit="12">
-			<requirements energy="60" buildingMaterials="12" time="32"></requirements>
-		</levelInfo>
-        <levelInfo level="8" basicCostEnergy="25" heroesLimit="15">
-			<requirements energy="100" buildingMaterials="15" time="64"></requirements>
-		</levelInfo>
+    <levelInfo level="0" basicCostEnergy="0" heroesLimit="0"></levelInfo>
+    <levelInfo level="1" basicCostEnergy="3" heroesLimit="2"></levelInfo>
+    <levelInfo level="2" basicCostEnergy="5" heroesLimit="3">
+        <requirements energy="15" buildingMaterials="4" time="1"></requirements>
+    </levelInfo>
+    <levelInfo level="3" basicCostEnergy="7" heroesLimit="4">
+        <requirements energy="21" buildingMaterials="4" time="2"></requirements>
+    </levelInfo>
+    <levelInfo level="4" basicCostEnergy="10" heroesLimit="5">
+        <requirements energy="30" buildingMaterials="4" time="4"></requirements>
+    </levelInfo>
+    <levelInfo level="5" basicCostEnergy="13" heroesLimit="7">
+        <requirements energy="39" buildingMaterials="8" time="8"></requirements>
+    </levelInfo>
+    <levelInfo level="6" basicCostEnergy="16" heroesLimit="9">
+        <requirements energy="48" buildingMaterials="8" time="16"></requirements>
+    </levelInfo>
+    <levelInfo level="7" basicCostEnergy="20" heroesLimit="12">
+        <requirements energy="60" buildingMaterials="12" time="32"></requirements>
+    </levelInfo>
+    <levelInfo level="8" basicCostEnergy="25" heroesLimit="15">
+        <requirements energy="100" buildingMaterials="15" time="64"></requirements>
+    </levelInfo>
 </barracksLevelsInfo>

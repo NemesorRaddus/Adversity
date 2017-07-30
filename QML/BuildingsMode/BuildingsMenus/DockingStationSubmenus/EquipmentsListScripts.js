@@ -49,7 +49,7 @@ function createItem(name, internalName, type, tier, cost, b1n, b1v, b2n, b2v, b3
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootHeroesList,
+        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootEquipmentsList,
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
