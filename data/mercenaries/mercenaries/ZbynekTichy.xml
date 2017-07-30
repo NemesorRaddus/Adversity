@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="ZbynekTichy">
-	<attributes combatEffectiveness="7" proficiency="7" cleverness="4" luck="1.1" health="14" healthLimit="14" dailyHealthRecovery="1" stress="0" stressResistance="1.0" stressLimit="200" stressBorder="45" dailyStressRecovery="0" salary="18" dailyFoodConsumption="5" nature="Convivial" profession="Criminal"></attributes>
-	<sbeList>
-		<sbe>Desertion</sbe>
-		<sbe>Desertion</sbe>
-		<sbe>Desertion</sbe>
-		<sbe>Desertion</sbe>
-		<sbe>Desertion</sbe>
-		<sbe>Desertion</sbe>
-		<sbe>Masochism</sbe>
-		<sbe>Madness</sbe>
-		<sbe>Stupor</sbe>
-		<sbe>Awareness</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="7" proficiency="7" cleverness="4" luck="1.1" health="14" healthLimit="14" dailyHealthRecovery="1" stress="0" stressResistance="1.0" stressLimit="200" stressBorder="45" dailyStressRecovery="0" salary="18" dailyFoodConsumption="5" nature="Convivial" profession="Criminal"></attributes>
+    <sbeList>
+        <sbe>Desertion</sbe>
+        <sbe>Desertion</sbe>
+        <sbe>Desertion</sbe>
+        <sbe>Desertion</sbe>
+        <sbe>Desertion</sbe>
+        <sbe>Desertion</sbe>
+        <sbe>Masochism</sbe>
+        <sbe>Madness</sbe>
+        <sbe>Stupor</sbe>
+        <sbe>Awareness</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

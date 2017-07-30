@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="AlexFreeman">
-	<attributes combatEffectiveness="6" proficiency="4" cleverness="5" luck="0.95" health="15" healthLimit="15" dailyHealthRecovery="1" stress="0" stressResistance="1" stressLimit="110" stressBorder="80" dailyStressRecovery="3" salary="15" dailyFoodConsumption="2" nature="Active" profession="Cyborg"></attributes>
-	<sbeList>
-		<sbe>Hopeless</sbe>
-		<sbe>Hopeless</sbe>
-		<sbe>Hopeless</sbe>
-		<sbe>Hopeless</sbe>
-		<sbe>Hopeless</sbe>
-		<sbe>Masochism</sbe>
-		<sbe>Paranoia</sbe>
-		<sbe>Paranoia</sbe>
-		<sbe>Paranoia</sbe>
-		<sbe>Rage</sbe>
-		<sbe>Awareness</sbe>
-		<sbe>Equilibrium</sbe>
-		<sbe>Excellence</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="6" proficiency="4" cleverness="5" luck="0.95" health="15" healthLimit="15" dailyHealthRecovery="1" stress="0" stressResistance="1" stressLimit="110" stressBorder="80" dailyStressRecovery="3" salary="15" dailyFoodConsumption="2" nature="Active" profession="Cyborg"></attributes>
+    <sbeList>
+        <sbe>Hopeless</sbe>
+        <sbe>Hopeless</sbe>
+        <sbe>Hopeless</sbe>
+        <sbe>Hopeless</sbe>
+        <sbe>Hopeless</sbe>
+        <sbe>Masochism</sbe>
+        <sbe>Paranoia</sbe>
+        <sbe>Paranoia</sbe>
+        <sbe>Paranoia</sbe>
+        <sbe>Rage</sbe>
+        <sbe>Awareness</sbe>
+        <sbe>Equilibrium</sbe>
+        <sbe>Excellence</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

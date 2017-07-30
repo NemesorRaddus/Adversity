@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="JensNeumann">
-	<attributes combatEffectiveness="5" proficiency="3" cleverness="7" luck="1.0" health="16" healthLimit="16" dailyHealthRecovery="1" stress="0" stressResistance="0.9" stressLimit="100" stressBorder="65" dailyStressRecovery="3" salary="14" dailyFoodConsumption="2" nature="Recluse" profession="Cyborg"></attributes>
-	<sbeList>
-		<sbe>Faint</sbe>
-		<sbe>Rage</sbe>
-		<sbe>Rage</sbe>
-		<sbe>Fear</sbe>
-		<sbe>Restlessness</sbe>
-		<sbe>Stupor</sbe>
-		<sbe>Caution</sbe>
-		<sbe>Bravery</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="5" proficiency="3" cleverness="7" luck="1.0" health="16" healthLimit="16" dailyHealthRecovery="1" stress="0" stressResistance="0.9" stressLimit="100" stressBorder="65" dailyStressRecovery="3" salary="14" dailyFoodConsumption="2" nature="Recluse" profession="Cyborg"></attributes>
+    <sbeList>
+        <sbe>Faint</sbe>
+        <sbe>Rage</sbe>
+        <sbe>Rage</sbe>
+        <sbe>Fear</sbe>
+        <sbe>Restlessness</sbe>
+        <sbe>Stupor</sbe>
+        <sbe>Caution</sbe>
+        <sbe>Bravery</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

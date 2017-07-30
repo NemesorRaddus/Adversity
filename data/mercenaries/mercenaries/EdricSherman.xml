@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <hero name="EdricSherman">
-        <attributes combatEffectiveness="7" proficiency="5" cleverness="3" luck="1.1" health="13" healthLimit="13" dailyHealthRecovery="0" stress="0" stressResistance="0.95" stressLimit="120" stressBorder="80" dailyStressRecovery="5" salary="10" dailyFoodConsumption="3" nature="Convivial" profession="Bounty Hunter"></attributes>
-	<sbeList>
-		<sbe>Faint</sbe>
-		<sbe>Faint</sbe>
-		<sbe>Desertion</sbe>
-		<sbe>Paranoia</sbe>
-		<sbe>Rage</sbe>
-		<sbe>Madness</sbe>
-		<sbe>Stupor</sbe>
-		<sbe>The Lucky One</sbe>
-		<sbe>Bravery</sbe>
-	</sbeList>
-	<equipment>
-		<armor name=""></armor>
-		<weaponTool name="" slot=""></weaponTool>
-	</equipment>
-	<additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
+    <attributes combatEffectiveness="7" proficiency="5" cleverness="3" luck="1.1" health="13" healthLimit="13" dailyHealthRecovery="0" stress="0" stressResistance="0.95" stressLimit="120" stressBorder="80" dailyStressRecovery="5" salary="10" dailyFoodConsumption="3" nature="Convivial" profession="Bounty Hunter"></attributes>
+    <sbeList>
+        <sbe>Faint</sbe>
+        <sbe>Faint</sbe>
+        <sbe>Desertion</sbe>
+        <sbe>Paranoia</sbe>
+        <sbe>Rage</sbe>
+        <sbe>Madness</sbe>
+        <sbe>Stupor</sbe>
+        <sbe>The Lucky One</sbe>
+        <sbe>Bravery</sbe>
+    </sbeList>
+    <equipment>
+        <armor name=""></armor>
+        <weaponTool name="" slot=""></weaponTool>
+    </equipment>
+    <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
 </hero>

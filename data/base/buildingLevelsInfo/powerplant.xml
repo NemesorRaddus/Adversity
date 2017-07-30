@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <powerplantLevelsInfo>
-        <levelInfo level="0" basicCostEnergy="0" aetheriteTaken="0" energyGiven="0" energyLimit="0" maxCycles="0"></levelInfo>
-        <levelInfo level="1" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="250" maxCycles="10"></levelInfo>
-        <levelInfo level="2" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="300" maxCycles="12">
-			<requirements energy="3" buildingMaterials="" time="1"></requirements>
-		</levelInfo>
-        <levelInfo level="3" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="350" maxCycles="14">
-			<requirements energy="3" buildingMaterials="7" time="1"></requirements>
-		</levelInfo>
-        <levelInfo level="4" basicCostEnergy="2" aetheriteTaken="1" energyGiven="5" energyLimit="525" maxCycles="14">
-			<requirements energy="6" buildingMaterials="7" time="2"></requirements>
-		</levelInfo>
-        <levelInfo level="5" basicCostEnergy="3" aetheriteTaken="1" energyGiven="6" energyLimit="1260" maxCycles="14">
-			<requirements energy="9" buildingMaterials="7" time="2"></requirements>
-		</levelInfo>
-        <levelInfo level="6" basicCostEnergy="3" aetheriteTaken="1" energyGiven="6" energyLimit="1440" maxCycles="16">
-			<requirements energy="9" buildingMaterials="8" time="4"></requirements>
-		</levelInfo>
-        <levelInfo level="7" basicCostEnergy="3" aetheriteTaken="1" energyGiven="6" energyLimit="1620" maxCycles="18">
-			<requirements energy="9" buildingMaterials="9" time="4"></requirements>
-		</levelInfo>
-        <levelInfo level="8" basicCostEnergy="4" aetheriteTaken="1" energyGiven="6" energyLimit="2160" maxCycles="18">
-			<requirements energy="12" buildingMaterials="9" time="8"></requirements>
-		</levelInfo>
-        <levelInfo level="9" basicCostEnergy="5" aetheriteTaken="1" energyGiven="7" energyLimit="2520" maxCycles="18">
-			<requirements energy="15" buildingMaterials="9" time="8"></requirements>
-		</levelInfo>
-        <levelInfo level="10" basicCostEnergy="5" aetheriteTaken="1" energyGiven="7" energyLimit="2800" maxCycles="20">
-			<requirements energy="15" buildingMaterials="10" time="16"></requirements>
-		</levelInfo>
-        <levelInfo level="11" basicCostEnergy="7" aetheriteTaken="1" energyGiven="7" energyLimit="3080" maxCycles="22">
-			<requirements energy="21" buildingMaterials="11" time="16"></requirements>
-		</levelInfo>
-        <levelInfo level="12" basicCostEnergy="8" aetheriteTaken="1" energyGiven="7" energyLimit="3850" maxCycles="22">
-			<requirements energy="24" buildingMaterials="11" time="32"></requirements>
-		</levelInfo>
-        <levelInfo level="13" basicCostEnergy="12" aetheriteTaken="1" energyGiven="8" energyLimit="5000" maxCycles="25">
-			<requirements energy="36" buildingMaterials="13" time="32"></requirements>
-		</levelInfo>
-        <levelInfo level="14" basicCostEnergy="12" aetheriteTaken="1" energyGiven="9" energyLimit="5625" maxCycles="25">
-			<requirements energy="36" buildingMaterials="13" time="48"></requirements>
-		</levelInfo>
-        <levelInfo level="15" basicCostEnergy="12" aetheriteTaken="1" energyGiven="10" energyLimit="6250" maxCycles="25">
-			<requirements energy="36" buildingMaterials="13" time="48"></requirements>
-		</levelInfo>
-        <levelInfo level="16" basicCostEnergy="14" aetheriteTaken="1" energyGiven="10" energyLimit="7500" maxCycles="30">
-			<requirements energy="42" buildingMaterials="15" time="64"></requirements>
-		</levelInfo>
-        <levelInfo level="17" basicCostEnergy="15" aetheriteTaken="1" energyGiven="11" energyLimit="8250" maxCycles="30">
-			<requirements energy="45" buildingMaterials="15" time="64"></requirements>
-		</levelInfo>
-        <levelInfo level="18" basicCostEnergy="16" aetheriteTaken="1" energyGiven="12" energyLimit="9000" maxCycles="30">
-			<requirements energy="48" buildingMaterials="15" time="80"></requirements>
-		</levelInfo>
-        <levelInfo level="19" basicCostEnergy="17" aetheriteTaken="1" energyGiven="13" energyLimit="9750" maxCycles="30">
-			<requirements energy="51" buildingMaterials="15" time="80"></requirements>
-		</levelInfo>
-        <levelInfo level="20" basicCostEnergy="18" aetheriteTaken="1" energyGiven="14" energyLimit="10500" maxCycles="30">
-			<requirements energy="54" buildingMaterials="15" time="96"></requirements>
-		</levelInfo>
-        <levelInfo level="21" basicCostEnergy="19" aetheriteTaken="1" energyGiven="15" energyLimit="11250" maxCycles="30">
-			<requirements energy="57" buildingMaterials="15" time="96"></requirements>
-		</levelInfo>
-        <levelInfo level="22" basicCostEnergy="20" aetheriteTaken="1" energyGiven="16" energyLimit="12000" maxCycles="30">
-			<requirements energy="60" buildingMaterials="15" time="112"></requirements>
-		</levelInfo>
-        <levelInfo level="23" basicCostEnergy="30" aetheriteTaken="1" energyGiven="22" energyLimit="16250" maxCycles="30">
-			<requirements energy="90" buildingMaterials="15" time="112"></requirements>
-		</levelInfo>
-        <levelInfo level="24" basicCostEnergy="33" aetheriteTaken="1" energyGiven="22" energyLimit="18150" maxCycles="33">
-			<requirements energy="99" buildingMaterials="17" time="128"></requirements>
-		</levelInfo>
-        <levelInfo level="25" basicCostEnergy="36" aetheriteTaken="1" energyGiven="23" energyLimit="18975" maxCycles="33">
-			<requirements energy="108" buildingMaterials="17" time="128"></requirements>
-		</levelInfo>
-        <levelInfo level="26" basicCostEnergy="39" aetheriteTaken="1" energyGiven="24" energyLimit="19800" maxCycles="33">
-			<requirements energy="117" buildingMaterials="17" time="144"></requirements>
-		</levelInfo>
-        <levelInfo level="27" basicCostEnergy="42" aetheriteTaken="1" energyGiven="25" energyLimit="20625" maxCycles="33">
-			<requirements energy="126" buildingMaterials="17" time="144"></requirements>
-		</levelInfo>
-        <levelInfo level="28" basicCostEnergy="48" aetheriteTaken="1" energyGiven="26" energyLimit="22750" maxCycles="35">
-			<requirements energy="144" buildingMaterials="18" time="160"></requirements>
-		</levelInfo>
-        <levelInfo level="29" basicCostEnergy="60" aetheriteTaken="1" energyGiven="28" energyLimit="31920" maxCycles="38">
-			<requirements energy="180" buildingMaterials="19" time="160"></requirements>
-		</levelInfo>
-        <levelInfo level="30" basicCostEnergy="72" aetheriteTaken="1" energyGiven="30" energyLimit="36000" maxCycles="40">
-			<requirements energy="216" buildingMaterials="20" time="174"></requirements>
-		</levelInfo>
+    <levelInfo level="0" basicCostEnergy="0" aetheriteTaken="0" energyGiven="0" energyLimit="0" maxCycles="0"></levelInfo>
+    <levelInfo level="1" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="250" maxCycles="10"></levelInfo>
+    <levelInfo level="2" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="300" maxCycles="12">
+        <requirements energy="3" buildingMaterials="" time="1"></requirements>
+    </levelInfo>
+    <levelInfo level="3" basicCostEnergy="1" aetheriteTaken="1" energyGiven="5" energyLimit="350" maxCycles="14">
+        <requirements energy="3" buildingMaterials="7" time="1"></requirements>
+    </levelInfo>
+    <levelInfo level="4" basicCostEnergy="2" aetheriteTaken="1" energyGiven="5" energyLimit="525" maxCycles="14">
+        <requirements energy="6" buildingMaterials="7" time="2"></requirements>
+    </levelInfo>
+    <levelInfo level="5" basicCostEnergy="3" aetheriteTaken="1" energyGiven="6" energyLimit="1260" maxCycles="14">
+        <requirements energy="9" buildingMaterials="7" time="2"></requirements>
+    </levelInfo>
+    <levelInfo level="6" basicCostEnergy="3" aetheriteTaken="1" energyGiven="6" energyLimit="1440" maxCycles="16">
+        <requirements energy="9" buildingMaterials="8" time="4"></requirements>
+    </levelInfo>
+    <levelInfo level="7" basicCostEnergy="3" aetheriteTaken="1" energyGiven="6" energyLimit="1620" maxCycles="18">
+        <requirements energy="9" buildingMaterials="9" time="4"></requirements>
+    </levelInfo>
+    <levelInfo level="8" basicCostEnergy="4" aetheriteTaken="1" energyGiven="6" energyLimit="2160" maxCycles="18">
+        <requirements energy="12" buildingMaterials="9" time="8"></requirements>
+    </levelInfo>
+    <levelInfo level="9" basicCostEnergy="5" aetheriteTaken="1" energyGiven="7" energyLimit="2520" maxCycles="18">
+        <requirements energy="15" buildingMaterials="9" time="8"></requirements>
+    </levelInfo>
+    <levelInfo level="10" basicCostEnergy="5" aetheriteTaken="1" energyGiven="7" energyLimit="2800" maxCycles="20">
+        <requirements energy="15" buildingMaterials="10" time="16"></requirements>
+    </levelInfo>
+    <levelInfo level="11" basicCostEnergy="7" aetheriteTaken="1" energyGiven="7" energyLimit="3080" maxCycles="22">
+        <requirements energy="21" buildingMaterials="11" time="16"></requirements>
+    </levelInfo>
+    <levelInfo level="12" basicCostEnergy="8" aetheriteTaken="1" energyGiven="7" energyLimit="3850" maxCycles="22">
+        <requirements energy="24" buildingMaterials="11" time="32"></requirements>
+    </levelInfo>
+    <levelInfo level="13" basicCostEnergy="12" aetheriteTaken="1" energyGiven="8" energyLimit="5000" maxCycles="25">
+        <requirements energy="36" buildingMaterials="13" time="32"></requirements>
+    </levelInfo>
+    <levelInfo level="14" basicCostEnergy="12" aetheriteTaken="1" energyGiven="9" energyLimit="5625" maxCycles="25">
+        <requirements energy="36" buildingMaterials="13" time="48"></requirements>
+    </levelInfo>
+    <levelInfo level="15" basicCostEnergy="12" aetheriteTaken="1" energyGiven="10" energyLimit="6250" maxCycles="25">
+        <requirements energy="36" buildingMaterials="13" time="48"></requirements>
+    </levelInfo>
+    <levelInfo level="16" basicCostEnergy="14" aetheriteTaken="1" energyGiven="10" energyLimit="7500" maxCycles="30">
+        <requirements energy="42" buildingMaterials="15" time="64"></requirements>
+    </levelInfo>
+    <levelInfo level="17" basicCostEnergy="15" aetheriteTaken="1" energyGiven="11" energyLimit="8250" maxCycles="30">
+        <requirements energy="45" buildingMaterials="15" time="64"></requirements>
+    </levelInfo>
+    <levelInfo level="18" basicCostEnergy="16" aetheriteTaken="1" energyGiven="12" energyLimit="9000" maxCycles="30">
+        <requirements energy="48" buildingMaterials="15" time="80"></requirements>
+    </levelInfo>
+    <levelInfo level="19" basicCostEnergy="17" aetheriteTaken="1" energyGiven="13" energyLimit="9750" maxCycles="30">
+        <requirements energy="51" buildingMaterials="15" time="80"></requirements>
+    </levelInfo>
+    <levelInfo level="20" basicCostEnergy="18" aetheriteTaken="1" energyGiven="14" energyLimit="10500" maxCycles="30">
+        <requirements energy="54" buildingMaterials="15" time="96"></requirements>
+    </levelInfo>
+    <levelInfo level="21" basicCostEnergy="19" aetheriteTaken="1" energyGiven="15" energyLimit="11250" maxCycles="30">
+        <requirements energy="57" buildingMaterials="15" time="96"></requirements>
+    </levelInfo>
+    <levelInfo level="22" basicCostEnergy="20" aetheriteTaken="1" energyGiven="16" energyLimit="12000" maxCycles="30">
+        <requirements energy="60" buildingMaterials="15" time="112"></requirements>
+    </levelInfo>
+    <levelInfo level="23" basicCostEnergy="30" aetheriteTaken="1" energyGiven="22" energyLimit="16250" maxCycles="30">
+        <requirements energy="90" buildingMaterials="15" time="112"></requirements>
+    </levelInfo>
+    <levelInfo level="24" basicCostEnergy="33" aetheriteTaken="1" energyGiven="22" energyLimit="18150" maxCycles="33">
+        <requirements energy="99" buildingMaterials="17" time="128"></requirements>
+    </levelInfo>
+    <levelInfo level="25" basicCostEnergy="36" aetheriteTaken="1" energyGiven="23" energyLimit="18975" maxCycles="33">
+        <requirements energy="108" buildingMaterials="17" time="128"></requirements>
+    </levelInfo>
+    <levelInfo level="26" basicCostEnergy="39" aetheriteTaken="1" energyGiven="24" energyLimit="19800" maxCycles="33">
+        <requirements energy="117" buildingMaterials="17" time="144"></requirements>
+    </levelInfo>
+    <levelInfo level="27" basicCostEnergy="42" aetheriteTaken="1" energyGiven="25" energyLimit="20625" maxCycles="33">
+        <requirements energy="126" buildingMaterials="17" time="144"></requirements>
+    </levelInfo>
+    <levelInfo level="28" basicCostEnergy="48" aetheriteTaken="1" energyGiven="26" energyLimit="22750" maxCycles="35">
+        <requirements energy="144" buildingMaterials="18" time="160"></requirements>
+    </levelInfo>
+    <levelInfo level="29" basicCostEnergy="60" aetheriteTaken="1" energyGiven="28" energyLimit="31920" maxCycles="38">
+        <requirements energy="180" buildingMaterials="19" time="160"></requirements>
+    </levelInfo>
+    <levelInfo level="30" basicCostEnergy="72" aetheriteTaken="1" energyGiven="30" energyLimit="36000" maxCycles="40">
+        <requirements energy="216" buildingMaterials="20" time="174"></requirements>
+    </levelInfo>
 </powerplantLevelsInfo>
