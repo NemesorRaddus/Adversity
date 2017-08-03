@@ -14,6 +14,10 @@ QString Global::alterNormalTextToInternal(QString normalText) noexcept
 {
     normalText.remove(' ');
     normalText.remove('/');
+    normalText.remove('\\');
+    normalText.remove('\'');
+    normalText.remove('\"');
+    normalText.remove('|');
 
     normalText.replace('ć','c');
     normalText.replace('ę','e');
