@@ -14,7 +14,7 @@ Window {
     {
         if (currentMode == 0)
         {
-
+            mainGUI.missionsGUI.returnToDefault();
         }
         else if (currentMode == 1)
         {
@@ -29,16 +29,19 @@ Window {
 
         if (mode == 0)
         {
+            mainGUI.missionsGUI.state = "";
             mainGUI.buildingsGUI.state = "hiddenRight";
             mainGUI.mercenariesGUI.state = "hiddenRight2";
         }
         else if (mode == 1)
         {
+            mainGUI.missionsGUI.state = "hiddenLeft";
             mainGUI.buildingsGUI.state = "";
             mainGUI.mercenariesGUI.state = "hiddenRight";
         }
         else if (mode == 2)
         {
+            mainGUI.missionsGUI.state = "hiddenLeft2";
             mainGUI.buildingsGUI.state = "hiddenLeft";
             mainGUI.mercenariesGUI.state = "";
         }
@@ -256,7 +259,12 @@ Window {
         {
             if (currentMode == 0)
             {
+                if (mainGUI.missionsGUI.reactToBackOnToolbar())
+                    close.accepted = false;
+                else
+                {
                 GameApi.saveBase();
+            }
             }
             else if (currentMode == 1)
             {

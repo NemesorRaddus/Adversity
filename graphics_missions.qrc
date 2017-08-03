@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Missions/Map.png</file>
+        <file>graphics/Missions/Lands/Desert.png</file>
+        <file>graphics/Missions/Lands/Forest.png</file>
+        <file>graphics/Missions/Lands/Plainlands.png</file>
+    </qresource>
+</RCC>
