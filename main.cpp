@@ -5,6 +5,7 @@
 #include "h4x.h"
 #include "game.h"
 #include "timer.h"
+#include "fpscounter.h"
 
 #include <QDebug>
 
@@ -16,6 +17,8 @@ int main(int argc, char *argv[])
     QGuiApplication::setOrganizationName("Raddos Games");
 
     Randomizer::initialize();
+
+    qmlRegisterType<FPSText>("FPSComponent",1,0,"FPSCounter");
 
     qmlRegisterInterface<Base>("Base");
     qmlRegisterInterface<CentralUnit>("CentralUnit");

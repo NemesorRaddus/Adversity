@@ -49,6 +49,7 @@ public:
     
     //ui hacks
     Q_INVOKABLE void forceUIUpdate() noexcept;
+    Q_INVOKABLE void fps() noexcept;
 
     //app hacks
     Q_INVOKABLE void destroyEverything() noexcept;

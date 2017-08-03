@@ -53,6 +53,8 @@ Window {
     property alias gameTimerInterval: gameTimer.interval
     property alias gameTimerRunning: gameTimer.running
 
+    property alias enableFPSCounter: mainGUI.enableFPSCounter
+
     visible: true
     width: 450
     height: 800

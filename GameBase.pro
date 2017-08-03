@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     saveparser.cpp \
     assetspool.cpp \
     translations.cpp \
-    h4x.cpp
+    h4x.cpp \
+    fpscounter.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -48,7 +49,8 @@ HEADERS += \
     saveparser.h \
     assetspool.h \
     translations.h \
-    h4x.h
+    h4x.h \
+    fpscounter.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \

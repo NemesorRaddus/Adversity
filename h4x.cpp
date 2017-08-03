@@ -226,6 +226,12 @@ void H4X::forceUIUpdate() noexcept
     win->setProperty("updateEverythingInAMoment",true);
 }
 
+void H4X::fps() noexcept
+{
+    QObject *win=m_qmlEngine->rootObjects().value(0);
+    win->setProperty("enableFPSCounter",{!(win->property("enableFPSCounter").toBool())});
+}
+
 void H4X::destroyEverything() noexcept
 {
     QSettings().setValue("save01",{});
