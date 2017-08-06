@@ -351,6 +351,9 @@ public:
 
     void changeDailyFoodConsumption(int amount) noexcept;
 
+    void setDailyHealthRecoveryBuildingBonus(int bonus) noexcept;
+    void setDailyStressRecoveryBuildingBonus(int bonus) noexcept;
+
     Equipment *armor() const noexcept
     {
         return m_armor;
@@ -486,6 +489,9 @@ private:
     const int m_amountOfWeaponToolSlots = 2;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
 
+    int m_dhrBuildingBonus;
+    int m_dsrBuildingBonus;
+
     bool m_isDead;
     int m_indexOfCurrentSBE;
 
@@ -505,7 +511,7 @@ private:
 struct HeroDataHelper
 {
     HeroDataHelper()
-        : nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+        : nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
 
     QString name;
 
@@ -518,6 +524,9 @@ struct HeroDataHelper
     QString armor;
     QVector <QString> weaponsTools;
     QVector <EquipmentEnums::Category> equipmentCategories;
+
+    int dhrBuildingBonus;
+    int dsrBuildingBonus;
 
     bool isDead;
     int indexOfCurrentSBE;

@@ -325,6 +325,9 @@ public:
 
     void healHeroes() noexcept;
 
+    void setRecoveryValuesForHero(unsigned index) noexcept; // hero pointed-to by index in those fncs must be valid!
+    void setRecoveryValuesForHeroes() noexcept;
+
     void setLevelsInfo(const QVector <HospitalLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
@@ -335,12 +338,7 @@ public:
         resizeSlotsAfterUpgrade();
     }
 
-    void resizeSlotsAfterUpgrade() noexcept
-    {
-        while (m_heroesBeingHealed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingHealed.push_back(nullptr);
-        m_heroesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    }
+    void resizeSlotsAfterUpgrade() noexcept;
 
 private:
     void setSlot(unsigned index, Hero *hero) noexcept
@@ -919,6 +917,9 @@ public:
 
     void destressHeroes() noexcept;
 
+    void setRecoveryValuesForHero(unsigned index) noexcept;
+    void setRecoveryValuesForHeroes() noexcept;
+
     void setLevelsInfo(const QVector <PlayingFieldLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
@@ -929,12 +930,7 @@ public:
         resizeSlotsAfterUpgrade();
     }
 
-    void resizeSlotsAfterUpgrade() noexcept
-    {
-        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingDestressed.push_back(nullptr);
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    }
+    void resizeSlotsAfterUpgrade() noexcept;
 
 private:
     void setSlot(unsigned index, Hero *hero) noexcept
@@ -1075,6 +1071,9 @@ public:
 
     void destressHeroes() noexcept;
 
+    void setRecoveryValuesForHero(unsigned index) noexcept;
+    void setRecoveryValuesForHeroes() noexcept;
+
     void setLevelsInfo(const QVector <BarLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
@@ -1085,12 +1084,7 @@ public:
         resizeSlotsAfterUpgrade();
     }
 
-    void resizeSlotsAfterUpgrade() noexcept
-    {
-        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingDestressed.push_back(nullptr);
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    }
+    void resizeSlotsAfterUpgrade() noexcept;
 
 private:
     void setSlot(unsigned index, Hero *hero) noexcept
@@ -1231,6 +1225,9 @@ public:
 
     void destressHeroes() noexcept;
 
+    void setRecoveryValuesForHero(unsigned index) noexcept;
+    void setRecoveryValuesForHeroes() noexcept;
+
     void setLevelsInfo(const QVector <ShrineLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
@@ -1241,12 +1238,7 @@ public:
         resizeSlotsAfterUpgrade();
     }
 
-    void resizeSlotsAfterUpgrade() noexcept
-    {
-        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingDestressed.push_back(nullptr);
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    }
+    void resizeSlotsAfterUpgrade() noexcept;
 
 private:
     void setSlot(unsigned index, Hero *hero) noexcept
@@ -1387,6 +1379,9 @@ public:
 
     void destressHeroes() noexcept;
 
+    void setRecoveryValuesForHero(unsigned index) noexcept;
+    void setRecoveryValuesForHeroes() noexcept;
+
     void setLevelsInfo(const QVector <SeclusionLevelInfo> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
@@ -1397,12 +1392,7 @@ public:
         resizeSlotsAfterUpgrade();
     }
 
-    void resizeSlotsAfterUpgrade() noexcept
-    {
-        while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingDestressed.push_back(nullptr);
-        m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    }
+    void resizeSlotsAfterUpgrade() noexcept;
 
 private:
     void setSlot(unsigned index, Hero *hero) noexcept

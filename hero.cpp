@@ -738,6 +738,18 @@ void Hero::changeDailyFoodConsumption(int amount) noexcept
     calculateCurrentAttributeValue(HeroEnums::A_DailyFoodConsumption);
 }
 
+void Hero::setDailyHealthRecoveryBuildingBonus(int bonus) noexcept
+{
+    m_dhrBuildingBonus=bonus;
+    calculateCurrentAttributeValue(HeroEnums::A_DailyHealthRecovery);
+}
+
+void Hero::setDailyStressRecoveryBuildingBonus(int bonus) noexcept
+{
+    m_dsrBuildingBonus=bonus;
+    calculateCurrentAttributeValue(HeroEnums::A_DailyStressRecovery);
+}
+
 Equipment *Hero::weaponTool(int slot) const noexcept
 {
     return m_weaponsTools.value(slot,nullptr);
@@ -796,7 +808,7 @@ bool Hero::hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept
 }
 
 Hero::Hero() noexcept
-    : m_nature(HeroEnums::N_Active), m_armor(nullptr), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+    : m_nature(HeroEnums::N_Active), m_armor(nullptr), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
     m_stressBorderEffects.reserve(1);
     m_stressBorderEffects.push_back({HeroEnums::SBE_None});
@@ -1008,6 +1020,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_DailyHealthRecovery)
     {
         int x=m_baseAttributesValues.dailyHealthRecovery;
+        x+=m_dhrBuildingBonus;
         if (isStressBorderEffectActive())
         {
             if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StoneSkin)
@@ -1030,6 +1043,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
     else if (attributeName == HeroEnums::A_DailyStressRecovery)
     {
         int x=m_baseAttributesValues.dailyStressRecovery;
+        x+=m_dsrBuildingBonus;
         if (isStressBorderEffectActive())
         {
             if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_FanaticWrath)
@@ -1422,6 +1436,8 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
             r->m_weaponsTools[i]=nullptr;
     }
     r->m_currentEquipmentCategories = hero.equipmentCategories;
+    r->m_dhrBuildingBonus = hero.dhrBuildingBonus;
+    r->m_dsrBuildingBonus = hero.dsrBuildingBonus;
     r->m_isDead = hero.isDead;
     r->m_indexOfCurrentSBE = hero.indexOfCurrentSBE;
     r->m_noSignalDaysRemaining = hero.noSignalDaysRemaining;
@@ -1457,6 +1473,8 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
             r.weaponsTools.push_back("");
     }
     r.equipmentCategories = hero->m_currentEquipmentCategories;
+    r.dhrBuildingBonus = hero->m_dhrBuildingBonus;
+    r.dsrBuildingBonus = hero->m_dsrBuildingBonus;
     r.isDead = hero->m_isDead;
     r.indexOfCurrentSBE = hero->m_indexOfCurrentSBE;
     r.noSignalDaysRemaining = hero->m_noSignalDaysRemaining;
@@ -1492,6 +1510,9 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
     for (int i=0;i<hero.equipmentCategories.size();++i)
         cats+=static_cast<quint8>(hero.equipmentCategories[i]);
     stream<<cats;
+
+    stream<<static_cast<qint16>(hero.dhrBuildingBonus);
+    stream<<static_cast<qint16>(hero.dsrBuildingBonus);
 
     stream<<hero.isDead;
 
@@ -1541,6 +1562,9 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     stream>>cats;
     for (int _i=0;_i<cats.size();++_i)
         hero.equipmentCategories+=static_cast<EquipmentEnums::Category>(cats[_i]);
+
+    stream>>hero.dhrBuildingBonus;
+    stream>>hero.dsrBuildingBonus;
 
     stream>>hero.isDead;
 

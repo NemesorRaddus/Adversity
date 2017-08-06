@@ -217,6 +217,7 @@ void Hospital::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noex
 
     m_heroesBeingHealed[slotIndex]=base()->heroes()->getHero(pos);
     m_heroesBeingHealed[slotIndex]->setCurrentActivity(HeroEnums::CA_InHospital);
+    setRecoveryValuesForHero(slotIndex);
 }
 
 void Hospital::emptySlot(unsigned slotIndex) noexcept
@@ -228,6 +229,7 @@ void Hospital::emptySlot(unsigned slotIndex) noexcept
         return;
 
     m_heroesBeingHealed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingHealed[slotIndex]->setDailyHealthRecoveryBuildingBonus(0);
     m_heroesBeingHealed[slotIndex]=nullptr;
 }
 
@@ -272,6 +274,18 @@ void Hospital::healHeroes() noexcept
         }
 }
 
+void Hospital::setRecoveryValuesForHero(unsigned index) noexcept
+{
+    m_heroesBeingHealed[index]->setDailyHealthRecoveryBuildingBonus(hpRestoredPerDay());
+}
+
+void Hospital::setRecoveryValuesForHeroes() noexcept
+{
+    for (int i=0;i<m_heroesBeingHealed.size();++i)
+        if (m_heroesBeingHealed[i]!=nullptr)
+            setRecoveryValuesForHero(i);
+}
+
 void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -283,6 +297,14 @@ unsigned Hospital::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+void Hospital::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_heroesBeingHealed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_heroesBeingHealed.push_back(nullptr);
+    m_heroesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForHeroes();
 }
 
 TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<TrainingGroundLevelInfo> &levelsInfo) noexcept
@@ -677,6 +699,7 @@ void PlayingField::placeHeroInSlot(unsigned slotIndex, const QString &heroName) 
 
     m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InPlayingField);
+    setRecoveryValuesForHero(slotIndex);
 }
 
 void PlayingField::emptySlot(unsigned slotIndex) noexcept
@@ -688,6 +711,7 @@ void PlayingField::emptySlot(unsigned slotIndex) noexcept
         return;
 
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
     m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
@@ -720,6 +744,32 @@ void PlayingField::destressHeroes() noexcept
         }
 }
 
+void PlayingField::setRecoveryValuesForHero(unsigned index) noexcept
+{
+    switch (m_heroesBeingDestressed[index]->nature())
+    {
+    case HeroEnums::N_Active:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+        break;
+    case HeroEnums::N_Convivial:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+        break;
+    case HeroEnums::N_Recluse:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+        break;
+    case HeroEnums::N_Religious:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+        break;
+    }
+}
+
+void PlayingField::setRecoveryValuesForHeroes() noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForHero(i);
+}
+
 void PlayingField::setLevelsInfo(const QVector<PlayingFieldLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -731,6 +781,14 @@ unsigned PlayingField::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+void PlayingField::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_heroesBeingDestressed.push_back(nullptr);
+    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForHeroes();
 }
 
 Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) noexcept
@@ -770,6 +828,7 @@ void Bar::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
 
     m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InBar);
+    setRecoveryValuesForHero(slotIndex);
 }
 
 void Bar::emptySlot(unsigned slotIndex) noexcept
@@ -781,6 +840,7 @@ void Bar::emptySlot(unsigned slotIndex) noexcept
         return;
 
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
     m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
@@ -813,6 +873,32 @@ void Bar::destressHeroes() noexcept
         }
 }
 
+void Bar::setRecoveryValuesForHero(unsigned index) noexcept
+{
+    switch (m_heroesBeingDestressed[index]->nature())
+    {
+    case HeroEnums::N_Active:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+        break;
+    case HeroEnums::N_Convivial:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+        break;
+    case HeroEnums::N_Recluse:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+        break;
+    case HeroEnums::N_Religious:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+        break;
+    }
+}
+
+void Bar::setRecoveryValuesForHeroes() noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForHero(i);
+}
+
 void Bar::setLevelsInfo(const QVector<BarLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -824,6 +910,14 @@ unsigned Bar::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+void Bar::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_heroesBeingDestressed.push_back(nullptr);
+    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForHeroes();
 }
 
 Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &levelsInfo) noexcept
@@ -863,6 +957,7 @@ void Shrine::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexce
 
     m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InShrine);
+    setRecoveryValuesForHero(slotIndex);
 }
 
 void Shrine::emptySlot(unsigned slotIndex) noexcept
@@ -874,6 +969,7 @@ void Shrine::emptySlot(unsigned slotIndex) noexcept
         return;
 
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
     m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
@@ -906,6 +1002,32 @@ void Shrine::destressHeroes() noexcept
         }
 }
 
+void Shrine::setRecoveryValuesForHero(unsigned index) noexcept
+{
+    switch (m_heroesBeingDestressed[index]->nature())
+    {
+    case HeroEnums::N_Active:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+        break;
+    case HeroEnums::N_Convivial:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+        break;
+    case HeroEnums::N_Recluse:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+        break;
+    case HeroEnums::N_Religious:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+        break;
+    }
+}
+
+void Shrine::setRecoveryValuesForHeroes() noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForHero(i);
+}
+
 void Shrine::setLevelsInfo(const QVector<ShrineLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -917,6 +1039,14 @@ unsigned Shrine::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+void Shrine::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_heroesBeingDestressed.push_back(nullptr);
+    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForHeroes();
 }
 
 Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInfo> &levelsInfo) noexcept
@@ -956,6 +1086,7 @@ void Seclusion::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noe
 
     m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InSeclusion);
+    setRecoveryValuesForHero(slotIndex);
 }
 
 void Seclusion::emptySlot(unsigned slotIndex) noexcept
@@ -967,6 +1098,7 @@ void Seclusion::emptySlot(unsigned slotIndex) noexcept
         return;
 
     m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
+    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
     m_heroesBeingDestressed[slotIndex]=nullptr;
 }
 
@@ -999,6 +1131,32 @@ void Seclusion::destressHeroes() noexcept
         }
 }
 
+void Seclusion::setRecoveryValuesForHero(unsigned index) noexcept
+{
+    switch (m_heroesBeingDestressed[index]->nature())
+    {
+    case HeroEnums::N_Active:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+        break;
+    case HeroEnums::N_Convivial:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+        break;
+    case HeroEnums::N_Recluse:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+        break;
+    case HeroEnums::N_Religious:
+        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+        break;
+    }
+}
+
+void Seclusion::setRecoveryValuesForHeroes() noexcept
+{
+    for (int i=0;i<m_heroesBeingDestressed.size();++i)
+        if (m_heroesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForHero(i);
+}
+
 void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo> &info) noexcept
 {
     m_levelsInfo=info;
@@ -1010,6 +1168,14 @@ unsigned Seclusion::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+void Seclusion::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_heroesBeingDestressed.push_back(nullptr);
+    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForHeroes();
 }
 
 Powerplant::Powerplant(Base *base, unsigned level, const QVector<PowerplantLevelInfo> &levelsInfo) noexcept
