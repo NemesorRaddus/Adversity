@@ -20,7 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.trainingGround.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("ce");
         var amountOfSlotsAvailable = GameApi.base.trainingGround.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -672,7 +672,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("ce");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -703,7 +703,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("ce");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -734,7 +734,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("ce");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }

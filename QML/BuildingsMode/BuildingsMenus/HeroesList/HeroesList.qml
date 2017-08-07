@@ -8,7 +8,7 @@ import Game 1.0
 Item {
     id: rootHeroesList
 
-    function updateEverything()
+    function updateEverything(trainedAttr)//"ce","pr","cl" or ""
     {
         var heroesAmount=0;
         var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
@@ -17,6 +17,22 @@ Item {
             GameApi.base.heroes.prepareHeroAt(i);
             if (!GameApi.base.heroes.preparedHero.isDead() && GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
             {
+                if (trainedAttr == "ce")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainCombatEffectiveness())
+                        continue;
+                }
+                else if (trainedAttr == "pr")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainProficiency())
+                        continue;
+                }
+                else if (trainedAttr == "cl")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainCleverness())
+                        continue;
+                }
+
                 ++heroesAmount;
                 availableHeroes[i]=true;
             }

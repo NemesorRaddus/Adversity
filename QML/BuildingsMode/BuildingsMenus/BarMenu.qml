@@ -21,7 +21,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.bar.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("");
         var amountOfSlotsAvailable = GameApi.base.bar.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -867,7 +867,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -898,7 +898,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -929,7 +929,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }
@@ -960,7 +960,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 3;
                 heroSelectionList.state = "";
             }
@@ -991,7 +991,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 4;
                 heroSelectionList.state = "";
             }
@@ -1022,7 +1022,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 5;
                 heroSelectionList.state = "";
             }

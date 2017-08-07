@@ -385,15 +385,7 @@ void TrainingGround::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
-                if (m_heroesBeingTrained[i].first->combatEffectiveness() > 7)
-                {
-                    m_heroesBeingTrained[i].first->changeProficiency(-1);
-                    m_heroesBeingTrained[i].first->changeCleverness(-1);
-                }
-                else if (m_heroesBeingTrained[i].first->combatEffectiveness() > 4)
-                    m_heroesBeingTrained[i].first->changeCleverness(-1);
-
-                m_heroesBeingTrained[i].first->changeCombatEffectiveness(m_levelsInfo.value(currentLevel()).combatEffectivenessBonus);
+                m_heroesBeingTrained[i].first->trainCombatEffectiveness();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
                 m_heroesBeingTrained[i].second=0;
@@ -505,15 +497,7 @@ void Gym::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
-                if (m_heroesBeingTrained[i].first->proficiency() > 7)
-                {
-                    m_heroesBeingTrained[i].first->changeCombatEffectiveness(-1);
-                    m_heroesBeingTrained[i].first->changeCleverness(-1);
-                }
-                else if (m_heroesBeingTrained[i].first->proficiency() > 4)
-                    m_heroesBeingTrained[i].first->changeCombatEffectiveness(-1);
-
-                m_heroesBeingTrained[i].first->changeProficiency(m_levelsInfo.value(currentLevel()).proficiencyBonus);
+                m_heroesBeingTrained[i].first->trainProficiency();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
                 m_heroesBeingTrained[i].second=0;
@@ -625,15 +609,7 @@ void Laboratory::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
-                if (m_heroesBeingTrained[i].first->cleverness() > 7)
-                {
-                    m_heroesBeingTrained[i].first->changeProficiency(-1);
-                    m_heroesBeingTrained[i].first->changeCombatEffectiveness(-1);
-                }
-                else if (m_heroesBeingTrained[i].first->cleverness() > 4)
-                    m_heroesBeingTrained[i].first->changeProficiency(-1);
-
-                m_heroesBeingTrained[i].first->changeCleverness(m_levelsInfo.value(currentLevel()).clevernessBonus);
+                m_heroesBeingTrained[i].first->trainCleverness();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
                 m_heroesBeingTrained[i].second=0;

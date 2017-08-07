@@ -529,6 +529,60 @@ QString Hero::professionString() const noexcept
     return HeroEnums::fromProfessionEnumToQString(m_profession);
 }
 
+bool Hero::canTrainCombatEffectiveness() const noexcept
+{
+    return m_stockCE + 5 > m_baseAttributesValues.combatEffectiveness;
+}
+
+bool Hero::canTrainProficiency() const noexcept
+{
+    return m_stockPR + 5 > m_baseAttributesValues.proficiency;
+}
+
+bool Hero::canTrainCleverness() const noexcept
+{
+    return m_stockCL + 5 > m_baseAttributesValues.cleverness;
+}
+
+void Hero::trainCombatEffectiveness() noexcept
+{
+    if (m_baseAttributesValues.combatEffectiveness > 7)
+    {
+        changeProficiency(-1);
+        changeCleverness(-1);
+    }
+    else if (m_baseAttributesValues.combatEffectiveness > 4)
+        changeCleverness(-1);
+
+    changeCombatEffectiveness(1);
+}
+
+void Hero::trainProficiency() noexcept
+{
+    if (m_baseAttributesValues.proficiency > 7)
+    {
+        changeCombatEffectiveness(-1);
+        changeCleverness(-1);
+    }
+    else if (m_baseAttributesValues.proficiency > 4)
+        changeCombatEffectiveness(-1);
+
+    changeProficiency(1);
+}
+
+void Hero::trainCleverness() noexcept
+{
+    if (m_baseAttributesValues.cleverness > 7)
+    {
+        changeProficiency(-1);
+        changeCombatEffectiveness(-1);
+    }
+    else if (m_baseAttributesValues.cleverness > 4)
+        changeProficiency(-1);
+
+    changeCleverness(1);
+}
+
 void Hero::changeCombatEffectiveness(int amount) noexcept
 {
     if (m_baseAttributesValues.combatEffectiveness+amount >= 0)
@@ -842,7 +896,7 @@ bool Hero::hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept
 }
 
 Hero::Hero() noexcept
-    : m_nature(HeroEnums::N_Active), m_armor(nullptr), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+    : m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
     m_stressBorderEffects.reserve(1);
     m_stressBorderEffects.push_back({HeroEnums::SBE_None});
@@ -1719,6 +1773,9 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_name = hero.name;
     r->m_baseAttributesValues = hero.baseAttributesValues;
     r->m_currentAttributesValues = hero.currentAttributesValues;
+    r->m_stockCE = hero.stockCE;
+    r->m_stockPR = hero.stockPR;
+    r->m_stockCL = hero.stockCL;
     r->m_stressBorderEffects = hero.stressBorderEffects;
     r->m_nature = hero.nature;
     r->m_profession = hero.profession;
@@ -1756,6 +1813,9 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
     r.name = hero->m_name;
     r.baseAttributesValues = hero->m_baseAttributesValues;
     r.currentAttributesValues = hero->m_currentAttributesValues;
+    r.stockCE = hero->m_stockCE;
+    r.stockPR = hero->m_stockPR;
+    r.stockCL = hero->m_stockCL;
     r.stressBorderEffects = hero->m_stressBorderEffects;
     r.nature = hero->m_nature;
     r.profession = hero->m_profession;
@@ -1793,6 +1853,10 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
     stream<<hero.baseAttributesValues;
 
     stream<<hero.currentAttributesValues;
+
+    stream<<static_cast<qint16>(hero.stockCE);
+    stream<<static_cast<qint16>(hero.stockPR);
+    stream<<static_cast<qint16>(hero.stockCL);
 
     stream<<hero.stressBorderEffects;
 
@@ -1843,6 +1907,15 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     stream>>hero.baseAttributesValues;
 
     stream>>hero.currentAttributesValues;
+
+    stream>>ii;
+    hero.stockCE=ii;
+
+    stream>>ii;
+    hero.stockPR=ii;
+
+    stream>>ii;
+    hero.stockCL=ii;
 
     stream>>hero.stressBorderEffects;
 
@@ -1904,19 +1977,28 @@ void HeroBuilder::resetHero() noexcept
 void HeroBuilder::setCombatEffectiveness(int combatEffectiveness) noexcept
 {
     if (combatEffectiveness>=0)
+    {
+        m_hero->m_stockCE=combatEffectiveness;
         m_hero->m_baseAttributesValues.combatEffectiveness=combatEffectiveness;
+    }
 }
 
 void HeroBuilder::setProficiency(int proficiency) noexcept
 {
     if (proficiency>=0)
+    {
+        m_hero->m_stockPR=proficiency;
         m_hero->m_baseAttributesValues.proficiency=proficiency;
+    }
 }
 
 void HeroBuilder::setCleverness(int cleverness) noexcept
 {
     if (cleverness>=0)
+    {
+        m_hero->m_stockCL=cleverness;
         m_hero->m_baseAttributesValues.cleverness=cleverness;
+    }
 }
 
 void HeroBuilder::setLuck(float luck) noexcept

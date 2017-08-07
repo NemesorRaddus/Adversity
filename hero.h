@@ -326,6 +326,14 @@ public:
         return m_baseAttributesValues.salary;
     }
 
+    Q_INVOKABLE bool canTrainCombatEffectiveness() const noexcept;
+    Q_INVOKABLE bool canTrainProficiency() const noexcept;
+    Q_INVOKABLE bool canTrainCleverness() const noexcept;
+
+    void trainCombatEffectiveness() noexcept;
+    void trainProficiency() noexcept;
+    void trainCleverness() noexcept;
+
     void changeCombatEffectiveness(int amount) noexcept;//change by amount so increase or decrease by amount, not set amount!
     void changeProficiency(int amount) noexcept;
     void changeCleverness(int amount) noexcept;
@@ -484,6 +492,11 @@ private:
 
     HeroAttributesSet m_baseAttributesValues;
     HeroAttributesSet m_currentAttributesValues;//including eq bonuses, SBE impact
+
+    int m_stockCE;
+    int m_stockPR;
+    int m_stockCL;
+
     QVector <HeroStressBorderEffect> m_stressBorderEffects;
     HeroEnums::Nature m_nature;
     HeroEnums::Profession m_profession;
@@ -515,12 +528,17 @@ private:
 struct HeroDataHelper
 {
     HeroDataHelper()
-        : nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
 
     QString name;
 
     HeroAttributesSet baseAttributesValues;
     HeroAttributesSet currentAttributesValues;
+
+    int stockCE;
+    int stockPR;
+    int stockCL;
+
     QVector <HeroStressBorderEffect> stressBorderEffects;
     HeroEnums::Nature nature;
     HeroEnums::Profession profession;
