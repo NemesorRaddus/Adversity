@@ -31,6 +31,5 @@
         <file>graphics/GUI/Task_Picture.png</file>
         <file>graphics/GUI/Task_Picture2.png</file>
         <file>graphics/GUI/Time.png</file>
-        <file>graphics/GUI/Map.png</file>
     </qresource>
 </RCC>

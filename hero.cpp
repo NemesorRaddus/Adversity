@@ -1861,8 +1861,11 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     for (int _i=0;_i<cats.size();++_i)
         hero.equipmentCategories+=static_cast<EquipmentEnums::Category>(cats[_i]);
 
-    stream>>hero.dhrBuildingBonus;
-    stream>>hero.dsrBuildingBonus;
+    stream>>ii;
+    hero.dhrBuildingBonus=ii;
+
+    stream>>ii;
+    hero.dsrBuildingBonus=ii;
 
     stream>>hero.isDead;
 
