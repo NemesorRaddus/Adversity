@@ -354,6 +354,9 @@ public:
     void setDailyHealthRecoveryBuildingBonus(int bonus) noexcept;
     void setDailyStressRecoveryBuildingBonus(int bonus) noexcept;
 
+    void addAttributeModifications(AttributeModification *mod) noexcept;
+    void decrementModificationsDuration() noexcept;
+
     Equipment *armor() const noexcept
     {
         return m_armor;
@@ -393,6 +396,7 @@ public:
     {
         return m_noSignalDaysRemaining==0;
     }
+
     Q_INVOKABLE int carriedEnergy() const noexcept
     {
         return m_carriedEnergy;
@@ -492,6 +496,8 @@ private:
     int m_dhrBuildingBonus;
     int m_dsrBuildingBonus;
 
+    QVector <AttributeModification *> m_attributeModifications;
+
     bool m_isDead;
     int m_indexOfCurrentSBE;
 
@@ -501,8 +507,6 @@ private:
     int m_carriedFoodSupplies;
     int m_carriedBuildingMaterials;
     int m_carriedAetheriteOre;
-
-    QVector <AttributeModification *> m_attributeModifications;
 
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
@@ -677,7 +681,7 @@ public:
     }
     Q_INVOKABLE void dismissHero(const QString &name) noexcept
     {
-        addDoStBan(name,21);
+        addDoStBan(name,m_durationOfBanAfterDismiss);
     }
 
 public slots:
@@ -691,6 +695,7 @@ private:
     QVector <Hero *> m_heroes;
     Hero *m_preparedHero;
     unsigned m_amountOfSlots;
+    const unsigned m_durationOfBanAfterDismiss = 21;
     Base *m_basePtr;
 };
 
