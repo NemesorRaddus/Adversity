@@ -193,6 +193,7 @@ Window {
         mercenariesGUI.onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide()
         mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
         mercenaryDismissConfirmDialog.onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing()
+        mercenariesGUI.onUnbanRequested: buildingsGUI.requestUnban(heroName, buildingName)
 
         mercenariesGUI.onArtPreviewRequested: heroArtPreview.show(artSource)
         mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()

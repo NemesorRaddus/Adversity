@@ -46,12 +46,14 @@ Item {
 
     property var bannedHeroes: []
 
-    function banHero(name) {
+    function banHero(name)
+    {
         if (bannedHeroes.indexOf(name)==-1)
             bannedHeroes.push(name);
     }
 
-    function unbanHero(name) {
+    function unbanHero(name)
+    {
         if (bannedHeroes.indexOf(name)!=-1)
             bannedHeroes.splice(bannedHeroes.indexOf(name),1);
     }

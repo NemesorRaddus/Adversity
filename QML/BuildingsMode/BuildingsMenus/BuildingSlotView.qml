@@ -58,6 +58,8 @@ Item {
         startAbortIcon.visible = false;
         startAbortMA.enabled = false;
         isVacant = true;
+        startAbortIcon.source = "qrc:/graphics/GUI/Settings.png"
+        isConfirmed = false;
     }
 
     function forceAbortIcon()
@@ -249,8 +251,6 @@ Item {
             onClicked: {
                 if (isConfirmed)
                 {
-                    startAbortIcon.source = "qrc:/graphics/GUI/Settings.png"
-                    isConfirmed = false;
                     removeHero();
                     abortClicked();
                 }

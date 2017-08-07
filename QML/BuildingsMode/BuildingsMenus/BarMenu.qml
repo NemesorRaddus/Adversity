@@ -212,6 +212,11 @@ Item {
         heroSelectionList.state = "hidden";
     }
 
+    function requestUnban(heroName)
+    {
+        heroSelectionList.unbanHero(heroName);
+    }
+
     width: 1080
     height: 1464
 

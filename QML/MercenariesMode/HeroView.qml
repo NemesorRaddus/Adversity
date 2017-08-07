@@ -18,6 +18,7 @@ Item {
     signal upgradeRequested()
     signal buildingMenuRequested(string buildingName)
     signal dismissClicked()
+    signal unbanRequested(string heroName_, string buildingName)
     signal guiUpdateRequested()
     signal artPreviewRequested(string artSource)
 
@@ -138,6 +139,22 @@ Item {
     {
         dismissConfirmDialogVisible = false;
         GameApi.base.heroes.dismissHero(heroName);
+        if (currentActivity_ == "In Hospital")
+            unbanRequested(heroName, "Hospital");
+        else if (currentActivity_ == "On Training Ground")
+            unbanRequested(heroName, "Training Ground");
+        else if (currentActivity_ == "In Gym")
+            unbanRequested(heroName, "Gym");
+        else if (currentActivity_ == "In Laboratory")
+            unbanRequested(heroName, "Laboratory");
+        else if (currentActivity_ == "In Playing Field")
+            unbanRequested(heroName, "Playing Field");
+        else if (currentActivity_ == "In Bar")
+            unbanRequested(heroName, "Bar");
+        else if (currentActivity_ == "In Shrine")
+            unbanRequested(heroName, "Shrine");
+        else if (currentActivity_ == "In Seclusion")
+            unbanRequested(heroName, "Seclusion");
         guiUpdateRequested();
     }
 

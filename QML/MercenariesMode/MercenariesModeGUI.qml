@@ -30,6 +30,7 @@ Item {
     signal buildingMenuRequested(string buildingName)
     signal dismissClickedFwd()
     signal dismissDialogHidingRequested()
+    signal unbanRequested(string heroName, string buildingName)
     signal artPreviewRequested(string artSource)
     signal artPreviewHidingRequested()
 
@@ -187,6 +188,8 @@ Item {
         onBuildingMenuRequested: root.buildingMenuRequested(buildingName);
 
         onDismissClicked: root.dismissClickedFwd();
+
+        onUnbanRequested: root.unbanRequested(heroName_, buildingName);
 
         onGuiUpdateRequested: {
             root.returnToDefault();
