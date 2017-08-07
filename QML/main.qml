@@ -14,7 +14,7 @@ Window {
     {
         if (currentMode == 0)
         {
-
+            mainGUI.missionsGUI.returnToDefault();
         }
         else if (currentMode == 1)
         {
@@ -29,16 +29,19 @@ Window {
 
         if (mode == 0)
         {
+            mainGUI.missionsGUI.state = "";
             mainGUI.buildingsGUI.state = "hiddenRight";
             mainGUI.mercenariesGUI.state = "hiddenRight2";
         }
         else if (mode == 1)
         {
+            mainGUI.missionsGUI.state = "hiddenLeft";
             mainGUI.buildingsGUI.state = "";
             mainGUI.mercenariesGUI.state = "hiddenRight";
         }
         else if (mode == 2)
         {
+            mainGUI.missionsGUI.state = "hiddenLeft2";
             mainGUI.buildingsGUI.state = "hiddenLeft";
             mainGUI.mercenariesGUI.state = "";
         }
@@ -52,6 +55,8 @@ Window {
     //for h4x
     property alias gameTimerInterval: gameTimer.interval
     property alias gameTimerRunning: gameTimer.running
+
+    property alias enableFPSCounter: mainGUI.enableFPSCounter
 
     visible: true
     width: 450
@@ -190,6 +195,7 @@ Window {
         mercenariesGUI.onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide()
         mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
         mercenaryDismissConfirmDialog.onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing()
+        mercenariesGUI.onUnbanRequested: buildingsGUI.requestUnban(heroName, buildingName)
 
         mercenariesGUI.onArtPreviewRequested: heroArtPreview.show(artSource)
         mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
@@ -241,7 +247,7 @@ Window {
         splash.show();
         Globals.windowWidth = width;
         Globals.windowHeight = height;
-        changeMode(0);
+        changeMode(1);
         GameApi.loadExistingBase(":/data/");
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
@@ -256,7 +262,12 @@ Window {
         {
             if (currentMode == 0)
             {
+                if (mainGUI.missionsGUI.reactToBackOnToolbar())
+                    close.accepted = false;
+                else
+                {
                 GameApi.saveBase();
+            }
             }
             else if (currentMode == 1)
             {

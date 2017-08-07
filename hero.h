@@ -169,6 +169,8 @@ struct HeroAttributesSet
 QDataStream &operator<<(QDataStream &stream, const HeroAttributesSet &attrs) noexcept;
 QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept;
 
+struct AttributeModification;
+
 class Hero : public QObject
 {
     Q_OBJECT
@@ -324,6 +326,14 @@ public:
         return m_baseAttributesValues.salary;
     }
 
+    Q_INVOKABLE bool canTrainCombatEffectiveness() const noexcept;
+    Q_INVOKABLE bool canTrainProficiency() const noexcept;
+    Q_INVOKABLE bool canTrainCleverness() const noexcept;
+
+    void trainCombatEffectiveness() noexcept;
+    void trainProficiency() noexcept;
+    void trainCleverness() noexcept;
+
     void changeCombatEffectiveness(int amount) noexcept;//change by amount so increase or decrease by amount, not set amount!
     void changeProficiency(int amount) noexcept;
     void changeCleverness(int amount) noexcept;
@@ -348,6 +358,12 @@ public:
     void changeSalary(int amount) noexcept;
 
     void changeDailyFoodConsumption(int amount) noexcept;
+
+    void setDailyHealthRecoveryBuildingBonus(int bonus) noexcept;
+    void setDailyStressRecoveryBuildingBonus(int bonus) noexcept;
+
+    void addAttributeModifications(AttributeModification *mod) noexcept;
+    void decrementModificationsDuration() noexcept;
 
     Equipment *armor() const noexcept
     {
@@ -388,6 +404,7 @@ public:
     {
         return m_noSignalDaysRemaining==0;
     }
+
     Q_INVOKABLE int carriedEnergy() const noexcept
     {
         return m_carriedEnergy;
@@ -475,6 +492,11 @@ private:
 
     HeroAttributesSet m_baseAttributesValues;
     HeroAttributesSet m_currentAttributesValues;//including eq bonuses, SBE impact
+
+    int m_stockCE;
+    int m_stockPR;
+    int m_stockCL;
+
     QVector <HeroStressBorderEffect> m_stressBorderEffects;
     HeroEnums::Nature m_nature;
     HeroEnums::Profession m_profession;
@@ -483,6 +505,11 @@ private:
     QVector <Equipment *> m_weaponsTools;
     const int m_amountOfWeaponToolSlots = 2;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
+
+    int m_dhrBuildingBonus;
+    int m_dsrBuildingBonus;
+
+    QVector <AttributeModification *> m_attributeModifications;
 
     bool m_isDead;
     int m_indexOfCurrentSBE;
@@ -501,12 +528,17 @@ private:
 struct HeroDataHelper
 {
     HeroDataHelper()
-        : nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
 
     QString name;
 
     HeroAttributesSet baseAttributesValues;
     HeroAttributesSet currentAttributesValues;
+
+    int stockCE;
+    int stockPR;
+    int stockCL;
+
     QVector <HeroStressBorderEffect> stressBorderEffects;
     HeroEnums::Nature nature;
     HeroEnums::Profession profession;
@@ -514,6 +546,9 @@ struct HeroDataHelper
     QString armor;
     QVector <QString> weaponsTools;
     QVector <EquipmentEnums::Category> equipmentCategories;
+
+    int dhrBuildingBonus;
+    int dsrBuildingBonus;
 
     bool isDead;
     int indexOfCurrentSBE;
@@ -664,7 +699,7 @@ public:
     }
     Q_INVOKABLE void dismissHero(const QString &name) noexcept
     {
-        addDoStBan(name,21);
+        addDoStBan(name,m_durationOfBanAfterDismiss);
     }
 
 public slots:
@@ -678,6 +713,7 @@ private:
     QVector <Hero *> m_heroes;
     Hero *m_preparedHero;
     unsigned m_amountOfSlots;
+    const unsigned m_durationOfBanAfterDismiss = 21;
     Base *m_basePtr;
 };
 

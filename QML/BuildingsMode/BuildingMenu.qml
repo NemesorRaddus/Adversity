@@ -621,6 +621,26 @@ Item {
             dockingStation.returnToDefault();
     }
 
+    function requestUnban(heroName, buildingName)
+    {
+        if (buildingName == "Hospital")
+            hospital.requestUnban(heroName);
+        else if (buildingName == "Training Ground")
+            trainingGround.requestUnban(heroName);
+        else if (buildingName == "Gym")
+            gym.requestUnban(heroName);
+        else if (buildingName == "Laboratory")
+            laboratory.requestUnban(heroName);
+        else if (buildingName == "Playing Field")
+            playingField.requestUnban(heroName);
+        else if (buildingName == "Bar")
+            bar.requestUnban(heroName);
+        else if (buildingName == "Shrine")
+            shrine.requestUnban(heroName);
+        else if (buildingName == "Seclusion")
+            seclusion.requestUnban(heroName);
+    }
+
     CentralUnitMenu {
         id: centralUnit
 

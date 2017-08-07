@@ -8,7 +8,7 @@ import Game 1.0
 Item {
     id: rootHeroesList
 
-    function updateEverything()
+    function updateEverything(trainedAttr)//"ce","pr","cl" or ""
     {
         var heroesAmount=0;
         var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
@@ -17,6 +17,22 @@ Item {
             GameApi.base.heroes.prepareHeroAt(i);
             if (!GameApi.base.heroes.preparedHero.isDead() && GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
             {
+                if (trainedAttr == "ce")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainCombatEffectiveness())
+                        continue;
+                }
+                else if (trainedAttr == "pr")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainProficiency())
+                        continue;
+                }
+                else if (trainedAttr == "cl")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainCleverness())
+                        continue;
+                }
+
                 ++heroesAmount;
                 availableHeroes[i]=true;
             }
@@ -46,12 +62,14 @@ Item {
 
     property var bannedHeroes: []
 
-    function banHero(name) {
+    function banHero(name)
+    {
         if (bannedHeroes.indexOf(name)==-1)
             bannedHeroes.push(name);
     }
 
-    function unbanHero(name) {
+    function unbanHero(name)
+    {
         if (bannedHeroes.indexOf(name)!=-1)
             bannedHeroes.splice(bannedHeroes.indexOf(name),1);
     }
@@ -92,7 +110,11 @@ Item {
             if (isScrollingActive == true)
                 isScrollingActive = false;
             else
-                heroClicked(Scripts.getClickedItemName(y0), Scripts.getClickedItemName2(y0));
+            {
+                var n=Scripts.getClickedItemName(y0);
+                if (n!="")
+                    heroClicked(n, Scripts.getClickedItemName2(y0));
+            }
             y0 = -1;
             movementCheckTimer.stop();
         }

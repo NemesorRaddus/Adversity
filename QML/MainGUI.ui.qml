@@ -1,6 +1,8 @@
 import QtQuick 2.7
 import "./BuildingsMode"
 import "./MercenariesMode"
+import "./MissionsMode"
+import FPSComponent 1.0
 
 Rectangle {
     id: mainRoot
@@ -28,12 +30,15 @@ Rectangle {
 
     property alias buildingsGUI: buildingsMode
     property alias mercenariesGUI: mercenariesMode
+    property alias missionsGUI: missionsMode
 
     property alias h4xScreen: h4xScreen
 
     property alias mercenaryDismissConfirmDialog: mercenaryDismissConfirmDialog
 
     property alias heroArtPreview: heroArtPreview
+
+    property alias enableFPSCounter: fpsCnt.visible
 
     width: 1080
     height: 1920
@@ -57,6 +62,15 @@ Rectangle {
 
     MercenariesModeGUI {
         id: mercenariesMode
+
+        x: 0
+        y: 189
+        width: parent.width
+        height: 1464
+    }
+
+    MissionsModeGUI {
+        id: missionsMode
 
         x: 0
         y: 189
@@ -352,6 +366,27 @@ Rectangle {
         id: mercenaryDismissConfirmDialog
 
         anchors.fill: parent
+    }
+
+    FPSCounter {
+        id: fpsCnt
+
+        visible: false
+
+        x: 0
+        anchors.bottom: parent.bottom
+        width: 200
+        height: 125
+
+        Text {
+            x: 0
+            anchors.verticalCenter: parent.verticalCenter
+
+            font.family: "Comic Sans"
+            font.pixelSize: parent.height
+            color: "white"
+            text: fpsCnt.fps
+        }
     }
 
     FontLoader {

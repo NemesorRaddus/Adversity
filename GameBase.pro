@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     saveparser.cpp \
     assetspool.cpp \
     translations.cpp \
-    h4x.cpp
+    h4x.cpp \
+    fpscounter.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -27,7 +28,8 @@ RESOURCES += \
     graphics_buildings.qrc \
     graphics_other.qrc \
     graphics_gui.qrc \
-    graphics_equipments.qrc
+    graphics_equipments.qrc \
+    graphics_missions.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -48,7 +50,8 @@ HEADERS += \
     saveparser.h \
     assetspool.h \
     translations.h \
-    h4x.h
+    h4x.h \
+    fpscounter.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \

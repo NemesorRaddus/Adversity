@@ -79,6 +79,11 @@ Item {
         menu.state = "";
     }
 
+    function requestUnban(heroName, buildingName)
+    {
+        menu.requestUnban(heroName, buildingName);
+    }
+
     BuildingsList {
         id: list
 

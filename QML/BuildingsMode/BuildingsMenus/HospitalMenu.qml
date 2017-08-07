@@ -20,7 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.hospital.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("");
         var amountOfSlotsAvailable = GameApi.base.hospital.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -119,6 +119,11 @@ Item {
             slotView3.removeHero();
         }
         heroSelectionList.state = "hidden";
+    }
+
+    function requestUnban(heroName)
+    {
+        heroSelectionList.unbanHero(heroName);
     }
 
     width: 1080
@@ -719,7 +724,7 @@ Item {
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -750,7 +755,7 @@ Item {
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -781,7 +786,7 @@ Item {
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }

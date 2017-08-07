@@ -50,5 +50,9 @@
         <file>qml/ConfirmDialog.qml</file>
         <file>qml/HeroArtPreview.qml</file>
         <file>qml/MarqueeText.qml</file>
+        <file>qml/MissionsMode/MissionsModeGUI.qml</file>
+        <file>qml/MissionsMode/Map.qml</file>
+        <file>qml/MissionsMode/LandmarkScripts.js</file>
+        <file>qml/MissionsMode/Landmark.qml</file>
     </qresource>
 </RCC>
