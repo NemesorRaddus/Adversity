@@ -94,7 +94,11 @@ Item {
             if (isScrollingActive == true)
                 isScrollingActive = false;
             else
-                heroClicked(Scripts.getClickedItemName(y0), Scripts.getClickedItemName2(y0));
+            {
+                var n=Scripts.getClickedItemName(y0);
+                if (n!="")
+                    heroClicked(n, Scripts.getClickedItemName2(y0));
+            }
             y0 = -1;
             movementCheckTimer.stop();
         }

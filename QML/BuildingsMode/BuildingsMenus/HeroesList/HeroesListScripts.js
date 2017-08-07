@@ -127,6 +127,7 @@ function getClickedItemName(y) {
         y0 += h;
         y1 += h;
     }
+    return "";
 }
 
 function getClickedItemName2(y) {
