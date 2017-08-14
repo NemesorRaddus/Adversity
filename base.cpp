@@ -2012,28 +2012,6 @@ void Base::startNewDay() noexcept
     m_dockingStation->handleActiveTransactions();
 }
 
-void Base::activateBuildingsAtDayEnd() noexcept
-{
-    int basicEnergyCost=0;
-    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-        basicEnergyCost+=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy();
-    if (basicEnergyCost < m_energy)
-        m_energy-=basicEnergyCost;
-    else
-        m_energy=0;
-
-    bar()->destressHeroes();
-    factory()->exchangeResources();
-    gym()->trainHeroes();
-    hospital()->healHeroes();
-    laboratory()->trainHeroes();
-    playingField()->destressHeroes();
-    powerplant()->exchangeResources();
-    seclusion()->destressHeroes();
-    shrine()->destressHeroes();
-    trainingGround()->trainHeroes();
-}
-
 void Base::startNewWeek() noexcept
 {
     m_dockingStation->prepareRecruits();
@@ -2157,4 +2135,26 @@ Building *Base::getBuilding(BaseEnums::Building buildingName) noexcept
         qWarning()<<"BaseEnums::Building enum->Building * conversion failed for "<<buildingName;
         return nullptr;
     }
+}
+
+void Base::activateBuildingsAtDayEnd() noexcept
+{
+    int basicEnergyCost=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        basicEnergyCost+=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy();
+    if (basicEnergyCost < m_energy)
+        m_energy-=basicEnergyCost;
+    else
+        m_energy=0;
+
+    bar()->destressHeroes();
+    factory()->exchangeResources();
+    gym()->trainHeroes();
+    hospital()->healHeroes();
+    laboratory()->trainHeroes();
+    playingField()->destressHeroes();
+    powerplant()->exchangeResources();
+    seclusion()->destressHeroes();
+    shrine()->destressHeroes();
+    trainingGround()->trainHeroes();
 }

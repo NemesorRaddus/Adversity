@@ -2255,7 +2255,6 @@ public:
     }
 
     Q_INVOKABLE void startNewDay() noexcept;
-    Q_INVOKABLE void activateBuildingsAtDayEnd() noexcept;
 
     Q_INVOKABLE void startNewWeek() noexcept;
 
@@ -2443,6 +2442,8 @@ private:
     QVector <Equipment *> m_freeEquipment;
 
     //game clock/timer
+    void activateBuildingsAtDayEnd() noexcept;
+
     GameClock *m_gameClock;
 
     //game

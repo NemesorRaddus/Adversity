@@ -383,6 +383,10 @@ public:
     QVector <EquipmentEnums::Category> currentEquipmentCategories() const noexcept;
     bool hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept;
 
+    void addCarriedEquipment(Equipment *eq) noexcept;
+    QVector <Equipment *> carriedEquipment() const noexcept;
+    void clearCarriedEquipment() noexcept;
+
     Q_INVOKABLE bool isDead() const noexcept
     {
         return m_isDead;
@@ -505,6 +509,7 @@ private:
     QVector <Equipment *> m_weaponsTools;
     const int m_amountOfWeaponToolSlots = 2;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
+    QVector <Equipment *> m_carriedEquipment;
 
     int m_dhrBuildingBonus;
     int m_dsrBuildingBonus;
@@ -546,6 +551,7 @@ struct HeroDataHelper
     QString armor;
     QVector <QString> weaponsTools;
     QVector <EquipmentEnums::Category> equipmentCategories;
+    QVector <QString> carriedEquipment;
 
     int dhrBuildingBonus;
     int dsrBuildingBonus;
@@ -624,6 +630,10 @@ public:
         m_hero->equipArmor(armor);
     }
     void setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept;
+    void setCarriedEquipment(const QVector <Equipment *> &eqs) noexcept
+    {
+        m_hero->m_carriedEquipment=eqs;
+    }
 
     void setIsDead(bool dead) noexcept
     {

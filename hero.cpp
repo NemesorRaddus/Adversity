@@ -895,6 +895,22 @@ bool Hero::hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept
     return m_currentEquipmentCategories.contains(cat);
 }
 
+void Hero::addCarriedEquipment(Equipment *eq) noexcept
+{
+    if (eq!=nullptr)
+        m_carriedEquipment+=eq;
+}
+
+QVector<Equipment *> Hero::carriedEquipment() const noexcept
+{
+    return m_carriedEquipment;
+}
+
+void Hero::clearCarriedEquipment() noexcept
+{
+    m_carriedEquipment.clear();
+}
+
 Hero::Hero() noexcept
     : m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
@@ -908,21 +924,25 @@ Hero::Hero() noexcept
 
 void Hero::setCarriedEnergy(int carriedEnergy) noexcept
 {
+    if (carriedEnergy >= 0)
     m_carriedEnergy = carriedEnergy;
 }
 
 void Hero::setCarriedFoodSupplies(int carriedFoodSupplies) noexcept
 {
+    if (carriedFoodSupplies >= 0)
     m_carriedFoodSupplies = carriedFoodSupplies;
 }
 
 void Hero::setCarriedBuildingMaterials(int carriedBuildingMaterials) noexcept
 {
+    if (carriedBuildingMaterials >= 0)
     m_carriedBuildingMaterials = carriedBuildingMaterials;
 }
 
 void Hero::setCarriedAetheriteOre(int carriedAetheriteOre) noexcept
 {
+    if (carriedAetheriteOre >= 0)
     m_carriedAetheriteOre = carriedAetheriteOre;
 }
 
