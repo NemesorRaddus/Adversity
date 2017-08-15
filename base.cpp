@@ -1971,13 +1971,7 @@ void Base::startNewDay() noexcept
     if (m_gameClock->currentDay() % 7 == 1)
         startNewWeek();
 
-    int dailyFoodConsumptionCost=0;
-    for (int i=0;i<m_heroes->amountOfHeroes();++i)
-        dailyFoodConsumptionCost+=m_heroes->getHero(i)->dailyFoodConsumption();
-    if (dailyFoodConsumptionCost < m_foodSupplies)
-        m_foodSupplies-=dailyFoodConsumptionCost;
-    else
-        m_foodSupplies=0;
+    handleHeroesAtDayEnd();
 
     activateBuildingsAtDayEnd();
 
@@ -2017,13 +2011,7 @@ void Base::startNewWeek() noexcept
     m_dockingStation->prepareRecruits();
     m_dockingStation->prepareEquipments();
 
-    int salaryAetheriteCost=0;
-    for (int i=0;i<m_heroes->amountOfHeroes();++i)
-        salaryAetheriteCost+=m_heroes->getHero(i)->salary();
-    if (salaryAetheriteCost < m_aetherite)
-        m_aetherite-=salaryAetheriteCost;
-    else
-        m_aetherite=0;
+    handleHeroesAtWeekEnd();
 }
 
 BuildingUpgradeRequirements Base::buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept
@@ -2157,4 +2145,14 @@ void Base::activateBuildingsAtDayEnd() noexcept
     seclusion()->destressHeroes();
     shrine()->destressHeroes();
     trainingGround()->trainHeroes();
+}
+
+void Base::handleHeroesAtDayEnd() noexcept
+{
+    m_heroes->handleNewDay();
+}
+
+void Base::handleHeroesAtWeekEnd() noexcept
+{
+    m_heroes->handleNewWeek();
 }

@@ -431,54 +431,6 @@ QString Hero::currentStressBorderEffectNameString() const noexcept
     return "";
 }
 
-void Hero::handleSBEAtDayEnd()  noexcept
-{
-    if (!isStressBorderEffectActive())
-        return;
-
-    if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Desertion)
-    {
-        int chance = 100*m_currentAttributesValues.stress/m_currentAttributesValues.stressLimit;
-
-        if (chance >= Randomizer::randomBetweenAAndB(1,100))
-        {
-            ranAway(m_name,21);
-        }
-    }
-    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Confusion)
-    {
-        if (m_currentActivity == HeroEnums::CA_OnMission)
-        {
-            if (10 >= Randomizer::randomBetweenAAndB(1,100))
-                m_noSignalDaysRemaining=-1;
-        }
-    }
-    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Masochism)
-    {
-        if (60 >= Randomizer::randomBetweenAAndB(1,100))
-        {
-            if (m_currentAttributesValues.health>2)
-            {
-                m_currentAttributesValues.health-=2;
-                int amount = Randomizer::randomBetweenAAndB(0,20) - 10;
-                if (amount<0)
-                    decreaseStress(-amount);
-                else if (amount>0)
-                    increaseStress(amount);
-            }
-            else
-            {
-                m_currentAttributesValues.health=0;
-                die(HeroEnums::DR_Masochism);
-            }
-        }
-    }
-    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Restlessness)
-    {
-        increaseStress(m_currentAttributesValues.stressLimit/20);
-    }
-}
-
 QVector<QPair<HeroStressBorderEffect, unsigned> > Hero::diverseSBEs() const noexcept
 {
     QVector<QPair<HeroStressBorderEffect, unsigned> > r;
@@ -926,25 +878,25 @@ Hero::Hero() noexcept
 void Hero::setCarriedEnergy(int carriedEnergy) noexcept
 {
     if (carriedEnergy >= 0)
-    m_carriedEnergy = carriedEnergy;
+        m_carriedEnergy = carriedEnergy;
 }
 
 void Hero::setCarriedFoodSupplies(int carriedFoodSupplies) noexcept
 {
     if (carriedFoodSupplies >= 0)
-    m_carriedFoodSupplies = carriedFoodSupplies;
+        m_carriedFoodSupplies = carriedFoodSupplies;
 }
 
 void Hero::setCarriedBuildingMaterials(int carriedBuildingMaterials) noexcept
 {
     if (carriedBuildingMaterials >= 0)
-    m_carriedBuildingMaterials = carriedBuildingMaterials;
+        m_carriedBuildingMaterials = carriedBuildingMaterials;
 }
 
 void Hero::setCarriedAetheriteOre(int carriedAetheriteOre) noexcept
 {
     if (carriedAetheriteOre >= 0)
-    m_carriedAetheriteOre = carriedAetheriteOre;
+        m_carriedAetheriteOre = carriedAetheriteOre;
 }
 
 void Hero::assignMission(Mission *mission) noexcept
@@ -969,6 +921,18 @@ void Hero::dismiss(unsigned banDays) noexcept
 {
     emit ranAway(name(),banDays);
     //TODO
+}
+
+void Hero::handleNewDay(Base *base) noexcept
+{
+    handleSBEAtDayEnd();
+    handleHunger(base);
+    handleEquipmentCosts(base);
+}
+
+void Hero::handleNewWeek(Base *base) noexcept
+{
+    handleSalary(base);
 }
 
 void Hero::activateStressBorderEffect() noexcept
@@ -1780,6 +1744,163 @@ void Hero::deactivateEquipment() noexcept
     calculateCurrentAttributeValues();
 }
 
+void Hero::handleSBEAtDayEnd()  noexcept
+{
+    if (!isStressBorderEffectActive())
+        return;
+
+    if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Desertion)
+    {
+        int chance = 100*m_currentAttributesValues.stress/m_currentAttributesValues.stressLimit;
+
+        if (chance >= Randomizer::randomBetweenAAndB(1,100))
+        {
+            ranAway(m_name,21);
+        }
+    }
+    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Confusion)
+    {
+        if (m_currentActivity == HeroEnums::CA_OnMission)
+        {
+            if (10 >= Randomizer::randomBetweenAAndB(1,100))
+                m_noSignalDaysRemaining=-1;
+        }
+    }
+    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Masochism)
+    {
+        if (60 >= Randomizer::randomBetweenAAndB(1,100))
+        {
+            if (m_currentAttributesValues.health>2)
+            {
+                m_currentAttributesValues.health-=2;
+                int amount = Randomizer::randomBetweenAAndB(0,20) - 10;
+                if (amount<0)
+                    decreaseStress(-amount);
+                else if (amount>0)
+                    increaseStress(amount);
+            }
+            else
+            {
+                m_currentAttributesValues.health=0;
+                die();
+            }
+        }
+    }
+    else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Restlessness)
+    {
+        increaseStress(m_currentAttributesValues.stressLimit/20);
+    }
+}
+
+void Hero::handleEquipmentCosts(Base *base) noexcept
+{
+    if (m_currentActivity!=HeroEnums::CA_OnMission)
+        return;
+
+    int energyNeeded=0, bmNeeded=0;
+
+    if (m_armor!=nullptr)
+    {
+        energyNeeded+=m_armor->maintenanceEnergyCost();
+        bmNeeded+=m_armor->maintenanceBuildingMaterialsCost();
+    }
+    for (int i=0;i<m_weaponsTools.size();++i)
+        if (m_weaponsTools[i]!=nullptr)
+        {
+            energyNeeded+=m_weaponsTools[i]->maintenanceEnergyCost();
+            bmNeeded+=m_weaponsTools[i]->maintenanceBuildingMaterialsCost();
+        }
+
+    if (energyNeeded<=m_carriedEnergy && bmNeeded<=m_carriedBuildingMaterials)
+    {
+        m_carriedEnergy-=energyNeeded;
+        m_carriedBuildingMaterials-=bmNeeded;
+
+        if (!isEquipmentActive())
+            activateEquipment();
+    }
+    else if (isEquipmentActive())
+        deactivateEquipment();
+}
+
+void Hero::handleHunger(Base *base) noexcept
+{
+    if (m_currentActivity == HeroEnums::CA_OnMission)
+    {
+        int missingFood = dailyFoodConsumption()-carriedFoodSupplies();
+        if (missingFood<=0)
+            setCarriedFoodSupplies(dailyFoodConsumption());
+        else
+        {
+            setCarriedFoodSupplies(0);
+            changeHealth(-missingFood);
+            increaseStress(missingFood*10);
+        }
+    }
+    else if (m_currentActivity != HeroEnums::CA_Arriving)
+    {
+        int missingFood = dailyFoodConsumption()-base->currentFoodSuppliesAmount();
+        if (missingFood<=0)
+            base->decreaseFoodSuppliesAmount(dailyFoodConsumption());
+        else
+        {
+            base->setCurrentFoodSuppliesAmount(0);
+            changeHealth(-missingFood);
+            increaseStress(missingFood*10);
+        }
+    }
+}
+
+void Hero::handleSalary(Base *base) noexcept
+{
+    if (m_currentActivity == HeroEnums::CA_OnMission)
+    {
+        int missingAetherite = salary()-carriedAetheriteOre();
+        if (missingAetherite<=0)
+        {
+            setCarriedAetheriteOre(salary());
+            if (m_noSalaryWeeks>0)
+                --m_noSalaryWeeks;
+        }
+        else
+        {
+            setCarriedAetheriteOre(0);
+            increaseStress(missingAetherite*3);
+            if (m_noSalaryWeeks+1 == 4)
+                ranAway(m_name,21);
+            else
+            {
+                ++m_noSalaryWeeks;
+                if (stress()/stressLimit()*100 >= Randomizer::randomBetweenAAndB(1,100))
+                    ranAway(m_name,21);
+            }
+        }
+    }
+    else if (m_currentActivity != HeroEnums::CA_Arriving)
+    {
+        int missingAetherite = salary()-base->currentAetheriteAmount();
+        if (missingAetherite<=0)
+        {
+            base->decreaseAetheriteAmount(salary());
+            if (m_noSalaryWeeks>0)
+                --m_noSalaryWeeks;
+        }
+        else
+        {
+            base->setCurrentAetheriteAmount(0);
+            increaseStress(missingAetherite*3);
+            if (m_noSalaryWeeks+1 == 4)
+                ranAway(m_name,21);
+            else
+            {
+                ++m_noSalaryWeeks;
+                if (stress()/stressLimit()*100 >= Randomizer::randomBetweenAAndB(1,100))
+                    ranAway(m_name,21);
+            }
+        }
+    }
+}
+
 HeroBuilder::HeroBuilder() noexcept
 {
     m_hero=new Hero;
@@ -2211,6 +2332,18 @@ int HeroesContainer::findHero(const QString &name) const noexcept
         if (m_heroes[i]->name() == name)
             return i;
     return -1;
+}
+
+void HeroesContainer::handleNewDay() noexcept
+{
+    for (auto e : m_heroes)
+        e->handleNewDay(m_basePtr);
+}
+
+void HeroesContainer::handleNewWeek() noexcept
+{
+    for (auto e : m_heroes)
+        e->handleNewWeek(m_basePtr);
 }
 
 void HeroesContainer::addDoStBan(QString name, unsigned daysAmount) noexcept

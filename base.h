@@ -2443,6 +2443,8 @@ private:
 
     //game clock/timer
     void activateBuildingsAtDayEnd() noexcept;
+    void handleHeroesAtDayEnd() noexcept;
+    void handleHeroesAtWeekEnd() noexcept;
 
     GameClock *m_gameClock;
 

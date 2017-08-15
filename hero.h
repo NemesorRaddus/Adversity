@@ -162,6 +162,8 @@ QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept;
 
 struct AttributeModification;
 
+class Base;
+
 class Hero : public QObject
 {
     Q_OBJECT
@@ -243,7 +245,6 @@ public:
     {
         return m_indexOfCurrentSBE!=-1;
     }
-    void handleSBEAtDayEnd() noexcept;
     Q_INVOKABLE int dailyStressRecovery() const noexcept
     {
         return m_currentAttributesValues.dailyStressRecovery;
@@ -444,6 +445,9 @@ public:
 
     void dismiss(unsigned banDays) noexcept;
 
+    void handleNewDay(Base *base) noexcept;
+    void handleNewWeek(Base *base) noexcept;
+
 signals:
     void died(QString name);
     void ranAway(QString name, unsigned daysOfDoStBan);
@@ -490,6 +494,12 @@ private:
 
     void activateEquipment() noexcept;
     void deactivateEquipment() noexcept;
+
+    void handleSBEAtDayEnd() noexcept;
+    void handleEquipmentCosts(Base *base) noexcept;
+    void handleHunger(Base *base) noexcept;
+
+    void handleSalary(Base *base) noexcept;
 
     QString m_name;
 
@@ -674,8 +684,6 @@ private:
     Hero *m_hero;
 };
 
-class Base;
-
 class HeroesContainer : public QObject
 {
     Q_OBJECT
@@ -718,6 +726,9 @@ public:
     {
         addDoStBan(name,m_durationOfBanAfterDismiss);
     }
+
+    void handleNewDay() noexcept;
+    void handleNewWeek() noexcept;
 
 public slots:
     void addDoStBan(QString name, unsigned daysAmount) noexcept;
