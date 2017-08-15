@@ -643,7 +643,10 @@ void Hero::changeHealth(int amount) noexcept
             m_carriedFoodSupplies=0;
         }
         else
-            m_currentAttributesValues.health=0;//hero dies :c
+        {
+            m_currentAttributesValues.health=0;
+            die();
+        }
     }
 }
 
@@ -1807,6 +1810,8 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
             r->m_weaponsTools[i]=nullptr;
     }
     r->m_currentEquipmentCategories = hero.equipmentCategories;
+    for (int i=0;i<hero.carriedEquipment.size();++i)
+        r->m_carriedEquipment+=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.carriedEquipment[i]);
     r->m_dhrBuildingBonus = hero.dhrBuildingBonus;
     r->m_dsrBuildingBonus = hero.dsrBuildingBonus;
     r->m_isDead = hero.isDead;
@@ -1847,6 +1852,8 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
             r.weaponsTools.push_back("");
     }
     r.equipmentCategories = hero->m_currentEquipmentCategories;
+    for (int i=0;i<hero->m_carriedEquipment.size();++i)
+        r.carriedEquipment+=hero->m_carriedEquipment[i]->name();
     r.dhrBuildingBonus = hero->m_dhrBuildingBonus;
     r.dsrBuildingBonus = hero->m_dsrBuildingBonus;
     r.isDead = hero->m_isDead;
@@ -1888,6 +1895,8 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
     for (int i=0;i<hero.equipmentCategories.size();++i)
         cats+=static_cast<quint8>(hero.equipmentCategories[i]);
     stream<<cats;
+
+    stream<<hero.carriedEquipment;
 
     stream<<static_cast<qint16>(hero.dhrBuildingBonus);
     stream<<static_cast<qint16>(hero.dsrBuildingBonus);
@@ -1949,6 +1958,8 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     stream>>cats;
     for (int _i=0;_i<cats.size();++_i)
         hero.equipmentCategories+=static_cast<EquipmentEnums::Category>(cats[_i]);
+
+    stream>>hero.carriedEquipment;
 
     stream>>ii;
     hero.dhrBuildingBonus=ii;
