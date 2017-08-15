@@ -51,7 +51,10 @@ HEADERS += \
     assetspool.h \
     translations.h \
     h4x.h \
-    fpscounter.h
+    fpscounter.h \
+    stable.h
+
+PRECOMPILED_HEADER = stable.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \
