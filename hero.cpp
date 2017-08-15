@@ -913,7 +913,7 @@ void Hero::clearCarriedEquipment() noexcept
 }
 
 Hero::Hero() noexcept
-    : m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+    : m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
     m_stressBorderEffects.reserve(1);
     m_stressBorderEffects.push_back({HeroEnums::SBE_None});
@@ -1068,7 +1068,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
                 x+=4;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->clevernessBonus();
@@ -1134,7 +1134,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
                 x+=6;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->combatEffectivenessBonus();
@@ -1178,7 +1178,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Awareness)
                 x+=1;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->dailyFoodConsumptionBonus();
@@ -1223,7 +1223,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StoneSkin)
                 x-=5;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->dailyHealthRecoveryBonus();
@@ -1270,7 +1270,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
                 x+=10;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->dailyStressRecoveryBonus();
@@ -1314,7 +1314,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StoneSkin)
                 x+=10;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->healthLimitBonus();
@@ -1363,7 +1363,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_TheLuckyOne)
                 x+=1;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->luckBonus();
@@ -1421,7 +1421,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Doombringer)
                 x+=4;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->proficiencyBonus();
@@ -1460,7 +1460,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
                 else if (e->type == AttributeModification::T_Subtract)
                     x -= e->expression.evaluate(this).toInt();
             }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->salaryBonus();
@@ -1504,7 +1504,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StressResistant)
                 x-=30;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->stressBorderBonus();
@@ -1555,7 +1555,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_StressResistant)
                 x+=30;
         }
-        if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+        if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
             if (m_armor!=nullptr)
                 x+=m_armor->stressLimitBonus();
@@ -1620,7 +1620,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
                 else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Absolute)
                     x+=0.2;
             }
-            if (!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness)
+            if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
             {
                 if (m_armor!=nullptr)
                     x+=m_armor->stressResistanceBonus();
@@ -1768,6 +1768,18 @@ void Hero::setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept
     }
 }
 
+void Hero::activateEquipment() noexcept
+{
+    m_isEquipmentActive=1;
+    calculateCurrentAttributeValues();
+}
+
+void Hero::deactivateEquipment() noexcept
+{
+    m_isEquipmentActive=0;
+    calculateCurrentAttributeValues();
+}
+
 HeroBuilder::HeroBuilder() noexcept
 {
     m_hero=new Hero;
@@ -1812,6 +1824,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_currentEquipmentCategories = hero.equipmentCategories;
     for (int i=0;i<hero.carriedEquipment.size();++i)
         r->m_carriedEquipment+=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.carriedEquipment[i]);
+    r->m_isEquipmentActive = hero.isEquipmentActive;
     r->m_dhrBuildingBonus = hero.dhrBuildingBonus;
     r->m_dsrBuildingBonus = hero.dsrBuildingBonus;
     r->m_isDead = hero.isDead;
@@ -1821,6 +1834,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_carriedFoodSupplies = hero.carriedFoodSupplies;
     r->m_carriedBuildingMaterials = hero.carriedBuildingMaterials;
     r->m_carriedAetheriteOre = hero.carriedAetheriteOre;
+    r->m_noSalaryWeeks = hero.noSalaryWeeks;
     //TODO mission
     r->m_currentActivity = hero.currentActivity;
 
@@ -1854,6 +1868,7 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
     r.equipmentCategories = hero->m_currentEquipmentCategories;
     for (int i=0;i<hero->m_carriedEquipment.size();++i)
         r.carriedEquipment+=hero->m_carriedEquipment[i]->name();
+    r.isEquipmentActive = hero->m_isEquipmentActive;
     r.dhrBuildingBonus = hero->m_dhrBuildingBonus;
     r.dsrBuildingBonus = hero->m_dsrBuildingBonus;
     r.isDead = hero->m_isDead;
@@ -1863,6 +1878,7 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
     r.carriedFoodSupplies = hero->m_carriedFoodSupplies;
     r.carriedBuildingMaterials = hero->m_carriedBuildingMaterials;
     r.carriedAetheriteOre = hero->m_carriedAetheriteOre;
+    r.noSalaryWeeks = hero->m_noSalaryWeeks;
     //TODO mission
     r.currentActivity = hero->m_currentActivity;
 
@@ -1898,6 +1914,8 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
 
     stream<<hero.carriedEquipment;
 
+    stream<<hero.isEquipmentActive;
+
     stream<<static_cast<qint16>(hero.dhrBuildingBonus);
     stream<<static_cast<qint16>(hero.dsrBuildingBonus);
 
@@ -1914,6 +1932,8 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
     stream<<static_cast<qint16>(hero.carriedBuildingMaterials);
 
     stream<<static_cast<qint16>(hero.carriedAetheriteOre);
+
+    stream<<static_cast<qint16>(hero.noSalaryWeeks);
 
     //TODO Mission saving
 
@@ -1961,6 +1981,8 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
 
     stream>>hero.carriedEquipment;
 
+    stream>>hero.isEquipmentActive;
+
     stream>>ii;
     hero.dhrBuildingBonus=ii;
 
@@ -1986,6 +2008,9 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
 
     stream>>ii;
     hero.carriedAetheriteOre=ii;
+
+    stream>>ii;
+    hero.noSalaryWeeks=ii;
 
     //TODO Mission loading
 
@@ -2119,6 +2144,11 @@ void HeroBuilder::setCarriedAetheriteOre(int amount) noexcept
 {
     if (amount >= 0)
         m_hero->m_carriedAetheriteOre=amount;
+}
+
+void HeroBuilder::setNoSalaryWeeks(unsigned amount) noexcept
+{
+    m_hero->m_noSalaryWeeks=amount;
 }
 
 HeroesContainer::HeroesContainer(Base *base) noexcept

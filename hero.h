@@ -371,6 +371,11 @@ public:
     void equipWeaponTool(Equipment *weaponTool, int slot) noexcept;
     void unequipWeaponTool(int slot) noexcept;
 
+    inline bool isEquipmentActive() const noexcept
+    {
+        return m_isEquipmentActive;
+    }
+
     QVector <EquipmentEnums::Category> currentEquipmentCategories() const noexcept;
     bool hasEquipmentFromCategory(EquipmentEnums::Category cat) const noexcept;
 
@@ -483,6 +488,9 @@ private:
 
     void setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept;//only for H4X
 
+    void activateEquipment() noexcept;
+    void deactivateEquipment() noexcept;
+
     QString m_name;
 
     HeroAttributesSet m_baseAttributesValues;
@@ -501,6 +509,7 @@ private:
     const int m_amountOfWeaponToolSlots = 2;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
     QVector <Equipment *> m_carriedEquipment;
+    bool m_isEquipmentActive;
 
     int m_dhrBuildingBonus;
     int m_dsrBuildingBonus;
@@ -517,6 +526,8 @@ private:
     int m_carriedBuildingMaterials;
     int m_carriedAetheriteOre;
 
+    int m_noSalaryWeeks;
+
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
 };
@@ -524,7 +535,7 @@ private:
 struct HeroDataHelper
 {
     HeroDataHelper()
-        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isEquipmentActive(1), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
 
     QString name;
 
@@ -543,6 +554,7 @@ struct HeroDataHelper
     QVector <QString> weaponsTools;
     QVector <EquipmentEnums::Category> equipmentCategories;
     QVector <QString> carriedEquipment;
+    bool isEquipmentActive;
 
     int dhrBuildingBonus;
     int dsrBuildingBonus;
@@ -556,6 +568,8 @@ struct HeroDataHelper
     int carriedFoodSupplies;
     int carriedBuildingMaterials;
     int carriedAetheriteOre;
+
+    int noSalaryWeeks;
 
     Mission *assignedMission;//TODO missions
     HeroEnums::CurrentActivity currentActivity;
@@ -644,6 +658,8 @@ public:
     void setCarriedFoodSupplies(int amount) noexcept;
     void setCarriedBuildingMaterials(int amount) noexcept;
     void setCarriedAetheriteOre(int amount) noexcept;
+
+    void setNoSalaryWeeks(unsigned amount) noexcept;
 
     void setAssignedMission(Mission *mission) noexcept
     {
