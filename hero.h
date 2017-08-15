@@ -84,15 +84,6 @@ struct HeroEnums
         CA_Arriving,
         CA_END
     };
-    enum DyingReason
-    {
-        DR_NoReason,
-        DR_AttributeCheckFailed,
-        DR_StressLimitAchieved,
-        DR_KillEvent,
-        DR_Masochism,
-        DR_END
-    };
     enum Profession
     {
         P_BountyHunter,
@@ -449,7 +440,7 @@ public:
     void dismiss(unsigned banDays) noexcept;
 
 signals:
-    void died(QString name, HeroEnums::DyingReason dyingReason);
+    void died(QString name);
     void ranAway(QString name, unsigned daysOfDoStBan);
 
 private:
@@ -475,7 +466,7 @@ private:
     void activateStressBorderEffect() noexcept;
     void deactivateStressBorderEffect() noexcept;
 
-    void die(HeroEnums::DyingReason reason = HeroEnums::DR_NoReason) noexcept;
+    void die() noexcept;
     void setArmor(Equipment *armor) noexcept;
     void setWeaponTool(Equipment *weaponTool, int slot) noexcept;
 
@@ -714,7 +705,7 @@ public:
 
 public slots:
     void addDoStBan(QString name, unsigned daysAmount) noexcept;
-    void addDoStBan(QString name, HeroEnums::DyingReason) noexcept;//permanent :c
+    void addDoStBan(QString name) noexcept;//permanent :c
 
 private:
     void connectHeroToBanSystem(const QString &name) noexcept;

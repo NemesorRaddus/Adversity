@@ -110,7 +110,7 @@ void ModifyAttributeEventResult::execute(Hero *hero) noexcept
 
 void KillHeroEventResult::execute(Hero *hero) noexcept
 {
-    hero->die(HeroEnums::DR_KillEvent);
+    hero->die();
 }
 
 void AddEquipmentEventResult::execute(Hero *hero) noexcept

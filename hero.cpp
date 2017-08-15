@@ -617,8 +617,6 @@ void Hero::changeLuck(float amount) noexcept
 {
     if (m_baseAttributesValues.luck+amount < 0)
         m_baseAttributesValues.luck=0;
-    else if (m_baseAttributesValues.luck+amount > 1)
-        m_baseAttributesValues.luck=1;
     else
         m_baseAttributesValues.luck+=amount;
 
@@ -673,7 +671,7 @@ void Hero::increaseStress(unsigned amount) noexcept
         if (m_currentAttributesValues.stress+amount*m_currentAttributesValues.stressResistance>=m_currentAttributesValues.stressLimit)
         {
             m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
-            die(HeroEnums::DR_StressLimitAchieved);
+            die();
         }
         else if (m_currentAttributesValues.stress + amount * m_currentAttributesValues.stressResistance >= m_currentAttributesValues.stressBorder && !isStressBorderEffectActive())
         {
@@ -729,7 +727,7 @@ void Hero::changeStressLimit(int amount) noexcept
             if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressLimit)
             {
                 m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
-                die(HeroEnums::DR_StressLimitAchieved);
+                die();
             }
         }
         else
@@ -741,7 +739,7 @@ void Hero::changeStressLimit(int amount) noexcept
             if (m_currentAttributesValues.stress>=1)
             {
                 m_currentAttributesValues.stress=1;
-                die(HeroEnums::DR_StressLimitAchieved);
+                die();
             }
         }
     }
@@ -995,11 +993,11 @@ void Hero::deactivateStressBorderEffect() noexcept
     }
 }
 
-void Hero::die(HeroEnums::DyingReason reason) noexcept
+void Hero::die() noexcept
 {
     m_isDead=1;
     m_currentAttributesValues.health=0;
-    emit died(name(),reason);
+    emit died(name());
     //TODO
 }
 
@@ -1373,8 +1371,6 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
 
         if (x<0)
             m_currentAttributesValues.luck=0;
-        else if (x>1)
-            m_currentAttributesValues.luck=1;
         else
             m_currentAttributesValues.luck=x;
     }
@@ -1573,7 +1569,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressLimit)
         {
             m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
-            die(HeroEnums::DR_StressLimitAchieved);
+            die();
         }
     }
     else if (attributeName == HeroEnums::A_StressResistance)
@@ -2023,7 +2019,7 @@ void HeroBuilder::setCleverness(int cleverness) noexcept
 
 void HeroBuilder::setLuck(float luck) noexcept
 {
-    if (luck>=0 && luck<=1)
+    if (luck>=0)
         m_hero->m_baseAttributesValues.luck=luck;
 }
 
@@ -2183,19 +2179,19 @@ void HeroesContainer::addDoStBan(QString name, unsigned daysAmount) noexcept
     removeHero(findHero(name));
 }
 
-void HeroesContainer::addDoStBan(QString name, HeroEnums::DyingReason) noexcept
+void HeroesContainer::addDoStBan(QString name) noexcept
 {
     addDoStBan(name,-1/*that's unsigned so yeah...*/);
 }
 
 void HeroesContainer::connectHeroToBanSystem(const QString &name) noexcept
 {
-    connect(m_heroes[findHero(name)],SIGNAL(died(QString,HeroEnums::DyingReason)),this,SLOT(addDoStBan(QString,HeroEnums::DyingReason)));
+    connect(m_heroes[findHero(name)],SIGNAL(died(QString)),this,SLOT(addDoStBan(QString)));
     connect(m_heroes[findHero(name)],SIGNAL(ranAway(QString,uint)),this,SLOT(addDoStBan(QString,uint)));
 }
 
 void HeroesContainer::disconnectHeroFromBanSystem(const QString &name) noexcept
 {
-    disconnect(m_heroes[findHero(name)],SIGNAL(died(QString,HeroEnums::DyingReason)),this,SLOT(addDoStBan(QString,HeroEnums::DyingReason)));
+    disconnect(m_heroes[findHero(name)],SIGNAL(died(QString)),this,SLOT(addDoStBan(QString)));
     disconnect(m_heroes[findHero(name)],SIGNAL(ranAway(QString,uint)),this,SLOT(addDoStBan(QString,uint)));
 }

@@ -5,6 +5,9 @@
 #include <QSettings>
 #include <QElapsedTimer>
 
+#include <sstream>
+#include <string>
+
 #include "base.h"
 #include "filereaderwriter.h"
 #include "saveparser.h"

@@ -7,7 +7,11 @@ Game *Game::ptrToGameObject;
 
 double Global::roundDouble(double d, unsigned prec) noexcept
 {
-    return d>=0 ? static_cast<double>(static_cast<int>(d*pow(10,prec)+0.5))/(pow(10,prec)) : static_cast<double>(static_cast<int>(d*pow(10,prec)-0.5))/(pow(10,prec));
+    std::stringstream ss;
+    ss << std::fixed;
+    ss.precision(prec);
+    ss << d;
+    return QString(ss.str().data()).toDouble();
 }
 
 QString Global::alterNormalTextToInternal(QString normalText) noexcept
