@@ -45,9 +45,14 @@ private:
 
     bool m_isReady;
     QString m_pathToAssets;
+
     QVector <Hero *> m_heroesLoaded;
     QList <QString> m_heroesAll;
+
     QVector <Equipment *> m_equipment;
+
+    QVector <Land *> m_lands;
+
     XmlFileReader m_reader;
 };
 
