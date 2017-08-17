@@ -28,11 +28,13 @@ struct EventEnums
     enum Action
     {
         A_Null,
+        A_GiveHealth,
+        A_GiveStress,
         A_ModifyAttribute,
         A_KillHero,
         A_AddEquipment,
         A_RemoveEquipment,
-        A_CollectResource,
+        A_GiveResource,
         A_NoSignal,
         A_ProlongMission,
         A_END
@@ -179,6 +181,28 @@ struct AttributeModification
     int duration;
 };
 
+class GiveHealthEventResult final : public ActionEvent
+{
+public:
+    explicit GiveHealthEventResult(const Expression &addedValue) noexcept;
+
+    void execute(Hero *hero) noexcept final;
+
+private:
+    Expression m_value;
+};
+
+class GiveStressEventResult final : public ActionEvent
+{
+public:
+    explicit GiveStressEventResult(const Expression &addedValue) noexcept;
+
+    void execute(Hero *hero) noexcept final;
+
+private:
+    Expression m_value;
+};
+
 class ModifyAttributeEventResult final : public ActionEvent
 {
 public:
@@ -238,10 +262,10 @@ private:
     int m_equipmentSlot;
 };
 
-class CollectResourceEventResult final : public ActionEvent
+class GiveResourceEventResult final : public ActionEvent
 {
 public:
-    explicit CollectResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept;
+    explicit GiveResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept;
 
     void execute(Hero *hero) noexcept final;
 
@@ -390,28 +414,137 @@ private:
     Event *m_event;
 };
 
+class EventReport
+{
+public:
+
+protected:
+    EventReport() noexcept;
+
+private:
+
+};
+
+class ActionEventReport : public EventReport
+{
+
+};
+
+class CheckEventReport : public EventReport
+{
+
+};
+
+class EncounterReport
+{
+public:
+    EncounterReport() noexcept;
+    ~EncounterReport() noexcept;
+
+private:
+    QVector <EventReport *> m_events;
+};
+
+class MissionReport
+{
+public:
+    MissionReport() noexcept;
+    ~MissionReport() noexcept;
+
+private:
+    QVector <EncounterReport *> m_encounters;
+};
+
 class Encounter
 {
 public:
-    Encounter(QString name, QVector <Event *> events) noexcept;
+    explicit Encounter(const QString &name, Event *rootEvent) noexcept;
+
+    EncounterReport execute(Hero *hero) const noexcept;
 
 private:
     QString m_name;
-    QVector <Event *> m_events;
+    Event * m_rootEvent;
+};
+
+class EncountersContainer
+{
+public:
+    EncountersContainer() noexcept;
+    ~EncountersContainer() noexcept;
+
+    void addEncounter(Encounter *enc) noexcept;
+    void removeEncounter(unsigned index) noexcept;
+    inline const QVector <Encounter *> &encounters() const noexcept
+    {
+        return m_encounters;
+    }
+
+private:
+    QVector <Encounter *> m_encounters;
+};
+
+class Land
+{
+    friend class LandBuilder;
+
+public:
+    explicit Land(const QString &name, const QString &description) noexcept;
+
+    void setAssociatedEncountersContainer(EncountersContainer *encCont) noexcept;
+
+    Q_INVOKABLE inline QString name() const noexcept
+    {
+        return m_name;
+    }
+    Q_INVOKABLE inline QString description() const noexcept
+    {
+        return m_description;
+    }
+
+    Encounter *getRandomEncounter() const noexcept;
+
+private:
+    void setName(const QString &name) noexcept;
+    void setDescription(const QString &desc) noexcept;
+
+    QString m_name;
+    QString m_description;
+    EncountersContainer *m_encounters;
+};
+
+class LandBuilder
+{
+public:
+    LandBuilder() noexcept;
+    ~LandBuilder() noexcept;
+
+    Land getLand() noexcept;
+    void resetLand() noexcept;
+
+    void setName(const QString &name) noexcept;
+    void setDescription(const QString &desc) noexcept;
+
+private:
+    Land *m_land;
 };
 
 class Mission
 {
     friend class MissionBuilder;
 public:
-    Event *takeRandomEvent() noexcept;
+    Encounter *takeRandomEncounter() noexcept;
 
-    int duration() const noexcept
+    inline const Land *land() const noexcept
+    {
+        return m_land;
+    }
+    inline unsigned duration() const noexcept
     {
         return m_duration;
     }
     void decrementDuration() noexcept;
-    void prolongDuration(int additionalDays) noexcept;
+    void prolongDuration(unsigned additionalDays) noexcept;
 
     void assignHero(Hero *hero) noexcept;
     Hero *assignedHero() const noexcept
@@ -419,16 +552,18 @@ public:
         return m_assignedHero;
     }
 
+    MissionReport execute() noexcept;
+
 private:
-    Mission() noexcept {}
+    Mission() noexcept;
 
-    void reset() noexcept;
+    void setLand(Land *land) noexcept;
+    void setDuration(unsigned days) noexcept;
+    void addEncounter(Encounter *encounter) noexcept;
 
-    void setDuration(int days) noexcept;
-    void addEvent(Event *event) noexcept;
-
-    int m_duration;
-    QVector <Event *> m_events;
+    Land *m_land;
+    unsigned m_duration;
+    QVector <Encounter *> m_encounters;
     Hero *m_assignedHero;
 };
 
@@ -438,11 +573,14 @@ public:
     MissionBuilder() noexcept;
     ~MissionBuilder() noexcept;
 
-    Mission *getMission() const noexcept;
+    Mission *getMission() noexcept; // resets
+    Mission *generateMission(Land *land, unsigned duration) noexcept; // resets
     void resetMission() noexcept;
 
-    void setDuration(int duration) noexcept;
-    void addEvent(Event *event) noexcept;
+    void setLand(Land *land) noexcept;
+    void setDuration(unsigned duration) noexcept;
+    void addRandomEncounter() noexcept;
+    void addEncounter(Encounter *encounter) noexcept;
 
 private:
     Mission *m_mission;

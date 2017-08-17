@@ -97,15 +97,28 @@ void MultiEvent::execute(Hero *context) noexcept
         e->execute(context);
 }
 
-ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModification &modification) noexcept
-    : ActionEvent(EventEnums::A_ModifyAttribute), m_modification(modification)
-{
+GiveHealthEventResult::GiveHealthEventResult(const Expression &addedValue) noexcept
+    : ActionEvent(EventEnums::A_GiveHealth), m_value(addedValue) {}
 
+void GiveHealthEventResult::execute(Hero *hero) noexcept
+{
+    hero->changeHealth(m_value.evaluate(hero).toUInt());
 }
+
+GiveStressEventResult::GiveStressEventResult(const Expression &addedValue) noexcept
+    : ActionEvent(EventEnums::A_GiveStress), m_value(addedValue) {}
+
+void GiveStressEventResult::execute(Hero *hero) noexcept
+{
+    m_value.evaluate(hero).toUInt()>=0 ? hero->increaseStress(m_value.evaluate(hero).toUInt()) : hero->decreaseStress(-m_value.evaluate(hero).toUInt());
+}
+
+ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModification &modification) noexcept
+    : ActionEvent(EventEnums::A_ModifyAttribute), m_modification(modification) {}
 
 void ModifyAttributeEventResult::execute(Hero *hero) noexcept
 {
-
+    hero->addAttributeModification(new AttributeModification(m_modification));
 }
 
 void KillHeroEventResult::execute(Hero *hero) noexcept
@@ -116,7 +129,12 @@ void KillHeroEventResult::execute(Hero *hero) noexcept
 void AddEquipmentEventResult::execute(Hero *hero) noexcept
 {
     if (m_equipmentToAdd->type()==EquipmentEnums::T_Armor)
-        hero->equipArmor(m_equipmentToAdd);
+    {
+        if (hero->armor()==nullptr)
+            hero->equipArmor(m_equipmentToAdd);
+        else
+            hero->addCarriedEquipment(m_equipmentToAdd);
+    }
     else
     {
         for (int i=0;i<hero->amountOfWeaponToolSlots();++i)
@@ -125,7 +143,7 @@ void AddEquipmentEventResult::execute(Hero *hero) noexcept
                 hero->equipWeaponTool(m_equipmentToAdd,i);
                 return;
             }
-        hero->equipWeaponTool(m_equipmentToAdd,0);
+        hero->addCarriedEquipment(m_equipmentToAdd);
     }
 }
 
@@ -137,8 +155,8 @@ void RemoveEquipmentEventResult::execute(Hero *hero) noexcept
         hero->unequipWeaponTool(m_equipmentSlot);
 }
 
-CollectResourceEventResult::CollectResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept
-    : ActionEvent(EventEnums::A_CollectResource)
+GiveResourceEventResult::GiveResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept
+    : ActionEvent(EventEnums::A_GiveResource)
 {
     m_energy=resources.value(BaseEnums::R_Energy,0);
     m_foodSupplies=resources.value(BaseEnums::R_FoodSupplies,0);
@@ -146,7 +164,7 @@ CollectResourceEventResult::CollectResourceEventResult(const QMap<BaseEnums::Res
     m_aetheriteOre=resources.value(BaseEnums::R_AetheriteOre,0);
 }
 
-void CollectResourceEventResult::execute(Hero *hero) noexcept
+void GiveResourceEventResult::execute(Hero *hero) noexcept
 {
     hero->setCarriedEnergy(hero->carriedEnergy()+m_energy);
     hero->setCarriedFoodSupplies(hero->carriedFoodSupplies()+m_foodSupplies);
@@ -165,10 +183,7 @@ void ProlongMissionEventResult::execute(Hero *hero) noexcept
 }
 
 CheckEventResults::CheckEventResults(const CheckEventResults &other) noexcept
-    : m_positive(other.m_positive), m_negative(other.m_negative)
-{
-
-}
+    : m_positive(other.m_positive), m_negative(other.m_negative) {}
 
 CheckEventResults CheckEventResultsBuilder::get() noexcept
 {
@@ -238,16 +253,10 @@ void CheckEventResultsBuilder::validateJustBeforeReturning() noexcept
 }
 
 CheckEvent::CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results) noexcept
-    : Event(EventEnums::T_Check), m_eventSubtype(eventSubtype), m_results(results)
-{
-
-}
+    : Event(EventEnums::T_Check), m_eventSubtype(eventSubtype), m_results(results) {}
 
 AttributeCheckEvent::AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept
-    : CheckEvent(EventEnums::C_AttributeCheck, results), m_condition(condition)
-{
-
-}
+    : CheckEvent(EventEnums::C_AttributeCheck, results), m_condition(condition) {}
 
 void AttributeCheckEvent::execute(Hero *hero) noexcept
 {
@@ -303,13 +312,70 @@ void PossibilityEvent::execute(Hero *hero) noexcept
     if (hero==nullptr || m_event==nullptr)
         return;
 
-    if (m_chance<=Randomizer::randomBetweenAAndB(1,100))
-    m_event->execute(hero);
+    if (m_chance>=Randomizer::randomBetweenAAndB(1,100))
+        m_event->execute(hero);
 }
 
-Event *Mission::takeRandomEvent() noexcept
+EventReport::EventReport() noexcept
 {
-    return m_events.takeAt(Randomizer::randomBetweenAAndB(0,m_events.size()-1));
+
+}
+
+EncounterReport::EncounterReport() noexcept
+{
+
+}
+
+EncounterReport::~EncounterReport() noexcept
+{
+    for (auto e : m_events)
+        delete e;
+}
+
+Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
+    : m_name(name), m_rootEvent(rootEvent) {}
+
+Land::Land(const QString &name, const QString &description) noexcept
+    : m_name(name), m_description(description) {}
+
+void Land::setAssociatedEncountersContainer(EncountersContainer *encCont) noexcept
+{
+    m_encounters=encCont;
+}
+
+Encounter *Land::getRandomEncounter() const noexcept
+{
+    if (m_encounters->encounters().isEmpty())
+        return nullptr;
+
+    auto r=new Encounter("",nullptr);
+    *r=*(m_encounters->encounters()[Randomizer::randomBetweenAAndB(0, m_encounters->encounters().size()-1)]);
+    return r;
+}
+
+void Land::setName(const QString &name) noexcept
+{
+    m_name=name;
+}
+
+void Land::setDescription(const QString &desc) noexcept
+{
+    m_description=desc;
+}
+
+void LandBuilder::setName(const QString &name) noexcept
+{
+    m_land->setName(name);
+}
+
+void LandBuilder::setDescription(const QString &desc) noexcept
+{
+    m_land->setDescription(desc);
+}
+
+Encounter *Mission::takeRandomEncounter() noexcept
+{
+    return m_encounters.takeAt(Randomizer::randomBetweenAAndB(0,m_encounters.size()-1));
 }
 
 void Mission::decrementDuration() noexcept
@@ -317,7 +383,7 @@ void Mission::decrementDuration() noexcept
     --m_duration;
 }
 
-void Mission::prolongDuration(int additionalDays) noexcept
+void Mission::prolongDuration(unsigned additionalDays) noexcept
 {
     if (additionalDays<1)
         return;
@@ -329,23 +395,29 @@ void Mission::assignHero(Hero *hero) noexcept
     m_assignedHero=hero;
 }
 
-void Mission::reset() noexcept
+MissionReport Mission::execute() noexcept
 {
-    m_duration=1;
-    m_events.clear();
-    m_assignedHero=nullptr;
+
 }
 
-void Mission::setDuration(int days) noexcept
+Mission::Mission() noexcept
+    : m_land(nullptr), m_duration(1), m_assignedHero(nullptr) {}
+
+void Mission::setLand(Land *land) noexcept
+{
+    m_land = land;
+}
+
+void Mission::setDuration(unsigned days) noexcept
 {
     if (days<1)
         return;
     m_duration=days;
 }
 
-void Mission::addEvent(Event *event) noexcept
+void Mission::addEncounter(Encounter *encounter) noexcept
 {
-    m_events+=event;
+    m_encounters+=encounter;
 }
 
 MissionBuilder::MissionBuilder() noexcept
@@ -358,24 +430,47 @@ MissionBuilder::~MissionBuilder() noexcept
     delete m_mission;
 }
 
-Mission *MissionBuilder::getMission() const noexcept
+Mission *MissionBuilder::getMission() noexcept
 {
-    Mission *ret=new Mission();
-    *ret=*m_mission;
+    Mission *ret=m_mission;
+    m_mission=new Mission();
+    return ret;
+}
+
+Mission *MissionBuilder::generateMission(Land *land, unsigned duration) noexcept
+{
+    resetMission();
+    setLand(land);
+    setDuration(duration);
+    while (duration--)
+        addRandomEncounter();
+    Mission *ret=m_mission;
+    m_mission=new Mission();
     return ret;
 }
 
 void MissionBuilder::resetMission() noexcept
 {
-    m_mission->reset();
+    delete m_mission;
+    m_mission=new Mission();
 }
 
-void MissionBuilder::setDuration(int duration) noexcept
+void MissionBuilder::setLand(Land *land) noexcept
+{
+    m_mission->setLand(land);
+}
+
+void MissionBuilder::setDuration(unsigned duration) noexcept
 {
     m_mission->setDuration(duration);
 }
 
-void MissionBuilder::addEvent(Event *event) noexcept
+void MissionBuilder::addRandomEncounter() noexcept
 {
-    m_mission->addEvent(event);
+    addEncounter(m_mission->land()->getRandomEncounter());
+}
+
+void MissionBuilder::addEncounter(Encounter *encounter) noexcept
+{
+    m_mission->addEncounter(encounter);
 }
