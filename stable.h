@@ -36,4 +36,7 @@
 #include <string>
 #include <sstream>
 
+// my libs
+#include "libs/RBoundedValue_v0_1_0-Beta/rboundedvalue.h"
+
 #endif

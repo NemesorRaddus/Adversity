@@ -4,6 +4,8 @@
 #include <QVector>
 #include <QDateTime>
 
+#include "libs/RBoundedValue_v0_1_0-Beta/rboundedvalue.h"
+
 #include "base.h"
 
 #include <QDebug>
@@ -99,6 +101,20 @@ private:
     QVector <QPair <unsigned, TimerAlarm *> > m_alarms;
 };
 
+struct Time
+{
+    typedef unsigned Day;
+    typedef RBoundedValue<unsigned, 0, 23, true> Hour;
+    typedef RBoundedValue<unsigned, 0, 59, true> Minute;
+
+    Time() noexcept;
+    Time(unsigned day, unsigned hour, unsigned minute) noexcept;
+
+    Day d;
+    Hour h;
+    Minute min;
+};
+
 class GameClock : public TimerAlarmsContainer
 {
     Q_OBJECT
@@ -112,25 +128,25 @@ public:
 
     Q_INVOKABLE void saveCurrentDate() noexcept;
 
-    Q_INVOKABLE void updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept;//gets time from date time
+    Q_INVOKABLE void updateClock(const QDateTime &lastKnownDate, const Time &lastKnownTimeInGame) noexcept;//gets time from date time
     Q_INVOKABLE void updateClock(int minutesToAdd) noexcept;//enforces time change
     Q_INVOKABLE void updateClock() noexcept;//changes time smartly
     Q_INVOKABLE bool hasDayChangedLately() const noexcept
     {
-        return (m_currentTimeInGameHour==0 && m_currentTimeInGameMin==0);
+        return (m_currentTimeInGame.h==0 && m_currentTimeInGame.min==0);
     }
 
     Q_INVOKABLE int currentDay() const noexcept
     {
-        return m_currentTimeInGameDay;
+        return m_currentTimeInGame.d;
     }
     Q_INVOKABLE int currentHour() const noexcept
     {
-        return m_currentTimeInGameHour;
+        return m_currentTimeInGame.h;
     }
     Q_INVOKABLE int currentMin() const noexcept
     {
-        return m_currentTimeInGameMin;
+        return m_currentTimeInGame.min;
     }
 
     void forceAutosave() noexcept;
@@ -157,13 +173,9 @@ private:
     void autosave() noexcept;
 
     QDateTime m_lastKnownDate;
-    unsigned m_lastKnownDay;
-    unsigned m_lastKnownHour;
-    unsigned m_lastKnownMin;
+    Time m_lastKnownTimeInGame;
 
-    unsigned m_currentTimeInGameDay;
-    unsigned m_currentTimeInGameHour;
-    unsigned m_currentTimeInGameMin;
+    Time m_currentTimeInGame;
 
     QDateTime m_dateFromPreviousClockUpdate;//to handle all clock freezes (game freezes on Android, etc.)
 
