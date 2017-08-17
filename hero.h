@@ -354,7 +354,7 @@ public:
     void setDailyHealthRecoveryBuildingBonus(int bonus) noexcept;
     void setDailyStressRecoveryBuildingBonus(int bonus) noexcept;
 
-    void addAttributeModifications(AttributeModification *mod) noexcept;
+    void addAttributeModification(AttributeModification *mod) noexcept;
     void decrementModificationsDuration() noexcept;
 
     Equipment *armor() const noexcept
@@ -545,7 +545,7 @@ private:
 struct HeroDataHelper
 {
     HeroDataHelper()
-        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isEquipmentActive(1), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isEquipmentActive(true), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
 
     QString name;
 

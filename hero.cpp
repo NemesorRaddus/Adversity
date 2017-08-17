@@ -757,7 +757,7 @@ void Hero::setDailyStressRecoveryBuildingBonus(int bonus) noexcept
     calculateCurrentAttributeValue(HeroEnums::A_DailyStressRecovery);
 }
 
-void Hero::addAttributeModifications(AttributeModification *mod) noexcept
+void Hero::addAttributeModification(AttributeModification *mod) noexcept
 {
     m_attributeModifications+=mod;
     switch (mod->attribute)
@@ -785,7 +785,10 @@ void Hero::decrementModificationsDuration() noexcept
             ++i;
         }
         else if (m_attributeModifications[i]->duration == 1)
+        {
+            delete m_attributeModifications[i];
             m_attributeModifications.remove(i);
+        }
         else
             ++i;
     }
@@ -813,6 +816,7 @@ void Hero::unequipArmor() noexcept
     if (m_armor!=nullptr)
     {
         unapplyEquipmentEffect();
+        addCarriedEquipment(m_armor);
         setArmor(nullptr);
     }
 }
@@ -834,6 +838,7 @@ void Hero::unequipWeaponTool(int slot) noexcept
     if (slot>=0 && slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
     {
         unapplyEquipmentEffect();
+        addCarriedEquipment(m_weaponsTools[slot]);
         setWeaponTool(nullptr,slot);
     }
 }
