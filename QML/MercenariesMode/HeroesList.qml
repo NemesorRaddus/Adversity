@@ -95,7 +95,7 @@ Item {
                     if (Math.abs(mouseArea.mouseY - mouseArea.y0) >= Globals.windowHeight * mouseArea.yChangedThresholdForScrolling / 100)
                     {
                         mouseArea.isScrollingActive = true;
-                        Scripts.scrollList(mouseArea.y0 - mouseArea.mouseY);
+                        Scripts.scrollList(mouseArea.mouseY - mouseArea.y0);
                         mouseArea.y0 = mouseArea.mouseY;
                     }
                 }
