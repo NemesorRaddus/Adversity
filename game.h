@@ -36,23 +36,23 @@ class AppBuildInfo : public QObject
     friend class H4X;
 
 public:
-    Q_INVOKABLE QString versionNumber() const noexcept
+    Q_INVOKABLE inline QString versionNumber() const noexcept
     {
         return m_versionNumber;
     }
-    Q_INVOKABLE QString buildTime() const noexcept
+    Q_INVOKABLE inline QString buildTime() const noexcept
     {
         return m_buildTime;
     }
-    Q_INVOKABLE QString buildType() const noexcept
+    Q_INVOKABLE inline QString buildType() const noexcept
     {
         return m_buildType;
     }
-    Q_INVOKABLE QString toolkitName() const noexcept
+    Q_INVOKABLE inline QString toolkitName() const noexcept
     {
         return m_toolkitName;
     }
-    Q_INVOKABLE QString additionalBuildInfo() const noexcept
+    Q_INVOKABLE inline QString additionalBuildInfo() const noexcept
     {
         return m_additionBuildInfo;
     }
@@ -119,12 +119,12 @@ public:
         return Randomizer::randomBetweenAAndB(bottom,top);
     }
 
-    AssetsPool &assetsPool() noexcept
+    inline AssetsPool &assetsPool() noexcept
     {
         return m_assetsPool;
     }
 
-    static Game *gameInstance() noexcept
+    inline static Game *gameInstance() noexcept
     {
         return ptrToGameObject;
     }

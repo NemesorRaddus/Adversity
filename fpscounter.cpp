@@ -1,19 +1,20 @@
 #include "fpscounter.h"
 
-FPSText::FPSText(QQuickItem *parent): QQuickPaintedItem(parent), m_currentFPS(0), m_cacheCount(0)
+FPSText::FPSText(QQuickItem *parent) noexcept
+    : QQuickPaintedItem(parent), m_currentFPS(0), m_cacheCount(0)
 {
     m_times.clear();
     setFlag(QQuickItem::ItemHasContents);
 }
 
-void FPSText::paint(QPainter *painter)
+void FPSText::paint(QPainter *painter) noexcept
 {
     recalculateFPS();
 
     update();
 }
 
-void FPSText::recalculateFPS()
+void FPSText::recalculateFPS() noexcept
 {
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
     m_times.push_back(currentTime);

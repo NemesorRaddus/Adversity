@@ -794,7 +794,7 @@ void Hero::decrementModificationsDuration() noexcept
     }
 }
 
-Equipment *Hero::weaponTool(int slot) const noexcept
+const Equipment *Hero::weaponTool(int slot) const noexcept
 {
     return m_weaponsTools.value(slot,nullptr);
 }

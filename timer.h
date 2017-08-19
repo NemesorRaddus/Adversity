@@ -24,11 +24,11 @@ struct TimerAlarmEnums
 class TimerAlarm
 {
 public:
-    TimerAlarmEnums::AlarmType type() const noexcept
+    inline TimerAlarmEnums::AlarmType type() const noexcept
     {
         return m_type;
     }
-    bool isAlreadyActive() const noexcept
+    inline bool isAlreadyActive() const noexcept
     {
         return m_isAlreadyActive;
     }
@@ -57,11 +57,11 @@ public:
         return !(*this==other);
     }
 
-    BaseEnums::Building buildingName() const noexcept
+    inline BaseEnums::Building buildingName() const noexcept
     {
         return m_buildingName;
     }
-    unsigned buildingLevel() const noexcept
+    inline unsigned buildingLevel() const noexcept
     {
         return m_buildingLevel;
     }
@@ -136,22 +136,22 @@ public:
         return (m_currentTimeInGame.h==0 && m_currentTimeInGame.min==0);
     }
 
-    Q_INVOKABLE int currentDay() const noexcept
+    Q_INVOKABLE inline int currentDay() const noexcept
     {
         return m_currentTimeInGame.d;
     }
-    Q_INVOKABLE int currentHour() const noexcept
+    Q_INVOKABLE inline int currentHour() const noexcept
     {
         return m_currentTimeInGame.h;
     }
-    Q_INVOKABLE int currentMin() const noexcept
+    Q_INVOKABLE inline int currentMin() const noexcept
     {
         return m_currentTimeInGame.min;
     }
 
     void forceAutosave() noexcept;
 
-    Q_INVOKABLE int realMinutesToOneGameDayRatio() const noexcept
+    Q_INVOKABLE inline int realMinutesToOneGameDayRatio() const noexcept
     {
         return m_realMinutesToOneGameDayRatio;
     }

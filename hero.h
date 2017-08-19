@@ -174,60 +174,60 @@ class Hero : public QObject
     friend class H4X;
 
 public:
-    Q_INVOKABLE QString name() const noexcept
+    Q_INVOKABLE inline QString name() const noexcept
     {
         return m_name;
     }
 
-    Q_INVOKABLE int combatEffectiveness() const noexcept
+    Q_INVOKABLE inline int combatEffectiveness() const noexcept
     {
         return m_currentAttributesValues.combatEffectiveness;
     }
-    Q_INVOKABLE int proficiency() const noexcept
+    Q_INVOKABLE inline int proficiency() const noexcept
     {
         return m_currentAttributesValues.proficiency;
     }
-    Q_INVOKABLE int cleverness() const noexcept
+    Q_INVOKABLE inline int cleverness() const noexcept
     {
         return m_currentAttributesValues.cleverness;
     }
 
-    Q_INVOKABLE float luck() const noexcept
+    Q_INVOKABLE inline float luck() const noexcept
     {
         return m_currentAttributesValues.luck;
     }
 
-    Q_INVOKABLE int health() const noexcept
+    Q_INVOKABLE inline int health() const noexcept
     {
         return m_currentAttributesValues.health;
     }
-    Q_INVOKABLE int healthLimit() const noexcept
+    Q_INVOKABLE inline int healthLimit() const noexcept
     {
         return m_currentAttributesValues.healthLimit;
     }
-    Q_INVOKABLE int dailyHealthRecovery() const noexcept
+    Q_INVOKABLE inline int dailyHealthRecovery() const noexcept
     {
         return m_currentAttributesValues.dailyHealthRecovery;
     }
 
-    Q_INVOKABLE int stress() const noexcept
+    Q_INVOKABLE inline int stress() const noexcept
     {
         return m_currentAttributesValues.stress;
     }
-    Q_INVOKABLE float stressResistance() const noexcept
+    Q_INVOKABLE inline float stressResistance() const noexcept
     {
         return m_currentAttributesValues.stressResistance;
     }
-    Q_INVOKABLE int stressLimit() const noexcept
+    Q_INVOKABLE inline int stressLimit() const noexcept
     {
         return m_baseAttributesValues.stressLimit!=-1 ? m_currentAttributesValues.stressLimit : -1;
     }
-    Q_INVOKABLE int stressBorder() const noexcept
+    Q_INVOKABLE inline int stressBorder() const noexcept
     {
         return m_currentAttributesValues.stressBorder;
     }
 
-    const QVector <HeroStressBorderEffect> &stressBorderEffects() const noexcept
+    inline const QVector <HeroStressBorderEffect> &stressBorderEffects() const noexcept
     {
         return m_stressBorderEffects;
     }
@@ -237,15 +237,15 @@ public:
         return m_stressBorderEffects.size();
     }
     Q_INVOKABLE QString currentStressBorderEffectNameString() const noexcept;
-    Q_INVOKABLE int indexOfCurrentSBE() const noexcept
+    Q_INVOKABLE inline int indexOfCurrentSBE() const noexcept
     {
         return m_indexOfCurrentSBE;
     }
-    Q_INVOKABLE bool isStressBorderEffectActive() const noexcept
+    Q_INVOKABLE inline bool isStressBorderEffectActive() const noexcept
     {
         return m_indexOfCurrentSBE!=-1;
     }
-    Q_INVOKABLE int dailyStressRecovery() const noexcept
+    Q_INVOKABLE inline int dailyStressRecovery() const noexcept
     {
         return m_currentAttributesValues.dailyStressRecovery;
     }
@@ -255,65 +255,65 @@ public:
     Q_INVOKABLE QString nameOfSBESummed(unsigned index) const noexcept;
     Q_INVOKABLE float chanceOfSBESummed(unsigned index) const noexcept;
 
-    Q_INVOKABLE int salary() const noexcept
+    Q_INVOKABLE inline int salary() const noexcept
     {
         return m_currentAttributesValues.salary;
     }
 
-    Q_INVOKABLE int dailyFoodConsumption() const noexcept
+    Q_INVOKABLE inline int dailyFoodConsumption() const noexcept
     {
         return m_currentAttributesValues.dailyFoodConsumption;
     }
 
-    HeroEnums::Nature nature() const noexcept
+    HeroEnums::Nature inline nature() const noexcept
     {
         return m_nature;
     }
     Q_INVOKABLE QString natureString() const noexcept;
 
-    HeroEnums::Profession profession() const noexcept
+    HeroEnums::Profession inline profession() const noexcept
     {
         return m_profession;
     }
     Q_INVOKABLE QString professionString() const noexcept;
 
-    Q_INVOKABLE int baseHealthLimit() const noexcept
+    Q_INVOKABLE inline int baseHealthLimit() const noexcept
     {
         return m_baseAttributesValues.healthLimit;
     }
-    Q_INVOKABLE int baseStressLimit() const noexcept
+    Q_INVOKABLE inline int baseStressLimit() const noexcept
     {
         return m_baseAttributesValues.stressLimit;
     }
-    Q_INVOKABLE float baseStressResistance() const noexcept
+    Q_INVOKABLE inline float baseStressResistance() const noexcept
     {
         return m_baseAttributesValues.stressResistance;
     }
-    Q_INVOKABLE int baseCombatEffectiveness() const noexcept
+    Q_INVOKABLE inline int baseCombatEffectiveness() const noexcept
     {
         return m_baseAttributesValues.combatEffectiveness;
     }
-    Q_INVOKABLE int baseProficiency() const noexcept
+    Q_INVOKABLE inline int baseProficiency() const noexcept
     {
         return m_baseAttributesValues.proficiency;
     }
-    Q_INVOKABLE int baseCleverness() const noexcept
+    Q_INVOKABLE inline int baseCleverness() const noexcept
     {
         return m_baseAttributesValues.cleverness;
     }
-    Q_INVOKABLE int baseDailyHealthRecovery() const noexcept
+    Q_INVOKABLE inline int baseDailyHealthRecovery() const noexcept
     {
         return m_baseAttributesValues.dailyHealthRecovery;
     }
-    Q_INVOKABLE int baseDailyStressRecovery() const noexcept
+    Q_INVOKABLE inline int baseDailyStressRecovery() const noexcept
     {
         return m_baseAttributesValues.dailyStressRecovery;
     }
-    Q_INVOKABLE int baseDailyFoodConsumption() const noexcept
+    Q_INVOKABLE inline int baseDailyFoodConsumption() const noexcept
     {
         return m_baseAttributesValues.dailyFoodConsumption;
     }
-    Q_INVOKABLE int baseSalary() const noexcept
+    Q_INVOKABLE inline int baseSalary() const noexcept
     {
         return m_baseAttributesValues.salary;
     }
@@ -342,7 +342,7 @@ public:
     void changeStressLimit(int amount) noexcept;
     void changeStressBorder(int amount) noexcept;
     void changeDailyStressRecovery(int amount) noexcept;
-    Q_INVOKABLE bool isImmuneToStress() const noexcept
+    Q_INVOKABLE inline bool isImmuneToStress() const noexcept
     {
         return m_baseAttributesValues.stressLimit==-1;
     }
@@ -357,12 +357,12 @@ public:
     void addAttributeModification(AttributeModification *mod) noexcept;
     void decrementModificationsDuration() noexcept;
 
-    Equipment *armor() const noexcept
+    inline const Equipment *armor() const noexcept
     {
         return m_armor;
     }
-    Equipment *weaponTool(int slot) const noexcept;
-    Q_INVOKABLE int amountOfWeaponToolSlots() const noexcept
+    const Equipment *weaponTool(int slot) const noexcept;
+    Q_INVOKABLE inline int amountOfWeaponToolSlots() const noexcept
     {
         return m_amountOfWeaponToolSlots;
     }
@@ -384,7 +384,7 @@ public:
     QVector <Equipment *> carriedEquipment() const noexcept;
     void clearCarriedEquipment() noexcept;
 
-    Q_INVOKABLE bool isDead() const noexcept
+    Q_INVOKABLE inline bool isDead() const noexcept
     {
         return m_isDead;
     }
@@ -393,7 +393,7 @@ public:
         m_isDead = isDead;
     }
 
-    Q_INVOKABLE int noSignalDaysRemaining() const noexcept
+    Q_INVOKABLE inline int noSignalDaysRemaining() const noexcept
     {
         return m_noSignalDaysRemaining;
     }
@@ -401,42 +401,42 @@ public:
     {
         m_noSignalDaysRemaining = noSignalDaysRemaining;
     }
-    Q_INVOKABLE bool isCommunicationAvailable() const noexcept
+    Q_INVOKABLE inline bool isCommunicationAvailable() const noexcept
     {
         return m_noSignalDaysRemaining==0;
     }
 
-    Q_INVOKABLE int carriedEnergy() const noexcept
+    Q_INVOKABLE inline int carriedEnergy() const noexcept
     {
         return m_carriedEnergy;
     }
     void setCarriedEnergy(int carriedEnergy) noexcept;
 
-    Q_INVOKABLE int carriedFoodSupplies() const noexcept
+    Q_INVOKABLE inline int carriedFoodSupplies() const noexcept
     {
         return m_carriedFoodSupplies;
     }
     void setCarriedFoodSupplies(int carriedFoodSupplies) noexcept;
 
-    Q_INVOKABLE int carriedBuildingMaterials() const noexcept
+    Q_INVOKABLE inline int carriedBuildingMaterials() const noexcept
     {
         return m_carriedBuildingMaterials;
     }
     void setCarriedBuildingMaterials(int carriedBuildingMaterials) noexcept;
 
-    Q_INVOKABLE int carriedAetheriteOre() const noexcept
+    Q_INVOKABLE inline int carriedAetheriteOre() const noexcept
     {
         return m_carriedAetheriteOre;
     }
     void setCarriedAetheriteOre(int carriedAetheriteOre) noexcept;
 
-    Mission *assignedMission() noexcept
+    inline Mission *assignedMission() noexcept
     {
         return m_assignedMission;
     }
     void assignMission(Mission *mission) noexcept;
 
-    HeroEnums::CurrentActivity currentActivity() const noexcept
+    inline HeroEnums::CurrentActivity currentActivity() const noexcept
     {
         return m_currentActivity;
     }
@@ -697,7 +697,7 @@ public:
     Q_INVOKABLE bool prepareHeroAt(unsigned index) noexcept;
     void addHero(Hero *hero) noexcept;
     void removeHero(unsigned index) noexcept;
-    const QVector <Hero *> &heroes() noexcept
+    inline const QVector <Hero *> &heroes() noexcept
     {
         return m_heroes;
     }
@@ -714,7 +714,7 @@ public:
     {
         m_amountOfSlots=amount;
     }
-    Q_INVOKABLE unsigned amountOfSlots() const noexcept
+    Q_INVOKABLE inline unsigned amountOfSlots() const noexcept
     {
         return m_amountOfSlots;
     }

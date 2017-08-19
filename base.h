@@ -69,7 +69,7 @@ class Building : public QObject
 public:
     Q_INVOKABLE virtual unsigned currentLevel() const noexcept;
     Q_INVOKABLE virtual unsigned maxLevel() const noexcept = 0;
-    Q_INVOKABLE virtual bool maxLevelReached() const noexcept
+    Q_INVOKABLE inline virtual bool maxLevelReached() const noexcept
     {
         return currentLevel()==maxLevel();
     }
@@ -116,7 +116,7 @@ public:
     {
         m_isBeingUpgraded=0;
     }
-    Q_INVOKABLE bool isBeingUpgraded() const noexcept
+    Q_INVOKABLE inline bool isBeingUpgraded() const noexcept
     {
         return m_isBeingUpgraded;
     }
@@ -2088,7 +2088,7 @@ public:
 
     Q_INVOKABLE void startTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) noexcept;
     void handleActiveTransactions() noexcept;
-    const QVector <QPair <ActiveTransaction, unsigned> > &activeTransactions() const noexcept
+    inline const QVector <QPair <ActiveTransaction, unsigned> > &activeTransactions() const noexcept
     {
         return m_activeTransactions;
     }
@@ -2108,7 +2108,7 @@ public:
     Q_INVOKABLE void prepareEquipmentForQML(unsigned pos) noexcept;
     Q_INVOKABLE void buyEquipment(unsigned pos, unsigned eta) noexcept;
     void doBuyingEquipmentStuff() noexcept;
-    QVector <QPair <Equipment *, unsigned> > arrivingEquipments() noexcept
+    inline QVector <QPair <Equipment *, unsigned> > arrivingEquipments() noexcept
     {
         return m_arrivingEquipments;
     }
@@ -2269,19 +2269,19 @@ public:
     }
 
     //resources
-    Q_INVOKABLE int currentEnergyAmount() const noexcept
+    Q_INVOKABLE inline int currentEnergyAmount() const noexcept
     {
         return m_energy;
     }
-    Q_INVOKABLE int currentFoodSuppliesAmount() const noexcept
+    Q_INVOKABLE inline int currentFoodSuppliesAmount() const noexcept
     {
         return m_foodSupplies;
     }
-    Q_INVOKABLE int currentBuildingMaterialsAmount() const noexcept
+    Q_INVOKABLE inline int currentBuildingMaterialsAmount() const noexcept
     {
         return m_buildingMaterials;
     }
-    Q_INVOKABLE int currentAetheriteAmount() const noexcept
+    Q_INVOKABLE inline int currentAetheriteAmount() const noexcept
     {
         return m_aetherite;
     }
@@ -2291,19 +2291,19 @@ public:
     void setCurrentBuildingMaterialsAmount(unsigned amount) noexcept;
     void setCurrentAetheriteAmount(unsigned amount) noexcept;
 
-    bool canDecreaseEnergyAmount(unsigned amount) const noexcept
+    inline bool canDecreaseEnergyAmount(unsigned amount) const noexcept
     {
         return m_energy>=amount;
     }
-    bool canDecreaseFoodSuppliesAmount(unsigned amount) const noexcept
+    inline bool canDecreaseFoodSuppliesAmount(unsigned amount) const noexcept
     {
         return m_foodSupplies>=amount;
     }
-    bool canDecreaseBuildingMaterialsAmount(unsigned amount) const noexcept
+    inline bool canDecreaseBuildingMaterialsAmount(unsigned amount) const noexcept
     {
         return m_buildingMaterials>=amount;
     }
-    bool canDecreaseAetheriteAmount(unsigned amount) const noexcept
+    inline bool canDecreaseAetheriteAmount(unsigned amount) const noexcept
     {
         return m_aetherite>=amount;
     }
@@ -2346,19 +2346,19 @@ public:
         return r;
     }
 
-    Q_INVOKABLE int currentEnergyLimit() noexcept
+    Q_INVOKABLE inline int currentEnergyLimit() noexcept
     {
         return powerplant()->energyLimit();
     }
-    Q_INVOKABLE int currentFoodSuppliesLimit() noexcept
+    Q_INVOKABLE inline int currentFoodSuppliesLimit() noexcept
     {
         return coolRoom()->foodSuppliesLimit();
     }
-    Q_INVOKABLE int currentBuildingMaterialsLimit() noexcept
+    Q_INVOKABLE inline int currentBuildingMaterialsLimit() noexcept
     {
         return storageRoom()->buildingMaterialsLimit();
     }
-    Q_INVOKABLE int currentAetheriteLimit() noexcept
+    Q_INVOKABLE inline int currentAetheriteLimit() noexcept
     {
         return aetheriteSilo()->aetheriteLimit();
     }
@@ -2372,11 +2372,11 @@ public:
     Building *getBuilding(BaseEnums::Building buildingName) noexcept;
 
     //heroes
-    HeroesContainer *heroes() noexcept
+    inline HeroesContainer *heroes() noexcept
     {
         return m_heroes;
     }
-    QMap <QString, unsigned> &heroDockingStationBans() noexcept
+    inline QMap <QString, unsigned> &heroDockingStationBans() noexcept
     {
         return m_heroDockingStationBans;
     }
@@ -2386,19 +2386,19 @@ public:
     }
 
     //equipment
-    QVector <Equipment *> &freeEquipment() noexcept
+    inline QVector <Equipment *> &freeEquipment() noexcept
     {
         return m_freeEquipment;
     }
 
     //game clock
-    GameClock *gameClock() noexcept
+    inline GameClock *gameClock() noexcept
     {
         return m_gameClock;
     }
 
     //game
-    Game *gameObject() noexcept
+    inline Game *gameObject() noexcept
     {
         return m_gameObject;
     }

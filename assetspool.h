@@ -18,11 +18,11 @@ public:
     bool isReady() const noexcept;
     void clear() noexcept;
 
-    QStringList allHeroes() const noexcept
+    inline QStringList allHeroes() const noexcept
     {
         return m_heroesAll;
     }
-    const QVector <Hero *> &loadedHeroes() noexcept
+    inline const QVector <Hero *> &loadedHeroes() const noexcept
     {
         return m_heroesLoaded;
     }
@@ -31,7 +31,7 @@ public:
     void unloadHero(unsigned index) noexcept;
     void unloadHero(const QString &name) noexcept;
 
-    const QVector <Equipment *> &equipment() noexcept
+    inline const QVector <Equipment *> &equipment() const noexcept
     {
         return m_equipment;
     }

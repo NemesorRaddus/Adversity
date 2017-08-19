@@ -77,37 +77,12 @@ private:
     QJSEngine *m_engine;
 };
 
-class Chance// int with <0;100> range
-{
-public:
-    Chance() noexcept
-        : m_chance(0) {}
-    Chance(int chance) noexcept
-        : m_chance(0)
-    {
-        if (chance >= 0 && chance<=100)
-            m_chance=chance;
-    }
-
-    operator int() const noexcept
-    {
-        return m_chance;
-    }
-
-    void operator =(int chance) noexcept
-    {
-        if (chance >= 0 && chance<=100)
-            m_chance=chance;
-    }
-
-private:
-    int m_chance;
-};
+typedef RBoundedValue<int, 0, 100, false> Chance;
 
 class Event
 {
 public:
-    EventEnums::Type eventType() const noexcept
+    inline EventEnums::Type eventType() const noexcept
     {
         return m_eventType;
     }
@@ -334,11 +309,11 @@ class CheckEventResults
 public:
     CheckEventResults(const CheckEventResults &other) noexcept;
 
-    QVector <QPair <Event *, Chance> > positive() const noexcept
+    inline QVector <QPair <Event *, Chance> > positive() const noexcept
     {
         return m_positive;
     }
-    QVector <QPair <Event *, Chance> > negative() const noexcept
+    inline QVector <QPair <Event *, Chance> > negative() const noexcept
     {
         return m_negative;
     }
@@ -368,7 +343,7 @@ private:
 class CheckEvent : public Event
 {
 public:
-    auto eventResultType() const noexcept
+    inline auto eventResultType() const noexcept
     {
         return m_eventSubtype;
     }
@@ -547,7 +522,7 @@ public:
     void prolongDuration(unsigned additionalDays) noexcept;
 
     void assignHero(Hero *hero) noexcept;
-    Hero *assignedHero() const noexcept
+    inline const Hero *assignedHero() const noexcept
     {
         return m_assignedHero;
     }
