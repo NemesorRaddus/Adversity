@@ -31,21 +31,21 @@ function clearList()
     itemsArray = [];
 }
 
-function setItem(index, name, internalName, type, tier, cost, b1n, b1v, b2n, b2v, b3n, b3v, b4n, b4v, b5n, b5v, b6n, b6v) {
+function setItem(index, name, internalName, type, tier, cost, bn, bv) {
     itemsArray[index].setArtSource("qrc:/graphics/Equipment/"+GlobalsCpp.alterNormalTextToInternal(type)+"/Tier_"+tier+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setType(type);
     itemsArray[index].setTier(tier);
     itemsArray[index].setCost(cost);
-    itemsArray[index].setBonus(0,b1n,b1v);
-    itemsArray[index].setBonus(1,b2n,b2v);
-    itemsArray[index].setBonus(2,b3n,b3v);
-    itemsArray[index].setBonus(3,b4n,b4v);
-    itemsArray[index].setBonus(4,b5n,b5v);
-    itemsArray[index].setBonus(5,b6n,b6v);
+    itemsArray[index].setBonus(0,bn[0],bv[0]);
+    itemsArray[index].setBonus(1,bn[1],bv[1]);
+    itemsArray[index].setBonus(2,bn[2],bv[2]);
+    itemsArray[index].setBonus(3,bn[3],bv[3]);
+    itemsArray[index].setBonus(4,bn[4],bv[4]);
+    itemsArray[index].setBonus(5,bn[5],bv[5]);
 }
 
-function createItem(name, internalName, type, tier, cost, b1n, b1v, b2n, b2v, b3n, b3v, b4n, b4v, b5n, b5v, b6n, b6v) {
+function createItem(name, internalName, type, tier, cost, bn, bv) {
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
@@ -53,7 +53,7 @@ function createItem(name, internalName, type, tier, cost, b1n, b1v, b2n, b2v, b3
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
-        setItem(actualAmountOfItems, name, internalName, type, tier, cost, b1n, b1v, b2n, b2v, b3n, b3v, b4n, b4v, b5n, b5v, b6n, b6v);
+        setItem(actualAmountOfItems, name, internalName, type, tier, cost, bn, bv);
         ++actualAmountOfItems;
     }
 }

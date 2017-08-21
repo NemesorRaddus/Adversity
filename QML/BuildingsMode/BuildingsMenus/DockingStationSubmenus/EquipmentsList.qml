@@ -14,40 +14,52 @@ Item {
         for (var i=0;i<GameApi.base.dockingStation.readyEquipmentsAmount();++i)
         {
             GameApi.base.dockingStation.prepareEquipmentForQML(i);
-            var n1=0,v1=0,n2=0,v2=0,n3=0,v3=0,n4=0,v4=0,n5=0,v5=0,n6=0,v6=0;
+            var n=["","","","","",""],v=[0,0,0,0,0,0];
             if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 1)
             {
-                n1=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(0);
-                v1=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(0);
+                n[0]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(0);
+                v[0]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(0);
             }
             if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 2)
             {
-                n2=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(1);
-                v2=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(1);
+                n[1]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(1);
+                v[1]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(1);
             }
             if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 3)
             {
-                n3=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(2);
-                v3=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(2);
+                n[2]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(2);
+                v[2]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(2);
             }
             if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 4)
             {
-                n4=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(3);
-                v4=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(3);
+                n[3]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(3);
+                v[3]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(3);
             }
             if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 5)
             {
-                n5=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(4);
-                v5=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(4);
+                n[4]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(4);
+                v[4]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(4);
             }
             if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 6)
             {
-                n6=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(5);
-                v6=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(5);
+                n[5]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(5);
+                v[5]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(5);
             }
 
+            for (var j=0;j<6;++j)
+                if (n[j]=="Luck" || n[j]=="Stress Border")
+                {
+                    for (var k=j+1;k<6;++k)
+                    {
+                        n[k-1]=n[k];
+                        v[k-1]=v[k];
+                    }
+                    n[5]="";
+                    v[5]="";
+                }
+
             Scripts.createItem(GameApi.base.dockingStation.equipmentPreparedForQML.name(), GameApi.base.dockingStation.equipmentPreparedForQML.name(), GameApi.base.dockingStation.equipmentPreparedForQML.typeString(), GameApi.base.dockingStation.equipmentPreparedForQML.tier(), GameApi.base.dockingStation.equipmentPreparedForQML.buyingAetheriteCost(),
-                    n1,v1,n2,v2,n3,v3,n4,v4,n5,v5,n6,v6);
+                    n,v);
         }
     }
 
