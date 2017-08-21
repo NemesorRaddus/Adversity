@@ -1,5 +1,7 @@
 #include "timer.h"
 
+#include "event.h"
+
 #include <QDebug>
 
 void TimerAlarm::activate() noexcept
@@ -13,13 +15,7 @@ bool TimerAlarm::isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept
         return 0;
     if (m_type==TimerAlarmEnums::AT_BuildingUpgrade)
         if (*static_cast<BuildingUpgradeTimerAlarm*>(this)!=*static_cast<BuildingUpgradeTimerAlarm*>(alarmsSubclassObject))
-            return 0;//TODO make implementations of other subclasses of TimerAlarm
-//    else if (m_type==TimerAlarmEnums::AT_MissionEnd)
-//            if (*static_cast<MissionEndTimerAlarm*>(this)!=*static_cast<MissionEndTimerAlarm*>(alarmsSubclassObject))
-//                return 0;
-//    else if (m_type==TimerAlarmEnums::AT_Information)
-//        if (*static_cast<InformationTimerAlarm*>(this)!=*static_cast<InformationTimerAlarm*>(alarmsSubclassObject))
-//            return 0;
+            return 0;
     return 1;
 }
 
@@ -131,6 +127,26 @@ QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() con
     return m_alarms;
 }
 
+void TimerAlarmsContainer::addMissionAlarm(const Time &time, Mission *mission) noexcept
+{
+    for (auto e : m_missionAlarms)
+        if (e.second == mission)
+            return;
+
+    m_missionAlarms+={time, mission};
+}
+
+void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
+{
+    for (int i=0;i<m_missionAlarms.size();++i)
+        if (m_missionAlarms[i].first <= now)
+        {
+            m_missionAlarms[i].second->continueToNextEncounter();
+            m_missionAlarms.remove(i);
+            --i;
+        }
+}
+
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
 {
     for (int i=0;i<m_alarms.size();++i)
@@ -157,6 +173,29 @@ Time::Time() noexcept
 
 Time::Time(unsigned day, unsigned hour, unsigned minute) noexcept
     : d(day), h(hour), min(minute) {}
+
+bool Time::operator ==(const Time &other) const noexcept
+{
+    return d==other.d && h==other.h && min==other.min;
+}
+
+bool Time::operator <(const Time &other) const noexcept
+{
+    if (d<other.d)
+        return 1;
+    else if (d>other.d)
+        return 0;
+
+    if (h<other.h)
+        return 1;
+    else if (h>other.h)
+        return 0;
+
+    if (min<other.min)
+        return 1;
+    else
+        return 0;
+}
 
 GameClock::GameClock() noexcept
     : m_currentTimeInGame(1,12,0), m_lastKnownDate(QDateTime::currentDateTime()), m_lastKnownTimeInGame(1,12,0),  m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)})
@@ -209,10 +248,12 @@ void GameClock::updateClock(int minutesToAdd) noexcept
         addMinutesToGameTime(60*24);
         minutesToAdd-=60*24;
 
+        checkMissionAlarms(m_currentTimeInGame);
         m_base->startNewDay();
     }
 
     addMinutesToGameTime(minutesToAdd);
+    checkMissionAlarms(m_currentTimeInGame);
 
     updateDateFromPreviousClockUpdate();
 

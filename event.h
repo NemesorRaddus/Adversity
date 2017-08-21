@@ -8,6 +8,7 @@
 #include "hero.h"
 #include "equipment.h"
 #include "base.h"
+#include "timer.h"
 
 #include <QDebug>
 
@@ -60,7 +61,12 @@ class Expression
 public:
     Expression() noexcept;
     explicit Expression(const QString &expr) noexcept;
-    explicit Expression(const Expression &other) noexcept;
+    Expression(const Expression &other) noexcept;
+
+    inline explicit operator QString() const noexcept
+    {
+        return m_expr;
+    }
 
     void set(const QString &expr) noexcept;
 
@@ -79,6 +85,8 @@ private:
 
 typedef RBoundedValue<int, 0, 100, false> Chance;
 
+typedef QString EventReport;
+
 class Event
 {
 public:
@@ -86,14 +94,21 @@ public:
     {
         return m_eventType;
     }
-    virtual void execute(Hero *context) noexcept = 0;
+    inline QString eventText() const noexcept
+    {
+        return m_eventText;
+    }
+    virtual QVector <EventReport> execute(Hero *context) noexcept = 0;
 
 protected:
     explicit Event(EventEnums::Type eventType) noexcept
         : m_eventType(eventType) {}
 
+    void setEventText(const QString &text) noexcept;
+
 private:
     EventEnums::Type m_eventType;
+    QString m_eventText;
 };
 
 class MultiEvent final : public Event
@@ -102,7 +117,7 @@ public:
     MultiEvent(const QVector <Event *> &events) noexcept
         : Event(EventEnums::T_Multi), m_eventsToExecute(events) {}
 
-    void execute(Hero *context) noexcept final;
+    QVector <EventReport> execute(Hero *context) noexcept final;
 
 private:
     QVector <Event *> m_eventsToExecute;
@@ -115,8 +130,8 @@ public:
     {
         return m_eventSubtype;
     }
-    virtual void execute(Hero *hero) noexcept = 0;
-    EventEnums::Action eventSubtype() const noexcept
+    virtual QVector <EventReport> execute(Hero *hero) noexcept = 0;
+    inline EventEnums::Action eventSubtype() const noexcept
     {
         return m_eventSubtype;
     }
@@ -135,7 +150,32 @@ public:
     NullEventResult() noexcept
         : ActionEvent(EventEnums::A_Null) {}
 
-    void execute(Hero *hero) noexcept final {}
+    inline QVector <EventReport> execute(Hero *) noexcept final
+    {
+        return {eventText()};
+    }
+};
+
+class GiveHealthEventResult final : public ActionEvent
+{
+public:
+    explicit GiveHealthEventResult(const Expression &addedValue) noexcept;
+
+    QVector <EventReport> execute(Hero *hero) noexcept final;
+
+private:
+    Expression m_value;
+};
+
+class GiveStressEventResult final : public ActionEvent
+{
+public:
+    explicit GiveStressEventResult(const Expression &addedValue) noexcept;
+
+    QVector <EventReport> execute(Hero *hero) noexcept final;
+
+private:
+    Expression m_value;
 };
 
 struct AttributeModification
@@ -156,34 +196,12 @@ struct AttributeModification
     int duration;
 };
 
-class GiveHealthEventResult final : public ActionEvent
-{
-public:
-    explicit GiveHealthEventResult(const Expression &addedValue) noexcept;
-
-    void execute(Hero *hero) noexcept final;
-
-private:
-    Expression m_value;
-};
-
-class GiveStressEventResult final : public ActionEvent
-{
-public:
-    explicit GiveStressEventResult(const Expression &addedValue) noexcept;
-
-    void execute(Hero *hero) noexcept final;
-
-private:
-    Expression m_value;
-};
-
 class ModifyAttributeEventResult final : public ActionEvent
 {
 public:
     explicit ModifyAttributeEventResult(const AttributeModification &modification) noexcept;
 
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
 private:
     AttributeModification m_modification;
@@ -195,7 +213,7 @@ public:
     KillHeroEventResult() noexcept
         : ActionEvent(EventEnums::A_KillHero) {}
 
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 };
 
 class AddEquipmentEventResult final : public ActionEvent
@@ -204,7 +222,7 @@ public:
     explicit AddEquipmentEventResult(Equipment *equipment) noexcept
         : ActionEvent(EventEnums::A_AddEquipment), m_equipmentToAdd(equipment) {}
 
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
     Equipment *equipmentToAdd() const noexcept
     {
@@ -221,7 +239,7 @@ public:
     explicit RemoveEquipmentEventResult(EquipmentEnums::Type type, int slot) noexcept
         : ActionEvent(EventEnums::A_RemoveEquipment), m_equipmentType(type), m_equipmentSlot(slot) {}
 
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
     auto equipmentType() const noexcept
     {
@@ -237,35 +255,31 @@ private:
     int m_equipmentSlot;
 };
 
-class GiveResourceEventResult final : public ActionEvent
+class GiveResourceEventResult : public ActionEvent
 {
 public:
-    explicit GiveResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept;
+    explicit GiveResourceEventResult(BaseEnums::Resource resource, const Expression &amount) noexcept;
 
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
-    int energy() const noexcept
+    inline BaseEnums::Resource resource() const noexcept
     {
-        return m_energy;
+        return m_resource;
     }
-    int foodSupplies() const noexcept
+    inline Expression addedAmount() const noexcept
     {
-        return m_foodSupplies;
-    }
-    int buildingMaterials() const noexcept
-    {
-        return m_buildingMaterials;
-    }
-    int aetheriteOre() const noexcept
-    {
-        return m_aetheriteOre;
+        return m_amount;
     }
 
 private:
-    int m_energy;
-    int m_foodSupplies;
-    int m_buildingMaterials;
-    int m_aetheriteOre;
+    BaseEnums::Resource m_resource;
+    Expression m_amount;
+};
+
+class GiveResourceRandomEventResult final : public GiveResourceEventResult
+{
+public:
+    explicit GiveResourceRandomEventResult(const Expression &amount) noexcept;
 };
 
 class NoSignalEventResult final : public ActionEvent
@@ -274,32 +288,15 @@ public:
     explicit NoSignalEventResult(int durationInDays) noexcept
         : ActionEvent(EventEnums::A_NoSignal), m_durationInDays(durationInDays) {}
 
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
-    int durationInDays() const noexcept
+    inline int durationInDays() const noexcept
     {
         return m_durationInDays;
     }
 
 private:
     int m_durationInDays;
-};
-
-class ProlongMissionEventResult final : public ActionEvent
-{
-public:
-    explicit ProlongMissionEventResult(int days) noexcept
-        : ActionEvent(EventEnums::A_ProlongMission), m_additionalDays(days) {}
-
-    void execute(Hero *hero) noexcept final;
-
-    int additionalDays() const noexcept
-    {
-        return m_additionalDays;
-    }
-
-private:
-    int m_additionalDays;
 };
 
 class CheckEventResults
@@ -347,7 +344,7 @@ public:
     {
         return m_eventSubtype;
     }
-    virtual void execute(Hero *hero) noexcept = 0;
+    virtual QVector <EventReport> execute(Hero *hero) noexcept override = 0;
 
 protected:
     explicit CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results) noexcept;
@@ -362,7 +359,7 @@ class AttributeCheckEvent final : public CheckEvent
 {
 public:
     explicit AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept;
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
 private:
     Expression m_condition;
@@ -372,7 +369,7 @@ class EquipmentCheckEvent final : public CheckEvent
 {
 public:
     explicit EquipmentCheckEvent(EquipmentEnums::Category neededEq, const CheckEventResults &results) noexcept;
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
 private:
     EquipmentEnums::Category m_neededEquipment;
@@ -382,52 +379,31 @@ class PossibilityEvent final : public Event
 {
 public:
     explicit PossibilityEvent(Chance chance, Event *event) noexcept;
-    void execute(Hero *hero) noexcept final;
+    QVector <EventReport> execute(Hero *hero) noexcept final;
 
 private:
     Chance m_chance;
     Event *m_event;
 };
 
-class EventReport
-{
-public:
-
-protected:
-    EventReport() noexcept;
-
-private:
-
-};
-
-class ActionEventReport : public EventReport
-{
-
-};
-
-class CheckEventReport : public EventReport
-{
-
-};
-
 class EncounterReport
 {
 public:
-    EncounterReport() noexcept;
-    ~EncounterReport() noexcept;
+    EncounterReport(const QString &encName, const QVector <EventReport> &events, const Time &time) noexcept;
+
+    inline const QVector <QString> &text() const noexcept
+    {
+        return m_events;
+    }
+    inline const Time &timestamp() const noexcept
+    {
+        return m_time;
+    }
 
 private:
-    QVector <EventReport *> m_events;
-};
-
-class MissionReport
-{
-public:
-    MissionReport() noexcept;
-    ~MissionReport() noexcept;
-
-private:
-    QVector <EncounterReport *> m_encounters;
+    QString m_encounterName;
+    QVector <EventReport> m_events;
+    Time m_time;
 };
 
 class Encounter
@@ -435,11 +411,11 @@ class Encounter
 public:
     explicit Encounter(const QString &name, Event *rootEvent) noexcept;
 
-    EncounterReport execute(Hero *hero) const noexcept;
+    EncounterReport execute(Hero *hero, const Time &currentTime) const noexcept;
 
 private:
     QString m_name;
-    Event * m_rootEvent;
+    Event *m_rootEvent;
 };
 
 class EncountersContainer
@@ -519,7 +495,6 @@ public:
         return m_duration;
     }
     void decrementDuration() noexcept;
-    void prolongDuration(unsigned additionalDays) noexcept;
 
     void assignHero(Hero *hero) noexcept;
     inline const Hero *assignedHero() const noexcept
@@ -527,7 +502,8 @@ public:
         return m_assignedHero;
     }
 
-    MissionReport execute() noexcept;
+    void start() noexcept;
+    void continueToNextEncounter() noexcept;
 
 private:
     Mission() noexcept;

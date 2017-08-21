@@ -91,42 +91,57 @@ void Expression::handleEngine() noexcept
     m_engine=theEngine;
 }
 
-void MultiEvent::execute(Hero *context) noexcept
+void Event::setEventText(const QString &text) noexcept
 {
+    m_eventText=text;
+}
+
+QVector<EventReport> MultiEvent::execute(Hero *context) noexcept
+{
+    QVector <EventReport> r;
     for (auto e : m_eventsToExecute)
-        e->execute(context);
+        r+=e->execute(context);
+    return r;
 }
 
 GiveHealthEventResult::GiveHealthEventResult(const Expression &addedValue) noexcept
     : ActionEvent(EventEnums::A_GiveHealth), m_value(addedValue) {}
 
-void GiveHealthEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> GiveHealthEventResult::execute(Hero *hero) noexcept
 {
     hero->changeHealth(m_value.evaluate(hero).toUInt());
+
+    return {eventText()};
 }
 
 GiveStressEventResult::GiveStressEventResult(const Expression &addedValue) noexcept
     : ActionEvent(EventEnums::A_GiveStress), m_value(addedValue) {}
 
-void GiveStressEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> GiveStressEventResult::execute(Hero *hero) noexcept
 {
     m_value.evaluate(hero).toUInt()>=0 ? hero->increaseStress(m_value.evaluate(hero).toUInt()) : hero->decreaseStress(-m_value.evaluate(hero).toUInt());
+
+    return {eventText()};
 }
 
 ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModification &modification) noexcept
     : ActionEvent(EventEnums::A_ModifyAttribute), m_modification(modification) {}
 
-void ModifyAttributeEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> ModifyAttributeEventResult::execute(Hero *hero) noexcept
 {
     hero->addAttributeModification(new AttributeModification(m_modification));
+
+    return {eventText()};
 }
 
-void KillHeroEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> KillHeroEventResult::execute(Hero *hero) noexcept
 {
     hero->die();
+
+    return {eventText()};
 }
 
-void AddEquipmentEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> AddEquipmentEventResult::execute(Hero *hero) noexcept
 {
     if (m_equipmentToAdd->type()==EquipmentEnums::T_Armor)
     {
@@ -137,49 +152,87 @@ void AddEquipmentEventResult::execute(Hero *hero) noexcept
     }
     else
     {
+        bool ok=0;
         for (int i=0;i<hero->amountOfWeaponToolSlots();++i)
             if (hero->weaponTool(i)==nullptr)
             {
                 hero->equipWeaponTool(m_equipmentToAdd,i);
-                return;
+                ok=1;
+                break;
             }
-        hero->addCarriedEquipment(m_equipmentToAdd);
+        if (!ok)
+            hero->addCarriedEquipment(m_equipmentToAdd);
     }
+
+    return {eventText()};
 }
 
-void RemoveEquipmentEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> RemoveEquipmentEventResult::execute(Hero *hero) noexcept
 {
     if (m_equipmentType==EquipmentEnums::T_Armor)
         hero->unequipArmor();
     else
         hero->unequipWeaponTool(m_equipmentSlot);
+
+    return {eventText()};
 }
 
-GiveResourceEventResult::GiveResourceEventResult(const QMap<BaseEnums::Resource, int> &resources) noexcept
-    : ActionEvent(EventEnums::A_GiveResource)
+GiveResourceEventResult::GiveResourceEventResult(BaseEnums::Resource resource, const Expression &amount) noexcept
+    : ActionEvent(EventEnums::A_GiveResource), m_resource(resource), m_amount(amount) {}
+
+QVector<EventReport> GiveResourceEventResult::execute(Hero *hero) noexcept
 {
-    m_energy=resources.value(BaseEnums::R_Energy,0);
-    m_foodSupplies=resources.value(BaseEnums::R_FoodSupplies,0);
-    m_buildingMaterials=resources.value(BaseEnums::R_BuildingMaterials,0);
-    m_aetheriteOre=resources.value(BaseEnums::R_AetheriteOre,0);
+    int am=m_amount.evaluate(hero).toInt();
+    int cam;
+
+    switch (m_resource)
+    {
+    case BaseEnums::R_AetheriteOre:
+        cam=hero->carriedAetheriteOre();
+        if (cam > am)
+            hero->setCarriedAetheriteOre(cam+am);
+        else
+            hero->setCarriedAetheriteOre(0);
+        break;
+    case BaseEnums::R_BuildingMaterials:
+        cam=hero->carriedBuildingMaterials();
+        if (cam > am)
+            hero->setCarriedBuildingMaterials(cam+am);
+        else
+            hero->setCarriedBuildingMaterials(0);
+        break;
+    case BaseEnums::R_Energy:
+        cam=hero->carriedEnergy();
+        if (cam > am)
+            hero->setCarriedEnergy(cam+am);
+        else
+            hero->setCarriedEnergy(0);
+        break;
+    case BaseEnums::R_FoodSupplies:
+        cam=hero->carriedFoodSupplies();
+        if (cam > am)
+            hero->setCarriedFoodSupplies(cam+am);
+        else
+            hero->setCarriedFoodSupplies(0);
+        break;
+    default:
+        break;
+    }
+
+    return {eventText()};
 }
 
-void GiveResourceEventResult::execute(Hero *hero) noexcept
+GiveResourceRandomEventResult::GiveResourceRandomEventResult(const Expression &amount) noexcept
+    : GiveResourceEventResult(static_cast<BaseEnums::Resource>(Randomizer::randomBetweenAAndB(0, BaseEnums::R_END-1)), amount)
 {
-    hero->setCarriedEnergy(hero->carriedEnergy()+m_energy);
-    hero->setCarriedFoodSupplies(hero->carriedFoodSupplies()+m_foodSupplies);
-    hero->setCarriedBuildingMaterials(hero->carriedBuildingMaterials()+m_buildingMaterials);
-    hero->setCarriedAetheriteOre(hero->carriedAetheriteOre()+m_aetheriteOre);
+    static_cast<QString>(m_amount).replace("RESOURCE", BaseEnums::fromResourceEnumToQString(m_resource).toUpper());
 }
 
-void NoSignalEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> NoSignalEventResult::execute(Hero *hero) noexcept
 {
     hero->setNoSignalDaysRemaining(m_durationInDays);
-}
 
-void ProlongMissionEventResult::execute(Hero *hero) noexcept
-{
-    hero->assignedMission()->prolongDuration(m_additionalDays);
+    return {eventText()};
 }
 
 CheckEventResults::CheckEventResults(const CheckEventResults &other) noexcept
@@ -258,16 +311,16 @@ CheckEvent::CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &
 AttributeCheckEvent::AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept
     : CheckEvent(EventEnums::C_AttributeCheck, results), m_condition(condition) {}
 
-void AttributeCheckEvent::execute(Hero *hero) noexcept
+QVector<EventReport> AttributeCheckEvent::execute(Hero *hero) noexcept
 {
     if (hero==nullptr)
-        return;
+        return {};
 
     Event *result=nullptr;
 
     QVariant var=m_condition.evaluate(hero);
     if (!var.canConvert(QVariant::Bool))
-        return;
+        return {};
 
     if (var.toBool())
     {
@@ -299,41 +352,34 @@ void AttributeCheckEvent::execute(Hero *hero) noexcept
     }
 
     if (result==nullptr)
-        return;
+        return {};
 
-    result->execute(hero);
+    return result->execute(hero);
 }
 
 PossibilityEvent::PossibilityEvent(Chance chance, Event *event) noexcept
     : Event(EventEnums::T_Possibility), m_chance(chance), m_event(event) {}
 
-void PossibilityEvent::execute(Hero *hero) noexcept
+QVector<EventReport> PossibilityEvent::execute(Hero *hero) noexcept
 {
     if (hero==nullptr || m_event==nullptr)
-        return;
+        return {};
 
     if (m_chance>=Randomizer::randomBetweenAAndB(1,100))
-        m_event->execute(hero);
+        return m_event->execute(hero);
+    return {};
 }
 
-EventReport::EventReport() noexcept
-{
-
-}
-
-EncounterReport::EncounterReport() noexcept
-{
-
-}
-
-EncounterReport::~EncounterReport() noexcept
-{
-    for (auto e : m_events)
-        delete e;
-}
+EncounterReport::EncounterReport(const QString &encName, const QVector<EventReport> &events, const Time &time) noexcept
+    : m_encounterName(encName), m_events(events), m_time(time) {}
 
 Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
     : m_name(name), m_rootEvent(rootEvent) {}
+
+EncounterReport Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
+{
+    return {m_name, m_rootEvent->execute(hero), currentTime};
+}
 
 Land::Land(const QString &name, const QString &description) noexcept
     : m_name(name), m_description(description) {}
@@ -383,19 +429,17 @@ void Mission::decrementDuration() noexcept
     --m_duration;
 }
 
-void Mission::prolongDuration(unsigned additionalDays) noexcept
-{
-    if (additionalDays<1)
-        return;
-    m_duration+=additionalDays;
-}
-
 void Mission::assignHero(Hero *hero) noexcept
 {
     m_assignedHero=hero;
 }
 
-MissionReport Mission::execute() noexcept
+void Mission::start() noexcept
+{
+
+}
+
+void Mission::continueToNextEncounter() noexcept
 {
 
 }

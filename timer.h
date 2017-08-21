@@ -77,6 +77,39 @@ private:
 QDataStream &operator<<(QDataStream &stream, const BuildingUpgradeTimerAlarm &alarm) noexcept;
 QDataStream &operator>>(QDataStream &stream, BuildingUpgradeTimerAlarm &alarm) noexcept;
 
+struct Time
+{
+    typedef unsigned Day;
+    typedef RBoundedValue<unsigned, 0, 23, true> Hour;
+    typedef RBoundedValue<unsigned, 0, 59, true> Minute;
+
+    Time() noexcept;
+    Time(unsigned day, unsigned hour, unsigned minute) noexcept;
+
+    bool operator ==(const Time &other) const noexcept;
+    inline bool operator !=(const Time &other) const noexcept
+    {
+        return !(*this==other);
+    }
+
+    bool operator <(const Time &other) const noexcept;
+    inline bool operator <=(const Time &other) const noexcept
+    {
+        return *this==other || *this<other;
+    }
+    inline bool operator >(const Time &other) const noexcept
+    {
+        return !(*this<=other);
+    }
+    inline bool operator >=(const Time &other) const noexcept
+    {
+        return !(*this<other);
+    }
+
+    Day d;
+    Hour h;
+    Minute min;
+};
 
 class TimerAlarmsContainer : public QObject
 {
@@ -94,25 +127,15 @@ public:
 
     QVector <QPair <unsigned, TimerAlarm *> > getAllAlarms() const noexcept;
 
+    void addMissionAlarm(const Time &time, Mission *mission) noexcept;
+    void checkMissionAlarms(const Time &now) noexcept;
+
 private:
     void decreaseDaysToTimeout() noexcept;
     QVector <TimerAlarm *> takeTimeoutedAlarms() noexcept;
 
     QVector <QPair <unsigned, TimerAlarm *> > m_alarms;
-};
-
-struct Time
-{
-    typedef unsigned Day;
-    typedef RBoundedValue<unsigned, 0, 23, true> Hour;
-    typedef RBoundedValue<unsigned, 0, 59, true> Minute;
-
-    Time() noexcept;
-    Time(unsigned day, unsigned hour, unsigned minute) noexcept;
-
-    Day d;
-    Hour h;
-    Minute min;
+    QVector <QPair <Time, Mission *> > m_missionAlarms;
 };
 
 class GameClock : public TimerAlarmsContainer
