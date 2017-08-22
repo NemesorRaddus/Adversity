@@ -434,6 +434,10 @@ public:
     {
         return m_assignedMission;
     }
+    inline const Mission *assignedMission() const noexcept
+    {
+        return m_assignedMission;
+    }
     void assignMission(Mission *mission) noexcept;
 
     inline HeroEnums::CurrentActivity currentActivity() const noexcept

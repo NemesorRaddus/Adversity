@@ -83,6 +83,30 @@ private:
     QJSEngine *m_engine;
 };
 
+class ValueRange
+{
+public:
+    ValueRange(const Expression &min, const Expression &max) noexcept;
+    ValueRange(const Expression &value) noexcept;
+
+    inline Expression min() const noexcept
+    {
+        return m_min;
+    }
+    inline Expression max() const noexcept
+    {
+        return m_max;
+    }
+
+    inline bool singleValue() const noexcept
+    {
+        return static_cast<QString>(m_min)==static_cast<QString>(m_max);
+    }
+
+private:
+    Expression m_min, m_max;
+};
+
 typedef RBoundedValue<int, 0, 100, false> Chance;
 
 typedef QString EventReport;
@@ -499,9 +523,13 @@ public:
     {
         return m_land;
     }
-    inline unsigned duration() const noexcept
+    inline unsigned fullDuration() const noexcept
     {
         return m_duration;
+    }
+    inline unsigned remainingDays() const noexcept
+    {
+        return m_remainingDays;
     }
     void decrementDuration() noexcept;
 
@@ -523,6 +551,7 @@ private:
 
     Land *m_land;
     unsigned m_duration;
+    unsigned m_remainingDays;
     QVector <Encounter *> m_encounters;
     Hero *m_assignedHero;
 };

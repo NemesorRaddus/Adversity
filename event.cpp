@@ -53,6 +53,14 @@ QVariant Expression::evaluate(const Hero *context) const noexcept
     m_engine->globalObject().setProperty("SA",context->salary());
     m_engine->globalObject().setProperty("DFC",context->dailyFoodConsumption());
 
+    m_engine->globalObject().setProperty("C_AETH",context->carriedAetheriteOre());
+    m_engine->globalObject().setProperty("C_BMAT",context->carriedBuildingMaterials());
+    m_engine->globalObject().setProperty("C_ENRG",context->carriedEnergy());
+    m_engine->globalObject().setProperty("C_FOOS",context->carriedFoodSupplies());
+
+    m_engine->globalObject().setProperty("M_FULLDUR",context->assignedMission()->fullDuration());
+    m_engine->globalObject().setProperty("M_REMDAYS",context->assignedMission()->remainingDays());
+
     return m_engine->evaluate(m_expr).toVariant();
 }
 
@@ -86,10 +94,24 @@ void Expression::handleEngine() noexcept
         theEngine->globalObject().setProperty("LU",0);
         theEngine->globalObject().setProperty("SA",0);
         theEngine->globalObject().setProperty("DFC",0);
+
+        theEngine->globalObject().setProperty("C_AETH",0);
+        theEngine->globalObject().setProperty("C_BMAT",0);
+        theEngine->globalObject().setProperty("C_ENRG",0);
+        theEngine->globalObject().setProperty("C_FOOS",0);
+
+        theEngine->globalObject().setProperty("M_FULLDUR",0);
+        theEngine->globalObject().setProperty("M_REMDAYS",0);
     }
 
     m_engine=theEngine;
 }
+
+ValueRange::ValueRange(const Expression &min, const Expression &max) noexcept
+    : m_min(min), m_max(max) {}
+
+ValueRange::ValueRange(const Expression &value) noexcept
+    : m_min(value), m_max(value) {}
 
 QVector<EventReport> Event::execute(Hero *context) noexcept
 {
@@ -438,7 +460,7 @@ Encounter *Mission::takeRandomEncounter() noexcept
 
 void Mission::decrementDuration() noexcept
 {
-    --m_duration;
+    --m_remainingDays;
 }
 
 void Mission::assignHero(Hero *hero) noexcept
@@ -469,6 +491,7 @@ void Mission::setDuration(unsigned days) noexcept
     if (days<1)
         return;
     m_duration=days;
+    m_remainingDays=days;
 }
 
 void Mission::addEncounter(Encounter *encounter) noexcept
