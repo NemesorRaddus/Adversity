@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     assetspool.cpp \
     translations.cpp \
     h4x.cpp \
-    fpscounter.cpp
+    fpscounter.cpp \
+    database.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -52,7 +53,8 @@ HEADERS += \
     translations.h \
     h4x.h \
     fpscounter.h \
-    stable.h
+    stable.h \
+    database.h
 
 PRECOMPILED_HEADER = stable.h
 

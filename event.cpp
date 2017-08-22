@@ -91,12 +91,24 @@ void Expression::handleEngine() noexcept
     m_engine=theEngine;
 }
 
+QVector<EventReport> Event::execute(Hero *context) noexcept
+{
+    unlockDatabaseEntries(context);
+    return executeSpecificOps(context);
+}
+
 void Event::setEventText(const QString &text) noexcept
 {
     m_eventText=text;
 }
 
-QVector<EventReport> MultiEvent::execute(Hero *context) noexcept
+void Event::unlockDatabaseEntries(Hero *context) noexcept
+{
+    for (auto e : m_unlockedDatabaseEntries)
+        context->base()->database()->unlockEntry(e);
+}
+
+QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
 {
     QVector <EventReport> r;
     for (auto e : m_eventsToExecute)
@@ -107,7 +119,7 @@ QVector<EventReport> MultiEvent::execute(Hero *context) noexcept
 GiveHealthEventResult::GiveHealthEventResult(const Expression &addedValue) noexcept
     : ActionEvent(EventEnums::A_GiveHealth), m_value(addedValue) {}
 
-QVector<EventReport> GiveHealthEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     hero->changeHealth(m_value.evaluate(hero).toUInt());
 
@@ -117,7 +129,7 @@ QVector<EventReport> GiveHealthEventResult::execute(Hero *hero) noexcept
 GiveStressEventResult::GiveStressEventResult(const Expression &addedValue) noexcept
     : ActionEvent(EventEnums::A_GiveStress), m_value(addedValue) {}
 
-QVector<EventReport> GiveStressEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> GiveStressEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     m_value.evaluate(hero).toUInt()>=0 ? hero->increaseStress(m_value.evaluate(hero).toUInt()) : hero->decreaseStress(-m_value.evaluate(hero).toUInt());
 
@@ -127,21 +139,21 @@ QVector<EventReport> GiveStressEventResult::execute(Hero *hero) noexcept
 ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModification &modification) noexcept
     : ActionEvent(EventEnums::A_ModifyAttribute), m_modification(modification) {}
 
-QVector<EventReport> ModifyAttributeEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> ModifyAttributeEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     hero->addAttributeModification(new AttributeModification(m_modification));
 
     return {eventText()};
 }
 
-QVector<EventReport> KillHeroEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> KillHeroEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     hero->die();
 
     return {eventText()};
 }
 
-QVector<EventReport> AddEquipmentEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> AddEquipmentEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     if (m_equipmentToAdd->type()==EquipmentEnums::T_Armor)
     {
@@ -167,7 +179,7 @@ QVector<EventReport> AddEquipmentEventResult::execute(Hero *hero) noexcept
     return {eventText()};
 }
 
-QVector<EventReport> RemoveEquipmentEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> RemoveEquipmentEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     if (m_equipmentType==EquipmentEnums::T_Armor)
         hero->unequipArmor();
@@ -180,7 +192,7 @@ QVector<EventReport> RemoveEquipmentEventResult::execute(Hero *hero) noexcept
 GiveResourceEventResult::GiveResourceEventResult(BaseEnums::Resource resource, const Expression &amount) noexcept
     : ActionEvent(EventEnums::A_GiveResource), m_resource(resource), m_amount(amount) {}
 
-QVector<EventReport> GiveResourceEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     int am=m_amount.evaluate(hero).toInt();
     int cam;
@@ -225,10 +237,10 @@ QVector<EventReport> GiveResourceEventResult::execute(Hero *hero) noexcept
 GiveResourceRandomEventResult::GiveResourceRandomEventResult(const Expression &amount) noexcept
     : GiveResourceEventResult(static_cast<BaseEnums::Resource>(Randomizer::randomBetweenAAndB(0, BaseEnums::R_END-1)), amount)
 {
-    static_cast<QString>(m_amount).replace("RESOURCE", BaseEnums::fromResourceEnumToQString(m_resource).toUpper());
+    static_cast<QString>(m_amount).replace("C_RESO", BaseEnums::fromResourceEnumToQString(m_resource).toUpper());
 }
 
-QVector<EventReport> NoSignalEventResult::execute(Hero *hero) noexcept
+QVector<EventReport> NoSignalEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     hero->setNoSignalDaysRemaining(m_durationInDays);
 
@@ -311,7 +323,7 @@ CheckEvent::CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &
 AttributeCheckEvent::AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept
     : CheckEvent(EventEnums::C_AttributeCheck, results), m_condition(condition) {}
 
-QVector<EventReport> AttributeCheckEvent::execute(Hero *hero) noexcept
+QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
 {
     if (hero==nullptr)
         return {};
@@ -360,7 +372,7 @@ QVector<EventReport> AttributeCheckEvent::execute(Hero *hero) noexcept
 PossibilityEvent::PossibilityEvent(Chance chance, Event *event) noexcept
     : Event(EventEnums::T_Possibility), m_chance(chance), m_event(event) {}
 
-QVector<EventReport> PossibilityEvent::execute(Hero *hero) noexcept
+QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
 {
     if (hero==nullptr || m_event==nullptr)
         return {};
