@@ -42,7 +42,7 @@ struct EventEnums
     };
     enum Check
     {
-        C_AttributeCheck,
+        C_ValueCheck,
         C_EquipmentCheck,
         C_END
     };
@@ -249,7 +249,7 @@ public:
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 };
 
-class AddEquipmentEventResult final : public ActionEvent
+class AddEquipmentEventResult : public ActionEvent
 {
 public:
     explicit AddEquipmentEventResult(Equipment *equipment) noexcept
@@ -262,8 +262,20 @@ public:
         return m_equipmentToAdd;
     }
 
-private:
+protected:
     Equipment *m_equipmentToAdd;
+};
+
+class AddEquipmentRandomEventResult final : public AddEquipmentEventResult
+{
+public:
+    AddEquipmentRandomEventResult(ValueRange tier, int equipmentTypeFlags) noexcept;
+
+    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+
+private:
+    ValueRange m_tier;
+    int m_eqTypes;
 };
 
 class RemoveEquipmentEventResult final : public ActionEvent
@@ -304,7 +316,7 @@ public:
         return m_amount;
     }
 
-private:
+protected:
     BaseEnums::Resource m_resource;
     Expression m_amount;
 };
@@ -318,18 +330,18 @@ public:
 class NoSignalEventResult final : public ActionEvent
 {
 public:
-    explicit NoSignalEventResult(int durationInDays) noexcept
+    explicit NoSignalEventResult(const Expression &durationInDays) noexcept
         : ActionEvent(EventEnums::A_NoSignal), m_durationInDays(durationInDays) {}
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
-    inline int durationInDays() const noexcept
+    inline Expression durationInDays() const noexcept
     {
         return m_durationInDays;
     }
 
 private:
-    int m_durationInDays;
+    Expression m_durationInDays;
 };
 
 class CheckEventResults
@@ -388,10 +400,10 @@ private:
     EventEnums::Check m_eventSubtype;
 };
 
-class AttributeCheckEvent final : public CheckEvent
+class ValueCheckEvent final : public CheckEvent
 {
 public:
-    explicit AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept;
+    explicit ValueCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept;
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:

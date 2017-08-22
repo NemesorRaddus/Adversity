@@ -1,5 +1,7 @@
 #include "event.h"
 
+#include "game.h"
+
 #include <QDebug>
 
 Expression::Expression() noexcept
@@ -201,6 +203,29 @@ QVector<EventReport> AddEquipmentEventResult::executeSpecificOps(Hero *hero) noe
     return {eventText()};
 }
 
+AddEquipmentRandomEventResult::AddEquipmentRandomEventResult(ValueRange tier, int equipmentTypeFlags) noexcept
+    : AddEquipmentEventResult(nullptr), m_tier(tier), m_eqTypes(equipmentTypeFlags) {}
+
+QVector<EventReport> AddEquipmentRandomEventResult::executeSpecificOps(Hero *hero) noexcept
+{
+    unsigned min=m_tier.min().evaluate(hero).toUInt(), max=m_tier.max().evaluate(hero).toUInt();
+    if (min>max)
+        return {};
+
+    while (true)
+    {
+        int randomized=Randomizer::randomBetweenAAndB(0, Game::gameInstance()->assetsPool().equipment().size()-1);
+        auto t=Game::gameInstance()->assetsPool().equipment()[randomized]->type();
+        if (t & m_eqTypes)
+        {
+            m_equipmentToAdd=Game::gameInstance()->assetsPool().makeEquipmentAtPos(randomized);
+            break;
+        }
+    }
+
+    return AddEquipmentEventResult::executeSpecificOps(hero);
+}
+
 QVector<EventReport> RemoveEquipmentEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     if (m_equipmentType==EquipmentEnums::T_Armor)
@@ -264,7 +289,7 @@ GiveResourceRandomEventResult::GiveResourceRandomEventResult(const Expression &a
 
 QVector<EventReport> NoSignalEventResult::executeSpecificOps(Hero *hero) noexcept
 {
-    hero->setNoSignalDaysRemaining(m_durationInDays);
+    hero->setNoSignalDaysRemaining(m_durationInDays.evaluate(hero).toInt());
 
     return {eventText()};
 }
@@ -342,8 +367,8 @@ void CheckEventResultsBuilder::validateJustBeforeReturning() noexcept
 CheckEvent::CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results) noexcept
     : Event(EventEnums::T_Check), m_eventSubtype(eventSubtype), m_results(results) {}
 
-AttributeCheckEvent::AttributeCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept
-    : CheckEvent(EventEnums::C_AttributeCheck, results), m_condition(condition) {}
+ValueCheckEvent::ValueCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept
+    : CheckEvent(EventEnums::C_ValueCheck, results), m_condition(condition) {}
 
 QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
 {
