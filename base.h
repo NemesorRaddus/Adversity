@@ -8,6 +8,7 @@
 #include "equipment.h"
 #include "hero.h"
 #include "saveparser.h"
+#include "database.h"
 
 #include <QDebug>
 
@@ -2397,6 +2398,12 @@ public:
         return m_gameClock;
     }
 
+    //missions
+    inline Database *database() noexcept
+    {
+        return m_database;
+    }
+
     //game
     inline Game *gameObject() noexcept
     {
@@ -2447,6 +2454,9 @@ private:
     void handleHeroesAtWeekEnd() noexcept;
 
     GameClock *m_gameClock;
+
+    //missions
+    Database *m_database;
 
     //game
     Game *m_gameObject;

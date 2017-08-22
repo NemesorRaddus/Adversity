@@ -1637,6 +1637,8 @@ void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
 Base::Base(Game *gameObject) noexcept
     : QObject(nullptr), m_gameObject(gameObject), m_freezeGameProgress(false)
 {
+    HeroBuilder::init(this);
+
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
 

@@ -445,15 +445,20 @@ public:
 
     void dismiss(unsigned banDays) noexcept;
 
-    void handleNewDay(Base *base) noexcept;
-    void handleNewWeek(Base *base) noexcept;
+    void handleNewDay() noexcept;
+    void handleNewWeek() noexcept;
+
+    inline Base *base() noexcept
+    {
+        return m_base;
+    }
 
 signals:
     void died(QString name);
     void ranAway(QString name, unsigned daysOfDoStBan);
 
 private:
-    Hero() noexcept;
+    Hero(Base *base) noexcept;
 
     void setName(const QString &name) noexcept
     {
@@ -496,10 +501,10 @@ private:
     void deactivateEquipment() noexcept;
 
     void handleSBEAtDayEnd() noexcept;
-    void handleEquipmentCosts(Base *base) noexcept;
-    void handleHunger(Base *base) noexcept;
+    void handleEquipmentCosts() noexcept;
+    void handleHunger() noexcept;
 
-    void handleSalary(Base *base) noexcept;
+    void handleSalary() noexcept;
 
     QString m_name;
 
@@ -540,6 +545,8 @@ private:
 
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
+
+    Base *m_base;
 };
 
 struct HeroDataHelper
@@ -593,6 +600,8 @@ class HeroBuilder
 public:
     HeroBuilder() noexcept;
     ~HeroBuilder() noexcept;
+
+    static void init(Base *base) noexcept;
 
     Hero *getHero() noexcept;
 
@@ -682,6 +691,7 @@ public:
 
 private:
     Hero *m_hero;
+    static Base *m_base;
 };
 
 class HeroesContainer : public QObject

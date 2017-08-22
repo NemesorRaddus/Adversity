@@ -869,8 +869,8 @@ void Hero::clearCarriedEquipment() noexcept
     m_carriedEquipment.clear();
 }
 
-Hero::Hero() noexcept
-    : m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+Hero::Hero(Base *base) noexcept
+    : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
     m_stressBorderEffects.reserve(1);
     m_stressBorderEffects.push_back({HeroEnums::SBE_None});
@@ -928,16 +928,16 @@ void Hero::dismiss(unsigned banDays) noexcept
     //TODO
 }
 
-void Hero::handleNewDay(Base *base) noexcept
+void Hero::handleNewDay() noexcept
 {
     handleSBEAtDayEnd();
-    handleHunger(base);
-    handleEquipmentCosts(base);
+    handleHunger();
+    handleEquipmentCosts();
 }
 
-void Hero::handleNewWeek(Base *base) noexcept
+void Hero::handleNewWeek() noexcept
 {
-    handleSalary(base);
+    handleSalary();
 }
 
 void Hero::activateStressBorderEffect() noexcept
@@ -1797,7 +1797,7 @@ void Hero::handleSBEAtDayEnd()  noexcept
     }
 }
 
-void Hero::handleEquipmentCosts(Base *base) noexcept
+void Hero::handleEquipmentCosts() noexcept
 {
     if (m_currentActivity!=HeroEnums::CA_OnMission)
         return;
@@ -1828,7 +1828,7 @@ void Hero::handleEquipmentCosts(Base *base) noexcept
         deactivateEquipment();
 }
 
-void Hero::handleHunger(Base *base) noexcept
+void Hero::handleHunger() noexcept
 {
     if (m_currentActivity == HeroEnums::CA_OnMission)
     {
@@ -1844,19 +1844,19 @@ void Hero::handleHunger(Base *base) noexcept
     }
     else if (m_currentActivity != HeroEnums::CA_Arriving)
     {
-        int missingFood = dailyFoodConsumption()-base->currentFoodSuppliesAmount();
+        int missingFood = dailyFoodConsumption()-m_base->currentFoodSuppliesAmount();
         if (missingFood<=0)
-            base->decreaseFoodSuppliesAmount(dailyFoodConsumption());
+            m_base->decreaseFoodSuppliesAmount(dailyFoodConsumption());
         else
         {
-            base->setCurrentFoodSuppliesAmount(0);
+            m_base->setCurrentFoodSuppliesAmount(0);
             changeHealth(-missingFood);
             increaseStress(missingFood*10);
         }
     }
 }
 
-void Hero::handleSalary(Base *base) noexcept
+void Hero::handleSalary() noexcept
 {
     if (m_currentActivity == HeroEnums::CA_OnMission)
     {
@@ -1883,16 +1883,16 @@ void Hero::handleSalary(Base *base) noexcept
     }
     else if (m_currentActivity != HeroEnums::CA_Arriving)
     {
-        int missingAetherite = salary()-base->currentAetheriteAmount();
+        int missingAetherite = salary()-m_base->currentAetheriteAmount();
         if (missingAetherite<=0)
         {
-            base->decreaseAetheriteAmount(salary());
+            m_base->decreaseAetheriteAmount(salary());
             if (m_noSalaryWeeks>0)
                 --m_noSalaryWeeks;
         }
         else
         {
-            base->setCurrentAetheriteAmount(0);
+            m_base->setCurrentAetheriteAmount(0);
             increaseStress(missingAetherite*3);
             if (m_noSalaryWeeks+1 == 4)
                 ranAway(m_name,21);
@@ -1906,9 +1906,11 @@ void Hero::handleSalary(Base *base) noexcept
     }
 }
 
+Base *HeroBuilder::m_base;
+
 HeroBuilder::HeroBuilder() noexcept
 {
-    m_hero=new Hero;
+    m_hero=new Hero(m_base);
 }
 
 HeroBuilder::~HeroBuilder() noexcept
@@ -1916,17 +1918,22 @@ HeroBuilder::~HeroBuilder() noexcept
     delete m_hero;
 }
 
+void HeroBuilder::init(Base *base) noexcept
+{
+    m_base=base;
+}
+
 Hero *HeroBuilder::getHero() noexcept
 {
     m_hero->calculateCurrentAttributeValues();
     Hero *r=m_hero;
-    m_hero=new Hero;
+    m_hero=new Hero(m_base);
     return r;
 }
 
 Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
 {
-    Hero *r=new Hero;
+    Hero *r=new Hero(m_base);
     r->m_name = hero.name;
     r->m_baseAttributesValues = hero.baseAttributesValues;
     r->m_currentAttributesValues = hero.currentAttributesValues;
@@ -2149,7 +2156,7 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
 void HeroBuilder::resetHero() noexcept
 {
     delete m_hero;
-    m_hero=new Hero;
+    m_hero=new Hero(m_base);
 }
 
 void HeroBuilder::setCombatEffectiveness(int combatEffectiveness) noexcept
@@ -2342,13 +2349,13 @@ int HeroesContainer::findHero(const QString &name) const noexcept
 void HeroesContainer::handleNewDay() noexcept
 {
     for (auto e : m_heroes)
-        e->handleNewDay(m_basePtr);
+        e->handleNewDay();
 }
 
 void HeroesContainer::handleNewWeek() noexcept
 {
     for (auto e : m_heroes)
-        e->handleNewWeek(m_basePtr);
+        e->handleNewWeek();
 }
 
 void HeroesContainer::addDoStBan(QString name, unsigned daysAmount) noexcept

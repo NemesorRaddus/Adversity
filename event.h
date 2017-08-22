@@ -98,6 +98,10 @@ public:
     {
         return m_eventText;
     }
+    inline QVector <QString> unlockedDatabaseEntries() const noexcept
+    {
+        return m_unlockedDatabaseEntries;
+    }
     virtual QVector <EventReport> execute(Hero *context) noexcept = 0;
 
 protected:
@@ -109,6 +113,7 @@ protected:
 private:
     EventEnums::Type m_eventType;
     QString m_eventText;
+    QVector <QString> m_unlockedDatabaseEntries;
 };
 
 class MultiEvent final : public Event
