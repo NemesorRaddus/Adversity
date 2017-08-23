@@ -448,7 +448,7 @@ void Land::setAssociatedEncountersContainer(EncountersContainer *encCont) noexce
     m_encounters=encCont;
 }
 
-Encounter *Land::getRandomEncounter() const noexcept
+Encounter *Land::makeRandomEncounter() const noexcept
 {
     if (m_encounters->encounters().isEmpty())
         return nullptr;
@@ -478,11 +478,6 @@ void LandBuilder::setDescription(const QString &desc) noexcept
     m_land->setDescription(desc);
 }
 
-Encounter *Mission::takeRandomEncounter() noexcept
-{
-    return m_encounters.takeAt(Randomizer::randomBetweenAAndB(0,m_encounters.size()-1));
-}
-
 void Mission::decrementDuration() noexcept
 {
     --m_remainingDays;
@@ -495,20 +490,49 @@ void Mission::assignHero(Hero *hero) noexcept
 
 void Mission::start() noexcept
 {
-
+    planNextEncounter();
 }
 
-void Mission::continueToNextEncounter() noexcept
+EncounterReport Mission::doEncounter() noexcept
 {
-
+    ++m_currentEncounter;
+    planNextEncounter();
+    auto clock=m_assignedHero->base()->gameClock();
+    return m_encounters[m_currentEncounter].second->execute(m_assignedHero, {clock->currentDay(),clock->currentHour(),clock->currentMin()});
 }
 
 Mission::Mission() noexcept
-    : m_land(nullptr), m_duration(1), m_assignedHero(nullptr) {}
+    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_currentEncounter(0), m_minutesSinceMidnightForLastEncounter(-1), m_assignedHero(nullptr) {}
+
+Mission::~Mission() noexcept
+{
+    for (auto e : m_encounters)
+        delete e.second;
+}
+
+void Mission::planNextEncounter() noexcept
+{
+    if (m_currentEncounter<m_encounters.size())
+    {
+        unsigned daysToAdd=m_currentEncounter==0 ? 0 : m_encounters[m_currentEncounter].first-m_encounters[m_currentEncounter-1].first;
+        unsigned maxMinutes=24*60-(m_encounters.size()-1-m_currentEncounter);
+        unsigned minutesResult=Randomizer::randomBetweenAAndB(m_minutesSinceMidnightForLastEncounter==-1 ? 0 : m_minutesSinceMidnightForLastEncounter+1, maxMinutes);
+        auto clock=m_assignedHero->base()->gameClock();
+        Time timeResult={clock->currentDay()+daysToAdd, minutesResult/60, minutesResult%60};
+        m_minutesSinceMidnightForLastEncounter=minutesResult;
+
+        clock->addMissionAlarm(timeResult, this);
+    }
+}
 
 void Mission::setLand(Land *land) noexcept
 {
     m_land = land;
+}
+
+void Mission::setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept
+{
+    m_difficulty=difficulty;
 }
 
 void Mission::setDuration(unsigned days) noexcept
@@ -519,9 +543,9 @@ void Mission::setDuration(unsigned days) noexcept
     m_remainingDays=days;
 }
 
-void Mission::addEncounter(Encounter *encounter) noexcept
+void Mission::addEncounter(MissionDay day, Encounter *encounter) noexcept
 {
-    m_encounters+=encounter;
+    m_encounters+={day,encounter};
 }
 
 MissionBuilder::MissionBuilder() noexcept
@@ -536,18 +560,20 @@ MissionBuilder::~MissionBuilder() noexcept
 
 Mission *MissionBuilder::getMission() noexcept
 {
+    qSort(m_mission->m_encounters.begin(), m_mission->m_encounters.end(), lessThanEncounterSorting);
     Mission *ret=m_mission;
     m_mission=new Mission();
     return ret;
 }
 
-Mission *MissionBuilder::generateMission(Land *land, unsigned duration) noexcept
+Mission *MissionBuilder::generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept
 {
     resetMission();
     setLand(land);
+    setDifficulty(difficulty);
+    unsigned duration=generateDuration(difficulty);
     setDuration(duration);
-    while (duration--)
-        addRandomEncounter();
+    m_mission->m_encounters=generateEncounters(land, difficulty, duration);
     Mission *ret=m_mission;
     m_mission=new Mission();
     return ret;
@@ -564,6 +590,11 @@ void MissionBuilder::setLand(Land *land) noexcept
     m_mission->setLand(land);
 }
 
+void MissionBuilder::setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept
+{
+    m_mission->setDifficulty(difficulty);
+}
+
 void MissionBuilder::setDuration(unsigned duration) noexcept
 {
     m_mission->setDuration(duration);
@@ -571,10 +602,73 @@ void MissionBuilder::setDuration(unsigned duration) noexcept
 
 void MissionBuilder::addRandomEncounter() noexcept
 {
-    addEncounter(m_mission->land()->getRandomEncounter());
+    addEncounter(Randomizer::randomBetweenAAndB(0,m_mission->fullDuration()-1),m_mission->land()->makeRandomEncounter());
 }
 
-void MissionBuilder::addEncounter(Encounter *encounter) noexcept
+void MissionBuilder::addEncounter(Mission::MissionDay day, Encounter *encounter) noexcept
 {
-    m_mission->addEncounter(encounter);
+    m_mission->addEncounter(day,encounter);
+}
+
+unsigned MissionBuilder::generateDuration(EventEnums::MissionDifficulty difficulty) const noexcept
+{
+    switch (difficulty)
+    {
+    case EventEnums::MD_Short:
+        [[fallthrough]]
+    case EventEnums::MD_Veteran:
+        return Randomizer::randomBetweenAAndB(2,4);
+    case EventEnums::MD_Medium:
+        [[fallthrough]]
+    case EventEnums::MD_Master:
+        return Randomizer::randomBetweenAAndB(6,8);
+    case EventEnums::MD_Long:
+        [[fallthrough]]
+    case EventEnums::MD_Heroic:
+        return Randomizer::randomBetweenAAndB(11,17);
+    case EventEnums::MD_Extreme:
+        return Randomizer::randomBetweenAAndB(28,34);
+    default:
+        return 0;
+    }
+}
+
+unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDifficulty difficulty) const noexcept
+{
+    switch (difficulty)
+    {
+    case EventEnums::MD_Short:
+        return Randomizer::randomBetweenAAndB(0,1);
+    case EventEnums::MD_Medium:
+        [[fallthrough]]
+    case EventEnums::MD_Long:
+        [[fallthrough]]
+    case EventEnums::MD_Extreme:
+        return Randomizer::randomBetweenAAndB(0,2);
+    case EventEnums::MD_Veteran:
+        [[fallthrough]]
+    case EventEnums::MD_Master:
+        return Randomizer::randomBetweenAAndB(2,3);
+    case EventEnums::MD_Heroic:
+        return Randomizer::randomBetweenAAndB(2,4);
+    default:
+        return 0;
+    }
+}
+
+QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept
+{
+    QVector <QPair <Mission::MissionDay, Encounter *> > r;
+    for (int i=0;i<duration;++i)
+    {
+        unsigned am=generateAmountOfEncountersPerDay(difficulty);
+        while (am--)
+            r+={i,land->makeRandomEncounter()};
+    }
+    return r;
+}
+
+bool MissionBuilder::lessThanEncounterSorting(const QPair<Mission::MissionDay, Encounter *> &first, const QPair<Mission::MissionDay, Encounter *> &second) noexcept
+{
+    return first.first<second.first;
 }

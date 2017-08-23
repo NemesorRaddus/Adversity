@@ -54,6 +54,17 @@ struct EventEnums
         T_Possibility,
         T_END
     };
+    enum MissionDifficulty
+    {
+        MD_Short,
+        MD_Medium,
+        MD_Long,
+        MD_Extreme,
+        MD_Veteran,
+        MD_Master,
+        MD_Heroic,
+        MD_END
+    };
 };
 
 class Expression
@@ -436,9 +447,9 @@ class EncounterReport
 public:
     EncounterReport(const QString &encName, const QVector <EventReport> &events, const Time &time) noexcept;
 
-    inline const QVector <QString> &text() const noexcept
+    inline QVector <QString> text() const noexcept
     {
-        return m_events;
+        return QVector<QString>{m_encounterName}+m_events;
     }
     inline const Time &timestamp() const noexcept
     {
@@ -498,7 +509,7 @@ public:
         return m_description;
     }
 
-    Encounter *getRandomEncounter() const noexcept;
+    Encounter *makeRandomEncounter() const noexcept;
 
 private:
     void setName(const QString &name) noexcept;
@@ -528,12 +539,17 @@ private:
 class Mission
 {
     friend class MissionBuilder;
+
 public:
-    Encounter *takeRandomEncounter() noexcept;
+    typedef unsigned MissionDay;
 
     inline const Land *land() const noexcept
     {
         return m_land;
+    }
+    inline EventEnums::MissionDifficulty difficulty() const noexcept
+    {
+        return m_difficulty;
     }
     inline unsigned fullDuration() const noexcept
     {
@@ -552,19 +568,26 @@ public:
     }
 
     void start() noexcept;
-    void continueToNextEncounter() noexcept;
+    EncounterReport doEncounter() noexcept;
 
 private:
     Mission() noexcept;
+    ~Mission() noexcept;
+
+    void planNextEncounter() noexcept;
 
     void setLand(Land *land) noexcept;
+    void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
     void setDuration(unsigned days) noexcept;
-    void addEncounter(Encounter *encounter) noexcept;
+    void addEncounter(MissionDay day, Encounter *encounter) noexcept;
 
     Land *m_land;
+    EventEnums::MissionDifficulty m_difficulty;
     unsigned m_duration;
     unsigned m_remainingDays;
-    QVector <Encounter *> m_encounters;
+    QVector <QPair <MissionDay, Encounter *> > m_encounters;
+    unsigned m_currentEncounter;
+    int m_minutesSinceMidnightForLastEncounter;
     Hero *m_assignedHero;
 };
 
@@ -575,15 +598,22 @@ public:
     ~MissionBuilder() noexcept;
 
     Mission *getMission() noexcept; // resets
-    Mission *generateMission(Land *land, unsigned duration) noexcept; // resets
+    Mission *generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
     void resetMission() noexcept;
 
     void setLand(Land *land) noexcept;
+    void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
     void setDuration(unsigned duration) noexcept;
     void addRandomEncounter() noexcept;
-    void addEncounter(Encounter *encounter) noexcept;
+    void addEncounter(Mission::MissionDay day, Encounter *encounter) noexcept;
 
 private:
+    unsigned generateDuration(EventEnums::MissionDifficulty difficulty) const noexcept;
+    unsigned generateAmountOfEncountersPerDay(EventEnums::MissionDifficulty difficulty) const noexcept;
+    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept;
+
+    static bool lessThanEncounterSorting(const QPair <Mission::MissionDay, Encounter *> &first, const QPair <Mission::MissionDay, Encounter *> &second) noexcept;
+
     Mission *m_mission;
 };
 
