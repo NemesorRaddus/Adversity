@@ -37,7 +37,6 @@ struct EventEnums
         A_RemoveEquipment,
         A_GiveResource,
         A_NoSignal,
-        A_ProlongMission,
         A_END
     };
     enum Check
@@ -71,7 +70,7 @@ class Expression
 {
 public:
     Expression() noexcept;
-    explicit Expression(const QString &expr) noexcept;
+    Expression(const QString &expr) noexcept;
     Expression(const Expression &other) noexcept;
 
     inline explicit operator QString() const noexcept
@@ -203,23 +202,23 @@ public:
 class GiveHealthEventResult final : public ActionEvent
 {
 public:
-    explicit GiveHealthEventResult(const Expression &addedValue) noexcept;
+    explicit GiveHealthEventResult(const ValueRange &addedValue) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:
-    Expression m_value;
+    ValueRange m_value;
 };
 
 class GiveStressEventResult final : public ActionEvent
 {
 public:
-    explicit GiveStressEventResult(const Expression &addedValue) noexcept;
+    explicit GiveStressEventResult(const ValueRange &addedValue) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:
-    Expression m_value;
+    ValueRange m_value;
 };
 
 struct AttributeModification
@@ -314,7 +313,7 @@ private:
 class GiveResourceEventResult : public ActionEvent
 {
 public:
-    explicit GiveResourceEventResult(BaseEnums::Resource resource, const Expression &amount) noexcept;
+    explicit GiveResourceEventResult(BaseEnums::Resource resource, const ValueRange &amount) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -322,37 +321,36 @@ public:
     {
         return m_resource;
     }
-    inline Expression addedAmount() const noexcept
+    inline ValueRange addedAmount() const noexcept
     {
         return m_amount;
     }
 
 protected:
     BaseEnums::Resource m_resource;
-    Expression m_amount;
+    ValueRange m_amount;
 };
 
 class GiveResourceRandomEventResult final : public GiveResourceEventResult
 {
 public:
-    explicit GiveResourceRandomEventResult(const Expression &amount) noexcept;
+    explicit GiveResourceRandomEventResult(const ValueRange &amount) noexcept;
 };
 
 class NoSignalEventResult final : public ActionEvent
 {
 public:
-    explicit NoSignalEventResult(const Expression &durationInDays) noexcept
-        : ActionEvent(EventEnums::A_NoSignal), m_durationInDays(durationInDays) {}
+    explicit NoSignalEventResult(const ValueRange &durationInDays) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
-    inline Expression durationInDays() const noexcept
+    inline ValueRange durationInDays() const noexcept
     {
         return m_durationInDays;
     }
 
 private:
-    Expression m_durationInDays;
+    ValueRange m_durationInDays;
 };
 
 class CheckEventResults
@@ -477,7 +475,6 @@ private:
 class EncountersContainer
 {
 public:
-    EncountersContainer() noexcept;
     ~EncountersContainer() noexcept;
 
     void addEncounter(Encounter *enc) noexcept;
@@ -498,8 +495,6 @@ class Land
 public:
     explicit Land(const QString &name, const QString &description) noexcept;
 
-    void setAssociatedEncountersContainer(EncountersContainer *encCont) noexcept;
-
     Q_INVOKABLE inline QString name() const noexcept
     {
         return m_name;
@@ -515,9 +510,11 @@ private:
     void setName(const QString &name) noexcept;
     void setDescription(const QString &desc) noexcept;
 
+    void setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept;
+
     QString m_name;
     QString m_description;
-    EncountersContainer *m_encounters;
+    EncountersContainer m_encounters;
 };
 
 class LandBuilder
@@ -531,6 +528,8 @@ public:
 
     void setName(const QString &name) noexcept;
     void setDescription(const QString &desc) noexcept;
+
+    void setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept;
 
 private:
     Land *m_land;

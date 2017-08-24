@@ -1181,11 +1181,9 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                         if (m_xmlReader->name()=="sbe")
                             sbes.push_back({HeroEnums::fromQStringToStressBorderEffectEnum(m_xmlReader->readElementText())});
                         else
-                            ;//m_xmlReader->skipCurrentElement();
+                            m_xmlReader->skipCurrentElement();
                     }
                     hB.setStressBorderEffects(sbes);
-
-                    //m_xmlReader->skipCurrentElement();
                 }
                 else if (m_xmlReader->name()=="equipment")
                 {
@@ -1197,7 +1195,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                             for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
                                 if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                                 {
-                                    hB.setAndEquipArmor(Game::gameInstance()->assetsPool().equipment()[i]);
+                                    hB.setAndEquipArmor(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i));
                                     break;
                                 }
                         }
@@ -1207,14 +1205,12 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                             for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
                                 if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                                 {
-                                    hB.setAndEquipWeaponTool(Game::gameInstance()->assetsPool().equipment()[i],attrs.value("slot").toInt());
+                                    hB.setAndEquipWeaponTool(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i),attrs.value("slot").toInt());
                                     break;
                                 }
                         }
-                        else
-                            m_xmlReader->skipCurrentElement();
+                        m_xmlReader->skipCurrentElement();
                     }
-                    m_xmlReader->skipCurrentElement();
                 }
                 else if (m_xmlReader->name()=="additionalData")
                 {
@@ -1224,6 +1220,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setIsDead(static_cast<bool>(attrs.value("stressBorderEffectActive").toInt()));
 
                     hB.setNoSignalDaysRemaining(attrs.value("noSigDaysRem").toInt());
+
                     m_xmlReader->skipCurrentElement();
                 }
                 else
@@ -1429,4 +1426,439 @@ QMap<QString, QMap<QString, QString> > XmlFileReader::getTranslations(const QStr
         return {};
     }
     return r;
+}
+
+EncountersContainer XmlFileReader::getEncounters(const QString &path) noexcept
+{
+    if (!openXmlFile(path))
+    {
+        qCritical()<<"Couldn't open "+path+".";
+        return {};
+    }
+
+    EncountersContainer r;
+
+    if (m_xmlReader->readNextStartElement())
+    {
+        if (m_xmlReader->name()=="encounters")
+        {
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="encounter")
+                {
+                    QXmlStreamAttributes attrs = m_xmlReader->attributes();
+                    QString name=attrs.value("name").toString();
+                    Event *rootev=getEvent(0);
+
+                    if (m_xmlReader->hasError())
+                    {
+                        qCritical()<<"Couldn't read "+path+" properly.";
+                        return {};
+                    }
+
+                    r.addEncounter(new Encounter(name, rootev));
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
+        else
+            m_xmlReader->raiseError("Incorrect file");
+    }
+    if (m_xmlReader->hasError())
+    {
+        qCritical()<<"Couldn't read "+path+" properly.";
+        return {};
+    }
+    return r;
+}
+
+Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
+{
+    Event *r;
+
+    QString text;
+    QVector <QString> ude;
+
+    if (alreadyRead || m_xmlReader->readNextStartElement())
+    {
+        if (alreadyRead || m_xmlReader->name()=="event")
+        {
+            QXmlStreamAttributes attrs = m_xmlReader->attributes();
+            auto type=attrs.value("type").toString();
+
+            if (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="text")
+                {
+                    text=m_xmlReader->readElementText();
+                }
+                else if (m_xmlReader->name()=="unlockedDBEntries")
+                {
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="entry")
+                        {
+                            ude+=m_xmlReader->readElementText();
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+
+            if (type=="Multi")
+            {
+                if (m_xmlReader->readNextStartElement())
+                {
+                    if (m_xmlReader->name()=="Events")
+                    {
+                        QVector <Event *> evs;
+                        while (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="Event")
+                        {
+                            evs+=getEvent(1);
+                            if (m_xmlReader->hasError())
+                                return nullptr;
+                        }
+                        r=new MultiEvent(evs);
+                    }
+                    else
+                        m_xmlReader->skipCurrentElement();
+                }
+                else
+                    m_xmlReader->raiseError("Parse error");
+            }
+            else if (type=="Action")
+            {
+                auto subtype=attrs.value("subtype").toString();
+
+                if (subtype=="Null")
+                    r=new NullEventResult();
+                else if (subtype=="GiveHealth")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="addedValue")
+                            r=new GiveHealthEventResult(parseValue(m_xmlReader->readElementText()));
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else if (subtype=="GiveStress")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="addedValue")
+                            r=new GiveStressEventResult(parseValue(m_xmlReader->readElementText()));
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else if (subtype=="ModifyAttribute")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="modification")
+                        {
+                            AttributeModification mod;
+                            attrs=m_xmlReader->attributes();
+
+                            mod.attribute=HeroEnums::fromQStringToAttributeEnum(attrs.value("attribute").toString());
+                            if (attrs.value("type").toString()=="+")
+                                mod.type=AttributeModification::T_Add;
+                            else if (attrs.value("type").toString()=="-")
+                                mod.type=AttributeModification::T_Subtract;
+                            else if (attrs.value("type").toString()=="*")
+                                mod.type=AttributeModification::T_Multiply;
+                            else if (attrs.value("type").toString()=="/")
+                                mod.type=AttributeModification::T_Divide;
+                            else if (attrs.value("type").toString()=="=")
+                                mod.type=AttributeModification::T_Set;
+
+                            mod.expression={attrs.value("value").toString()};
+
+                            mod.duration=attrs.value("duration").toInt();
+
+                            r=new ModifyAttributeEventResult(mod);
+
+                            m_xmlReader->skipCurrentElement();
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else if (subtype=="Kill")
+                    r=new KillHeroEventResult();
+                else if (subtype=="AddEquipment")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="equipment")
+                        {
+                            attrs = m_xmlReader->attributes();
+                            for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
+                                if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
+                                {
+                                    r=new AddEquipmentEventResult(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i));
+                                    break;
+                                }
+                        }
+                        else if (m_xmlReader->name()=="random")
+                        {
+                            attrs = m_xmlReader->attributes();
+
+                            bool allowArmor=attrs.value("armor").toString()=="true" ? true : false;
+                            bool allowWeaponTool=attrs.value("weaponTool").toString()=="true" ? true : false;
+                            int flags=0;
+                            if (allowArmor)
+                                flags |= EquipmentEnums::T_Armor;
+                            if (allowWeaponTool)
+                                flags |= EquipmentEnums::T_WeaponTool;
+
+                            r=new AddEquipmentRandomEventResult(parseValue(attrs.value("tier").toString()), flags);
+                        }
+                        m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else if (subtype=="RemoveEquipment")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="armor")
+                            r=new RemoveEquipmentEventResult(EquipmentEnums::T_Armor,0);
+                        else if (m_xmlReader->name()=="weaponTool")
+                        {
+                            attrs=m_xmlReader->attributes();
+                            r=new RemoveEquipmentEventResult(EquipmentEnums::T_WeaponTool, attrs.value("slot").toInt());
+                        }
+                        m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else if (subtype=="GiveResource")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="resource")
+                        {
+                            attrs=m_xmlReader->attributes();
+
+                            r=new GiveResourceEventResult(BaseEnums::fromQStringToResourceEnum(attrs.value("type").toString()), parseValue(attrs.value("amount").toString()));
+                        }
+                        else if (m_xmlReader->name()=="random")
+                        {
+                            attrs=m_xmlReader->attributes();
+
+                            r=new GiveResourceRandomEventResult(parseValue(attrs.value("amount").toString()));
+                        }
+                        m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else if (subtype=="NoSignal")
+                {
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="duration")
+                            r=new NoSignalEventResult(parseValue(m_xmlReader->readElementText()));
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+            else if (type=="Check")
+            {
+                auto subtype=attrs.value("subtype").toString();
+
+                if (subtype=="Value")
+                {
+                    Expression cond;
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="Condition")
+                            cond={m_xmlReader->readElementText()};
+                        else
+                            m_xmlReader->raiseError("Parse error");
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+
+                    CheckEventResultsBuilder resb;
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="Results")
+                        {
+                            if (m_xmlReader->readNextStartElement())
+                            {
+                                if (m_xmlReader->name()=="Positive")
+                                {
+                                    while (m_xmlReader->readNextStartElement())
+                                    {
+                                        if (m_xmlReader->name()=="Event")
+                                        {
+                                            Chance chance{m_xmlReader->attributes().value("chance").toUInt()};
+                                            resb.addPositive({getEvent(1), chance});
+                                            if (m_xmlReader->hasError())
+                                                return nullptr;
+                                        }
+                                        else
+                                            m_xmlReader->skipCurrentElement();
+                                    }
+                                }
+                                else if (m_xmlReader->name()=="Negative")
+                                {
+                                    while (m_xmlReader->readNextStartElement())
+                                    {
+                                        if (m_xmlReader->name()=="Event")
+                                        {
+                                            Chance chance{m_xmlReader->attributes().value("chance").toUInt()};
+                                            resb.addNegative({getEvent(1), chance});
+                                            if (m_xmlReader->hasError())
+                                                return nullptr;
+                                        }
+                                        else
+                                            m_xmlReader->skipCurrentElement();
+                                    }
+                                }
+                                else
+                                    m_xmlReader->skipCurrentElement();
+                            }
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+
+                    r=new ValueCheckEvent(cond, resb.get());
+                }
+                else if (subtype=="Equipment")
+                {
+                    EquipmentEnums::Category cond;
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="Condition")
+                            cond=EquipmentEnums::fromQStringToCategoryEnum(m_xmlReader->readElementText());
+                        else
+                            m_xmlReader->raiseError("Parse error");
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+
+                    CheckEventResultsBuilder resb;
+                    if (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name()=="Results")
+                        {
+                            if (m_xmlReader->readNextStartElement())
+                            {
+                                if (m_xmlReader->name()=="Positive")
+                                {
+                                    while (m_xmlReader->readNextStartElement())
+                                    {
+                                        if (m_xmlReader->name()=="Event")
+                                        {
+                                            Chance chance{m_xmlReader->attributes().value("chance").toInt()};
+                                            resb.addPositive({getEvent(1), chance});
+                                            if (m_xmlReader->hasError())
+                                                return nullptr;
+                                        }
+                                        else
+                                            m_xmlReader->skipCurrentElement();
+                                    }
+                                }
+                                else if (m_xmlReader->name()=="Negative")
+                                {
+                                    while (m_xmlReader->readNextStartElement())
+                                    {
+                                        if (m_xmlReader->name()=="Event")
+                                        {
+                                            Chance chance{m_xmlReader->attributes().value("chance").toInt()};
+                                            resb.addNegative({getEvent(1), chance});
+                                            if (m_xmlReader->hasError())
+                                                return nullptr;
+                                        }
+                                        else
+                                            m_xmlReader->skipCurrentElement();
+                                    }
+                                }
+                                else
+                                    m_xmlReader->skipCurrentElement();
+                            }
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
+                    else
+                        m_xmlReader->raiseError("Parse error");
+
+                    r=new EquipmentCheckEvent(cond, resb.get());
+                }
+            }
+            else if (type=="Possibility")
+            {
+                if (m_xmlReader->readNextStartElement())
+                {
+                    if (m_xmlReader->name()=="Event")
+                    {
+                        Chance chance{m_xmlReader->attributes().value("chance").toUInt()};
+                        Event *ev=getEvent(1);
+                        if (m_xmlReader->hasError())
+                            return nullptr;
+                        r=new PossibilityEvent(chance,ev);
+                    }
+                    else
+                        m_xmlReader->skipCurrentElement();
+                }
+                else
+                    m_xmlReader->raiseError("Parse error");
+            }
+            else
+                m_xmlReader->raiseError("Parse error");
+        }
+        else
+            m_xmlReader->skipCurrentElement();
+    }
+    if (m_xmlReader->hasError())
+        return nullptr;
+    return r;
+}
+
+ValueRange XmlFileReader::parseValue(QString text) noexcept
+{
+    if (text.isEmpty())
+        return {{"-1"}};//error
+
+    int semcolPos=text.indexOf(';');
+    
+    char rangeok=0;
+    if (text[0]=='<')
+        rangeok |= 1;
+    if (text[text.size()-1]=='>')
+        rangeok |= 1<<1;
+    if (semcolPos!=-1 && semcolPos>1 && semcolPos<text.size()-2)
+        rangeok |= 1<<2;
+    
+    if (rangeok &= 1|1<<1|1<<2)
+        return {text.mid(1,semcolPos-1),text.mid(semcolPos+1,text.size()-semcolPos-2)};
+    else if (rangeok==0)
+        return {text.mid(1,text.size()-2)};
+    else
+        return {{"-1"}};//error
 }

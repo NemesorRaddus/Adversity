@@ -48,7 +48,12 @@ public:
 
     QMap <QString, QMap<QString,QString> > getTranslations(const QString &path) noexcept;
 
+    EncountersContainer getEncounters(const QString &path) noexcept;
+
 private:
+    Event *getEvent(bool alreadyRead) noexcept;
+    static ValueRange parseValue(QString text) noexcept;
+
     QXmlStreamReader *m_xmlReader;
 };
 

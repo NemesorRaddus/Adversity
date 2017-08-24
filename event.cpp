@@ -140,22 +140,39 @@ QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
     return r;
 }
 
-GiveHealthEventResult::GiveHealthEventResult(const Expression &addedValue) noexcept
+GiveHealthEventResult::GiveHealthEventResult(const ValueRange &addedValue) noexcept
     : ActionEvent(EventEnums::A_GiveHealth), m_value(addedValue) {}
 
 QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Hero *hero) noexcept
 {
-    hero->changeHealth(m_value.evaluate(hero).toUInt());
+    if (m_value.singleValue())
+        hero->changeHealth(m_value.max().evaluate(hero).toUInt());
+    else
+    {
+        auto max=m_value.max().evaluate(hero).toUInt(), min=m_value.min().evaluate(hero).toUInt();
+        hero->changeHealth(Randomizer::randomBetweenAAndB(min, max));
+    }
 
     return {eventText()};
 }
 
-GiveStressEventResult::GiveStressEventResult(const Expression &addedValue) noexcept
+GiveStressEventResult::GiveStressEventResult(const ValueRange &addedValue) noexcept
     : ActionEvent(EventEnums::A_GiveStress), m_value(addedValue) {}
 
 QVector<EventReport> GiveStressEventResult::executeSpecificOps(Hero *hero) noexcept
 {
-    m_value.evaluate(hero).toUInt()>=0 ? hero->increaseStress(m_value.evaluate(hero).toUInt()) : hero->decreaseStress(-m_value.evaluate(hero).toUInt());
+    int v;
+    if (m_value.singleValue())
+        v=m_value.max().evaluate(hero).toInt();
+    else
+    {
+        int max=m_value.max().evaluate(hero).toInt(), min=m_value.min().evaluate(hero).toInt();
+        v=Randomizer::randomBetweenAAndB(min,max);
+    }
+    if (v>=0)
+        hero->increaseStress(v);
+    else
+        hero->decreaseStress(-v);
 
     return {eventText()};
 }
@@ -236,12 +253,19 @@ QVector<EventReport> RemoveEquipmentEventResult::executeSpecificOps(Hero *hero) 
     return {eventText()};
 }
 
-GiveResourceEventResult::GiveResourceEventResult(BaseEnums::Resource resource, const Expression &amount) noexcept
+GiveResourceEventResult::GiveResourceEventResult(BaseEnums::Resource resource, const ValueRange &amount) noexcept
     : ActionEvent(EventEnums::A_GiveResource), m_resource(resource), m_amount(amount) {}
 
 QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Hero *hero) noexcept
 {
-    int am=m_amount.evaluate(hero).toInt();
+    int am;
+    if (m_amount.singleValue())
+        am=m_amount.max().evaluate(hero).toInt();
+    else
+    {
+        int max=m_amount.max().evaluate(hero).toInt(), min=m_amount.min().evaluate(hero).toInt();
+        am=Randomizer::randomBetweenAAndB(min,max);
+    }
     int cam;
 
     switch (m_resource)
@@ -281,15 +305,25 @@ QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Hero *hero) noe
     return {eventText()};
 }
 
-GiveResourceRandomEventResult::GiveResourceRandomEventResult(const Expression &amount) noexcept
+GiveResourceRandomEventResult::GiveResourceRandomEventResult(const ValueRange &amount) noexcept
     : GiveResourceEventResult(static_cast<BaseEnums::Resource>(Randomizer::randomBetweenAAndB(0, BaseEnums::R_END-1)), amount)
 {
-    static_cast<QString>(m_amount).replace("C_RESO", BaseEnums::fromResourceEnumToQString(m_resource).toUpper());
+    static_cast<QString>(m_amount.min()).replace("C_RESO", BaseEnums::fromResourceEnumToQString(m_resource).toUpper());
+    static_cast<QString>(m_amount.max()).replace("C_RESO", BaseEnums::fromResourceEnumToQString(m_resource).toUpper());
 }
+
+NoSignalEventResult::NoSignalEventResult(const ValueRange &durationInDays) noexcept
+    : ActionEvent(EventEnums::A_NoSignal), m_durationInDays(durationInDays) {}
 
 QVector<EventReport> NoSignalEventResult::executeSpecificOps(Hero *hero) noexcept
 {
-    hero->setNoSignalDaysRemaining(m_durationInDays.evaluate(hero).toInt());
+    if (m_durationInDays.singleValue())
+        hero->setNoSignalDaysRemaining(m_durationInDays.max().evaluate(hero).toInt());
+    else
+    {
+        int max=m_durationInDays.max().evaluate(hero).toInt(), min=m_durationInDays.min().evaluate(hero).toInt();
+        hero->setNoSignalDaysRemaining(Randomizer::randomBetweenAAndB(min,max));
+    }
 
     return {eventText()};
 }
@@ -416,6 +450,53 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
     return result->execute(hero);
 }
 
+EquipmentCheckEvent::EquipmentCheckEvent(EquipmentEnums::Category neededEq, const CheckEventResults &results) noexcept
+    : CheckEvent(EventEnums::C_EquipmentCheck,results), m_neededEquipment(neededEq) {}
+
+QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcept
+{
+    if (hero==nullptr)
+        return {};
+
+    Event *result=nullptr;
+
+    bool has=hero->hasEquipmentFromCategory(m_neededEquipment);
+
+    if (has)
+    {
+        int x=Randomizer::randomBetweenAAndB(1,100);
+        for (auto e : m_results.positive())
+        {
+            if (e.second>=x)
+            {
+                result=e.first;
+                break;
+            }
+            else
+                x-=e.second;
+        }
+    }
+    else
+    {
+        int x=Randomizer::randomBetweenAAndB(1,100);
+        for (auto e : m_results.negative())
+        {
+            if (e.second>=x)
+            {
+                result=e.first;
+                break;
+            }
+            else
+                x-=e.second;
+        }
+    }
+
+    if (result==nullptr)
+        return {};
+
+    return result->execute(hero);
+}
+
 PossibilityEvent::PossibilityEvent(Chance chance, Event *event) noexcept
     : Event(EventEnums::T_Possibility), m_chance(chance), m_event(event) {}
 
@@ -440,21 +521,36 @@ EncounterReport Encounter::execute(Hero *hero, const Time &currentTime) const no
     return {m_name, m_rootEvent->execute(hero), currentTime};
 }
 
+EncountersContainer::~EncountersContainer() noexcept
+{
+    for (auto e : m_encounters)
+        delete e;
+}
+
+void EncountersContainer::addEncounter(Encounter *enc) noexcept
+{
+    m_encounters+=enc;
+}
+
+void EncountersContainer::removeEncounter(unsigned index) noexcept
+{
+    if (index<m_encounters.size())
+    {
+        delete m_encounters[index];
+        m_encounters.remove(index);
+    }
+}
+
 Land::Land(const QString &name, const QString &description) noexcept
     : m_name(name), m_description(description) {}
 
-void Land::setAssociatedEncountersContainer(EncountersContainer *encCont) noexcept
-{
-    m_encounters=encCont;
-}
-
 Encounter *Land::makeRandomEncounter() const noexcept
 {
-    if (m_encounters->encounters().isEmpty())
+    if (m_encounters.encounters().isEmpty())
         return nullptr;
 
     auto r=new Encounter("",nullptr);
-    *r=*(m_encounters->encounters()[Randomizer::randomBetweenAAndB(0, m_encounters->encounters().size()-1)]);
+    *r=*(m_encounters.encounters()[Randomizer::randomBetweenAAndB(0, m_encounters.encounters().size()-1)]);
     return r;
 }
 
@@ -468,6 +564,11 @@ void Land::setDescription(const QString &desc) noexcept
     m_description=desc;
 }
 
+void Land::setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept
+{
+    m_encounters=encCont;
+}
+
 void LandBuilder::setName(const QString &name) noexcept
 {
     m_land->setName(name);
@@ -476,6 +577,11 @@ void LandBuilder::setName(const QString &name) noexcept
 void LandBuilder::setDescription(const QString &desc) noexcept
 {
     m_land->setDescription(desc);
+}
+
+void LandBuilder::setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept
+{
+    m_land->setAssociatedEncountersContainer(encCont);
 }
 
 void Mission::decrementDuration() noexcept
