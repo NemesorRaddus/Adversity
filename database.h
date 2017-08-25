@@ -14,31 +14,34 @@ struct DatabaseEnums
         ET_Plant,
         ET_END
     };
+
+    static EntryType fromQStringToEntryTypeEnum(const QString &entryType) noexcept;
+    static QString fromEntryTypeEnumToQString(EntryType entryType) noexcept;
 };
 
-struct DatabaseEntry
+struct DatabaseEntryDetails
 {
     QString description;
     DatabaseEnums::EntryType type;
 };
 
-QDataStream &operator<<(QDataStream &stream, const DatabaseEntry &databaseEntry) noexcept;
-QDataStream &operator>>(QDataStream &stream, DatabaseEntry &databaseEntry) noexcept;
+typedef QPair <QString, DatabaseEntryDetails> DatabaseEntry;
 
 class Database
 {
 public:
     typedef QString Name;
 
-    void loadEntries(const QMap <Name, DatabaseEntry> &entries) noexcept;
+    void loadEntries(const QVector <DatabaseEntry> &entries) noexcept;
+
     void unlockEntry(const Name &entryName) noexcept;
     inline bool isEntryUnlocked(const Name &entryName) const noexcept
     {
         return m_unlocksInfo.value(entryName);
     }
-    DatabaseEntry readEntry(const Name &entryName) const noexcept;
+    DatabaseEntryDetails readEntry(const Name &entryName) const noexcept;
     QVector <Name> unlockedEntries() const noexcept;
-    inline QMap <Name, DatabaseEntry> allEntries() const noexcept
+    inline QVector <DatabaseEntry> allEntries() const noexcept
     {
         return m_entriesData;
     }
@@ -47,7 +50,7 @@ public:
     QDataStream &write(QDataStream &stream) const noexcept;
 
 private:
-    QMap <Name, DatabaseEntry> m_entriesData;
+    QVector <DatabaseEntry> m_entriesData;
     QMap <Name, bool> m_unlocksInfo;
 };
 

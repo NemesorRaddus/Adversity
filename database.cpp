@@ -1,29 +1,33 @@
 #include "database.h"
 
-QDataStream &operator<<(QDataStream &stream, const DatabaseEntry &databaseEntry) noexcept
+DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString &entryType) noexcept
 {
-    stream<<databaseEntry.description;
-    stream<<static_cast<quint8>(databaseEntry.type);
-
-    return stream;
+    if (entryType == "Land")
+        return ET_Land;
+    if (entryType == "Animal")
+        return ET_Animal;
+    if (entryType == "Plant")
+        return ET_Plant;
+    qWarning()<<"QString->enum conversion failed for "<<entryType;
 }
 
-QDataStream &operator>>(QDataStream &stream, DatabaseEntry &databaseEntry) noexcept
+QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entryType) noexcept
 {
-    quint8 n;
-
-    stream>>databaseEntry.description;
-    stream>>n;
-    databaseEntry.type=static_cast<DatabaseEnums::EntryType>(n);
-
-    return stream;
+    if (entryType == ET_Land)
+        return "Land";
+    if (entryType == ET_Animal)
+        return "Animal";
+    if (entryType == ET_Plant)
+        return "Plant";
+    qWarning()<<"enum->QString conversion failed for "<<entryType;
 }
 
-void Database::loadEntries(const QMap<Name, DatabaseEntry> &entries) noexcept
+void Database::loadEntries(const QVector<DatabaseEntry> &entries) noexcept
 {
     m_entriesData=entries;
-    for (auto e : entries.keys())
-        m_unlocksInfo.insert(e, false);
+    m_unlocksInfo.clear();
+    for (auto e : entries)
+        m_unlocksInfo.insert(e.first, false);
 }
 
 void Database::unlockEntry(const Database::Name &entryName) noexcept
@@ -32,10 +36,12 @@ void Database::unlockEntry(const Database::Name &entryName) noexcept
         m_unlocksInfo.insert(entryName, true);
 }
 
-DatabaseEntry Database::readEntry(const Database::Name &entryName) const noexcept
+DatabaseEntryDetails Database::readEntry(const Database::Name &entryName) const noexcept
 {
     if (isEntryUnlocked(entryName))
-        return m_entriesData.value(entryName);
+        for (auto e : m_entriesData)
+            if (e.first == entryName)
+                return e.second;
     return {};
 }
 
@@ -50,7 +56,6 @@ QVector<Database::Name> Database::unlockedEntries() const noexcept
 
 QDataStream &Database::read(QDataStream &stream) noexcept
 {
-    stream>>m_entriesData;
     stream>>m_unlocksInfo;
 
     return stream;
@@ -58,7 +63,6 @@ QDataStream &Database::read(QDataStream &stream) noexcept
 
 QDataStream &Database::write(QDataStream &stream) const noexcept
 {
-    stream<<m_entriesData;
     stream<<m_unlocksInfo;
 
     return stream;

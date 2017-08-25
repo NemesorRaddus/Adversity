@@ -5,6 +5,7 @@
 
 #include "hero.h"
 #include "filereaderwriter.h"
+#include "database.h"
 
 #include <QDebug>
 
@@ -38,6 +39,8 @@ public:
     Equipment *makeEquipmentAtPos(unsigned index) noexcept;
     Equipment *makeEquipmentNamed(const QString &name) const noexcept;
 
+    inline Database *makeStockDatabase() const noexcept;
+    
     inline const QVector <Land *> &lands() const noexcept
     {
         return m_lands;
@@ -47,6 +50,7 @@ private:
     void loadHeroesList(const QString &pathToDir) noexcept;
     void loadHero(const QString &path) noexcept;
     void loadEquipment(const QString &path) noexcept;
+    void loadDatabase(const QString &pathToDir) noexcept;
     void loadLands(const QString &pathToDir) noexcept;
 
     bool m_isReady;
@@ -56,6 +60,8 @@ private:
     QList <QString> m_heroesAll;
 
     QVector <Equipment *> m_equipment;
+
+    Database *m_stockDatabase;
 
     QVector <Land *> m_lands;
 

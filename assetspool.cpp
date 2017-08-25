@@ -5,11 +5,12 @@
 AssetsPool::AssetsPool() noexcept
     : m_isReady(0)
 {
-
+    m_stockDatabase=new Database;
 }
 
 AssetsPool::~AssetsPool() noexcept
 {
+    delete m_stockDatabase;
     clear();
 }
 
@@ -99,6 +100,13 @@ Equipment *AssetsPool::makeEquipmentNamed(const QString &name) const noexcept
     return nullptr;
 }
 
+Database *AssetsPool::makeStockDatabase() const noexcept
+{
+    Database *r=new Database;
+    *r=*m_stockDatabase;
+    return r;
+}
+
 void AssetsPool::loadHeroesList(const QString &pathToDir) noexcept
 {
     m_heroesAll=m_reader.getHeroesNamesList(pathToDir);
@@ -112,6 +120,17 @@ void AssetsPool::loadHero(const QString &path) noexcept
 void AssetsPool::loadEquipment(const QString &path) noexcept
 {
     m_equipment=m_reader.getEquipment(path);
+}
+
+void AssetsPool::loadDatabase(const QString &pathToDir) noexcept
+{
+    QVector <DatabaseEntry> entries;
+    auto dbFiles = m_reader.getDatabaseFilesList(pathToDir);
+
+    for (auto e : dbFiles)
+        entries += m_reader.getDatabaseEntries(pathToDir+e);
+
+    m_stockDatabase->loadEntries(entries);
 }
 
 void AssetsPool::loadLands(const QString &pathToDir) noexcept
