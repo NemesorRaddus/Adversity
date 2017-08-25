@@ -18,6 +18,7 @@ void AssetsPool::load(const QString &pathToAssets) noexcept
     clear();
     loadHeroesList(pathToAssets+"mercenaries/mercenaries/");
     loadEquipment(pathToAssets+"mercenaries/equipment.xml");
+    loadLands(pathToAssets+"lands/");
     m_isReady=1;
     m_pathToAssets=pathToAssets;
 }
@@ -111,4 +112,22 @@ void AssetsPool::loadHero(const QString &path) noexcept
 void AssetsPool::loadEquipment(const QString &path) noexcept
 {
     m_equipment=m_reader.getEquipment(path);
+}
+
+void AssetsPool::loadLands(const QString &pathToDir) noexcept
+{
+    LandBuilder lb;
+    auto landNames = m_reader.getLandsNamesList(pathToDir);
+
+    for (auto e : landNames)
+    {
+        auto info = m_reader.getLandInfo(pathToDir+e+"/info.xml");
+        lb.setName(info.first);
+        lb.setDescription(info.second);
+
+        auto encCont = m_reader.getEncounters(pathToDir+e+"/encounters.xml");
+        lb.setAssociatedEncountersContainer(encCont);
+
+        m_lands += lb.getLand();
+    }
 }

@@ -488,8 +488,10 @@ private:
     QVector <Encounter *> m_encounters;
 };
 
-class Land
+class Land : public QObject
 {
+    Q_OBJECT
+
     friend class LandBuilder;
 
 public:
@@ -523,7 +525,7 @@ public:
     LandBuilder() noexcept;
     ~LandBuilder() noexcept;
 
-    Land getLand() noexcept;
+    Land *getLand() noexcept;
     void resetLand() noexcept;
 
     void setName(const QString &name) noexcept;

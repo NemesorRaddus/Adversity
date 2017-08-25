@@ -48,6 +48,8 @@ public:
 
     QMap <QString, QMap<QString,QString> > getTranslations(const QString &path) noexcept;
 
+    QList <QString> getLandsNamesList(const QString &pathToLandsDir) noexcept;
+    QPair <QString, QString> getLandInfo(const QString &path) noexcept;
     EncountersContainer getEncounters(const QString &path) noexcept;
 
 private:

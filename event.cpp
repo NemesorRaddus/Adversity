@@ -569,6 +569,29 @@ void Land::setAssociatedEncountersContainer(const EncountersContainer &encCont) 
     m_encounters=encCont;
 }
 
+LandBuilder::LandBuilder() noexcept
+{
+    m_land = new Land("","");
+}
+
+LandBuilder::~LandBuilder() noexcept
+{
+    delete m_land;
+}
+
+Land *LandBuilder::getLand() noexcept
+{
+    Land *ret=m_land;
+    m_land=new Land("","");
+    return ret;
+}
+
+void LandBuilder::resetLand() noexcept
+{
+    delete m_land;
+    m_land = new Land("","");
+}
+
 void LandBuilder::setName(const QString &name) noexcept
 {
     m_land->setName(name);

@@ -38,10 +38,16 @@ public:
     Equipment *makeEquipmentAtPos(unsigned index) noexcept;
     Equipment *makeEquipmentNamed(const QString &name) const noexcept;
 
+    inline const QVector <Land *> &lands() const noexcept
+    {
+        return m_lands;
+    }
+
 private:
     void loadHeroesList(const QString &pathToDir) noexcept;
     void loadHero(const QString &path) noexcept;
     void loadEquipment(const QString &path) noexcept;
+    void loadLands(const QString &pathToDir) noexcept;
 
     bool m_isReady;
     QString m_pathToAssets;
