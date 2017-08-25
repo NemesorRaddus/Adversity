@@ -1522,7 +1522,7 @@ void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
         }
         else//instant
         {
-            base()->freeEquipment().push_back(m_equipments[pos]);
+            base()->availableEquipment().push_back(m_equipments[pos]);
             if (m_equipmentPreparedForQML==m_equipments[pos])
             {
                 if (m_equipments.size()>pos+1)
@@ -1544,7 +1544,7 @@ void DockingStation::doBuyingEquipmentStuff() noexcept
         if (m_arrivingEquipments[i].second == 0)
         {
             Equipment *eq=m_arrivingEquipments[i].first;
-            base()->freeEquipment().push_back(eq);
+            base()->availableEquipment().push_back(eq);
             m_arrivingEquipments.remove(i);
         }
         else
@@ -1772,9 +1772,9 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_seclusion->setIsBeingUpgraded(data.buildings.upgrading.seclusion);
 
     for (int i=0;i<data.equipments.freeArmor.size();++i)//creating owned equipment
-        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeArmor[i]));
+        m_availableEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeArmor[i]));
     for (int i=0;i<data.equipments.freeWeaponsTools.size();++i)
-        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeWeaponsTools[i]));
+        m_availableEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeWeaponsTools[i]));
 
     for (int i=0;i<data.heroes.hiredHeroes.size();++i)//adding mercenaries
         m_heroes->addHero(HeroBuilder::qobjectifyHeroData(data.heroes.hiredHeroes[i]));
@@ -1883,12 +1883,12 @@ SaveData Base::getSaveData() noexcept
     data.buildings.upgrading.shrine=m_shrine->isBeingUpgraded();
     data.buildings.upgrading.seclusion=m_seclusion->isBeingUpgraded();
 
-    for (int i=0;i<m_freeEquipment.size();++i)
+    for (int i=0;i<m_availableEquipment.size();++i)
     {
-        if (m_freeEquipment[i]->type()==EquipmentEnums::T_Armor)
-            data.equipments.freeArmor.push_back(m_freeEquipment[i]->name());
-        else if (m_freeEquipment[i]->type()==EquipmentEnums::T_WeaponTool)
-            data.equipments.freeWeaponsTools.push_back(m_freeEquipment[i]->name());
+        if (m_availableEquipment[i]->type()==EquipmentEnums::T_Armor)
+            data.equipments.freeArmor.push_back(m_availableEquipment[i]->name());
+        else if (m_availableEquipment[i]->type()==EquipmentEnums::T_WeaponTool)
+            data.equipments.freeWeaponsTools.push_back(m_availableEquipment[i]->name());
     }
 
     for (int i=0;i<m_heroes->amountOfHeroes();++i)
@@ -2125,6 +2125,12 @@ Building *Base::getBuilding(BaseEnums::Building buildingName) noexcept
         qWarning()<<"BaseEnums::Building enum->Building * conversion failed for "<<buildingName;
         return nullptr;
     }
+}
+
+void Base::prepareAvailableEquipment(unsigned index) noexcept
+{
+    if (index<m_availableEquipment.size())
+        m_preparedAvailableEquipment=m_availableEquipment[index];
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

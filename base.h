@@ -2178,6 +2178,8 @@ class Base : public QObject
 
     Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
 
+    Q_PROPERTY(Equipment* preparedAvailableEquipment MEMBER m_preparedAvailableEquipment)
+
     friend class H4X;
 
 public:
@@ -2387,10 +2389,15 @@ public:
     }
 
     //equipment
-    inline QVector <Equipment *> &freeEquipment() noexcept
+    inline QVector <Equipment *> &availableEquipment() noexcept
     {
-        return m_freeEquipment;
+        return m_availableEquipment;
     }
+    Q_INVOKABLE inline unsigned amountOfAvailableEquipment() const noexcept
+    {
+        return m_availableEquipment.size();
+    }
+    Q_INVOKABLE void prepareAvailableEquipment(unsigned index) noexcept;
 
     //game clock
     inline GameClock *gameClock() noexcept
@@ -2446,7 +2453,8 @@ private:
     QMap <QString, unsigned> m_heroDockingStationBans;//in days; when banned, hero won't appear in docking station menu
 
     //equipment
-    QVector <Equipment *> m_freeEquipment;
+    QVector <Equipment *> m_availableEquipment;
+    Equipment *m_preparedAvailableEquipment;
 
     //game clock/timer
     void activateBuildingsAtDayEnd() noexcept;

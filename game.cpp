@@ -44,6 +44,15 @@ QString Global::alterNormalTextToInternal(QString normalText) noexcept
     return normalText;
 }
 
+LandsInfo::LandsInfo(const QVector<Land *> *lands) noexcept
+    : m_lands(lands), m_preparedLand(nullptr) {}
+
+void LandsInfo::prepareLandAt(unsigned index) noexcept
+{
+    if (index<m_lands->size())
+        m_preparedLand=(*m_lands)[index];
+}
+
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
@@ -79,6 +88,8 @@ Game::~Game() noexcept
 {
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
     disconnectAutosave();
+
+    delete m_lands;
 
     delete m_globalsExportToQML;
 
@@ -265,6 +276,8 @@ void Game::loadAssets(const QString &pathToDir) noexcept
     m_base->dockingStation()->setTradingTables(xmlReader.getDockingStationTradingTable(pathToDir+"base/dockingStationTradingTables.xml"));
 
     m_assetsPool.load(pathToDir);
+
+    m_lands = new LandsInfo(&m_assetsPool.lands());
 }
 
 void Game::loadVersionInfo() noexcept

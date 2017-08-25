@@ -82,13 +82,33 @@ private:
     QString m_versionNumber, m_buildTime, m_buildType, m_toolkitName, m_additionBuildInfo;
 };
 
+class LandsInfo : public QObject
+{
+    Q_OBJECT
 
+    Q_PROPERTY(Land* preparedLand MEMBER m_preparedLand)
+
+public:
+    explicit LandsInfo(const QVector <Land *> *lands) noexcept;
+
+    Q_INVOKABLE inline unsigned amountOfLands() const noexcept
+    {
+        return m_lands->size();
+    }
+
+    Q_INVOKABLE void prepareLandAt(unsigned index) noexcept;
+
+private:
+    const QVector <Land *> *m_lands;
+    Land *m_preparedLand;
+};
 
 class Game : public QObject
 {
     Q_OBJECT
 
     Q_PROPERTY(Base* base MEMBER m_base)
+    Q_PROPERTY(LandsInfo* lands MEMBER m_lands)
     Q_PROPERTY(AppBuildInfo* buildInfo MEMBER m_buildInfo)
     Q_PROPERTY(TranslationsDB* translator MEMBER m_translations)
     Q_PROPERTY(H4X* h4xLogic MEMBER m_h4xLogic)
@@ -153,6 +173,7 @@ private:
 
     Base *m_base;
     QString m_currentPathToAssets;
+    LandsInfo *m_lands;
     AppBuildInfo *m_buildInfo;
     AssetsPool m_assetsPool;
     TranslationsDB *m_translations;
