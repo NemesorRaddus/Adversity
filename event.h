@@ -488,6 +488,13 @@ private:
     QVector <Encounter *> m_encounters;
 };
 
+struct LandInfo
+{
+    QString name;
+    QString description;
+    QPair <int, int> position;
+};
+
 class Land : public QObject
 {
     Q_OBJECT
@@ -495,27 +502,33 @@ class Land : public QObject
     friend class LandBuilder;
 
 public:
-    explicit Land(const QString &name, const QString &description) noexcept;
+    explicit Land(const LandInfo &info) noexcept;
 
     Q_INVOKABLE inline QString name() const noexcept
     {
-        return m_name;
+        return m_info.name;
     }
     Q_INVOKABLE inline QString description() const noexcept
     {
-        return m_description;
+        return m_info.description;
+    }
+    Q_INVOKABLE inline int posX() const noexcept
+    {
+        return m_info.position.first;
+    }
+    Q_INVOKABLE inline int posY() const noexcept
+    {
+        return m_info.position.second;
     }
 
     Encounter *makeRandomEncounter() const noexcept;
 
 private:
-    void setName(const QString &name) noexcept;
-    void setDescription(const QString &desc) noexcept;
+    void setInfo(const LandInfo &info) noexcept;
 
     void setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept;
 
-    QString m_name;
-    QString m_description;
+    LandInfo m_info;
     EncountersContainer m_encounters;
 };
 
@@ -528,8 +541,7 @@ public:
     Land *getLand() noexcept;
     void resetLand() noexcept;
 
-    void setName(const QString &name) noexcept;
-    void setDescription(const QString &desc) noexcept;
+    void setInfo(const LandInfo &info) noexcept;
 
     void setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept;
 

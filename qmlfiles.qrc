@@ -54,5 +54,8 @@
         <file>qml/MissionsMode/Map.qml</file>
         <file>qml/MissionsMode/LandmarkScripts.js</file>
         <file>qml/MissionsMode/Landmark.qml</file>
+        <file>qml/MissionsMode/MissionStartMenu.qml</file>
+        <file>qml/MissionsMode/MissionSelectionMenu.qml</file>
+        <file>qml/MissionsMode/HeroDelegate.qml</file>
     </qresource>
 </RCC>

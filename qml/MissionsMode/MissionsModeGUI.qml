@@ -10,7 +10,12 @@ Item {
 
     function returnToDefault()
     {
-        map.returnToDefault();//TODO state changes,etc.
+        map.returnToDefault();
+        missionStartMenu.returnToDefault();
+        missionSelectionMenu.returnToDefault();
+
+        missionSelectionMenu.visible = false;
+        missionStartMenu.visible = false;
     }
 
     function updateEverything()
@@ -20,19 +25,20 @@ Item {
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
     {
-//        if (menu.state == "")
-//        {
-//            if (!menu.reactToBackOnToolbar())
-//            {
-//                list.state = "";
-//                menu.state = "hidden";
-//            }
-//            return true;
-//        }
-//        else
-//        {
+        if (missionSelectionMenu.visible)
+        {
+            if (!missionSelectionMenu.reactToBackOnToolbar())
+                missionSelectionMenu.hide();
+            return true;
+        }
+        else if (missionStartMenu.visible)
+        {
+            if (!missionStartMenu.reactToBackOnToolbar())
+                missionStartMenu.hide();
+            return true;
+        }
+        else
             return false;
-//        }
     }
 
     Map {
@@ -44,7 +50,50 @@ Item {
         height: root.height
 
         onExploreClicked: {
-            //TODO
+            missionStartMenu.show(intLandName, landName, landDesc);
+            missionStartMenu.visible=true;
+        }
+    }
+
+    MissionStartMenu {
+        id: missionStartMenu
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+
+        visible: false
+
+        function hide()
+        {
+            visible = false;
+            returnToDefault();
+        }
+
+        onBackClicked: {
+            visible = false;
+        }
+
+        onNextClicked: {
+            missionSelectionMenu.visible=true;
+        }
+    }
+
+    MissionSelectionMenu {
+        id: missionSelectionMenu
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+
+        visible: false
+
+        function hide()
+        {
+            visible = false;
+            returnToDefault();
         }
     }
 

@@ -141,8 +141,7 @@ void AssetsPool::loadLands(const QString &pathToDir) noexcept
     for (auto e : landNames)
     {
         auto info = m_reader.getLandInfo(pathToDir+e+"/info.xml");
-        lb.setName(info.first);
-        lb.setDescription(info.second);
+        lb.setInfo(info);
 
         auto encCont = m_reader.getEncounters(pathToDir+e+"/encounters.xml");
         lb.setAssociatedEncountersContainer(encCont);

@@ -31,5 +31,17 @@
         <file>graphics/GUI/Task_Picture.png</file>
         <file>graphics/GUI/Task_Picture2.png</file>
         <file>graphics/GUI/Time.png</file>
+        <file>graphics/GUI/MissionLength/Desert1.png</file>
+        <file>graphics/GUI/MissionLength/Desert2.png</file>
+        <file>graphics/GUI/MissionLength/Desert3.png</file>
+        <file>graphics/GUI/MissionLength/Desert4.png</file>
+        <file>graphics/GUI/MissionLength/Forest1.png</file>
+        <file>graphics/GUI/MissionLength/Forest2.png</file>
+        <file>graphics/GUI/MissionLength/Forest3.png</file>
+        <file>graphics/GUI/MissionLength/Forest4.png</file>
+        <file>graphics/GUI/MissionLength/Plainlands1.png</file>
+        <file>graphics/GUI/MissionLength/Plainlands2.png</file>
+        <file>graphics/GUI/MissionLength/Plainlands3.png</file>
+        <file>graphics/GUI/MissionLength/Plainlands4.png</file>
     </qresource>
 </RCC>

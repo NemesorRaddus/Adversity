@@ -541,8 +541,8 @@ void EncountersContainer::removeEncounter(unsigned index) noexcept
     }
 }
 
-Land::Land(const QString &name, const QString &description) noexcept
-    : m_name(name), m_description(description) {}
+Land::Land(const LandInfo &info) noexcept
+    : m_info(info) {}
 
 Encounter *Land::makeRandomEncounter() const noexcept
 {
@@ -554,14 +554,9 @@ Encounter *Land::makeRandomEncounter() const noexcept
     return r;
 }
 
-void Land::setName(const QString &name) noexcept
+void Land::setInfo(const LandInfo &info) noexcept
 {
-    m_name=name;
-}
-
-void Land::setDescription(const QString &desc) noexcept
-{
-    m_description=desc;
+    m_info=info;
 }
 
 void Land::setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept
@@ -571,7 +566,7 @@ void Land::setAssociatedEncountersContainer(const EncountersContainer &encCont) 
 
 LandBuilder::LandBuilder() noexcept
 {
-    m_land = new Land("","");
+    m_land = new Land({});
 }
 
 LandBuilder::~LandBuilder() noexcept
@@ -582,24 +577,19 @@ LandBuilder::~LandBuilder() noexcept
 Land *LandBuilder::getLand() noexcept
 {
     Land *ret=m_land;
-    m_land=new Land("","");
+    m_land=new Land({});
     return ret;
 }
 
 void LandBuilder::resetLand() noexcept
 {
     delete m_land;
-    m_land = new Land("","");
+    m_land = new Land({});
 }
 
-void LandBuilder::setName(const QString &name) noexcept
+void LandBuilder::setInfo(const LandInfo &info) noexcept
 {
-    m_land->setName(name);
-}
-
-void LandBuilder::setDescription(const QString &desc) noexcept
-{
-    m_land->setDescription(desc);
+    m_land->setInfo(info);
 }
 
 void LandBuilder::setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept

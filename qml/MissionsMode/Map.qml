@@ -7,7 +7,7 @@ import Game 1.0
 Item {
     id: root
 
-    signal exploreClicked(string areaName)
+    signal exploreClicked(string intLandName, string landName, string landDesc)
 
     function returnToDefault()
     {
@@ -58,7 +58,7 @@ Item {
             onTriggered: {
                 if (mapMA.isScrollingActive == true)
                 {
-                    mapImage.move(Math.ceil(mapMA.mouseX) - mapMA.x0, Math.ceil(mapMA.mouseY) - mapMA.y0);
+                    mapImageItem.move(Math.ceil(mapMA.mouseX) - mapMA.x0, Math.ceil(mapMA.mouseY) - mapMA.y0);
 
                     mapMA.x0 = Math.ceil(mapMA.mouseX);
                     mapMA.y0 = Math.ceil(mapMA.mouseY);
@@ -68,7 +68,7 @@ Item {
                     if ((Math.abs(mapMA.mouseX - mapMA.x0) >= Globals.windowWidth * mapMA.coordChangedThresholdForScrolling / 100) || (Math.abs(mapMA.mouseY - mapMA.y0) >= Globals.windowHeight * mapMA.coordChangedThresholdForScrolling / 100))
                     {
                         mapMA.isScrollingActive = true;
-                        mapImage.move(mapMA.mouseX - mapMA.x0, mapMA.mouseY - mapMA.y0);
+                        mapImageItem.move(mapMA.mouseX - mapMA.x0, mapMA.mouseY - mapMA.y0);
                         mapMA.x0 = mapMA.mouseX;
                         mapMA.y0 = mapMA.mouseY;
                     }
@@ -77,13 +77,15 @@ Item {
         }
     }
 
-    Image {
-        id: mapImage
+    Item {
+        id: mapImageItem
+
+        property real customOpacity: 1.0
 
         x: -(width - root.width)/2
         y: -(height - root.height)/2
-
-        source: "qrc:/graphics/Missions/Map.png"
+        width: mapImage.width
+        height: mapImage.height
 
         function move(xChange,yChange)
         {
@@ -101,6 +103,8 @@ Item {
                 y = -root.height;
         }
 
+        onCustomOpacityChanged: landmarksManagerIconsHandler.opacity = customOpacity; // this line is to suppress warning got when doing opacity: customOpacity there
+
         NumberAnimation {
             id: animMapLight
 
@@ -117,15 +121,23 @@ Item {
             }
 
             duration: 250
-            target: mapImage
-            property: "opacity"
+            target: mapImageItem
+            property: "customOpacity"
             running: true
+        }
+
+        Image {
+            id: mapImage
+
+            opacity: parent.customOpacity
+
+            source: "qrc:/graphics/Missions/Map.png"
         }
 
         Item {
             id: landmarksManager
 
-            readonly property int landmarkIconSize: 100 // = width = height
+            readonly property int landmarkIconSize: 150 // = width = height
 
             function handleIconClick(centerX, centerY, name, description, art)
             {
@@ -143,11 +155,13 @@ Item {
                 landmarkInfo.setDescription(description);
                 landmarkInfo.setArtSource(art);
 
-                landmarkInfo.visible = true;
+                landmarkInfo.state = "";
+                landmarkInfoBoxClicksCatcher.visible = true;
             }
             function hideInfo()
             {
-                landmarkInfo.visible = false;
+                landmarkInfo.state = "hidden";
+                landmarkInfoBoxClicksCatcher.visible = false;
                 landmarkInfo.setName("");
             }
 
@@ -158,10 +172,8 @@ Item {
             Rectangle {
                 id: landmarkInfo
 
-                visible: false
-
-                width: 800
-                height: landmarkArt.height + landmarkArt.y*2 + 100
+                width: 1000
+                height: landmarkArt.height + landmarkArt.y*2
 
                 color: "#171717"
 
@@ -194,7 +206,7 @@ Item {
                     height: font.pixelSize + 6
 
                     color: "#94ef94"
-                    font.pixelSize: 50
+                    font.pixelSize: 60
                     font.family: fontStencil.name
                     horizontalAlignment: Text.AlignHCenter
 
@@ -209,11 +221,11 @@ Item {
                     height: (font.pixelSize + 6)*maximumLineCount
 
                     color: "#94ef94"
-                    font.pixelSize: 40
+                    font.pixelSize: 45
                     font.family: fontStencil.name
 
                     wrapMode: Text.WordWrap
-                    maximumLineCount: 5
+                    maximumLineCount: 3
                 }
                 Rectangle {
                     id: landmarkArtRect
@@ -232,7 +244,7 @@ Item {
 
                     x: landmarkArtRect.border.width
                     y: landmarkArtRect.border.width
-                    width: 300
+                    width: 400
                     height: width
                 }
 
@@ -245,10 +257,10 @@ Item {
                 Item {
                     id: exploreButton
 
-                    x: landmarkDesc.x + landmarkDesc.width/2
-                    y: landmarkDesc.y + landmarkDesc.height + 10
-                    width: 200
-                    height: exploreText.font.pixelSize + 4
+                    x: parent.width - width
+                    y: parent.height - height
+                    width: 280
+                    height: exploreText.font.pixelSize + 8
 
                     Text {
                         id: exploreText
@@ -256,17 +268,35 @@ Item {
                         anchors.fill: parent
 
                         color: "#94ef94"
-                        font.pixelSize: 50
+                        font.pixelSize: 60
                         font.family: fontStencil.name
                         text: "Explore"
                     }
                     MouseArea {
                         id: exploreMA
 
-                        anchors.fill: parent
+                        x: -20
+                        y: -20
+                        width: parent.width - 2*x
+                        height: parent.height - 2*y
 
-                        onClicked: exploreClicked(landmarkName.text)
+                        onClicked: {
+                            var intName=""+landmarkArt.source;
+                            intName=intName.slice(intName.lastIndexOf("/")+1,-4);
+                            exploreClicked(intName, landmarkName.text, landmarkDesc.text);
+                        }
                     }
+                }
+
+                states: [
+                    State {
+                        name: "hidden"
+                        PropertyChanges { target: landmarkInfo; opacity: 0 }
+                    }
+                ]
+
+                transitions: Transition {
+                    NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 100 }
                 }
             }
         }
@@ -279,9 +309,12 @@ Item {
     }
 
     Component.onCompleted: {
-        Scripts.setupList(3);
-        Scripts.createItem(1150,450,landmarksManager.landmarkIconSize,"Super Plains", "Plainlands","Yay, plains!!!");
-        Scripts.createItem(1150,1600,landmarksManager.landmarkIconSize,"Friggin Desert", "Desert","Please no...");
-        Scripts.createItem(550,950,landmarksManager.landmarkIconSize,"Forrest's Forest", "Forest","Lots of trees you have there m8");
+        var am=GameApi.lands.amountOfLands();
+        Scripts.setupList(am);
+        for (var i=0;i<am;++i)
+        {
+            GameApi.lands.prepareLandAt(i);
+            Scripts.createItem(GameApi.lands.preparedLand.posX(),GameApi.lands.preparedLand.posY(),landmarksManager.landmarkIconSize,GameApi.lands.preparedLand.name(),GameApi.globalsCpp.alterNormalTextToInternal(GameApi.lands.preparedLand.name()),GameApi.lands.preparedLand.description());
+        }
     }
 }

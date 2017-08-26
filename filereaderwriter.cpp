@@ -1496,14 +1496,12 @@ QList<QString> XmlFileReader::getLandsNamesList(const QString &pathToLandsDir) n
         qCritical()<<"Directory "+pathToLandsDir+" doesn't exist.";
 
     auto r = QDir(pathToLandsDir).entryList({}, QDir::Dirs | QDir::NoDotAndDotDot);
-    for (int i=0;i<r.size();++i)
-        r[i].remove(r[i].size()-4,4);
     if (r.isEmpty())
         qCritical("No lands detected.");
     return r;
 }
 
-QPair <QString, QString> XmlFileReader::getLandInfo(const QString &path) noexcept
+LandInfo XmlFileReader::getLandInfo(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -1511,16 +1509,30 @@ QPair <QString, QString> XmlFileReader::getLandInfo(const QString &path) noexcep
         return {};
     }
 
-    QString name, description;
+    LandInfo r;
 
-    while (m_xmlReader->readNextStartElement())
+    if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader->name()=="name")
-            name=m_xmlReader->readElementText();
-        else if (m_xmlReader->name()=="description")
-            description=m_xmlReader->readElementText();
+        if (m_xmlReader->name()=="land")
+        {
+            while (m_xmlReader->readNextStartElement())
+            {
+                if (m_xmlReader->name()=="name")
+                    r.name=m_xmlReader->readElementText();
+                else if (m_xmlReader->name()=="description")
+                    r.description=m_xmlReader->readElementText();
+                else if (m_xmlReader->name()=="position")
+                {
+                    auto attrs=m_xmlReader->attributes();
+                    r.position={attrs.value("x").toInt(), attrs.value("y").toInt()};
+                    m_xmlReader->skipCurrentElement();
+                }
+                else
+                    m_xmlReader->skipCurrentElement();
+            }
+        }
         else
-            m_xmlReader->skipCurrentElement();
+            m_xmlReader->raiseError("Parse error");
     }
 
     if (m_xmlReader->hasError())
@@ -1528,7 +1540,7 @@ QPair <QString, QString> XmlFileReader::getLandInfo(const QString &path) noexcep
         qCritical()<<"Couldn't read "+path+" properly.";
         return {};
     }
-    return {name,description};
+    return r;
 }
 
 EncountersContainer XmlFileReader::getEncounters(const QString &path) noexcept

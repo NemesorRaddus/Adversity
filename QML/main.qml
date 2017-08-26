@@ -266,8 +266,8 @@ Window {
                     close.accepted = false;
                 else
                 {
-                GameApi.saveBase();
-            }
+                    GameApi.saveBase();
+                }
             }
             else if (currentMode == 1)
             {
