@@ -2021,6 +2021,15 @@ BuildingUpgradeRequirements Base::buildingRequirements(BaseEnums::Building build
     return m_buildingRequirements.value({buildingName,level});
 }
 
+int Base::currentTotalSalary() const noexcept
+{
+    int r=0;
+    for (auto e : m_heroes->heroes())
+        if (e->currentActivity() != HeroEnums::CA_Arriving)
+            r+=e->salary();
+    return r;
+}
+
 void Base::setCurrentEnergyAmount(unsigned amount) noexcept
 {
     if (amount <= currentEnergyLimit())
@@ -2063,6 +2072,40 @@ void Base::decreaseBuildingMaterialsAmount(unsigned amount) noexcept
 void Base::decreaseAetheriteAmount(unsigned amount) noexcept
 {
     m_aetherite = m_aetherite>amount ? m_aetherite-amount : 0;
+}
+
+int Base::currentEnergyIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInEnergy();
+    return r;
+}
+
+int Base::currentFoodSuppliesIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
+    for (auto e : m_heroes->heroes())
+        r-=e->dailyFoodConsumption();
+    return r;
+}
+
+int Base::currentBuildingMaterialsIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInBuildingMaterials();
+    return r;
+}
+
+int Base::currentAetheriteIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInAetherite();
+    return r;
 }
 
 void Base::setBuildingLevel(BaseEnums::Building buildingName, unsigned level) noexcept

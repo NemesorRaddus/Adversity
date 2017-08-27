@@ -2289,6 +2289,8 @@ public:
         return m_aetherite;
     }
 
+    Q_INVOKABLE int currentTotalSalary() const noexcept;
+
     void setCurrentEnergyAmount(unsigned amount) noexcept;
     void setCurrentFoodSuppliesAmount(unsigned amount) noexcept;
     void setCurrentBuildingMaterialsAmount(unsigned amount) noexcept;
@@ -2316,38 +2318,10 @@ public:
     void decreaseBuildingMaterialsAmount(unsigned amount) noexcept;
     void decreaseAetheriteAmount(unsigned amount) noexcept;
 
-    Q_INVOKABLE int currentEnergyIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInEnergy();
-        return r;
-    }
-    Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
-        for (auto e : m_heroes->heroes())
-            r-=e->dailyFoodConsumption();
-        return r;
-    }
-    Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInBuildingMaterials();
-        return r;
-    }
-    Q_INVOKABLE int currentAetheriteIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInAetherite();
-        for (auto e : m_heroes->heroes())
-            r-=e->salary();
-        return r;
-    }
+    Q_INVOKABLE int currentEnergyIncome() const noexcept;
+    Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept;
+    Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept;
+    Q_INVOKABLE int currentAetheriteIncome() const noexcept;
 
     Q_INVOKABLE inline int currentEnergyLimit() noexcept
     {

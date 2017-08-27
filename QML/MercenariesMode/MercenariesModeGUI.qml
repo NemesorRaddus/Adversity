@@ -107,6 +107,7 @@ Item {
         function update()
         {
             heroesAmountAmount.text = GameApi.base.heroes.amountOfHeroes() + '/' + GameApi.base.heroes.amountOfSlots();
+            totalSalary.text = "Total salary: "+GameApi.base.currentTotalSalary();
         }
 
         Text {
@@ -131,11 +132,26 @@ Item {
             font.family: fontStencil.name
         }
 
+        Text {
+            id: totalSalary
+
+            x: 0
+            y: heroesAmountAmount.y + heroesAmountAmount.height
+            width: parent.width
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "Total salary: 100"
+            font.pixelSize: 60
+            horizontalAlignment: Text.AlignHCenter
+            font.family: fontStencil.name
+        }
+
         Image {
             id: heroesAmountTaskBorder
 
             x: 17
-            y: 68
+            y: totalSalary.y + totalSalary.height + 4
             width: 1048
             height: 3
 
