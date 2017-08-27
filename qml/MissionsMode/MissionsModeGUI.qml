@@ -14,8 +14,9 @@ Item {
         missionStartMenu.returnToDefault();
         missionSelectionMenu.returnToDefault();
 
-        missionSelectionMenu.visible = false;
-        missionStartMenu.visible = false;
+        missionSelectionMenu.state = "hiddenRight2";
+        missionStartMenu.state = "hiddenRight";
+        map.state = "";
     }
 
     function updateEverything()
@@ -25,16 +26,30 @@ Item {
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
     {
-        if (missionSelectionMenu.visible)
+        if (missionSelectionMenu.state == "")
         {
             if (!missionSelectionMenu.reactToBackOnToolbar())
-                missionSelectionMenu.hide();
+            {
+                missionSelectionMenu.state = "hiddenRight";
+                missionSelectionMenu.returnToDefault();
+
+                missionStartMenu.state = ""
+
+                map.state = "hiddenLeft";
+            }
             return true;
         }
-        else if (missionStartMenu.visible)
+        else if (missionStartMenu.state == "")
         {
             if (!missionStartMenu.reactToBackOnToolbar())
-                missionStartMenu.hide();
+            {
+                missionStartMenu.state = "hiddenRight";
+                missionStartMenu.returnToDefault();
+
+                missionSelectionMenu.state = "hiddenRight2";
+
+                map.state = ""
+            }
             return true;
         }
         else
@@ -51,7 +66,9 @@ Item {
 
         onExploreClicked: {
             missionStartMenu.show(intLandName, landName, landDesc);
-            missionStartMenu.visible=true;
+            missionStartMenu.state = "";
+            missionSelectionMenu.state = "hiddenRight";
+            state = "hiddenLeft";
         }
     }
 
@@ -63,20 +80,18 @@ Item {
         width: root.width
         height: root.height
 
-        visible: false
-
-        function hide()
-        {
-            visible = false;
-            returnToDefault();
-        }
+        state: "hiddenRight"
 
         onBackClicked: {
-            visible = false;
+            state = "hiddenRight";
+            missionSelectionMenu.state = "hiddenRight2";
+            map.state = "";
         }
 
         onNextClicked: {
-            missionSelectionMenu.visible=true;
+            missionSelectionMenu.state = "";
+            state = "hiddenLeft";
+            map.state = "hiddenLeft2";
         }
     }
 
@@ -88,12 +103,16 @@ Item {
         width: root.width
         height: root.height
 
-        visible: false
+        state: "hiddenRight2"
 
-        function hide()
-        {
-            visible = false;
-            returnToDefault();
+        onBackClicked: {
+            state = "hiddenRight";
+            missionStartMenu.state = "";
+            map.state = "hiddenLeft";
+        }
+
+        onExploreClicked: {
+
         }
     }
 

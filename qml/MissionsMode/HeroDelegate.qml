@@ -152,15 +152,6 @@ Item {
         }
     ]
 
-    Image {
-        id: itemBorder
-        x: 17
-        y: 265
-        width: 1048
-        height: 3
-        source: "qrc:/graphics/GUI/Task_Border.png"
-    }
-
     Item {
         id: artSegment
 
@@ -175,6 +166,8 @@ Item {
             y: 3
             width: 256
             height: 256
+
+            source: "qrc:/graphics/GUI/HeroSlot.png"
         }
 
         Image {

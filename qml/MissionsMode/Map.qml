@@ -12,6 +12,7 @@ Item {
     function returnToDefault()
     {
         landmarksManager.hideInfo();
+        mapImageItem.returnToDefault();
     }
 
     function updateEverything()
@@ -87,6 +88,15 @@ Item {
         width: mapImage.width
         height: mapImage.height
 
+        function returnToDefault()
+        {
+            if (mapImage.status == Image.Ready)
+            {
+                x = -(width - root.width)/2;
+                y = -(height - root.height)/2;
+            }
+        }
+
         function move(xChange,yChange)
         {
             x += xChange;
@@ -132,6 +142,8 @@ Item {
             opacity: parent.customOpacity
 
             source: "qrc:/graphics/Missions/Map.png"
+
+            asynchronous: true
         }
 
         Item {
@@ -300,6 +312,21 @@ Item {
                 }
             }
         }
+    }
+
+    states: [
+        State {
+            name: "hiddenLeft"
+            PropertyChanges { target: root; x: -width }
+        },
+        State {
+            name: "hiddenLeft2"
+            PropertyChanges { target: root; x: -2*width }
+        }
+    ]
+
+    transitions: Transition {
+        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
     }
 
     FontLoader {

@@ -404,6 +404,21 @@ Item {
         font.family: fontStencil.name
     }
 
+    states: [
+        State {
+            name: "hiddenLeft"
+            PropertyChanges { target: root; x: -width }
+        },
+        State {
+            name: "hiddenRight"
+            PropertyChanges { target: root; x: width }
+        }
+    ]
+
+    transitions: Transition {
+        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+    }
+
     FontLoader {
         id: fontStencil
 
