@@ -172,36 +172,6 @@ Item {
                     break;
                 }
             }
-            else if (bName == "Luck")
-            {
-                switch (index)
-                {
-                case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/Profitability.png";
-                    bonus1Text.text = "LU";
-                    break;
-                case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/Profitability.png";
-                    bonus2Text.text = "LU";
-                    break;
-                case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/Profitability.png";
-                    bonus3Text.text = "LU";
-                    break;
-                case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/Profitability.png";
-                    bonus4Text.text = "LU";
-                    break;
-                case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/Profitability.png";
-                    bonus5Text.text = "LU";
-                    break;
-                case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/Profitability.png";
-                    bonus6Text.text = "LU";
-                    break;
-                }
-            }
             else if (bName == "Health Limit")
             {
                 switch (index)
@@ -319,36 +289,6 @@ Item {
                 case 5:
                     bonus6Icon.source = "qrc:/graphics/GUI/StressLimit.png";
                     bonus6Text.text = "SL";
-                    break;
-                }
-            }
-            else if (bName == "Stress Border")
-            {
-                switch (index)
-                {
-                case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/StressLimit.png";
-                    bonus1Text.text = "SB";
-                    break;
-                case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/StressLimit.png";
-                    bonus2Text.text = "SB";
-                    break;
-                case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/StressLimit.png";
-                    bonus3Text.text = "SB";
-                    break;
-                case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/StressLimit.png";
-                    bonus4Text.text = "SB";
-                    break;
-                case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/StressLimit.png";
-                    bonus5Text.text = "SB";
-                    break;
-                case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/StressLimit.png";
-                    bonus6Text.text = "SB";
                     break;
                 }
             }

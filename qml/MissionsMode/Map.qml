@@ -161,8 +161,14 @@ Item {
 
             function showInfo(centerX, centerY, name, description, art)
             {
-                landmarkInfo.x = centerX-landmarkInfo.width/2;
-                landmarkInfo.y = centerY-landmarkInfo.height/2;
+                if (centerX+landmarkInfo.width/2 < mapImage.width)
+                    landmarkInfo.x = centerX-landmarkInfo.width/2;
+                else
+                    landmarkInfo.x = mapImage.width-landmarkInfo.width;
+                if (centerY+landmarkInfo.height/2 < mapImage.height)
+                    landmarkInfo.y = centerY-landmarkInfo.height/2;
+                else
+                    landmarkInfo.y = mapImage.height-landmarkInfo.height;
                 landmarkInfo.setName(name);
                 landmarkInfo.setDescription(description);
                 landmarkInfo.setArtSource(art);
