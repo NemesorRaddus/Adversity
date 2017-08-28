@@ -887,6 +887,28 @@ void Hero::clearCarriedEquipment() noexcept
     m_carriedEquipment.clear();
 }
 
+unsigned Hero::dailyEquipmentCostEnergy() noexcept
+{
+    unsigned r=0;
+    if (m_armor != nullptr)
+        r+=m_armor->maintenanceEnergyCost();
+    for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+        if (m_weaponsTools[i] != nullptr)
+            r+=m_weaponsTools[i]->maintenanceEnergyCost();
+    return r;
+}
+
+unsigned Hero::dailyEquipmentCostBM() noexcept
+{
+    unsigned r=0;
+    if (m_armor != nullptr)
+        r+=m_armor->maintenanceBuildingMaterialsCost();
+    for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+        if (m_weaponsTools[i] != nullptr)
+            r+=m_weaponsTools[i]->maintenanceBuildingMaterialsCost();
+    return r;
+}
+
 Hero::Hero(Base *base) noexcept
     : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
@@ -1881,30 +1903,7 @@ void Hero::handleHunger() noexcept
 
 void Hero::handleSalary() noexcept
 {
-    if (m_currentActivity == HeroEnums::CA_OnMission)
-    {
-        int missingAetherite = salary()-carriedAetheriteOre();
-        if (missingAetherite<=0)
-        {
-            setCarriedAetheriteOre(salary());
-            if (m_noSalaryWeeks>0)
-                --m_noSalaryWeeks;
-        }
-        else
-        {
-            setCarriedAetheriteOre(0);
-            increaseStress(missingAetherite*3);
-            if (m_noSalaryWeeks+1 == 4)
-                ranAway(m_name,21);
-            else
-            {
-                ++m_noSalaryWeeks;
-                if (stress()/stressLimit()*100 >= Randomizer::randomBetweenAAndB(1,100))
-                    ranAway(m_name,21);
-            }
-        }
-    }
-    else if (m_currentActivity != HeroEnums::CA_Arriving)
+    if (m_currentActivity != HeroEnums::CA_Arriving)
     {
         int missingAetherite = salary()-m_base->currentAetheriteAmount();
         if (missingAetherite<=0)
@@ -1966,21 +1965,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_stressBorderEffects = hero.stressBorderEffects;
     r->m_nature = hero.nature;
     r->m_profession = hero.profession;
-    if (!hero.armor.isEmpty())
-        r->m_armor = Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.armor);
-    else
-        r->m_armor = nullptr;
-    for (int i=0;i<hero.weaponsTools.size();++i)
-    {
-        if (!hero.weaponsTools[i].isEmpty())
-            r->m_weaponsTools[i]=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.weaponsTools[i]);
-        else
-            r->m_weaponsTools[i]=nullptr;
-    }
-    r->m_currentEquipmentCategories = hero.equipmentCategories;
-    for (int i=0;i<hero.carriedEquipment.size();++i)
-        r->m_carriedEquipment+=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.carriedEquipment[i]);
-    r->m_isEquipmentActive = hero.isEquipmentActive;
+
     r->m_dhrBuildingBonus = hero.dhrBuildingBonus;
     r->m_dsrBuildingBonus = hero.dsrBuildingBonus;
     r->m_isDead = hero.isDead;
@@ -1993,7 +1978,26 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_noSalaryWeeks = hero.noSalaryWeeks;
     //TODO mission
     r->m_currentActivity = hero.currentActivity;
-
+    if (hero.currentActivity == HeroEnums::CA_OnMission)
+    {
+        if (!hero.armor.isEmpty())
+            r->m_armor = Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.armor);
+        else
+            r->m_armor = nullptr;
+        for (int i=0;i<hero.weaponsTools.size();++i)
+        {
+            if (!hero.weaponsTools[i].isEmpty())
+                r->m_weaponsTools[i]=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.weaponsTools[i]);
+            else
+                r->m_weaponsTools[i]=nullptr;
+        }
+        r->m_currentEquipmentCategories = hero.equipmentCategories;
+        for (int i=0;i<hero.carriedEquipment.size();++i)
+            r->m_carriedEquipment+=Game::gameInstance()->assetsPool().makeEquipmentNamed(hero.carriedEquipment[i]);
+        r->m_isEquipmentActive = hero.isEquipmentActive;
+    }
+    else
+        r->calculateCurrentAttributeValues();
     return r;
 }
 

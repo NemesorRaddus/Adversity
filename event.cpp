@@ -23,7 +23,7 @@ EventEnums::MissionDifficulty EventEnums::fromQStringToMissionDifficultyEnum(con
     qWarning()<<"QString->enum conversion failed for "<<missionDifficulty;
 }
 
-QString EventEnums::fromMissionDifficultyEnumToQString(const QString &missionDifficulty) noexcept
+QString EventEnums::fromMissionDifficultyEnumToQString(EventEnums::MissionDifficulty missionDifficulty) noexcept
 {
     if (missionDifficulty == MD_Short)
         return "Short";
@@ -897,6 +897,11 @@ void MissionInitializer::setLand(const QString &name) noexcept
 void MissionInitializer::setDifficulty(const QString & difficulty) noexcept
 {
     m_difficulty=EventEnums::fromQStringToMissionDifficultyEnum(difficulty);
+}
+
+QString MissionInitializer::difficulty() const noexcept
+{
+    return EventEnums::fromMissionDifficultyEnumToQString(m_difficulty);
 }
 
 void MissionInitializer::setHero(const QString &name) noexcept

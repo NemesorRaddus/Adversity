@@ -66,7 +66,7 @@ struct EventEnums
     };
 
     static MissionDifficulty fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept;
-    static QString fromMissionDifficultyEnumToQString(const QString &missionDifficulty) noexcept;
+    static QString fromMissionDifficultyEnumToQString(MissionDifficulty missionDifficulty) noexcept;
 };
 
 class Expression
@@ -647,6 +647,7 @@ public:
 
     Q_INVOKABLE void setLand(const QString &name) noexcept;
     Q_INVOKABLE void setDifficulty(const QString &difficulty) noexcept;
+    Q_INVOKABLE QString difficulty() const noexcept;
 
     Q_INVOKABLE void setHero(const QString &name) noexcept;
     Q_INVOKABLE inline bool isHeroSelected() const noexcept

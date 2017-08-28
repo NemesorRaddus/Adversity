@@ -386,6 +386,9 @@ public:
     QVector <Equipment *> carriedEquipment() const noexcept;
     void clearCarriedEquipment() noexcept;
 
+    Q_INVOKABLE unsigned dailyEquipmentCostEnergy() noexcept;
+    Q_INVOKABLE unsigned dailyEquipmentCostBM() noexcept;
+
     Q_INVOKABLE inline bool isDead() const noexcept
     {
         return m_isDead;

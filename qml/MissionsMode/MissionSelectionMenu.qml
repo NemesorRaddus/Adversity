@@ -33,6 +33,12 @@ Item {
         buildingMaterialsSetter.text = "0";
         foodSuppliesSetter.text = "0";
 
+        energySetter.checkAmount();
+        buildingMaterialsSetter.checkAmount();
+        foodSuppliesSetter.checkAmount();
+
+        warningNotEnoughResourcesText.checkResources();
+
         forceActiveFocus();
     }
 
@@ -332,7 +338,6 @@ Item {
             opacity: 0
 
             color: "#9f1e1e"
-            text: "Tip: at least 10 energy recommended."
             wrapMode: Text.WordWrap
             font.pixelSize: 55
             font.family: fontStencil.name
@@ -418,7 +423,7 @@ Item {
         TextInput {
             id: energySetter
 
-            x: 90
+            x: 110
             y: 10
             width: 250
             height: 100
@@ -428,21 +433,53 @@ Item {
             font.pixelSize: 100
             font.family: fontStencil.name
 
+            function checkAmount()
+            {
+                if (GameApi.base.missionInitializer.isHeroSelected())
+                {
+                    var mindays = 0;
+                    if (GameApi.base.missionInitializer.difficulty() == "Short")
+                        mindays = 2;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Medium")
+                        mindays = 6;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Long")
+                        mindays = 11;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Extreme")
+                        mindays = 28;
+
+                    var needam = GameApi.base.missionInitializer.selectedHero.dailyEquipmentCostEnergy() * mindays;
+                    var curam = text*1;
+                    if (needam > curam)
+                    {
+                        warningEnergyText.text = "Tip: at least "+needam+" energy recommended."
+                        warningEnergyText.startShowing();
+                    }
+                    else
+                        warningEnergyText.stopShowing();
+                }
+                else
+                    warningEnergyText.stopShowing();
+
+                warningNotEnoughResourcesText.checkResources();
+            }
+
             maximumLength: 3
             validator: RegExpValidator { regExp: /(\d|[1-9]\d+)/}
 
             onAccepted: {
                 root.forceActiveFocus();
+                checkAmount();
             }
 
             onFocusChanged: {
-                if (!focus && text=="")
-                    text="0";
+                if (!focus)
+                {
+                    if (text=="")
+                        text="0";
+                    checkAmount();
+                    warningNotEnoughResourcesText.checkResources();
+                }
             }
-        }
-
-        Component.onCompleted: {
-            warningEnergyText.startShowing();
         }
     }
     Item {
@@ -473,7 +510,6 @@ Item {
             opacity: 0
 
             color: "#9f1e1e"
-            text: "Tip: at least 10 materials recommended."
             wrapMode: Text.WordWrap
             font.pixelSize: 55
             font.family: fontStencil.name
@@ -559,7 +595,7 @@ Item {
         TextInput {
             id: buildingMaterialsSetter
 
-            x: 90
+            x: 110
             y: 10
             width: 250
             height: 100
@@ -569,21 +605,53 @@ Item {
             font.pixelSize: 100
             font.family: fontStencil.name
 
+            function checkAmount()
+            {
+                if (GameApi.base.missionInitializer.isHeroSelected())
+                {
+                    var mindays = 0;
+                    if (GameApi.base.missionInitializer.difficulty() == "Short")
+                        mindays = 2;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Medium")
+                        mindays = 6;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Long")
+                        mindays = 11;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Extreme")
+                        mindays = 28;
+
+                    var needam = GameApi.base.missionInitializer.selectedHero.dailyEquipmentCostBM() * mindays;
+                    var curam = text*1;
+                    if (needam > curam)
+                    {
+                        warningBuildingMaterialsText.text = "Tip: at least "+needam+" materials recommended."
+                        warningBuildingMaterialsText.startShowing();
+                    }
+                    else
+                        warningBuildingMaterialsText.stopShowing();
+                }
+                else
+                    warningBuildingMaterialsText.stopShowing();
+
+                warningNotEnoughResourcesText.checkResources();
+            }
+
             maximumLength: 3
             validator: RegExpValidator { regExp: /(\d|[1-9]\d+)/}
 
             onAccepted: {
                 root.forceActiveFocus();
+                checkAmount();
             }
 
             onFocusChanged: {
-                if (!focus && text=="")
-                    text="0";
+                if (!focus)
+                {
+                    if (text=="")
+                        text="0";
+                    checkAmount();
+                    warningNotEnoughResourcesText.checkResources();
+                }
             }
-        }
-
-        Component.onCompleted: {
-            warningBuildingMaterialsText.startShowing();
         }
     }
     Item {
@@ -614,7 +682,6 @@ Item {
             opacity: 0
 
             color: "#9f1e1e"
-            text: "Tip: at least 10 food recommended."
             wrapMode: Text.WordWrap
             font.pixelSize: 55
             font.family: fontStencil.name
@@ -700,7 +767,7 @@ Item {
         TextInput {
             id: foodSuppliesSetter
 
-            x: 90
+            x: 110
             y: 10
             width: 250
             height: 100
@@ -710,21 +777,157 @@ Item {
             font.pixelSize: 100
             font.family: fontStencil.name
 
+            function checkAmount()
+            {
+                if (GameApi.base.missionInitializer.isHeroSelected())
+                {
+                    var mindays = 0;
+                    if (GameApi.base.missionInitializer.difficulty() == "Short")
+                        mindays = 2;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Medium")
+                        mindays = 6;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Long")
+                        mindays = 11;
+                    else if (GameApi.base.missionInitializer.difficulty() == "Extreme")
+                        mindays = 28;
+
+                    var needam = GameApi.base.missionInitializer.selectedHero.dailyFoodConsumption() * mindays;
+                    var curam = text*1;
+                    if (needam > curam)
+                    {
+                        warningFoodSuppliesText.text = "Tip: at least "+needam+" food recommended."
+                        warningFoodSuppliesText.startShowing();
+                    }
+                    else
+                        warningFoodSuppliesText.stopShowing();
+                }
+                else
+                    warningFoodSuppliesText.stopShowing();
+
+                warningNotEnoughResourcesText.checkResources();
+            }
+
             maximumLength: 3
             validator: RegExpValidator { regExp: /(\d|[1-9]\d+)/}
 
             onAccepted: {
                 root.forceActiveFocus();
+                checkAmount();
             }
 
             onFocusChanged: {
-                if (!focus && text=="")
-                    text="0";
+                if (!focus)
+                {
+                    if (text=="")
+                        text="0";
+                    checkAmount();
+                    warningNotEnoughResourcesText.checkResources();
+                }
+            }
+        }
+    }
+
+    Text {
+        id: warningNotEnoughResourcesText
+
+        property bool isShowing: false
+
+        x: 0
+        y: 1240
+        width: root.width
+
+        opacity: 0
+
+        color: "#a00000"
+        text: "You don't have enough resources."
+        wrapMode: Text.WordWrap
+        font.pixelSize: 55
+        font.family: fontStencil.name
+        horizontalAlignment: Text.AlignHCenter
+
+        function checkResources()
+        {
+            if (energySetter.text*1 > GameApi.base.currentEnergyAmount() | buildingMaterialsSetter.text*1 > GameApi.base.currentBuildingMaterialsAmount() | foodSuppliesSetter.text*1 > GameApi.base.currentFoodSuppliesAmount())
+                startShowing();
+            else
+                stopShowing();
+        }
+
+        function startShowing()
+        {
+            if (isShowing == false)
+            {
+                warningNotEnoughResourcesFadeOut.start();
+                warningNotEnoughResourcesBlinking.toRunOrNotToRun=true;
+                warningNotEnoughResourcesBlinking.start();
+                isShowing=true;
+            }
+        }
+        function stopShowing()
+        {
+            if (isShowing == true)
+            {
+                warningNotEnoughResourcesFadeIn.start();
+                warningNotEnoughResourcesBlinking.toRunOrNotToRun=false;
+                warningNotEnoughResourcesBlinking.stop();
+                isShowing=false;
             }
         }
 
-        Component.onCompleted: {
-            warningFoodSuppliesText.startShowing();
+        NumberAnimation {
+            id: warningNotEnoughResourcesFadeIn
+
+            properties: "opacity"
+            easing.type: Easing.InQuad
+            duration: 300
+            from: 1
+            to: 0
+            targets: [
+                warningNotEnoughResourcesText
+            ]
+        }
+        NumberAnimation {
+            id: warningNotEnoughResourcesFadeOut
+
+            properties: "opacity"
+            easing.type: Easing.InQuad
+            duration: 300
+            from: 0
+            to: 1
+            targets: [
+                warningNotEnoughResourcesText
+            ]
+        }
+        NumberAnimation {
+            id: warningNotEnoughResourcesBlinking
+
+            property bool toRunOrNotToRun: false
+
+            properties: "opacity"
+            easing.type: Easing.InQuad
+            duration: 2000
+            from: 1
+            to: 0.5
+            targets: [
+                warningNotEnoughResourcesText
+            ]
+            onRunningChanged: {
+                if (running == false && toRunOrNotToRun == true)
+                {
+                    if (from == 1)
+                    {
+                        from = 0.5;
+                        to = 1;
+                    }
+                    else
+                    {
+                        from = 1;
+                        to = 0.5;
+                    }
+
+                    running = true;
+                }
+            }
         }
     }
 
@@ -791,7 +994,19 @@ Item {
             width: parent.width - 2*x
             height: parent.height - 2*y
 
-            onClicked: root.exploreClicked();
+            onClicked: {
+                warningNotEnoughResourcesText.checkResources();
+                if (!warningNotEnoughResourcesText.isShowing && GameApi.base.missionInitializer.isHeroSelected())
+                {
+                    GameApi.base.missionInitializer.setEnergy(energySetter.text);
+                    GameApi.base.missionInitializer.setBuildingMaterials(buildingMaterialsSetter.text);
+                    GameApi.base.missionInitializer.setFoodSupplies(foodSuppliesSetter.text);
+
+                    GameApi.base.missionInitializer.start();
+
+                    root.exploreClicked();
+                }
+            }
         }
     }
 
@@ -820,6 +1035,10 @@ Item {
                 delegate.setArtSource(artSource);
                 updateDelegate();
             }
+
+            energySetter.checkAmount();
+            buildingMaterialsSetter.checkAmount();
+            foodSuppliesSetter.checkAmount();
 
             state = "hidden";
         }
@@ -879,6 +1098,10 @@ Item {
             }
 
             updateDelegate();
+
+            energySetter.checkAmount();
+            buildingMaterialsSetter.checkAmount();
+            foodSuppliesSetter.checkAmount();
 
             state = "hidden";
         }
