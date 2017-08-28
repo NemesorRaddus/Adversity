@@ -39,7 +39,7 @@ public:
     Equipment *makeEquipmentAtPos(unsigned index) noexcept;
     Equipment *makeEquipmentNamed(const QString &name) const noexcept;
 
-    inline Database *makeStockDatabase() const noexcept;
+    Database *makeStockDatabase() const noexcept;
     
     inline const QVector <Land *> &lands() const noexcept
     {

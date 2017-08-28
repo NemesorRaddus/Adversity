@@ -2152,6 +2152,7 @@ private:
 
 class GameClock;
 class Game;
+class MissionInitializer;
 
 class Base : public QObject
 {
@@ -2179,6 +2180,8 @@ class Base : public QObject
     Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
 
     Q_PROPERTY(Equipment* preparedAvailableEquipment MEMBER m_preparedAvailableEquipment)
+
+    Q_PROPERTY(MissionInitializer* missionInitializer MEMBER m_missionInitializer)
 
     friend class H4X;
 
@@ -2371,6 +2374,8 @@ public:
     {
         return m_availableEquipment.size();
     }
+    Q_INVOKABLE unsigned amountOfAvailableArmors() const noexcept;
+    Q_INVOKABLE unsigned amountOfAvailableWeaponsTools() const noexcept;
     Q_INVOKABLE void prepareAvailableEquipment(unsigned index) noexcept;
 
     //game clock
@@ -2380,6 +2385,7 @@ public:
     }
 
     //missions
+    void startMission(Mission *mission) noexcept;
     inline Database *database() noexcept
     {
         return m_database;
@@ -2438,6 +2444,7 @@ private:
     GameClock *m_gameClock;
 
     //missions
+    MissionInitializer *m_missionInitializer;
     Database *m_database;
 
     //game

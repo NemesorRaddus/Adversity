@@ -361,16 +361,18 @@ public:
     {
         return m_armor;
     }
-    const Equipment *weaponTool(int slot) const noexcept;
-    Q_INVOKABLE inline int amountOfWeaponToolSlots() const noexcept
+    const Equipment *weaponTool(unsigned slot) const noexcept;
+    Q_INVOKABLE inline static unsigned amountOfWeaponToolSlots() noexcept
     {
         return m_amountOfWeaponToolSlots;
     }
 
     void equipArmor(Equipment *armor) noexcept;
     void unequipArmor() noexcept;
-    void equipWeaponTool(Equipment *weaponTool, int slot) noexcept;
-    void unequipWeaponTool(int slot) noexcept;
+    void equipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept;
+    void unequipWeaponTool(unsigned slot) noexcept;
+    void removeArmor() noexcept;
+    void removeWeaponTool(unsigned slot) noexcept;
 
     inline bool isEquipmentActive() const noexcept
     {
@@ -452,6 +454,8 @@ public:
     void handleNewDay() noexcept;
     void handleNewWeek() noexcept;
 
+    void returnToBase() noexcept;
+
     inline Base *base() noexcept
     {
         return m_base;
@@ -525,7 +529,7 @@ private:
 
     Equipment *m_armor;
     QVector <Equipment *> m_weaponsTools;
-    const int m_amountOfWeaponToolSlots = 2;
+    static const unsigned m_amountOfWeaponToolSlots = 2;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
     QVector <Equipment *> m_carriedEquipment;
     bool m_isEquipmentActive;
@@ -711,7 +715,7 @@ public:
     Q_INVOKABLE bool prepareHeroAt(unsigned index) noexcept;
     void addHero(Hero *hero) noexcept;
     void removeHero(unsigned index) noexcept;
-    inline const QVector <Hero *> &heroes() noexcept
+    inline const QVector <Hero *> &heroes() const noexcept
     {
         return m_heroes;
     }

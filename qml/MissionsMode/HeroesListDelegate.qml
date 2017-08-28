@@ -12,8 +12,6 @@ Item {
     property string name_
     property string profession_
 
-    signal openListRequested()
-
     function setArtSource(source)
     {
         art.source = source;
@@ -143,12 +141,12 @@ Item {
 
     function getName()
     {
-        return name;
+        return name.text;
     }
 
     function getProfession()
     {
-        return prof;
+        return prof.text;
     }
 
     function getArtSource()
@@ -171,6 +169,15 @@ Item {
             y: (height-theoreticalHeight*someScale.yScale)/2
         }
     ]
+
+    Image {
+        id: itemBorder
+        x: 17
+        y: 265
+        width: 1048
+        height: 3
+        source: "qrc:/graphics/GUI/Task_Border.png"
+    }
 
     Item {
         id: artSegment
@@ -298,16 +305,6 @@ Item {
                 target: statusSTFrame
                 property: "opacity"
                 running: true
-            }
-        }
-
-        MouseArea {
-            id: listOpener
-
-            anchors.fill: parent
-
-            onClicked: {
-                openListRequested();
             }
         }
     }

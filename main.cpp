@@ -38,6 +38,11 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
     qmlRegisterInterface<GameClock>("GameClock");
+    qmlRegisterInterface<HeroesContainer>("HeroesContainer");
+    qmlRegisterInterface<Equipment>("Equipment");
+    qmlRegisterInterface<MissionInitializer>("MissionInitializer");
+    qmlRegisterInterface<Land>("Land");
+    qmlRegisterInterface<LandsInfo>("LandsInfo");
 
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 

@@ -5,6 +5,8 @@
 #include <QDataStream>
 #include <QMap>
 
+#include <QDebug>
+
 struct DatabaseEnums
 {
     enum EntryType
@@ -27,6 +29,8 @@ struct DatabaseEntryDetails
 
 typedef QPair <QString, DatabaseEntryDetails> DatabaseEntry;
 
+typedef QVector <QString> DatabaseUnlocksInfo;
+
 class Database
 {
 public:
@@ -37,24 +41,23 @@ public:
     void unlockEntry(const Name &entryName) noexcept;
     inline bool isEntryUnlocked(const Name &entryName) const noexcept
     {
-        return m_unlocksInfo.value(entryName);
+        return m_unlocksInfo.contains(entryName);
     }
     DatabaseEntryDetails readEntry(const Name &entryName) const noexcept;
-    QVector <Name> unlockedEntries() const noexcept;
+    inline QVector <Name> unlockedEntries() const noexcept
+    {
+        return m_unlocksInfo;
+    }
     inline QVector <DatabaseEntry> allEntries() const noexcept
     {
         return m_entriesData;
     }
 
-    QDataStream &read(QDataStream &stream) noexcept;
-    QDataStream &write(QDataStream &stream) const noexcept;
+    void setUnlocksInfo(const DatabaseUnlocksInfo &info) noexcept;
 
 private:
     QVector <DatabaseEntry> m_entriesData;
-    QMap <Name, bool> m_unlocksInfo;
+    DatabaseUnlocksInfo m_unlocksInfo;
 };
-
-QDataStream &operator<<(QDataStream &stream, const Database *database) noexcept;
-QDataStream &operator>>(QDataStream &stream, Database *database) noexcept;
 
 #endif // DATABASE_H

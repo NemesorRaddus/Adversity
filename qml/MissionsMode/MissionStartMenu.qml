@@ -387,7 +387,18 @@ Item {
             width: parent.width - 2*x
             height: parent.height - 2*y
 
-            onClicked: root.nextClicked(root.intLandName, name.text, description.text);
+            onClicked: {
+                GameApi.base.missionInitializer.setLand(name.text);
+                if (lengthShort.state == "")
+                    GameApi.base.missionInitializer.setDifficulty("Short");
+                else if (lengthMedium.state == "")
+                    GameApi.base.missionInitializer.setDifficulty("Medium");
+                else if (lengthLong.state == "")
+                    GameApi.base.missionInitializer.setDifficulty("Long");
+                else if (lengthExtreme.state == "")
+                    GameApi.base.missionInitializer.setDifficulty("Extreme");
+                root.nextClicked(root.intLandName, name.text, description.text);
+            }
         }
     }
 

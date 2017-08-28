@@ -794,7 +794,7 @@ void Hero::decrementModificationsDuration() noexcept
     }
 }
 
-const Equipment *Hero::weaponTool(int slot) const noexcept
+const Equipment *Hero::weaponTool(unsigned slot) const noexcept
 {
     return m_weaponsTools.value(slot,nullptr);
 }
@@ -806,8 +806,8 @@ void Hero::equipArmor(Equipment *armor) noexcept
         if (m_armor!=nullptr)
             unequipArmor();
 
-        applyEquipmentEffect();
         setArmor(armor);
+        applyEquipmentEffect();
     }
 }
 
@@ -815,31 +815,49 @@ void Hero::unequipArmor() noexcept
 {
     if (m_armor!=nullptr)
     {
-        unapplyEquipmentEffect();
         addCarriedEquipment(m_armor);
         setArmor(nullptr);
+        applyEquipmentEffect();
     }
 }
 
-void Hero::equipWeaponTool(Equipment *weaponTool, int slot) noexcept
+void Hero::equipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept
 {
-    if (weaponTool!=nullptr && slot>=0 && slot<m_amountOfWeaponToolSlots)
+    if (weaponTool!=nullptr && slot<m_amountOfWeaponToolSlots)
     {
         if (m_weaponsTools[slot]!=nullptr)
             unequipWeaponTool(slot);
 
-        applyEquipmentEffect();
         setWeaponTool(weaponTool,slot);
+        applyEquipmentEffect();
     }
 }
 
-void Hero::unequipWeaponTool(int slot) noexcept
+void Hero::unequipWeaponTool(unsigned slot) noexcept
 {
-    if (slot>=0 && slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
+    if (slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
     {
-        unapplyEquipmentEffect();
         addCarriedEquipment(m_weaponsTools[slot]);
         setWeaponTool(nullptr,slot);
+        applyEquipmentEffect();
+    }
+}
+
+void Hero::removeArmor() noexcept
+{
+    if (m_armor!=nullptr)
+    {
+        setArmor(nullptr);
+        applyEquipmentEffect();
+    }
+}
+
+void Hero::removeWeaponTool(unsigned slot) noexcept
+{
+    if (slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
+    {
+        setWeaponTool(nullptr,slot);
+        applyEquipmentEffect();
     }
 }
 
@@ -938,6 +956,11 @@ void Hero::handleNewDay() noexcept
 void Hero::handleNewWeek() noexcept
 {
     handleSalary();
+}
+
+void Hero::returnToBase() noexcept
+{
+    //TODO
 }
 
 void Hero::activateStressBorderEffect() noexcept

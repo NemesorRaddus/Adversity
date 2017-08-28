@@ -1,5 +1,7 @@
 #include "database.h"
 
+#include <QDebug>
+
 DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString &entryType) noexcept
 {
     if (entryType == "Land")
@@ -26,14 +28,12 @@ void Database::loadEntries(const QVector<DatabaseEntry> &entries) noexcept
 {
     m_entriesData=entries;
     m_unlocksInfo.clear();
-    for (auto e : entries)
-        m_unlocksInfo.insert(e.first, false);
 }
 
 void Database::unlockEntry(const Database::Name &entryName) noexcept
 {
     if (m_unlocksInfo.contains(entryName))
-        m_unlocksInfo.insert(entryName, true);
+        m_unlocksInfo+=entryName;
 }
 
 DatabaseEntryDetails Database::readEntry(const Database::Name &entryName) const noexcept
@@ -45,39 +45,7 @@ DatabaseEntryDetails Database::readEntry(const Database::Name &entryName) const 
     return {};
 }
 
-QVector<Database::Name> Database::unlockedEntries() const noexcept
+void Database::setUnlocksInfo(const DatabaseUnlocksInfo &info) noexcept
 {
-    QVector <Name> r;
-    for (auto e : m_unlocksInfo.keys())
-        if (m_unlocksInfo.value(e))
-            r+=e;
-    return r;
-}
-
-QDataStream &Database::read(QDataStream &stream) noexcept
-{
-    stream>>m_unlocksInfo;
-
-    return stream;
-}
-
-QDataStream &Database::write(QDataStream &stream) const noexcept
-{
-    stream<<m_unlocksInfo;
-
-    return stream;
-}
-
-QDataStream &operator<<(QDataStream &stream, const Database *database) noexcept
-{
-    database->write(stream);
-
-    return stream;
-}
-
-QDataStream &operator>>(QDataStream &stream, Database *database) noexcept
-{
-    database->read(stream);
-
-    return stream;
+    m_unlocksInfo=info;
 }

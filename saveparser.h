@@ -10,6 +10,8 @@
 #include <QDateTime>
 #include <QVector>
 
+#include "database.h"
+
 #include <QDebug>
 
 class BuildingUpgradeTimerAlarm;
@@ -113,6 +115,10 @@ struct SaveData
         QVector<QString> freeArmor;
         QVector<QString> freeWeaponsTools;
     } equipments;
+    struct Database
+    {
+        DatabaseUnlocksInfo unlocks;
+    } database;
 };
 
 class SaveParser

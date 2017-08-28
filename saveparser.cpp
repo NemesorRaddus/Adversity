@@ -76,6 +76,7 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.heroes.hiredHeroes;
         str>>data.equipments.freeArmor;
         str>>data.equipments.freeWeaponsTools;
+        str>>data.database.unlocks;
     }
     else
     {
@@ -140,6 +141,7 @@ SaveData SaveParser::readData(QByteArray &array)
         data.heroes.hiredHeroes.clear();
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
+        data.database.unlocks.clear();
 
         writeData(array,data);
     }
@@ -212,6 +214,7 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.heroes.hiredHeroes;
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;
+    str<<data.database.unlocks;
 
     array=qCompress(t);
 }

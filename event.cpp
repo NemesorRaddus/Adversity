@@ -4,6 +4,44 @@
 
 #include <QDebug>
 
+EventEnums::MissionDifficulty EventEnums::fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept
+{
+    if (missionDifficulty == "Short")
+        return MD_Short;
+    if (missionDifficulty == "Medium")
+        return MD_Medium;
+    if (missionDifficulty == "Long")
+        return MD_Long;
+    if (missionDifficulty == "Extreme")
+        return MD_Extreme;
+    if (missionDifficulty == "Veteran")
+        return MD_Veteran;
+    if (missionDifficulty == "Master")
+        return MD_Master;
+    if (missionDifficulty == "Heroic")
+        return MD_Heroic;
+    qWarning()<<"QString->enum conversion failed for "<<missionDifficulty;
+}
+
+QString EventEnums::fromMissionDifficultyEnumToQString(const QString &missionDifficulty) noexcept
+{
+    if (missionDifficulty == MD_Short)
+        return "Short";
+    if (missionDifficulty == MD_Medium)
+        return "Medium";
+    if (missionDifficulty == MD_Long)
+        return "Long";
+    if (missionDifficulty == MD_Extreme)
+        return "Extreme";
+    if (missionDifficulty == MD_Veteran)
+        return "Veteran";
+    if (missionDifficulty == MD_Master)
+        return "Master";
+    if (missionDifficulty == MD_Heroic)
+        return "Heroic";
+    qWarning()<<"enum->QString conversion failed for "<<missionDifficulty;
+}
+
 Expression::Expression() noexcept
     : m_isExprValid(0)
 {
@@ -644,7 +682,7 @@ void Mission::planNextEncounter() noexcept
     }
 }
 
-void Mission::setLand(Land *land) noexcept
+void Mission::setLand(const Land *land) noexcept
 {
     m_land = land;
 }
@@ -685,7 +723,7 @@ Mission *MissionBuilder::getMission() noexcept
     return ret;
 }
 
-Mission *MissionBuilder::generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept
+Mission *MissionBuilder::generateMission(const Land *land, EventEnums::MissionDifficulty difficulty) noexcept
 {
     resetMission();
     setLand(land);
@@ -704,7 +742,7 @@ void MissionBuilder::resetMission() noexcept
     m_mission=new Mission();
 }
 
-void MissionBuilder::setLand(Land *land) noexcept
+void MissionBuilder::setLand(const Land *land) noexcept
 {
     m_mission->setLand(land);
 }
@@ -775,7 +813,7 @@ unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDif
     }
 }
 
-QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept
+QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(const Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept
 {
     QVector <QPair <Mission::MissionDay, Encounter *> > r;
     for (int i=0;i<duration;++i)
@@ -790,4 +828,205 @@ QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncoun
 bool MissionBuilder::lessThanEncounterSorting(const QPair<Mission::MissionDay, Encounter *> &first, const QPair<Mission::MissionDay, Encounter *> &second) noexcept
 {
     return first.first<second.first;
+}
+
+MissionInitializer::MissionInitializer(Base *base) noexcept
+    : m_basePtr(base), m_land(nullptr), m_difficulty(EventEnums::MD_END), m_hero(nullptr), m_armor(nullptr), m_weaponTool({nullptr,nullptr}), m_aetherite(0), m_energy(0), m_bm(0), m_food(0) {}
+
+void MissionInitializer::reset() noexcept
+{
+    if (m_hero != nullptr)
+        unprepareHero();
+    m_land=nullptr;
+    m_difficulty=EventEnums::MD_END;
+    m_hero=nullptr;
+    m_armor=nullptr;
+    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+        m_weaponTool[i]=nullptr;
+    m_aetherite=0;
+    m_energy=0;
+    m_bm=0;
+    m_food=0;
+}
+
+bool MissionInitializer::start() noexcept
+{
+    if (!(m_basePtr->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->canDecreaseEnergyAmount(m_energy) && m_basePtr->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_difficulty != EventEnums::MD_END)
+        return 0;
+
+    auto eqs=m_basePtr->availableEquipment();
+    eqs.remove(eqs.indexOf(m_armor));
+    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+        eqs.remove(eqs.indexOf(m_weaponTool[i]));
+
+    m_basePtr->decreaseAetheriteAmount(m_aetherite);
+    m_basePtr->decreaseEnergyAmount(m_energy);
+    m_basePtr->decreaseBuildingMaterialsAmount(m_bm);
+    m_basePtr->decreaseFoodSuppliesAmount(m_food);
+
+    m_hero->setCurrentActivity(HeroEnums::CA_OnMission);
+
+    Mission *m=m_missionBuilder.generateMission(m_land, m_difficulty);
+
+    m_hero->assignMission(m);
+    m->assignHero(m_hero);
+
+    m_basePtr->startMission(m);
+
+    reset();
+    return 1;
+}
+
+void MissionInitializer::setLand(const QString &name) noexcept
+{
+    if (name.isEmpty())
+    {
+        m_land=nullptr;
+        return;
+    }
+    auto ls=Game::gameInstance()->assetsPool().lands();
+    for (auto e : ls)
+        if (e->name() == name)
+        {
+            m_land=e;
+            return;
+        }
+    m_land=nullptr;
+}
+
+void MissionInitializer::setDifficulty(const QString & difficulty) noexcept
+{
+    m_difficulty=EventEnums::fromQStringToMissionDifficultyEnum(difficulty);
+}
+
+void MissionInitializer::setHero(const QString &name) noexcept
+{
+    if (m_hero != nullptr)
+        unprepareHero();
+    if (name.isEmpty())
+    {
+        m_hero=nullptr;
+        return;
+    }
+    auto hs=m_basePtr->heroes()->heroes();
+    for (int i=0;i<hs.size();++i)
+        if (hs[i]->name() == name)
+        {
+            m_hero=m_basePtr->heroes()->getHero(i);
+            prepareHero();
+            return;
+        }
+    m_hero=nullptr;
+}
+
+void MissionInitializer::setArmor(const QString &name) noexcept
+{
+    if (name.isEmpty())
+    {
+        if (m_armor != nullptr)
+        {
+            m_armor=nullptr;
+            if (m_hero != nullptr)
+                prepareHero();
+        }
+        return;
+    }
+    auto eqs=m_basePtr->availableEquipment();
+    for (int i=0;i<eqs.size();++i)
+        if (eqs[i]->name() == name)
+        {
+            m_armor=eqs[i];
+            if (m_hero != nullptr)
+                prepareHero();
+            return;
+        }
+    if (m_armor != nullptr)
+    {
+        m_armor=nullptr;
+        if (m_hero != nullptr)
+            prepareHero();
+    }
+}
+
+void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexcept
+{
+    if (name.isEmpty() || slot>=Hero::amountOfWeaponToolSlots())
+    {
+        if (m_weaponTool[slot] != nullptr)
+        {
+            m_weaponTool[slot]=nullptr;
+            if (m_hero != nullptr)
+                prepareHero();
+        }
+        return;
+    }
+    auto eqs=m_basePtr->availableEquipment();
+    for (int i=0;i<eqs.size();++i)
+        if (eqs[i]->name() == name)
+        {
+            m_weaponTool[slot]=eqs[i];
+            if (m_hero != nullptr)
+                prepareHero();
+            return;
+        }
+    if (m_weaponTool[slot] != nullptr)
+    {
+        m_weaponTool[slot]=nullptr;
+        if (m_hero != nullptr)
+            prepareHero();
+    }
+}
+
+void MissionInitializer::setAetherite(unsigned amount) noexcept
+{
+    m_aetherite = amount;
+    if (m_hero != nullptr)
+        m_hero->setCarriedAetheriteOre(amount);
+}
+
+void MissionInitializer::setEnergy(unsigned amount) noexcept
+{
+    m_energy = amount;
+    if (m_hero != nullptr)
+        m_hero->setCarriedEnergy(amount);
+}
+
+void MissionInitializer::setBuildingMaterials(unsigned amount) noexcept
+{
+    m_bm = amount;
+    if (m_hero != nullptr)
+        m_hero->setCarriedBuildingMaterials(amount);
+}
+
+void MissionInitializer::setFoodSupplies(unsigned amount) noexcept
+{
+    m_food = amount;
+    if (m_hero != nullptr)
+        m_hero->setCarriedFoodSupplies(amount);
+}
+
+void MissionInitializer::prepareHero() noexcept
+{
+    m_hero->removeArmor();
+    m_hero->equipArmor(m_armor);
+    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+    {
+        m_hero->removeWeaponTool(i);
+        m_hero->equipWeaponTool(m_weaponTool[i],i);
+    }
+    m_hero->setCarriedAetheriteOre(m_aetherite);
+    m_hero->setCarriedEnergy(m_energy);
+    m_hero->setCarriedBuildingMaterials(m_bm);
+    m_hero->setCarriedFoodSupplies(m_food);
+}
+
+void MissionInitializer::unprepareHero() noexcept
+{
+    m_hero->removeArmor();
+    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+        m_hero->removeWeaponTool(i);
+    m_hero->setCarriedAetheriteOre(0);
+    m_hero->setCarriedEnergy(0);
+    m_hero->setCarriedBuildingMaterials(0);
+    m_hero->setCarriedFoodSupplies(0);
 }

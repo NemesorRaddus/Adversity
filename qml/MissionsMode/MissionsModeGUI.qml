@@ -112,7 +112,7 @@ Item {
         }
 
         onExploreClicked: {
-
+            root.returnToDefault();
         }
     }
 

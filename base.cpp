@@ -1677,6 +1677,10 @@ Base::Base(Game *gameObject) noexcept
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
 
     m_heroes=new HeroesContainer(this);
+
+    m_database=m_gameObject->assetsPool().makeStockDatabase();
+
+    m_missionInitializer=new MissionInitializer(this);
 }
 
 void Base::setupNewBase() noexcept
@@ -1714,6 +1718,10 @@ Base::~Base() noexcept
     delete m_gameClock;
 
     delete m_heroes;
+
+    delete m_database;
+
+    delete m_missionInitializer;
 }
 
 void Base::loadSaveData(const SaveData &data) noexcept
@@ -1840,6 +1848,8 @@ void Base::loadSaveData(const SaveData &data) noexcept
     }
 
     m_gameClock->updateClock(data.overall.freezeGameProgress ? QDateTime::currentDateTime() : data.overall.lastKnownDate, {data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
+
+    m_database->setUnlocksInfo(data.database.unlocks);
 }
 
 SaveData Base::getSaveData() noexcept
@@ -1964,6 +1974,8 @@ SaveData Base::getSaveData() noexcept
     }
     data.alarms.buildingUpgrades=buTimerAlarms;
     buTimerAlarms.clear();
+
+    data.database.unlocks=m_database->unlockedEntries();
 
     return data;
 }
@@ -2170,10 +2182,33 @@ Building *Base::getBuilding(BaseEnums::Building buildingName) noexcept
     }
 }
 
+unsigned Base::amountOfAvailableArmors() const noexcept
+{
+    unsigned r=0;
+    for (auto e : m_availableEquipment)
+        if (e->type() == EquipmentEnums::T_Armor)
+            ++r;
+    return r;
+}
+
+unsigned Base::amountOfAvailableWeaponsTools() const noexcept
+{
+    unsigned r=0;
+    for (auto e : m_availableEquipment)
+        if (e->type() == EquipmentEnums::T_WeaponTool)
+            ++r;
+    return r;
+}
+
 void Base::prepareAvailableEquipment(unsigned index) noexcept
 {
     if (index<m_availableEquipment.size())
         m_preparedAvailableEquipment=m_availableEquipment[index];
+}
+
+void Base::startMission(Mission *mission) noexcept
+{
+    //TODO
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

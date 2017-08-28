@@ -64,6 +64,9 @@ struct EventEnums
         MD_Heroic,
         MD_END
     };
+
+    static MissionDifficulty fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept;
+    static QString fromMissionDifficultyEnumToQString(const QString &missionDifficulty) noexcept;
 };
 
 class Expression
@@ -589,12 +592,12 @@ private:
 
     void planNextEncounter() noexcept;
 
-    void setLand(Land *land) noexcept;
+    void setLand(const Land *land) noexcept;
     void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
     void setDuration(unsigned days) noexcept;
     void addEncounter(MissionDay day, Encounter *encounter) noexcept;
 
-    Land *m_land;
+    const Land *m_land;
     EventEnums::MissionDifficulty m_difficulty;
     unsigned m_duration;
     unsigned m_remainingDays;
@@ -611,10 +614,10 @@ public:
     ~MissionBuilder() noexcept;
 
     Mission *getMission() noexcept; // resets
-    Mission *generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
+    Mission *generateMission(const Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
     void resetMission() noexcept;
 
-    void setLand(Land *land) noexcept;
+    void setLand(const Land *land) noexcept;
     void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
     void setDuration(unsigned duration) noexcept;
     void addRandomEncounter() noexcept;
@@ -623,11 +626,54 @@ public:
 private:
     unsigned generateDuration(EventEnums::MissionDifficulty difficulty) const noexcept;
     unsigned generateAmountOfEncountersPerDay(EventEnums::MissionDifficulty difficulty) const noexcept;
-    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept;
+    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(const Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept;
 
     static bool lessThanEncounterSorting(const QPair <Mission::MissionDay, Encounter *> &first, const QPair <Mission::MissionDay, Encounter *> &second) noexcept;
 
     Mission *m_mission;
+};
+
+class MissionInitializer : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY(Hero* selectedHero MEMBER m_hero)
+
+public:
+    explicit MissionInitializer(Base *base) noexcept;
+
+    Q_INVOKABLE void reset() noexcept;
+    Q_INVOKABLE bool start() noexcept;
+
+    Q_INVOKABLE void setLand(const QString &name) noexcept;
+    Q_INVOKABLE void setDifficulty(const QString &difficulty) noexcept;
+
+    Q_INVOKABLE void setHero(const QString &name) noexcept;
+    Q_INVOKABLE inline bool isHeroSelected() const noexcept
+    {
+        return m_hero!=nullptr;
+    }
+
+    Q_INVOKABLE void setArmor(const QString &name) noexcept;
+    Q_INVOKABLE void setWeaponTool(const QString &name, unsigned slot) noexcept;
+
+    Q_INVOKABLE void setAetherite(unsigned amount) noexcept;
+    Q_INVOKABLE void setEnergy(unsigned amount) noexcept;
+    Q_INVOKABLE void setBuildingMaterials(unsigned amount) noexcept;
+    Q_INVOKABLE void setFoodSupplies(unsigned amount) noexcept;
+
+private:
+    void prepareHero() noexcept;
+    void unprepareHero() noexcept;
+
+    Base *m_basePtr;
+    MissionBuilder m_missionBuilder;
+    const Land *m_land;
+    EventEnums::MissionDifficulty m_difficulty;
+    Hero *m_hero;
+    Equipment *m_armor;
+    Equipment *m_weaponTool[2];
+    unsigned m_aetherite, m_energy, m_bm, m_food;
 };
 
 #endif // EVENT_H
