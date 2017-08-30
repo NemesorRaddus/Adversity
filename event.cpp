@@ -854,11 +854,9 @@ bool MissionInitializer::start() noexcept
     if (!(m_basePtr->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->canDecreaseEnergyAmount(m_energy) && m_basePtr->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_difficulty != EventEnums::MD_END)
         return 0;
 
+    auto &eqs=m_basePtr->availableEquipment();
     if (m_armor != nullptr)
-    {
-    auto eqs=m_basePtr->availableEquipment();
     eqs.remove(eqs.indexOf(m_armor));
-    }
     for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
         if (m_weaponTool[i] != nullptr)
         eqs.remove(eqs.indexOf(m_weaponTool[i]));
