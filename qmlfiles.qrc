@@ -63,5 +63,8 @@
         <file>qml/MissionsMode/HeroesList.qml</file>
         <file>qml/MissionsMode/HeroesListScripts.js</file>
         <file>qml/MissionsMode/HeroesListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsListScripts.js</file>
     </qresource>
 </RCC>

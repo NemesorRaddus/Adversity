@@ -46,5 +46,6 @@
         <file>graphics/GUI/MissionLength/HegosPlains3.png</file>
         <file>graphics/GUI/MissionLength/HegosPlains4.png</file>
         <file>graphics/GUI/HeroSlot.png</file>
+        <file>graphics/GUI/Nothing.png</file>
     </qresource>
 </RCC>

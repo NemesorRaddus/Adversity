@@ -2208,7 +2208,7 @@ void Base::prepareAvailableEquipment(unsigned index) noexcept
 
 void Base::startMission(Mission *mission) noexcept
 {
-    //TODO
+    m_missions+=mission;
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

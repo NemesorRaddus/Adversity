@@ -465,6 +465,7 @@ Item {
 
             maximumLength: 3
             validator: RegExpValidator { regExp: /(\d|[1-9]\d+)/}
+            inputMethodHints: Qt.ImhDigitsOnly
 
             onAccepted: {
                 root.forceActiveFocus();
@@ -637,6 +638,7 @@ Item {
 
             maximumLength: 3
             validator: RegExpValidator { regExp: /(\d|[1-9]\d+)/}
+            inputMethodHints: Qt.ImhDigitsOnly
 
             onAccepted: {
                 root.forceActiveFocus();
@@ -809,6 +811,7 @@ Item {
 
             maximumLength: 3
             validator: RegExpValidator { regExp: /(\d|[1-9]\d+)/}
+            inputMethodHints: Qt.ImhDigitsOnly
 
             onAccepted: {
                 root.forceActiveFocus();
@@ -839,7 +842,7 @@ Item {
         opacity: 0
 
         color: "#a00000"
-        text: "You don't have enough resources."
+        text: "You don't have enough resources!"
         wrapMode: Text.WordWrap
         font.pixelSize: 55
         font.family: fontStencil.name

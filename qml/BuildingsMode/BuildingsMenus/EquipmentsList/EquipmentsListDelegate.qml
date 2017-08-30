@@ -1,8 +1,8 @@
 import QtQuick 2.5
 
 import Game 1.0
-import ".."
 import "../.."
+import "../../.."
 
 Item {
     id: root
@@ -441,12 +441,6 @@ Item {
                 break;
             }
         }
-    }
-
-    function setEmpty()
-    {
-        textSegment.visible = false;
-        art.source = "qrc:/graphics/GUI/Nothing.png";
     }
 
     function getName()

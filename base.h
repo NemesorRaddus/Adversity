@@ -2446,6 +2446,7 @@ private:
     //missions
     MissionInitializer *m_missionInitializer;
     Database *m_database;
+    QVector <Mission *> m_missions;
 
     //game
     Game *m_gameObject;
