@@ -705,7 +705,57 @@ void Mission::addEncounter(MissionDay day, Encounter *encounter) noexcept
     m_encounters+={day,encounter};
 }
 
-MissionBuilder::MissionBuilder() noexcept
+QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) noexcept
+{
+    stream<<mission.land;
+    stream<<static_cast<quint8>(mission.difficulty);
+    stream<<static_cast<qint16>(mission.duration);
+    stream<<static_cast<qint16>(mission.remainingDays);
+    QVector <QPair <qint16, QString> > encounters;
+    for (auto e : mission.encounters)
+        encounters+={static_cast<qint16>(e.first),e.second};
+    stream<<encounters;
+    stream<<static_cast<qint16>(mission.currentEncounter);
+    stream<<static_cast<qint16>(mission.minutesSinceMidnightForLastEncounter);
+    stream<<mission.hero;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcept
+{
+    quint8 n;
+    qint16 ii;
+
+    stream>>mission.land;
+
+    stream>>n;
+    mission.difficulty=static_cast<EventEnums::MissionDifficulty>(n);
+
+    stream>>ii;
+    mission.duration=ii;
+
+    stream>>ii;
+    mission.remainingDays=ii;
+
+    QVector <QPair <qint16, QString> > encounters;
+    stream>>encounters;
+    for (auto e : encounters)
+        mission.encounters+={e.first,e.second};
+
+    stream>>ii;
+    mission.currentEncounter=ii;
+
+    stream>>ii;
+    mission.minutesSinceMidnightForLastEncounter=ii;
+
+    stream>>mission.hero;
+
+    return stream;
+}
+
+MissionBuilder::MissionBuilder(Base *base) noexcept
+    : m_base(base)
 {
     m_mission=new Mission();
 }
@@ -740,6 +790,63 @@ void MissionBuilder::resetMission() noexcept
 {
     delete m_mission;
     m_mission=new Mission();
+}
+
+Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission, Base *base) noexcept
+{
+    Mission *r=new Mission();
+
+    for (auto e : Game::gameInstance()->assetsPool().lands())
+        if (e->name() == mission.land)
+        {
+            r->m_land = e;
+            break;
+        }
+    if (r->m_land == nullptr)
+        return r;
+    r->m_difficulty = mission.difficulty;
+    r->m_duration = mission.duration;
+    r->m_remainingDays = mission.remainingDays;
+    for (int i=0;i<mission.encounters.size();++i)
+        for (auto e : r->m_land->encounters().encounters())
+            if (e->name() == mission.encounters[i].second)
+            {
+                r->m_encounters+={mission.encounters[i].first, e};
+                break;
+            }
+    r->m_currentEncounter = mission.currentEncounter;
+    r->m_minutesSinceMidnightForLastEncounter = mission.minutesSinceMidnightForLastEncounter;
+    for (auto e : base->heroes()->heroes())
+        if (e->name() == mission.hero)
+        {
+            r->assignHero(e);
+            e->assignMission(r);
+            break;
+        }
+
+    return r;
+}
+
+MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
+{
+    if (mission == nullptr)
+        return {};
+
+    MissionDataHelper r;
+
+    r.land = mission->land()->name();
+    r.difficulty = mission->difficulty();
+    r.duration = mission->fullDuration();
+    r.remainingDays = mission->remainingDays();
+    QVector <QPair <unsigned, QString> > encs;
+    for (auto e : mission->m_encounters)
+        encs+={e.first,e.second->name()};
+    r.encounters = encs;
+    r.currentEncounter = mission->m_currentEncounter;
+    r.minutesSinceMidnightForLastEncounter = mission->m_minutesSinceMidnightForLastEncounter;
+    r.hero = mission->assignedHero()->name();
+
+    return r;
 }
 
 void MissionBuilder::setLand(const Land *land) noexcept
@@ -831,7 +938,7 @@ bool MissionBuilder::lessThanEncounterSorting(const QPair<Mission::MissionDay, E
 }
 
 MissionInitializer::MissionInitializer(Base *base) noexcept
-    : m_basePtr(base), m_land(nullptr), m_difficulty(EventEnums::MD_END), m_hero(nullptr), m_armor(nullptr), m_weaponTool({nullptr,nullptr}), m_aetherite(0), m_energy(0), m_bm(0), m_food(0) {}
+    : m_basePtr(base), m_missionBuilder(base), m_land(nullptr), m_difficulty(EventEnums::MD_END), m_hero(nullptr), m_armor(nullptr), m_weaponTool({nullptr,nullptr}), m_aetherite(0), m_energy(0), m_bm(0), m_food(0) {}
 
 void MissionInitializer::reset() noexcept
 {
@@ -856,10 +963,10 @@ bool MissionInitializer::start() noexcept
 
     auto &eqs=m_basePtr->availableEquipment();
     if (m_armor != nullptr)
-    eqs.remove(eqs.indexOf(m_armor));
+        eqs.remove(eqs.indexOf(m_armor));
     for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
         if (m_weaponTool[i] != nullptr)
-        eqs.remove(eqs.indexOf(m_weaponTool[i]));
+            eqs.remove(eqs.indexOf(m_weaponTool[i]));
 
     m_basePtr->decreaseAetheriteAmount(m_aetherite);
     m_basePtr->decreaseEnergyAmount(m_energy);

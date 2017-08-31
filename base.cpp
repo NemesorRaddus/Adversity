@@ -1849,7 +1849,10 @@ void Base::loadSaveData(const SaveData &data) noexcept
 
     m_gameClock->updateClock(data.overall.freezeGameProgress ? QDateTime::currentDateTime() : data.overall.lastKnownDate, {data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
 
-    m_database->setUnlocksInfo(data.database.unlocks);
+    m_database->setUnlocksInfo(data.database.unlocks);//database
+
+    for (auto e : data.missions.missions)//missions
+        m_missions+=MissionBuilder::qobjectifyMissionData(e,this);
 }
 
 SaveData Base::getSaveData() noexcept
@@ -1976,6 +1979,9 @@ SaveData Base::getSaveData() noexcept
     buTimerAlarms.clear();
 
     data.database.unlocks=m_database->unlockedEntries();
+
+    for (auto e : m_missions)
+        data.missions.missions+=MissionBuilder::deqobjectifyMission(e);
 
     return data;
 }

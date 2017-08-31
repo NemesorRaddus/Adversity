@@ -470,6 +470,11 @@ public:
 
     EncounterReport execute(Hero *hero, const Time &currentTime) const noexcept;
 
+    inline QString name() const noexcept
+    {
+        return m_name;
+    }
+
 private:
     QString m_name;
     Event *m_rootEvent;
@@ -525,6 +530,10 @@ public:
     }
 
     Encounter *makeRandomEncounter() const noexcept;
+    inline const EncountersContainer &encounters() const noexcept
+    {
+        return m_encounters;
+    }
 
 private:
     void setInfo(const LandInfo &info) noexcept;
@@ -607,15 +616,32 @@ private:
     Hero *m_assignedHero;
 };
 
+struct MissionDataHelper
+{
+    QString land;
+    EventEnums::MissionDifficulty difficulty;
+    unsigned duration, remainingDays;
+    QVector <QPair <unsigned, QString> > encounters;
+    unsigned currentEncounter;
+    int minutesSinceMidnightForLastEncounter;
+    QString hero;
+};
+
+QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) noexcept;
+QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcept;
+
 class MissionBuilder
 {
 public:
-    MissionBuilder() noexcept;
+    MissionBuilder(Base *base) noexcept;
     ~MissionBuilder() noexcept;
 
     Mission *getMission() noexcept; // resets
     Mission *generateMission(const Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
-    void resetMission() noexcept;
+    void resetMission() noexcept; 
+
+    static Mission *qobjectifyMissionData(const MissionDataHelper &mission, Base *base) noexcept;
+    static MissionDataHelper deqobjectifyMission(Mission *mission) noexcept;
 
     void setLand(const Land *land) noexcept;
     void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
@@ -631,6 +657,7 @@ private:
     static bool lessThanEncounterSorting(const QPair <Mission::MissionDay, Encounter *> &first, const QPair <Mission::MissionDay, Encounter *> &second) noexcept;
 
     Mission *m_mission;
+    Base *m_base;
 };
 
 class MissionInitializer : public QObject

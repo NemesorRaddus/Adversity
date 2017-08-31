@@ -18,6 +18,7 @@ class BuildingUpgradeTimerAlarm;
 struct HeroDataHelper;
 class Equipment;
 struct ActiveTransaction;
+struct MissionDataHelper;
 
 struct SaveData
 {
@@ -119,6 +120,10 @@ struct SaveData
     {
         DatabaseUnlocksInfo unlocks;
     } database;
+    struct Missions
+    {
+        QVector<MissionDataHelper> missions;
+    } missions;
 };
 
 class SaveParser

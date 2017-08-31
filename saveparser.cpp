@@ -4,6 +4,7 @@
 
 #include "timer.h"
 #include "hero.h"
+#include "event.h"
 
 #include <QDebug>
 
@@ -77,6 +78,7 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.equipments.freeArmor;
         str>>data.equipments.freeWeaponsTools;
         str>>data.database.unlocks;
+        str>>data.missions.missions;
     }
     else
     {
@@ -142,6 +144,7 @@ SaveData SaveParser::readData(QByteArray &array)
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
         data.database.unlocks.clear();
+        data.missions.missions.clear();
 
         writeData(array,data);
     }
@@ -215,6 +218,7 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;
     str<<data.database.unlocks;
+    str<<data.missions.missions;
 
     array=qCompress(t);
 }
