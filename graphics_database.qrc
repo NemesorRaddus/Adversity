@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Database/Plants/AcidBerry.png</file>
+        <file>graphics/Database/Plants/BluegrapeBush.png</file>
+        <file>graphics/Database/Plants/BlueHerbLichen.png</file>
+        <file>graphics/Database/Plants/FungusireMycelinium.png</file>
+        <file>graphics/Database/Plants/PoisonousFern.png</file>
+        <file>graphics/Database/Plants/PurpleleafBush.png</file>
+        <file>graphics/Database/Plants/Tentacleroot.png</file>
+        <file>graphics/Database/Plants/Thornettle.png</file>
+        <file>graphics/Database/Plants/ToxicSpores.png</file>
+        <file>graphics/Database/Plants/WideleafPlant.png</file>
+        <file>graphics/Database/Plants/WingedSerpent.png</file>
+    </qresource>
+</RCC>

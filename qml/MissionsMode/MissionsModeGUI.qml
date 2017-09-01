@@ -56,6 +56,10 @@ Item {
             return false;
     }
 
+    onStateChanged: {
+        map.acknowledgeModeStateChange(state);
+    }
+
     Map {
         id: map
 

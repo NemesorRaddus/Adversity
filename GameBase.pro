@@ -30,7 +30,8 @@ RESOURCES += \
     graphics_other.qrc \
     graphics_gui.qrc \
     graphics_equipments.qrc \
-    graphics_missions.qrc
+    graphics_missions.qrc \
+    graphics_database.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

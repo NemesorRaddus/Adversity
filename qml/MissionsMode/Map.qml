@@ -8,6 +8,8 @@ Item {
     id: root
 
     signal exploreClicked(string intLandName, string landName, string landDesc)
+    signal databaseClicked()
+    signal missionsClicked()
 
     function returnToDefault()
     {
@@ -19,6 +21,21 @@ Item {
     {
 
     }
+
+    function acknowledgeModeStateChange(currentState)
+    {
+        if (currentState == "")
+        {
+            databaseShowTimer.start();
+            missionShowTimer.start();
+        }
+        else
+        {
+            databaseButton.state = "hidden";
+            missionButton.state = "hidden";
+        }
+    }
+
 
     MouseArea {
         id: mapMA
@@ -317,6 +334,136 @@ Item {
                     NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 100 }
                 }
             }
+        }
+    }
+
+    Item {
+        id: databaseButton
+
+        x: 10
+        y: parent.height-height
+        width: 100
+        height: 135
+
+        state: "hidden"
+
+        Rectangle {
+            anchors.fill: parent
+
+            color: "#94ef94"
+
+            Rectangle {
+                x: 5
+                y: 5
+                width: 90
+                height: 130
+
+                color: "#171717"
+
+                Image {
+                    x: 5
+                    y: 10
+                    width: 80
+                    height: 120
+
+                    source: "qrc:/graphics/GUI/Database.png"
+                }
+            }
+        }
+
+        Timer {
+            id: databaseShowTimer
+
+            interval: 500
+
+            running: false
+            repeat: false
+
+            onTriggered: {
+                databaseButton.state = "";
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+
+            onClicked: root.databaseClicked()
+        }
+
+        states: [
+            State {
+                name: "hidden"
+                PropertyChanges { target: databaseButton; y: root.height }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 2000 }
+        }
+    }
+
+    Item {
+        id: missionButton
+
+        x: databaseButton.x+databaseButton.x+databaseButton.width+4
+        y: parent.height-height
+        width: 100
+        height: 135
+
+        state: "hidden"
+
+        Rectangle {
+            anchors.fill: parent
+
+            color: "#94ef94"
+
+            Rectangle {
+                x: 5
+                y: 5
+                width: 90
+                height: 130
+
+                color: "#171717"
+
+                Image {
+                    x: 3
+                    y: 4
+                    width: 84
+                    height: 126
+
+                    source: "qrc:/graphics/GUI/Missions.png"
+                }
+            }
+        }
+
+        Timer {
+            id: missionShowTimer
+
+            interval: 700
+
+            running: false
+            repeat: false
+
+            onTriggered: {
+                missionButton.state = "";
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+
+            onClicked: root.missionsClicked()
+        }
+
+        states: [
+            State {
+                name: "hidden"
+                PropertyChanges { target: missionButton; y: root.height }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 2000 }
         }
     }
 

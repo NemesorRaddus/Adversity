@@ -2183,6 +2183,8 @@ class Base : public QObject
 
     Q_PROPERTY(MissionInitializer* missionInitializer MEMBER m_missionInitializer)
 
+    Q_PROPERTY(Database* database MEMBER m_database)
+
     friend class H4X;
 
 public:

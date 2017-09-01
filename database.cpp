@@ -24,6 +24,36 @@ QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entry
     qWarning()<<"enum->QString conversion failed for "<<entryType;
 }
 
+Database *Database::copyDBWithoutUnlocks() const noexcept
+{
+    Database *r=new Database;
+    r->m_entriesData=m_entriesData;
+    return r;
+}
+
+void Database::prepareCategory(const QString &cat) noexcept
+{
+    m_entriesFromCurrentCategory.clear();
+    DatabaseEnums::EntryType t=DatabaseEnums::fromQStringToEntryTypeEnum(cat);
+    for (auto e : m_entriesData)
+        if (m_unlocksInfo.contains(e.first) && e.second.type == t)
+            m_entriesFromCurrentCategory+=e;
+}
+
+QString Database::nameOfEntry(unsigned index) const noexcept
+{
+    if (index>=m_entriesFromCurrentCategory.size())
+        return {};
+    return m_entriesFromCurrentCategory[index].first;
+}
+
+QString Database::descriptionOfEntry(unsigned index) const noexcept
+{
+    if (index>=m_entriesFromCurrentCategory.size())
+        return {};
+    return m_entriesFromCurrentCategory[index].second.description;
+}
+
 void Database::loadEntries(const QVector<DatabaseEntry> &entries) noexcept
 {
     m_entriesData=entries;

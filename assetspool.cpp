@@ -102,9 +102,7 @@ Equipment *AssetsPool::makeEquipmentNamed(const QString &name) const noexcept
 
 Database *AssetsPool::makeStockDatabase() const noexcept
 {
-    Database *r=new Database;
-    *r=*m_stockDatabase;
-    return r;
+    return m_stockDatabase->copyDBWithoutUnlocks();
 }
 
 void AssetsPool::loadHeroesList(const QString &pathToDir) noexcept
