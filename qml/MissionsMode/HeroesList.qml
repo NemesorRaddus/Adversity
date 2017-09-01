@@ -10,7 +10,7 @@ Item {
 
     function update()
     {
-        var amount=GameApi.base.heroes.amountOfHeroes();
+        var amount=GameApi.base.heroes.amountOfHeroes()+1;
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
         {
             GameApi.base.heroes.prepareHeroAt(i);
@@ -19,6 +19,7 @@ Item {
                 --amount;
         }
         Scripts.setupList(Math.round((271/1080)*width), amount, width, height);
+        Scripts.createItem("","","",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
         {
             GameApi.base.heroes.prepareHeroAt(i);
@@ -77,7 +78,7 @@ Item {
             else
             {
                 var hN = Scripts.getClickedItemName(y0);
-                if (hN != "")
+                if (hN != "nothing")
                     heroClicked(hN, Scripts.getClickedItemArt(y0));
             }
             y0 = -1;

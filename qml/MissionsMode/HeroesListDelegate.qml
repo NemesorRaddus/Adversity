@@ -29,17 +29,12 @@ Item {
         prof.text="The "+GameApi.tr(text);
     }
 
-    function setEmpty(isEmpty)
+    function setEmpty()
     {
-        if (isEmpty)
-        {
-            textSegment.visible = false;
-            art.source = "qrc:/graphics/GUI/HeroSlot.png";
-        }
-        else
-        {
-            textSegment.visible = true;
-        }
+        textSegment.visible = false;
+        art.source = "qrc:/graphics/GUI/Nothing.png";
+        animHP.stop();
+        animST.stop();
     }
 
     function setCE(amount)
