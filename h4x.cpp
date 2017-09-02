@@ -220,6 +220,11 @@ void H4X::chaosComesForYou() noexcept
         }
 }
 
+void H4X::unlockDBEntry(const QString &entryName) noexcept
+{
+    Game::gameInstance()->m_base->database()->unlockEntry(entryName);
+}
+
 void H4X::forceUIUpdate() noexcept
 {
     QObject *win=m_qmlEngine->rootObjects().value(0);

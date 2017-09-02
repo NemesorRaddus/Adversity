@@ -11,9 +11,10 @@ struct DatabaseEnums
 {
     enum EntryType
     {
-        ET_Land,
-        ET_Animal,
-        ET_Plant,
+        ET_Lands,
+        ET_Animals,
+        ET_Plants,
+        ET_Fungi,
         ET_END
     };
 
@@ -25,6 +26,7 @@ struct DatabaseEntryDetails
 {
     QString description;
     DatabaseEnums::EntryType type;
+    QVector <QString> inhabitancies;
 };
 
 typedef QPair <QString, DatabaseEntryDetails> DatabaseEntry;
@@ -47,6 +49,7 @@ public:
     }
     Q_INVOKABLE QString nameOfEntry(unsigned index) const noexcept;
     Q_INVOKABLE QString descriptionOfEntry(unsigned index) const noexcept;
+    Q_INVOKABLE QString inhabitancyTextOfEntry(unsigned index) const noexcept;
 
     void loadEntries(const QVector <DatabaseEntry> &entries) noexcept;
 

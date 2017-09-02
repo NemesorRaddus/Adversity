@@ -1,5 +1,7 @@
 import QtQuick 2.0
 
+import "./Database"
+
 Item {
     id: root
 
@@ -73,6 +75,52 @@ Item {
             missionStartMenu.state = "";
             missionSelectionMenu.state = "hiddenRight";
             state = "hiddenLeft";
+        }
+
+        onDatabaseClicked: {
+            database.show();
+        }
+
+        onMissionsClicked: {
+
+        }
+    }
+
+    Database {
+        id: database
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+
+        onSelected: {
+            databaseEntryView.setItem(name, type);
+            state = "hiddenUp";
+            databaseEntryView.state = "";
+        }
+
+        onBackClicked: {
+            if (category == "")
+                hide();
+            else
+            {
+                category = "";
+                doFading();
+            }
+        }
+    }
+    DatabaseEntryView {
+        id: databaseEntryView
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+
+        onBackClicked: {
+            state = "hiddenDown";
+            database.state = "";
         }
     }
 

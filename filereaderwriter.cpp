@@ -1461,18 +1461,29 @@ QVector<DatabaseEntry> XmlFileReader::getDatabaseEntries(const QString &path) no
                 if (m_xmlReader->name()=="entry")
                 {
                     QString name, description;
+                    QVector <QString> inhs;
 
-                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="name")
-                        name=m_xmlReader->readElementText();
-                    else
-                        m_xmlReader->raiseError("Parse error");
+                    while (m_xmlReader->readNextStartElement())
+                    {
+                        if (m_xmlReader->name() == "name")
+                            name=m_xmlReader->readElementText();
+                        else if (m_xmlReader->name() == "description")
+                            description=m_xmlReader->readElementText();
+                        else if (m_xmlReader->name() == "inhabitancies")
+                        {
+                            while (m_xmlReader->readNextStartElement())
+                            {
+                                if (m_xmlReader->name() == "inhabitancy")
+                                    inhs+=m_xmlReader->readElementText();
+                                else
+                                    m_xmlReader->skipCurrentElement();
+                            }
+                        }
+                        else
+                            m_xmlReader->skipCurrentElement();
+                    }
 
-                    if (m_xmlReader->readNextStartElement() && m_xmlReader->name()=="description")
-                        description=m_xmlReader->readElementText();
-                    else
-                        m_xmlReader->raiseError("Parse error");
-
-                    r += {name,{description,entriesType}};
+                    r += {name,{description,entriesType,inhs}};
                 }
                 else
                     m_xmlReader->skipCurrentElement();

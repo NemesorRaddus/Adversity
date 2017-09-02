@@ -46,6 +46,9 @@ public:
     Q_INVOKABLE void killThemAll() noexcept;
     Q_INVOKABLE void engulfThemInPain() noexcept;
     Q_INVOKABLE void chaosComesForYou() noexcept;
+
+    //database hacks
+    Q_INVOKABLE void unlockDBEntry(const QString &entryName) noexcept;
     
     //ui hacks
     Q_INVOKABLE void forceUIUpdate() noexcept;

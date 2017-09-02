@@ -4,23 +4,27 @@
 
 DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString &entryType) noexcept
 {
-    if (entryType == "Land")
-        return ET_Land;
-    if (entryType == "Animal")
-        return ET_Animal;
-    if (entryType == "Plant")
-        return ET_Plant;
+    if (entryType == "Lands")
+        return ET_Lands;
+    if (entryType == "Animals")
+        return ET_Animals;
+    if (entryType == "Plants")
+        return ET_Plants;
+    if (entryType == "Fungi")
+        return ET_Fungi;
     qWarning()<<"QString->enum conversion failed for "<<entryType;
 }
 
 QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entryType) noexcept
 {
-    if (entryType == ET_Land)
-        return "Land";
-    if (entryType == ET_Animal)
-        return "Animal";
-    if (entryType == ET_Plant)
-        return "Plant";
+    if (entryType == ET_Lands)
+        return "Lands";
+    if (entryType == ET_Animals)
+        return "Animals";
+    if (entryType == ET_Plants)
+        return "Plants";
+    if (entryType == ET_Fungi)
+        return "Fungi";
     qWarning()<<"enum->QString conversion failed for "<<entryType;
 }
 
@@ -52,6 +56,39 @@ QString Database::descriptionOfEntry(unsigned index) const noexcept
     if (index>=m_entriesFromCurrentCategory.size())
         return {};
     return m_entriesFromCurrentCategory[index].second.description;
+}
+
+QString Database::inhabitancyTextOfEntry(unsigned index) const noexcept
+{
+    if (index>=m_entriesFromCurrentCategory.size())
+        return {};
+
+    QString r;
+    switch (m_entriesFromCurrentCategory[index].second.type)
+    {
+    case DatabaseEnums::ET_Animals:
+        r="\n";// TODO inh texts
+        for (auto e : m_entriesFromCurrentCategory[index].second.inhabitancies)
+            r+=e+'\n';
+        break;
+    case DatabaseEnums::ET_Plants:
+        r="\n";
+        for (auto e : m_entriesFromCurrentCategory[index].second.inhabitancies)
+            r+=e+'\n';
+        break;
+    case DatabaseEnums::ET_Fungi:
+        r="\n";
+        for (auto e : m_entriesFromCurrentCategory[index].second.inhabitancies)
+            r+=e+'\n';
+        break;
+    case DatabaseEnums::ET_Lands:
+        r="\n";
+        for (auto e : m_entriesFromCurrentCategory[index].second.inhabitancies)
+            r+=e+'\n';
+        break;
+    }
+
+    return r;
 }
 
 void Database::loadEntries(const QVector<DatabaseEntry> &entries) noexcept
