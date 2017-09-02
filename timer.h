@@ -130,6 +130,9 @@ public:
     void addMissionAlarm(const Time &time, Mission *mission) noexcept;
     void checkMissionAlarms(const Time &now) noexcept;
 
+protected:
+    Base *m_base;
+
 private:
     void decreaseDaysToTimeout() noexcept;
     QVector <TimerAlarm *> takeTimeoutedAlarms() noexcept;
@@ -206,8 +209,6 @@ private:
     unsigned m_latestAutosaveMinTimestamp;
 
     unsigned m_realMinutesToOneGameDayRatio = 30;
-
-    Base *m_base;
 };
 
 #endif // GAMECLOCK_H

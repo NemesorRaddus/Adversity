@@ -1720,7 +1720,7 @@ Base::~Base() noexcept
     delete m_heroes;
 
     if (m_database!=nullptr)
-    delete m_database;
+        delete m_database;
 
     delete m_missionInitializer;
 }
@@ -2220,6 +2220,32 @@ void Base::prepareAvailableEquipment(unsigned index) noexcept
 void Base::startMission(Mission *mission) noexcept
 {
     m_missions+=mission;
+}
+
+void Base::prepareMission(unsigned index) noexcept
+{
+    if (index<m_missions.size())
+        m_preparedMission=m_missions[index];
+}
+
+void Base::prepareEncounterReport(unsigned index) noexcept
+{
+    if (index<m_encounterReports.size())
+        m_preparedEncounterReport=m_encounterReports[index];
+}
+
+void Base::addEncounterReport(EncounterReport *report) noexcept
+{
+    m_encounterReports+=report;
+}
+
+void Base::removeEncounterReport(unsigned index) noexcept
+{
+    if (index<m_encounterReports.size())
+    {
+        delete m_encounterReports[index];
+        m_encounterReports.remove(index);
+    }
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

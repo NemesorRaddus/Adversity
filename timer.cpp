@@ -141,7 +141,7 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
     for (int i=0;i<m_missionAlarms.size();++i)
         if (m_missionAlarms[i].first <= now)
         {
-            m_missionAlarms[i].second->doEncounter(); // TODO handle returned report
+            m_base->addEncounterReport(m_missionAlarms[i].second->doEncounter());
             m_missionAlarms.remove(i);
             --i;
         }

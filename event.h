@@ -443,10 +443,15 @@ private:
     Event *m_event;
 };
 
-class EncounterReport
+class EncounterReport : public QObject
 {
+    Q_OBJECT
+
 public:
     EncounterReport(const QString &encName, const QVector <EventReport> &events, const Time &time) noexcept;
+
+    Q_INVOKABLE QString textLine() const noexcept;
+    Q_INVOKABLE QString timestampLine() const noexcept;
 
     inline QVector <QString> text() const noexcept
     {
@@ -468,7 +473,7 @@ class Encounter
 public:
     explicit Encounter(const QString &name, Event *rootEvent) noexcept;
 
-    EncounterReport execute(Hero *hero, const Time &currentTime) const noexcept;
+    EncounterReport *execute(Hero *hero, const Time &currentTime) const noexcept;
 
     inline QString name() const noexcept
     {
@@ -561,9 +566,14 @@ private:
     Land *m_land;
 };
 
-class Mission
+class Mission : public QObject
 {
     friend class MissionBuilder;
+
+    Q_OBJECT
+
+    Q_PROPERTY(Hero* hero MEMBER m_assignedHero)
+    Q_PROPERTY(const Land* land MEMBER m_land)
 
 public:
     typedef unsigned MissionDay;
@@ -576,11 +586,15 @@ public:
     {
         return m_difficulty;
     }
-    inline unsigned fullDuration() const noexcept
+    Q_INVOKABLE inline QString difficultyString() const noexcept
+    {
+        return EventEnums::fromMissionDifficultyEnumToQString(difficulty());
+    }
+    Q_INVOKABLE inline unsigned fullDuration() const noexcept
     {
         return m_duration;
     }
-    inline unsigned remainingDays() const noexcept
+    Q_INVOKABLE inline unsigned remainingDays() const noexcept
     {
         return m_remainingDays;
     }
@@ -593,7 +607,7 @@ public:
     }
 
     void start() noexcept;
-    EncounterReport doEncounter() noexcept;
+    EncounterReport *doEncounter() noexcept;
 
 private:
     Mission() noexcept;

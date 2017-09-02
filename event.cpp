@@ -551,12 +551,33 @@ QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
 EncounterReport::EncounterReport(const QString &encName, const QVector<EventReport> &events, const Time &time) noexcept
     : m_encounterName(encName), m_events(events), m_time(time) {}
 
+QString EncounterReport::textLine() const noexcept
+{
+    QString r;
+    auto v=text();
+    for (const auto &e : v)
+        r+=e;
+    return r;
+}
+
+QString EncounterReport::timestampLine() const noexcept
+{
+    QString r;
+    auto t=timestamp();
+    r+=t.h<10 ? "0"+QString::number(t.h) : QString::number(t.h);
+    r+=":";
+    r+=t.min<10 ? "0"+QString::number(t.min) : QString::number(t.min);
+    r+=" Day ";
+    r+=QString::number(t.d);
+    return r;
+}
+
 Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
     : m_name(name), m_rootEvent(rootEvent) {}
 
-EncounterReport Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
+EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
 {
-    return {m_name, m_rootEvent->execute(hero), currentTime};
+    return new EncounterReport{m_name, m_rootEvent->execute(hero), currentTime};
 }
 
 EncountersContainer::~EncountersContainer() noexcept
@@ -650,7 +671,7 @@ void Mission::start() noexcept
     planNextEncounter();
 }
 
-EncounterReport Mission::doEncounter() noexcept
+EncounterReport *Mission::doEncounter() noexcept
 {
     ++m_currentEncounter;
     planNextEncounter();

@@ -2153,6 +2153,7 @@ private:
 class GameClock;
 class Game;
 class MissionInitializer;
+class EncounterReport;
 
 class Base : public QObject
 {
@@ -2184,6 +2185,9 @@ class Base : public QObject
     Q_PROPERTY(MissionInitializer* missionInitializer MEMBER m_missionInitializer)
 
     Q_PROPERTY(Database* database MEMBER m_database)
+
+    Q_PROPERTY(Mission* preparedMission MEMBER m_preparedMission)
+    Q_PROPERTY(EncounterReport* preparedEncounterReport MEMBER m_preparedEncounterReport)
 
     friend class H4X;
 
@@ -2393,6 +2397,20 @@ public:
         return m_database;
     }
 
+    Q_INVOKABLE inline unsigned amountOfMissions() const noexcept
+    {
+        return m_missions.size();
+    }
+    Q_INVOKABLE void prepareMission(unsigned index) noexcept;
+
+    Q_INVOKABLE inline unsigned amountOfEncounterReports() const noexcept
+    {
+        return m_encounterReports.size();
+    }
+    Q_INVOKABLE void prepareEncounterReport(unsigned index) noexcept;
+    void addEncounterReport(EncounterReport *report) noexcept;
+    Q_INVOKABLE void removeEncounterReport(unsigned index) noexcept;
+
     //game
     inline Game *gameObject() noexcept
     {
@@ -2449,6 +2467,9 @@ private:
     MissionInitializer *m_missionInitializer;
     Database *m_database;
     QVector <Mission *> m_missions;
+    Mission *m_preparedMission;
+    QVector <EncounterReport *> m_encounterReports;
+    EncounterReport *m_preparedEncounterReport;
 
     //game
     Game *m_gameObject;
