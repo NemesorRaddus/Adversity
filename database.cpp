@@ -99,8 +99,18 @@ void Database::loadEntries(const QVector<DatabaseEntry> &entries) noexcept
 
 void Database::unlockEntry(const Database::Name &entryName) noexcept
 {
-    if (m_unlocksInfo.contains(entryName))
-        m_unlocksInfo+=entryName;
+    if (!m_unlocksInfo.contains(entryName))
+    {
+        bool ok=0;
+        for (const auto &e : m_entriesData)
+            if (e.first == entryName)
+            {
+                ok=1;
+                break;
+            }
+        if (ok)
+            m_unlocksInfo+=entryName;
+    }
 }
 
 DatabaseEntryDetails Database::readEntry(const Database::Name &entryName) const noexcept

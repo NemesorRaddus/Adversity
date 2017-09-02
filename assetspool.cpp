@@ -20,6 +20,7 @@ void AssetsPool::load(const QString &pathToAssets) noexcept
     loadHeroesList(pathToAssets+"mercenaries/mercenaries/");
     loadEquipment(pathToAssets+"mercenaries/equipment.xml");
     loadLands(pathToAssets+"lands/");
+    loadDatabase(pathToAssets+"database/");
     m_isReady=1;
     m_pathToAssets=pathToAssets;
 }

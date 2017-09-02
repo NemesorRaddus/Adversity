@@ -10,11 +10,22 @@ Item {
     signal updateRequestedFromBuildingsModeGUI()
     signal showSpecial()
 
+    property bool ready: false
+
     function returnToDefault()
     {
         map.returnToDefault();
         missionStartMenu.returnToDefault();
         missionSelectionMenu.returnToDefault();
+
+        if (ready)
+        {
+            database.returnToDefault();
+            database.hide();
+            databaseEntryView.state = "hiddenDown";
+        }
+        else
+            ready=true;
 
         missionSelectionMenu.state = "hiddenRight2";
         missionStartMenu.state = "hiddenRight";
@@ -24,6 +35,7 @@ Item {
     function updateEverything()
     {
         map.updateEverything();
+        database.update();
     }
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
@@ -52,6 +64,21 @@ Item {
 
                 map.state = ""
             }
+            return true;
+        }
+        else if (databaseEntryView.state == "")
+        {
+            if (!databaseEntryView.reactToBackOnToolbar())
+            {
+                databaseEntryView.state = "hiddenDown";
+                database.state = "";
+            }
+            return true;
+        }
+        else if (database.state == "")
+        {
+            if (!database.reactToBackOnToolbar())
+                database.hide();
             return true;
         }
         else

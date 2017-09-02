@@ -74,7 +74,6 @@ private:
     QVector <DatabaseEntry> m_entriesData;
     DatabaseUnlocksInfo m_unlocksInfo;
 
-    DatabaseEnums::EntryType m_currentCategory;
     QVector <DatabaseEntry> m_entriesFromCurrentCategory;
 };
 

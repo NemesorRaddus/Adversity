@@ -85,7 +85,7 @@ Item {
                 height: 182
 
                 color: "#94ef94"
-                font.pixelSize: 91
+                font.pixelSize: 65
                 font.family: fontStencil.name
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

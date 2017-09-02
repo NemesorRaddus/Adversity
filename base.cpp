@@ -1635,7 +1635,7 @@ void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
 }
 
 Base::Base(Game *gameObject) noexcept
-    : QObject(nullptr), m_gameObject(gameObject), m_freezeGameProgress(false)
+    : QObject(nullptr), m_gameObject(gameObject), m_freezeGameProgress(false), m_database(nullptr)
 {
     HeroBuilder::init(this);
 
@@ -1678,8 +1678,6 @@ Base::Base(Game *gameObject) noexcept
 
     m_heroes=new HeroesContainer(this);
 
-    m_database=m_gameObject->assetsPool().makeStockDatabase();
-
     m_missionInitializer=new MissionInitializer(this);
 }
 
@@ -1694,6 +1692,8 @@ void Base::setupNewBase() noexcept
     m_dockingStation->prepareEquipments();
 
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
+
+    m_database=m_gameObject->assetsPool().makeStockDatabase();
 }
 
 Base::~Base() noexcept
@@ -1719,6 +1719,7 @@ Base::~Base() noexcept
 
     delete m_heroes;
 
+    if (m_database!=nullptr)
     delete m_database;
 
     delete m_missionInitializer;
@@ -1726,6 +1727,10 @@ Base::~Base() noexcept
 
 void Base::loadSaveData(const SaveData &data) noexcept
 {
+    if (m_database!=nullptr)
+        delete m_database;
+    m_database=m_gameObject->assetsPool().makeStockDatabase();
+
     m_buildingLevels.insert(BaseEnums::B_CentralUnit,data.buildings.levels.centralUnit);//buildings levels loading
     m_buildingLevels.insert(BaseEnums::B_Hospital,data.buildings.levels.hospital);
     m_buildingLevels.insert(BaseEnums::B_TrainingGround,data.buildings.levels.trainingGround);

@@ -5,13 +5,18 @@ Item {
     id: root
 
     width: 1080
-    height: 1464
+    height: 1440
 
     property string category: ""
 
     signal backClicked()
 
     state: "hiddenDown"
+
+    function reactToBackOnToolbar()
+    {
+        return false;
+    }
 
     function setArtSource(source)
     {
@@ -21,6 +26,7 @@ Item {
     function setName(text)
     {
         name.text = GameApi.tr(text);
+        fade.nameAfterFading=text;
     }
 
     function setDescription(desc)
@@ -38,7 +44,7 @@ Item {
         root.category = category;
         setArtSource("qrc:/graphics/Database/"+GameApi.globalsCpp.alterNormalTextToInternal(category)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(name)+".png");
         setName(name);
-        GameApi.base.database.prepareCategory(type);
+        GameApi.base.database.prepareCategory(category);
         var am=GameApi.base.database.amountOfEntriesInCurrentCategory();
         for (var i=0;i<am;++i)
             if (GameApi.base.database.nameOfEntry(i) == name)
@@ -70,7 +76,7 @@ Item {
         GameApi.base.database.prepareCategory(root.category);
         var am=GameApi.base.database.amountOfEntriesInCurrentCategory();
         for (var i=1;i<am;++i)//button visibility guarantees it's ok
-            if (GameApi.base.database.nameOfEntry(i) == name.text)
+            if (GameApi.base.database.nameOfEntry(i) == fade.nameAfterFading)
             {
                 fade.nameAfterFading = GameApi.base.database.nameOfEntry(i-1);
                 fade.descriptionAfterFading = GameApi.base.database.descriptionOfEntry(i-1);
@@ -92,14 +98,14 @@ Item {
         GameApi.base.database.prepareCategory(root.category);
         var am=GameApi.base.database.amountOfEntriesInCurrentCategory();
         for (var i=0;i<am;++i)
-            if (GameApi.base.database.nameOfEntry(i) == name.text)
+            if (GameApi.base.database.nameOfEntry(i) == fade.nameAfterFading)
             {
                 fade.nameAfterFading = GameApi.base.database.nameOfEntry(i+1);
                 fade.descriptionAfterFading = GameApi.base.database.descriptionOfEntry(i+1);
                 fade.inhabitancyAfterFading = GameApi.base.database.inhabitancyTextOfEntry(i+1);
                 fade.artAfterFading = "qrc:/graphics/Database/"+GameApi.globalsCpp.alterNormalTextToInternal(root.category)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(fade.nameAfterFading)+".png";
 
-                if (i+1>=am)
+                if (i+1>=am-1)
                     next.visible = false;
 
                 previous.visible = true;
@@ -206,7 +212,7 @@ Item {
             height: 1094
 
             color: "#94ef94"
-            font.pixelSize: 40
+            font.pixelSize: 45
             font.family: fontStencil.name
             wrapMode: Text.WordWrap
         }
@@ -293,9 +299,9 @@ Item {
     Item {
         id: previous
 
-        x: 17
+        x: 27
         y: 1396
-        width: 1048
+        width: 1028
         height: 68
 
         Text {
@@ -314,16 +320,16 @@ Item {
 
             anchors.fill: parent
 
-            onClicked: previousClicked()
+            onClicked: root.goToPrevious()
         }
     }
 
     Item {
         id: next
 
-        x: 17
+        x: 27
         y: 1396
-        width: 1048
+        width: 1028
         height: 68
 
         Text {
@@ -343,7 +349,7 @@ Item {
 
             anchors.fill: parent
 
-            onClicked: nextClicked()
+            onClicked: root.goToNext()
         }
     }
 

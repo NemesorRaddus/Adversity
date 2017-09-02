@@ -12,6 +12,7 @@ Item {
 
     function update()
     {
+        Scripts.scrollList(9999);
         if (category == "")
         {
             Scripts.setupList(4, width, taskBorder.y);
@@ -47,6 +48,14 @@ Item {
     function returnToDefault()
     {
         Scripts.scrollList(3000);
+        category = "";
+        update();
+    }
+
+    function reactToBackOnToolbar()
+    {
+        backClicked();
+        return true;
     }
 
     function changeCategory(catName)
@@ -262,10 +271,7 @@ Item {
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 1000 }
-        },
-        Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 1000 }
+            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 1000 }
         }
     ]
 

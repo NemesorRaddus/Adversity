@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbEntries type="Plants">
+    <entry>
+        <name>Acid Berry</name>
+        <description>It works!</description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+    <entry>
+        <name>Toxic Spores</name>
+        <description>It works!</description>
+        <inhabitancies>
+            <inhabitancy>Hegos Plains</inhabitancy>
+        </inhabitancies>
+    </entry>
+</dbEntries>
