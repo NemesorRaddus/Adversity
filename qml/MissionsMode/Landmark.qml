@@ -44,7 +44,7 @@ Item {
 
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/CE.png"
+        source: "qrc:/graphics/GUI/Attributes/CE.png"
 
         MouseArea {
             id: ma

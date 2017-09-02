@@ -82,27 +82,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/CE.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/CE.png";
                     bonus1Text.text = "CE";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/CE.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/CE.png";
                     bonus2Text.text = "CE";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/CE.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/CE.png";
                     bonus3Text.text = "CE";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/CE.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/CE.png";
                     bonus4Text.text = "CE";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/CE.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/CE.png";
                     bonus5Text.text = "CE";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/CE.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/CE.png";
                     bonus6Text.text = "CE";
                     break;
                 }
@@ -112,27 +112,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/PR.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/PR.png";
                     bonus1Text.text = "PR";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/PR.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/PR.png";
                     bonus2Text.text = "PR";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/PR.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/PR.png";
                     bonus3Text.text = "PR";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/PR.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/PR.png";
                     bonus4Text.text = "PR";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/PR.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/PR.png";
                     bonus5Text.text = "PR";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/PR.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/PR.png";
                     bonus6Text.text = "PR";
                     break;
                 }
@@ -142,27 +142,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/CL.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/CL.png";
                     bonus1Text.text = "CL";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/CL.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/CL.png";
                     bonus2Text.text = "CL";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/CL.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/CL.png";
                     bonus3Text.text = "CL";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/CL.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/CL.png";
                     bonus4Text.text = "CL";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/CL.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/CL.png";
                     bonus5Text.text = "CL";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/CL.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/CL.png";
                     bonus6Text.text = "CL";
                     break;
                 }
@@ -172,27 +172,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus1Text.text = "HL";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus2Text.text = "HL";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus3Text.text = "HL";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus4Text.text = "HL";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus5Text.text = "HL";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus6Text.text = "HL";
                     break;
                 }
@@ -202,27 +202,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus1Text.text = "DHR";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus2Text.text = "DHR";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus3Text.text = "DHR";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus4Text.text = "DHR";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus5Text.text = "DHR";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/HealthRestored.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/HealthRestored.png";
                     bonus6Text.text = "DHR";
                     break;
                 }
@@ -232,27 +232,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/StressResistance.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/StressResistance.png";
                     bonus1Text.text = "SR";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/StressResistance.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/StressResistance.png";
                     bonus2Text.text = "SR";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/StressResistance.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/StressResistance.png";
                     bonus3Text.text = "SR";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/StressResistance.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/StressResistance.png";
                     bonus4Text.text = "SR";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/StressResistance.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/StressResistance.png";
                     bonus5Text.text = "SR";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/StressResistance.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/StressResistance.png";
                     bonus6Text.text = "SR";
                     break;
                 }
@@ -262,27 +262,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/StressLimit.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/StressLimit.png";
                     bonus1Text.text = "SL";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/StressLimit.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/StressLimit.png";
                     bonus2Text.text = "SL";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/StressLimit.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/StressLimit.png";
                     bonus3Text.text = "SL";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/StressLimit.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/StressLimit.png";
                     bonus4Text.text = "SL";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/StressLimit.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/StressLimit.png";
                     bonus5Text.text = "SL";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/StressLimit.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/StressLimit.png";
                     bonus6Text.text = "SL";
                     break;
                 }
@@ -292,27 +292,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/StressRelief.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Attributes/StressRelief.png";
                     bonus1Text.text = "DSR";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/StressRelief.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Attributes/StressRelief.png";
                     bonus2Text.text = "DSR";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/StressRelief.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Attributes/StressRelief.png";
                     bonus3Text.text = "DSR";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/StressRelief.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Attributes/StressRelief.png";
                     bonus4Text.text = "DSR";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/StressRelief.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Attributes/StressRelief.png";
                     bonus5Text.text = "DSR";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/StressRelief.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Attributes/StressRelief.png";
                     bonus6Text.text = "DSR";
                     break;
                 }
@@ -322,27 +322,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/Aetherite.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
                     bonus1Text.text = "SA";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/Aetherite.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
                     bonus2Text.text = "SA";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/Aetherite.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
                     bonus3Text.text = "SA";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/Aetherite.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
                     bonus4Text.text = "SA";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/Aetherite.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
                     bonus5Text.text = "SA";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/Aetherite.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
                     bonus6Text.text = "SA";
                     break;
                 }
@@ -352,27 +352,27 @@ Item {
                 switch (index)
                 {
                 case 0:
-                    bonus1Icon.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                    bonus1Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                     bonus1Text.text = "DFC";
                     break;
                 case 1:
-                    bonus2Icon.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                    bonus2Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                     bonus2Text.text = "DFC";
                     break;
                 case 2:
-                    bonus3Icon.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                    bonus3Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                     bonus3Text.text = "DFC";
                     break;
                 case 3:
-                    bonus4Icon.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                    bonus4Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                     bonus4Text.text = "DFC";
                     break;
                 case 4:
-                    bonus5Icon.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                    bonus5Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                     bonus5Text.text = "DFC";
                     break;
                 case 5:
-                    bonus6Icon.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                    bonus6Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                     bonus6Text.text = "DFC";
                     break;
                 }
@@ -446,7 +446,7 @@ Item {
     function setEmpty()
     {
         textSegment.visible = false;
-        art.source = "qrc:/graphics/GUI/Nothing.png";
+        art.source = "qrc:/graphics/GUI/Slots/Nothing.png";
     }
 
     function getName()

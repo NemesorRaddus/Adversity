@@ -23,9 +23,9 @@ Item {
         GameApi.base.missionInitializer.setFoodSupplies(0);
 
         updateDelegate();
-        armorArt.source = "qrc:/graphics/GUI/ArmourSlot.png";
-        weapon1Art.source = "qrc:/graphics/GUI/ToolSlot.png";
-        weapon2Art.source = "qrc:/graphics/GUI/ToolSlot.png";
+        armorArt.source = "qrc:/graphics/GUI/Slots/ArmourSlot.png";
+        weapon1Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
+        weapon2Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
         weapon1.name = "";
         weapon2.name = "";
 
@@ -222,7 +222,7 @@ Item {
             width: 256
             height: width
 
-            source: "qrc:/graphics/GUI/ArmourSlot.png"
+            source: "qrc:/graphics/GUI/Slots/ArmourSlot.png"
         }
         MouseArea {
             id: armorMA
@@ -258,7 +258,7 @@ Item {
             width: 256
             height: width
 
-            source: "qrc:/graphics/GUI/ToolSlot.png"
+            source: "qrc:/graphics/GUI/Slots/ToolSlot.png"
         }
         MouseArea {
             id: weapon1MA
@@ -295,7 +295,7 @@ Item {
             width: 256
             height: width
 
-            source: "qrc:/graphics/GUI/ToolSlot.png"
+            source: "qrc:/graphics/GUI/Slots/ToolSlot.png"
         }
         MouseArea {
             id: weapon2MA
@@ -324,7 +324,7 @@ Item {
             width: 100
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: warningEnergyText
@@ -497,7 +497,7 @@ Item {
             width: 120
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
         Text {
             id: warningBuildingMaterialsText
@@ -670,7 +670,7 @@ Item {
             width: 110
             height: width
 
-            source: "qrc:/graphics/GUI/Foodsupplies.png"
+            source: "qrc:/graphics/GUI/Resources/Foodsupplies.png"
         }
         Text {
             id: warningFoodSuppliesText
@@ -1029,7 +1029,7 @@ Item {
             if (heroName == "")
             {
                 delegate.setName("");
-                delegate.setArtSource("qrc:/graphics/GUI/HeroSlot.png");
+                delegate.setArtSource("qrc:/graphics/GUI/Slots/HeroSlot.png");
                 updateDelegate();
             }
             else
@@ -1074,7 +1074,7 @@ Item {
             if (armors)
             {
                 if (name == "")
-                    armorArt.source = "qrc:/graphics/GUI/ArmourSlot.png";
+                    armorArt.source = "qrc:/graphics/GUI/Slots/ArmourSlot.png";
                 else
                     armorArt.source = artSource;
                 GameApi.base.missionInitializer.setArmor(name);
@@ -1085,7 +1085,7 @@ Item {
                 if (slot == 0)
                 {
                     if (name == "")
-                        weapon1Art.source = "qrc:/graphics/GUI/ToolSlot.png";
+                        weapon1Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
                     else
                         weapon1Art.source = artSource;
                     weapon1.name=name;
@@ -1093,7 +1093,7 @@ Item {
                 else
                 {
                     if (name == "")
-                        weapon2Art.source = "qrc:/graphics/GUI/ToolSlot.png";
+                        weapon2Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
                     else
                         weapon2Art.source = artSource;
                     weapon2.name=name;

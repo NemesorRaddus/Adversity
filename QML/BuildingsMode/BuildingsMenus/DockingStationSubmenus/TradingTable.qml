@@ -180,7 +180,7 @@ Item {
             width: buySwitchR.x - x - 20
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
 
             onModeChanged: {
                 fadeIn.start();
@@ -199,13 +199,13 @@ Item {
                     if (running == false)
                     {
                         if (buyRes.mode == 0)
-                            buyRes.source = "qrc:/graphics/GUI/Energy.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Energy.png";
                         else if (buyRes.mode == 1)
-                            buyRes.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                         else if (buyRes.mode == 2)
-                            buyRes.source = "qrc:/graphics/GUI/Buildingmaterials.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Buildingmaterials.png";
                         else if (buyRes.mode == 3)
-                            buyRes.source = "qrc:/graphics/GUI/Aetherite.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
 
                         root.update();
 
@@ -676,7 +676,7 @@ Item {
             width: forSwitchR.x - x - 20
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
 
             onModeChanged: {
                 forFadeIn.start();
@@ -695,13 +695,13 @@ Item {
                     if (running == false)
                     {
                         if (forRes.mode == 0)
-                            forRes.source = "qrc:/graphics/GUI/Energy.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Energy.png";
                         else if (forRes.mode == 1)
-                            forRes.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                         else if (forRes.mode == 2)
-                            forRes.source = "qrc:/graphics/GUI/Buildingmaterials.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Buildingmaterials.png";
                         else if (forRes.mode == 3)
-                            forRes.source = "qrc:/graphics/GUI/Aetherite.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
 
                         root.update();
 

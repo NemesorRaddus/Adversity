@@ -289,7 +289,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -387,7 +387,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyCostAmount1
@@ -436,7 +436,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/CL.png"
+            source: "qrc:/graphics/GUI/Attributes/CL.png"
         }
         Text {
             id: clevernessBonusAmount1
@@ -558,7 +558,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -583,7 +583,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
