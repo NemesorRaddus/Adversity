@@ -909,6 +909,17 @@ unsigned Hero::dailyEquipmentCostBM() noexcept
     return r;
 }
 
+void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
+{
+    m_noSignalDaysRemaining = noSignalDaysRemaining;
+    if (m_noSignalDaysRemaining == 0)
+    {
+        for (auto &e : m_waitingReports)
+            m_base->addReport(e);
+        m_waitingReports.clear();
+    }
+}
+
 Hero::Hero(Base *base) noexcept
     : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
@@ -948,6 +959,11 @@ void Hero::assignMission(Mission *mission) noexcept
 {
     m_assignedMission=mission;
     m_currentActivity=HeroEnums::CA_OnMission;
+}
+
+void Hero::addWaitingReport(Report *report) noexcept
+{
+    m_waitingReports+=report;
 }
 
 QString Hero::currentActivityString() const noexcept
@@ -1976,7 +1992,7 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_carriedBuildingMaterials = hero.carriedBuildingMaterials;
     r->m_carriedAetheriteOre = hero.carriedAetheriteOre;
     r->m_noSalaryWeeks = hero.noSalaryWeeks;
-    //TODO mission
+    r->m_waitingReports = hero.waitingReports;
     r->m_currentActivity = hero.currentActivity;
     if (hero.currentActivity == HeroEnums::CA_OnMission)
     {
@@ -2039,7 +2055,7 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
     r.carriedBuildingMaterials = hero->m_carriedBuildingMaterials;
     r.carriedAetheriteOre = hero->m_carriedAetheriteOre;
     r.noSalaryWeeks = hero->m_noSalaryWeeks;
-    //TODO mission
+    r.waitingReports = hero->m_waitingReports;
     r.currentActivity = hero->m_currentActivity;
 
     return r;
@@ -2095,7 +2111,10 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
 
     stream<<static_cast<qint16>(hero.noSalaryWeeks);
 
-    //TODO Mission saving
+    QVector<QPair<Time,QString>> wrs;
+    for (const auto e : hero.waitingReports)
+        wrs+={e->time(),e->msg()};
+    stream<<wrs;
 
     stream<<static_cast<quint8>(hero.currentActivity);
 
@@ -2172,7 +2191,10 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     stream>>ii;
     hero.noSalaryWeeks=ii;
 
-    //TODO Mission loading
+    QVector<QPair<Time,QString>> wrs;
+    stream>>wrs;
+    for (const auto e : wrs)
+        hero.waitingReports+=new Report{e.first,e.second};
 
     stream>>n;
     hero.currentActivity=static_cast<HeroEnums::CurrentActivity>(n);
@@ -2312,10 +2334,7 @@ void HeroBuilder::setNoSalaryWeeks(unsigned amount) noexcept
 }
 
 HeroesContainer::HeroesContainer(Base *base) noexcept
-    : m_preparedHero(nullptr), m_basePtr(base)
-{
-
-}
+    : m_preparedHero(nullptr), m_basePtr(base) {}
 
 HeroesContainer::~HeroesContainer() noexcept
 {

@@ -141,7 +141,12 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
     for (int i=0;i<m_missionAlarms.size();++i)
         if (m_missionAlarms[i].first <= now)
         {
-            m_base->addEncounterReport(m_missionAlarms[i].second->doEncounter());
+            auto er=m_missionAlarms[i].second->doEncounter();
+            if (m_missionAlarms[i].second->assignedHero()->isCommunicationAvailable())
+                m_base->addReport(new Report{er});
+            else
+                m_missionAlarms[i].second->assignedHero()->addWaitingReport(new Report{er});
+            delete m_missionAlarms[i].second;
             m_missionAlarms.remove(i);
             --i;
         }
@@ -197,9 +202,33 @@ bool Time::operator <(const Time &other) const noexcept
         return 0;
 }
 
+QDataStream &operator<<(QDataStream &stream, const Time &time) noexcept
+{
+    stream<<static_cast<quint16>(time.d);
+    stream<<static_cast<quint16>(time.h);
+    stream<<static_cast<quint16>(time.min);
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Time &time) noexcept
+{
+    quint16 uii;
+
+    stream>>uii;
+    time.d=uii;
+
+    stream>>uii;
+    time.h=uii;
+
+    stream>>uii;
+    time.min=uii;
+
+    return stream;
+}
+
 GameClock::GameClock() noexcept
-    : m_currentTimeInGame(1,12,0), m_lastKnownDate(QDateTime::currentDateTime()), m_lastKnownTimeInGame(1,12,0),  m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)})
-{}
+    : m_currentTimeInGame(1,12,0), m_lastKnownDate(QDateTime::currentDateTime()), m_lastKnownTimeInGame(1,12,0),  m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)}) {}
 
 void GameClock::setBasePtr(Base *base) noexcept
 {

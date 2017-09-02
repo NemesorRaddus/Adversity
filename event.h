@@ -443,15 +443,13 @@ private:
     Event *m_event;
 };
 
-class EncounterReport : public QObject
+class EncounterReport
 {
-    Q_OBJECT
-
 public:
     EncounterReport(const QString &encName, const QVector <EventReport> &events, const Time &time) noexcept;
 
-    Q_INVOKABLE QString textLine() const noexcept;
-    Q_INVOKABLE QString timestampLine() const noexcept;
+    QString textLine() const noexcept;
+    QString timestampLine() const noexcept;
 
     inline QVector <QString> text() const noexcept
     {
@@ -466,6 +464,30 @@ private:
     QString m_encounterName;
     QVector <EventReport> m_events;
     Time m_time;
+};
+
+class Report : public QObject
+{
+    Q_OBJECT
+
+public:
+    Report(const Time &time, const QString &msg) noexcept;
+    Report(EncounterReport *sourceToDestroy) noexcept;
+
+    Q_INVOKABLE QString timestamp() const noexcept;
+    Q_INVOKABLE inline QString msg() const noexcept
+    {
+        return m_msg;
+    }
+
+    inline const Time &time() const noexcept
+    {
+        return m_time;
+    }
+
+private:
+    Time m_time;
+    QString m_msg;
 };
 
 class Encounter
@@ -578,6 +600,8 @@ class Mission : public QObject
 public:
     typedef unsigned MissionDay;
 
+    ~Mission() noexcept;
+
     inline const Land *land() const noexcept
     {
         return m_land;
@@ -605,13 +629,16 @@ public:
     {
         return m_assignedHero;
     }
+    inline Hero *assignedHero() noexcept
+    {
+        return m_assignedHero;
+    }
 
     void start() noexcept;
     EncounterReport *doEncounter() noexcept;
 
 private:
     Mission() noexcept;
-    ~Mission() noexcept;
 
     void planNextEncounter() noexcept;
 

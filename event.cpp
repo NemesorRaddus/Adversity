@@ -551,19 +551,22 @@ QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
 EncounterReport::EncounterReport(const QString &encName, const QVector<EventReport> &events, const Time &time) noexcept
     : m_encounterName(encName), m_events(events), m_time(time) {}
 
-QString EncounterReport::textLine() const noexcept
+Report::Report(const Time &time, const QString &msg) noexcept
+    : m_time(time), m_msg(msg) {}
+
+Report::Report(EncounterReport *sourceToDestroy) noexcept
 {
-    QString r;
-    auto v=text();
+    m_time=sourceToDestroy->timestamp();
+    const auto &v=sourceToDestroy->text();
     for (const auto &e : v)
-        r+=e;
-    return r;
+        m_msg+=e+"\n";
+    delete sourceToDestroy;
 }
 
-QString EncounterReport::timestampLine() const noexcept
+QString Report::timestamp() const noexcept
 {
     QString r;
-    auto t=timestamp();
+    const auto &t=time();
     r+=t.h<10 ? "0"+QString::number(t.h) : QString::number(t.h);
     r+=":";
     r+=t.min<10 ? "0"+QString::number(t.min) : QString::number(t.min);
@@ -656,6 +659,12 @@ void LandBuilder::setAssociatedEncountersContainer(const EncountersContainer &en
     m_land->setAssociatedEncountersContainer(encCont);
 }
 
+Mission::~Mission() noexcept
+{
+    for (auto e : m_encounters)
+        delete e.second;
+}
+
 void Mission::decrementDuration() noexcept
 {
     --m_remainingDays;
@@ -681,12 +690,6 @@ EncounterReport *Mission::doEncounter() noexcept
 
 Mission::Mission() noexcept
     : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_currentEncounter(0), m_minutesSinceMidnightForLastEncounter(-1), m_assignedHero(nullptr) {}
-
-Mission::~Mission() noexcept
-{
-    for (auto e : m_encounters)
-        delete e.second;
-}
 
 void Mission::planNextEncounter() noexcept
 {

@@ -19,6 +19,7 @@ struct HeroDataHelper;
 class Equipment;
 struct ActiveTransaction;
 struct MissionDataHelper;
+class Time;
 
 struct SaveData
 {
@@ -123,6 +124,7 @@ struct SaveData
     struct Missions
     {
         QVector<MissionDataHelper> missions;
+        QVector<QPair<Time,QString>> reports;
     } missions;
 };
 

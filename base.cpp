@@ -1858,6 +1858,9 @@ void Base::loadSaveData(const SaveData &data) noexcept
 
     for (auto e : data.missions.missions)//missions
         m_missions+=MissionBuilder::qobjectifyMissionData(e,this);
+
+    for (const auto &e : data.missions.reports)
+        m_reports+=new Report{e.first,e.second};
 }
 
 SaveData Base::getSaveData() noexcept
@@ -1987,6 +1990,9 @@ SaveData Base::getSaveData() noexcept
 
     for (auto e : m_missions)
         data.missions.missions+=MissionBuilder::deqobjectifyMission(e);
+
+    for (const auto &e : m_reports)
+        data.missions.reports+={e->time(),e->msg()};
 
     return data;
 }
@@ -2228,23 +2234,23 @@ void Base::prepareMission(unsigned index) noexcept
         m_preparedMission=m_missions[index];
 }
 
-void Base::prepareEncounterReport(unsigned index) noexcept
+void Base::prepareReport(unsigned index) noexcept
 {
-    if (index<m_encounterReports.size())
-        m_preparedEncounterReport=m_encounterReports[index];
+    if (index<m_reports.size())
+        m_preparedReport=m_reports[index];
 }
 
-void Base::addEncounterReport(EncounterReport *report) noexcept
+void Base::addReport(Report *report) noexcept
 {
-    m_encounterReports+=report;
+    m_reports+=report;
 }
 
-void Base::removeEncounterReport(unsigned index) noexcept
+void Base::removeReport(unsigned index) noexcept
 {
-    if (index<m_encounterReports.size())
+    if (index<m_reports.size())
     {
-        delete m_encounterReports[index];
-        m_encounterReports.remove(index);
+        delete m_reports[index];
+        m_reports.remove(index);
     }
 }
 

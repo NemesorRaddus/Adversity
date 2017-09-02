@@ -111,6 +111,9 @@ struct Time
     Minute min;
 };
 
+QDataStream &operator<<(QDataStream &stream, const Time &time) noexcept;
+QDataStream &operator>>(QDataStream &stream, Time &time) noexcept;
+
 class TimerAlarmsContainer : public QObject
 {
     Q_OBJECT

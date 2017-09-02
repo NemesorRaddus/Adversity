@@ -163,6 +163,7 @@ QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept;
 struct AttributeModification;
 
 class Base;
+class Report;
 
 class Hero : public QObject
 {
@@ -402,10 +403,7 @@ public:
     {
         return m_noSignalDaysRemaining;
     }
-    void setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
-    {
-        m_noSignalDaysRemaining = noSignalDaysRemaining;
-    }
+    void setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept;
     Q_INVOKABLE inline bool isCommunicationAvailable() const noexcept
     {
         return m_noSignalDaysRemaining==0;
@@ -444,6 +442,8 @@ public:
         return m_assignedMission;
     }
     void assignMission(Mission *mission) noexcept;
+
+    void addWaitingReport(Report *report) noexcept;
 
     inline HeroEnums::CurrentActivity currentActivity() const noexcept
     {
@@ -557,6 +557,8 @@ private:
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
 
+    QVector <Report *> m_waitingReports;
+
     Base *m_base;
 };
 
@@ -599,7 +601,8 @@ struct HeroDataHelper
 
     int noSalaryWeeks;
 
-    Mission *assignedMission;//TODO missions
+    Mission *assignedMission;
+    QVector <Report *> waitingReports;
     HeroEnums::CurrentActivity currentActivity;
 };
 
