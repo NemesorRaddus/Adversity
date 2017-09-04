@@ -2392,6 +2392,10 @@ public:
 
     //missions
     void startMission(Mission *mission) noexcept;
+    inline const QVector <Mission *> &missions() const noexcept
+    {
+        return m_missions;
+    }
     inline Database *database() noexcept
     {
         return m_database;

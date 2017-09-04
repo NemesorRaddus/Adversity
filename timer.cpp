@@ -1,6 +1,7 @@
 #include "timer.h"
 
 #include "event.h"
+#include "game.h"
 
 #include <QDebug>
 
@@ -16,15 +17,23 @@ bool TimerAlarm::isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept
     if (m_type==TimerAlarmEnums::AT_BuildingUpgrade)
         if (*static_cast<BuildingUpgradeTimerAlarm*>(this)!=*static_cast<BuildingUpgradeTimerAlarm*>(alarmsSubclassObject))
             return 0;
+    else if (m_type==TimerAlarmEnums::AT_MissionEnd)
+        if (*static_cast<MissionEndTimerAlarm*>(this)!=*static_cast<MissionEndTimerAlarm*>(alarmsSubclassObject))
+            return 0;
     return 1;
 }
 
-TimerAlarm::TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive) noexcept
-    : m_type(type), m_isAlreadyActive(isAlreadyActive)
+void TimerAlarm::setBasePtr(Base *base) noexcept
+{
+    m_base=base;
+}
+
+TimerAlarm::TimerAlarm(Base *base, TimerAlarmEnums::AlarmType type, bool isAlreadyActive) noexcept
+    : m_base(base), m_type(type), m_isAlreadyActive(isAlreadyActive)
 {}
 
-BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
-    : TimerAlarm(TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
+BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(Base *base, BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
+    : TimerAlarm(base,TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
 {}
 
 QDataStream &BuildingUpgradeTimerAlarm::read(QDataStream &stream) noexcept
@@ -71,6 +80,51 @@ bool BuildingUpgradeTimerAlarm::operator ==(const BuildingUpgradeTimerAlarm &oth
     if (m_buildingName!=other.m_buildingName)
         return 0;
     return 1;
+}
+
+MissionEndTimerAlarm::MissionEndTimerAlarm(Base *base, Mission *mission) noexcept
+    : TimerAlarm(base,TimerAlarmEnums::AT_MissionEnd,1), m_mission(mission) {}
+
+bool MissionEndTimerAlarm::operator ==(const MissionEndTimerAlarm &other) const noexcept
+{
+    return m_mission==other.m_mission;
+}
+
+Mission *MissionEndTimerAlarm::mission() noexcept
+{
+    if (m_mission!=nullptr)
+        return m_mission;
+    for (const auto &e : m_base->missions())
+        if (m_missionHeroName==e->assignedHero()->name())
+        {
+            m_mission=e;
+            return e;
+        }
+    return nullptr;
+}
+
+QDataStream &MissionEndTimerAlarm::read(QDataStream &stream) noexcept
+{
+    stream>>m_missionHeroName;
+
+    return stream;
+}
+
+QDataStream &MissionEndTimerAlarm::write(QDataStream &stream) const noexcept
+{
+    stream<<(m_mission!=nullptr ? m_mission->assignedHero()->name() : m_missionHeroName);
+
+    return stream;
+}
+
+QDataStream &operator<<(QDataStream &stream, const MissionEndTimerAlarm &alarm) noexcept
+{
+    alarm.write(stream);
+}
+
+QDataStream &operator>>(QDataStream &stream, MissionEndTimerAlarm &alarm) noexcept
+{
+    alarm.read(stream);
 }
 
 void TimerAlarmsContainer::addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept
@@ -146,10 +200,14 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
                 m_base->addReport(new Report{er});
             else
                 m_missionAlarms[i].second->assignedHero()->addWaitingReport(new Report{er});
-            delete m_missionAlarms[i].second;
             m_missionAlarms.remove(i);
             --i;
         }
+}
+
+void TimerAlarmsContainer::setMissionAlarms(const QVector<QPair<Time, Mission *> > &alarms) noexcept
+{
+    m_missionAlarms=alarms;
 }
 
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept

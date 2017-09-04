@@ -688,6 +688,11 @@ EncounterReport *Mission::doEncounter() noexcept
     return m_encounters[m_currentEncounter].second->execute(m_assignedHero, {clock->currentDay(),clock->currentHour(),clock->currentMin()});
 }
 
+void Mission::end() noexcept
+{
+    m_assignedHero->returnToBase();
+}
+
 Mission::Mission() noexcept
     : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_currentEncounter(0), m_minutesSinceMidnightForLastEncounter(-1), m_assignedHero(nullptr) {}
 
@@ -704,6 +709,8 @@ void Mission::planNextEncounter() noexcept
 
         clock->addMissionAlarm(timeResult, this);
     }
+    else
+        m_assignedHero->base()->gameClock()->addAlarm(m_remainingDays, new MissionEndTimerAlarm(m_assignedHero->base(),this));
 }
 
 void Mission::setLand(const Land *land) noexcept

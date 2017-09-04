@@ -37,22 +37,25 @@ public:
 
     bool isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept;
 
+    void setBasePtr(Base *base) noexcept;
+
 protected:
-    explicit TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive = 0) noexcept;
+    explicit TimerAlarm(Base *base, TimerAlarmEnums::AlarmType type, bool isAlreadyActive = 0) noexcept;
     TimerAlarm() noexcept{}//NEVER USE MANUALLY - ONLY FOR QT
 
     TimerAlarmEnums::AlarmType m_type;
     bool m_isAlreadyActive;//if true, decrease daysToTimeout in container at the end of current day
+    Base *m_base;
 };
 
 class BuildingUpgradeTimerAlarm : public TimerAlarm
 {
 public:
-    explicit BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept;
+    explicit BuildingUpgradeTimerAlarm(Base *base, BaseEnums::Building buildingName, unsigned buildingLevel) noexcept;
     BuildingUpgradeTimerAlarm() noexcept{}//NEVER USE MANUALLY - ONLY FOR QT
 
     bool operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept;
-    bool operator !=(const BuildingUpgradeTimerAlarm &other) const noexcept
+    inline bool operator !=(const BuildingUpgradeTimerAlarm &other) const noexcept
     {
         return !(*this==other);
     }
@@ -76,6 +79,32 @@ private:
 
 QDataStream &operator<<(QDataStream &stream, const BuildingUpgradeTimerAlarm &alarm) noexcept;
 QDataStream &operator>>(QDataStream &stream, BuildingUpgradeTimerAlarm &alarm) noexcept;
+
+class MissionEndTimerAlarm : public TimerAlarm
+{
+public:
+    explicit MissionEndTimerAlarm(Base *base, Mission *mission) noexcept;
+    MissionEndTimerAlarm() noexcept//NEVER USE MANUALLY - ONLY FOR QT
+        : m_mission(nullptr) {}
+
+    bool operator ==(const MissionEndTimerAlarm &other) const noexcept;
+    inline bool operator !=(const MissionEndTimerAlarm &other) const noexcept
+    {
+        return !(*this==other);
+    }
+
+    Mission *mission() noexcept;
+
+    QDataStream &read(QDataStream &stream) noexcept;
+    QDataStream &write(QDataStream &stream) const noexcept;
+
+private:
+    QString m_missionHeroName;
+    Mission *m_mission;
+};
+
+QDataStream &operator<<(QDataStream &stream, const MissionEndTimerAlarm &alarm) noexcept;
+QDataStream &operator>>(QDataStream &stream, MissionEndTimerAlarm &alarm) noexcept;
 
 struct Time
 {
@@ -117,6 +146,7 @@ QDataStream &operator>>(QDataStream &stream, Time &time) noexcept;
 class TimerAlarmsContainer : public QObject
 {
     Q_OBJECT
+
 public:
     void addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept;
     void cancelAlarm(TimerAlarm *alarm) noexcept;
@@ -132,6 +162,11 @@ public:
 
     void addMissionAlarm(const Time &time, Mission *mission) noexcept;
     void checkMissionAlarms(const Time &now) noexcept;
+    inline QVector <QPair <Time, Mission *> > missionAlarms() const noexcept
+    {
+        return m_missionAlarms;
+    }
+    void setMissionAlarms(const QVector <QPair <Time, Mission *> > &alarms) noexcept;
 
 protected:
     Base *m_base;

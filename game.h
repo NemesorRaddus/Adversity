@@ -124,6 +124,11 @@ public:
     Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
     Q_INVOKABLE void saveBase() noexcept;
 
+    inline const AppBuildInfo *currentVersion() const noexcept
+    {
+        return m_buildInfo;
+    }
+
     Q_INVOKABLE void setLocale(const QString &locale) noexcept;
     Q_INVOKABLE QString tr(const QString &text) noexcept
     {

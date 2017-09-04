@@ -637,6 +637,8 @@ public:
     void start() noexcept;
     EncounterReport *doEncounter() noexcept;
 
+    void end() noexcept;
+
 private:
     Mission() noexcept;
 

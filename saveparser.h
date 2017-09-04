@@ -15,6 +15,7 @@
 #include <QDebug>
 
 class BuildingUpgradeTimerAlarm;
+class MissionEndTimerAlarm;
 struct HeroDataHelper;
 class Equipment;
 struct ActiveTransaction;
@@ -23,6 +24,7 @@ class Time;
 
 struct SaveData
 {
+    QString parserVersion;
     struct Overall
     {
         QString baseName;
@@ -106,7 +108,9 @@ struct SaveData
     } resources;
     struct Alarms
     {
-        QVector<QPair<unsigned,BuildingUpgradeTimerAlarm>> buildingUpgrades;
+        QVector<QPair<quint8,BuildingUpgradeTimerAlarm>> buildingUpgrades;
+        QVector<QPair<quint8,MissionEndTimerAlarm>> missionEnds;
+        QVector<QPair<Time,QString>> missionAlarms;
     } alarms;
     struct Heroes
     {

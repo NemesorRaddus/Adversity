@@ -16,6 +16,7 @@ SaveData SaveParser::readData(QByteArray &array)
     if (!t.isEmpty())
     {
         QDataStream str(&t,QIODevice::ReadOnly);
+        str>>data.parserVersion;
         str>>data.overall.baseName;
         str>>data.overall.lastKnownDate;
         str>>data.overall.lastKnownDay;
@@ -74,6 +75,8 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.resources.foodSupplies;
         str>>data.resources.aetheriteOre;
         str>>data.alarms.buildingUpgrades;
+        str>>data.alarms.missionEnds;
+        str>>data.alarms.missionAlarms;
         str>>data.heroes.hiredHeroes;
         str>>data.equipments.freeArmor;
         str>>data.equipments.freeWeaponsTools;
@@ -83,7 +86,8 @@ SaveData SaveParser::readData(QByteArray &array)
     }
     else
     {
-        data.overall.baseName="";
+        data.parserVersion.clear();
+        data.overall.baseName.clear();
         data.overall.lastKnownDate=QDateTime::currentDateTime();
         data.overall.lastKnownDay=1;
         data.overall.lastKnownHour=12;
@@ -141,6 +145,8 @@ SaveData SaveParser::readData(QByteArray &array)
         data.resources.foodSupplies=5;
         data.resources.aetheriteOre=50;
         data.alarms.buildingUpgrades.clear();
+        data.alarms.missionEnds.clear();
+        data.alarms.missionAlarms.clear();
         data.heroes.hiredHeroes.clear();
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
@@ -158,6 +164,7 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     QByteArray t;
 
     QDataStream str(&t,QIODevice::WriteOnly);
+    str<<data.parserVersion;
     str<<data.overall.baseName;
     str<<data.overall.lastKnownDate;
     str<<data.overall.lastKnownDay;
@@ -216,6 +223,8 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.resources.foodSupplies;
     str<<data.resources.aetheriteOre;
     str<<data.alarms.buildingUpgrades;
+    str<<data.alarms.missionEnds;
+    str<<data.alarms.missionAlarms;
     str<<data.heroes.hiredHeroes;
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;

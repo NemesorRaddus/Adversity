@@ -138,7 +138,7 @@ bool Building::tryUpgrading() noexcept
     if (reqs.requiredEnergy > m_base->currentEnergyAmount())
         return 0;
 
-    TimerAlarm *alrm=new BuildingUpgradeTimerAlarm(m_buildingName,currentLevel()+1);
+    TimerAlarm *alrm=new BuildingUpgradeTimerAlarm(m_base,m_buildingName,currentLevel()+1);
     if (m_base->gameClock()->checkIfAlarmIsSet(alrm))
     {
         delete alrm;
@@ -174,7 +174,7 @@ void CentralUnit::setLevelsInfo(const QVector<CentralUnitLevelInfo> &info) noexc
 
 unsigned CentralUnit::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_CentralUnit,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_CentralUnit,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -293,7 +293,7 @@ void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
 
 unsigned Hospital::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Hospital,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Hospital,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -400,7 +400,7 @@ void TrainingGround::setLevelsInfo(const QVector<TrainingGroundLevelInfo> &info)
 
 unsigned TrainingGround::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_TrainingGround,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_TrainingGround,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -512,7 +512,7 @@ void Gym::setLevelsInfo(const QVector<GymLevelInfo> &info) noexcept
 
 unsigned Gym::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Gym,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Gym,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -624,7 +624,7 @@ void Laboratory::setLevelsInfo(const QVector<LaboratoryLevelInfo> &info) noexcep
 
 unsigned Laboratory::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Laboratory,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Laboratory,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -753,7 +753,7 @@ void PlayingField::setLevelsInfo(const QVector<PlayingFieldLevelInfo> &info) noe
 
 unsigned PlayingField::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_PlayingField,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_PlayingField,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -882,7 +882,7 @@ void Bar::setLevelsInfo(const QVector<BarLevelInfo> &info) noexcept
 
 unsigned Bar::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Bar,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Bar,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1011,7 +1011,7 @@ void Shrine::setLevelsInfo(const QVector<ShrineLevelInfo> &info) noexcept
 
 unsigned Shrine::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Shrine,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Shrine,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1140,7 +1140,7 @@ void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo> &info) noexcept
 
 unsigned Seclusion::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Seclusion,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Seclusion,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1187,7 +1187,7 @@ void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo> &info) noexcep
 
 unsigned Powerplant::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Powerplant,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Powerplant,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1226,7 +1226,7 @@ void Factory::setLevelsInfo(const QVector<FactoryLevelInfo> &info) noexcept
 
 unsigned Factory::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Factory,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Factory,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1242,7 +1242,7 @@ void CoolRoom::setLevelsInfo(const QVector<CoolRoomLevelInfo> &info) noexcept
 
 unsigned CoolRoom::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_CoolRoom,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_CoolRoom,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1258,7 +1258,7 @@ void StorageRoom::setLevelsInfo(const QVector<StorageRoomLevelInfo> &info) noexc
 
 unsigned StorageRoom::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_StorageRoom,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_StorageRoom,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1274,7 +1274,7 @@ void AetheriteSilo::setLevelsInfo(const QVector<AetheriteSiloLevelInfo> &info) n
 
 unsigned AetheriteSilo::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_AetheriteSilo,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_AetheriteSilo,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1293,7 +1293,7 @@ void Barracks::setLevelsInfo(const QVector<BarracksLevelInfo> &info) noexcept
 
 unsigned Barracks::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Barracks,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Barracks,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1431,7 +1431,7 @@ void DockingStation::cancelHeroArrival(const QString &name) noexcept
 
 unsigned DockingStation::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_DockingStation,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_DockingStation,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1849,7 +1849,7 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_gameClock->clearAlarms();//setting alarms in GameClock
     for (int i=0;i<data.alarms.buildingUpgrades.size();++i)
     {
-        m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
+        m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (this,data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
     }
 
     m_gameClock->updateClock(data.overall.freezeGameProgress ? QDateTime::currentDateTime() : data.overall.lastKnownDate, {data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
@@ -1859,6 +1859,25 @@ void Base::loadSaveData(const SaveData &data) noexcept
     for (auto e : data.missions.missions)//missions
         m_missions+=MissionBuilder::qobjectifyMissionData(e,this);
 
+    for (int i=0;i<data.alarms.missionEnds.size();++i)//setting alarms in GameClock, part 2
+    {
+        auto me=data.alarms.missionEnds[i];
+        me.second.setBasePtr(this);
+        m_gameClock->addAlarm(me.first, static_cast<TimerAlarm*>(new MissionEndTimerAlarm (this,me.second.mission())));
+    }
+    for (int i=0;i<data.alarms.missionAlarms.size();++i)
+    {
+        QPair <Time, Mission *> ma;
+        ma.first=data.alarms.missionAlarms[i].first;
+        for (auto e : m_missions)
+            if (e->assignedHero()->name() == data.alarms.missionAlarms[i].second)
+            {
+                ma.second=e;
+                break;
+            }
+        m_gameClock->addMissionAlarm(ma.first,ma.second);
+    }
+
     for (const auto &e : data.missions.reports)
         m_reports+=new Report{e.first,e.second};
 }
@@ -1866,6 +1885,8 @@ void Base::loadSaveData(const SaveData &data) noexcept
 SaveData Base::getSaveData() noexcept
 {
     SaveData data;
+
+    data.parserVersion = m_gameObject->currentVersion()->versionNumber();
 
     data.buildings.levels.centralUnit=m_buildingLevels.value(BaseEnums::B_CentralUnit,0);
     data.buildings.levels.hospital=m_buildingLevels.value(BaseEnums::B_Hospital,0);
@@ -1976,15 +1997,25 @@ SaveData Base::getSaveData() noexcept
     data.overall.lastKnownMinute=m_gameClock->currentMin();
     data.overall.freezeGameProgress=m_freezeGameProgress;
 
-    QVector <QPair<unsigned,BuildingUpgradeTimerAlarm>> buTimerAlarms;
+    QVector <QPair<quint8,BuildingUpgradeTimerAlarm>> buTimerAlarms;
+    QVector <QPair<quint8,MissionEndTimerAlarm>> meTimerAlarms;
     QVector <QPair<unsigned,TimerAlarm*>> timerAlarms = m_gameClock->getAllAlarms();
     for (int i=0;i<timerAlarms.size();++i)
     {
         if (timerAlarms[i].second->type()==TimerAlarmEnums::AT_BuildingUpgrade)
             buTimerAlarms.push_back({timerAlarms[i].first,*static_cast<BuildingUpgradeTimerAlarm*>(timerAlarms[i].second)});
+        else if (timerAlarms[i].second->type()==TimerAlarmEnums::AT_MissionEnd)
+            meTimerAlarms.push_back({timerAlarms[i].first,*static_cast<MissionEndTimerAlarm*>(timerAlarms[i].second)});
     }
     data.alarms.buildingUpgrades=buTimerAlarms;
+    data.alarms.missionEnds=meTimerAlarms;
     buTimerAlarms.clear();
+    meTimerAlarms.clear();
+
+    QVector <QPair <Time, QString> > mals;
+    for (auto e : m_gameClock->missionAlarms())
+        mals+={e.first,e.second->assignedHero()->name()};
+    data.alarms.missionAlarms=mals;
 
     data.database.unlocks=m_database->unlockedEntries();
 
@@ -2014,6 +2045,11 @@ void Base::startNewDay() noexcept
         {
             m_buildingLevels.insert(static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName(), static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingLevel());
             m_buildings[static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName()]->registerUpgradeCompletion();
+        }
+        else if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_MissionEnd)
+        {
+            static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission()->end();
+            delete static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission();
         }
     }
 
