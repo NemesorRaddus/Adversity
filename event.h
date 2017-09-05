@@ -143,8 +143,8 @@ public:
     QVector <EventReport> execute(Hero *context) noexcept;
 
 protected:
-    explicit Event(EventEnums::Type eventType) noexcept
-        : m_eventType(eventType) {}
+    explicit Event(EventEnums::Type eventType, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : m_eventType(eventType), m_eventText(text), m_unlockedDatabaseEntries(dbEntries) {}
 
     void setEventText(const QString &text) noexcept;
 
@@ -160,8 +160,8 @@ private:
 class MultiEvent final : public Event
 {
 public:
-    MultiEvent(const QVector <Event *> &events) noexcept
-        : Event(EventEnums::T_Multi), m_eventsToExecute(events) {}
+    MultiEvent(const QVector <Event *> &events, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : Event(EventEnums::T_Multi,text,dbEntries), m_eventsToExecute(events) {}
 
     QVector <EventReport> executeSpecificOps(Hero *context) noexcept final;
 
@@ -183,8 +183,8 @@ public:
     }
 
 protected:
-    explicit ActionEvent(EventEnums::Action eventSubtype) noexcept
-        : Event(EventEnums::T_Action), m_eventSubtype(eventSubtype) {}
+    explicit ActionEvent(EventEnums::Action eventSubtype, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : Event(EventEnums::T_Action,text,dbEntries), m_eventSubtype(eventSubtype) {}
 
 private:
     EventEnums::Action m_eventSubtype;
@@ -193,8 +193,8 @@ private:
 class NullEventResult final : public ActionEvent
 {
 public:
-    NullEventResult() noexcept
-        : ActionEvent(EventEnums::A_Null) {}
+    NullEventResult(QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : ActionEvent(EventEnums::A_Null,text,dbEntries) {}
 
     inline QVector <EventReport> executeSpecificOps(Hero *) noexcept final
     {
@@ -205,7 +205,7 @@ public:
 class GiveHealthEventResult final : public ActionEvent
 {
 public:
-    explicit GiveHealthEventResult(const ValueRange &addedValue) noexcept;
+    explicit GiveHealthEventResult(const ValueRange &addedValue, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -216,7 +216,7 @@ private:
 class GiveStressEventResult final : public ActionEvent
 {
 public:
-    explicit GiveStressEventResult(const ValueRange &addedValue) noexcept;
+    explicit GiveStressEventResult(const ValueRange &addedValue, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -245,7 +245,7 @@ struct AttributeModification
 class ModifyAttributeEventResult final : public ActionEvent
 {
 public:
-    explicit ModifyAttributeEventResult(const AttributeModification &modification) noexcept;
+    explicit ModifyAttributeEventResult(const AttributeModification &modification, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -256,8 +256,8 @@ private:
 class KillHeroEventResult final : public ActionEvent
 {
 public:
-    KillHeroEventResult() noexcept
-        : ActionEvent(EventEnums::A_KillHero) {}
+    KillHeroEventResult(QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : ActionEvent(EventEnums::A_KillHero,text,dbEntries) {}
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 };
@@ -265,8 +265,8 @@ public:
 class AddEquipmentEventResult : public ActionEvent
 {
 public:
-    explicit AddEquipmentEventResult(Equipment *equipment) noexcept
-        : ActionEvent(EventEnums::A_AddEquipment), m_equipmentToAdd(equipment) {}
+    explicit AddEquipmentEventResult(Equipment *equipment, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : ActionEvent(EventEnums::A_AddEquipment,text,dbEntries), m_equipmentToAdd(equipment) {}
 
     virtual QVector <EventReport> executeSpecificOps(Hero *hero) noexcept override;
 
@@ -282,7 +282,7 @@ protected:
 class AddEquipmentRandomEventResult final : public AddEquipmentEventResult
 {
 public:
-    AddEquipmentRandomEventResult(ValueRange tier, int equipmentTypeFlags) noexcept;
+    AddEquipmentRandomEventResult(ValueRange tier, int equipmentTypeFlags, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -294,8 +294,8 @@ private:
 class RemoveEquipmentEventResult final : public ActionEvent
 {
 public:
-    explicit RemoveEquipmentEventResult(EquipmentEnums::Type type, int slot) noexcept
-        : ActionEvent(EventEnums::A_RemoveEquipment), m_equipmentType(type), m_equipmentSlot(slot) {}
+    explicit RemoveEquipmentEventResult(EquipmentEnums::Type type, int slot, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : ActionEvent(EventEnums::A_RemoveEquipment,text,dbEntries), m_equipmentType(type), m_equipmentSlot(slot) {}
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -316,7 +316,7 @@ private:
 class GiveResourceEventResult : public ActionEvent
 {
 public:
-    explicit GiveResourceEventResult(BaseEnums::Resource resource, const ValueRange &amount) noexcept;
+    explicit GiveResourceEventResult(BaseEnums::Resource resource, const ValueRange &amount, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -337,13 +337,13 @@ protected:
 class GiveResourceRandomEventResult final : public GiveResourceEventResult
 {
 public:
-    explicit GiveResourceRandomEventResult(const ValueRange &amount) noexcept;
+    explicit GiveResourceRandomEventResult(const ValueRange &amount, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 };
 
 class NoSignalEventResult final : public ActionEvent
 {
 public:
-    explicit NoSignalEventResult(const ValueRange &durationInDays) noexcept;
+    explicit NoSignalEventResult(const ValueRange &durationInDays, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
@@ -404,7 +404,7 @@ public:
     virtual QVector <EventReport> executeSpecificOps(Hero *hero) noexcept override = 0;
 
 protected:
-    explicit CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results) noexcept;
+    explicit CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
 
     CheckEventResults m_results;
 
@@ -415,7 +415,7 @@ private:
 class ValueCheckEvent final : public CheckEvent
 {
 public:
-    explicit ValueCheckEvent(const Expression &condition, const CheckEventResults &results) noexcept;
+    explicit ValueCheckEvent(const Expression &condition, const CheckEventResults &results, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:
@@ -425,7 +425,7 @@ private:
 class EquipmentCheckEvent final : public CheckEvent
 {
 public:
-    explicit EquipmentCheckEvent(EquipmentEnums::Category neededEq, const CheckEventResults &results) noexcept;
+    explicit EquipmentCheckEvent(EquipmentEnums::Category neededEq, const CheckEventResults &results, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:
@@ -435,7 +435,7 @@ private:
 class PossibilityEvent final : public Event
 {
 public:
-    explicit PossibilityEvent(Chance chance, Event *event) noexcept;
+    explicit PossibilityEvent(Chance chance, Event *event, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:
