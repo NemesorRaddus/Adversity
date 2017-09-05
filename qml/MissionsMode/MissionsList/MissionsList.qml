@@ -1,6 +1,6 @@
 import QtQuick 2.5
 
-import "qrc:/qml/MissionsMode/Database/DatabaseScripts.js" as Scripts
+import "qrc:/qml/MissionsMode/MissionsList/MissionsListScripts.js" as Scripts
 import "../.."
 import ".."
 import Game 1.0
@@ -12,58 +12,31 @@ Item {
 
     function update()
     {
-        Scripts.scrollList(9999);
-        if (category == "")
+        var am=GameApi.base.amountOfMissions();
+        Scripts.setupList(am,width,height);
+        for (var i=0;i<am;++i)
         {
-            Scripts.setupList(4, width, taskBorder.y);
+            GameApi.base.prepareMission(i);
+            var n=GameApi.base.preparedMission.hero.name();
+            var p=GameApi.base.preparedMission.hero.professionString();
 
-            GameApi.base.database.prepareCategory("Animals");
-            if (GameApi.base.database.amountOfEntriesInCurrentCategory()>0)
-                Scripts.createItem("Animals", "qrc:/graphics/Database/Animals/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.database.nameOfEntry(GameApi.randomize(0,GameApi.base.database.amountOfEntriesInCurrentCategory()-1)))+".png");
-            else
-                Scripts.createItem("Animals","qrc:/graphics/GUI/Background.png");
+            var dur=GameApi.base.preparedMission.fullDuration();
 
-            GameApi.base.database.prepareCategory("Plants");
-            if (GameApi.base.database.amountOfEntriesInCurrentCategory()>0)
-                Scripts.createItem("Plants", "qrc:/graphics/Database/Plants/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.database.nameOfEntry(GameApi.randomize(0,GameApi.base.database.amountOfEntriesInCurrentCategory()-1)))+".png");
-            else
-                Scripts.createItem("Plants","qrc:/graphics/GUI/Background.png");
-
-            GameApi.base.database.prepareCategory("Fungi");
-            if (GameApi.base.database.amountOfEntriesInCurrentCategory()>0)
-                Scripts.createItem("Fungi", "qrc:/graphics/Database/Fungi/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.database.nameOfEntry(GameApi.randomize(0,GameApi.base.database.amountOfEntriesInCurrentCategory()-1)))+".png");
-            else
-                Scripts.createItem("Fungi","qrc:/graphics/GUI/Background.png");
-
-            GameApi.base.database.prepareCategory("Lands");
-            if (GameApi.base.database.amountOfEntriesInCurrentCategory()>0)
-                Scripts.createItem("Lands", "qrc:/graphics/Database/Lands/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.database.nameOfEntry(GameApi.randomize(0,GameApi.base.database.amountOfEntriesInCurrentCategory()-1)))+".png");
-            else
-                Scripts.createItem("Lands","qrc:/graphics/GUI/Background.png");
+            Scripts.createItem(n,p,
+                               "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(n)+".png",
+                               dur, dur-GameApi.base.preparedMission.remainingDays(),
+                               GameApi.base.preparedMission.hero.isCommunicationAvailable(),
+                               GameApi.base.preparedMission.hero.isStressBorderEffectActive(),
+                               GameApi.base.preparedMission.hero.health(),
+                               GameApi.base.preparedMission.hero.healthLimit(),
+                               GameApi.base.preparedMission.hero.stress(),
+                               GameApi.base.preparedMission.hero.stressLimit());
         }
-        else
-            changeCategory(category);
     }
 
     function returnToDefault()
     {
-        Scripts.scrollList(3000);
-        category = "";
-        update();
-    }
-
-    function reactToBackOnToolbar()
-    {
-        backClicked();
-        return true;
-    }
-
-    function changeCategory(catName)
-    {
-        GameApi.base.database.prepareCategory(catName);
-        Scripts.setupList(GameApi.base.database.amountOfEntriesInCurrentCategory(), width, taskBorder.y);
-        for (var i=0;i<GameApi.base.database.amountOfEntriesInCurrentCategory();++i)
-            Scripts.createItem(GameApi.base.database.nameOfEntry(i), "qrc:/graphics/Database/"+GameApi.globalsCpp.alterNormalTextToInternal(catName)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.database.nameOfEntry(i))+".png");
+        Scripts.scrollList(999999);
     }
 
     function show()
@@ -92,11 +65,8 @@ Item {
 
     clip: true
 
-    signal selected(string name, string type)
+    signal selected(string name)
     signal backClicked()
-
-    width: 1080
-    height: 1440
 
     Image {
         id: additionalBackground
@@ -171,16 +141,11 @@ Item {
                 isScrollingActive = false;
             else
             {
-                var e=Scripts.getClickedItemName(mouseX,y0);
+                var e=Scripts.getClickedItemName(y0);
                 if (e != "")
                 {
                     if (root.category == "")
-                    {
-                        root.category = e;
-                        root.doFading();
-                    }
-                    else
-                        root.selected(e, root.category);
+                    heroClicked(h, Scripts.getClickedItemName2(y0));
                 }
             }
             y0 = -1;

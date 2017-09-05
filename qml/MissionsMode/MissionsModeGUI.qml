@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import "./Database"
+import "./MissionsList"
 
 Item {
     id: root
@@ -109,7 +110,7 @@ Item {
         }
 
         onMissionsClicked: {
-
+            missionsList.show();
         }
     }
 
@@ -148,6 +149,38 @@ Item {
         onBackClicked: {
             state = "hiddenDown";
             database.state = "";
+        }
+    }
+
+    MissionsList {
+        id: missionsList
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+
+        onSelected: {
+            missionView.setItem(name);
+            state = "hiddenUp";
+            missionView.state = "";
+        }
+
+        onBackClicked: {
+            hide();
+        }
+    }
+    MissionView {
+        id: missionView
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+
+        onBackClicked: {
+            state = "hiddenDown";
+            missionsList.state = "";
         }
     }
 

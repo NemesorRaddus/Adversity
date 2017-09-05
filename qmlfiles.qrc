@@ -70,5 +70,9 @@
         <file>qml/MissionsMode/Database/DatabaseScripts.js</file>
         <file>qml/MissionsMode/Database/DatabaseEntryView.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsListScripts.js</file>
+        <file>qml/MissionsMode/MissionsList/MissionsList.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionsListDelegate.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionsListScripts.js</file>
+        <file>qml/MissionsMode/MissionsList/MissionView.qml</file>
     </qresource>
 </RCC>

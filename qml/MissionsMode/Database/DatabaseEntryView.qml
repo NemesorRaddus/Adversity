@@ -127,9 +127,9 @@ Item {
         id: changeablePart
 
         x: 0
-        y: 0
+        y: 15
         width: parent.width
-        height: parent.height
+        height: parent.height-y
 
         Item {
             id: topBar
