@@ -184,11 +184,6 @@ QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
     return r;
 }
 
-EventEnums::Action ActionEvent::eventSubtype() const noexcept
-{
-    return m_eventSubtype;
-}
-
 QVector<EventReport> NullEventResult::executeSpecificOps(Hero *) noexcept
 {
     return {eventText()};

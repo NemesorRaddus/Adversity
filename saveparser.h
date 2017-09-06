@@ -20,7 +20,7 @@ struct HeroDataHelper;
 class Equipment;
 struct ActiveTransaction;
 struct MissionDataHelper;
-class Time;
+struct Time;
 
 struct SaveData
 {
