@@ -2279,6 +2279,7 @@ void Base::prepareReport(unsigned index) noexcept
 void Base::addReport(Report *report) noexcept
 {
     m_reports+=report;
+    m_gameObject->showReportNotification();
 }
 
 void Base::removeReport(unsigned index) noexcept

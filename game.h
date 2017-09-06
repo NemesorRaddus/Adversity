@@ -120,6 +120,8 @@ public:
     explicit Game(QObject *parent = 0) noexcept;
     ~Game() noexcept;
 
+    static void setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept;
+
     Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
     Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
     Q_INVOKABLE void saveBase() noexcept;
@@ -161,6 +163,8 @@ public:
 
     void addDoStBan(QString name, unsigned daysAmount) noexcept;
 
+    void showReportNotification() noexcept;
+
 public slots:
     void saveBase_slot() noexcept;
 
@@ -185,6 +189,8 @@ private:
     QElapsedTimer *m_startupTimer;
     H4X *m_h4xLogic;
     Global *m_globalsExportToQML;
+
+    static QQmlApplicationEngine *m_ptrToEngine;
 };
 
 static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

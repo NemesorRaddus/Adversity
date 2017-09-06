@@ -52,6 +52,12 @@ Window {
         mainGUI.updateEverything();
     }
 
+    function showReportNotification()
+    {
+        mainGUI.reportsNotification.setAmount(GameApi.base.amountOfReports());
+        mainGUI.reportsNotification.show();
+    }
+
     //for h4x
     property alias gameTimerInterval: gameTimer.interval
     property alias gameTimerRunning: gameTimer.running

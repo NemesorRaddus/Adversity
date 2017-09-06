@@ -2,6 +2,7 @@ import QtQuick 2.7
 import "./BuildingsMode"
 import "./MercenariesMode"
 import "./MissionsMode"
+import "./Reports"
 import FPSComponent 1.0
 
 Rectangle {
@@ -31,6 +32,8 @@ Rectangle {
     property alias buildingsGUI: buildingsMode
     property alias mercenariesGUI: mercenariesMode
     property alias missionsGUI: missionsMode
+
+    property alias reportsNotification: reportsNotification
 
     property alias h4xScreen: h4xScreen
 
@@ -76,6 +79,15 @@ Rectangle {
         y: 189
         width: parent.width
         height: 1464
+    }
+
+    ReportsNotification {
+        id: reportsNotification
+
+        x: 1080-width
+        y: 1400
+        width: 425
+        height: 200
     }
 
     Image {

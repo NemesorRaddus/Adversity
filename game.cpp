@@ -4,6 +4,7 @@
 #include <h4x.h>
 
 Game *Game::ptrToGameObject;
+QQmlApplicationEngine *Game::m_ptrToEngine;
 
 double Global::roundDouble(double d, unsigned prec) noexcept
 {
@@ -105,6 +106,11 @@ Game::~Game() noexcept
     delete m_startupTimer;
 }
 
+void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept
+{
+    m_ptrToEngine=engine;
+}
+
 void Game::createNewBase(const QString &pathToAssetsDir) noexcept
 {
     m_currentPathToAssets=pathToAssetsDir;
@@ -159,6 +165,11 @@ void Game::setLocale(const QString &locale) noexcept
     if (locale!=m_translations->currentLanguage())
         loadTranslations(locale);
     //TODO in QML on lang selection screen add call to update() of everything
+}
+
+void Game::showReportNotification() noexcept
+{
+    QMetaObject::invokeMethod(m_ptrToEngine->rootObjects().value(0), "showReportNotification");
 }
 
 void Game::saveBase_slot() noexcept

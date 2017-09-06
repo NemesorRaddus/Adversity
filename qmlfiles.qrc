@@ -74,5 +74,9 @@
         <file>qml/MissionsMode/MissionsList/MissionsListDelegate.qml</file>
         <file>qml/MissionsMode/MissionsList/MissionsListScripts.js</file>
         <file>qml/MissionsMode/MissionsList/MissionView.qml</file>
+        <file>qml/Reports/ReportsList.qml</file>
+        <file>qml/Reports/ReportsListDelegate.qml</file>
+        <file>qml/Reports/ReportsListScripts.js</file>
+        <file>qml/Reports/ReportsNotification.qml</file>
     </qresource>
 </RCC>
