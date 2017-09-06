@@ -54,7 +54,7 @@ public:
     QList <QString> getLandsNamesList(const QString &pathToLandsDir) noexcept;
     LandInfo getLandInfo(const QString &path) noexcept;
 
-    EncountersContainer getEncounters(const QString &path) noexcept;
+    EncountersContainer *getEncounters(const QString &path) noexcept;
 
 private:
     Event *getEvent(bool alreadyRead) noexcept;

@@ -1554,7 +1554,7 @@ LandInfo XmlFileReader::getLandInfo(const QString &path) noexcept
     return r;
 }
 
-EncountersContainer XmlFileReader::getEncounters(const QString &path) noexcept
+EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -1562,7 +1562,7 @@ EncountersContainer XmlFileReader::getEncounters(const QString &path) noexcept
         return {};
     }
 
-    EncountersContainer r;
+    EncountersContainer *r = new EncountersContainer;
 
     if (m_xmlReader->readNextStartElement())
     {
@@ -1582,7 +1582,7 @@ EncountersContainer XmlFileReader::getEncounters(const QString &path) noexcept
                         return {};
                     }
 
-                    r.addEncounter(new Encounter(name, rootev));
+                    r->addEncounter(new Encounter(name, rootev));
                 }
                 else
                     m_xmlReader->skipCurrentElement();
@@ -1601,7 +1601,7 @@ EncountersContainer XmlFileReader::getEncounters(const QString &path) noexcept
 
 Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
 {
-    Event *r;
+    Event *r = nullptr;
 
     QString text;
     QVector <QString> ude;
@@ -1913,6 +1913,8 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
     }
     if (m_xmlReader->hasError())
         return nullptr;
+    if (r == nullptr)
+        r=new NullEventResult;
     return r;
 }
 

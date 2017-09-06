@@ -170,12 +170,28 @@ void Event::unlockDatabaseEntries(Hero *context) noexcept
         context->base()->database()->unlockEntry(e);
 }
 
+MultiEvent::~MultiEvent() noexcept
+{
+    for (auto &e : m_eventsToExecute)
+        delete e;
+}
+
 QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
 {
     QVector <EventReport> r;
     for (auto e : m_eventsToExecute)
         r+=e->execute(context);
     return r;
+}
+
+EventEnums::Action ActionEvent::eventSubtype() const noexcept
+{
+    return m_eventSubtype;
+}
+
+QVector<EventReport> NullEventResult::executeSpecificOps(Hero *) noexcept
+{
+    return {eventText()};
 }
 
 GiveHealthEventResult::GiveHealthEventResult(const ValueRange &addedValue, QString text, const QVector<QString> &dbEntries) noexcept
@@ -366,39 +382,48 @@ QVector<EventReport> NoSignalEventResult::executeSpecificOps(Hero *hero) noexcep
     return {eventText()};
 }
 
-CheckEventResults::CheckEventResults(const CheckEventResults &other) noexcept
-    : m_positive(other.m_positive), m_negative(other.m_negative) {}
+CheckEventResults::~CheckEventResults() noexcept
+{
+    for (auto &e : m_positive)
+        delete e.first;
+    for (auto &e : m_negative)
+        delete e.first;
+}
 
-CheckEventResults CheckEventResultsBuilder::get() noexcept
+CheckEventResultsBuilder::CheckEventResultsBuilder() noexcept
+{
+    m_results=new CheckEventResults;
+}
+
+CheckEventResultsBuilder::~CheckEventResultsBuilder() noexcept
+{
+    delete m_results;
+}
+
+CheckEventResults *CheckEventResultsBuilder::get() noexcept
 {
     validateJustBeforeReturning();
     auto r=m_results;
-    reset();
+    m_results=new CheckEventResults;
     return r;
-}
-
-void CheckEventResultsBuilder::reset() noexcept
-{
-    m_results.m_positive.clear();
-    m_results.m_negative.clear();
 }
 
 void CheckEventResultsBuilder::addPositive(const QPair<Event *, Chance> &result) noexcept
 {
     if (result.first != nullptr)
-        m_results.m_positive+=result;
+        m_results->m_positive+=result;
 }
 
 void CheckEventResultsBuilder::addNegative(const QPair<Event *, Chance> &result) noexcept
 {
     if (result.first != nullptr)
-        m_results.m_negative+=result;
+        m_results->m_negative+=result;
 }
 
 void CheckEventResultsBuilder::validateJustBeforeReturning() noexcept
 {
     int x=100;
-    for (auto e : m_results.m_positive)
+    for (auto e : m_results->m_positive)
     {
         if (e.second <= x)
             x-=e.second;
@@ -410,14 +435,14 @@ void CheckEventResultsBuilder::validateJustBeforeReturning() noexcept
     }
     if (x!=0)
     {
-        if (m_results.m_positive.isEmpty())
-            m_results.m_positive+={new NullEventResult(), 100};
+        if (m_results->m_positive.isEmpty())
+            m_results->m_positive+={new NullEventResult(), 100};
         else
-            m_results.m_positive.last().second=m_results.m_positive.last().second+x;
+            m_results->m_positive.last().second=m_results->m_positive.last().second+x;
     }
 
     x=100;
-    for (auto e : m_results.m_negative)
+    for (auto e : m_results->m_negative)
     {
         if (e.second <= x)
             x-=e.second;
@@ -429,17 +454,17 @@ void CheckEventResultsBuilder::validateJustBeforeReturning() noexcept
     }
     if (x!=0)
     {
-        if (m_results.m_negative.isEmpty())
-            m_results.m_negative+={new NullEventResult(), 100};
+        if (m_results->m_negative.isEmpty())
+            m_results->m_negative+={new NullEventResult(), 100};
         else
-            m_results.m_negative.last().second=m_results.m_negative.last().second+x;
+            m_results->m_negative.last().second=m_results->m_negative.last().second+x;
     }
 }
 
-CheckEvent::CheckEvent(EventEnums::Check eventSubtype, const CheckEventResults &results, QString text, const QVector<QString> &dbEntries) noexcept
-    : Event(EventEnums::T_Check, text, dbEntries), m_eventSubtype(eventSubtype), m_results(results) {}
+CheckEvent::CheckEvent(EventEnums::Check eventSubtype, CheckEventResults *results, QString text, const QVector<QString> &dbEntries) noexcept
+    : Event(EventEnums::T_Check, text, dbEntries), m_results(results), m_eventSubtype(eventSubtype) {}
 
-ValueCheckEvent::ValueCheckEvent(const Expression &condition, const CheckEventResults &results, QString text, const QVector<QString> &dbEntries) noexcept
+ValueCheckEvent::ValueCheckEvent(const Expression &condition, CheckEventResults *results, QString text, const QVector<QString> &dbEntries) noexcept
     : CheckEvent(EventEnums::C_ValueCheck, results, text, dbEntries), m_condition(condition) {}
 
 QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
@@ -456,7 +481,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
     if (var.toBool())
     {
         int x=Randomizer::randomBetweenAAndB(1,100);
-        for (auto e : m_results.positive())
+        for (auto e : m_results->positive())
         {
             if (e.second>=x)
             {
@@ -470,7 +495,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
     else
     {
         int x=Randomizer::randomBetweenAAndB(1,100);
-        for (auto e : m_results.negative())
+        for (auto e : m_results->negative())
         {
             if (e.second>=x)
             {
@@ -488,7 +513,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
     return result->execute(hero);
 }
 
-EquipmentCheckEvent::EquipmentCheckEvent(EquipmentEnums::Category neededEq, const CheckEventResults &results, QString text, const QVector<QString> &dbEntries) noexcept
+EquipmentCheckEvent::EquipmentCheckEvent(EquipmentEnums::Category neededEq, CheckEventResults *results, QString text, const QVector<QString> &dbEntries) noexcept
     : CheckEvent(EventEnums::C_EquipmentCheck,results, text, dbEntries), m_neededEquipment(neededEq) {}
 
 QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcept
@@ -503,7 +528,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
     if (has)
     {
         int x=Randomizer::randomBetweenAAndB(1,100);
-        for (auto e : m_results.positive())
+        for (auto e : m_results->positive())
         {
             if (e.second>=x)
             {
@@ -517,7 +542,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
     else
     {
         int x=Randomizer::randomBetweenAAndB(1,100);
-        for (auto e : m_results.negative())
+        for (auto e : m_results->negative())
         {
             if (e.second>=x)
             {
@@ -538,12 +563,17 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
 PossibilityEvent::PossibilityEvent(Chance chance, Event *event, QString text, const QVector<QString> &dbEntries) noexcept
     : Event(EventEnums::T_Possibility, text, dbEntries), m_chance(chance), m_event(event) {}
 
+PossibilityEvent::~PossibilityEvent() noexcept
+{
+    delete m_event;
+}
+
 QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
 {
     if (hero==nullptr || m_event==nullptr)
         return {};
 
-    if (m_chance>=Randomizer::randomBetweenAAndB(1,100))
+    if (static_cast<unsigned>(m_chance)>=Randomizer::randomBetweenAAndB(1,100))
         return m_event->execute(hero);
     return {};
 }
@@ -567,9 +597,9 @@ QString Report::timestamp() const noexcept
 {
     QString r;
     const auto &t=time();
-    r+=t.h<10 ? "0"+QString::number(t.h) : QString::number(t.h);
+    r+=static_cast<unsigned>(t.h)<10 ? "0"+QString::number(t.h) : QString::number(t.h);
     r+=":";
-    r+=t.min<10 ? "0"+QString::number(t.min) : QString::number(t.min);
+    r+=static_cast<unsigned>(t.min)<10 ? "0"+QString::number(t.min) : QString::number(t.min);
     r+=" Day ";
     r+=QString::number(t.d);
     return r;
@@ -604,15 +634,23 @@ void EncountersContainer::removeEncounter(unsigned index) noexcept
 }
 
 Land::Land(const LandInfo &info) noexcept
-    : m_info(info) {}
+    : m_info(info)
+{
+    m_encounters=new EncountersContainer;
+}
+
+Land::~Land() noexcept
+{
+    delete m_encounters;
+}
 
 Encounter *Land::makeRandomEncounter() const noexcept
 {
-    if (m_encounters.encounters().isEmpty())
+    if (m_encounters->encounters().isEmpty())
         return nullptr;
 
     auto r=new Encounter("",nullptr);
-    *r=*(m_encounters.encounters()[Randomizer::randomBetweenAAndB(0, m_encounters.encounters().size()-1)]);
+    *r=*(m_encounters->encounters()[Randomizer::randomBetweenAAndB(0, m_encounters->encounters().size()-1)]);
     return r;
 }
 
@@ -621,8 +659,9 @@ void Land::setInfo(const LandInfo &info) noexcept
     m_info=info;
 }
 
-void Land::setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept
+void Land::setAssociatedEncountersContainer(EncountersContainer *encCont) noexcept
 {
+    delete m_encounters;
     m_encounters=encCont;
 }
 
@@ -654,7 +693,7 @@ void LandBuilder::setInfo(const LandInfo &info) noexcept
     m_land->setInfo(info);
 }
 
-void LandBuilder::setAssociatedEncountersContainer(const EncountersContainer &encCont) noexcept
+void LandBuilder::setAssociatedEncountersContainer(EncountersContainer *encCont) noexcept
 {
     m_land->setAssociatedEncountersContainer(encCont);
 }
@@ -685,7 +724,7 @@ EncounterReport *Mission::doEncounter() noexcept
     ++m_currentEncounter;
     planNextEncounter();
     auto clock=m_assignedHero->base()->gameClock();
-    return m_encounters[m_currentEncounter].second->execute(m_assignedHero, {clock->currentDay(),clock->currentHour(),clock->currentMin()});
+    return m_encounters[m_currentEncounter].second->execute(m_assignedHero, {static_cast<unsigned>(clock->currentDay()),static_cast<unsigned>(clock->currentHour()),static_cast<unsigned>(clock->currentMin())});
 }
 
 void Mission::end() noexcept
@@ -839,7 +878,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
     r->m_duration = mission.duration;
     r->m_remainingDays = mission.remainingDays;
     for (int i=0;i<mission.encounters.size();++i)
-        for (auto e : r->m_land->encounters().encounters())
+        for (auto e : r->m_land->encounters()->encounters())
             if (e->name() == mission.encounters[i].second)
             {
                 r->m_encounters+={mission.encounters[i].first, e};
