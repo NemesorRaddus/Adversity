@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import "qrc:/qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesListScripts.js" as Scripts
 import "../../.."

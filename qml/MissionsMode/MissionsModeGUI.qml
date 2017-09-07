@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
 import "./Database"
 import "./MissionsList"
@@ -226,6 +226,10 @@ Item {
         onExploreClicked: {
             root.returnToDefault();
         }
+    }
+
+    MissionView {
+        anchors.fill: parent
     }
 
     states: [

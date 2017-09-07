@@ -1,4 +1,4 @@
-import QtQuick 2.1
+import QtQuick 2.9
 
 import Game 1.0
 
