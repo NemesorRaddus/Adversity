@@ -10,6 +10,8 @@ Window {
     property int currentMode: 0
     property bool updateEverythingInAMoment: true
 
+    color: "black"
+
     function changeMode(mode)
     {
         if (currentMode == 0)
