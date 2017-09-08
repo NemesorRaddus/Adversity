@@ -1680,7 +1680,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                 {
                     if (m_xmlReader->name()=="modification")
                     {
-                        AttributeModification mod;
+                        AttributeModificationHelper mod;
                         attrs=m_xmlReader->attributes();
 
                         mod.attribute=HeroEnums::fromQStringToAttributeEnum(attrs.value("attribute").toString());
@@ -1695,9 +1695,9 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                         else if (attrs.value("type").toString()=="=")
                             mod.type=AttributeModification::T_Set;
 
-                        mod.expression={attrs.value("value").toString()};
+                        mod.expressionRange=parseValue(attrs.value("value").toString());
 
-                        mod.duration=attrs.value("duration").toInt();
+                        mod.durationRange=parseValue(attrs.value("duration").toString());
 
                         r=new ModifyAttributeEventResult(mod,text,ude);
                     }
@@ -1936,7 +1936,7 @@ ValueRange XmlFileReader::parseValue(QString text) noexcept
     if (rangeok & (1|1<<1|1<<2))
         return {text.mid(1,semcolPos-1),text.mid(semcolPos+1,text.size()-semcolPos-2)};
     else if (rangeok==0)
-        return {text.mid(1,text.size()-2)};
+        return {text};
     else
         return {{"-1"}};//error
 }

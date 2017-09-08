@@ -99,6 +99,7 @@ private:
 class ValueRange
 {
 public:
+    ValueRange() noexcept;
     ValueRange(const Expression &min, const Expression &max) noexcept;
     ValueRange(const Expression &value) noexcept;
 
@@ -239,20 +240,28 @@ struct AttributeModification
 
     HeroEnums::Attribute attribute;
     Type type;
-    Expression expression;
+    QVariant value;
     int duration;
+};
+
+struct AttributeModificationHelper
+{
+    HeroEnums::Attribute attribute;
+    AttributeModification::Type type;
+    ValueRange expressionRange;
+    ValueRange durationRange;
 };
 
 class ModifyAttributeEventResult final : public ActionEvent
 {
 public:
-    explicit ModifyAttributeEventResult(const AttributeModification &modification, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
+    explicit ModifyAttributeEventResult(const AttributeModificationHelper &modification, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~ModifyAttributeEventResult() noexcept = default;
 
     QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
 
 private:
-    AttributeModification m_modification;
+    AttributeModificationHelper m_modification;
 };
 
 class KillHeroEventResult final : public ActionEvent

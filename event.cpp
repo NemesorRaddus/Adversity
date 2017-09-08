@@ -147,6 +147,9 @@ void Expression::handleEngine() noexcept
     m_engine=theEngine;
 }
 
+ValueRange::ValueRange() noexcept
+    : m_min("0"), m_max("0") {}
+
 ValueRange::ValueRange(const Expression &min, const Expression &max) noexcept
     : m_min(min), m_max(max) {}
 
@@ -226,12 +229,79 @@ QVector<EventReport> GiveStressEventResult::executeSpecificOps(Hero *hero) noexc
     return {eventText()};
 }
 
-ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModification &modification, QString text, const QVector<QString> &dbEntries) noexcept
+ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModificationHelper &modification, QString text, const QVector<QString> &dbEntries) noexcept
     : ActionEvent(EventEnums::A_ModifyAttribute, text, dbEntries), m_modification(modification) {}
 
 QVector<EventReport> ModifyAttributeEventResult::executeSpecificOps(Hero *hero) noexcept
 {
-    hero->addAttributeModification(new AttributeModification(m_modification));
+    QVariant val;
+    if (m_modification.expressionRange.singleValue())
+        val=m_modification.expressionRange.max().evaluate(hero);
+    else
+    {
+        QVariant min=m_modification.expressionRange.min().evaluate(hero);
+        QVariant max=m_modification.expressionRange.max().evaluate(hero);
+
+        if (min.type() == QVariant::Double || max.type() == QVariant::Double)
+        {
+            double dmin=min.toDouble(),dmax=max.toDouble();
+
+            double diff=0;
+            if (dmin<0)
+            {
+                diff=-dmin;
+                dmin+=diff;
+                dmax+=diff;
+            }
+
+            double r=static_cast<double>(Randomizer::randomBetweenAAndB(dmin*100,dmax*100))/100;
+
+            r-=diff;
+
+            val=r;
+        }
+        else
+        {
+            int imin=min.toInt(),imax=max.toInt();
+
+            int diff=0;
+            if (imin<0)
+            {
+                diff=-imin;
+                imin+=diff;
+                imax+=diff;
+            }
+
+            int r=Randomizer::randomBetweenAAndB(imin,imax);
+
+            r-=diff;
+
+            val=r;
+        }
+    }
+
+    int durr;
+    if (m_modification.durationRange.singleValue())
+        durr=m_modification.durationRange.max().evaluate(hero).toInt();
+    else
+    {
+        int durMin=m_modification.durationRange.min().evaluate(hero).toInt();
+        int durMax=m_modification.durationRange.max().evaluate(hero).toInt();
+
+        int durDiff=0;
+        if (durMin<0)/*durMin==-1*/
+        {
+            durDiff=-durMin;
+            durMin+=durDiff;
+            durMax+=durDiff;
+        }
+
+        durr=Randomizer::randomBetweenAAndB(durMin,durMax);
+
+        durr-=durDiff;
+    }
+
+    hero->addAttributeModification(new AttributeModification({m_modification.attribute,m_modification.type,val,durr}));
 
     return {eventText()};
 }

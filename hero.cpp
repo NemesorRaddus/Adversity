@@ -1057,7 +1057,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Cleverness && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.cleverness = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.cleverness = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.cleverness;
@@ -1065,17 +1065,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_Cleverness)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Cleverness)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1117,7 +1117,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_CombatEffectiveness && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.combatEffectiveness = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.combatEffectiveness = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.combatEffectiveness;
@@ -1125,17 +1125,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_CombatEffectiveness)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_CombatEffectiveness)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1183,7 +1183,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_DailyFoodConsumption && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.dailyFoodConsumption = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.dailyFoodConsumption = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.dailyFoodConsumption;
@@ -1191,17 +1191,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_DailyFoodConsumption)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_DailyFoodConsumption)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1227,7 +1227,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_DailyHealthRecovery && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.dailyHealthRecovery = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.dailyHealthRecovery = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.dailyHealthRecovery;
@@ -1235,17 +1235,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_DailyHealthRecovery)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_DailyHealthRecovery)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         x+=m_dhrBuildingBonus;
         if (isStressBorderEffectActive())
@@ -1272,7 +1272,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_DailyStressRecovery && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.dailyStressRecovery = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.dailyStressRecovery = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.dailyStressRecovery;
@@ -1280,17 +1280,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_DailyStressRecovery)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_DailyStressRecovery)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         x+=m_dsrBuildingBonus;
         if (isStressBorderEffectActive())
@@ -1319,7 +1319,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_HealthLimit && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.healthLimit = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.healthLimit = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.healthLimit;
@@ -1327,17 +1327,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_HealthLimit)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_HealthLimit)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1366,7 +1366,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Luck && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.luck = e->expression.evaluate(this).toFloat();
+                m_currentAttributesValues.luck = e->value.toFloat();
                 return;
             }
         float x=m_baseAttributesValues.luck;
@@ -1374,17 +1374,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_Luck)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toFloat();
+                    x *= e->value.toFloat();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toFloat();
+                    x /= e->value.toFloat();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Luck)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toFloat();
+                    x += e->value.toFloat();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toFloat();
+                    x -= e->value.toFloat();
             }
         if (isStressBorderEffectActive())
         {
@@ -1412,7 +1412,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Proficiency && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.proficiency = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.proficiency = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.proficiency;
@@ -1420,17 +1420,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_Proficiency)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Proficiency)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1470,7 +1470,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Salary && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.salary = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.salary = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.salary;
@@ -1478,17 +1478,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_Salary)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_Salary)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != HeroEnums::SBE_Madness) && isEquipmentActive())
         {
@@ -1509,7 +1509,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_StressBorder && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.stressBorder = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.stressBorder = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.stressBorder;
@@ -1517,17 +1517,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_StressBorder)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_StressBorder)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1558,7 +1558,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_StressLimit && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.stressLimit = e->expression.evaluate(this).toInt();
+                m_currentAttributesValues.stressLimit = e->value.toInt();
                 return;
             }
         int x=m_baseAttributesValues.stressLimit;
@@ -1566,17 +1566,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_StressLimit)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toInt();
+                    x *= e->value.toInt();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toInt();
+                    x /= e->value.toInt();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_StressLimit)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toInt();
+                    x += e->value.toInt();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toInt();
+                    x -= e->value.toInt();
             }
         if (isStressBorderEffectActive())
         {
@@ -1610,7 +1610,7 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_StressResistance && e->type == AttributeModification::T_Set)
             {
-                m_currentAttributesValues.stressResistance = e->expression.evaluate(this).toFloat();
+                m_currentAttributesValues.stressResistance = e->value.toFloat();
                 return;
             }
         float x=m_baseAttributesValues.stressResistance;
@@ -1618,17 +1618,17 @@ void Hero::calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) no
             if (e->attribute == HeroEnums::A_StressResistance)
             {
                 if (e->type == AttributeModification::T_Multiply)
-                    x *= e->expression.evaluate(this).toFloat();
+                    x *= e->value.toFloat();
                 else if (e->type == AttributeModification::T_Divide)
-                    x /= e->expression.evaluate(this).toFloat();
+                    x /= e->value.toFloat();
             }
         for (auto e : m_attributeModifications)
             if (e->attribute == HeroEnums::A_StressResistance)
             {
                 if (e->type == AttributeModification::T_Add)
-                    x += e->expression.evaluate(this).toFloat();
+                    x += e->value.toFloat();
                 else if (e->type == AttributeModification::T_Subtract)
-                    x -= e->expression.evaluate(this).toFloat();
+                    x -= e->value.toFloat();
             }
 
         if (x==-1)//special value, N/A
