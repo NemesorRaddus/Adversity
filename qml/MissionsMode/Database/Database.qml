@@ -121,7 +121,7 @@ Item {
 
             properties: "opacity"
             easing.type: Easing.InQuad
-            duration: 1000
+            duration: 300
             from: 1
             to: 0
             target: listHandler
@@ -273,7 +273,7 @@ Item {
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 1000 }
+            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 300 }
         }
     ]
 

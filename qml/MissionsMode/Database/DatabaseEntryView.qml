@@ -227,7 +227,7 @@ Item {
 
             properties: "opacity"
             easing.type: Easing.InQuad
-            duration: 1000
+            duration: 300
             from: 1
             to: 0
             target: changeablePart
@@ -362,7 +362,7 @@ Item {
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 1000 }
+            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 300 }
         }
     ]
 

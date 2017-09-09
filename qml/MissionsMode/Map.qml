@@ -398,7 +398,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 2000 }
+            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 1000 }
         }
     }
 
@@ -463,7 +463,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 2000 }
+            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 1000 }
         }
     }
 

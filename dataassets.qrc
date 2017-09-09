@@ -55,5 +55,8 @@
         <file>data/database/Fungi.xml</file>
         <file>data/database/Lands.xml</file>
         <file>data/database/Plants.xml</file>
+        <file>data/lands/AuroraForest/encounters.xml</file>
+        <file>data/lands/GedoDesert/encounters.xml</file>
+        <file>data/lands/HegosPlains/encounters.xml</file>
     </qresource>
 </RCC>
