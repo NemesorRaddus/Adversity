@@ -40,15 +40,19 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<GameClock>("GameClock");
     qmlRegisterInterface<HeroesContainer>("HeroesContainer");
     qmlRegisterInterface<Equipment>("Equipment");
+    qmlRegisterInterface<Mission>("Mission");
     qmlRegisterInterface<MissionInitializer>("MissionInitializer");
     qmlRegisterInterface<Land>("Land");
     qmlRegisterInterface<LandsInfo>("LandsInfo");
+    qmlRegisterInterface<Report>("Report");
 
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 
     QQmlApplicationEngine engine;
 
     H4X *hacksLogic=new H4X(&engine);
+
+    Game::setQMLEnginePtr(&engine);
 
     QJSValue globalsObj = engine.newQObject(new Global);
     engine.globalObject().setProperty("GlobalsCpp", globalsObj);

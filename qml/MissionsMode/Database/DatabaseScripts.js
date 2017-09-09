@@ -24,15 +24,6 @@ function setupList(amountOfItems, widthInPx, heightInPx)
     itemsArray = new Array(amountOfItems);
 }
 
-function clearList()
-{
-    yAtTop = 0;
-    actualAmountOfItems = 0;
-    for (var i=0;i<itemsArray.length;++i)
-        itemsArray[i].destroy();
-    itemsArray = [];
-}
-
 function setItem(index, name, art) {
     itemsArray[index].setArtSource(art);
     itemsArray[index].setName(name);

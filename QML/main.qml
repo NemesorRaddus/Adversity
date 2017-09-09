@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Window 2.2
+import QtQuick.Window 2.3
 
 import Game 1.0
 import "."
@@ -227,7 +227,7 @@ Window {
             }
             else if (GameApi.base.gameClock.hasDayChangedLately())
             {
-                mainGUI.updateEverything();//TODO more
+                mainGUI.updateEverything();
             }
         }
     }

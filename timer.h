@@ -212,6 +212,10 @@ public:
     {
         return m_currentTimeInGame.min;
     }
+    inline Time currentTime() const noexcept
+    {
+        return m_currentTimeInGame;
+    }
 
     void forceAutosave() noexcept;
 

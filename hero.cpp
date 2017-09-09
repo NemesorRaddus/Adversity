@@ -763,9 +763,9 @@ void Hero::addAttributeModification(AttributeModification *mod) noexcept
     switch (mod->attribute)
     {
     case HeroEnums::A_CombatEffectiveness:
-        [[fallthrough]]
+        [[fallthrough]];
     case HeroEnums::A_Proficiency:
-        [[fallthrough]]
+        [[fallthrough]];
     case HeroEnums::A_Cleverness:
         calculateCurrentAttributeValues();
         break;

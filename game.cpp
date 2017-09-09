@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <h4x.h>
 
-Game *Game::ptrToGameObject;
+Game *Game::m_ptrToGameObject;
 QQmlApplicationEngine *Game::m_ptrToEngine;
 
 double Global::roundDouble(double d, unsigned prec) noexcept
@@ -61,7 +61,7 @@ Game::Game(QObject *parent) noexcept
     m_startupTimer->start();
     qInfo()<<QString("[0.000] Game object initialization has started");
 
-    ptrToGameObject=this;
+    m_ptrToGameObject=this;
 
     m_buildInfo=new AppBuildInfo;
     loadVersionInfo();

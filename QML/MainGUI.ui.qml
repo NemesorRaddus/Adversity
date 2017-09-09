@@ -392,6 +392,8 @@ Rectangle {
 
         Text {
             x: 0
+            width: parent.width
+            height: parent.height
             anchors.verticalCenter: parent.verticalCenter
 
             font.family: "Comic Sans"

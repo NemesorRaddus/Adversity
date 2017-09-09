@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>graphics/Database/Plants/AcidBerry.png</file>
+        <file>graphics/Database/Plants/Acidberry.png</file>
         <file>graphics/Database/Plants/BluegrapeBush.png</file>
         <file>graphics/Database/Plants/BlueHerbLichen.png</file>
         <file>graphics/Database/Plants/FungusireMycelinium.png</file>

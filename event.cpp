@@ -789,7 +789,7 @@ EncounterReport *Mission::doEncounter() noexcept
     ++m_currentEncounter;
     planNextEncounter();
     auto clock=m_assignedHero->base()->gameClock();
-    return m_encounters[m_currentEncounter].second->execute(m_assignedHero, {static_cast<unsigned>(clock->currentDay()),static_cast<unsigned>(clock->currentHour()),static_cast<unsigned>(clock->currentMin())});
+    return m_encounters[m_currentEncounter].second->execute(m_assignedHero, clock->currentTime());
 }
 
 void Mission::end() noexcept
@@ -1014,15 +1014,15 @@ unsigned MissionBuilder::generateDuration(EventEnums::MissionDifficulty difficul
     switch (difficulty)
     {
     case EventEnums::MD_Short:
-        [[fallthrough]]
+        [[fallthrough]];
     case EventEnums::MD_Veteran:
         return Randomizer::randomBetweenAAndB(2,4);
     case EventEnums::MD_Medium:
-        [[fallthrough]]
+        [[fallthrough]];
     case EventEnums::MD_Master:
         return Randomizer::randomBetweenAAndB(6,8);
     case EventEnums::MD_Long:
-        [[fallthrough]]
+        [[fallthrough]];
     case EventEnums::MD_Heroic:
         return Randomizer::randomBetweenAAndB(11,17);
     case EventEnums::MD_Extreme:
@@ -1039,13 +1039,13 @@ unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDif
     case EventEnums::MD_Short:
         return Randomizer::randomBetweenAAndB(0,1);
     case EventEnums::MD_Medium:
-        [[fallthrough]]
+        [[fallthrough]];
     case EventEnums::MD_Long:
-        [[fallthrough]]
+        [[fallthrough]];
     case EventEnums::MD_Extreme:
         return Randomizer::randomBetweenAAndB(0,2);
     case EventEnums::MD_Veteran:
-        [[fallthrough]]
+        [[fallthrough]];
     case EventEnums::MD_Master:
         return Randomizer::randomBetweenAAndB(2,3);
     case EventEnums::MD_Heroic:

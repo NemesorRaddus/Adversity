@@ -2,15 +2,15 @@
 
 <dbEntries type="Plants">
     <entry>
-        <name>Acid Berry</name>
-        <description>It works!</description>
+        <name>Acidberry</name>
+        <description></description>
 		<inhabitancies>
 			<inhabitancy>Hegos Plains</inhabitancy>
 		</inhabitancies>
 	</entry>
     <entry>
         <name>Toxic Spores</name>
-        <description>It works!</description>
+        <description></description>
         <inhabitancies>
             <inhabitancy>Hegos Plains</inhabitancy>
         </inhabitancies>

@@ -153,7 +153,7 @@ public:
 
     inline static Game *gameInstance() noexcept
     {
-        return ptrToGameObject;
+        return m_ptrToGameObject;
     }
 
     Q_INVOKABLE int startupTimerElapsed() noexcept
@@ -178,7 +178,7 @@ private:
 
     void loadTranslations(const QString &lang) noexcept;
 
-    static Game *ptrToGameObject;
+    static Game *m_ptrToGameObject;
 
     Base *m_base;
     QString m_currentPathToAssets;
