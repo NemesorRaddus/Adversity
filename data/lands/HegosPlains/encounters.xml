@@ -65,7 +65,7 @@
 								<resource type="Energy" amount="&lt;2;3>"></resource>
 							</event>
 							<event type="Action" subtype="NoSignal">
-								<duration>0</duration>
+                                <duration duration="0"></duration>
 							</event>
 						</events>
 					</event>
@@ -76,7 +76,7 @@
 								<addedValue value="&lt;-12;-6>"></addedValue>
 							</event>
 							<event type="Action" subtype="NoSignal">
-								<duration>0</duration>
+                                <duration duration="0"></duration>
 							</event>
 						</events>
 					</event>
@@ -92,7 +92,7 @@
 								<resource type="Energy" amount="&lt;-5;-1>"></resource>
 							</event>
 							<event type="Action" subtype="NoSignal">
-								<duration>1</duration>
+                                <duration duration="1"></duration>
 							</event>
 						</events>
 					</event>
@@ -103,7 +103,7 @@
 								<addedValue value="&lt;7;18>"></addedValue>
 							</event>
 							<event type="Action" subtype="NoSignal">
-								<duration>-1</duration>
+                                <duration duration="-1"></duration>
 							</event>
 						</events>
 					</event>
@@ -317,10 +317,10 @@
 	</encounter>
 	<encounter name="Small Aetherite Rock">
 		<event type="Multi">
-			<Text>Huh? There's small rock of Aetherite. Nice!</Text>
+            <text>Huh? There's small rock of Aetherite. Nice!</text>
 			<events>
 				<event type="Action" subtype="GiveResource">
-					<recource type="Aetherite" amount="&lt;1;3>"></resource>
+                    <resource type="Aetherite" amount="&lt;1;3>"></resource>
 				</event>
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-4;-2>"></addedValue>
@@ -334,7 +334,7 @@
 			<results>
 				<positive>
 					<event type="Multi">
-						<Text>I'm pretty sure that I saw a plant similar to that one here in many databases. The one I saw had healing properties so I guess this will have them too. Despite of harsh taste, I feel fresh energy filling my body and hunger seems to have gone right away. </text>
+                        <text>I'm pretty sure that I saw a plant similar to that one here in many databases. The one I saw had healing properties so I guess this will have them too. Despite of harsh taste, I feel fresh energy filling my body and hunger seems to have gone right away. </text>
 						<unlockedDBEntries> 
 							<entry>BlueherbLichen</entry>
 						</unlockedDBEntries>
@@ -353,7 +353,7 @@
 				</positive>
 				<negative>
 					<event type="Multi">
-						<Text>I see a really odd plant. It has unregular shape and unhealthy colour. I'd better leave it undisturbed.</Text>
+                        <text>I see a really odd plant. It has unregular shape and unhealthy colour. I'd better leave it undisturbed.</text>
 						<events>
 							<event type="Action" subtype="GiveStress">
 								<addedValue value="&lt;1;3>"></addedValue>
@@ -366,7 +366,7 @@
 	</encounter>
 	<encounter name="Cavern">
 		<event type="Multi">
-			<Text>Oh, there's nice cavern over here. I bet there is something down there.</text>
+            <text>Oh, there's nice cavern over here. I bet there is something down there.</text>
 			<events>
 				<event type="Check" subtype="Equipment">
 					<condition>Light Source</condition>
@@ -607,7 +607,7 @@
 													<results>
 														<positive>
 															<event type="Multi">
-																<Text>It looked suspicious so I threw a rock at it. After being hit mycelium released cloud of spores. They looked dangerous so with no other options I escaped.</text>
+                                                                <text>It looked suspicious so I threw a rock at it. After being hit mycelium released cloud of spores. They looked dangerous so with no other options I escaped.</text>
 																<events>
 																	<event type="Action" subtype="GiveStress">
 																		<addedValue value="&lt;-20;-10>"></addedValue>
@@ -617,7 +617,7 @@
 														</positive>
 														<negative>
 															<event chance="30" type="Multi">
-																<Text>I was curious so I touched it and a cloud of spores got right into my face. They stank as hell. I was choking and coughing but somehow managed to run away. Never again.</text>
+                                                                <text>I was curious so I touched it and a cloud of spores got right into my face. They stank as hell. I was choking and coughing but somehow managed to run away. Never again.</text>
 																<events>
 																	<event type="Action" subtype="GiveStress">
 																		<addedValue value="&lt;10;20>"></addedValue>
@@ -628,7 +628,7 @@
 																</events>
 															</event>
 															<event chance="30" type="Multi">
-																<Text>I was curious so I touched it and a cloud of spores got right into my face. I was choking and coughing and if that wasn't enough some of them got into my eyes! I escaped but I still barely can see.</text>
+                                                                <text>I was curious so I touched it and a cloud of spores got right into my face. I was choking and coughing and if that wasn't enough some of them got into my eyes! I escaped but I still barely can see.</text>
 																<events>
 																	<event type="Action" subtype="GiveStress">
 																		<addedValue value="&lt;10;25>"></addedValue>
@@ -660,7 +660,7 @@
 	</encounter>
 	<encounter name="Movement in grass">
 		<event type="Multi">
-			<text>Huh? I think I saw something in the grass on that hill."
+            <text>Huh? I think I saw something in the grass on that hill."</text>
 			<events>
 				<event type="Check" subtype="Value">
 					<condition condition="CL>CE"></condition>
@@ -795,7 +795,7 @@
 																<addedValue value="&lt;0.02*SL;0.04*SL>"></addedValue>
 															</event>
 															<event type="Action" subtype="ModifyAttribute">
-																<modification attribute="Daily Health Regeneration" type="-" value="0.5*DHR" duration="-1"></modification>
+																<modification attribute="Daily Health Recovery" type="-" value="0.5*DHR" duration="-1"></modification>
 															</event>
 															<event type="Action" subtype="GiveHealth">
 																<addedValue value="&lt;-0.1*HL;-0.05*HL>"></addedValue>
@@ -812,7 +812,7 @@
 																<addedValue value="&lt;0.05*SL;0.07*SL>"></addedValue>
 															</event>
 															<event type="Action" subtype="ModifyAttribute">
-																<modification attribute="Daily Health Regeneration" type="-" value="DHR" duration="-1"></modification>
+																<modification attribute="Daily Health Recovery" type="-" value="DHR" duration="-1"></modification>
 															</event>
 															<event type="Action" subtype="GiveHealth">
 																<addedValue value="&lt;-0.2*HL;-0.1*HL>"></addedValue>
@@ -954,7 +954,7 @@
 																<addedValue value="&lt;-0.15*HL;-0.1*HL>"></addedValue>
 															</event>
 															<event type="Action" subtype="ModifyAttribute">
-																<modification attribute="Daily Health Regeneration" type="-" value="2" duration="3"></modification>
+																<modification attribute="Daily Health Recovery" type="-" value="2" duration="3"></modification>
 															</event>
 														</events>
 													</event>
@@ -973,7 +973,7 @@
 																<addedValue value="&lt;-0.22*HL;-0.15*HL>"></addedValue>
 															</event>
 															<event type="Action" subtype="ModifyAttribute">
-																<modification attribute="Daily Health Regeneration" type="-" value="2" duration="3"></modification>
+																<modification attribute="Daily Health Recovery" type="-" value="2" duration="3"></modification>
 															</event>
 														</events>
 													</event>
@@ -1047,7 +1047,7 @@
 								<text>This grapes look suspicious. I'd better don't touch them.</text>
 								<events>
 									<event type="Action" subtype="GiveStress">
-										<addedValue value="&lt;0;5>"></value>
+                                        <addedValue value="&lt;0;5>"></addedValue>
 									</event>
 								</events>
 							</event>
@@ -1091,26 +1091,26 @@
 													</events>
 												</event>
 												<event chance="45" type="Multi">
-													<text>Shit! It's closer than I wished. I have to escape... OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing valuable had been lost.</text>
+                                                    <text>Shit! It's closer than I wished. I have to escape... OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
 													<events>
 														<event type="Action" subtype="GiveStress">
 															<addedValue value="&lt;-6;22>"></addedValue>
 														</event>
 														<event type="Action" subtype="GiveResource">
-															<random amount="-C_Reso*0.1"></random>
+                                                            <random amount="-C_RESO*0.1"></random>
 														</event>
 													</events>
 												</event>
 											</positive>
 											<negative>
 												<event chance="30" type="Multi">
-													<text>Shit! I'm not sure but I think that I saw it! That's enough! Run for your life!... Oh crap, my backpack was open! I hope that nothing valuable had been lost.</text>
+                                                    <text>Shit! I'm not sure but I think that I saw it! That's enough! Run for your life!... Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
 													<events>
 														<event type="Action" subtype="GiveStress">
 															<addedValue value="&lt;0;25>"></addedValue>
 														</event>
 														<event type="Action" subtype="GiveResource">
-															<random amount="-C_Reso*0.15"></random>
+                                                            <random amount="-C_RESO*0.15"></random>
 														</event>
 													</events>
 												</event>
@@ -1127,7 +1127,7 @@
 															<addedValue value="&lt;-0.4*HL;-0.15*HL>"></addedValue>
 														</event>
 														<event type="Action" subtype="GiveResource">
-															<random amount="&lt;-C_Reso;-C_RESO*0.4>"></random>
+                                                            <random amount="&lt;-C_RESO;-C_RESO*0.4>"></random>
 														</event>
 														<event type="Action" subtype="ModifyAttribute">
 															<modification attribute="Proficiency" type="-" value="1" duration="5"></modification>
@@ -1158,7 +1158,7 @@
 													<addedValue value="&lt;15;45>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-													<random amount="-C_Reso*0.2"></random>
+                                                    <random amount="-C_RESO*0.2"></random>
 												</event>
 											</events>
 										</event>
@@ -1169,7 +1169,7 @@
 											</unlockedDBEntries>
 											<events>
 												<event type="Action" subtype="GiveResource">
-													<resource type="Food Supplies" amount="&lt;-4;-2>">
+                                                    <resource type="Food Supplies" amount="&lt;-4;-2>"></resource>
 												</event>
 												<event type="Action" subtype="GiveStress">
 													<addedValue value="&lt;-10;25>"></addedValue>
@@ -1189,7 +1189,7 @@
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveResource">
-																<resource type="Food Supplies" amount="&lt;4;7>">
+                                                                <resource type="Food Supplies" amount="&lt;4;7>"></resource>
 															</event>
 															<event type="Action" subtype="GiveStress">
 																<addedValue value="&lt;20;50>"></addedValue>
@@ -1206,7 +1206,7 @@
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveResource">
-																<resource type="Food Supplies" amount="&lt;4;7>">
+                                                                <resource type="Food Supplies" amount="&lt;4;7>"></resource>
 															</event>
 															<event type="Action" subtype="GiveStress">
 																<addedValue value="&lt;33;66>"></addedValue>
@@ -1231,7 +1231,7 @@
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveResource">
-																<resource type="Food Supplies" amount="&lt;-C_FOOS*0.8;-C_FOOS/2>">
+                                                                <resource type="Food Supplies" amount="&lt;-C_FOOS*0.8;-C_FOOS/2>"></resource>
 															</event>
 															<event type="Action" subtype="GiveStress">
 																<addedValue value="&lt;40;80>"></addedValue>
@@ -1284,7 +1284,7 @@
 													<resource type="Food Supplies" amount="&lt;PR+1;PR+3>"></resource>
 												</event>
 												<event type="Action" subtype="GiveStress">
-													<addedValue valuable="&lt;-20;10>">
+                                                    <addedValue value="&lt;-20;10>"></addedValue>
 												</event>
 											</events>
 										</event>
@@ -1298,10 +1298,10 @@
 													<resource type="Food Supplies" amount="PR"></resource>
 												</event>
 												<event type="Action" subtype="GiveStress">
-													<addedValue valuable="&lt;5;25>">
+                                                    <addedValue value="&lt;5;25>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveHealth">
-													<addedValue valuable="&lt;-2;-1>">
+                                                    <addedValue value="&lt;-2;-1>"></addedValue>
 												</event>
 											</events>
 										</event>
@@ -1334,10 +1334,10 @@
 													<resource type="Food Supplies" amount="PR"></resource>
 												</event>
 												<event type="Action" subtype="GiveStress">
-													<addedValue valuable="&lt;5;25>">
+                                                    <addedValue value="&lt;5;25>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveHealth">
-													<addedValue valuable="&lt;-2;-1>">
+                                                    <addedValue value="&lt;-2;-1>"></addedValue>
 												</event>
 											</events>
 										</event>
@@ -1345,10 +1345,10 @@
 											<text>Oh shoot! They fly to me! Take it easy... don't panic and slowly go the opposite way. Ouch! One of them bit me! It's time to run!</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
-													<addedValue valuable="&lt;5;25>">
+                                                    <addedValue value="&lt;5;25>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveHealth">
-													<addedValue valuable="&lt;-2;-1>">
+                                                    <addedValue value="&lt;-2;-1>"></addedValue>
 												</event>
 											</events>
 										</event>
@@ -1358,7 +1358,7 @@
 											<text>Oh no! They are approaching! Shit! What should I do? Help!... I guess I have to run!</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
-													<addedValue valuable="&lt;20;55>">
+                                                    <addedValue value="&lt;20;55>"></addedValue>
 												</event>
 											</events>
 										</event>
@@ -1376,7 +1376,7 @@
 			<text>Oh nice hill I see over there. It will be a good spot to rest and do some recon.</text>
 			<events>
 				<event type="Action" subtype="NoSignal">
-					<duration>0</duration>
+                    <duration duration="0"></duration>
 				</event>
 				<event type="Action" subtype="GiveResource">
 					<resource type="Aetherite" amount="1"></resource>
@@ -1389,7 +1389,7 @@
 								<text>I see our base from there! That's a sign that my mission goes towards its end!</text>
 								<events>
 									<event type="Action" subtype="GiveStress">
-										<addedValue valuable="&lt;-20;-5>">
+                                        <addedValue value="&lt;-20;-5>"></addedValue>
 									</event>
 									<event type="Action" subtype="ModifyAttribute">
 										<modification attribute="Daily Stress Recovery" type="+" value="&lt;0.3*DSR;0.5*DSR>" duration="3"></modification>
@@ -1513,7 +1513,7 @@
 										<modification attribute="Daily Stress Recovery" type="-" value="&lt;3;5>" duration="4"></modification>
 									</event>
 									<event type="Action" subtype="ModifyAttribute">
-										<modification attribute="Daily Health Regeneration" type="-" value="&lt;1;2>" duration="4"></modification>
+										<modification attribute="Daily Health Recovery" type="-" value="&lt;1;2>" duration="4"></modification>
 									</event>
 								</events>
 							</event>
@@ -1651,7 +1651,7 @@
 		<event type="Multi">
 			<events>
 				<event type="Check" subtype="Value">
-					<condition condition="PR>5">
+                    <condition condition="PR>5"></condition>
 					<results>
 						<positive>
 							<event type="Multi">
