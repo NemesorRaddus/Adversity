@@ -817,7 +817,7 @@ void Mission::planNextEncounter() noexcept
         m_assignedHero->base()->gameClock()->addAlarm(m_remainingDays, new MissionEndTimerAlarm(m_assignedHero->base(),this));
 }
 
-void Mission::setLand(const Land *land) noexcept
+void Mission::setLand(Land *land) noexcept
 {
     m_land = land;
 }
@@ -908,7 +908,7 @@ Mission *MissionBuilder::getMission() noexcept
     return ret;
 }
 
-Mission *MissionBuilder::generateMission(const Land *land, EventEnums::MissionDifficulty difficulty) noexcept
+Mission *MissionBuilder::generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept
 {
     resetMission();
     setLand(land);
@@ -984,7 +984,7 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     return r;
 }
 
-void MissionBuilder::setLand(const Land *land) noexcept
+void MissionBuilder::setLand(Land *land) noexcept
 {
     m_mission->setLand(land);
 }
@@ -1055,7 +1055,7 @@ unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDif
     }
 }
 
-QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(const Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept
+QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept
 {
     QVector <QPair <Mission::MissionDay, Encounter *> > r;
     for (int i=0;i<duration;++i)

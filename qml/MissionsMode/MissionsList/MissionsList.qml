@@ -8,8 +8,6 @@ import Game 1.0
 Item {
     id: root
 
-    property string category: ""
-
     function update()
     {
         var am=GameApi.base.amountOfMissions();
@@ -20,11 +18,11 @@ Item {
             var n=GameApi.base.preparedMission.hero.name();
             var p=GameApi.base.preparedMission.hero.professionString();
 
-            var dur=GameApi.base.preparedMission.fullDuration();
-
             Scripts.createItem(n,p,
                                "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(n)+".png",
-                               dur, dur-GameApi.base.preparedMission.remainingDays(),
+                               GameApi.base.preparedMission.land.name(),
+                               GameApi.base.preparedMission.difficultyString(),
+                               GameApi.base.preparedMission.fullDuration()-GameApi.base.preparedMission.remainingDays(),
                                GameApi.base.preparedMission.hero.isCommunicationAvailable(),
                                GameApi.base.preparedMission.hero.isStressBorderEffectActive(),
                                GameApi.base.preparedMission.hero.health(),
@@ -91,7 +89,7 @@ Item {
 
             properties: "opacity"
             easing.type: Easing.InQuad
-            duration: 1000
+            duration: 300
             from: 1
             to: 0
             target: listHandler
@@ -143,10 +141,7 @@ Item {
             {
                 var e=Scripts.getClickedItemName(y0);
                 if (e != "")
-                {
-                    if (root.category == "")
-                    heroClicked(h, Scripts.getClickedItemName2(y0));
-                }
+                    selected(e);
             }
             y0 = -1;
             movementCheckTimer.stop();
@@ -238,7 +233,7 @@ Item {
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 1000 }
+            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 300 }
         }
     ]
 

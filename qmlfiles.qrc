@@ -78,5 +78,8 @@
         <file>qml/Reports/ReportsListDelegate.qml</file>
         <file>qml/Reports/ReportsListScripts.js</file>
         <file>qml/Reports/ReportsNotification.qml</file>
+        <file>qml/MissionsMode/MissionsList/HeroView.qml</file>
+        <file>qml/MissionsMode/MissionsList/HeroDelegate.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionManagement.qml</file>
     </qresource>
 </RCC>

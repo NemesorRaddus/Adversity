@@ -51,5 +51,6 @@
         <file>graphics/GUI/Status frames/LowHealth40.png</file>
         <file>graphics/GUI/Status frames/LowHealth60.png</file>
         <file>graphics/GUI/Status frames/LowHealth80.png</file>
+        <file>graphics/GUI/Mask.png</file>
     </qresource>
 </RCC>

@@ -624,7 +624,7 @@ class Mission : public QObject
     Q_OBJECT
 
     Q_PROPERTY(Hero* hero MEMBER m_assignedHero)
-    Q_PROPERTY(const Land* land MEMBER m_land)
+    Q_PROPERTY(Land* land MEMBER m_land)
 
 public:
     typedef unsigned MissionDay;
@@ -673,12 +673,12 @@ private:
 
     void planNextEncounter() noexcept;
 
-    void setLand(const Land *land) noexcept;
+    void setLand(Land *land) noexcept;
     void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
     void setDuration(unsigned days) noexcept;
     void addEncounter(MissionDay day, Encounter *encounter) noexcept;
 
-    const Land *m_land;
+    Land *m_land;
     EventEnums::MissionDifficulty m_difficulty;
     unsigned m_duration;
     unsigned m_remainingDays;
@@ -709,13 +709,13 @@ public:
     ~MissionBuilder() noexcept;
 
     Mission *getMission() noexcept; // resets
-    Mission *generateMission(const Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
+    Mission *generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
     void resetMission() noexcept; 
 
     static Mission *qobjectifyMissionData(const MissionDataHelper &mission, Base *base) noexcept;
     static MissionDataHelper deqobjectifyMission(Mission *mission) noexcept;
 
-    void setLand(const Land *land) noexcept;
+    void setLand(Land *land) noexcept;
     void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
     void setDuration(unsigned duration) noexcept;
     void addRandomEncounter() noexcept;
@@ -724,7 +724,7 @@ public:
 private:
     unsigned generateDuration(EventEnums::MissionDifficulty difficulty) const noexcept;
     unsigned generateAmountOfEncountersPerDay(EventEnums::MissionDifficulty difficulty) const noexcept;
-    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(const Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept;
+    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept;
 
     static bool lessThanEncounterSorting(const QPair <Mission::MissionDay, Encounter *> &first, const QPair <Mission::MissionDay, Encounter *> &second) noexcept;
 
@@ -768,7 +768,7 @@ private:
 
     Base *m_basePtr;
     MissionBuilder m_missionBuilder;
-    const Land *m_land;
+    Land *m_land;
     EventEnums::MissionDifficulty m_difficulty;
     Hero *m_hero;
     Equipment *m_armor;

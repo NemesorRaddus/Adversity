@@ -37,6 +37,7 @@ Item {
     {
         map.updateEverything();
         database.update();
+        missionsList.update();
     }
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
@@ -226,10 +227,6 @@ Item {
         onExploreClicked: {
             root.returnToDefault();
         }
-    }
-
-    MissionView {
-        anchors.fill: parent
     }
 
     states: [
