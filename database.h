@@ -31,7 +31,16 @@ struct DatabaseEntryDetails
 
 typedef QPair <QString, DatabaseEntryDetails> DatabaseEntry;
 
-typedef QVector <QString> DatabaseUnlocksInfo;
+struct DatabaseUnlocksInfo
+{
+    void clear() noexcept;
+
+    QVector <QString> unlockedEntries;
+    QVector <QVector <bool> > unlockedInhabitancies;
+};
+
+QDataStream &operator<<(QDataStream &stream, const DatabaseUnlocksInfo &unlocks) noexcept;
+QDataStream &operator>>(QDataStream &stream, DatabaseUnlocksInfo &unlocks) noexcept;
 
 class Database : public QObject
 {
@@ -53,13 +62,14 @@ public:
 
     void loadEntries(const QVector <DatabaseEntry> &entries) noexcept;
 
-    void unlockEntry(const Name &entryName) noexcept;
+    void unlockEntry(const Name &entryName) noexcept; // for H4x
+    void unlockEntry(const Name &entryName, const QString &landName) noexcept;
     inline bool isEntryUnlocked(const Name &entryName) const noexcept
     {
-        return m_unlocksInfo.contains(entryName);
+        return m_unlocksInfo.unlockedEntries.contains(entryName);
     }
     DatabaseEntryDetails readEntry(const Name &entryName) const noexcept;
-    inline QVector <Name> unlockedEntries() const noexcept
+    inline DatabaseUnlocksInfo unlockedEntries() const noexcept
     {
         return m_unlocksInfo;
     }
