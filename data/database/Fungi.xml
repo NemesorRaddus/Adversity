@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dbEntries type="Fungi">
+	<entry>
+        <name>Toxic Spores</name>
+        <description></description>
+        <inhabitancies>
+            <inhabitancy>Hegos Plains</inhabitancy>
+			<inhabitancy>Aurora Forest</inhabitancy>
+        </inhabitancies>
+    </entry>
+	<entry>
+        <name>Fungusire Mycelium</name>
+        <description></description>
+        <inhabitancies>
+            <inhabitancy>Hegos Plains</inhabitancy>
+        </inhabitancies>
+    </entry>
 </dbEntries>

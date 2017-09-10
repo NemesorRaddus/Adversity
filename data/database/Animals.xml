@@ -1,4 +1,73 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <dbEntries type="Animals">
-</dbEntries>
+    <entry>
+        <name>Winged Serpent</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Splitterhound</name>
+        <description>Who me? Me strange space doggo. Who you?</description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Morgai</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Nibbler</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Speckled Scorpioid</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Gedo Desert</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Lurkerworm</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Gedo Desert</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Redneck Lizard</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Alpha Splitterhound</name>
+        <description>Who me? Me super space doggo. Who you?</description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Mokareez</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Deftdragger</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>

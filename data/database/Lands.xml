@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dbEntries type="Lands">
+	<entry>
+		<name>Hegos Plains</name>
+		<description></description>
+        <inhabitancies></inhabitancies>
+	</entry>
+	<entry>
+		<name>Gedo Desert</name>
+		<description></description>
+        <inhabitancies></inhabitancies>
+	</entry>
+	<entry>
+		<name>Aurora Forest</name>
+		<description></description>
+        <inhabitancies></inhabitancies>
+	</entry>
 </dbEntries>
