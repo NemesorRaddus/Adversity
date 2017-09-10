@@ -197,9 +197,9 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
         {
             auto er=m_missionAlarms[i].second->doEncounter();
             if (m_missionAlarms[i].second->assignedHero()->isCommunicationAvailable())
-                m_base->addReport(new Report{er});
+                m_base->addReport(new UnifiedReport{er});
             else
-                m_missionAlarms[i].second->assignedHero()->addWaitingReport(new Report{er});
+                m_missionAlarms[i].second->assignedHero()->addWaitingReport(new UnifiedReport{er});
             m_missionAlarms.remove(i);
             --i;
         }

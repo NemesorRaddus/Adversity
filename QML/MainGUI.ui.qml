@@ -34,6 +34,8 @@ Rectangle {
     property alias missionsGUI: missionsMode
 
     property alias reportsNotification: reportsNotification
+    property alias reportsOpener: reportsOpener
+    property alias reportsList: reportsList
 
     property alias h4xScreen: h4xScreen
 
@@ -88,6 +90,15 @@ Rectangle {
         y: 1400
         width: 425
         height: 200
+    }
+
+    ReportsList {
+        id: reportsList
+
+        x: 0
+        y: 189
+        width: parent.width
+        height: 1464
     }
 
     Image {
@@ -152,6 +163,15 @@ Rectangle {
             y: heroesButton.y - 63.5
             width: 268
             height: 268
+        }
+
+        MouseArea {
+            id: reportsOpener
+
+            x: 0
+            y: 0
+            width: parent.width
+            height: 125
         }
 
         Image {

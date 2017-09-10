@@ -64,6 +64,20 @@ struct EventEnums
         MD_Heroic,
         MD_END
     };
+    enum ReportType
+    {
+        RT_Encounter,
+        RT_BuildingUpgrade,
+        RT_HeroArrival,
+        RT_TradeCompletion,
+        RT_EquipmentArrival,
+        RT_Desertion,
+        RT_Hunger,
+        RT_NoSalary,
+        RT_MissionEnd,
+        RT_TrainingCompletion,
+        RT_END
+    };
 
     static MissionDifficulty fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept;
     static QString fromMissionDifficultyEnumToQString(MissionDifficulty missionDifficulty) noexcept;
@@ -471,44 +485,211 @@ private:
     Event *m_event;
 };
 
-class EncounterReport
+class Report
 {
 public:
-    EncounterReport(const QString &encName, const QVector <EventReport> &events, const Time &time) noexcept;
+    virtual ~Report() noexcept = default;
 
-    QString textLine() const noexcept;
-    QString timestampLine() const noexcept;
-
-    inline QVector <QString> text() const noexcept
+    inline EventEnums::ReportType type() const noexcept
     {
-        return QVector<QString>{m_encounterName}+m_events;
+        return m_reportType;
     }
-    inline const Time &timestamp() const noexcept
+
+    virtual QString art() const noexcept = 0;
+    virtual QString text() const noexcept = 0;
+    inline Time time() const noexcept
     {
         return m_time;
     }
 
+protected:
+    explicit Report(EventEnums::ReportType type, const Time &time) noexcept;
+
 private:
-    QString m_encounterName;
-    QVector <EventReport> m_events;
+    EventEnums::ReportType m_reportType;
     Time m_time;
 };
 
-class Report : public QObject
+class EncounterReport : public Report
+{
+public:
+    EncounterReport(const QString &heroArt, const QVector <EventReport> &events, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QVector <EventReport> m_events;
+};
+
+class BuildingUpgradeReport : public Report
+{
+public:
+    BuildingUpgradeReport(const QString &buildingArt, BaseEnums::Building building, unsigned level, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_buildingArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_buildingArt;
+    BaseEnums::Building m_building;
+    unsigned m_level;
+};
+
+class HeroArrivalReport : public Report
+{
+public:
+    HeroArrivalReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_name;
+};
+
+class TradeCompletionReport : public Report
+{
+public:
+    TradeCompletionReport(BaseEnums::Resource targetResource, unsigned amount, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return "qrc:/graphics/Buildings/DockingStation.png";
+    }
+    QString text() const noexcept final;
+
+private:
+    BaseEnums::Resource m_targetResource;
+    unsigned m_amount;
+};
+
+class EquipmentArrivalReport : public Report
+{
+public:
+    EquipmentArrivalReport(const QString &name, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return "qrc:/graphics/Buildings/DockingStation.png";
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_name;
+};
+
+class DesertionReport : public Report
+{
+public:
+    DesertionReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_name;
+};
+
+class HungerReport : public Report
+{
+public:
+    HungerReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_name;
+};
+
+class NoSalaryReport : public Report
+{
+public:
+    NoSalaryReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_name;
+};
+
+class MissionEndReport : public Report
+{
+public:
+    MissionEndReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_name;
+};
+
+class TrainingCompletionReport : public Report
+{
+public:
+    TrainingCompletionReport(const QString &heroArt, const QString &heroName, BaseEnums::Building building, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_heroName;
+    BaseEnums::Building m_building;
+};
+
+class UnifiedReport : public QObject
 {
     Q_OBJECT
 
 public:
-    Report(const Time &time, const QString &msg) noexcept;
-    Report(EncounterReport *sourceToDestroy) noexcept;
+    UnifiedReport(const Time &time, const QString &msg, const QString &artSource = {}) noexcept;
+    UnifiedReport(Report *sourceToDestroy) noexcept;
 
     Q_INVOKABLE QString timestamp() const noexcept;
     Q_INVOKABLE inline QString msg() const noexcept
     {
         return m_msg;
     }
+    Q_INVOKABLE inline QString artSource() const noexcept
+    {
+        return m_art;
+    }
 
-    inline const Time &time() const noexcept
+    inline Time time() const noexcept
     {
         return m_time;
     }
@@ -516,6 +697,7 @@ public:
 private:
     Time m_time;
     QString m_msg;
+    QString m_art;
 };
 
 class Encounter

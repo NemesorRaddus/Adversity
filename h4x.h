@@ -49,7 +49,11 @@ public:
 
     //database hacks
     Q_INVOKABLE void unlockDBEntry(const QString &entryName) noexcept;
-    
+
+    //report hacks
+    Q_INVOKABLE void receiveReport(const QString &msg, const QString &art = {}) noexcept;
+    Q_INVOKABLE void clearReports() noexcept;
+
     //ui hacks
     Q_INVOKABLE void forceUIUpdate() noexcept;
     Q_INVOKABLE void fps() noexcept;

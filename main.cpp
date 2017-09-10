@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<MissionInitializer>("MissionInitializer");
     qmlRegisterInterface<Land>("Land");
     qmlRegisterInterface<LandsInfo>("LandsInfo");
-    qmlRegisterInterface<Report>("Report");
+    qmlRegisterInterface<UnifiedReport>("UnifiedReport");
 
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 

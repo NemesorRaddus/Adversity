@@ -961,7 +961,7 @@ void Hero::assignMission(Mission *mission) noexcept
     m_currentActivity=HeroEnums::CA_OnMission;
 }
 
-void Hero::addWaitingReport(Report *report) noexcept
+void Hero::addWaitingReport(UnifiedReport *report) noexcept
 {
     m_waitingReports+=report;
 }
@@ -976,6 +976,11 @@ void Hero::setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept
     m_currentActivity=activity;
     if (activity==HeroEnums::CA_OnMission)
         m_assignedMission=nullptr;
+}
+
+QString Hero::pathToArt() const noexcept
+{
+    return "qrc:/graphics/Mercs/"+Global::alterNormalTextToInternal(professionString())+"/"+Global::alterNormalTextToInternal(name())+".png";
 }
 
 void Hero::dismiss(unsigned banDays) noexcept
@@ -2194,7 +2199,7 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     QVector<QPair<Time,QString>> wrs;
     stream>>wrs;
     for (const auto e : wrs)
-        hero.waitingReports+=new Report{e.first,e.second};
+        hero.waitingReports+=new UnifiedReport{e.first,e.second};
 
     stream>>n;
     hero.currentActivity=static_cast<HeroEnums::CurrentActivity>(n);

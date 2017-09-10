@@ -14,6 +14,8 @@ Window {
 
     function changeMode(mode)
     {
+        mainGUI.reportsList.state = "hidden";
+
         if (currentMode == 0)
         {
             mainGUI.missionsGUI.returnToDefault();
@@ -56,7 +58,7 @@ Window {
 
     function showReportNotification()
     {
-        mainGUI.reportsNotification.setAmount(GameApi.base.amountOfReports());
+        mainGUI.reportsNotification.setAmount(GameApi.base.amountOfNewReports());
         mainGUI.reportsNotification.show();
     }
 
@@ -167,6 +169,7 @@ Window {
             updateResources();
             updateClock();
             updateMainContent();
+            reportsList.updateEverything();
             splash.canClose = true;//only for first gui loading,but it's inexpensive so it can stay
         }
 
@@ -208,6 +211,18 @@ Window {
         mercenariesGUI.onArtPreviewRequested: heroArtPreview.show(artSource)
         mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
         heroArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
+
+        reportsNotification.onClicked: {
+            reportsList.updateEverything();
+            reportsList.state = "";
+        }
+        reportsOpener.onClicked: {
+            reportsList.updateEverything();
+            reportsList.state = "";
+        }
+        reportsList.onBackClicked: {
+            reportsList.state = "hidden";
+        }
     }
 
     Timer {
@@ -268,7 +283,18 @@ Window {
         }
         else
         {
-            if (currentMode == 0)
+            if (mainGUI.settings.state == "")
+            {
+                mainGUI.settings.state = "hidden";
+                close.accepted = false;
+            }
+            else if (mainGUI.reportsList.state == "")
+            {
+                if (!mainGUI.reportsList.reactToBackOnToolbar())
+                    mainGUI.reportsList.state = "hidden";
+                close.accepted = false;
+            }
+            else if (currentMode == 0)
             {
                 if (mainGUI.missionsGUI.reactToBackOnToolbar())
                     close.accepted = false;

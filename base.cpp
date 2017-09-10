@@ -1879,7 +1879,7 @@ void Base::loadSaveData(const SaveData &data) noexcept
     }
 
     for (const auto &e : data.missions.reports)
-        m_reports+=new Report{e.first,e.second};
+        m_reports+=new UnifiedReport{e.first,e.second.first,e.second.second};
 }
 
 SaveData Base::getSaveData() noexcept
@@ -2023,7 +2023,7 @@ SaveData Base::getSaveData() noexcept
         data.missions.missions+=MissionBuilder::deqobjectifyMission(e);
 
     for (const auto &e : m_reports)
-        data.missions.reports+={e->time(),e->msg()};
+        data.missions.reports+={e->time(),{e->msg(),e->artSource()}};
 
     return data;
 }
@@ -2276,10 +2276,39 @@ void Base::prepareReport(unsigned index) noexcept
         m_preparedReport=m_reports[index];
 }
 
-void Base::addReport(Report *report) noexcept
+void Base::prepareNewReport(unsigned index) noexcept
+{
+    if (index<m_newReports.size())
+        m_preparedReport=m_newReports[index];
+}
+
+void Base::addReport(UnifiedReport *report) noexcept
 {
     m_reports+=report;
+    if (m_reports.size()>m_maxReportsAmount)
+    {
+        delete m_reports.first();
+        m_reports.removeFirst();
+    }
+    m_newReports+=report;
+    if (m_newReports.size()>m_maxReportsAmount)
+        m_newReports.removeFirst();
     m_gameObject->showReportNotification();
+}
+
+void Base::markReportAsRead(unsigned indexOnAllReportsList) noexcept
+{
+    for (int i=0;i<m_newReports.size();++i)
+        if (m_newReports[i]==m_reports[indexOnAllReportsList])
+        {
+            m_newReports.remove(i);
+            break;
+        }
+}
+
+void Base::markAllAsRead() noexcept
+{
+    m_newReports.clear();
 }
 
 void Base::removeReport(unsigned index) noexcept
@@ -2289,6 +2318,14 @@ void Base::removeReport(unsigned index) noexcept
         delete m_reports[index];
         m_reports.remove(index);
     }
+}
+
+void Base::clearReports() noexcept
+{
+    m_newReports.clear();
+    for (auto &e : m_reports)
+        delete e;
+    m_reports.clear();
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

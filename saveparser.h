@@ -128,7 +128,7 @@ struct SaveData
     struct Missions
     {
         QVector<MissionDataHelper> missions;
-        QVector<QPair<Time,QString>> reports;
+        QVector<QPair<Time,QPair<QString,QString>>> reports;
     } missions;
 };
 

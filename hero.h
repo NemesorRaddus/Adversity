@@ -163,7 +163,7 @@ QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept;
 struct AttributeModification;
 
 class Base;
-class Report;
+class UnifiedReport;
 
 class Hero : public QObject
 {
@@ -443,7 +443,7 @@ public:
     }
     void assignMission(Mission *mission) noexcept;
 
-    void addWaitingReport(Report *report) noexcept;
+    void addWaitingReport(UnifiedReport *report) noexcept;
 
     inline HeroEnums::CurrentActivity currentActivity() const noexcept
     {
@@ -451,6 +451,8 @@ public:
     }
     Q_INVOKABLE QString currentActivityString() const noexcept;
     void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept;
+
+    Q_INVOKABLE QString pathToArt() const noexcept;
 
     void dismiss(unsigned banDays) noexcept;
 
@@ -557,7 +559,7 @@ private:
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
 
-    QVector <Report *> m_waitingReports;
+    QVector <UnifiedReport *> m_waitingReports;
 
     Base *m_base;
 };
@@ -602,7 +604,7 @@ struct HeroDataHelper
     int noSalaryWeeks;
 
     Mission *assignedMission;
-    QVector <Report *> waitingReports;
+    QVector <UnifiedReport *> waitingReports;
     HeroEnums::CurrentActivity currentActivity;
 };
 

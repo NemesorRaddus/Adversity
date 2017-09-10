@@ -8,6 +8,8 @@ Item {
 
     property int displayTime: 3000
 
+    signal clicked()
+
     function setAmount(amount)
     {
         if (amount>9)
@@ -23,6 +25,12 @@ Item {
     }
 
     state: "hidden"
+
+    MouseArea {
+        anchors.fill: parent
+
+        onClicked: root.clicked()
+    }
 
     Rectangle {
         anchors.fill: parent

@@ -643,30 +643,112 @@ QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
     return {};
 }
 
-EncounterReport::EncounterReport(const QString &encName, const QVector<EventReport> &events, const Time &time) noexcept
-    : m_encounterName(encName), m_events(events), m_time(time) {}
+Report::Report(EventEnums::ReportType type, const Time &time) noexcept
+    : m_reportType(type), m_time(time) {}
 
-Report::Report(const Time &time, const QString &msg) noexcept
-    : m_time(time), m_msg(msg) {}
+EncounterReport::EncounterReport(const QString &heroArt, const QVector<EventReport> &events, const Time &time) noexcept
+    : Report(EventEnums::RT_Encounter, time), m_heroArt(heroArt), m_events(events) {}
 
-Report::Report(EncounterReport *sourceToDestroy) noexcept
+QString EncounterReport::text() const noexcept
 {
-    m_time=sourceToDestroy->timestamp();
-    const auto &v=sourceToDestroy->text();
-    for (const auto &e : v)
-        m_msg+=e+"\n";
+    QString r;
+    for (const auto &e : m_events)
+        r+=e+"\n";
+    return r;
+}
+
+BuildingUpgradeReport::BuildingUpgradeReport(const QString &buildingArt, BaseEnums::Building building, unsigned level, const Time &time) noexcept
+    : Report(EventEnums::RT_BuildingUpgrade, time), m_buildingArt(buildingArt), m_building(building), m_level(level) {}
+
+QString BuildingUpgradeReport::text() const noexcept
+{
+    return BaseEnums::fromBuildingEnumToQString(m_building)+" has been upgraded to level "+QString::number(m_level)+".";
+}
+
+HeroArrivalReport::HeroArrivalReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept
+    : Report(EventEnums::RT_HeroArrival, time), m_heroArt(heroArt), m_name(heroName) {}
+
+QString HeroArrivalReport::text() const noexcept
+{
+    return "Recently hired mercenary, "+Game::gameInstance()->tr(m_name)+" has arrived.";
+}
+
+TradeCompletionReport::TradeCompletionReport(BaseEnums::Resource targetResource, unsigned amount, const Time &time) noexcept
+    : Report(EventEnums::RT_TradeCompletion, time), m_targetResource(targetResource), m_amount(amount) {}
+
+QString TradeCompletionReport::text() const noexcept
+{
+    return "We received that "+QString::number(m_amount)+" units of "+BaseEnums::fromResourceEnumToQString(m_targetResource)+" you ordered recently.";
+}
+
+EquipmentArrivalReport::EquipmentArrivalReport(const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_EquipmentArrival, time), m_name(name) {}
+
+QString EquipmentArrivalReport::text() const noexcept
+{
+    return Game::gameInstance()->tr(m_name)+" has been delivered and is now stored in storage room.";
+}
+
+DesertionReport::DesertionReport(const QString &heroArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_Desertion, time), m_heroArt(heroArt), m_name(name) {}
+
+QString DesertionReport::text() const noexcept
+{
+    //TODO
+}
+
+HungerReport::HungerReport(const QString &heroArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_Hunger, time), m_heroArt(heroArt), m_name(name) {}
+
+QString HungerReport::text() const noexcept
+{
+
+}
+
+NoSalaryReport::NoSalaryReport(const QString &heroArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_NoSalary, time), m_heroArt(heroArt), m_name(name) {}
+
+QString NoSalaryReport::text() const noexcept
+{
+
+}
+
+MissionEndReport::MissionEndReport(const QString &heroArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_MissionEnd, time), m_heroArt(heroArt), m_name(name) {}
+
+QString MissionEndReport::text() const noexcept
+{
+
+}
+
+TrainingCompletionReport::TrainingCompletionReport(const QString &heroArt, const QString &heroName, BaseEnums::Building building, const Time &time) noexcept
+    : Report(EventEnums::RT_MissionEnd, time), m_heroArt(heroArt), m_heroName(heroName), m_building(building) {}
+
+QString TrainingCompletionReport::text() const noexcept
+{
+
+}
+
+UnifiedReport::UnifiedReport(const Time &time, const QString &msg, const QString &artSource) noexcept
+    : m_time(time), m_msg(msg), m_art(artSource) {}
+
+UnifiedReport::UnifiedReport(Report *sourceToDestroy) noexcept
+{
+    m_time=sourceToDestroy->time();
+    m_art=sourceToDestroy->art();
+    m_msg=sourceToDestroy->text();
+
     delete sourceToDestroy;
 }
 
-QString Report::timestamp() const noexcept
+QString UnifiedReport::timestamp() const noexcept
 {
     QString r;
-    const auto &t=time();
-    r+=static_cast<unsigned>(t.h)<10 ? "0"+QString::number(t.h) : QString::number(t.h);
+    r+=static_cast<unsigned>(m_time.h)<10 ? "0"+QString::number(m_time.h) : QString::number(m_time.h);
     r+=":";
-    r+=static_cast<unsigned>(t.min)<10 ? "0"+QString::number(t.min) : QString::number(t.min);
+    r+=static_cast<unsigned>(m_time.min)<10 ? "0"+QString::number(m_time.min) : QString::number(m_time.min);
     r+=" Day ";
-    r+=QString::number(t.d);
+    r+=QString::number(m_time.d);
     return r;
 }
 
@@ -675,7 +757,7 @@ Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
 
 EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
 {
-    return new EncounterReport{m_name, m_rootEvent->execute(hero), currentTime};
+    return new EncounterReport{hero->pathToArt(), m_rootEvent->execute(hero), currentTime};
 }
 
 EncountersContainer::~EncountersContainer() noexcept

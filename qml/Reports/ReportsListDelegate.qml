@@ -5,34 +5,66 @@ import "."
 Item {
     id: root
 
-    readonly property int theoreticalWidth: 1080
-    readonly property int theoreticalHeight: 271
-
-    function setText(text)
+    function setText(text_)
     {
+        text.text = text_;
+    }
 
+    function setArt(source)
+    {
+        art.source = source;
+    }
+
+    function getHeight()
+    {
+        return height;
     }
 
     width: 1080
-    height: 271
+    height: itemBorder.y+itemBorder.height
 
-    transform: [
-        Scale {
-            id: someScale
+    Item {
+        id: artItem
 
-            xScale: width/theoreticalWidth
-            yScale: height/theoreticalHeight
-        },
-        Translate {
-            x: (width-theoreticalWidth*someScale.xScale)/2
-            y: (height-theoreticalHeight*someScale.yScale)/2
+        x: 17
+        y: 17
+        width: 262
+        height: width
+
+        Image {
+            id: art
+
+            x: 3
+            y: 3
+            width: 256
+            height: width
         }
-    ]
+        Image {
+            anchors.fill: parent
+
+            source: "qrc:/graphics/GUI/Task_Picture.png"
+        }
+    }
+
+    Text {
+        id: text
+
+        x: artItem.x+artItem.width+8
+        y: 4
+        width: root.width-x-6
+        height: (font.pixelSize+8)*lineCount
+
+        color: "#94ef94"
+        font.pixelSize: 45
+        font.family: fontStencil.name
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
+    }
 
     Image {
         id: itemBorder
         x: 17
-        y: 265
+        y: 2*artItem.y+artItem.height>text.height + 6 ? 2*artItem.y+artItem.height : text.height + 6
         width: 1048
         height: 3
         source: "qrc:/graphics/GUI/Task_Border.png"
