@@ -922,13 +922,14 @@ Item {
             }
             else if (ca == "On Mission")
             {
-                currentActivityDescription.text = "Mission name and amount of remaining days go here";//TODO mission
+                var remDays=GameApi.base.remainingMissionDaysForHero(heroName);
+                currentActivityDescription.text = remDays!=-1 ? topBar.getName().text+" is exploring the wilderness. Days until return: "+remDays : topBar.getName().text+" is missing in action.";
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }
             else if (ca == "In Hospital")
             {
-                currentActivityDescription.text = topBar.getName().text+" is under treatment.\nDays to full recovery: "+GameApi.base.hospital.daysToFullRecovery(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+                currentActivityDescription.text = topBar.getName().text+" is under treatment.\nDays until full recovery: "+GameApi.base.hospital.daysToFullRecovery(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
                 currentActivityGoToText.visible = true;
                 currentActivityGoToMA.visible = true;
             }

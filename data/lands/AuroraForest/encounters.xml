@@ -602,7 +602,7 @@
 							<event type="Multi">
 								<text>Oh man! This plant's leaves are enormous! Chemical analisis says they should be eatable. Mmm... They are delicious! I almost feel how new energy travels through my body. Unfortunetely they are to big to carry them  with me.</text>
 								<unlockedDBEntries> 
-									<entry>Wideleaf Plants</entry>
+                                    <entry>Wideleaf Plant</entry>
 								</unlockedDBEntries>
 								<events>
 									<event type="Action" subtype="GiveStress">

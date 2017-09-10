@@ -170,7 +170,7 @@ void Event::setEventText(const QString &text) noexcept
 void Event::unlockDatabaseEntries(Hero *context) noexcept
 {
     for (auto e : m_unlockedDatabaseEntries)
-        context->base()->database()->unlockEntry(e);
+        context->base()->database()->unlockEntry(e,context->assignedMission()->land()->name());
 }
 
 MultiEvent::~MultiEvent() noexcept

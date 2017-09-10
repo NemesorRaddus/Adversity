@@ -18,8 +18,8 @@ Item {
             var n=GameApi.base.preparedMission.hero.name();
             var p=GameApi.base.preparedMission.hero.professionString();
 
-            Scripts.createItem(n,p,
-                               "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(n)+".png",
+            Scripts.createItem(GameApi.tr(n),p,
+                               "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
                                GameApi.base.preparedMission.land.name(),
                                GameApi.base.preparedMission.difficultyString(),
                                GameApi.base.preparedMission.fullDuration()-GameApi.base.preparedMission.remainingDays(),

@@ -986,7 +986,6 @@ QString Hero::pathToArt() const noexcept
 void Hero::dismiss(unsigned banDays) noexcept
 {
     emit ranAway(name(),banDays);
-    //TODO
 }
 
 void Hero::handleNewDay() noexcept
