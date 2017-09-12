@@ -250,7 +250,7 @@ Item {
     states: [
         State {
             name: "hiddenDown"
-            PropertyChanges { target: root; y: -height }
+            PropertyChanges { target: root; y: height }
         }
     ]
 

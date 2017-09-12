@@ -9,6 +9,8 @@ Item {
     clip: true
 
     signal updateRequestedFromBuildingsModeGUI()
+    signal heroesModeUpdateRequested()
+    signal resourcesUpdateRequested()
     signal showSpecial()
 
     property bool ready: false
@@ -24,6 +26,8 @@ Item {
             database.returnToDefault();
             database.hide();
             databaseEntryView.state = "hiddenDown";
+
+            missionsList.returnToDefault();
         }
         else
             ready=true;
@@ -31,6 +35,8 @@ Item {
         missionSelectionMenu.state = "hiddenRight2";
         missionStartMenu.state = "hiddenRight";
         map.state = "";
+        missionsList.state = "hidden";
+        missionView.state = "hiddenDown";
     }
 
     function updateEverything()
@@ -81,6 +87,16 @@ Item {
         {
             if (!database.reactToBackOnToolbar())
                 database.hide();
+            return true;
+        }
+        else if (missionView.state == "")
+        {
+            missionView.state = "hiddenDown";
+            return true;
+        }
+        else if (missionsList.state == "")
+        {
+            missionsList.state = "hiddenUp";
             return true;
         }
         else
@@ -226,6 +242,8 @@ Item {
 
         onExploreClicked: {
             root.returnToDefault();
+            heroesModeUpdateRequested();
+            resourcesUpdateRequested();
         }
     }
 

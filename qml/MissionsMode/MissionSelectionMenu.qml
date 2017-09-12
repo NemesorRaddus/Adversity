@@ -1005,9 +1005,8 @@ Item {
                     GameApi.base.missionInitializer.setBuildingMaterials(buildingMaterialsSetter.text);
                     GameApi.base.missionInitializer.setFoodSupplies(foodSuppliesSetter.text);
 
-                    GameApi.base.missionInitializer.start();
-
-                    root.exploreClicked();
+                    if (GameApi.base.missionInitializer.start())
+                        root.exploreClicked();
                 }
             }
         }

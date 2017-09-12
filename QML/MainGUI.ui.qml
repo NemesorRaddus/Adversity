@@ -375,7 +375,10 @@ Rectangle {
             MouseArea {
                 id: settingsMA
 
-                anchors.fill: parent
+                x: -132
+                y: -3
+                width: 217
+                height: 129
             }
         }
     }
