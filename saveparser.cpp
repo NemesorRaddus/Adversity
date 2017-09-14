@@ -140,9 +140,9 @@ SaveData SaveParser::readData(QByteArray &array)
         data.buildings.dockingStationThings.activeResourceTransactions.clear();
         data.buildings.dockingStationThings.equipments.clear();
         data.buildings.dockingStationThings.arrivingEquipments.clear();
-        data.resources.energy=200;
+        data.resources.energy=250;
         data.resources.buildingMaterials=5;
-        data.resources.foodSupplies=5;
+        data.resources.foodSupplies=12;
         data.resources.aetheriteOre=50;
         data.alarms.buildingUpgrades.clear();
         data.alarms.missionEnds.clear();
