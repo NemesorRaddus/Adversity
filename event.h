@@ -76,6 +76,9 @@ struct EventEnums
         RT_NoSalary,
         RT_MissionEnd,
         RT_TrainingCompletion,
+        RT_SignalLost,
+        RT_SignalRetrieved,
+        RT_MissionStart,
         RT_END
     };
 
@@ -669,6 +672,55 @@ private:
     QString m_heroArt;
     QString m_heroName;
     BaseEnums::Building m_building;
+};
+
+class SignalLostReport : public Report
+{
+public:
+    SignalLostReport(const QString &heroArt, const QString &heroName, const QString &landName, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_heroName;
+    QString m_landName;
+};
+
+class SignalRetrievedReport : public Report
+{
+public:
+    SignalRetrievedReport(const QString &heroArt, const QString &landName, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_landName;
+};
+
+class MissionStart : public Report
+{
+public:
+    MissionStart(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    int m_stress, m_stressLimit;
 };
 
 class UnifiedReport : public QObject
