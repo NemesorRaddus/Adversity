@@ -54,6 +54,95 @@ void LandsInfo::prepareLandAt(unsigned index) noexcept
         m_preparedLand=(*m_lands)[index];
 }
 
+LoggersHandler::LoggersHandler() noexcept
+{
+    QString path;
+#ifdef ANDROID // QStandardPaths was giving strange paths for Android devices
+    path = "/storage/emulated/0/Android/data/com.raddosgames.adversity";
+#else
+    path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+#endif
+    QDir d;
+    d.mkpath(path);
+    m_output = std::make_shared<spdlog::sinks::rotating_file_sink_st>(path.toStdString()+"/adversity.log",1024*1024,20);
+    m_mainLogger = std::make_shared<spdlog::logger>("main", m_output);
+    m_xmlLogger = std::make_shared<spdlog::logger>("xml", m_output);
+    m_qmlLogger = std::make_shared<spdlog::logger>("qml", m_output);
+
+    spdlog::register_logger(m_mainLogger);
+    spdlog::register_logger(m_xmlLogger);
+    spdlog::register_logger(m_qmlLogger);
+
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%n) %l: %v");
+}
+
+void LoggersHandler::setLevel(spdlog::level::level_enum lvl) noexcept
+{
+    m_mainLogger->set_level(lvl);
+    m_xmlLogger->set_level(lvl);
+    m_qmlLogger->set_level(lvl);
+}
+
+void LoggersHandler::trace(const QString &msg) noexcept
+{
+    m_qmlLogger->trace(msg.toStdString());
+}
+
+void LoggersHandler::debug(const QString &msg) noexcept
+{
+    m_qmlLogger->debug(msg.toStdString());
+}
+
+void LoggersHandler::info(const QString &msg) noexcept
+{
+    m_qmlLogger->info(msg.toStdString());
+}
+
+void LoggersHandler::warn(const QString &msg) noexcept
+{
+    m_qmlLogger->warn(msg.toStdString());
+}
+
+void LoggersHandler::error(const QString &msg) noexcept
+{
+    m_qmlLogger->error(msg.toStdString());
+}
+
+void LoggersHandler::critical(const QString &msg) noexcept
+{
+    m_qmlLogger->critical(msg.toStdString());
+}
+
+void LoggersHandler::traceIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->trace_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::debugIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->debug_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::infoIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->info_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::warnIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->warn_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::errorIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->error_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::criticalIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->critical_if(cond, msg.toStdString());
+}
+
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
@@ -83,6 +172,8 @@ Game::Game(QObject *parent) noexcept
     m_globalsExportToQML=new Global;
 
     connectAutosave();
+
+    m_loggersHandler = new LoggersHandler;m_loggersHandler->mainLogger()->debug("HEJ");
 }
 
 Game::~Game() noexcept
@@ -104,6 +195,8 @@ Game::~Game() noexcept
 
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Game has been deleted";
     delete m_startupTimer;
+
+    delete m_loggersHandler;
 }
 
 void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept

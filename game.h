@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QSettings>
 #include <QElapsedTimer>
+#include <QStandardPaths>
+#include <QDir>
 
 #include <sstream>
 #include <string>
@@ -15,6 +17,11 @@
 #include "assetspool.h"
 #include "translations.h"
 #include "h4x.h"
+
+#include "libs/spdlog-0.14.0/spdlog.h"
+
+#define SPDLOG_TRACE_ON
+#define SPDLOG_DEBUG_ON
 
 #include <QDebug>
 
@@ -103,6 +110,47 @@ private:
     Land *m_preparedLand;
 };
 
+class LoggersHandler : public QObject
+{
+    Q_OBJECT
+
+public:
+    LoggersHandler() noexcept;
+
+    void setLevel(spdlog::level::level_enum lvl) noexcept;
+
+    // For QML only!
+    Q_INVOKABLE void trace(const QString &msg) noexcept;
+    Q_INVOKABLE void debug(const QString &msg) noexcept;
+    Q_INVOKABLE void info(const QString &msg) noexcept;
+    Q_INVOKABLE void warn(const QString &msg) noexcept;
+    Q_INVOKABLE void error(const QString &msg) noexcept;
+    Q_INVOKABLE void critical(const QString &msg) noexcept;
+
+    Q_INVOKABLE void traceIf(bool cond, const QString &msg) noexcept;
+    Q_INVOKABLE void debugIf(bool cond, const QString &msg) noexcept;
+    Q_INVOKABLE void infoIf(bool cond, const QString &msg) noexcept;
+    Q_INVOKABLE void warnIf(bool cond, const QString &msg) noexcept;
+    Q_INVOKABLE void errorIf(bool cond, const QString &msg) noexcept;
+    Q_INVOKABLE void criticalIf(bool cond, const QString &msg) noexcept;
+
+    // these are for C++
+    inline auto mainLogger() noexcept
+    {
+        return m_mainLogger.get();
+    }
+    inline auto xmlLogger() noexcept
+    {
+        return m_xmlLogger.get();
+    }
+
+private:
+    std::shared_ptr <spdlog::sinks::rotating_file_sink_st> m_output;
+    std::shared_ptr <spdlog::logger> m_mainLogger;
+    std::shared_ptr <spdlog::logger> m_xmlLogger;
+    std::shared_ptr <spdlog::logger> m_qmlLogger;
+};
+
 class Game : public QObject
 {
     Q_OBJECT
@@ -113,6 +161,7 @@ class Game : public QObject
     Q_PROPERTY(TranslationsDB* translator MEMBER m_translations)
     Q_PROPERTY(H4X* h4xLogic MEMBER m_h4xLogic)
     Q_PROPERTY(Global* globalsCpp MEMBER m_globalsExportToQML)
+    Q_PROPERTY(LoggersHandler* logger MEMBER m_loggersHandler)
 
     friend class H4X;
 
@@ -189,6 +238,7 @@ private:
     QElapsedTimer *m_startupTimer;
     H4X *m_h4xLogic;
     Global *m_globalsExportToQML;
+    LoggersHandler *m_loggersHandler;
 
     static QQmlApplicationEngine *m_ptrToEngine;
 };
