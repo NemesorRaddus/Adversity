@@ -2407,6 +2407,7 @@ public:
     }
     Q_INVOKABLE void prepareMission(unsigned index) noexcept;
 
+    //reports
     Q_INVOKABLE inline unsigned amountOfReports() const noexcept
     {
         return m_reports.size();
@@ -2418,6 +2419,10 @@ public:
     Q_INVOKABLE void prepareReport(unsigned index) noexcept;
     Q_INVOKABLE void prepareNewReport(unsigned index) noexcept;
     void addReport(UnifiedReport *report) noexcept;
+    inline QVector <UnifiedReport *> &reports() noexcept
+    {
+        return m_reports;
+    }
     Q_INVOKABLE void markReportAsRead(unsigned indexOnAllReportsList) noexcept;
     Q_INVOKABLE void markAllAsRead() noexcept;
     Q_INVOKABLE void removeReport(unsigned index) noexcept;

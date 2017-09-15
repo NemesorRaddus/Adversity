@@ -777,16 +777,27 @@ QString MissionStart::text() const noexcept
     }
 }
 
+unsigned UnifiedReport::m_currentID = 0;
+
 UnifiedReport::UnifiedReport(const Time &time, const QString &msg, const QString &artSource) noexcept
-    : m_time(time), m_msg(msg), m_art(artSource) {}
+    : m_id(m_currentID++), m_time(time), m_msg(msg), m_art(artSource) {}
 
 UnifiedReport::UnifiedReport(Report *sourceToDestroy) noexcept
 {
+    m_id=m_currentID++;
     m_time=sourceToDestroy->time();
     m_art=sourceToDestroy->art();
     m_msg=sourceToDestroy->text();
 
     delete sourceToDestroy;
+}
+
+UnifiedReport::UnifiedReport(const UnifiedReportDataHelper &data) noexcept
+    : m_id(m_currentID++), m_time(data.time), m_msg(data.msg), m_art(data.art) {}
+
+UnifiedReport::operator UnifiedReportDataHelper() const noexcept
+{
+    return {m_id, m_time, m_msg, m_art};
 }
 
 QString UnifiedReport::timestamp() const noexcept
@@ -798,6 +809,28 @@ QString UnifiedReport::timestamp() const noexcept
     r+=" Day ";
     r+=QString::number(m_time.d);
     return r;
+}
+
+QDataStream &operator<<(QDataStream &stream, const UnifiedReportDataHelper &report) noexcept
+{
+    stream<<static_cast<quint32>(report.id);
+    stream<<report.time;
+    stream<<report.msg;
+    stream<<report.art;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, UnifiedReportDataHelper &report) noexcept
+{
+    quint32 uuu;
+    stream>>uuu;
+    report.id=uuu;
+    stream>>report.time;
+    stream>>report.msg;
+    stream>>report.art;
+
+    return stream;
 }
 
 Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
@@ -927,8 +960,20 @@ void Mission::end() noexcept
     m_assignedHero->returnToBase();
 }
 
+
+void Mission::addRelatedReport(UnifiedReport *report) noexcept
+{
+    m_relatedReports+=report;
+}
+
+void Mission::prepareReport(unsigned index) noexcept
+{
+    if (index<m_relatedReports.size())
+        m_preparedRelatedReport=m_relatedReports[index];
+}
+
 Mission::Mission() noexcept
-    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_currentEncounter(0), m_minutesSinceMidnightForLastEncounter(-1), m_assignedHero(nullptr) {}
+    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_currentEncounter(0), m_minutesSinceMidnightForLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
 
 void Mission::planNextEncounter() noexcept
 {
@@ -983,6 +1028,7 @@ QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) n
     stream<<static_cast<qint16>(mission.currentEncounter);
     stream<<static_cast<qint16>(mission.minutesSinceMidnightForLastEncounter);
     stream<<mission.hero;
+    stream<<mission.relatedReportsIDs;
 
     return stream;
 }
@@ -1015,6 +1061,8 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
     mission.minutesSinceMidnightForLastEncounter=ii;
 
     stream>>mission.hero;
+
+    stream>>mission.relatedReportsIDs;
 
     return stream;
 }
@@ -1089,6 +1137,14 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
             break;
         }
 
+    for (const auto &e : mission.relatedReportsIDs)
+        for (auto &f : base->reports())
+            if (f->id() == e)
+            {
+                r->addRelatedReport(f);
+                break;
+            }
+
     return r;
 }
 
@@ -1110,6 +1166,8 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     r.currentEncounter = mission->m_currentEncounter;
     r.minutesSinceMidnightForLastEncounter = mission->m_minutesSinceMidnightForLastEncounter;
     r.hero = mission->assignedHero()->name();
+    for (const auto &e : mission->reports())
+        r.relatedReportsIDs+=e->id();
 
     return r;
 }

@@ -1856,6 +1856,9 @@ void Base::loadSaveData(const SaveData &data) noexcept
 
     m_database->setUnlocksInfo(data.database.unlocks);//database
 
+    for (const auto &e : data.missions.reports)//reports
+        m_reports+=new UnifiedReport{e};
+
     for (auto e : data.missions.missions)//missions
         m_missions+=MissionBuilder::qobjectifyMissionData(e,this);
 
@@ -1877,9 +1880,6 @@ void Base::loadSaveData(const SaveData &data) noexcept
             }
         m_gameClock->addMissionAlarm(ma.first,ma.second);
     }
-
-    for (const auto &e : data.missions.reports)
-        m_reports+=new UnifiedReport{e.first,e.second.first,e.second.second};
 }
 
 SaveData Base::getSaveData() noexcept
@@ -2023,7 +2023,7 @@ SaveData Base::getSaveData() noexcept
         data.missions.missions+=MissionBuilder::deqobjectifyMission(e);
 
     for (const auto &e : m_reports)
-        data.missions.reports+={e->time(),{e->msg(),e->artSource()}};
+        data.missions.reports+=*e;
 
     return data;
 }

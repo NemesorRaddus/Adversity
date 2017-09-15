@@ -723,6 +723,14 @@ private:
     int m_stress, m_stressLimit;
 };
 
+struct UnifiedReportDataHelper
+{
+    unsigned id;
+    Time time;
+    QString msg;
+    QString art;
+};
+
 class UnifiedReport : public QObject
 {
     Q_OBJECT
@@ -730,7 +738,14 @@ class UnifiedReport : public QObject
 public:
     UnifiedReport(const Time &time, const QString &msg, const QString &artSource = {}) noexcept;
     UnifiedReport(Report *sourceToDestroy) noexcept;
+    UnifiedReport(const UnifiedReportDataHelper &data) noexcept;
 
+    operator UnifiedReportDataHelper() const noexcept;
+
+    inline unsigned id() const noexcept
+    {
+        return m_id;
+    }
     Q_INVOKABLE QString timestamp() const noexcept;
     Q_INVOKABLE inline QString msg() const noexcept
     {
@@ -747,10 +762,15 @@ public:
     }
 
 private:
+    static unsigned m_currentID;
+    unsigned m_id;
     Time m_time;
     QString m_msg;
     QString m_art;
 };
+
+QDataStream &operator<<(QDataStream &stream, const UnifiedReportDataHelper &report) noexcept;
+QDataStream &operator>>(QDataStream &stream, UnifiedReportDataHelper &report) noexcept;
 
 class Encounter
 {
@@ -859,6 +879,7 @@ class Mission : public QObject
 
     Q_PROPERTY(Hero* hero MEMBER m_assignedHero)
     Q_PROPERTY(Land* land MEMBER m_land)
+    Q_PROPERTY(UnifiedReport* preparedReport MEMBER m_preparedRelatedReport)
 
 public:
     typedef unsigned MissionDay;
@@ -902,6 +923,17 @@ public:
 
     void end() noexcept;
 
+    void addRelatedReport(UnifiedReport *report) noexcept;
+    Q_INVOKABLE void prepareReport(unsigned index) noexcept;
+    Q_INVOKABLE inline unsigned amountOfReports() const noexcept
+    {
+        return m_relatedReports.size();
+    }
+    inline QVector <UnifiedReport *> &reports() noexcept
+    {
+        return m_relatedReports;
+    }
+
 private:
     Mission() noexcept;
 
@@ -920,6 +952,8 @@ private:
     unsigned m_currentEncounter;
     int m_minutesSinceMidnightForLastEncounter;
     Hero *m_assignedHero;
+    QVector <UnifiedReport *> m_relatedReports;
+    UnifiedReport *m_preparedRelatedReport;
 };
 
 struct MissionDataHelper
@@ -931,6 +965,7 @@ struct MissionDataHelper
     unsigned currentEncounter;
     int minutesSinceMidnightForLastEncounter;
     QString hero;
+    QVector <unsigned> relatedReportsIDs;
 };
 
 QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) noexcept;
