@@ -2056,6 +2056,9 @@ void Base::startNewDay() noexcept
     for (int i=0;i<timeoutedAlarms.size();++i)
         delete timeoutedAlarms[i];
 
+    for (auto &e : m_missions)
+        e->decrementDuration();
+
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());
 
     for (auto heroName : m_heroDockingStationBans.keys())
@@ -2137,6 +2140,26 @@ void Base::decreaseBuildingMaterialsAmount(unsigned amount) noexcept
 void Base::decreaseAetheriteAmount(unsigned amount) noexcept
 {
     m_aetherite = m_aetherite>amount ? m_aetherite-amount : 0;
+}
+
+void Base::increaseEnergyAmount(unsigned amount) noexcept
+{
+    m_energy = m_energy+amount<currentEnergyLimit() ? m_energy+amount : currentEnergyLimit();
+}
+
+void Base::increaseFoodSuppliesAmount(unsigned amount) noexcept
+{
+    m_foodSupplies = m_foodSupplies+amount<currentFoodSuppliesLimit() ? m_foodSupplies+amount : currentFoodSuppliesLimit();
+}
+
+void Base::increaseBuildingMaterialsAmount(unsigned amount) noexcept
+{
+    m_buildingMaterials = m_buildingMaterials+amount<currentBuildingMaterialsLimit() ? m_buildingMaterials+amount : currentBuildingMaterialsLimit();
+}
+
+void Base::increaseAetheriteAmount(unsigned amount) noexcept
+{
+    m_aetherite = m_aetherite+amount<currentAetheriteLimit() ? m_aetherite+amount : currentAetheriteLimit();
 }
 
 int Base::currentEnergyIncome() const noexcept
@@ -2264,6 +2287,17 @@ void Base::startMission(Mission *mission) noexcept
     m_missions+=mission;
 }
 
+void Base::removeMission(Mission *mission) noexcept
+{
+    for (int i=0;i<m_missions.size();++i)
+        if (m_missions[i] == mission)
+        {
+            delete m_missions[i];
+            m_missions.remove(i);
+            break;
+        }
+}
+
 void Base::prepareMission(unsigned index) noexcept
 {
     if (index<m_missions.size())
@@ -2326,6 +2360,21 @@ void Base::clearReports() noexcept
     for (auto &e : m_reports)
         delete e;
     m_reports.clear();
+}
+
+int Base::remainingMissionDaysForHero(const QString &heroName)
+{
+    for (const auto &e : m_heroes->heroes())
+        if (e->name() == heroName)
+        {
+            if (e->currentActivity() != HeroEnums::CA_OnMission)
+                return -2;
+            if (e->isCommunicationAvailable())
+                return e->assignedMission()->fullDuration();
+            else
+                return -1;
+        }
+    return -3;
 }
 
 void Base::activateBuildingsAtDayEnd() noexcept

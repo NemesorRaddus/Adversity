@@ -799,6 +799,19 @@ const Equipment *Hero::weaponTool(unsigned slot) const noexcept
     return m_weaponsTools.value(slot,nullptr);
 }
 
+bool Hero::hasWeaponToolInSlot(unsigned slot) const noexcept
+{
+    if (slot>=m_amountOfWeaponToolSlots)
+        return 0;
+    return m_weaponsTools[slot]!=nullptr;
+}
+
+void Hero::prepareWeaponTool(unsigned slot) noexcept
+{
+    if (slot<m_amountOfWeaponToolSlots)
+        m_preparedWeaponTool=m_weaponsTools[slot];
+}
+
 void Hero::equipArmor(Equipment *armor) noexcept
 {
     if (armor!=nullptr)
@@ -913,15 +926,11 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
 {
     m_noSignalDaysRemaining = noSignalDaysRemaining;
     if (m_noSignalDaysRemaining == 0)
-    {
-        for (auto &e : m_waitingReports)
-            m_base->addReport(e);
-        m_waitingReports.clear();
-    }
+        sendWaitingReports();
 }
 
 Hero::Hero(Base *base) noexcept
-    : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+    : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_preparedWeaponTool(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
     m_stressBorderEffects.reserve(1);
     m_stressBorderEffects.push_back({HeroEnums::SBE_None});
@@ -966,6 +975,13 @@ void Hero::addWaitingReport(UnifiedReport *report) noexcept
     m_waitingReports+=report;
 }
 
+void Hero::sendWaitingReports() noexcept
+{
+    for (auto &e : m_waitingReports)
+        m_base->addReport(e);
+    m_waitingReports.clear();
+}
+
 QString Hero::currentActivityString() const noexcept
 {
     return HeroEnums::fromCurrentActivityEnumToQString(m_currentActivity);
@@ -990,19 +1006,75 @@ void Hero::dismiss(unsigned banDays) noexcept
 
 void Hero::handleNewDay() noexcept
 {
-    handleSBEAtDayEnd();
-    handleHunger();
-    handleEquipmentCosts();
+    if (!m_isDead)
+    {
+        handleSBEAtDayEnd();
+        handleHunger();
+        handleEquipmentCosts();
+    }
 }
 
 void Hero::handleNewWeek() noexcept
 {
-    handleSalary();
+    if (!m_isDead)
+        handleSalary();
 }
 
 void Hero::returnToBase() noexcept
 {
-    //TODO
+    m_base->increaseAetheriteAmount(m_carriedAetheriteOre);
+    m_base->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
+    m_base->increaseEnergyAmount(m_carriedEnergy);
+    m_base->increaseFoodSuppliesAmount(m_carriedFoodSupplies);
+
+    m_carriedAetheriteOre=0;
+    m_carriedBuildingMaterials=0;
+    m_carriedEnergy=0;
+    m_carriedFoodSupplies=0;
+
+    for (auto &e : m_carriedEquipment)
+        m_base->availableEquipment() += e;
+
+    m_carriedEquipment.clear();
+
+    if (m_armor!=nullptr)
+        m_base->availableEquipment() += m_armor;
+    for (auto &e : m_weaponsTools)
+        if (e!=nullptr)
+            m_base->availableEquipment() += e;
+
+    m_armor = nullptr;
+    m_weaponsTools.fill(nullptr);
+    m_currentEquipmentCategories.clear();
+    m_preparedWeaponTool=nullptr;
+    m_isEquipmentActive = false;
+
+    m_assignedMission = nullptr;
+    m_currentActivity = HeroEnums::CA_Idle;
+    m_noSignalDaysRemaining = 0;
+
+    sendWaitingReports();
+
+    calculateCurrentAttributeValues();
+}
+
+void Hero::die() noexcept
+{
+    m_isDead=1;
+    m_currentAttributesValues.health=0;
+    if (isCommunicationAvailable())
+        emit died(name());
+    else
+        becomeMIA();
+}
+
+void Hero::becomeMIA() noexcept
+{
+    if (m_currentActivity==HeroEnums::CA_OnMission && m_assignedMission!=nullptr)
+    {
+        m_noSignalDaysRemaining=-1;
+        m_assignedMission->forceEndSilently();
+    }
 }
 
 void Hero::activateStressBorderEffect() noexcept
@@ -1028,14 +1100,6 @@ void Hero::deactivateStressBorderEffect() noexcept
 
         calculateCurrentAttributeValues();
     }
-}
-
-void Hero::die() noexcept
-{
-    m_isDead=1;
-    m_currentAttributesValues.health=0;
-    emit died(name());
-    //TODO
 }
 
 void Hero::setArmor(Equipment *armor) noexcept
@@ -2382,7 +2446,11 @@ void HeroesContainer::removeHero(unsigned index) noexcept
         else if (m_heroes[index]->currentActivity() == HeroEnums::CA_Arriving)
             m_basePtr->dockingStation()->cancelHeroArrival(m_heroes[index]->name());
         else if (m_heroes[index]->currentActivity() == HeroEnums::CA_OnMission)
-            ;//TODO missions
+        {
+            auto m=m_heroes[index]->assignedMission();
+            m->forceEnd();
+            m_basePtr->removeMission(m);
+        }
         Game::gameInstance()->assetsPool().unloadHero(m_heroes[index]->name());
         m_heroes.remove(index);
     }

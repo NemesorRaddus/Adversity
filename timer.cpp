@@ -210,6 +210,12 @@ void TimerAlarmsContainer::setMissionAlarms(const QVector<QPair<Time, Mission *>
     m_missionAlarms=alarms;
 }
 
+void TimerAlarmsContainer::removeAlarmsConnectedWithMission(const Mission *mission) noexcept
+{
+    removeMissionAlarms(mission);
+    removeMissionEndAlarm(mission);
+}
+
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
 {
     for (int i=0;i<m_alarms.size();++i)
@@ -229,6 +235,26 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
         r.push_back(m_alarms[i].second);
     m_alarms.remove(0,i);
     return r;
+}
+
+void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
+{
+    for (int i=0;i<m_missionAlarms.size();++i)
+        if (m_missionAlarms[i].second == mission)
+        {
+            m_missionAlarms.remove(i);
+            break;
+        }
+}
+
+void TimerAlarmsContainer::removeMissionEndAlarm(const Mission *mission) noexcept
+{
+    for (int i=0;i<m_alarms.size();++i)
+        if (m_alarms[i].second->type() == TimerAlarmEnums::AT_MissionEnd && static_cast<MissionEndTimerAlarm *>(m_alarms[i].second)->mission() == mission)
+        {
+            m_alarms.remove(i);
+            break;
+        }
 }
 
 Time::Time() noexcept

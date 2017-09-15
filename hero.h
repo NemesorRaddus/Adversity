@@ -170,9 +170,12 @@ class Hero : public QObject
     Q_OBJECT
 
     friend class HeroBuilder;
-    friend class KillHeroEventResult;
     friend class QDataStream;
     friend class H4X;
+
+    Q_PROPERTY(Mission* assignedMission MEMBER m_assignedMission)
+    Q_PROPERTY(Equipment* preparedArmor MEMBER m_armor)
+    Q_PROPERTY(Equipment* preparedWeaponTool MEMBER m_preparedWeaponTool)
 
 public:
     Q_INVOKABLE inline QString name() const noexcept
@@ -367,6 +370,12 @@ public:
     {
         return m_amountOfWeaponToolSlots;
     }
+    Q_INVOKABLE inline bool hasArmor() const noexcept
+    {
+        return m_armor!=nullptr;
+    }
+    Q_INVOKABLE bool hasWeaponToolInSlot(unsigned slot) const noexcept;
+    Q_INVOKABLE void prepareWeaponTool(unsigned slot) noexcept;
 
     void equipArmor(Equipment *armor) noexcept;
     void unequipArmor() noexcept;
@@ -444,6 +453,7 @@ public:
     void assignMission(Mission *mission) noexcept;
 
     void addWaitingReport(UnifiedReport *report) noexcept;
+    void sendWaitingReports() noexcept;
 
     inline HeroEnums::CurrentActivity currentActivity() const noexcept
     {
@@ -460,6 +470,9 @@ public:
     void handleNewWeek() noexcept;
 
     void returnToBase() noexcept;
+
+    void die() noexcept;
+    void becomeMIA() noexcept;
 
     inline Base *base() noexcept
     {
@@ -493,7 +506,6 @@ private:
     void activateStressBorderEffect() noexcept;
     void deactivateStressBorderEffect() noexcept;
 
-    void die() noexcept;
     void setArmor(Equipment *armor) noexcept;
     void setWeaponTool(Equipment *weaponTool, int slot) noexcept;
 
@@ -535,6 +547,7 @@ private:
     Equipment *m_armor;
     QVector <Equipment *> m_weaponsTools;
     static const unsigned m_amountOfWeaponToolSlots = 2;
+    Equipment *m_preparedWeaponTool;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
     QVector <Equipment *> m_carriedEquipment;
     bool m_isEquipmentActive;

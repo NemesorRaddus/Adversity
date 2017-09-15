@@ -960,6 +960,21 @@ void Mission::end() noexcept
     m_assignedHero->returnToBase();
 }
 
+void Mission::forceEnd() noexcept
+{
+    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    end();
+}
+
+void Mission::forceEndSilently() noexcept
+{
+    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+}
+
+void Mission::abort() noexcept
+{
+    m_assignedHero->die();
+}
 
 void Mission::addRelatedReport(UnifiedReport *report) noexcept
 {

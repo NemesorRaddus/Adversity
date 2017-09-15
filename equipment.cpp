@@ -1,5 +1,7 @@
 #include "equipment.h"
 
+#include "game.h"
+
 #include <QDebug>
 
 EquipmentEnums::Type EquipmentEnums::fromQStringToTypeEnum(const QString &type) noexcept
@@ -250,6 +252,20 @@ unsigned Equipment::maintenanceBuildingMaterialsCost() const noexcept
             return 2;
         }
     }
+}
+
+QString Equipment::pathToArt() const noexcept
+{
+    QString r = "qrc:/graphics/Equipment/";
+    if (m_type == EquipmentEnums::T_Armor)
+        r+="Armor";
+    else
+        r+="WeaponTool";
+    r+="/Tier_";
+    r+=QString::number(m_tier);
+    r+=Global::alterNormalTextToInternal(m_name);
+    r+=".png";
+    return r;
 }
 
 Equipment::Equipment() noexcept

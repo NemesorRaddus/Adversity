@@ -167,6 +167,7 @@ public:
         return m_missionAlarms;
     }
     void setMissionAlarms(const QVector <QPair <Time, Mission *> > &alarms) noexcept;
+    void removeAlarmsConnectedWithMission(const Mission *mission) noexcept;
 
 protected:
     Base *m_base;
@@ -174,6 +175,8 @@ protected:
 private:
     void decreaseDaysToTimeout() noexcept;
     QVector <TimerAlarm *> takeTimeoutedAlarms() noexcept;
+    void removeMissionAlarms(const Mission *mission) noexcept;
+    void removeMissionEndAlarm(const Mission *mission) noexcept;
 
     QVector <QPair <unsigned, TimerAlarm *> > m_alarms;
     QVector <QPair <Time, Mission *> > m_missionAlarms;

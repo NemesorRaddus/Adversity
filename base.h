@@ -2327,6 +2327,11 @@ public:
     void decreaseBuildingMaterialsAmount(unsigned amount) noexcept;
     void decreaseAetheriteAmount(unsigned amount) noexcept;
 
+    void increaseEnergyAmount(unsigned amount) noexcept;
+    void increaseFoodSuppliesAmount(unsigned amount) noexcept;
+    void increaseBuildingMaterialsAmount(unsigned amount) noexcept;
+    void increaseAetheriteAmount(unsigned amount) noexcept;
+
     Q_INVOKABLE int currentEnergyIncome() const noexcept;
     Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept;
     Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept;
@@ -2400,6 +2405,7 @@ public:
     {
         return m_database;
     }
+    void removeMission(Mission *mission) noexcept;
 
     Q_INVOKABLE inline unsigned amountOfMissions() const noexcept
     {
@@ -2427,6 +2433,8 @@ public:
     Q_INVOKABLE void markAllAsRead() noexcept;
     Q_INVOKABLE void removeReport(unsigned index) noexcept;
     Q_INVOKABLE void clearReports() noexcept;
+
+    Q_INVOKABLE int remainingMissionDaysForHero(const QString &heroName);
 
     //game
     inline Game *gameObject() noexcept

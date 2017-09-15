@@ -104,6 +104,8 @@ public:
     Q_INVOKABLE unsigned maintenanceEnergyCost() const noexcept;
     Q_INVOKABLE unsigned maintenanceBuildingMaterialsCost() const noexcept;
 
+    Q_INVOKABLE QString pathToArt() const noexcept;
+
 private:
     Equipment() noexcept;
 

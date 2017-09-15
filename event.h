@@ -906,6 +906,10 @@ public:
     {
         return m_remainingDays;
     }
+    Q_INVOKABLE inline unsigned daysSpent() const noexcept
+    {
+        return fullDuration()-remainingDays();
+    }
     void decrementDuration() noexcept;
 
     void assignHero(Hero *hero) noexcept;
@@ -922,6 +926,9 @@ public:
     EncounterReport *doEncounter() noexcept;
 
     void end() noexcept;
+    void forceEnd() noexcept;
+    void forceEndSilently() noexcept;
+    void abort() noexcept;
 
     void addRelatedReport(UnifiedReport *report) noexcept;
     Q_INVOKABLE void prepareReport(unsigned index) noexcept;
