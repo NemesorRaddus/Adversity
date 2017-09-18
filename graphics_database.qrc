@@ -14,5 +14,8 @@
         <file>graphics/Database/Lands/AuroraForest.png</file>
         <file>graphics/Database/Lands/GedoDesert.png</file>
         <file>graphics/Database/Lands/HegosPlains.png</file>
+        <file>graphics/Database/Animals/Morgai.png</file>
+        <file>graphics/Database/Animals/Nibbler.png</file>
+        <file>graphics/Database/Animals/Splitterhound.png</file>
     </qresource>
 </RCC>
