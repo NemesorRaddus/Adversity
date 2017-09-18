@@ -12,22 +12,36 @@ Item {
     width: 1080
     height: 1440
 
-    signal backClicked()
     signal reportsClicked()
     signal mercenaryClicked()
     signal missionManagementClicked()
 
-    function setItem(name)
-    {
+    property string name_
 
+    function update()
+    {
+        var am = GameApi.base.heroes.amountOfHeroes();
+        var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
+        for (var i=0;i<am;++i)
+        {
+            GameApi.base.heroes.prepareHeroAt(i);
+            if (intName == GameApi.base.heroes.preparedHero.name())
+            {
+                var normalLandName = GameApi.base.heroes.preparedHero.assignedMission.land.name();
+                landArt.source = "qrc:/graphics/Missions/Lands/" + GameApi.globalsCpp.alterNormalTextToInternal(normalLandName) + ".png";
+                infoText.set(name_,normalLandName,GameApi.base.heroes.preparedHero.assignedMission.daysSpent());
+                signalIcon.set(GameApi.base.heroes.preparedHero.isCommunicationAvailable());
+                missionLengthIcon.set(normalLandName,GameApi.base.heroes.preparedHero.assignedMission.difficultyString());
+                sbeActivationIcon.set(GameApi.base.heroes.preparedHero.isStressBorderEffectActive());
+                break;
+            }
+        }
     }
 
-    state: "hiddenDown"
-
-    Rectangle {
-        anchors.fill: parent
-
-        color: "#171717"
+    function setHero(name)
+    {
+        name_ = name;
+        update();
     }
 
     Item {
@@ -51,6 +65,7 @@ Item {
             radius: 60
             samples: 120
             deviation: 30
+            cached: true
         }
     }
     Image {
@@ -71,16 +86,22 @@ Item {
     }
 
     Text {
+        id: infoText
+
         x: 0
         y: 0
         width: root.width
 
         horizontalAlignment: Text.AlignHCenter
 
+        function set(name, land, daysOnMission)
+        {
+            text = "\nMercenary:\n"+name+"\n\nLand:\n"+land+"\n\nDays on mission:\n"+daysOnMission+"\n";
+        }
+
         color: "#94ef94"
         font.family: fontStencil.name
         font.pixelSize: 80
-        text: "\nMercenary:\nPaul Luft\n\nLand:\nHegos Plains\n\nDays on mission:\n10\n"
     }
 
     Item {
@@ -158,9 +179,9 @@ Item {
             width: 128
             height: width
 
-            function update()
+            function set(signalOn)
             {
-                source = "qrc:/graphics/GUI/" + (root.signalOn_ ? "Connected" : "Disconnected") + ".png";
+                source = "qrc:/graphics/GUI/" + (signalOn ? "Connected" : "Disconnected") + ".png";
             }
 
             source: "qrc:/graphics/GUI/Connected.png"
@@ -173,17 +194,17 @@ Item {
             width: 192
             height: width
 
-            function update()
+            function set(land, length)
             {
                 var s1,s2;
-                s1=GameApi.globalsCpp.alterNormalTextToInternal(land_);
-                if (missionLength_ == "Short")
+                s1=GameApi.globalsCpp.alterNormalTextToInternal(land);
+                if (length == "Short")
                     s2="1";
-                else if (missionLength_ == "Medium")
+                else if (length == "Medium")
                     s2="2";
-                else if (missionLength_ == "Long")
+                else if (length == "Long")
                     s2="3";
-                else if (missionLength_ == "Extreme")
+                else if (length == "Extreme")
                     s2="4";
                 source = "qrc:/graphics/GUI/MissionLength/"+s1+s2+".png";
             }
@@ -197,66 +218,29 @@ Item {
             width: 128
             height: width
 
-            function update()
+            function set(sbeOn)
             {
-                visible = root.sbeOn_;
+                visible = sbeOn;
             }
 
             source: "qrc:/graphics/GUI/Attributes/StressLimit.png"
         }
     }
 
-    Image {
-        id: taskBorder
-
-        x: 17
-        y: 1386
-        width: 1046
-        height: 3
-
-        source: "qrc:/graphics/GUI/Task_Border.png"
-    }
-
-    Item {
-        id: back
-
-        x: 17
-        y: 1396
-        width: 1048
-        height: 68
-
-        Text {
-            id: backText
-
-            anchors.fill: parent
-            color: "#94ef94"
-            text: "Back"
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 60
-            font.family: fontStencil.name
-        }
-        MouseArea {
-            id: backButton
-
-            anchors.rightMargin: 421
-            anchors.leftMargin: 418
-
-            anchors.fill: parent
-
-            onClicked: backClicked()
-        }
-    }
-
     states: [
         State {
-            name: "hiddenDown"
-            PropertyChanges { target: root; y: height }
+            name: "hiddenLeft"
+            PropertyChanges { target: root; x: -width }
+        },
+        State {
+            name: "hiddenRight"
+            PropertyChanges { target: root; x: width }
         }
     ]
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 300 }
+            NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
         }
     ]
 

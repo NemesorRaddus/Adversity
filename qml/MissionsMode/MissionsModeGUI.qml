@@ -35,8 +35,8 @@ Item {
         missionSelectionMenu.state = "hiddenRight2";
         missionStartMenu.state = "hiddenRight";
         map.state = "";
-        missionsList.state = "hidden";
-        missionView.state = "hiddenDown";
+        missionsList.hide();
+        missionViewMenu.state = "hiddenDown";
     }
 
     function updateEverything()
@@ -89,14 +89,18 @@ Item {
                 database.hide();
             return true;
         }
-        else if (missionView.state == "")
+        else if (missionViewMenu.state == "")
         {
-            missionView.state = "hiddenDown";
+            if (!missionViewMenu.reactToBackOnToolbar())
+            {
+                missionViewMenu.state = "hiddenDown";
+                missionsList.state = "";
+            }
             return true;
         }
         else if (missionsList.state == "")
         {
-            missionsList.state = "hiddenUp";
+            missionsList.hide();
             return true;
         }
         else
@@ -178,17 +182,17 @@ Item {
         height: root.height
 
         onSelected: {
-            missionView.setItem(name);
+            missionViewMenu.setHero(name);
             state = "hiddenUp";
-            missionView.state = "";
+            missionViewMenu.state = "";
         }
 
         onBackClicked: {
             hide();
         }
     }
-    MissionView {
-        id: missionView
+    MissionViewMenu {
+        id: missionViewMenu
 
         x: 0
         y: 0

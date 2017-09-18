@@ -1,13 +1,66 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 
+import Game 1.0
+
 Item {
     id: root
 
     width: 1080
     height: 1440
 
-    signal backClicked()
+    property string name_
+
+    signal abortClicked()
+
+    function reactToBackOnToolbar()
+    {
+        return false;
+    }
+
+    function updateEverything()
+    {
+        var am=GameApi.base.heroes.amountOfHeroes();
+        var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
+        for (var i=0;i<am;++i)
+        {
+            GameApi.base.heroes.prepareHeroAt(i);
+            if (GameApi.base.heroes.preparedHero.name() == intName)
+            {
+                if (GameApi.base.heroes.preparedHero.isCommunicationAvailable())
+                {
+                    connectionBackground.source = "qrc:/graphics/GUI/Connected.png";
+                    connectionLostText.stopShowing();
+                    noSignalAbortText.setNoSignal(false);
+                }
+                else
+                {
+                    connectionBackground.source = "qrc:/graphics/GUI/Disconnected.png";
+                    connectionLostText.startShowing();
+                    noSignalAbortText.setNoSignal(true);
+                }
+
+                break;
+            }
+        }
+    }
+
+    function setHero(heroName)
+    {
+        name_=heroName;
+        updateEverything();
+    }
+
+    function show()
+    {
+        state = "";
+        abortMA.visible = true;
+    }
+    function hide()
+    {
+        state = "hidden";
+        abortMA.visible = false;
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -33,6 +86,7 @@ Item {
         radius: 60
         samples: 120
         deviation: 30
+        cached: true
     }
 
     Item {
@@ -51,7 +105,25 @@ Item {
             text: "Abort"
         }
         MouseArea {
+            id: abortMA
+
             anchors.fill: parent
+
+            visible: false
+
+            onClicked: {
+                var am=GameApi.base.heroes.amountOfHeroes();
+                for (var i=0;i<am;++i)
+                {
+                    GameApi.base.heroes.prepareHeroAt(i);
+                    if (GameApi.base.heroes.preparedHero.name() == name_)
+                    {
+                        GameApi.base.heroes.preparedHero.assignedMission.abort();
+                        root.abortClicked();
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -68,6 +140,8 @@ Item {
         font.family: fontStencil.name
         font.pixelSize: 100
         text: "Connection lost!"
+
+        property bool isShowing: false
 
         function startShowing()
         {
@@ -156,10 +230,19 @@ Item {
 
         horizontalAlignment: Text.AlignHCenter
 
+        visible: false
+
+        function setNoSignal(noSignal)
+        {
+            if (noSignal)
+                text = "We've lost track of "+GameApi.tr(root.name_)+". It means that something disrupts connection or connection module in the suit is damaged. In the worst case this mercenary is dead. Each day without a sign of living influences stress level of all mercenaries (including the lost one), especially with similar character type.";
+            else
+                text = "";
+        }
+
         color: "#94ef94"
         font.family: fontStencil.name
         font.pixelSize: 50
-        text: "We've lost track of Paul Luft. It means that something disrupts connection or connection module in the suit is damaged. In the worst case this mercenary is dead. Each day without a sign of living influences stress level of all mercenaries (including the lost one), especially with similar character type."
         wrapMode: Text.WordWrap
     }
 
@@ -179,35 +262,18 @@ Item {
         wrapMode: Text.WordWrap
     }
 
-    Item {
-        id: back
-
-        x: 17
-        y: 1396
-        width: 1048
-        height: 68
-
-        Text {
-            id: backText
-
-            anchors.fill: parent
-            color: "#94ef94"
-            text: "Back"
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 60
-            font.family: fontStencil.name
+    states: [
+        State {
+            name: "hidden"
+            PropertyChanges { target: root; opacity: 0.0 }
         }
-        MouseArea {
-            id: backButton
+    ]
 
-            anchors.rightMargin: 421
-            anchors.leftMargin: 418
-
-            anchors.fill: parent
-
-            onClicked: backClicked()
+    transitions: [
+        Transition {
+            NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 500 }
         }
-    }
+    ]
 
     FontLoader {
         id: fontStencil

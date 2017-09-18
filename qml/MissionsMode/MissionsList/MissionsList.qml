@@ -57,6 +57,9 @@ Item {
         fade.start();
     }
 
+    width: 1080
+    height: 1440
+
     state: "hidden"
 
     property int startY
@@ -66,12 +69,10 @@ Item {
     signal selected(string name)
     signal backClicked()
 
-    Image {
-        id: additionalBackground
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     Item {
@@ -178,7 +179,7 @@ Item {
         id: taskBorder
 
         x: 14
-        y: back.y - 3
+        y: back.y - 8
         width: 1046
         height: 3
 
@@ -189,7 +190,7 @@ Item {
         id: back
 
         x: 0
-        y: root.height - height - 10
+        y: root.height - height + 15
         width: root.width
         height: backText.font.pixelSize + 6
 

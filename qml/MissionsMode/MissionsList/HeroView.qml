@@ -1,141 +1,153 @@
 import QtQuick 2.9
 import Game 1.0
 
+import "../.."
+
 Item {
     id: root
 
     width: 1080
     height: 1440
-    property alias back: back
 
-    signal backClicked()
-    signal exploreClicked()
+    property string heroName_: ""
 
-    function returnToDefault()
+    function updateEverything()
     {
-        updateDelegate();
-        armorArt.source = "qrc:/graphics/GUI/Slots/ArmourSlot.png";
-        weapon1Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
-        weapon2Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
-        weapon1.name = "";
-        weapon2.name = "";
-
-        predictionNotEnoughResourcesText.checkResources();
-
-        forceActiveFocus();
-    }
-
-    function reactToBackOnToolbar()
-    {
-        return false;
-    }
-
-    function updateDelegate()
-    {
-        if (GameApi.base.missionInitializer.isHeroSelected())
+        var am=GameApi.base.heroes.amountOfHeroes();
+        var intName = GameApi.globalsCpp.alterNormalTextToInternal(heroName_);
+        for (var i=0;i<am;++i)
         {
-            delegate.setEmpty(false);
+            GameApi.base.heroes.prepareHeroAt(i);
+            if (GameApi.base.heroes.preparedHero.name() == intName)
+            {
+                delegate.setName(heroName_);
+                delegate.setArtSource(GameApi.base.heroes.preparedHero.pathToArt());
+                delegate.setProfession(GameApi.base.heroes.preparedHero.professionString());
 
-            delegate.setProfession(GameApi.base.missionInitializer.selectedHero.professionString());
+                var ce=GameApi.base.heroes.preparedHero.combatEffectiveness();
+                var pr=GameApi.base.heroes.preparedHero.proficiency();
+                var cl=GameApi.base.heroes.preparedHero.cleverness();
+                var hp=GameApi.base.heroes.preparedHero.health();
+                var hpMax=GameApi.base.heroes.preparedHero.healthLimit();
+                var st=GameApi.base.heroes.preparedHero.stress();
+                var sr=GameApi.base.heroes.preparedHero.stressResistance();
+                var sl=GameApi.base.heroes.preparedHero.stressLimit();
+                var sa=GameApi.base.heroes.preparedHero.salary();
+                var fc=GameApi.base.heroes.preparedHero.dailyFoodConsumption();
 
-            var ce=GameApi.base.missionInitializer.selectedHero.combatEffectiveness();
-            var pr=GameApi.base.missionInitializer.selectedHero.proficiency();
-            var cl=GameApi.base.missionInitializer.selectedHero.cleverness();
-            var hp=GameApi.base.missionInitializer.selectedHero.health();
-            var hpMax=GameApi.base.missionInitializer.selectedHero.healthLimit();
-            var st=GameApi.base.missionInitializer.selectedHero.stress();
-            var sr=GameApi.base.missionInitializer.selectedHero.stressResistance();
-            var sl=GameApi.base.missionInitializer.selectedHero.stressLimit();
-            var sa=GameApi.base.missionInitializer.selectedHero.salary();
-            var fc=GameApi.base.missionInitializer.selectedHero.dailyFoodConsumption();
+                var bce=GameApi.base.heroes.preparedHero.baseCombatEffectiveness();
+                var bpr=GameApi.base.heroes.preparedHero.baseProficiency();
+                var bcl=GameApi.base.heroes.preparedHero.baseCleverness();
+                var bhpMax=GameApi.base.heroes.preparedHero.baseHealthLimit();
+                var bsr=GameApi.base.heroes.preparedHero.baseStressResistance();
+                var bsl=GameApi.base.heroes.preparedHero.baseStressLimit();
+                var bsa=GameApi.base.heroes.preparedHero.baseSalary();
+                var bfc=GameApi.base.heroes.preparedHero.baseDailyFoodConsumption();
 
-            var bce=GameApi.base.missionInitializer.selectedHero.baseCombatEffectiveness();
-            var bpr=GameApi.base.missionInitializer.selectedHero.baseProficiency();
-            var bcl=GameApi.base.missionInitializer.selectedHero.baseCleverness();
-            var bhpMax=GameApi.base.missionInitializer.selectedHero.baseHealthLimit();
-            var bsr=GameApi.base.missionInitializer.selectedHero.baseStressResistance();
-            var bsl=GameApi.base.missionInitializer.selectedHero.baseStressLimit();
-            var bsa=GameApi.base.missionInitializer.selectedHero.baseSalary();
-            var bfc=GameApi.base.missionInitializer.selectedHero.baseDailyFoodConsumption();
+                delegate.setCE(ce);
+                delegate.setPR(pr);
+                delegate.setCL(cl);
+                delegate.setHP(hp, hpMax);
+                delegate.setST(st);
+                delegate.setSR(sr);
+                delegate.setSL(sl);
+                delegate.setSA(sa);
+                delegate.setFC(fc);
 
-            delegate.setCE(ce);
-            delegate.setPR(pr);
-            delegate.setCL(cl);
-            delegate.setHP(hp, hpMax);
-            delegate.setST(st);
-            delegate.setSR(sr);
-            delegate.setSL(sl);
-            delegate.setSA(sa);
-            delegate.setFC(fc);
+                if (hpMax == bhpMax)
+                    delegate.setColorHL("#568b56");
+                else if (hpMax > bhpMax)
+                    delegate.setColorHL("#439b20");
+                else
+                    delegate.setColorHL("#bf0000");
 
-            if (hpMax == bhpMax)
-                delegate.setColorHL("#568b56");
-            else if (hpMax > bhpMax)
-                delegate.setColorHL("#439b20");
-            else
-                delegate.setColorHL("#bf0000");
+                if (sl == bsl)
+                    delegate.setColorSL("#568b56");
+                else if (sl > bsl)
+                    delegate.setColorSL("#439b20");
+                else
+                    delegate.setColorSL("#bf0000");
 
-            if (sl == bsl)
-                delegate.setColorSL("#568b56");
-            else if (sl > bsl)
-                delegate.setColorSL("#439b20");
-            else
-                delegate.setColorSL("#bf0000");
+                if (ce == bce)
+                    delegate.setColorCE("#568b56");
+                else if (ce > bce)
+                    delegate.setColorCE("#439b20");
+                else
+                    delegate.setColorCE("#bf0000");
 
-            if (ce == bce)
-                delegate.setColorCE("#568b56");
-            else if (ce > bce)
-                delegate.setColorCE("#439b20");
-            else
-                delegate.setColorCE("#bf0000");
+                if (pr == bpr)
+                    delegate.setColorPR("#568b56");
+                else if (pr > bpr)
+                    delegate.setColorPR("#439b20");
+                else
+                    delegate.setColorPR("#bf0000");
 
-            if (pr == bpr)
-                delegate.setColorPR("#568b56");
-            else if (pr > bpr)
-                delegate.setColorPR("#439b20");
-            else
-                delegate.setColorPR("#bf0000");
+                if (cl == bcl)
+                    delegate.setColorCL("#568b56");
+                else if (cl > bcl)
+                    delegate.setColorCL("#439b20");
+                else
+                    delegate.setColorCL("#bf0000");
 
-            if (cl == bcl)
-                delegate.setColorCL("#568b56");
-            else if (cl > bcl)
-                delegate.setColorCL("#439b20");
-            else
-                delegate.setColorCL("#bf0000");
+                if (sr == bsr)
+                    delegate.setColorSR("#568b56");
+                else if (sr > bsr)
+                    delegate.setColorSR("#bf0000");
+                else
+                    delegate.setColorSR("#439b20");
 
-            if (sr == bsr)
-                delegate.setColorSR("#568b56");
-            else if (sr > bsr)
-                delegate.setColorSR("#bf0000");
-            else
-                delegate.setColorSR("#439b20");
+                if (fc == bfc)
+                    delegate.setColorFC("#568b56");
+                else if (fc > bfc)
+                    delegate.setColorFC("#bf0000");
+                else
+                    delegate.setColorFC("#439b20");
 
-            if (fc == bfc)
-                delegate.setColorFC("#568b56");
-            else if (fc > bfc)
-                delegate.setColorFC("#bf0000");
-            else
-                delegate.setColorFC("#439b20");
+                if (sa == bsa)
+                    delegate.setColorSA("#568b56");
+                else if (sa > bsa)
+                    delegate.setColorSA("#bf0000");
+                else
+                    delegate.setColorSA("#439b20");
 
-            if (sa == bsa)
-                delegate.setColorSA("#568b56");
-            else if (sa > bsa)
-                delegate.setColorSA("#bf0000");
-            else
-                delegate.setColorSA("#439b20");
-        }
-        else
-        {
-            delegate.setEmpty(true);
+                armorArt.source = GameApi.base.heroes.preparedHero.hasArmor() ? GameApi.base.heroes.preparedHero.preparedArmor.pathToArt() : "qrc:/graphics/GUI/Slots/ArmourSlot.png";
+                if (GameApi.base.heroes.preparedHero.hasWeaponToolInSlot(0))
+                {
+                    GameApi.base.heroes.preparedHero.prepareWeaponTool(0);
+                    weapon1Art.source =  GameApi.base.heroes.preparedHero.preparedWeaponTool.pathToArt();
+                    weapon1.name = GameApi.base.heroes.preparedHero.preparedWeaponTool.name();
+                }
+                else
+                {
+                    weapon1Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
+                    weapon1.name = "";
+                }
+                if (GameApi.base.heroes.preparedHero.hasWeaponToolInSlot(1))
+                {
+                    GameApi.base.heroes.preparedHero.prepareWeaponTool(1);
+                    weapon2Art.source =  GameApi.base.heroes.preparedHero.preparedWeaponTool.pathToArt();
+                    weapon2.name = GameApi.base.heroes.preparedHero.preparedWeaponTool.name();
+                }
+                else
+                {
+                    weapon2Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
+                    weapon2.name = "";
+                }
+
+                energyAmount.text = GameApi.base.heroes.preparedHero.carriedEnergy();
+                foodSuppliesAmount.text = GameApi.base.heroes.preparedHero.carriedFoodSupplies();
+                buildingMaterialsAmount.text = GameApi.base.heroes.preparedHero.carriedBuildingMaterials();
+                aetheriteAmount.text = GameApi.base.heroes.preparedHero.carriedAetheriteOre();
+
+                break;
+            }
         }
     }
 
-    Rectangle {
-        id: background
-
-        anchors.fill: parent
-
-        color: "#171717"
+    function setHero(heroName)
+    {
+        heroName_=heroName;
+        updateEverything();
     }
 
     Text {
@@ -261,13 +273,11 @@ Item {
             source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
-            id: predictionEnergyText
+            id: energyAmount
 
             x: 280
-            y: -40
-            width: 540
-
-            opacity: 0
+            y: 0
+            width: 240
 
             color: "#9f1e1e"
             wrapMode: Text.WordWrap
@@ -294,13 +304,11 @@ Item {
             source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
         Text {
-            id: predictionBuildingMaterialsText
+            id: buildingMaterialsAmount
 
             x: 280
-            y: -40
-            width: 540
-
-            opacity: 0
+            y: 0
+            width: 240
 
             color: "#9f1e1e"
             wrapMode: Text.WordWrap
@@ -327,13 +335,11 @@ Item {
             source: "qrc:/graphics/GUI/Resources/Foodsupplies.png"
         }
         Text {
-            id: predictionFoodSuppliesText
+            id: foodSuppliesAmount
 
             x: 280
-            y: -40
-            width: 540
-
-            opacity: 0
+            y: 0
+            width: 240
 
             color: "#9f1e1e"
             wrapMode: Text.WordWrap
@@ -360,13 +366,11 @@ Item {
             source: "qrc:/graphics/GUI/Resources/Aetherite.png"
         }
         Text {
-            id: predictionAetheriteText
+            id: aetheriteAmount
 
             x: 280
-            y: -40
-            width: 540
-
-            opacity: 0
+            y: 0
+            width: 240
 
             color: "#9f1e1e"
             wrapMode: Text.WordWrap
@@ -376,116 +380,14 @@ Item {
         }
     }
 
-    Text {
-        id: predictionNotEnoughResourcesText
-
-        property bool isShowing: false
-
-        x: 0
-        y: 1240
-        width: root.width
-
-        opacity: 0
-
-        color: "#a00000"
-        text: "You don't have enough resources!"
-        wrapMode: Text.WordWrap
-        font.pixelSize: 55
-        font.family: fontStencil.name
-        horizontalAlignment: Text.AlignHCenter
-
-        function checkResources()
-        {
-            if (energySetter.text*1 > GameApi.base.currentEnergyAmount() | buildingMaterialsSetter.text*1 > GameApi.base.currentBuildingMaterialsAmount() | foodSuppliesSetter.text*1 > GameApi.base.currentFoodSuppliesAmount())
-                startShowing();
-            else
-                stopShowing();
-        }
-
-        function startShowing()
-        {
-            if (isShowing == false)
-            {
-                predictionNotEnoughResourcesFadeOut.start();
-                predictionNotEnoughResourcesBlinking.toRunOrNotToRun=true;
-                predictionNotEnoughResourcesBlinking.start();
-                isShowing=true;
-            }
-        }
-        function stopShowing()
-        {
-            if (isShowing == true)
-            {
-                predictionNotEnoughResourcesFadeIn.start();
-                predictionNotEnoughResourcesBlinking.toRunOrNotToRun=false;
-                predictionNotEnoughResourcesBlinking.stop();
-                isShowing=false;
-            }
-        }
-
-        NumberAnimation {
-            id: predictionNotEnoughResourcesFadeIn
-
-            properties: "opacity"
-            easing.type: Easing.InQuad
-            duration: 300
-            from: 1
-            to: 0
-            targets: [
-                predictionNotEnoughResourcesText
-            ]
-        }
-        NumberAnimation {
-            id: predictionNotEnoughResourcesFadeOut
-
-            properties: "opacity"
-            easing.type: Easing.InQuad
-            duration: 300
-            from: 0
-            to: 1
-            targets: [
-                predictionNotEnoughResourcesText
-            ]
-        }
-        NumberAnimation {
-            id: predictionNotEnoughResourcesBlinking
-
-            property bool toRunOrNotToRun: false
-
-            properties: "opacity"
-            easing.type: Easing.InQuad
-            duration: 2000
-            from: 1
-            to: 0.5
-            targets: [
-                predictionNotEnoughResourcesText
-            ]
-            onRunningChanged: {
-                if (running == false && toRunOrNotToRun == true)
-                {
-                    if (from == 1)
-                    {
-                        from = 0.5;
-                        to = 1;
-                    }
-                    else
-                    {
-                        from = 1;
-                        to = 0.5;
-                    }
-
-                    running = true;
-                }
-            }
-        }
-    }
-
     Item {
         id: equipment
         x: 20
         y: 1150
         width: parent.width-2*x
         height: 130
+
+        visible: false//TODO add collected eq view
 
         Item {
             id: eq1
@@ -628,40 +530,6 @@ Item {
             }
             MouseArea {
                 anchors.fill: parent
-            }
-        }
-    }
-
-    Item {
-        id: back
-
-        x: (parent.width-width)/2
-        y: parent.height - height
-        width: 199
-        height: backText.height
-
-        Text {
-            id: backText
-
-            height: font.pixelSize+8
-
-            anchors.fill: parent
-            color: "#94ef94"
-            text: "< Back"
-            font.pixelSize: 60
-            font.family: fontStencil.name
-        }
-        MouseArea {
-            id: backMA
-
-            x: -20
-            y: -20
-            width: parent.width - 2*x
-            height: parent.height - 2*y
-
-            onClicked: {
-                root.returnToDefault();
-                root.backClicked();
             }
         }
     }
