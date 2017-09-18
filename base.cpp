@@ -1684,8 +1684,8 @@ Base::Base(Game *gameObject) noexcept
 void Base::setupNewBase() noexcept
 {
     m_energy=250;
-    m_foodSupplies=5;
-    m_buildingMaterials=12;
+    m_foodSupplies=12;
+    m_buildingMaterials=5;
     m_aetherite=50;
 
     m_dockingStation->prepareRecruits();
