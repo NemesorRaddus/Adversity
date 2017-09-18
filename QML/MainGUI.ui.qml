@@ -3,6 +3,7 @@ import "./BuildingsMode"
 import "./MercenariesMode"
 import "./MissionsMode"
 import "./Reports"
+import "./Settings"
 import FPSComponent 1.0
 
 Rectangle {
@@ -28,6 +29,7 @@ Rectangle {
     property alias dayValue: day
 
     property alias settingsButton: settingsMA
+    property alias settings: settings
 
     property alias buildingsGUI: buildingsMode
     property alias mercenariesGUI: mercenariesMode
@@ -86,7 +88,7 @@ Rectangle {
     ReportsNotification {
         id: reportsNotification
 
-        x: 1080-width
+        x: 1080 - width
         y: 1400
         width: 425
         height: 200
@@ -381,6 +383,15 @@ Rectangle {
                 height: 129
             }
         }
+    }
+
+    Settings {
+        id: settings
+
+        x: 0
+        y: 189
+        width: parent.width
+        height: 1464
     }
 
     H4XScreen {

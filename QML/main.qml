@@ -192,6 +192,10 @@ Window {
         mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
         heroArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
 
+        settingsButton.visible: false// TODO remove when ready to use
+        settingsButton.onClicked: settings.show();
+        settings.onBackClicked: settings.hide();
+
         reportsNotification.onClicked: {
             reportsList.updateEverything();
             reportsList.state = "";
