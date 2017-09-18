@@ -2448,8 +2448,11 @@ void HeroesContainer::removeHero(unsigned index) noexcept
         else if (m_heroes[index]->currentActivity() == HeroEnums::CA_OnMission)
         {
             auto m=m_heroes[index]->assignedMission();
-            m->forceEnd();
-            m_basePtr->removeMission(m);
+            if (m!=nullptr)
+            {
+                m->forceEnd();
+                m_basePtr->removeMission(m);
+            }
         }
         Game::gameInstance()->assetsPool().unloadHero(m_heroes[index]->name());
         m_heroes.remove(index);

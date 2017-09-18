@@ -924,8 +924,8 @@ Item {
             {
                 var remDays=GameApi.base.remainingMissionDaysForHero(heroName);
                 currentActivityDescription.text = remDays!=-1 ? topBar.getName().text+" is exploring the wilderness. Days until return: "+remDays : topBar.getName().text+" is missing in action.";
-                currentActivityGoToText.visible = true;
-                currentActivityGoToMA.visible = true;
+                currentActivityGoToText.visible = false;
+                currentActivityGoToMA.visible = false;
             }
             else if (ca == "In Hospital")
             {

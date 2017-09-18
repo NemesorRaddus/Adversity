@@ -81,6 +81,8 @@
         <file>qml/MissionsMode/MissionsList/HeroView.qml</file>
         <file>qml/MissionsMode/MissionsList/HeroDelegate.qml</file>
         <file>qml/MissionsMode/MissionsList/MissionManagement.qml</file>
+        <file>qml/Settings/Settings.qml</file>
+        <file>qml/Settings/FrozenScreen.qml</file>
         <file>qml/MissionsMode/MissionsList/MissionViewMenu.qml</file>
         <file>qml/MissionsMode/MissionsList/Reports/ReportsList.qml</file>
         <file>qml/MissionsMode/MissionsList/Reports/ReportsListDelegate.qml</file>

@@ -85,7 +85,7 @@
 		<event type="Multi">
 			<text>Oh shit! A huge scorpiolooking monster just dug out of the sand!</text>
 			<unlockedDBEntries> 
-				<entry>Speckled Scorpioid</entry>
+				<entry>SpeckledScorpioid</entry>
 			</unlockedDBEntries>
 			<events>
 				<event type="Check" subtype="value">
@@ -687,7 +687,7 @@
 								<event chance="40" type="Multi">
 									<text>OK, it's safe now. I killed it. At least I got some meat from it.</text>
 									<unlockedDBEntries> 
-										<entry>Speckled Scorpioid</entry>
+										<entry>SpeckledScorpioid</entry>
 									</unlockedDBEntries>
 									<events>
 										<event type="Action" subtype="GiveStress">
@@ -701,7 +701,7 @@
 								<event chance="60" type="Multi">
 									<text>OK, it's safe now. I killed it but I'm not left untouched. I'll collect meat from it.</text>
 									<unlockedDBEntries> 
-										<entry>Speckled Scorpioid</entry>
+										<entry>SpeckledScorpioid</entry>
 									</unlockedDBEntries>
 									<events>
 										<event type="Action" subtype="GiveStress">
@@ -759,7 +759,7 @@
 											<event chance="70" type="Multi">
 												<text>Shit! It stinged me! Somehow it lost track of me. I lost few items during my escape.</text>
 												<unlockedDBEntries> 
-													<entry>Speckled Scorpioid</entry>
+													<entry>SpeckledScorpioid</entry>
 												</unlockedDBEntries>
 												<events>
 													<event type="Action" subtype="GiveStress">
@@ -859,7 +859,7 @@
 		<event type="Multi">
 			<text>I see a corpse of an animal in a distance. It looks like a giant Earth scorpio.</text>
 			<unlockedDBEntries> 
-				<entry>Speckled Scorpioid</entry>
+				<entry>SpeckledScorpioid</entry>
 			</unlockedDBEntries>
 			<events>
 				<event type="Action" subtype="GiveStress">

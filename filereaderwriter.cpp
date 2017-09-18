@@ -1559,7 +1559,7 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
     if (!openXmlFile(path))
     {
         qCritical()<<"Couldn't open "+path+".";
-        return {};
+        return nullptr;
     }
 
     EncountersContainer *r = new EncountersContainer;
@@ -1579,7 +1579,8 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
                     if (m_xmlReader->hasError())
                     {
                         qCritical()<<"Couldn't read "+path+" properly.";
-                        return {};
+                        delete r;
+                        return nullptr;
                     }
 
                     r->addEncounter(new Encounter(name, rootev));
@@ -1594,7 +1595,8 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
     if (m_xmlReader->hasError())
     {
         qCritical()<<"Couldn't read "+path+" properly.";
-        return {};
+        delete r;
+        return nullptr;
     }
     return r;
 }
@@ -1649,11 +1651,11 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                                 return nullptr;
                         }
                         m_xmlReader->skipCurrentElement();
-
                     }
                     r=new MultiEvent(evs,text,ude);
                 }
                 m_xmlReader->skipCurrentElement();
+//                m_xmlReader->skipCurrentElement();
             }
             else if (type=="Action")
             {
@@ -1662,6 +1664,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                 if (subtype=="Null")
                 {
                     r=new NullEventResult(text,ude);
+                    m_xmlReader->skipCurrentElement();
                     m_xmlReader->skipCurrentElement();
                 }
                 else if (subtype=="GiveHealth")
@@ -1706,6 +1709,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                 else if (subtype=="Kill")
                 {
                     r=new KillHeroEventResult(text,ude);
+                    m_xmlReader->skipCurrentElement();
                     m_xmlReader->skipCurrentElement();
                 }
                 else if (subtype=="AddEquipment")
