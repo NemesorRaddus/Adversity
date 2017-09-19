@@ -153,9 +153,7 @@ Item {
                 delegate.setColorSA("#439b20");
         }
         else
-        {
             delegate.setEmpty(true);
-        }
     }
 
     Rectangle {
@@ -164,7 +162,6 @@ Item {
         anchors.fill: parent
 
         color: "#171717"
-
     }
 
     Text {
@@ -175,6 +172,14 @@ Item {
         text: "Mercenary:"
         font.pixelSize: 50
         font.family: fontStencil.name
+    }
+
+    MouseArea {
+        id: focusLoser
+
+        anchors.fill: parent
+
+        onClicked: root.forceActiveFocus();
     }
 
     HeroDelegate {
@@ -469,7 +474,6 @@ Item {
 
             onAccepted: {
                 root.forceActiveFocus();
-                checkAmount();
             }
 
             onFocusChanged: {
@@ -642,7 +646,6 @@ Item {
 
             onAccepted: {
                 root.forceActiveFocus();
-                checkAmount();
             }
 
             onFocusChanged: {
@@ -815,7 +818,6 @@ Item {
 
             onAccepted: {
                 root.forceActiveFocus();
-                checkAmount();
             }
 
             onFocusChanged: {
@@ -885,9 +887,7 @@ Item {
             duration: 300
             from: 1
             to: 0
-            targets: [
-                warningNotEnoughResourcesText
-            ]
+            targets: warningNotEnoughResourcesText
         }
         NumberAnimation {
             id: warningNotEnoughResourcesFadeOut
@@ -897,9 +897,7 @@ Item {
             duration: 300
             from: 0
             to: 1
-            targets: [
-                warningNotEnoughResourcesText
-            ]
+            targets: warningNotEnoughResourcesText
         }
         NumberAnimation {
             id: warningNotEnoughResourcesBlinking
@@ -911,9 +909,7 @@ Item {
             duration: 2000
             from: 1
             to: 0.5
-            targets: [
-                warningNotEnoughResourcesText
-            ]
+            targets: warningNotEnoughResourcesText
             onRunningChanged: {
                 if (running == false && toRunOrNotToRun == true)
                 {
