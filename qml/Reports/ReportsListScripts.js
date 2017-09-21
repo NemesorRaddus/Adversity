@@ -33,7 +33,7 @@ function createItem(time, text, art) {
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(root,
+        itemsArray[actualAmountOfItems] = listDelegate.createObject(reportsHandler,
                                                 {"x": 0,
                                                 "y": totalHeightOfElements + y00,
                                                 "width": width});

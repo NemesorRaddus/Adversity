@@ -35,8 +35,6 @@ Item {
 
     property int startY
 
-    clip: true
-
     state: "hidden"
 
     Rectangle {
@@ -44,17 +42,26 @@ Item {
         color: "#171717"
     }
 
+    Item {
+        id: reportsHandler
+
+        x: 0
+        y: 0
+        width: parent.width
+        height: back.y
+
+        clip: true
+    }
+
     MouseArea {
         id: mouseArea
 
-        height: back.y
+        anchors.fill: reportsHandler
 
         readonly property int yChangedThresholdForScrolling: 1 // percent; <0;100>; after moving mouse up or down by this percent of screen height, scrolling mode will be activated and mouse release will no longer cause click - instead after each y change list will be scrolled
 
         property int y0: -1
         property bool isScrollingActive: false
-
-        anchors.fill: parent
 
         onPressed: {
             y0 = mouseY;
@@ -93,6 +100,17 @@ Item {
                 }
             }
         }
+    }
+
+    Image {
+        id: taskBorder
+
+        x: 17
+        y: back.y
+        width: 1046
+        height: 3
+
+        source: "qrc:/graphics/GUI/Task_Border.png"
     }
 
     Item {
