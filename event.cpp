@@ -181,7 +181,7 @@ MultiEvent::~MultiEvent() noexcept
 
 QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
 {
-    QVector <EventReport> r;
+    QVector <EventReport> r={eventText()};
     for (auto e : m_eventsToExecute)
         r+=e->execute(context);
     return r;
@@ -575,7 +575,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
     if (result==nullptr)
         return {};
 
-    return result->execute(hero);
+    return QVector<EventReport>{eventText()} + result->execute(hero);
 }
 
 EquipmentCheckEvent::EquipmentCheckEvent(EquipmentEnums::Category neededEq, CheckEventResults *results, QString text, const QVector<QString> &dbEntries) noexcept
@@ -622,7 +622,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
     if (result==nullptr)
         return {};
 
-    return result->execute(hero);
+    return QVector<EventReport>{eventText()} + result->execute(hero);
 }
 
 PossibilityEvent::PossibilityEvent(Chance chance, Event *event, QString text, const QVector<QString> &dbEntries) noexcept
@@ -639,8 +639,8 @@ QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
         return {};
 
     if (static_cast<unsigned>(m_chance)>=Randomizer::randomBetweenAAndB(1,100))
-        return m_event->execute(hero);
-    return {};
+        return QVector<EventReport>{eventText()} + m_event->execute(hero);
+    return {eventText()};
 }
 
 Report::Report(EventEnums::ReportType type, const Time &time) noexcept
@@ -838,7 +838,15 @@ Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
 
 EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
 {
-    return new EncounterReport{hero->pathToArt(), m_rootEvent->execute(hero), currentTime};
+    auto reps = m_rootEvent->execute(hero);
+    for (int i=0;i<reps.size();)
+    {
+        if (reps[i].isEmpty())
+            reps.remove(i);
+        else
+            ++i;
+    }
+    return new EncounterReport{hero->pathToArt(), reps, currentTime};
 }
 
 EncountersContainer::~EncountersContainer() noexcept
