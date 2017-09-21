@@ -141,6 +141,8 @@ Item {
         font.pixelSize: 100
         text: "Connection lost!"
 
+        opacity: 0
+
         property bool isShowing: false
 
         function startShowing()

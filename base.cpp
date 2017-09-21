@@ -2370,7 +2370,7 @@ int Base::remainingMissionDaysForHero(const QString &heroName)
             if (e->currentActivity() != HeroEnums::CA_OnMission)
                 return -2;
             if (e->isCommunicationAvailable())
-                return e->assignedMission()->fullDuration();
+                return e->assignedMission()->remainingDays();
             else
                 return -1;
         }
