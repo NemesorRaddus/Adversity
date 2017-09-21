@@ -137,11 +137,11 @@ public:
     // these are for C++
     inline auto mainLogger() noexcept
     {
-        return m_mainLogger.get();
+        return m_mainLogger;
     }
     inline auto xmlLogger() noexcept
     {
-        return m_xmlLogger.get();
+        return m_xmlLogger;
     }
 
 private:

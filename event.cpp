@@ -1311,6 +1311,11 @@ bool MissionInitializer::start() noexcept
     m_basePtr->decreaseBuildingMaterialsAmount(m_bm);
     m_basePtr->decreaseFoodSuppliesAmount(m_food);
 
+    m_hero->setCarriedAetheriteOre(m_aetherite);
+    m_hero->setCarriedEnergy(m_energy);
+    m_hero->setCarriedBuildingMaterials(m_bm);
+    m_hero->setCarriedFoodSupplies(m_food);
+
     m_hero->setCurrentActivity(HeroEnums::CA_OnMission);
 
     Mission *m=m_missionBuilder.generateMission(m_land, m_difficulty);
@@ -1432,29 +1437,21 @@ void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexc
 void MissionInitializer::setAetherite(unsigned amount) noexcept
 {
     m_aetherite = amount;
-    if (m_hero != nullptr)
-        m_hero->setCarriedAetheriteOre(amount);
 }
 
 void MissionInitializer::setEnergy(unsigned amount) noexcept
 {
     m_energy = amount;
-    if (m_hero != nullptr)
-        m_hero->setCarriedEnergy(amount);
 }
 
 void MissionInitializer::setBuildingMaterials(unsigned amount) noexcept
 {
     m_bm = amount;
-    if (m_hero != nullptr)
-        m_hero->setCarriedBuildingMaterials(amount);
 }
 
 void MissionInitializer::setFoodSupplies(unsigned amount) noexcept
 {
     m_food = amount;
-    if (m_hero != nullptr)
-        m_hero->setCarriedFoodSupplies(amount);
 }
 
 void MissionInitializer::prepareHero() noexcept
@@ -1466,10 +1463,6 @@ void MissionInitializer::prepareHero() noexcept
         m_hero->removeWeaponTool(i);
         m_hero->equipWeaponTool(m_weaponTool[i],i);
     }
-    m_hero->setCarriedAetheriteOre(m_aetherite);
-    m_hero->setCarriedEnergy(m_energy);
-    m_hero->setCarriedBuildingMaterials(m_bm);
-    m_hero->setCarriedFoodSupplies(m_food);
 }
 
 void MissionInitializer::unprepareHero() noexcept
@@ -1477,8 +1470,4 @@ void MissionInitializer::unprepareHero() noexcept
     m_hero->removeArmor();
     for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
         m_hero->removeWeaponTool(i);
-    m_hero->setCarriedAetheriteOre(0);
-    m_hero->setCarriedEnergy(0);
-    m_hero->setCarriedBuildingMaterials(0);
-    m_hero->setCarriedFoodSupplies(0);
 }

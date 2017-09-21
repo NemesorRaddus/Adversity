@@ -40,7 +40,6 @@ Item {
         heroesAmountItem.state = "";
         view.state = "hidden";
         list.returnToDefault();
-        view.returnToDefault();
     }
 
     function updateEverything()

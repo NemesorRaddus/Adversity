@@ -2,7 +2,6 @@
 #define EQUIPMENT_H
 
 #include <QString>
-#include <QDataStream>
 
 #include <QDebug>
 

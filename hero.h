@@ -170,7 +170,6 @@ class Hero : public QObject
     Q_OBJECT
 
     friend class HeroBuilder;
-    friend class QDataStream;
     friend class H4X;
 
     Q_PROPERTY(Mission* assignedMission MEMBER m_assignedMission)
