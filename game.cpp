@@ -58,9 +58,9 @@ LoggersHandler::LoggersHandler() noexcept
 {
     QString path;
 #ifdef ANDROID // QStandardPaths was giving strange paths for Android devices
-    path = "/storage/emulated/0/Android/data/com.raddosgames.adversity";
+    path = "/storage/emulated/0/Android/data/com.raddosgames.adversity/logs";
 #else
-    path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
 #endif
     QDir d;
     d.mkpath(path);

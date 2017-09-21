@@ -2285,6 +2285,7 @@ void Base::prepareAvailableEquipment(unsigned index) noexcept
 void Base::startMission(Mission *mission) noexcept
 {
     m_missions+=mission;
+    mission->start();
 }
 
 void Base::removeMission(Mission *mission) noexcept

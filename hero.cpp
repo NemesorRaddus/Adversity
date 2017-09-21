@@ -1011,6 +1011,7 @@ void Hero::handleNewDay() noexcept
         handleSBEAtDayEnd();
         handleHunger();
         handleEquipmentCosts();
+        decrementModificationsDuration();
     }
 }
 

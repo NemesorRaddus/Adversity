@@ -884,8 +884,6 @@ class Mission : public QObject
 public:
     typedef unsigned MissionDay;
 
-    ~Mission() noexcept;
-
     inline const Land *land() const noexcept
     {
         return m_land;

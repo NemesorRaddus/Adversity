@@ -934,12 +934,6 @@ void LandBuilder::setAssociatedEncountersContainer(EncountersContainer *encCont)
     m_land->setAssociatedEncountersContainer(encCont);
 }
 
-Mission::~Mission() noexcept
-{
-    for (auto e : m_encounters)
-        delete e.second;
-}
-
 void Mission::decrementDuration() noexcept
 {
     --m_remainingDays;
