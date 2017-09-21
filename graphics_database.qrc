@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>graphics/Database/Plants/Acidberry.png</file>
+        <file>graphics/Database/Plants/AcidberryBush.png</file>
         <file>graphics/Database/Plants/BluegrapeBush.png</file>
         <file>graphics/Database/Plants/BlueHerbLichen.png</file>
         <file>graphics/Database/Plants/PoisonousFern.png</file>
@@ -17,5 +17,6 @@
         <file>graphics/Database/Animals/Morgai.png</file>
         <file>graphics/Database/Animals/Nibbler.png</file>
         <file>graphics/Database/Animals/Splitterhound.png</file>
+        <file>graphics/Database/Animals/SpeckledScorpioid.png</file>
     </qresource>
 </RCC>
