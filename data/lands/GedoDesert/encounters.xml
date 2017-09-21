@@ -3,7 +3,7 @@
 <encounters>
 	<encounter name="A Dune">
 		<event type="Multi">
-			<text>Oh I see a huge dune ahead!. It will be a good spot to rest and do some recon.</text>
+            <text>Oh I see a huge dune ahead! It will be a good spot to rest and do some recon.</text>
 			<events>
 				<event type="Action" subtype="NoSignal">
                     <duration duration="0"></duration>
@@ -85,15 +85,15 @@
 		<event type="Multi">
 			<text>Oh shit! A huge scorpiolooking monster just dug out of the sand!</text>
 			<unlockedDBEntries> 
-				<entry>SpeckledScorpioid</entry>
+                <entry>Speckled Scorpioid</entry>
 			</unlockedDBEntries>
 			<events>
-				<event type="Check" subtype="value">
+                <event type="Check" subtype="Value">
                     <condition condition="SR&lt;1"></condition>
 					<results>
 						<positive>
 							<event type="Check" subtype="Value">
-								<text>OK, I'm not afraid. Just maintain cold blood.</text>
+                                <text>OK, I'm not afraid. Just keep a cool head.</text>
 								<condition condition="CE>7"></condition>
 								<results>
 									<positive>
@@ -111,7 +111,7 @@
 												</event>
 											</events>
 										</event>
-										<event chance="65" type="Multi">
+                                        <event chance="35" type="Multi">
 											<text>Finally it's dead. Unfortunetely it stinged me during the fight and a toxin is in my body. I don't feel any strong effects, just I'm a bit weaker.</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
@@ -201,7 +201,6 @@
 														</events>
 													</event>
 													<event chance="85" type="Action" subtype="Kill">
-														<Kill></Kill>
 													</event>
 												</negative>
 											</results>
@@ -235,7 +234,6 @@
 								</events>
 							</event>
 							<event chance="95" type="Action" subtype="Kill">
-								<Kill></Kill>
 							</event>
 						</negative>
 					</results>
@@ -293,7 +291,6 @@
 						</positive>
 						<negative>
 							<event type="Action" subtype="Null">
-								<Null></Null>
 								<text>Nothing happens here. Only sand laying aroud. It's nice time to rest.</text>
 							</event>
                         </negative>
@@ -666,19 +663,19 @@
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;1;3>"></addedValue>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="40" type="Action" subtype="GiveResource">
 						<text>A piece of Aetherite. Nice!</text>
 						<resource type="Aetherite" amount="&lt;1;4>"></resource>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="50" type="Action" subtype="GiveStress">
 						<text>This place give me chills. I feel observed by somthing.</text>
 						<addedValue value="&lt;8;14>"></addedValue>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="30" type="Check" subtype="Value">
 						<text>Shh... There is a scorpioid here!</text>
 						<condition condition="CE>5"></condition>
@@ -687,7 +684,7 @@
 								<event chance="40" type="Multi">
 									<text>OK, it's safe now. I killed it. At least I got some meat from it.</text>
 									<unlockedDBEntries> 
-										<entry>SpeckledScorpioid</entry>
+                                        <entry>Speckled Scorpioid</entry>
 									</unlockedDBEntries>
 									<events>
 										<event type="Action" subtype="GiveStress">
@@ -701,7 +698,7 @@
 								<event chance="60" type="Multi">
 									<text>OK, it's safe now. I killed it but I'm not left untouched. I'll collect meat from it.</text>
 									<unlockedDBEntries> 
-										<entry>SpeckledScorpioid</entry>
+                                        <entry>Speckled Scorpioid</entry>
 									</unlockedDBEntries>
 									<events>
 										<event type="Action" subtype="GiveStress">
@@ -759,7 +756,7 @@
 											<event chance="70" type="Multi">
 												<text>Shit! It stinged me! Somehow it lost track of me. I lost few items during my escape.</text>
 												<unlockedDBEntries> 
-													<entry>SpeckledScorpioid</entry>
+                                                    <entry>Speckled Scorpioid</entry>
 												</unlockedDBEntries>
 												<events>
 													<event type="Action" subtype="GiveStress">
@@ -800,7 +797,7 @@
 					<text> I know it's unethical but in this conditions I have to search this body.</text>
 					<addedValue value="&lt;60;100>"></addedValue>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="30" type="Multi">
 						<text>There is a package of building materials. I think I'll take it.</text>
 						<events>
@@ -813,7 +810,7 @@
 						</events>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="30" type="Multi">
 						<text>I found a half full Aetherite container. We'll make use of it.</text>
 						<events>
@@ -826,7 +823,7 @@
 						</events>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="30" type="Multi">
 						<text>This battery seems to be charged. This man would not use it anyway.</text>
 						<events>
@@ -839,7 +836,7 @@
 						</events>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="2,5" type="Multi">
 						<text>Oh nice! I'll take that piece of equipment my friend. I won't let it rust it on this damned desert.</text>
 						<events>
@@ -859,14 +856,14 @@
 		<event type="Multi">
 			<text>I see a corpse of an animal in a distance. It looks like a giant Earth scorpio.</text>
 			<unlockedDBEntries> 
-				<entry>SpeckledScorpioid</entry>
+                <entry>Speckled Scorpioid</entry>
 			</unlockedDBEntries>
 			<events>
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-15;15>"></addedValue>
 				</event>
 				<event type="Check" subtype="Equipment">
-					<condition>Biohazard Protection</condition>
+                    <condition condition="Biohazard Protection"></condition>
 					<results>
 						<positive>
 							<event type="Multi">
@@ -919,7 +916,8 @@
 		<event type="Multi">
 			<text>Woah! This dune is moving! It's like a sand avalanche! And it's comes to me!</text>
 			<events>
-				<event type="Check" subtype="PR>4">
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>4"></condition>
 					<results>
 						<positive>
 							<event chance="60" type="Action" subtype="GiveStress">
@@ -1002,7 +1000,7 @@
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-50;-32>"></addedValue>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="80" type="Check" subtype="Value">
 						<condition condition="PR>5"></condition>
 						<results>
@@ -1063,7 +1061,7 @@
 						</results>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="20" type="Check" subtype="Value">
 						<text>Something moved in the bushes!</text>
 						<condition condition="PR>4"></condition>
@@ -1175,7 +1173,6 @@
 									</positive>
 									<negative>
 										<event type="Action" subtype="Null">
-											<Null></Null>
 										</event>
 									</negative>
 								</results>
@@ -1183,7 +1180,6 @@
 						</positive>
 						<negative>
 							<event type="Action" subtype="Null">
-								<Null></Null>
 							</event>
 						</negative>
 					</results>
@@ -1245,13 +1241,13 @@
 		<event type="Multi">
 			<text> Some creatures crawl out of the ground around me! They look loathsome Disgusting!</text>
 			<events>
-				<event type="Check" subtyp="Value">
+				<event type="Check" subtype="Value">
                     <condition condition="CL>4"></condition>
 					<results>
 						<positive>
 							<event type="Check" subtype="Equipment">
 								<text>I've seen similar animals before. They were afraid of the light so maybe those ones are too?</text>
-								<condition>Light Source</condition>
+                                <condition condition="Light Source"></condition>
 								<results>
 									<positive>
 										<event chance="95" type="Action" subtype="GiveStress">
@@ -1438,7 +1434,7 @@
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-20;-13>"></addedValue>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="40" type="Multi">
 						<text>I found some metal scraps in usable state. Nice!</text>
 						<events>
@@ -1451,7 +1447,7 @@
 						</events>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="10" type="Multi">
 						<text>There is Aetherite container! So someone has been here before to collect Aetherite!</text>
 						<events>
@@ -1464,7 +1460,7 @@
 						</events>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="30" type="Multi">
 						<text>There is a portable food freezer sticking out of sand! I bet there is still something inside!</text>
 						<events>
@@ -1477,7 +1473,7 @@
 						</events>
 					</event>
 				</event>
-				<event type="Possiblity">
+                <event type="Possibility">
 					<event chance="60" type="Multi">
 						<text>I see a battery! Let's hope it's charged.</text>
 						<events>

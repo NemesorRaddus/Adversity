@@ -4,7 +4,7 @@
 	<encounter name="Acidberry Bush">
 		<event type="Check" subtype="Value">
 			<unlockedDBEntries> 
-				<entry>AcidberryBush</entry>
+                <entry>Acidberry Bush</entry>
 			</unlockedDBEntries>
 			<text>I think I found a bunch of berries on a bush.</text>
 			<condition condition="CL>5"></condition>
@@ -16,7 +16,6 @@
 								<addedValue value="&lt;-15;5>"></addedValue>
 							</event>
 							<event type="Action" subtype="Null">
-								<Null></Null>
 								<text>From up close they don't seem so tasty as they used to. I'd better leave them.</text>
 							</event>
 						</events>
@@ -115,7 +114,7 @@
 		<event type="Check" subtype="Value">
 			<text>I think I saw something in the sky.</text>
 			<unlockedDBEntries> 
-				<entry>WingedSerpent</entry>
+                <entry>Winged Serpent</entry>
 			</unlockedDBEntries>
 			<condition condition="CL>6"></condition>
 			<results>
@@ -336,7 +335,7 @@
 					<event type="Multi">
                         <text>I'm pretty sure that I saw a plant similar to that one here in many databases. The one I saw had healing properties so I guess this will have them too. Despite of harsh taste, I feel fresh energy filling my body and hunger seems to have gone right away. </text>
 						<unlockedDBEntries> 
-							<entry>BlueherbLichen</entry>
+                            <entry>Blueherb Lichen</entry>
 						</unlockedDBEntries>
 						<events>
 							<event type="Action" subtype="GiveHealth">
@@ -369,77 +368,79 @@
             <text>Oh, there's nice cavern over here. I bet there is something down there.</text>
 			<events>
 				<event type="Check" subtype="Equipment">
-					<condition>Light Source</condition>
+                    <condition condition="Light Source"></condition>
 					<results>
 						<positive>
 							<event type="Multi">
 								<text>With a light source it will be a lot safer.</text>
-								<event type="Check" subtype="Value">
-									<condition condition="PR>7"></condition>
-									<results>
-										<positive>
-											<event chance="10" type="Multi">
-												<text>Oh yeah! Guess it's a lucky day for me! Someone lost backpack in this cavern but it's mine now!</text>
-												<events>
-													<event type="Action" subtype="AddEquipment">
-														<random armor="true" weaponTool="true" tier="1"></random>
-													</event>
-													<event type="Action" subtype="GiveResource">
-														<resource type="Aetherite" amount="&lt;0;3>"></resource>
-													</event>
-													<event type="Action" subtype="GiveStress">
-														<addedValue value="&lt;-25;-18>"></addedValue>
-													</event>
-												</events>
-											</event>
-											<event chance="90" type="Multi">
-												<text>You... You won't believe it. It is a cave full of Aetherite. What a marvelous glimmer! Enough talking. Someone is gonna collect it all.</text>
-												<events>
-													<event type="Action" subtype="GiveResource">
-														<resource type="Aetherite" amount="&lt;7;14>"></resource>
-													</event>
-													<event type="Action" subtype="GiveStress">
-														<addedValue value="&lt;-10;-5>"></addedValue>
-													</event>
-												</events>
-											</event>
-										</positive>
-										<negative>
-											<event chance="65" type="Multi">
-												<text>Oh it's pretty slippy down here. Shit!... Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
-												<events>
-													<event type="Action" subtype="GiveResource">
-														<resource type="Aetherite" amount="&lt;4;8>"></resource>
-													</event>
-													<event type="Action" subtype="GiveHealth">
-														<addedValue value="&lt;-3;-1>"></addedValue>
-													</event>
-													<event type="Action" subtype="GiveStress">
-														<addedValue value="&lt;5;17>"></addedValue>
-													</event>
-												</events>
-											</event>
-											<event chance="35" type="Multi">
-												<text>The stone is wet. I hope not to slide from it. Damn!... My arm! It hurts alot but it doesn't seem to be broken. At least I hope so. Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
-												<events>
-													<event type="Action" subtype="GiveResource">
-														<resource type="Aetherite" amount="&lt;1;3>"></resource>
-													</event>
-													<event type="Action" subtype="GiveHealth">
-														<addedValue value="&lt;-4;-1>"></addedValue>
-													</event>
-													<event type="Action" subtype="GiveStress">
-														<addedValue value="&lt;10;24>"></addedValue>
-													</event>
-													<event type="Action" subtype="ModifyAttribute">
-														<modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
-													</event>
-												</events>
-											</event>
-										</negative>
-									</results>
-								</event>
-							</event>
+                                <events>
+                                    <event type="Check" subtype="Value">
+                                        <condition condition="PR>7"></condition>
+                                        <results>
+                                            <positive>
+                                                <event chance="10" type="Multi">
+                                                    <text>Oh yeah! Guess it's a lucky day for me! Someone lost backpack in this cavern but it's mine now!</text>
+                                                    <events>
+                                                        <event type="Action" subtype="AddEquipment">
+                                                            <random armor="true" weaponTool="true" tier="1"></random>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;0;3>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-25;-18>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="90" type="Multi">
+                                                    <text>You... You won't believe it. It is a cave full of Aetherite. What a marvelous glimmer! Enough talking. Someone is gonna collect it all.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;7;14>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-10;-5>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event chance="65" type="Multi">
+                                                    <text>Oh it's pretty slippy down here. Shit!... Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;4;8>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-3;-1>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;5;17>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="35" type="Multi">
+                                                    <text>The stone is wet. I hope not to slide from it. Damn!... My arm! It hurts alot but it doesn't seem to be broken. At least I hope so. Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;1;3>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-4;-1>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;10;24>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="ModifyAttribute">
+                                                            <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
 						</positive>
 						<negative>
 							<event chance="70" type="Multi">
@@ -454,7 +455,7 @@
 								<text>We won't know if we don't check it. I goes pretty nice... Oh shit!... Damn... I feel like something has broken inside of me... I hope I can crawl out of this damned hole... OK, somehow I managed to get out of there but my backpack is somewhere down in the darkness. I won't even try to bring it back.</text>
 								<events>
 									<event type="Action" subtype="GiveResource">
-										<resource type="FoodSupplies" amount="&lt;-4;-2>"></resource>
+                                        <resource type="Food Supplies" amount="&lt;-4;-2>"></resource>
 									</event>
 									<event type="Action" subtype="GiveHealth">
 										<addedValue value="&lt;-6;-3>"></addedValue>
@@ -552,7 +553,7 @@
 							<event chance="45" type="Multi">
 								<text>I see a strange thing. It looks like a mycelium. I saw similar fungus many times. After little grinding, substance made of them can enhance organisms. Well, it smells really spicy. Since I ate it I feel refreshed. I have a great desire to destroy something.</text>
 								<unlockedDBEntries> 
-									<entry>FungusireMycelium</entry>
+                                    <entry>Fungusire Mycelium</entry>
 								</unlockedDBEntries>
 								<events>
 									<event type="Action" subtype="GiveStress">
@@ -569,7 +570,7 @@
 							<event chance="55" type="Multi">
 								<text>I see a strange thing. It looks like a mycelium. I saw similar fungus many times. After little grinding, substance made of them can enhance organisms. Well, it smells really spicy. I feel only a bit dizzy. That's it?! Stupid mycelium!</text>
 								<unlockedDBEntries> 
-									<entry>FungusireMycelium</entry>
+                                    <entry>Fungusire Mycelium</entry>
 								</unlockedDBEntries>
 								<events>
 									<event type="Action" subtype="GiveStress">
@@ -589,7 +590,7 @@
 								<text> I spotted an unusual plant. It looks more like a mycelium from up close.</text>
 								<events>
 									<event type="Check" subtype="Equipment">
-										<condition>Biohazard Protection</condition>
+                                        <condition condition="Biohazard Protection"></condition>
 										<results>
 											<positive>
 												<event type="Multi">
@@ -731,7 +732,7 @@
 										<event chance="35" type="Multi">
 											<text>I got a bit dizzy from this smell. I think I'm going to vommit.</text>
 											<unlockedDBEntries> 
-												<entry>PoisonousFern</entry>
+                                                <entry>Poisonous Fern</entry>
 											</unlockedDBEntries>
 											<events>
 												<event type="Action" subtype="GiveStress">
@@ -745,7 +746,7 @@
 										<event chance="65" type="Multi">
 											<text>Uh... I feel miserable... I can't stand on my feet. I'm gonna throw up.</text>
 											<unlockedDBEntries> 
-												<entry>PoisonousFern</entry>
+                                                <entry>Poisonous Fern</entry>
 											</unlockedDBEntries>
 											<events>
 												<event type="Action" subtype="GiveStress">
@@ -772,7 +773,7 @@
 													<event type="Multi">
 														<text>My wounds start to itch more than ever probably 'cause of this fog. I'd better keep distance.</text>
 														<unlockedDBEntries> 
-															<entry>PoisonousFern</entry>
+                                                            <entry>Poisonous Fern</entry>
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveStress">
@@ -788,7 +789,7 @@
 													<event chance="40" type="Multi">
 														<text>Ouch! My wounds burn! I feel how the fire spreads in my veins!</text>
 														<unlockedDBEntries> 
-															<entry>PoisonousFern</entry>
+                                                            <entry>Poisonous Fern</entry>
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveStress">
@@ -805,7 +806,7 @@
 													<event chance="60" type="Multi">
 														<text>My god! What a pain! What happened?! I'm dying from the inside!</text>
 														<unlockedDBEntries> 
-															<entry>PoisonousFern</entry>
+                                                            <entry>Poisonous Fern</entry>
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveStress">
@@ -827,7 +828,7 @@
 										<event chance="80" type="Multi">
 											<text>I need help... I don't think I can move anymore. My skin is tearing and blood is flowing from my wounds. If i die here at least bury my body.</text>
 											<unlockedDBEntries> 
-												<entry>PoisonousFern</entry>
+                                                <entry>Poisonous Fern</entry>
 											</unlockedDBEntries>
 											<events>
 												<event type="Action" subtype="ModifyAttribute">
@@ -853,7 +854,7 @@
 										<event chance="20" type="Multi">
 											<text>I feel so disasterous that I would rather like to die... My wounds... My wounds are spreading all over my body. I feel it... My body is falling apart.</text>
 											<unlockedDBEntries> 
-												<entry>PoisonousFern</entry>
+                                                <entry>Poisonous Fern</entry>
 											</unlockedDBEntries>
 											<events>
 												<event type="Action" subtype="ModifyAttribute">
@@ -890,13 +891,13 @@
 			<text>Wow... What an unusual sight! Those hills are completly covered by some yellow dust! </text>
 			<events>
 				<event type="Check" subtype="Equipment">
-					<condition>Biohazard Protection</condition>
+                    <condition condition="Biohazard Protection"></condition>
 					<results>
 						<positive>
 							<event type="Multi">
 								<text>My sensors are running crazy! This substance appears to be some kind of spores glued to each other and analysis show that it is toxic. Fortunetely I'm protected.</text>
 								<unlockedDBEntries> 
-									<entry>ToxicSpores</entry>
+                                    <entry>Toxic Spores</entry>
 								</unlockedDBEntries>
 								<events>
 									<event type="Action" subtype="GiveStress">
@@ -926,7 +927,7 @@
 										<event chance="40" type="Multi">
 											<text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up. Shit! My skin is starting to boil inside!</text>
 											<unlockedDBEntries> 
-												<entry>ToxicSpores</entry>
+                                                <entry>Toxic Spores</entry>
 											</unlockedDBEntries>
 											<events>
 												<event type="Action" subtype="GiveStress">
@@ -944,7 +945,7 @@
 													<event type="Multi">
 														<text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up. Shit! My skin is starting to boil inside!</text>
 														<unlockedDBEntries> 
-															<entry>ToxicSpores</entry>
+                                                            <entry>Toxic Spores</entry>
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveStress">
@@ -963,7 +964,7 @@
 													<event chance="85" type="Multi">
 														<text> Ugh... It has covered me too! It's so sickening... My skin starts to burn! I have to take it off!</text>
 														<unlockedDBEntries> 
-															<entry>ToxicSpores</entry>
+                                                            <entry>Toxic Spores</entry>
 														</unlockedDBEntries>
 														<events>
 															<event type="Action" subtype="GiveStress">
@@ -978,7 +979,6 @@
 														</events>
 													</event>
 													<event chance="15" type="Action" subtype="Kill">
-														<Kill></Kill>
 													</event>
 												</negative>
 											</results>
@@ -1016,7 +1016,7 @@
 							<event type="Multi">
 								<text>This grapes look good. I crushed one on the ground and the smell wasn't acrid. I'll take as many as I can. I don't know when I will find any other food.</text>
 								<unlockedDBEntries> 
-									<entry>BluegrapeBush</entry>
+                                    <entry>Bluegrape Bush</entry>
 								</unlockedDBEntries>
 								<events>
 									<event type="Action" subtype="GiveStress">
@@ -1032,7 +1032,7 @@
 							<event chance="40" type="Multi">
 								<text>They don't seem harmful. I'll take some for try.</text>
 								<unlockedDBEntries> 
-									<entry>BluegrapeBush</entry>
+                                    <entry>Bluegrape Bush</entry>
 								</unlockedDBEntries>
 								<events>
 									<event type="Action" subtype="GiveStress">
@@ -1248,7 +1248,6 @@
 														</events>
 													</event>
 													<event chance="50-(CE-6)*5" type="Action" subtype="Kill">
-														<Kill></Kill>
 													</event>
 												</negative>
 											</results>
@@ -1271,7 +1270,7 @@
 					<results>
 						<positive>
 							<event type="Check" subtype="Equipment">
-								<condition>Light Source</condition>
+                                <condition condition="Light Source"></condition>
 								<results>
 									<positive>
 										<event chance="40" type="Multi">
@@ -1549,7 +1548,6 @@
 						</positive>
 						<negative>
 							<event type="Action" subtype="Null">
-								<Null></Null>
 							</event>
 						</negative>
 					</results>
@@ -1568,7 +1566,7 @@
 								<text>Oh man, there's a cave going straight down. It's very dark there. If only I had a light source I could go down there and search for loot.</text>
 								<events>
 									<event type="Check" subtype="Equipment">
-										<condition>Light Source</condition>
+                                        <condition condition="Light Source"></condition>
 										<results>
 											<positive>
 												<event type="Multi">
@@ -1764,7 +1762,7 @@
 			<text>Hey... There is something in the air. It's like a thin fog.</text>
 			<events>
 				<event type="Check" subtype="Equipment">
-					<condition>Biohazard Protection</condition>
+                    <condition condition="Biohazard Protection"></condition>
 					<results>
 						<positive>
 							<event type="Action" subtype="GiveStress">

@@ -1585,8 +1585,7 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
 
                     r->addEncounter(new Encounter(name, rootev));
                 }
-                else
-                    m_xmlReader->skipCurrentElement();
+                m_xmlReader->skipCurrentElement();//encounter/*
             }
         }
         else
@@ -1650,12 +1649,10 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                             if (m_xmlReader->hasError())
                                 return nullptr;
                         }
-                        m_xmlReader->skipCurrentElement();
                     }
                     r=new MultiEvent(evs,text,ude);
                 }
-                m_xmlReader->skipCurrentElement();
-//                m_xmlReader->skipCurrentElement();
+                m_xmlReader->skipCurrentElement();//event
             }
             else if (type=="Action")
             {
@@ -1664,20 +1661,18 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                 if (subtype=="Null")
                 {
                     r=new NullEventResult(text,ude);
-                    m_xmlReader->skipCurrentElement();
-                    m_xmlReader->skipCurrentElement();
                 }
                 else if (subtype=="GiveHealth")
                 {
                     if (m_xmlReader->name()=="addedValue")
                         r=new GiveHealthEventResult(parseValue(m_xmlReader->attributes().value("value").toString()),text,ude);
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//addedValue
                 }
                 else if (subtype=="GiveStress")
                 {
                     if (m_xmlReader->name()=="addedValue")
                         r=new GiveStressEventResult(parseValue(m_xmlReader->attributes().value("value").toString()),text,ude);
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//addedValue
                 }
                 else if (subtype=="ModifyAttribute")
                 {
@@ -1704,13 +1699,11 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
 
                         r=new ModifyAttributeEventResult(mod,text,ude);
                     }
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//modification
                 }
                 else if (subtype=="Kill")
                 {
                     r=new KillHeroEventResult(text,ude);
-                    m_xmlReader->skipCurrentElement();
-                    m_xmlReader->skipCurrentElement();
                 }
                 else if (subtype=="AddEquipment")
                 {
@@ -1738,7 +1731,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
 
                         r=new AddEquipmentRandomEventResult(parseValue(attrs.value("tier").toString()), flags,text,ude);
                     }
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//equipment/random
                 }
                 else if (subtype=="RemoveEquipment")
                 {
@@ -1749,7 +1742,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                         attrs=m_xmlReader->attributes();
                         r=new RemoveEquipmentEventResult(EquipmentEnums::T_WeaponTool, attrs.value("slot").toInt(),text,ude);
                     }
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//armor/weaponTool
                 }
                 else if (subtype=="GiveResource")
                 {
@@ -1765,16 +1758,19 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
 
                         r=new GiveResourceRandomEventResult(parseValue(attrs.value("amount").toString()),text,ude);
                     }
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//resource
                 }
                 else if (subtype=="NoSignal")
                 {
                     if (m_xmlReader->name()=="duration")
                         r=new NoSignalEventResult(parseValue(m_xmlReader->attributes().value("duration").toString()),text,ude);
-                    m_xmlReader->skipCurrentElement();
+                    m_xmlReader->skipCurrentElement();//duration
                 }
                 else
                     m_xmlReader->skipCurrentElement();
+
+                if (subtype != "Null" && subtype != "Kill")
+                    m_xmlReader->skipCurrentElement();//event
             }
             else if (type=="Check")
             {
@@ -1809,7 +1805,6 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                                             if (m_xmlReader->hasError())
                                                 return nullptr;
                                         }
-                                        m_xmlReader->skipCurrentElement();
                                     }
                                 }
                                 else if (m_xmlReader->name()=="negative")
@@ -1823,7 +1818,6 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                                             if (m_xmlReader->hasError())
                                                 return nullptr;
                                         }
-                                        m_xmlReader->skipCurrentElement();
                                     }
                                 }
                                 else
@@ -1867,7 +1861,6 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                                             if (m_xmlReader->hasError())
                                                 return nullptr;
                                         }
-                                        m_xmlReader->skipCurrentElement();
                                     }
                                 }
                                 else if (m_xmlReader->name()=="negative")
@@ -1881,7 +1874,6 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                                             if (m_xmlReader->hasError())
                                                 return nullptr;
                                         }
-                                        m_xmlReader->skipCurrentElement();
                                     }
                                 }
                                 else
@@ -1896,6 +1888,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
 
                     r=new EquipmentCheckEvent(cond, resb.get(),text,ude);
                 }
+                m_xmlReader->skipCurrentElement();//event
             }
             else if (type=="Possibility")
             {
@@ -1907,7 +1900,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                         return nullptr;
                     r=new PossibilityEvent(chance,ev,text,ude);
                 }
-                m_xmlReader->skipCurrentElement();
+                m_xmlReader->skipCurrentElement();//event
             }
             else
                 m_xmlReader->raiseError("Parse error");
