@@ -16,7 +16,7 @@ Item {
     {
         var am=GameApi.base.amountOfReports();
         Scripts.setupList(am, width, back.y);
-        for (var i=0;i<am;++i)
+        for (var i=am-1;i>=0;--i)
         {
             GameApi.base.prepareReport(i);
             Scripts.createItem(GameApi.base.preparedReport.timestamp(), GameApi.base.preparedReport.msg(), GameApi.base.preparedReport.artSource());

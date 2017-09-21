@@ -24,7 +24,7 @@ Item {
             {
                 var am2=GameApi.base.heroes.preparedHero.assignedMission.amountOfReports();
                 Scripts.setupList(am2, width, height);
-                for (var j=0;j<am2;++j)
+                for (var j=am2-1;j>=0;--j)
                 {
                     GameApi.base.heroes.preparedHero.assignedMission.prepareReport(j);
                     Scripts.createItem(GameApi.base.heroes.preparedHero.assignedMission.preparedReport.timestamp(), GameApi.base.heroes.preparedHero.assignedMission.preparedReport.msg(), GameApi.base.heroes.preparedHero.assignedMission.preparedReport.artSource());
