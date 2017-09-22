@@ -949,12 +949,12 @@ void Mission::start() noexcept
     planNextEncounter();
 }
 
-EncounterReport *Mission::doEncounter() noexcept
+EncounterReport *Mission::doEncounter(const Time &now) noexcept
 {
-    ++m_currentEncounter;
+    auto r = m_encounters[m_nextEncounter].second->execute(m_assignedHero, now);
+    ++m_nextEncounter;
     planNextEncounter();
-    auto clock=m_assignedHero->base()->gameClock();
-    return m_encounters[m_currentEncounter].second->execute(m_assignedHero, clock->currentTime());
+    return r;
 }
 
 void Mission::end() noexcept
@@ -990,18 +990,32 @@ void Mission::prepareReport(unsigned index) noexcept
 }
 
 Mission::Mission() noexcept
-    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_currentEncounter(0), m_minutesSinceMidnightForLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
+    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_nextEncounter(0), m_minutesSinceMidnightOfLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
 
 void Mission::planNextEncounter() noexcept
 {
-    if (m_currentEncounter<m_encounters.size())
+    if (m_nextEncounter<m_encounters.size())
     {
-        unsigned daysToAdd=m_currentEncounter==0 ? 0 : m_encounters[m_currentEncounter].first-m_encounters[m_currentEncounter-1].first;
-        unsigned maxMinutes=24*60-(m_encounters.size()-1-m_currentEncounter);
-        unsigned minutesResult=Randomizer::randomBetweenAAndB(m_minutesSinceMidnightForLastEncounter==-1 ? 0 : m_minutesSinceMidnightForLastEncounter+1, maxMinutes);
         auto clock=m_assignedHero->base()->gameClock();
-        Time timeResult={clock->currentDay()+daysToAdd, minutesResult/60, minutesResult%60};
-        m_minutesSinceMidnightForLastEncounter=minutesResult;
+        unsigned missionDayOfPlannedEncounter = m_encounters[m_nextEncounter].first;
+        unsigned daysToAdd = m_nextEncounter==0 ? missionDayOfPlannedEncounter : missionDayOfPlannedEncounter-m_encounters[m_nextEncounter-1].first;
+        unsigned dayOfPlannedEncounter = clock->currentDay() + daysToAdd;
+        unsigned maxMinutes = 24*60-(m_encounters.size()-1-m_nextEncounter);// minutes since midnight
+        unsigned minMinutes;
+        if (m_nextEncounter == 0)
+            minMinutes = clock->currentHour()*60 + clock->currentMin() + 1;
+        else
+        {
+            if (daysToAdd == 0)
+                minMinutes = m_minutesSinceMidnightOfLastEncounter + 1;
+            else
+                minMinutes = 0;
+        }
+        unsigned minutesResult = Randomizer::randomBetweenAAndB(minMinutes, maxMinutes);
+        unsigned hourOfPlannedEncounter = minutesResult/60;
+        unsigned minOfPlannedEncounter = minutesResult%60;
+        Time timeResult={dayOfPlannedEncounter, hourOfPlannedEncounter, minOfPlannedEncounter};
+        m_minutesSinceMidnightOfLastEncounter = minutesResult;
 
         clock->addMissionAlarm(timeResult, this);
     }
@@ -1042,8 +1056,8 @@ QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) n
     for (auto e : mission.encounters)
         encounters+={static_cast<qint16>(e.first),e.second};
     stream<<encounters;
-    stream<<static_cast<qint16>(mission.currentEncounter);
-    stream<<static_cast<qint16>(mission.minutesSinceMidnightForLastEncounter);
+    stream<<static_cast<qint16>(mission.nextEncounter);
+    stream<<static_cast<qint16>(mission.minutesSinceMidnightOfLastEncounter);
     stream<<mission.hero;
     stream<<mission.relatedReportsIDs;
 
@@ -1072,10 +1086,10 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
         mission.encounters+={e.first,e.second};
 
     stream>>ii;
-    mission.currentEncounter=ii;
+    mission.nextEncounter=ii;
 
     stream>>ii;
-    mission.minutesSinceMidnightForLastEncounter=ii;
+    mission.minutesSinceMidnightOfLastEncounter=ii;
 
     stream>>mission.hero;
 
@@ -1144,8 +1158,8 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
                 r->m_encounters+={mission.encounters[i].first, e};
                 break;
             }
-    r->m_currentEncounter = mission.currentEncounter;
-    r->m_minutesSinceMidnightForLastEncounter = mission.minutesSinceMidnightForLastEncounter;
+    r->m_nextEncounter = mission.nextEncounter;
+    r->m_minutesSinceMidnightOfLastEncounter = mission.minutesSinceMidnightOfLastEncounter;
     for (auto e : base->heroes()->heroes())
         if (e->name() == mission.hero)
         {
@@ -1180,8 +1194,8 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     for (auto e : mission->m_encounters)
         encs+={e.first,e.second->name()};
     r.encounters = encs;
-    r.currentEncounter = mission->m_currentEncounter;
-    r.minutesSinceMidnightForLastEncounter = mission->m_minutesSinceMidnightForLastEncounter;
+    r.nextEncounter = mission->m_nextEncounter;
+    r.minutesSinceMidnightOfLastEncounter = mission->m_minutesSinceMidnightOfLastEncounter;
     r.hero = mission->assignedHero()->name();
     for (const auto &e : mission->reports())
         r.relatedReportsIDs+=e->id();

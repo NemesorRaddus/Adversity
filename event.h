@@ -921,7 +921,7 @@ public:
     }
 
     void start() noexcept;
-    EncounterReport *doEncounter() noexcept;
+    EncounterReport *doEncounter(const Time &now) noexcept;
 
     void end() noexcept;
     void forceEnd() noexcept;
@@ -954,8 +954,8 @@ private:
     unsigned m_duration;
     unsigned m_remainingDays;
     QVector <QPair <MissionDay, Encounter *> > m_encounters;
-    unsigned m_currentEncounter;
-    int m_minutesSinceMidnightForLastEncounter;
+    unsigned m_nextEncounter;
+    int m_minutesSinceMidnightOfLastEncounter;
     Hero *m_assignedHero;
     QVector <UnifiedReport *> m_relatedReports;
     UnifiedReport *m_preparedRelatedReport;
@@ -967,8 +967,8 @@ struct MissionDataHelper
     EventEnums::MissionDifficulty difficulty;
     unsigned duration, remainingDays;
     QVector <QPair <unsigned, QString> > encounters;
-    unsigned currentEncounter;
-    int minutesSinceMidnightForLastEncounter;
+    unsigned nextEncounter;
+    int minutesSinceMidnightOfLastEncounter;
     QString hero;
     QVector <unsigned> relatedReportsIDs;
 };

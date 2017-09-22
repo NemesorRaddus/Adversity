@@ -195,13 +195,14 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
     for (int i=0;i<m_missionAlarms.size();++i)
         if (m_missionAlarms[i].first <= now)
         {
-            auto er=m_missionAlarms[i].second->doEncounter();
-            if (m_missionAlarms[i].second->assignedHero()->isCommunicationAvailable())
-                m_base->addReport(new UnifiedReport{er});
-            else
-                m_missionAlarms[i].second->assignedHero()->addWaitingReport(new UnifiedReport{er});
+            auto temp = m_missionAlarms[i];
             m_missionAlarms.remove(i);
             --i;
+            auto er=temp.second->doEncounter(temp.first);
+            if (temp.second->assignedHero()->isCommunicationAvailable())
+                m_base->addReport(new UnifiedReport{er});
+            else
+                temp.second->assignedHero()->addWaitingReport(new UnifiedReport{er});
         }
 }
 
@@ -346,10 +347,12 @@ void GameClock::updateClock(const QDateTime &lastKnownDate, const Time &lastKnow
         minutesToAdd-=60*24;
         ++m_currentTimeInGame.d;
 
+        checkMissionAlarms(m_currentTimeInGame);
         m_base->startNewDay();
     }
 
     addMinutesToGameTime(minutesToAdd);
+    checkMissionAlarms(m_currentTimeInGame);
     tryAutosaving();
 }
 

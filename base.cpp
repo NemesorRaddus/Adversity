@@ -2049,7 +2049,7 @@ void Base::startNewDay() noexcept
         else if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_MissionEnd)
         {
             static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission()->end();
-            delete static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission();
+            removeMission(static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission());
         }
     }
 
