@@ -1034,9 +1034,16 @@ void Hero::handleNewDay() noexcept
     if (!m_isDead)
     {
         handleSBEAtDayEnd();
-        handleHunger();
-        handleEquipmentCosts();
-        decrementModificationsDuration();
+        if (!m_isDead)
+        {
+            handleHunger();
+            if (!m_isDead)
+            {
+                handleEquipmentCosts();
+                if (!m_isDead)
+                    decrementModificationsDuration();
+            }
+        }
     }
 }
 
@@ -1088,8 +1095,11 @@ void Hero::die() noexcept
 {
     m_isDead=1;
     m_currentAttributesValues.health=0;
-    if (isCommunicationAvailable())
+    if (m_currentActivity != HeroEnums::CA_OnMission || isCommunicationAvailable())
+    {
+        m_base->addReport(new UnifiedReport(new HeroDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
         emit died(name());
+    }
     else
         becomeMIA();
 }
@@ -1993,7 +2003,7 @@ void Hero::handleHunger() noexcept
     {
         int missingFood = dailyFoodConsumption()-carriedFoodSupplies();
         if (missingFood<=0)
-            setCarriedFoodSupplies(dailyFoodConsumption());
+            setCarriedFoodSupplies(carriedFoodSupplies()-dailyFoodConsumption());
         else
         {
             trySendingReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())), 1);

@@ -198,10 +198,10 @@ GiveHealthEventResult::GiveHealthEventResult(const ValueRange &addedValue, QStri
 QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Hero *hero) noexcept
 {
     if (m_value.singleValue())
-        hero->changeHealth(m_value.max().evaluate(hero).toUInt());
+        hero->changeHealth(m_value.max().evaluate(hero).toInt());
     else
     {
-        auto max=m_value.max().evaluate(hero).toUInt(), min=m_value.min().evaluate(hero).toUInt();
+        auto max=m_value.max().evaluate(hero).toInt(), min=m_value.min().evaluate(hero).toInt();
         hero->changeHealth(Randomizer::randomBetweenAAndB(min, max));
     }
 
@@ -659,7 +659,7 @@ QString EncounterReport::text() const noexcept
 
 BuildingUpgradeReport::BuildingUpgradeReport(BaseEnums::Building building, unsigned level, const Time &time) noexcept
     : Report(EventEnums::RT_BuildingUpgrade, time),
-      m_buildingArt("qrc:/graphics/Buildings/"+Global::alterNormalTextToInternal(BaseEnums::fromBuildingEnumToQString(building))),
+      m_buildingArt("qrc:/graphics/Buildings/"+Global::alterNormalTextToInternal(BaseEnums::fromBuildingEnumToQString(building))+".png"),
       m_building(building), m_level(level) {}
 
 QString BuildingUpgradeReport::text() const noexcept
