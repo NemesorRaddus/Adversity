@@ -175,6 +175,7 @@ class Hero : public QObject
     Q_PROPERTY(Mission* assignedMission MEMBER m_assignedMission)
     Q_PROPERTY(Equipment* preparedArmor MEMBER m_armor)
     Q_PROPERTY(Equipment* preparedWeaponTool MEMBER m_preparedWeaponTool)
+    Q_PROPERTY(Equipment* preparedCarriedEquipment MEMBER m_preparedCarriedEquipment)
 
 public:
     Q_INVOKABLE inline QString name() const noexcept
@@ -394,6 +395,11 @@ public:
     void addCarriedEquipment(Equipment *eq) noexcept;
     QVector <Equipment *> carriedEquipment() const noexcept;
     void clearCarriedEquipment() noexcept;
+    Q_INVOKABLE inline unsigned carriedEquipmentAmount() const noexcept
+    {
+        return m_carriedEquipment.size();
+    }
+    Q_INVOKABLE void prepareCarriedEquipmentAt(unsigned index) noexcept;
 
     Q_INVOKABLE unsigned dailyEquipmentCostEnergy() noexcept;
     Q_INVOKABLE unsigned dailyEquipmentCostBM() noexcept;
@@ -550,6 +556,7 @@ private:
     Equipment *m_preparedWeaponTool;
     QVector <EquipmentEnums::Category> m_currentEquipmentCategories;
     QVector <Equipment *> m_carriedEquipment;
+    Equipment *m_preparedCarriedEquipment;
     bool m_isEquipmentActive;
 
     int m_dhrBuildingBonus;

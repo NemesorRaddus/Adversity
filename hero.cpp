@@ -900,6 +900,12 @@ void Hero::clearCarriedEquipment() noexcept
     m_carriedEquipment.clear();
 }
 
+void Hero::prepareCarriedEquipmentAt(unsigned index) noexcept
+{
+    if (index<m_carriedEquipment.size())
+        m_preparedCarriedEquipment=m_carriedEquipment[index];
+}
+
 unsigned Hero::dailyEquipmentCostEnergy() noexcept
 {
     unsigned r=0;
@@ -940,7 +946,7 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
 }
 
 Hero::Hero(Base *base) noexcept
-    : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_preparedWeaponTool(nullptr),  m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
+    : m_base(base), m_stockCE(0), m_stockPR(0), m_stockCL(0), m_nature(HeroEnums::N_Active), m_armor(nullptr), m_preparedWeaponTool(nullptr), m_preparedCarriedEquipment(nullptr), m_isEquipmentActive(1), m_dhrBuildingBonus(0), m_dsrBuildingBonus(0), m_isDead(0), m_indexOfCurrentSBE(-1), m_noSignalDaysRemaining(0), m_carriedEnergy(0), m_carriedFoodSupplies(0), m_carriedBuildingMaterials(0), m_carriedAetheriteOre(0), m_noSalaryWeeks(0), m_assignedMission(nullptr), m_currentActivity(HeroEnums::CA_Idle)
 {
     m_stressBorderEffects.reserve(1);
     m_stressBorderEffects.push_back({HeroEnums::SBE_None});

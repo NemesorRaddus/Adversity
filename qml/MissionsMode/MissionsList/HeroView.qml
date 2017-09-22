@@ -140,6 +140,81 @@ Item {
                     foodSuppliesAmount.text = GameApi.base.heroes.preparedHero.carriedFoodSupplies();
                     buildingMaterialsAmount.text = GameApi.base.heroes.preparedHero.carriedBuildingMaterials();
                     aetheriteAmount.text = GameApi.base.heroes.preparedHero.carriedAetheriteOre();
+
+                    equipment.visible = true;
+                    var eqsAmount = GameApi.base.heroes.preparedHero.carriedEquipmentAmount();
+                    if (eqsAmount>=1)
+                    {
+                        GameApi.base.heroes.preparedHero.prepareCarriedEquipment(eqsAmount-1);
+                        eq1Art.source = GameApi.base.heroes.preparedHero.preparedCarriedEquipment.pathToArt();
+
+                        if (eqsAmount>=2)
+                        {
+                            GameApi.base.heroes.preparedHero.prepareCarriedEquipment(eqsAmount-2);
+                            eq2Art.source = GameApi.base.heroes.preparedHero.preparedCarriedEquipment.pathToArt();
+
+                            if (eqsAmount>=3)
+                            {
+                                GameApi.base.heroes.preparedHero.prepareCarriedEquipment(eqsAmount-3);
+                                eq3Art.source = GameApi.base.heroes.preparedHero.preparedCarriedEquipment.pathToArt();
+
+                                if (eqsAmount>=4)
+                                {
+                                    GameApi.base.heroes.preparedHero.prepareCarriedEquipment(eqsAmount-4);
+                                    eq4Art.source = GameApi.base.heroes.preparedHero.preparedCarriedEquipment.pathToArt();
+
+                                    if (eqsAmount>=5)
+                                    {
+                                        GameApi.base.heroes.preparedHero.prepareCarriedEquipment(eqsAmount-5);
+                                        eq5Art.source = GameApi.base.heroes.preparedHero.preparedCarriedEquipment.pathToArt();
+
+                                        if (eqsAmount>=6)
+                                        {
+                                            GameApi.base.heroes.preparedHero.prepareCarriedEquipment(eqsAmount-6);
+                                            eq6Art.source = GameApi.base.heroes.preparedHero.preparedCarriedEquipment.pathToArt();
+                                        }
+                                        else
+                                            eq6Art.source = "";
+                                    }
+                                    else
+                                    {
+                                        eq5Art.source = "";
+                                        eq6Art.source = "";
+                                    }
+                                }
+                                else
+                                {
+                                    eq4Art.source = "";
+                                    eq5Art.source = "";
+                                    eq6Art.source = "";
+                                }
+                            }
+                            else
+                            {
+                                eq3Art.source = "";
+                                eq4Art.source = "";
+                                eq5Art.source = "";
+                                eq6Art.source = "";
+                            }
+                        }
+                        else
+                        {
+                            eq2Art.source = "";
+                            eq3Art.source = "";
+                            eq4Art.source = "";
+                            eq5Art.source = "";
+                            eq6Art.source = "";
+                        }
+                    }
+                    else
+                    {
+                        eq1Art.source = "";
+                        eq2Art.source = "";
+                        eq3Art.source = "";
+                        eq4Art.source = "";
+                        eq5Art.source = "";
+                        eq6Art.source = "";
+                    }
                 }
                 else
                 {
@@ -185,6 +260,8 @@ Item {
                     foodSuppliesAmount.text = "?";
                     buildingMaterialsAmount.text = "?";
                     aetheriteAmount.text = "?";
+
+                    equipment.visible = false;
                 }
                 break;
             }
@@ -434,8 +511,6 @@ Item {
         width: parent.width-2*x
         height: 130
 
-        visible: false//TODO add collected eq view
-
         Item {
             id: eq1
 
@@ -448,12 +523,12 @@ Item {
                 source: "qrc:/graphics/GUI/Task_Picture2.png"
             }
             Image {
+                id: eq1Art
+
                 x: 1
                 y: 1
                 width: parent.width-2
                 height: parent.height-2
-
-                source: "qrc:/graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png"
             }
             MouseArea {
                 anchors.fill: parent
@@ -472,12 +547,12 @@ Item {
                 source: "qrc:/graphics/GUI/Task_Picture2.png"
             }
             Image {
+                id: eq2Art
+
                 x: 1
                 y: 1
                 width: parent.width-2
                 height: parent.height-2
-
-                source: "qrc:/graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png"
             }
             MouseArea {
                 anchors.fill: parent
@@ -496,12 +571,12 @@ Item {
                 source: "qrc:/graphics/GUI/Task_Picture2.png"
             }
             Image {
+                id: eq3Art
+
                 x: 1
                 y: 1
                 width: parent.width-2
                 height: parent.height-2
-
-                source: "qrc:/graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png"
             }
             MouseArea {
                 anchors.fill: parent
@@ -520,12 +595,12 @@ Item {
                 source: "qrc:/graphics/GUI/Task_Picture2.png"
             }
             Image {
+                id: eq4Art
+
                 x: 1
                 y: 1
                 width: parent.width-2
                 height: parent.height-2
-
-                source: "qrc:/graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png"
             }
             MouseArea {
                 anchors.fill: parent
@@ -544,12 +619,12 @@ Item {
                 source: "qrc:/graphics/GUI/Task_Picture2.png"
             }
             Image {
+                id: eq5Art
+
                 x: 1
                 y: 1
                 width: parent.width-2
                 height: parent.height-2
-
-                source: "qrc:/graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png"
             }
             MouseArea {
                 anchors.fill: parent
@@ -568,12 +643,12 @@ Item {
                 source: "qrc:/graphics/GUI/Task_Picture2.png"
             }
             Image {
+                id: eq6Art
+
                 x: 1
                 y: 1
                 width: parent.width-2
                 height: parent.height-2
-
-                source: "qrc:/graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png"
             }
             MouseArea {
                 anchors.fill: parent
