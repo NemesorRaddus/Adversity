@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>graphics/Mercs/Archeologist/MadeleineLacroix.png</file>
         <file>graphics/Mercs/Archeologist/StevenBrown.png</file>
-        <file>graphics/Mercs/Archeologist/TakashiMatokai.png</file>
+        <file>graphics/Mercs/Archeologist/TakeshiMatokai.png</file>
         <file>graphics/Mercs/BattleDroid/AP-NGAI-V5.png</file>
         <file>graphics/Mercs/BattleDroid/CAI-V2-DY11.png</file>
         <file>graphics/Mercs/BountyHunter/AdamAnderson.png</file>

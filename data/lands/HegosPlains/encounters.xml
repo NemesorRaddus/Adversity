@@ -661,7 +661,7 @@
 	</encounter>
 	<encounter name="Movement in grass">
 		<event type="Multi">
-            <text>Huh? I think I saw something in the grass on that hill."</text>
+            <text>Huh? I think I saw something in the grass on that hill.</text>
 			<events>
 				<event type="Check" subtype="Value">
 					<condition condition="CL>CE"></condition>
