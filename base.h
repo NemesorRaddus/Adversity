@@ -2425,6 +2425,7 @@ public:
     Q_INVOKABLE void prepareReport(unsigned index) noexcept;
     Q_INVOKABLE void prepareNewReport(unsigned index) noexcept;
     void addReport(UnifiedReport *report) noexcept;
+    void registerLatestReportInMission(Mission *mission) noexcept;
     inline QVector <UnifiedReport *> &reports() noexcept
     {
         return m_reports;

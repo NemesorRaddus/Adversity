@@ -657,8 +657,10 @@ QString EncounterReport::text() const noexcept
     return r;
 }
 
-BuildingUpgradeReport::BuildingUpgradeReport(const QString &buildingArt, BaseEnums::Building building, unsigned level, const Time &time) noexcept
-    : Report(EventEnums::RT_BuildingUpgrade, time), m_buildingArt(buildingArt), m_building(building), m_level(level) {}
+BuildingUpgradeReport::BuildingUpgradeReport(BaseEnums::Building building, unsigned level, const Time &time) noexcept
+    : Report(EventEnums::RT_BuildingUpgrade, time),
+      m_buildingArt("qrc:/graphics/Buildings/"+Global::alterNormalTextToInternal(BaseEnums::fromBuildingEnumToQString(building))),
+      m_building(building), m_level(level) {}
 
 QString BuildingUpgradeReport::text() const noexcept
 {
@@ -745,10 +747,10 @@ QString SignalRetrievedReport::text() const noexcept
     return "Finally I can hear you clearly.";
 }
 
-MissionStart::MissionStart(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept
+MissionStartReport::MissionStartReport(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept
     : Report(EventEnums::RT_MissionStart, time), m_heroArt(heroArt), m_stress(stress), m_stressLimit(stressLimit) {}
 
-QString MissionStart::text() const noexcept
+QString MissionStartReport::text() const noexcept
 {
     if (m_stressLimit == -1)
         return "Order understood.";
@@ -946,6 +948,8 @@ void Mission::assignHero(Hero *hero) noexcept
 
 void Mission::start() noexcept
 {
+    m_assignedHero->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedHero->pathToArt(), m_assignedHero->stress(), m_assignedHero->stressLimit(), m_assignedHero->base()->gameClock()->currentTime())));
+    m_assignedHero->base()->registerLatestReportInMission(this);
     planNextEncounter();
 }
 

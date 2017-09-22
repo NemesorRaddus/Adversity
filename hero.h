@@ -451,6 +451,7 @@ public:
     }
     void assignMission(Mission *mission) noexcept;
 
+    void trySendingReport(UnifiedReport *report, bool registerInMission) noexcept;
     void addWaitingReport(UnifiedReport *report) noexcept;
     void sendWaitingReports() noexcept;
 

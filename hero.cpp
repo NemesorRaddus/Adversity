@@ -924,9 +924,19 @@ unsigned Hero::dailyEquipmentCostBM() noexcept
 
 void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
 {
+    if (m_noSignalDaysRemaining == noSignalDaysRemaining)
+        return;
+
     m_noSignalDaysRemaining = noSignalDaysRemaining;
     if (m_noSignalDaysRemaining == 0)
+    {
+        if (m_assignedMission==nullptr)
+            return;//safety measure
+        addWaitingReport(new UnifiedReport(new SignalRetrievedReport(pathToArt(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         sendWaitingReports();
+    }
+    else if (m_assignedMission!=nullptr)
+        trySendingReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())), 1);
 }
 
 Hero::Hero(Base *base) noexcept
@@ -970,6 +980,18 @@ void Hero::assignMission(Mission *mission) noexcept
     m_currentActivity=HeroEnums::CA_OnMission;
 }
 
+void Hero::trySendingReport(UnifiedReport *report, bool registerInMission) noexcept
+{
+    if (isCommunicationAvailable())
+    {
+        m_base->addReport(report);
+        if (registerInMission)
+            m_base->registerLatestReportInMission(m_assignedMission);
+    }
+    else
+        addWaitingReport(report);
+}
+
 void Hero::addWaitingReport(UnifiedReport *report) noexcept
 {
     m_waitingReports+=report;
@@ -978,7 +1000,10 @@ void Hero::addWaitingReport(UnifiedReport *report) noexcept
 void Hero::sendWaitingReports() noexcept
 {
     for (auto &e : m_waitingReports)
+    {
         m_base->addReport(e);
+        m_base->registerLatestReportInMission(m_assignedMission);
+    }
     m_waitingReports.clear();
 }
 
@@ -1890,6 +1915,7 @@ void Hero::handleSBEAtDayEnd()  noexcept
 
         if (chance >= Randomizer::randomBetweenAAndB(1,100))
         {
+            trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
             ranAway(m_name,21);
         }
     }
@@ -1898,7 +1924,10 @@ void Hero::handleSBEAtDayEnd()  noexcept
         if (m_currentActivity == HeroEnums::CA_OnMission)
         {
             if (10 >= Randomizer::randomBetweenAAndB(1,100))
+            {
+                trySendingReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())), 1);
                 m_noSignalDaysRemaining=-1;
+            }
         }
     }
     else if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Masochism)
@@ -1967,6 +1996,7 @@ void Hero::handleHunger() noexcept
             setCarriedFoodSupplies(dailyFoodConsumption());
         else
         {
+            trySendingReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())), 1);
             setCarriedFoodSupplies(0);
             changeHealth(-missingFood);
             increaseStress(missingFood*10);
@@ -1979,6 +2009,7 @@ void Hero::handleHunger() noexcept
             m_base->decreaseFoodSuppliesAmount(dailyFoodConsumption());
         else
         {
+            m_base->addReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())));
             m_base->setCurrentFoodSuppliesAmount(0);
             changeHealth(-missingFood);
             increaseStress(missingFood*10);
@@ -1999,15 +2030,22 @@ void Hero::handleSalary() noexcept
         }
         else
         {
+            trySendingReport(new UnifiedReport(new NoSalaryReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
             m_base->setCurrentAetheriteAmount(0);
             increaseStress(missingAetherite*3);
             if (m_noSalaryWeeks+1 == 4)
+            {
+                trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
                 ranAway(m_name,21);
+            }
             else
             {
                 ++m_noSalaryWeeks;
                 if (stress()/stressLimit()*100 >= Randomizer::randomBetweenAAndB(1,100))
+                {
+                    trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
                     ranAway(m_name,21);
+                }
             }
         }
     }

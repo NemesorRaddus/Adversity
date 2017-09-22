@@ -532,7 +532,7 @@ private:
 class BuildingUpgradeReport : public Report
 {
 public:
-    BuildingUpgradeReport(const QString &buildingArt, BaseEnums::Building building, unsigned level, const Time &time) noexcept;
+    BuildingUpgradeReport(BaseEnums::Building building, unsigned level, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
@@ -707,10 +707,10 @@ private:
     QString m_landName;
 };
 
-class MissionStart : public Report
+class MissionStartReport : public Report
 {
 public:
-    MissionStart(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept;
+    MissionStartReport(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {

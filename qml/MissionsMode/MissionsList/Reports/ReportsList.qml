@@ -99,12 +99,12 @@ Item {
 
     states: [
         State {
-            name: "hiddenRight"
-            PropertyChanges { target: root; x: width }
+            name: "hiddenLeft"
+            PropertyChanges { target: root; x: -width }
         },
         State {
-            name: "hiddenRight2"
-            PropertyChanges { target: root; x: 2*width }
+            name: "hiddenLeft2"
+            PropertyChanges { target: root; x: -2*width }
         }
     ]
 

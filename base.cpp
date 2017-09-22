@@ -385,6 +385,7 @@ void TrainingGround::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_TrainingGround, base()->gameClock()->currentTime())));
                 m_heroesBeingTrained[i].first->trainCombatEffectiveness();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
@@ -497,6 +498,7 @@ void Gym::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_Gym, base()->gameClock()->currentTime())));
                 m_heroesBeingTrained[i].first->trainProficiency();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
@@ -609,6 +611,7 @@ void Laboratory::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_Laboratory, base()->gameClock()->currentTime())));
                 m_heroesBeingTrained[i].first->trainCleverness();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
@@ -1403,6 +1406,7 @@ void DockingStation::doRecrutationStuff() noexcept
         if (m_arrivingHeroes[i].second == 0)
         {
             Hero *h=m_arrivingHeroes[i].first;//antibug thing, leave it as it is
+            base()->addReport(new UnifiedReport(new HeroArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
             h->setCurrentActivity(HeroEnums::CA_Idle);
             m_arrivingHeroes.remove(i);
         }
@@ -1471,6 +1475,8 @@ void DockingStation::handleActiveTransactions() noexcept
     {
         if (m_activeTransactions[i].second == 0)
         {
+            base()->addReport(new UnifiedReport(new TradeCompletionReport(m_activeTransactions[i].first.targetRes, m_activeTransactions[i].first.targetAmount, base()->gameClock()->currentTime())));
+
             if (m_activeTransactions[i].first.targetRes == BaseEnums::R_Energy)
                 base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + m_activeTransactions[i].first.targetAmount);
             else if (m_activeTransactions[i].first.targetRes == BaseEnums::R_FoodSupplies)
@@ -1544,6 +1550,7 @@ void DockingStation::doBuyingEquipmentStuff() noexcept
         if (m_arrivingEquipments[i].second == 0)
         {
             Equipment *eq=m_arrivingEquipments[i].first;
+            base()->addReport(new UnifiedReport(new EquipmentArrivalReport(eq->name(), base()->gameClock()->currentTime())));
             base()->availableEquipment().push_back(eq);
             m_arrivingEquipments.remove(i);
         }
@@ -2043,13 +2050,17 @@ void Base::startNewDay() noexcept
     {
         if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_BuildingUpgrade)
         {
-            m_buildingLevels.insert(static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName(), static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingLevel());
-            m_buildings[static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName()]->registerUpgradeCompletion();
+            auto buta = static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i]);
+            addReport(new UnifiedReport(new BuildingUpgradeReport(buta->buildingName(), buta->buildingLevel(), m_gameClock->currentTime())));
+            m_buildingLevels.insert(buta->buildingName(), buta->buildingLevel());
+            m_buildings[buta->buildingName()]->registerUpgradeCompletion();
         }
         else if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_MissionEnd)
         {
-            static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission()->end();
-            removeMission(static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i])->mission());
+            auto meta = static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i]);
+            addReport(new UnifiedReport(new MissionEndReport(meta->mission()->assignedHero()->pathToArt(), meta->mission()->assignedHero()->name(), m_gameClock->currentTime())));
+            meta->mission()->end();
+            removeMission(meta->mission());
         }
     }
 
@@ -2329,6 +2340,14 @@ void Base::addReport(UnifiedReport *report) noexcept
     if (m_newReports.size()>m_maxReportsAmount)
         m_newReports.removeFirst();
     m_gameObject->showReportNotification();
+}
+
+void Base::registerLatestReportInMission(Mission *mission) noexcept
+{
+    if (m_reports.isEmpty() || mission==nullptr)
+        return;
+
+    mission->addRelatedReport(m_reports.last());
 }
 
 void Base::markReportAsRead(unsigned indexOnAllReportsList) noexcept
