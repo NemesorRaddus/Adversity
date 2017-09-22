@@ -29,6 +29,24 @@ Item {
         prof.text="The "+GameApi.tr(text);
     }
 
+    function setMIA()
+    {
+        attrCEValue.text = "?";
+        attrPRValue.text = "?";
+        attrCLValue.text = "?";
+        attrHPValue.text = "?/?";
+        attrSTValue.text = "?";
+        attrSLValue.text = "?";
+        attrSRValue.text = "?";
+        attrSAValue.text = "?";
+        attrFCValue.text = "?";
+
+        statusHPFrame.source = "";
+        statusSTFrame.source = "";
+
+        currentlyBusy.source = "qrc:/graphics/GUI/Disconnected.png";
+    }
+
     function setCE(amount)
     {
         attrCEValue.text = amount;

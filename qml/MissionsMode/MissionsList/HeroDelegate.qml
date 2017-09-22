@@ -42,6 +42,22 @@ Item {
         }
     }
 
+    function setMIA()
+    {
+        attrCEValue.text = "?";
+        attrPRValue.text = "?";
+        attrCLValue.text = "?";
+        attrHPValue.text = "?/?";
+        attrSTValue.text = "?";
+        attrSLValue.text = "?";
+        attrSRValue.text = "?";
+        attrSAValue.text = "?";
+        attrFCValue.text = "?";
+
+        statusHPFrame.source = "";
+        statusSTFrame.source = "";
+    }
+
     function setCE(amount)
     {
         attrCEValue.text = amount;

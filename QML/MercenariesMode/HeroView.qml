@@ -32,103 +32,129 @@ Item {
                 if (GameApi.base.heroes.preparedHero.name() == name)
                 {
                     heroName=name;
-                    topBar.setArtSource("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.heroes.preparedHero.professionString())+'/'+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.heroes.preparedHero.name())+".png");
-                    topBar.setName(GameApi.base.heroes.preparedHero.name());
-                    topBar.setProfession(GameApi.base.heroes.preparedHero.professionString());
-                    topBar.setCE(GameApi.base.heroes.preparedHero.combatEffectiveness());
-                    topBar.setPR(GameApi.base.heroes.preparedHero.proficiency());
-                    topBar.setCL(GameApi.base.heroes.preparedHero.cleverness());
-                    topBar.setHP(GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit());
-                    topBar.setST(GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit());
-                    topBar.setSR(GameApi.base.heroes.preparedHero.stressResistance());
-                    topBar.setDSR(GameApi.base.heroes.preparedHero.dailyStressRecovery());
-                    topBar.setDHR(GameApi.base.heroes.preparedHero.dailyHealthRecovery());
-                    topBar.setDFC(GameApi.base.heroes.preparedHero.dailyFoodConsumption());
-                    topBar.setSA(GameApi.base.heroes.preparedHero.salary())
-                    topBar.setNature(GameApi.base.heroes.preparedHero.natureString());
+                    if (GameApi.base.heroes.preparedHero.isCommunicationAvailable())
+                    {
+                        topBar.setArtSource(GameApi.base.heroes.preparedHero.pathToArt());
+                        topBar.setName(GameApi.base.heroes.preparedHero.name());
+                        topBar.setProfession(GameApi.base.heroes.preparedHero.professionString());
+                        topBar.setCE(GameApi.base.heroes.preparedHero.combatEffectiveness());
+                        topBar.setPR(GameApi.base.heroes.preparedHero.proficiency());
+                        topBar.setCL(GameApi.base.heroes.preparedHero.cleverness());
+                        topBar.setHP(GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit());
+                        topBar.setST(GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit());
+                        topBar.setSR(GameApi.base.heroes.preparedHero.stressResistance());
+                        topBar.setDSR(GameApi.base.heroes.preparedHero.dailyStressRecovery());
+                        topBar.setDHR(GameApi.base.heroes.preparedHero.dailyHealthRecovery());
+                        topBar.setDFC(GameApi.base.heroes.preparedHero.dailyFoodConsumption());
+                        topBar.setSA(GameApi.base.heroes.preparedHero.salary())
+                        topBar.setNature(GameApi.base.heroes.preparedHero.natureString());
 
-                    if (GameApi.base.heroes.preparedHero.healthLimit() == GameApi.base.heroes.preparedHero.baseHealthLimit())
-                        topBar.setColorHL("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.healthLimit() > GameApi.base.heroes.preparedHero.baseHealthLimit())
-                        topBar.setColorHL("#439b20");
-                    else
-                        topBar.setColorHL("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.healthLimit() == GameApi.base.heroes.preparedHero.baseHealthLimit())
+                            topBar.setColorHL("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.healthLimit() > GameApi.base.heroes.preparedHero.baseHealthLimit())
+                            topBar.setColorHL("#439b20");
+                        else
+                            topBar.setColorHL("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.stressLimit() == GameApi.base.heroes.preparedHero.baseStressLimit())
-                        topBar.setColorSL("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.stressLimit() > GameApi.base.heroes.preparedHero.baseStressLimit())
-                        topBar.setColorSL("#439b20");
-                    else
-                        topBar.setColorSL("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.stressLimit() == GameApi.base.heroes.preparedHero.baseStressLimit())
+                            topBar.setColorSL("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.stressLimit() > GameApi.base.heroes.preparedHero.baseStressLimit())
+                            topBar.setColorSL("#439b20");
+                        else
+                            topBar.setColorSL("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.combatEffectiveness() == GameApi.base.heroes.preparedHero.baseCombatEffectiveness())
-                        topBar.setColorCE("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.combatEffectiveness() > GameApi.base.heroes.preparedHero.baseCombatEffectiveness())
-                        topBar.setColorCE("#439b20");
-                    else
-                        topBar.setColorCE("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.combatEffectiveness() == GameApi.base.heroes.preparedHero.baseCombatEffectiveness())
+                            topBar.setColorCE("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.combatEffectiveness() > GameApi.base.heroes.preparedHero.baseCombatEffectiveness())
+                            topBar.setColorCE("#439b20");
+                        else
+                            topBar.setColorCE("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.proficiency() == GameApi.base.heroes.preparedHero.baseProficiency())
-                        topBar.setColorPR("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.proficiency() > GameApi.base.heroes.preparedHero.baseProficiency())
-                        topBar.setColorPR("#439b20");
-                    else
-                        topBar.setColorPR("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.proficiency() == GameApi.base.heroes.preparedHero.baseProficiency())
+                            topBar.setColorPR("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.proficiency() > GameApi.base.heroes.preparedHero.baseProficiency())
+                            topBar.setColorPR("#439b20");
+                        else
+                            topBar.setColorPR("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.cleverness() == GameApi.base.heroes.preparedHero.baseCleverness())
-                        topBar.setColorCL("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.cleverness() > GameApi.base.heroes.preparedHero.baseCleverness())
-                        topBar.setColorCL("#439b20");
-                    else
-                        topBar.setColorCL("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.cleverness() == GameApi.base.heroes.preparedHero.baseCleverness())
+                            topBar.setColorCL("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.cleverness() > GameApi.base.heroes.preparedHero.baseCleverness())
+                            topBar.setColorCL("#439b20");
+                        else
+                            topBar.setColorCL("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.stressResistance() == GameApi.base.heroes.preparedHero.baseStressResistance())
-                        topBar.setColorSR("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.stressResistance() > GameApi.base.heroes.preparedHero.baseStressResistance())
-                        topBar.setColorSR("#bf0000");
-                    else
-                        topBar.setColorSR("#439b20");
+                        if (GameApi.base.heroes.preparedHero.stressResistance() == GameApi.base.heroes.preparedHero.baseStressResistance())
+                            topBar.setColorSR("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.stressResistance() > GameApi.base.heroes.preparedHero.baseStressResistance())
+                            topBar.setColorSR("#bf0000");
+                        else
+                            topBar.setColorSR("#439b20");
 
-                    if (GameApi.base.heroes.preparedHero.dailyStressRecovery() == GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
-                        topBar.setColorDSR("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.dailyStressRecovery() > GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
-                        topBar.setColorDSR("#439b20");
-                    else
-                        topBar.setColorDSR("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.dailyStressRecovery() == GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
+                            topBar.setColorDSR("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.dailyStressRecovery() > GameApi.base.heroes.preparedHero.baseDailyStressRecovery())
+                            topBar.setColorDSR("#439b20");
+                        else
+                            topBar.setColorDSR("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.dailyHealthRecovery() == GameApi.base.heroes.preparedHero.baseDailyHealthRecovery())
-                        topBar.setColorDHR("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.dailyHealthRecovery() > GameApi.base.heroes.preparedHero.baseDailyHealthRecovery())
-                        topBar.setColorDHR("#439b20");
-                    else
-                        topBar.setColorDHR("#bf0000");
+                        if (GameApi.base.heroes.preparedHero.dailyHealthRecovery() == GameApi.base.heroes.preparedHero.baseDailyHealthRecovery())
+                            topBar.setColorDHR("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.dailyHealthRecovery() > GameApi.base.heroes.preparedHero.baseDailyHealthRecovery())
+                            topBar.setColorDHR("#439b20");
+                        else
+                            topBar.setColorDHR("#bf0000");
 
-                    if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() == GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
-                        topBar.setColorDFC("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() > GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
-                        topBar.setColorDFC("#bf0000");
-                    else
-                        topBar.setColorDFC("#439b20");
+                        if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() == GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
+                            topBar.setColorDFC("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.dailyFoodConsumption() > GameApi.base.heroes.preparedHero.baseDailyFoodConsumption())
+                            topBar.setColorDFC("#bf0000");
+                        else
+                            topBar.setColorDFC("#439b20");
 
-                    if (GameApi.base.heroes.preparedHero.salary() == GameApi.base.heroes.preparedHero.baseSalary())
-                        topBar.setColorSA("#568b56");
-                    else if (GameApi.base.heroes.preparedHero.salary() > GameApi.base.heroes.preparedHero.baseSalary())
-                        topBar.setColorSA("#bf0000");
-                    else
-                        topBar.setColorSA("#439b20");
+                        if (GameApi.base.heroes.preparedHero.salary() == GameApi.base.heroes.preparedHero.baseSalary())
+                            topBar.setColorSA("#568b56");
+                        else if (GameApi.base.heroes.preparedHero.salary() > GameApi.base.heroes.preparedHero.baseSalary())
+                            topBar.setColorSA("#bf0000");
+                        else
+                            topBar.setColorSA("#439b20");
 
-                    currentActivity_=GameApi.base.heroes.preparedHero.currentActivityString();
-                    topBar.setCurrentActivity(currentActivity_);
-                    currentActivity.setCurrentActivity(currentActivity_);
+                        currentActivity_=GameApi.base.heroes.preparedHero.currentActivityString();
+                        topBar.setCurrentActivity(currentActivity_);
+                        currentActivity.setCurrentActivity(currentActivity_);
 
-                    if (GameApi.base.heroes.preparedHero.isImmuneToStress())
-                        stressBorderEffect.setImmunity();
+                        if (GameApi.base.heroes.preparedHero.isImmuneToStress())
+                            stressBorderEffect.setImmunity();
+                        else
+                        {
+                            if (GameApi.base.heroes.preparedHero.isStressBorderEffectActive())
+                                stressBorderEffect.setCurrentSBE(GameApi.base.heroes.preparedHero.currentStressBorderEffectNameString());
+                            else
+                                stressBorderEffect.setNoCurrentSBE();
+                        }
+                    }
                     else
                     {
-                        if (GameApi.base.heroes.preparedHero.isStressBorderEffectActive())
-                            stressBorderEffect.setCurrentSBE(GameApi.base.heroes.preparedHero.currentStressBorderEffectNameString());
-                        else
-                            stressBorderEffect.setNoCurrentSBE();
+                        topBar.setArtSource(GameApi.base.heroes.preparedHero.pathToArt());
+                        topBar.setName(GameApi.base.heroes.preparedHero.name());
+                        topBar.setProfession(GameApi.base.heroes.preparedHero.professionString());
+                        topBar.setMIA();
+
+                        topBar.setColorHL("#568b56");
+                        topBar.setColorSL("#568b56");
+                        topBar.setColorCE("#568b56");
+                        topBar.setColorPR("#568b56");
+                        topBar.setColorCL("#568b56");
+                        topBar.setColorSR("#568b56");
+                        topBar.setColorDSR("#568b56");
+                        topBar.setColorDHR("#568b56");
+                        topBar.setColorDFC("#568b56");
+                        topBar.setColorSA("#568b56");
+
+                        currentActivity_="On Mission";
+                        currentActivity.setCurrentActivity(currentActivity_);
+
+                        stressBorderEffect.setMIA();
                     }
                     break;
                 }
@@ -205,6 +231,27 @@ Item {
         function setProfession(text)
         {
             prof.text="The "+GameApi.tr(text);
+        }
+
+        function setMIA()
+        {
+            attrCEValue.text = "?";
+            attrPRValue.text = "?";
+            attrCLValue.text = "?";
+            attrHPValue.text = "?/?";
+            attrSTValue.text = "?/?";
+            attrSRValue.text = "?";
+            attrDSRValue.text = "?";
+            attrDHRValue.text = "?";
+            attrSAValue.text = "?";
+            attrDFCValue.text = "?";
+
+            natureValue.text = "?";
+
+            statusHPFrame.source = "";
+            statusSTFrame.source = "";
+
+            currentlyBusy.source = "qrc:/graphics/GUI/Disconnected.png";
         }
 
         function setCE(amount)
@@ -1002,7 +1049,7 @@ Item {
 
             color: "#94ef94"
             text: "On Training Ground"
-            font.pixelSize: 56
+            font.pixelSize: 50
             font.family: fontStencil.name
             horizontalAlignment: Text.AlignRight
         }
@@ -1155,6 +1202,12 @@ Item {
         {
             stressBorderEffectValue.text = "N/A";
             stressBorderEffectDescription.text = "Because of mechanical nature, this mercenary cannot have any quirks.";
+        }
+
+        function setMIA()
+        {
+            stressBorderEffectValue.text = "?";
+            stressBorderEffectDescription.text = "";
         }
 
         Text {
