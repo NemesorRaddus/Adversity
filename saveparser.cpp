@@ -18,11 +18,9 @@ SaveData SaveParser::readData(QByteArray &array)
         QDataStream str(&t,QIODevice::ReadOnly);
         str>>data.parserVersion;
         str>>data.overall.baseName;
-        str>>data.overall.lastKnownDate;
         str>>data.overall.lastKnownDay;
         str>>data.overall.lastKnownHour;
         str>>data.overall.lastKnownMinute;
-        str>>data.overall.freezeGameProgress;
         str>>data.buildings.levels.centralUnit;
         str>>data.buildings.levels.powerplant;
         str>>data.buildings.levels.factory;
@@ -88,11 +86,9 @@ SaveData SaveParser::readData(QByteArray &array)
     {
         data.parserVersion.clear();
         data.overall.baseName.clear();
-        data.overall.lastKnownDate=QDateTime::currentDateTime();
         data.overall.lastKnownDay=1;
-        data.overall.lastKnownHour=12;
+        data.overall.lastKnownHour=0;
         data.overall.lastKnownMinute=0;
-        data.overall.freezeGameProgress=false;
         data.buildings.levels.centralUnit=1;
         data.buildings.levels.powerplant=1;
         data.buildings.levels.factory=1;
@@ -166,11 +162,9 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     QDataStream str(&t,QIODevice::WriteOnly);
     str<<data.parserVersion;
     str<<data.overall.baseName;
-    str<<data.overall.lastKnownDate;
     str<<data.overall.lastKnownDay;
     str<<data.overall.lastKnownHour;
     str<<data.overall.lastKnownMinute;
-    str<<data.overall.freezeGameProgress;
     str<<data.buildings.levels.centralUnit;
     str<<data.buildings.levels.powerplant;
     str<<data.buildings.levels.factory;

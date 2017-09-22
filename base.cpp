@@ -1642,7 +1642,7 @@ void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
 }
 
 Base::Base(Game *gameObject) noexcept
-    : QObject(nullptr), m_gameObject(gameObject), m_freezeGameProgress(false), m_database(nullptr)
+    : QObject(nullptr), m_gameObject(gameObject), m_database(nullptr)
 {
     HeroBuilder::init(this);
 
@@ -1859,7 +1859,7 @@ void Base::loadSaveData(const SaveData &data) noexcept
         m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (this,data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
     }
 
-    m_gameClock->updateClock(data.overall.freezeGameProgress ? QDateTime::currentDateTime() : data.overall.lastKnownDate, {data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
+    m_gameClock->updateClock({data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
 
     m_database->setUnlocksInfo(data.database.unlocks);//database
 
@@ -1997,12 +1997,9 @@ SaveData Base::getSaveData() noexcept
     data.resources.buildingMaterials=m_buildingMaterials;
     data.resources.aetheriteOre=m_aetherite;
 
-    m_gameClock->saveCurrentDate();
-    data.overall.lastKnownDate=QDateTime::currentDateTime();
     data.overall.lastKnownDay=m_gameClock->currentDay();
     data.overall.lastKnownHour=m_gameClock->currentHour();
     data.overall.lastKnownMinute=m_gameClock->currentMin();
-    data.overall.freezeGameProgress=m_freezeGameProgress;
 
     QVector <QPair<quint8,BuildingUpgradeTimerAlarm>> buTimerAlarms;
     QVector <QPair<quint8,MissionEndTimerAlarm>> meTimerAlarms;

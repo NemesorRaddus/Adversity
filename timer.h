@@ -193,9 +193,7 @@ public:
 
     void setBasePtr(Base *base) noexcept;
 
-    Q_INVOKABLE void saveCurrentDate() noexcept;
-
-    Q_INVOKABLE void updateClock(const QDateTime &lastKnownDate, const Time &lastKnownTimeInGame) noexcept;//gets time from date time
+    Q_INVOKABLE void updateClock(const Time &lastKnownTimeInGame) noexcept;//gets time from save
     Q_INVOKABLE void updateClock(int minutesToAdd) noexcept;//enforces time change
     Q_INVOKABLE void updateClock() noexcept;//changes time smartly
     Q_INVOKABLE bool hasDayChangedLately() const noexcept
@@ -220,6 +218,8 @@ public:
         return m_currentTimeInGame;
     }
 
+    Q_INVOKABLE void skipToNextDay() noexcept;
+
     void forceAutosave() noexcept;
 
     Q_INVOKABLE inline int realMinutesToOneGameDayRatio() const noexcept
@@ -235,25 +235,17 @@ private:
     void addHoursToGameTime(int hours) noexcept;
     void addDaysToGameTime(int days) noexcept;
 
-    bool isClockHealthy() const noexcept;//for clock freezes
-    void updateDateFromPreviousClockUpdate() noexcept;
-
     int realMsToOneGameMin() const noexcept;
 
     void tryAutosaving() noexcept;
     void autosave() noexcept;
 
-    QDateTime m_lastKnownDate;
-    Time m_lastKnownTimeInGame;
-
     Time m_currentTimeInGame;
-
-    QDateTime m_dateFromPreviousClockUpdate;//to handle all clock freezes (game freezes on Android, etc.)
 
     const unsigned m_autosaveIntervalInMin = 15;//1-59
     unsigned m_latestAutosaveMinTimestamp;
 
-    unsigned m_realMinutesToOneGameDayRatio = 30;
+    unsigned m_realMinutesToOneGameDayRatio = 15;
 };
 
 #endif // GAMECLOCK_H

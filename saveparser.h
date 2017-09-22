@@ -29,11 +29,9 @@ struct SaveData
     struct Overall
     {
         QString baseName;
-        QDateTime lastKnownDate;
         quint16 lastKnownDay;
         quint16 lastKnownHour;
         quint16 lastKnownMinute;
-        bool freezeGameProgress;
     } overall;
     struct Buildings
     {

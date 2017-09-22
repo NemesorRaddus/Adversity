@@ -310,47 +310,16 @@ QDataStream &operator>>(QDataStream &stream, Time &time) noexcept
 }
 
 GameClock::GameClock() noexcept
-    : m_currentTimeInGame(1,12,0), m_lastKnownDate(QDateTime::currentDateTime()), m_lastKnownTimeInGame(1,12,0),  m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)}) {}
+    : m_currentTimeInGame(1,0,0), m_latestAutosaveMinTimestamp(0) {}
 
 void GameClock::setBasePtr(Base *base) noexcept
 {
     m_base=base;
 }
 
-void GameClock::saveCurrentDate() noexcept
+void GameClock::updateClock(const Time &lastKnownTimeInGame) noexcept
 {
-    m_lastKnownDate=QDateTime::currentDateTime();
-    m_lastKnownTimeInGame=m_currentTimeInGame;
-
-    updateDateFromPreviousClockUpdate();
-}
-
-void GameClock::updateClock(const QDateTime &lastKnownDate, const Time &lastKnownTimeInGame) noexcept
-{
-    m_lastKnownDate=lastKnownDate;
-    m_lastKnownTimeInGame=lastKnownTimeInGame;
-
     m_currentTimeInGame=lastKnownTimeInGame;
-
-    updateDateFromPreviousClockUpdate();
-
-    long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
-
-    int daysPassed=(ms*24*60*60*1000/1000/60/realMinutesToOneGameDayRatio() + m_lastKnownTimeInGame.h*60*60*1000 + m_lastKnownTimeInGame.min*60*1000)/1000/60/60/24;
-    int minutesToAdd=ms*24*60/1000/60/realMinutesToOneGameDayRatio();// /1000 s /60 min /r dni *24 h *60 min
-    for (int i=0;i<daysPassed;++i)
-    {
-        addMinutesToGameTime(60*24);
-        minutesToAdd-=60*24;
-        ++m_currentTimeInGame.d;
-
-        checkMissionAlarms(m_currentTimeInGame);
-        m_base->startNewDay();
-    }
-
-    addMinutesToGameTime(minutesToAdd);
-    checkMissionAlarms(m_currentTimeInGame);
-    tryAutosaving();
 }
 
 void GameClock::updateClock(int minutesToAdd) noexcept
@@ -368,17 +337,19 @@ void GameClock::updateClock(int minutesToAdd) noexcept
     addMinutesToGameTime(minutesToAdd);
     checkMissionAlarms(m_currentTimeInGame);
 
-    updateDateFromPreviousClockUpdate();
-
     tryAutosaving();
 }
 
 void GameClock::updateClock() noexcept
 {
-    if (isClockHealthy())
-        updateClock(1);
-    else
-        updateClock(m_lastKnownDate,m_lastKnownTimeInGame);
+    updateClock(1);
+}
+
+void GameClock::skipToNextDay() noexcept
+{
+    updateClock((24-m_currentTimeInGame.h-1)*60 + (60-m_currentTimeInGame.min));
+    H4X hax;
+    hax.forceUIUpdate();
 }
 
 void GameClock::forceAutosave() noexcept
@@ -415,16 +386,6 @@ void GameClock::addHoursToGameTime(int hours) noexcept
 void GameClock::addDaysToGameTime(int days) noexcept
 {
     m_currentTimeInGame.d+=days;
-}
-
-bool GameClock::isClockHealthy() const noexcept
-{
-    return m_dateFromPreviousClockUpdate.msecsTo(QDateTime::currentDateTime())<realMsToOneGameMin()*2;
-}
-
-void GameClock::updateDateFromPreviousClockUpdate() noexcept
-{
-    m_dateFromPreviousClockUpdate=QDateTime::currentDateTime();
 }
 
 int GameClock::realMsToOneGameMin() const noexcept

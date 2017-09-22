@@ -17,8 +17,6 @@ Item {
         leftArrow.visible = true;
         rightArrow.visible = true;
         fpsMA.visible = true;
-        afmMA.visible = true;
-        fmMA.visible = true;
         exitMA.visible = true;
         creditsMA.visible = true;
         backButton.visible = true;
@@ -31,8 +29,6 @@ Item {
         leftArrow.visible = false;
         rightArrow.visible = false;
         fpsMA.visible = false;
-        afmMA.visible = false;
-        fmMA.visible = false;
         exitMA.visible = false;
         creditsMA.visible = false;
         backButton.visible = false;
@@ -193,109 +189,6 @@ Item {
         y: 330
 
         Text {
-            width: 850
-            color: "#94ef94"
-            font.pixelSize: 60
-            font.family: fontStencil.name
-            text: "Automatically enter frozen mode after exit"
-            wrapMode: Text.WordWrap
-        }
-
-        Image {
-            id: autoFrozenMode
-
-            x: 940
-            y: 30
-
-            width: 80
-            height: width
-
-            source: "qrc:/graphics/GUI/Settings.png"
-
-            state: "off"
-
-            function setOn()
-            {
-                state = "";
-                animAFM.restart();
-            }
-
-            function setOff()
-            {
-                state = "hidden";
-                animAFM.stop();
-            }
-
-            MouseArea {
-                id: afmMA
-
-                anchors.fill: parent
-
-                visible: false
-
-//                onClicked: ;
-            }
-
-            RotationAnimator on rotation {
-                id: animAFM
-                from: 0;
-                to: 360;
-                duration: 2500
-                loops: RotationAnimation.Infinite
-                running: false
-            }
-
-            states: State {
-                name: "off"
-                PropertyChanges { target: autoFrozenMode; opacity: 0.5 }
-            }
-
-            transitions: Transition {
-                NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 500 }
-            }
-        }
-    }
-
-    Item {
-        x: 17
-        y: 500
-
-        Text {
-            color: "#94ef94"
-            font.pixelSize: 60
-            font.family: fontStencil.name
-            text: "Enter frozen mode"
-        }
-
-        Image {
-            id: enterFrozenMode
-
-            x: 950
-
-            width: 60
-            height: width
-
-            source: "qrc:/graphics/GUI/Time.png"
-
-            MouseArea {
-                id: fmMA
-
-                anchors.fill: parent
-
-                anchors.margins: -10
-
-                visible: false
-
-//                onClicked: ;
-            }
-        }
-    }
-
-    Item {
-        x: 17
-        y: 590
-
-        Text {
             color: "#94ef94"
             font.pixelSize: 60
             font.family: fontStencil.name
@@ -328,7 +221,7 @@ Item {
 
     Item {
         x: 17
-        y: 680
+        y: 420
 
         Text {
             color: "#94ef94"
