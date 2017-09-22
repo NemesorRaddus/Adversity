@@ -926,7 +926,7 @@ public:
     void end() noexcept;
     void forceEnd() noexcept;
     void forceEndSilently() noexcept;
-    void abort() noexcept;
+    Q_INVOKABLE void abort() noexcept;
 
     void addRelatedReport(UnifiedReport *report) noexcept;
     Q_INVOKABLE void prepareReport(unsigned index) noexcept;

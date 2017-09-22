@@ -975,7 +975,11 @@ void Mission::forceEndSilently() noexcept
 
 void Mission::abort() noexcept
 {
+    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    m_assignedHero->assignMission(nullptr);
+    auto b=m_assignedHero->base();
     m_assignedHero->die();
+    b->removeMission(this);
 }
 
 void Mission::addRelatedReport(UnifiedReport *report) noexcept

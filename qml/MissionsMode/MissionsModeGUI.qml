@@ -203,6 +203,14 @@ Item {
             state = "hiddenDown";
             missionsList.state = "";
         }
+
+        onHeroesModeUpdateRequested: {
+            root.heroesModeUpdateRequested();
+        }
+
+        onMissionsListUpdateRequested: {
+            missionsList.update();
+        }
     }
 
     MissionStartMenu {

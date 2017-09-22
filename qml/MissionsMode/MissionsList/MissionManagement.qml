@@ -113,10 +113,11 @@ Item {
 
             onClicked: {
                 var am=GameApi.base.heroes.amountOfHeroes();
+                var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
                 for (var i=0;i<am;++i)
                 {
                     GameApi.base.heroes.prepareHeroAt(i);
-                    if (GameApi.base.heroes.preparedHero.name() == name_)
+                    if (GameApi.base.heroes.preparedHero.name() == intName)
                     {
                         GameApi.base.heroes.preparedHero.assignedMission.abort();
                         root.abortClicked();

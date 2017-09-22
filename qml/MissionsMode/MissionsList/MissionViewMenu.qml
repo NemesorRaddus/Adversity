@@ -11,6 +11,8 @@ Item {
     property string name_
 
     signal backClicked()
+    signal heroesModeUpdateRequested()
+    signal missionsListUpdateRequested()
 
     function returnToDefault()
     {
@@ -135,7 +137,10 @@ Item {
 
             onAbortClicked: {
                 hide();
-                backClicked();
+                root.returnToDefault();
+                root.backClicked();
+                root.heroesModeUpdateRequested();
+                root.missionsListUpdateRequested();
             }
         }
     }

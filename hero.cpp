@@ -2451,7 +2451,7 @@ void HeroesContainer::removeHero(unsigned index) noexcept
             auto m=m_heroes[index]->assignedMission();
             if (m!=nullptr)
             {
-                m->forceEnd();
+                m->abort();
                 m_basePtr->removeMission(m);
             }
         }
