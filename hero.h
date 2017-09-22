@@ -520,7 +520,7 @@ private:
 
     void sumEquipmentCategories() noexcept;
 
-    void setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept;//only for H4X
+    void setAttributeValue(HeroEnums::Attribute attrName, QVariant val) noexcept;//only for H4X
 
     void activateEquipment() noexcept;
     void deactivateEquipment() noexcept;

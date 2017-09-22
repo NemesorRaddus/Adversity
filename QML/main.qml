@@ -176,6 +176,7 @@ Window {
         missionsGUI.onResourcesUpdateRequested: updateResources();
 
         buildingsGUI.onShowSpecial: h4xScreen.visible = true;
+        h4xScreen.onHiding: buildingsGUI.acknowledgeConsoleHiding();
 
         mercenariesGUI.onBuildingMenuRequested: {
             changeMode(1);

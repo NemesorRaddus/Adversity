@@ -39,13 +39,14 @@ public:
     Q_INVOKABLE void burnItDown() noexcept;
     
     //mercenary hacks
-    Q_INVOKABLE void setMercenaryAttribute(const QString &mercenaryName, const QString &attribute, float value) noexcept;
+    Q_INVOKABLE void setMercenaryAttribute(const QString &mercenaryName, const QString &attribute, QVariant value) noexcept;
     Q_INVOKABLE void hire(const QString &mercenaryName) noexcept;
     Q_INVOKABLE void kill(const QString &mercenaryName) noexcept;
     Q_INVOKABLE void dismiss(const QString &mercenaryName, unsigned banTime) noexcept;
     Q_INVOKABLE void killThemAll() noexcept;
     Q_INVOKABLE void engulfThemInPain() noexcept;
     Q_INVOKABLE void chaosComesForYou() noexcept;
+    Q_INVOKABLE void setMercenaryVariable(const QString &mercenaryName, const QString &varName, QVariant value) noexcept;
 
     //database hacks
     Q_INVOKABLE void unlockDBEntry(const QString &entryName) noexcept;
@@ -54,6 +55,9 @@ public:
     Q_INVOKABLE void receiveReport(const QString &msg, const QString &art = {}) noexcept;
     Q_INVOKABLE void clearReports() noexcept;
 
+    //mission hacks
+    Q_INVOKABLE void finishMission(const QString &mercenaryName) noexcept;
+    
     //ui hacks
     Q_INVOKABLE void forceUIUpdate() noexcept;
     Q_INVOKABLE void fps() noexcept;

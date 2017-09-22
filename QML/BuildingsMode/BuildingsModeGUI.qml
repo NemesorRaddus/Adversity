@@ -84,6 +84,11 @@ Item {
         menu.requestUnban(heroName, buildingName);
     }
 
+    function acknowledgeConsoleHiding()
+    {
+        menu.acknowledgeConsoleHiding();
+    }
+
     BuildingsList {
         id: list
 

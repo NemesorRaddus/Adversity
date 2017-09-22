@@ -11,6 +11,8 @@ Item {
     width: 1080
     height: 1920
 
+    signal hiding()
+
     function cursorLoseFocus()
     {
         root.forceActiveFocus();
@@ -35,6 +37,8 @@ Item {
             con.text="";
             con.forceActiveFocus();
         }
+        else
+            hiding();
     }
 
     Image {

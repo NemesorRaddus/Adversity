@@ -1842,50 +1842,50 @@ void Hero::sumEquipmentCategories() noexcept
                     m_currentEquipmentCategories+=m_weaponsTools[i]->categories()[j];
 }
 
-void Hero::setAttributeValue(HeroEnums::Attribute attrName, float val) noexcept
+void Hero::setAttributeValue(HeroEnums::Attribute attrName, QVariant val) noexcept
 {
     switch (attrName) {
     case HeroEnums::A_Cleverness:
-        m_currentAttributesValues.cleverness=val;
+        m_currentAttributesValues.cleverness=val.toInt();
         break;
     case HeroEnums::A_CombatEffectiveness:
-        m_currentAttributesValues.combatEffectiveness=val;
+        m_currentAttributesValues.combatEffectiveness=val.toInt();
         break;
     case HeroEnums::A_DailyFoodConsumption:
-        m_currentAttributesValues.dailyFoodConsumption=val;
+        m_currentAttributesValues.dailyFoodConsumption=val.toInt();
         break;
     case HeroEnums::A_DailyHealthRecovery:
-        m_currentAttributesValues.dailyHealthRecovery=val;
+        m_currentAttributesValues.dailyHealthRecovery=val.toInt();
         break;
     case HeroEnums::A_DailyStressRecovery:
-        m_currentAttributesValues.dailyStressRecovery=val;
+        m_currentAttributesValues.dailyStressRecovery=val.toInt();
         break;
     case HeroEnums::A_Health:
-        m_currentAttributesValues.health=val;
+        m_currentAttributesValues.health=val.toInt();
         break;
     case HeroEnums::A_HealthLimit:
-        m_currentAttributesValues.healthLimit=val;
+        m_currentAttributesValues.healthLimit=val.toInt();
         break;
     case HeroEnums::A_Luck:
-        m_currentAttributesValues.luck=val;
+        m_currentAttributesValues.luck=val.toFloat();
         break;
     case HeroEnums::A_Proficiency:
-        m_currentAttributesValues.proficiency=val;
+        m_currentAttributesValues.proficiency=val.toInt();
         break;
     case HeroEnums::A_Salary:
-        m_currentAttributesValues.salary=val;
+        m_currentAttributesValues.salary=val.toInt();
         break;
     case HeroEnums::A_Stress:
-        m_currentAttributesValues.stress=val;
+        m_currentAttributesValues.stress=val.toInt();
         break;
     case HeroEnums::A_StressBorder:
-        m_currentAttributesValues.stressBorder=val;
+        m_currentAttributesValues.stressBorder=val.toInt();
         break;
     case HeroEnums::A_StressLimit:
-        m_currentAttributesValues.stressLimit=val;
+        m_currentAttributesValues.stressLimit=val.toInt();
         break;
     case HeroEnums::A_StressResistance:
-        m_currentAttributesValues.stressResistance=val;
+        m_currentAttributesValues.stressResistance=val.toFloat();
         break;
     default:
         break;

@@ -641,6 +641,11 @@ Item {
             seclusion.requestUnban(heroName);
     }
 
+    function acknowledgeConsoleHiding()
+    {
+        laboratory.acknowledgeConsoleHiding();
+    }
+
     CentralUnitMenu {
         id: centralUnit
 
