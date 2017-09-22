@@ -779,6 +779,14 @@ QString MissionStartReport::text() const noexcept
     }
 }
 
+HeroDeathReport::HeroDeathReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept
+    : Report(EventEnums::RT_HeroDeath, time), m_heroArt(heroArt), m_heroName(heroName) {}
+
+QString HeroDeathReport::text() const noexcept
+{
+    return Game::gameInstance()->tr(m_heroName)+" has passed away.";
+}
+
 unsigned UnifiedReport::m_currentID = 0;
 
 UnifiedReport::UnifiedReport(const Time &time, const QString &msg, const QString &artSource) noexcept

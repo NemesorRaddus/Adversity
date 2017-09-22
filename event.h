@@ -79,6 +79,7 @@ struct EventEnums
         RT_SignalLost,
         RT_SignalRetrieved,
         RT_MissionStart,
+        RT_HeroDeath,
         RT_END
     };
 
@@ -721,6 +722,22 @@ public:
 private:
     QString m_heroArt;
     int m_stress, m_stressLimit;
+};
+
+class HeroDeathReport : public Report
+{
+public:
+    HeroDeathReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_heroArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_heroArt;
+    QString m_heroName;
 };
 
 struct UnifiedReportDataHelper

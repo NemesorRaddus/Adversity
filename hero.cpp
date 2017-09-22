@@ -2510,6 +2510,20 @@ void HeroesContainer::handleNewDay() noexcept
 {
     for (auto e : m_heroes)
         e->handleNewDay();
+
+    for (auto e : m_heroes)
+        if (!e->isCommunicationAvailable())
+        {
+            e->increaseStress(20);
+            for (auto f : m_heroes)
+                if (!f->isDead() && (f->currentActivity() != HeroEnums::CA_Arriving && f->currentActivity() != HeroEnums::CA_OnMission))
+                {
+                    if (e->nature() == f->nature())
+                        f->increaseStress(20);
+                    else
+                        f->increaseStress(10);
+                }
+        }
 }
 
 void HeroesContainer::handleNewWeek() noexcept
@@ -2527,7 +2541,18 @@ void HeroesContainer::addDoStBan(QString name, unsigned daysAmount) noexcept
 
 void HeroesContainer::addDoStBan(QString name) noexcept
 {
+    auto natureOfKilledMerc = m_heroes[findHero(name)]->nature();
+
     addDoStBan(name,-1/*that's unsigned so yeah...*/);
+
+    for (auto e : m_heroes)
+        if (!e->isDead() && (e->currentActivity() != HeroEnums::CA_Arriving && e->currentActivity() != HeroEnums::CA_OnMission))
+        {
+            if (e->nature() == natureOfKilledMerc)
+                e->increaseStress(40);
+            else
+                e->increaseStress(20);
+        }
 }
 
 void HeroesContainer::connectHeroToBanSystem(const QString &name) noexcept
