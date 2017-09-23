@@ -391,28 +391,28 @@ QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Hero *hero) noe
     {
     case BaseEnums::R_AetheriteOre:
         cam=hero->carriedAetheriteOre();
-        if (cam > am)
+        if (cam > -am)
             hero->setCarriedAetheriteOre(cam+am);
         else
             hero->setCarriedAetheriteOre(0);
         break;
     case BaseEnums::R_BuildingMaterials:
         cam=hero->carriedBuildingMaterials();
-        if (cam > am)
+        if (cam > -am)
             hero->setCarriedBuildingMaterials(cam+am);
         else
             hero->setCarriedBuildingMaterials(0);
         break;
     case BaseEnums::R_Energy:
         cam=hero->carriedEnergy();
-        if (cam > am)
+        if (cam > -am)
             hero->setCarriedEnergy(cam+am);
         else
             hero->setCarriedEnergy(0);
         break;
     case BaseEnums::R_FoodSupplies:
         cam=hero->carriedFoodSupplies();
-        if (cam > am)
+        if (cam > -am)
             hero->setCarriedFoodSupplies(cam+am);
         else
             hero->setCarriedFoodSupplies(0);
