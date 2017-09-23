@@ -3,7 +3,9 @@
 <dbEntries type="Animals">
     <entry>
         <name>Winged Serpent</name>
-        <description></description>
+        <description>        Winged Serpents belong to reptilia class. Limbs evolved into wings are what makes them stand out from their cousins. Adult Winged Serpent grow to about 5 meters long and 2.5 meters wide. Their bodies are fully covered by scales that prevent any injuries or other damage from rapid landings.
+        Serpents are predators and seek their prey on open fields where nothing can disturb the hunt. Those hunters feed on animals of size similar to human, but younger ones seek smaller targets. On hunt Winged Serpents take advantage of being above their prey with powerful bite in the back. If the target is light enough they try to lift it and throw them down from few meters hoping to crush their bones which cause immobilization.
+    Without a ranged weapon there is no point in figting with serpents. If you happen to have one it's totally different situation. Instead of shooting at its body or head, it's much more wiser to damage the wings. They are bigger targets and major wholes will ground the predator often with great impact that can sometimes kill a serpent right away. Even if it survives, without an ability to fly, it isn't a threat and can be easily killed.</description>
 		<inhabitancies>
 			<inhabitancy>Hegos Plains</inhabitancy>
 		</inhabitancies>
