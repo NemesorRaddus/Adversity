@@ -203,18 +203,39 @@ Item {
             }
         }
 
-        Text {
-            id: description
+        Flickable {
+            id: descriptionFlickable
 
             x: 17
             y: 279
             width: 1048
             height: 1094
 
-            color: "#94ef94"
-            font.pixelSize: 45
-            font.family: fontStencil.name
-            wrapMode: Text.WordWrap
+            contentWidth: width
+            contentHeight: description.height
+
+            boundsBehavior: Flickable.StopAtBounds
+
+            clip: true
+
+            Text {
+                id: description
+
+                width: parent.width
+                height: descriptionMetrics.boundingRect.height*lineCount
+
+                color: "#94ef94"
+                font.pixelSize: 50
+                font.family: fontStencil.name
+                wrapMode: Text.WordWrap
+            }
+
+            TextMetrics {
+                id: descriptionMetrics
+
+                font: description.font
+                text: description.text
+            }
         }
 
         NumberAnimation {
