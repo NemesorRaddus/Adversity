@@ -86,6 +86,7 @@ Item {
 
                 color: "#94ef94"
                 font.pixelSize: 65
+                fontSizeMode: Text.Fit
                 font.family: fontStencil.name
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
