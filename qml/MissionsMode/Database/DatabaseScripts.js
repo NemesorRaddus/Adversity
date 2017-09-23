@@ -50,7 +50,7 @@ function getClickedItemName(x,y) {
     for (var i=0;i<actualAmountOfItems/2;++i)
     {
         if (y >= y0 && y <= y1)
-            return itemsArray[x<widthOfElement ? i : i+1].getName();
+            return itemsArray[x<widthOfElement ? 2*i : 2*i+1].getName();
         y0 += h;
         y1 += h;
     }
