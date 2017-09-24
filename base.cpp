@@ -2355,16 +2355,6 @@ void Base::registerLatestReportInMission(Mission *mission) noexcept
     mission->addRelatedReport(m_reports.last());
 }
 
-void Base::markReportAsRead(unsigned indexOnAllReportsList) noexcept
-{
-    for (int i=0;i<m_newReports.size();++i)
-        if (m_newReports[i]==m_reports[indexOnAllReportsList])
-        {
-            m_newReports.remove(i);
-            break;
-        }
-}
-
 void Base::markAllAsRead() noexcept
 {
     m_newReports.clear();

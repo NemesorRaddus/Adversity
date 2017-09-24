@@ -37,6 +37,11 @@ Item {
 
     state: "hidden"
 
+    onStateChanged: {
+        if (state == "")
+            GameApi.base.markAllAsRead();
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "#171717"

@@ -2430,7 +2430,6 @@ public:
     {
         return m_reports;
     }
-    Q_INVOKABLE void markReportAsRead(unsigned indexOnAllReportsList) noexcept;
     Q_INVOKABLE void markAllAsRead() noexcept;
     Q_INVOKABLE void removeReport(unsigned index) noexcept;
     Q_INVOKABLE void clearReports() noexcept;
