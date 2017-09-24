@@ -63,7 +63,7 @@ Item {
             anchors.fill: landArt
             source: landArt
             radius: 60
-            samples: 120
+            samples: 30
             deviation: 30
             cached: true
         }
@@ -153,7 +153,7 @@ Item {
 
     Image {
         x: 200
-        y: 1113
+        y: 1070
         width: 50
         height: width
 
@@ -161,7 +161,7 @@ Item {
     }
     Image {
         x: 830
-        y: 1113
+        y: 1070
         width: 50
         height: width
         source: "qrc:/graphics/GUI/Settings.png"

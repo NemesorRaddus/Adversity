@@ -13,7 +13,7 @@ Item {
     function setAmount(amount)
     {
         if (amount>9)
-            amountOfReports.text = "9+";
+            amountOfReports.text = "!";
         else
             amountOfReports.text = amount;
     }

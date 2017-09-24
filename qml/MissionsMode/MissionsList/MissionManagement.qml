@@ -84,7 +84,7 @@ Item {
         source: connectionBackground
         opacity: 0.4
         radius: 60
-        samples: 120
+        samples: 30
         deviation: 30
         cached: true
     }
