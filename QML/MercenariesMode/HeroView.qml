@@ -373,7 +373,7 @@ Item {
             if (ca == "Idle")
                 currentlyBusy.source = "";
             else if (ca == "On Mission")
-                currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
+                currentlyBusy.source = "qrc:/graphics/GUI/OnMission.png";
             else if (ca == "In Hospital")
                 currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
             else if (ca == "On Training Ground")
