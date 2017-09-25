@@ -1046,7 +1046,7 @@ void Hero::handleNewDay() noexcept
             if (!m_isDead)
             {
                 handleEquipmentCosts();
-                if (!m_isDead)
+                handleRegeneration();
                     decrementModificationsDuration();
             }
         }
@@ -2031,6 +2031,12 @@ void Hero::handleHunger() noexcept
             increaseStress(missingFood*10);
         }
     }
+}
+
+void Hero::handleRegeneration() noexcept
+{
+    changeHealth(dailyHealthRecovery());
+    decreaseStress(dailyStressRecovery());
 }
 
 void Hero::handleSalary() noexcept

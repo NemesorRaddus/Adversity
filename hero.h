@@ -534,6 +534,7 @@ private:
     void handleSBEAtDayEnd() noexcept;
     void handleEquipmentCosts() noexcept;
     void handleHunger() noexcept;
+    void handleRegeneration() noexcept;
 
     void handleSalary() noexcept;
 
