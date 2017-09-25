@@ -68,6 +68,7 @@ public:
     {
         return m_unlocksInfo.unlockedEntries.contains(entryName);
     }
+    bool isEntryUnlocked(const Name &entryName, const QString &landName) const noexcept;
     DatabaseEntryDetails readEntry(const Name &entryName) const noexcept;
     inline DatabaseUnlocksInfo unlockedEntries() const noexcept
     {
@@ -79,6 +80,8 @@ public:
     }
 
     void setUnlocksInfo(const DatabaseUnlocksInfo &info) noexcept;
+
+    QString pathToEntryArt(const Name &entryName) const noexcept;
 
 private:
     QVector <DatabaseEntry> m_entriesData;

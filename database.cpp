@@ -1,5 +1,7 @@
 #include "database.h"
 
+#include "game.h"
+
 #include <QDebug>
 
 DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString &entryType) noexcept
@@ -212,6 +214,26 @@ void Database::unlockEntry(const Database::Name &entryName, const QString &landN
     }
 }
 
+bool Database::isEntryUnlocked(const Database::Name &entryName, const QString &landName) const noexcept
+{
+    if (!isEntryUnlocked(entryName))
+        return 0;
+
+    auto inhs = m_unlocksInfo.unlockedInhabitancies[m_unlocksInfo.unlockedEntries.indexOf(entryName)];
+    int pos = -1;
+    for (int i=0;i<m_entriesData.size();++i)
+        if (m_entriesData[i].first == entryName)
+        {
+            pos = i;
+            break;
+        }
+    for (int i=0;i<inhs.size();++i)
+        if (m_entriesData[pos].second.inhabitancies[i] == landName)
+            return inhs[i];
+
+    return 0;// no such inhabitancy
+}
+
 DatabaseEntryDetails Database::readEntry(const Database::Name &entryName) const noexcept
 {
     if (isEntryUnlocked(entryName))
@@ -224,4 +246,18 @@ DatabaseEntryDetails Database::readEntry(const Database::Name &entryName) const 
 void Database::setUnlocksInfo(const DatabaseUnlocksInfo &info) noexcept
 {
     m_unlocksInfo=info;
+}
+
+QString Database::pathToEntryArt(const Database::Name &entryName) const noexcept
+{
+    DatabaseEnums::EntryType type = DatabaseEnums::ET_END;
+    for (const auto &e : m_entriesData)
+        if (e.first == entryName)
+        {
+            type = e.second.type;
+            break;
+        }
+    if (type == DatabaseEnums::ET_END)
+        return "";
+    return "qrc:/graphics/Database/"+DatabaseEnums::fromEntryTypeEnumToQString(type)+"/"+Global::alterNormalTextToInternal(entryName)+".png";
 }

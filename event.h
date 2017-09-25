@@ -80,6 +80,7 @@ struct EventEnums
         RT_SignalRetrieved,
         RT_MissionStart,
         RT_HeroDeath,
+        RT_NewDBEntry,
         RT_END
     };
 
@@ -738,6 +739,21 @@ public:
 private:
     QString m_heroArt;
     QString m_heroName;
+};
+
+class NewDBEntryReport final : public Report
+{
+public:
+    NewDBEntryReport(const QString &entryArt, const Time &time) noexcept;
+
+    inline QString art() const noexcept final
+    {
+        return m_entryArt;
+    }
+    QString text() const noexcept final;
+
+private:
+    QString m_entryArt;
 };
 
 struct UnifiedReportDataHelper
