@@ -176,7 +176,7 @@ void Event::unlockDatabaseEntries(Hero *context) noexcept
         if (!context->base()->database()->isEntryUnlocked(e, context->assignedMission()->land()->name()))
         {
             context->base()->database()->unlockEntry(e,context->assignedMission()->land()->name());
-            context->base()->addReport(new UnifiedReport(new NewDBEntryReport(context->base()->database()->pathToEntryArt(e), context->base()->gameClock()->currentTime())));
+            context->base()->addReport(new UnifiedReport(new NewDBEntryReport(context->base()->database()->pathToEntryArt(e), context->assignedMission()->timeOfCurrentEncounter())));
         }
     }
 }
@@ -1006,6 +1006,7 @@ void Mission::start() noexcept
 
 EncounterReport *Mission::doEncounter(const Time &now) noexcept
 {
+    m_timeOfCurrentEncounter = now;
     return m_encounters[m_nextEncounter++].second->execute(m_assignedHero, now);
 }
 

@@ -972,6 +972,10 @@ public:
 
     void start() noexcept;
     EncounterReport *doEncounter(const Time &now) noexcept;
+    inline Time timeOfCurrentEncounter() const noexcept
+    {
+        return m_timeOfCurrentEncounter;
+    }
 
     void end() noexcept;
     void forceEndHappily() noexcept;
@@ -1008,6 +1012,7 @@ private:
     unsigned m_remainingDays;
     QVector <QPair <MissionDay, Encounter *> > m_encounters;
     unsigned m_nextEncounter;
+    Time m_timeOfCurrentEncounter;
     int m_minutesSinceMidnightOfLastEncounter;
     Hero *m_assignedHero;
     QVector <UnifiedReport *> m_relatedReports;
