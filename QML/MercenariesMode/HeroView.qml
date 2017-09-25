@@ -1168,7 +1168,7 @@ Item {
                 stressBorderEffectDescription.text = "Anxiety helps "+topBar.getName().text+" in combat, but disables the mercenary from recovering after a failure.";
             else if (sbeName == "Restlessness")
                 stressBorderEffectDescription.text = topBar.getName().text+" is anxious, being put on stress every day.";
-            else if (sbeName == "Stuppor")
+            else if (sbeName == "Stupor")
                 stressBorderEffectDescription.text = "Because of stress, "+topBar.getName().text+" behaves unprofessionally causing a decrease in talents to the level of the least developed ability.";
             else if (sbeName == "Consciousness")
                 stressBorderEffectDescription.text = "Curiosity takes over "+topBar.getName().text+", icreasing mind potential at the cost of being caught off guard and leaving heavier resources.";

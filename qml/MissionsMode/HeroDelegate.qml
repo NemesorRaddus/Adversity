@@ -37,6 +37,8 @@ Item {
         {
             textSegment.visible = false;
             art.source = "qrc:/graphics/GUI/Slots/HeroSlot.png";
+            statusHPFrame.source = "";
+            statusSTFrame.source = "";
         }
         else
         {
