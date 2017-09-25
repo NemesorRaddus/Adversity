@@ -18,5 +18,8 @@
         <file>graphics/Database/Animals/Nibbler.png</file>
         <file>graphics/Database/Animals/Splitterhound.png</file>
         <file>graphics/Database/Animals/SpeckledScorpioid.png</file>
+        <file>graphics/Database/Animals/AlphaSplitterhound.png</file>
+        <file>graphics/Database/Animals/Lurkerworm.png</file>
+        <file>graphics/Database/Animals/RedneckLizard.png</file>
     </qresource>
 </RCC>
