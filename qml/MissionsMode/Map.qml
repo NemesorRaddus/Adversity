@@ -7,7 +7,7 @@ import Game 1.0
 Item {
     id: root
 
-    signal exploreClicked(string intLandName, string landName, string landDesc)
+    signal exploreClicked(string intLandName, string landName)
     signal databaseClicked()
     signal missionsClicked()
 
@@ -192,12 +192,16 @@ Item {
 
                 landmarkInfo.state = "";
                 landmarkInfoBoxClicksCatcher.visible = true;
+                landmarkDescFlickable.visible = true;
+                exploreMA.visible = true;
             }
             function hideInfo()
             {
                 landmarkInfo.state = "hidden";
                 landmarkInfoBoxClicksCatcher.visible = false;
                 landmarkInfo.setName("");
+                landmarkDescFlickable.visible = false;
+                exploreMA.visible = false;
             }
 
             Item { // to make icons appear under landmark info
@@ -232,6 +236,12 @@ Item {
                     return landmarkName.text;
                 }
 
+                MouseArea {
+                    id: landmarkInfoBoxClicksCatcher
+
+                    anchors.fill: parent
+                }
+
                 Text {
                     id: landmarkName
 
@@ -247,21 +257,43 @@ Item {
 
                     wrapMode: Text.NoWrap
                 }
-                Text {
-                    id: landmarkDesc
+                Flickable {
+                    id: landmarkDescFlickable
 
                     x: landmarkName.x
                     y: landmarkName.y + landmarkName.height
                     width: parent.width - x - 20
-                    height: (font.pixelSize + 6)*maximumLineCount
+                    height: exploreButton.y-y
 
-                    color: "#94ef94"
-                    font.pixelSize: 45
-                    font.family: fontStencil.name
+                    visible: false
 
-                    wrapMode: Text.WordWrap
-                    maximumLineCount: 3
+                    boundsBehavior: Flickable.StopAtBounds
+
+                    contentWidth: landmarkDesc.width
+                    contentHeight: landmarkDesc.height
+
+                    clip: true
+
+                    Text {
+                        id: landmarkDesc
+
+                        width: parent.width
+                        height: landmarkDescMetrics.boundingRect.height*lineCount
+
+                        color: "#94ef94"
+                        font.pixelSize: 40
+                        font.family: fontStencil.name
+
+                        wrapMode: Text.WordWrap
+                    }
+                    TextMetrics {
+                        id: landmarkDescMetrics
+
+                        font: landmarkDesc.font
+                        text: landmarkDesc.text
+                    }
                 }
+
                 Rectangle {
                     id: landmarkArtRect
 
@@ -281,12 +313,6 @@ Item {
                     y: landmarkArtRect.border.width
                     width: 400
                     height: width
-                }
-
-                MouseArea {
-                    id: landmarkInfoBoxClicksCatcher
-
-                    anchors.fill: parent
                 }
 
                 Item {
@@ -315,10 +341,12 @@ Item {
                         width: parent.width - 2*x
                         height: parent.height - 2*y
 
+                        visible: false
+
                         onClicked: {
                             var intName=""+landmarkArt.source;
                             intName=intName.slice(intName.lastIndexOf("/")+1,-4);
-                            exploreClicked(intName, landmarkName.text, landmarkDesc.text);
+                            exploreClicked(intName, landmarkName.text);
                         }
                     }
                 }

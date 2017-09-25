@@ -89,25 +89,44 @@ QString Database::inhabitancyTextOfEntry(unsigned index) const noexcept
     int posInUnlocks=m_unlocksInfo.unlockedEntries.indexOf(entry.first);
 
     QString r;
+    bool firstInh=1;
     switch (entry.second.type)
     {
     case DatabaseEnums::ET_Animals:
         r="Noticed inhabitant of:\n";
         for (int i=0;i<entry.second.inhabitancies.size();++i)
             if (m_unlocksInfo.unlockedInhabitancies[posInUnlocks][i])
-                r+=entry.second.inhabitancies[i]+'\n';
+            {
+                if (firstInh)
+                    firstInh=0;
+                else
+                    r+=", ";
+                r+=entry.second.inhabitancies[i];
+            }
         break;
     case DatabaseEnums::ET_Plants:
         r="Noticed inhabitant of:\n";
         for (int i=0;i<entry.second.inhabitancies.size();++i)
             if (m_unlocksInfo.unlockedInhabitancies[posInUnlocks][i])
-                r+=entry.second.inhabitancies[i]+'\n';
+            {
+                if (firstInh)
+                    firstInh=0;
+                else
+                    r+=", ";
+                r+=entry.second.inhabitancies[i];
+            }
         break;
     case DatabaseEnums::ET_Fungi:
         r="Noticed inhabitant of:\n";
         for (int i=0;i<entry.second.inhabitancies.size();++i)
             if (m_unlocksInfo.unlockedInhabitancies[posInUnlocks][i])
-                r+=entry.second.inhabitancies[i]+'\n';
+            {
+                if (firstInh)
+                    firstInh=0;
+                else
+                    r+=", ";
+                r+=entry.second.inhabitancies[i];
+            }
         break;
     case DatabaseEnums::ET_Lands:
         r="";

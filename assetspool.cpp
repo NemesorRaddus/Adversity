@@ -103,7 +103,11 @@ Equipment *AssetsPool::makeEquipmentNamed(const QString &name) const noexcept
 
 Database *AssetsPool::makeStockDatabase() const noexcept
 {
-    return m_stockDatabase->copyDBWithoutUnlocks();
+    auto r = m_stockDatabase->copyDBWithoutUnlocks();
+    r->unlockEntry("Hegos Plains");
+    r->unlockEntry("Gedo Desert");
+    r->unlockEntry("Aurora Forest");
+    return r;
 }
 
 void AssetsPool::loadHeroesList(const QString &pathToDir) noexcept

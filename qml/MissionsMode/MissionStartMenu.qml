@@ -7,7 +7,7 @@ Item {
     property string intLandName
 
     signal backClicked()
-    signal nextClicked(string intLandName, string name, string desc)
+    signal nextClicked(string intLandName, string name)
 
     function returnToDefault()
     {
@@ -28,12 +28,11 @@ Item {
         return false;
     }
 
-    function show(internalName_, name_, description_)
+    function show(internalName_, name_)
     {
         intLandName = internalName_;
         art.source = "qrc:/graphics/Missions/Lands/"+internalName_+".png";
         name.text = name_;
-        description.text = description_;
         missionLengthSelect.setLand(internalName_);
     }
 
@@ -95,22 +94,10 @@ Item {
 
             Text {
                 id: name
-                x: 0
+                x: 10
                 y: -4
                 color: "#94ef94"
-                font.pixelSize: 76
-                font.family: fontStencil.name
-            }
-
-            Text {
-                id: description
-                x: 0
-                y: 113
-                width: 785
-                height: 136
-                color: "#568b56"
-                wrapMode: Text.WordWrap
-                font.pixelSize: 40
+                font.pixelSize: 90
                 font.family: fontStencil.name
             }
         }
@@ -397,7 +384,7 @@ Item {
                     GameApi.base.missionInitializer.setDifficulty("Long");
                 else if (lengthExtreme.state == "")
                     GameApi.base.missionInitializer.setDifficulty("Extreme");
-                root.nextClicked(root.intLandName, name.text, description.text);
+                root.nextClicked(root.intLandName, name.text);
             }
         }
     }

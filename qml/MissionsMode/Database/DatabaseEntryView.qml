@@ -181,7 +181,7 @@ Item {
 
                     color: "#94ef94"
                     text: "Splitterhound"
-                    font.pixelSize: 60
+                    font.pixelSize: 90
                     font.family: fontStencil.name
                 }
 
@@ -195,7 +195,7 @@ Item {
 
                     color: "#94ef94"
                     text: "Noticed inhabitants of:\n"
-                    font.pixelSize: 40
+                    font.pixelSize: 50
                     font.family: fontStencil.name
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap

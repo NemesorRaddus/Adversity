@@ -120,7 +120,7 @@ Item {
         height: root.height
 
         onExploreClicked: {
-            missionStartMenu.show(intLandName, landName, landDesc);
+            missionStartMenu.show(intLandName, landName);
             missionStartMenu.state = "";
             missionSelectionMenu.state = "hiddenRight";
             state = "hiddenLeft";
