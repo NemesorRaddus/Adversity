@@ -158,7 +158,7 @@ ValueRange::ValueRange(const Expression &value) noexcept
 
 QVector<EventReport> Event::execute(Hero *context) noexcept
 {
-    unlockDatabaseEntries(context);
+        unlockDatabaseEntries(context);
     return executeSpecificOps(context);
 }
 
@@ -173,7 +173,7 @@ void Event::unlockDatabaseEntries(Hero *context) noexcept
     {
         if (!context->base()->database()->isEntryUnlocked(e, context->assignedMission()->land()->name()))
         {
-        context->base()->database()->unlockEntry(e,context->assignedMission()->land()->name());
+            context->base()->database()->unlockEntry(e,context->assignedMission()->land()->name());
             context->base()->addReport(new UnifiedReport(new NewDBEntryReport(context->base()->database()->pathToEntryArt(e), context->base()->gameClock()->currentTime())));
         }
     }
@@ -189,7 +189,7 @@ QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
 {
     QVector <EventReport> r={eventText()};
     for (auto e : m_eventsToExecute)
-        r+=e->execute(context);
+            r+=e->execute(context);
     return r;
 }
 
@@ -203,13 +203,21 @@ GiveHealthEventResult::GiveHealthEventResult(const ValueRange &addedValue, QStri
 
 QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Hero *hero) noexcept
 {
+    int am;
     if (m_value.singleValue())
-        hero->changeHealth(m_value.max().evaluate(hero).toInt());
+        am=m_value.max().evaluate(hero).toInt();
     else
     {
         auto max=m_value.max().evaluate(hero).toInt(), min=m_value.min().evaluate(hero).toInt();
-        hero->changeHealth(Randomizer::randomBetweenAAndB(min, max));
+        am=Randomizer::randomBetweenAAndB(min, max);
     }
+
+    if (am >= 0)
+        am *= hero->luck();
+    else
+        am /= hero->luck();
+
+    hero->changeHealth(am);
 
     return {eventText()};
 }
@@ -227,10 +235,17 @@ QVector<EventReport> GiveStressEventResult::executeSpecificOps(Hero *hero) noexc
         int max=m_value.max().evaluate(hero).toInt(), min=m_value.min().evaluate(hero).toInt();
         v=Randomizer::randomBetweenAAndB(min,max);
     }
-    if (v>=0)
+
+    if (v >= 0)
+    {
+        v /= hero->luck();
         hero->increaseStress(v);
+    }
     else
+    {
+        v *= hero->luck();
         hero->decreaseStress(-v);
+    }
 
     return {eventText()};
 }
@@ -391,6 +406,10 @@ QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Hero *hero) noe
         int max=m_amount.max().evaluate(hero).toInt(), min=m_amount.min().evaluate(hero).toInt();
         am=Randomizer::randomBetweenAAndB(min,max);
     }
+    if (am >= 0)
+        am *= hero->luck();
+    else
+        am /= hero->luck();
     int cam;
 
     switch (m_resource)
@@ -554,7 +573,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->positive())
         {
-            if (e.second>=x)
+            if (e.second * hero->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -568,7 +587,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->negative())
         {
-            if (e.second>=x)
+            if (e.second * hero->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -601,7 +620,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->positive())
         {
-            if (e.second>=x)
+            if (e.second * hero->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -615,7 +634,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->negative())
         {
-            if (e.second>=x)
+            if (e.second * hero->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -1025,8 +1044,8 @@ Mission::Mission() noexcept
 void Mission::planNextEncounter() noexcept
 {
     if (m_nextEncounter<m_encounters.size())
-    {
-        auto clock=m_assignedHero->base()->gameClock();
+{
+    auto clock=m_assignedHero->base()->gameClock();
         unsigned missionDayOfPlannedEncounter = m_encounters[m_nextEncounter].first;
         unsigned daysToAdd = m_nextEncounter==0 ? missionDayOfPlannedEncounter : missionDayOfPlannedEncounter-m_encounters[m_nextEncounter-1].first;
         unsigned dayOfPlannedEncounter = clock->currentDay() + daysToAdd;
