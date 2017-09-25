@@ -302,7 +302,7 @@ void H4X::finishMission(const QString &mercenaryName) noexcept
     for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
         if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()!=nullptr)
         {
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()->forceEnd();
+            Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()->forceEndHappily();
             break;
         }
 }

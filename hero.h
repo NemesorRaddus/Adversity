@@ -739,7 +739,7 @@ class HeroesContainer : public QObject
 
 public:
     HeroesContainer(Base *base) noexcept;
-    ~HeroesContainer() noexcept;
+    ~HeroesContainer() noexcept = default;
 
     Q_INVOKABLE bool prepareHeroAt(unsigned index) noexcept;
     void addHero(Hero *hero) noexcept;

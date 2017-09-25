@@ -936,7 +936,7 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     m_noSignalDaysRemaining = noSignalDaysRemaining;
     if (m_noSignalDaysRemaining == 0)
     {
-        if (m_assignedMission==nullptr)
+        if (m_assignedMission==nullptr || isDead())
             return;//safety measure
         addWaitingReport(new UnifiedReport(new SignalRetrievedReport(pathToArt(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         sendWaitingReports();
@@ -1047,7 +1047,7 @@ void Hero::handleNewDay() noexcept
             {
                 handleEquipmentCosts();
                 handleRegeneration();
-                    decrementModificationsDuration();
+                decrementModificationsDuration();
             }
         }
     }
@@ -1101,9 +1101,14 @@ void Hero::die() noexcept
 {
     m_isDead=1;
     m_currentAttributesValues.health=0;
-    if (m_currentActivity != HeroEnums::CA_OnMission || isCommunicationAvailable())
+    if (m_currentActivity != HeroEnums::CA_OnMission)
     {
         m_base->addReport(new UnifiedReport(new HeroDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
+        emit died(name());
+    }
+    else if (isCommunicationAvailable())
+    {
+        m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         emit died(name());
     }
     else
@@ -2015,7 +2020,8 @@ void Hero::handleHunger() noexcept
             trySendingReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())), 1);
             setCarriedFoodSupplies(0);
             changeHealth(-missingFood);
-            increaseStress(missingFood*10);
+            if (!isDead())
+                increaseStress(missingFood*10);
         }
     }
     else if (m_currentActivity != HeroEnums::CA_Arriving)
@@ -2028,7 +2034,8 @@ void Hero::handleHunger() noexcept
             m_base->addReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())));
             m_base->setCurrentFoodSuppliesAmount(0);
             changeHealth(-missingFood);
-            increaseStress(missingFood*10);
+            if (!isDead())
+                increaseStress(missingFood*10);
         }
     }
 }
@@ -2465,11 +2472,6 @@ void HeroBuilder::setNoSalaryWeeks(unsigned amount) noexcept
 HeroesContainer::HeroesContainer(Base *base) noexcept
     : m_preparedHero(nullptr), m_basePtr(base) {}
 
-HeroesContainer::~HeroesContainer() noexcept
-{
-
-}
-
 bool HeroesContainer::prepareHeroAt(unsigned index) noexcept
 {
     if (index >= m_heroes.size())
@@ -2510,10 +2512,7 @@ void HeroesContainer::removeHero(unsigned index) noexcept
         {
             auto m=m_heroes[index]->assignedMission();
             if (m!=nullptr)
-            {
-                m->abort();
-                m_basePtr->removeMission(m);
-            }
+                m->forceEndBecauseOfDeath();
         }
         Game::gameInstance()->assetsPool().unloadHero(m_heroes[index]->name());
         m_heroes.remove(index);

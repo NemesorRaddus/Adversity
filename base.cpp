@@ -2063,9 +2063,12 @@ void Base::startNewDay() noexcept
         else if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_MissionEnd)
         {
             auto meta = static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i]);
-            addReport(new UnifiedReport(new MissionEndReport(meta->mission()->assignedHero()->pathToArt(), meta->mission()->assignedHero()->name(), m_gameClock->currentTime())));
-            meta->mission()->end();
+            if (!meta->mission()->assignedHero()->isDead())
+                meta->mission()->end();
+            auto hero = meta->mission()->assignedHero();
             removeMission(meta->mission());
+            if (!hero->isDead())
+                addReport(new UnifiedReport(new MissionEndReport(hero->pathToArt(), hero->name(), m_gameClock->currentTime())));
         }
     }
 

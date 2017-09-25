@@ -974,8 +974,9 @@ public:
     EncounterReport *doEncounter(const Time &now) noexcept;
 
     void end() noexcept;
-    void forceEnd() noexcept;
+    void forceEndHappily() noexcept;
     void forceEndSilently() noexcept;
+    void forceEndBecauseOfDeath() noexcept;
     Q_INVOKABLE void abort() noexcept;
 
     void addRelatedReport(UnifiedReport *report) noexcept;

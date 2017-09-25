@@ -158,8 +158,10 @@ ValueRange::ValueRange(const Expression &value) noexcept
 
 QVector<EventReport> Event::execute(Hero *context) noexcept
 {
+    auto r = executeSpecificOps(context);
+    if (!context->isDead())
         unlockDatabaseEntries(context);
-    return executeSpecificOps(context);
+    return r;
 }
 
 void Event::setEventText(const QString &text) noexcept
@@ -189,7 +191,12 @@ QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
 {
     QVector <EventReport> r={eventText()};
     for (auto e : m_eventsToExecute)
+    {
+        if (context!=nullptr && !context->isDead())
             r+=e->execute(context);
+        else
+            break;
+    }
     return r;
 }
 
@@ -881,6 +888,7 @@ Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
 
 EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
 {
+    auto b = hero->base();
     auto reps = m_rootEvent->execute(hero);
     for (int i=0;i<reps.size();)
     {
@@ -889,6 +897,8 @@ EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const n
         else
             ++i;
     }
+    if (!b->heroes()->heroes().contains(hero))
+        return static_cast<EncounterReport *>(static_cast<Report *>(new NullReport));//hero died during encounter
     return new EncounterReport{hero->pathToArt(), reps, currentTime};
 }
 
@@ -1004,15 +1014,26 @@ void Mission::end() noexcept
     m_assignedHero->returnToBase();
 }
 
-void Mission::forceEnd() noexcept
+void Mission::forceEndHappily() noexcept
 {
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    auto b=m_assignedHero->base();
     end();
+    b->removeMission(this);
 }
 
 void Mission::forceEndSilently() noexcept
 {
+    auto b=m_assignedHero->base();
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    b->removeMission(this);
+}
+
+void Mission::forceEndBecauseOfDeath() noexcept
+{
+    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    m_assignedHero->assignMission(nullptr);
+    m_assignedHero->base()->removeMission(this);
 }
 
 void Mission::abort() noexcept

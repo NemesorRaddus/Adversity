@@ -195,7 +195,8 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
             m_missionAlarms.remove(i);
             --i;
             auto er=temp.second->doEncounter(temp.first);
-            temp.second->assignedHero()->trySendingReport(new UnifiedReport(er), temp.second);
+            if (m_base->missions().contains(temp.second) && !temp.second->assignedHero()->isDead())
+                temp.second->assignedHero()->trySendingReport(new UnifiedReport(er), temp.second);
         }
 }
 
@@ -234,12 +235,12 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
 {
     for (int i=0;i<m_missionAlarms.size();)
-        {
+    {
         if (m_missionAlarms[i].second == mission)
             m_missionAlarms.remove(i);
         else
             ++i;
-        }
+    }
 }
 
 void TimerAlarmsContainer::removeMissionEndAlarm(const Mission *mission) noexcept
