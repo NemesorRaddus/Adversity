@@ -598,7 +598,8 @@
                     <results>
                         <positive>
                             <event type="Multi">
-                                <text>Oh man! This plant's leaves are enormous! Chemical analisis says they should be eatable. Mmm... They are delicious! I almost feel how new energy travels through my body. Unfortunetely they are to big to carry them  with me.</text>
+                                <text>Oh man! This plant's leaves are enormous! Chemical analisis says they should be eatable.
+Mmm... They are delicious! I almost feel how new energy travels through my body. Unfortunetely they are to big to carry them  with me.</text>
                                 <unlockedDBEntries>
                                     <entry>Wideleaf Plant</entry>
                                 </unlockedDBEntries>
@@ -635,7 +636,8 @@
                     <results>
                         <positive>
                             <event chance="40" type="Multi">
-                                <text>It's partially fractured. Maybe I will find something inside? Yes! It's a nice piece of Aetherite!</text>
+                                <text>It's partially fractured. Maybe I will find something inside?
+Yes! It's a nice piece of Aetherite!</text>
                                 <events>
                                     <event type="Action" subtype="GiveStress">
                                         <addedValue value="&lt;-30;-10>"></addedValue>
@@ -646,7 +648,8 @@
                                 </events>
                             </event>
                             <event chance="60" type="Action" subtype="GiveStress">
-                                <text>It's partially fractured. Maybe I will find something inside? Meh... Should've guessed it. there's nothing there.</text>
+                                <text>It's partially fractured. Maybe I will find something inside?
+Meh... Should've guessed it. There's nothing here.</text>
                                 <addedValue value="&lt;-5;5>"></addedValue>
                             </event>
                         </positive>
@@ -663,7 +666,7 @@
     </encounter>
     <encounter name="Tentacleroot Ambush">
         <event type="Multi">
-            <text>Oh fuck! That root just moved! I'm sure of that! O shit! It grabbed my leg!</text>
+            <text>Oh fuck! That root just moved! I'm sure of that! Oh shit! It grabbed my leg!</text>
             <events>
                 <event type="Action" subtype="GiveStress">
                     <addedValue value="&lt;5;10>"></addedValue>
@@ -734,7 +737,9 @@
                         </positive>
                         <negative>
                             <event chance="40" type="Multi">
-                                <text>Oh crap! It's pulling me towards what it seems to be a maw! Shit! The stench is horrible! And it tries to digest my foot! I have to free myself!... Ugh... C'mon!... Ok, I'm free but my foot is a bit harmed and hurts from time to time. I have to be careful.</text>
+                                <text>Oh crap! It's pulling me towards what it seems to be a maw! Shit! The stench is horrible! And it tries to digest my foot! I have to free myself!...
+Ugh... C'mon!...
+Ok, I'm free but my foot is a bit harmed and hurts from time to time. I have to be careful.</text>
                                 <unlockedDBEntries>
                                     <entry>Tentacleroot</entry>
                                 </unlockedDBEntries>
@@ -751,7 +756,9 @@
                                 </events>
                             </event>
                             <event chance="40" type="Multi">
-                                <text>Oh crap! It's pulling me towards what it seems to be a maw! Shit! The stench is horrible! And it tries to digest my foot! I have to free myself!... Ugh... C'mon!... Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do you hear me? Oh shit... The communication module must've hit something when I was pulling myself out of this shit...</text>
+                                <text>Oh crap! It's pulling me towards what it seems to be a maw! Shit! The stench is horrible! And it tries to digest my foot! I have to free myself!...
+Ugh... C'mon!...
+Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do you hear me? Oh shit... The communication module must've hit something when I was pulling myself out of this shit...</text>
                                 <unlockedDBEntries>
                                     <entry>Tentacleroot</entry>
                                 </unlockedDBEntries>
@@ -824,7 +831,7 @@
                                 </events>
                             </event>
                             <event chance="5" type="Multi">
-                                <text>Ough... My back... I underestimated the distance between my hand and a rock I wanted to hang on which resulted in a painful fall. I'm fine I guess. I just almost shitted my pants.</text>
+                                <text>Ough... My back... I underestimated the distance between my hand and a rock I wanted to hang on which resulted in a painful fall. I'm fine, I guess. Yet, it was close.</text>
                                 <events>
                                     <event type="Action" subtype="GiveStress">
                                         <addedValue value="&lt;20;65>"></addedValue>
@@ -857,7 +864,7 @@
                                                 </event>
                                                 <event type="Possibility">
                                                     <event chance="30" type="Multi">
-                                                        <text>Oh! there is a bush with grapelike fruits up there! I'll take some with me.</text>
+                                                        <text>Oh! There is a bush with grapelike fruits up there! I'll take some with me.</text>
                                                         <unlockedDBEntries>
                                                             <entry>Bluegrape Bush</entry>
                                                         </unlockedDBEntries>
@@ -874,7 +881,7 @@
                                             </events>
                                         </event>
                                         <event chance="5" type="Multi">
-                                            <text>Maybe I don't have any climbing equipment but I'm sure that I can climb it the traditional way. Ough... My chest... My foot slipped from a rock that served as abutment which ended up with a spectacular fall. I guess I'm fine now. It just scared shit of me.</text>
+                                            <text>Maybe I don't have any climbing equipment but I'm sure that I can climb it the traditional way. Ough... My chest... My foot slipped from a rock that served as abutment which ended up in a spectacular fall. I guess I'm fine now. It just scared crap of me.</text>
                                             <events>
                                                 <event type="Action" subtype="GiveStress">
                                                     <addedValue value="&lt;26;70>"></addedValue>
@@ -917,7 +924,7 @@
     </encounter>
     <encounter name="Cavern">
         <event type="Multi">
-            <text>Oh, there's nice cavern over here. I bet there is something down there.</text>
+            <text>Oh, there's a nice cavern over here. I bet there is something down there.</text>
             <events>
                 <event type="Check" subtype="Equipment">
                     <condition condition="Light Source"></condition>
@@ -958,7 +965,8 @@
                                             </positive>
                                             <negative>
                                                 <event chance="65" type="Multi">
-                                                    <text>Oh it's pretty slippy down here. Shit!... Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
+                                                    <text>Oh it's pretty slippy down here. Shit!...
+Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
                                                             <resource type="Aetherite" amount="&lt;4;8>"></resource>
@@ -972,7 +980,9 @@
                                                     </events>
                                                 </event>
                                                 <event chance="35" type="Multi">
-                                                    <text>The stone is wet. I hope not to slide from it. Damn!... My arm! It hurts alot but it doesn't seem to be broken. At least I hope so. Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
+                                                    <text>The stone is wet. I hope not to slide from it. Damn!...
+My arm! It hurts alot but it doesn't seem to be broken. At least I hope so.
+Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
                                                             <resource type="Aetherite" amount="&lt;1;3>"></resource>
@@ -1004,7 +1014,9 @@
                                 </events>
                             </event>
                             <event chance="30" type="Multi">
-                                <text>We won't know if we don't check it. I goes pretty nice... Oh shit!... Damn... I feel like something has broken inside of me... I hope I can crawl out of this damned hole... OK, somehow I managed to get out of there but my backpack is somewhere down in the darkness. I won't even try to bring it back.</text>
+                                <text>We won't know if we don't check it. I goes pretty nice... Oh shit!...
+Damn... I feel like something has broken inside of me... I hope I can crawl out of this damned hole...
+OK, somehow I managed to get out of there but my backpack is somewhere down in the darkness. I won't even try to bring it back.</text>
                                 <events>
                                     <event type="Action" subtype="GiveResource">
                                         <resource type="Food Supplies" amount="&lt;-4;-2>"></resource>
@@ -1037,7 +1049,7 @@
                     <results>
                         <positive>
                             <event chance="15" type="Multi">
-                                <text>Huh? I think I heard a roar. Really loud. A big animal must've roared this way. I'd rather turn back.</text>
+                                <text>Huh? I think I heard a roar. Really loud. A big animal could've roared this way. I'd better turn back.</text>
                                 <events>
                                     <event type="Action" subtype="GiveStress">
                                         <addedValue value="&lt;-20;15>"></addedValue>
@@ -1052,7 +1064,7 @@
                                         <results>
                                             <positive>
                                                 <event chance="55" type="Multi">
-                                                    <text>I have to stay in these bushes whatever it is shouldn't be able to sense me. Oh! There's a little bit of Aetherite. Just remember, no sudden moves.</text>
+                                                    <text>I have to stay in these bushes. Whatever it is, it shouldn't be able to sense me. Oh! There's a little bit of Aetherite. Just remember, no sudden moves.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveStress">
                                                             <addedValue value="&lt;-6;21>"></addedValue>
@@ -1063,7 +1075,8 @@
                                                     </events>
                                                 </event>
                                                 <event chance="45" type="Multi">
-                                                    <text>Shit! It's closer than I wished. I have to run!... OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
+                                                    <text>Shit! It's closer than I would like to. I have to run!...
+OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveStress">
                                                             <addedValue value="&lt;-6;22>"></addedValue>
@@ -1076,7 +1089,8 @@
                                             </positive>
                                             <negative>
                                                 <event chance="30" type="Multi">
-                                                    <text>Shit! I'm not sure but I think that I saw it! That's enough! Run for your life!... Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
+                                                    <text>Shit! I'm not sure but I think that I saw it! That's enough! Run for your life!...
+Oh crap, my backpack was open! I hope that nothing valuable was lost.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveStress">
                                                             <addedValue value="&lt;0;25>"></addedValue>
@@ -1087,7 +1101,9 @@
                                                     </events>
                                                 </event>
                                                 <event chance="70" type="Multi">
-                                                    <text>Shit! I saw it! It's huge and looks like from a horror film! That's enough! I have to run! Oh fuck! It's chasing me! It's faster! Aaahh! Help me! No!... Wait... what? Why did it leave me? Guess my suit didn't taste good. Lucky me... Lucky indeed...</text>
+                                                    <text>Shit! I saw it! It's huge and looks like a creature from a horror film! That's enough! I have to run!
+Oh fuck! It's chasing me! It's faster! Aaahh! Help me! No!...
+Wait... what? Why did it leave me? Guess my suit didn't taste good. Lucky me... Lucky indeed...</text>
                                                     <unlockedDBEntries>
                                                         <entry>Alpha Splitterhound</entry>
                                                     </unlockedDBEntries>
@@ -1121,7 +1137,8 @@
                                 <results>
                                     <positive>
                                         <event chance="20" type="Multi">
-                                            <text>Oh shit! There's a beast coming. I have to run until it isn't too late!... Oh crap, I lost something during my escape. Nevermind, I won't go back no matter what.</text>
+                                            <text>Oh shit! There's a beast coming. I have to run until it isn't too late!...
+Oh crap, I lost something during my escape. Nevermind, I won't go back no matter what.</text>
                                             <unlockedDBEntries>
                                                 <entry>Alpha Splitterhound</entry>
                                             </unlockedDBEntries>
@@ -1135,7 +1152,8 @@
                                             </events>
                                         </event>
                                         <event chance="80" type="Multi">
-                                            <text>Shhh, I see a great creature. It looks like a predator and surely I don't want to be its prey. I have some food in my backpack. If I threw it, the best would have been distracted nad I would escape. It's a good plan. One, Two, Three, Go!... OK, I'm on a safe distance. Time to continue exploration.</text>
+                                            <text>Shhh, I see a great creature. It looks like a predator and I surely don't want to be its prey. I have some food in my backpack. If I threw it, the best would have been distracted and I would escape. It's a good plan. One, Two, Three, Go!...
+OK, I'm in a safe distance. Time to continue exploration.</text>
                                             <unlockedDBEntries>
                                                 <entry>Alpha Splitterhound</entry>
                                             </unlockedDBEntries>
@@ -1155,7 +1173,8 @@
                                             <results>
                                                 <positive>
                                                     <event chance="40+(CE-6)*5" type="Multi">
-                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!... It was less dangerous than it seemed. At least it has some meat inside.</text>
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+It was less dangerous than it seemed. At least it has some meat inside.</text>
                                                         <unlockedDBEntries>
                                                             <entry>Alpha Splitterhound</entry>
                                                         </unlockedDBEntries>
@@ -1172,7 +1191,8 @@
                                                         </events>
                                                     </event>
                                                     <event chance="60-(CE-6)*5" type="Multi">
-                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!... The fight was tough, I've got some scratches, but in the end the stronger suvived. Splitterhounds are eatable, aren't they?</text>
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+The fight was tough, I've got some scratches, but in the end the stronger suvived. Splitterhounds are eatable, aren't they?</text>
                                                         <unlockedDBEntries>
                                                             <entry>Alpha Splitterhound</entry>
                                                         </unlockedDBEntries>
@@ -1197,7 +1217,9 @@
                                                 </positive>
                                                 <negative>
                                                     <event chance="50+(CE-6)*5" type="Multi">
-                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!... Ahh... I underestimated it... At least I could scare it off but still I'm badly wounded, and this beast stole most of my food supplies. I have to be more cautious next time.</text>
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+Ahh... I underestimated it...
+At least I could scare it off but still I'm badly wounded, and this beast stole most of my food supplies. I have to be more cautious next time.</text>
                                                         <unlockedDBEntries>
                                                             <entry>Alpha Splitterhound</entry>
                                                         </unlockedDBEntries>
@@ -1279,7 +1301,7 @@
                 </event>
                 <event type="Possibility">
                     <event chance="65" type="Multi">
-                        <text>There is a portable food freezer sticking out of sand! I bet there is still something inside!</text>
+                        <text>There is a portable food freezer sticking out of ground! I bet there is still something inside!</text>
                         <events>
                             <event type="Action" subtype="GiveStress">
                                 <addedValue value="&lt;-6;-2>"></addedValue>
@@ -1296,7 +1318,8 @@
                         <results>
                             <positive>
                                 <event type="Multi">
-                                    <text>I found some scrapped metal stuck in the ground! I'll try to pull it off. Succes! This metal is in pretty good condition. Surely it will be used somewhere in the base.</text>
+                                    <text>I found some scrapped metal stuck in the ground! I'll try to pull it off.
+Success! This metal is in a pretty good condition. Surely it can be used somewhere in the base.</text>
                                     <events>
                                         <event type="Action" subtype="GiveStress">
                                             <addedValue value="&lt;-8;-4>"></addedValue>
@@ -1426,7 +1449,8 @@
                                 <results>
                                     <positive>
                                         <event chance="50" type="Multi">
-                                            <text>They are attacking me! This will not be left unanswered! OK, I killed most of them. They look similar to Malaneezes, insects that after some roasting are perfectly eatable and even kind of tasty.</text>
+                                            <text>They are attacking me! This will not be left unanswered!
+OK, I killed most of them. They look similar to Malaneezes, insects that after some roasting are perfectly eatable and even kind of tasty.</text>
                                             <unlockedDBEntries>
                                                 <entry>Mokareez</entry>
                                             </unlockedDBEntries>
@@ -1443,7 +1467,8 @@
                                             </events>
                                         </event>
                                         <event chance="50" type="Multi">
-                                            <text>They are attacking me! Ouch! They're biting hard! OK, I killed most of them. They look similar to Malaneezes, insects that after some roasting are perfectly eatable and even kind of tasty.</text>
+                                            <text>They are attacking me! Ouch! They're biting hard!
+OK, I killed most of them. They look similar to Malaneezes, insects that after some roasting are perfectly eatable and even kind of tasty.</text>
                                             <unlockedDBEntries>
                                                 <entry>Mokareez</entry>
                                             </unlockedDBEntries>
@@ -1466,7 +1491,8 @@
                                             <results>
                                                 <positive>
                                                     <event type="Multi">
-                                                        <text>They fly towards me! Run!... Phew, I lost them. That was close.</text>
+                                                        <text>They fly towards me! Run!...
+Phew, I lost them. That was close.</text>
                                                         <events>
                                                             <event type="Action" subtype="GiveStress">
                                                                 <addedValue value="&lt;-50;-30>"></addedValue>
@@ -1479,7 +1505,8 @@
                                                 </positive>
                                                 <negative>
                                                     <event type="Multi">
-                                                        <text>They fly towards me! Oh crap, they are to fast! Help!... Ough, they have bitten every inch of my body. My muscles hurt whenever I move. Probably those insects are poisonous.</text>
+                                                        <text>They fly towards me! Oh crap, they are to fast! Help!...
+Ough, they have bitten every inch of my body. My muscles hurt whenever I move. Probably those insects are poisonous.</text>
                                                         <events>
                                                             <event type="Action" subtype="GiveStress">
                                                                 <addedValue value="&lt;15;35>"></addedValue>
@@ -1507,7 +1534,8 @@
                                 <text>It seems to be quiet here. Finally some rest.</text>
                             </event>
                             <event chance="80" type="Multi">
-                                <text>Oh crap! What is it? A hive of some strange flies surrounded me! They are biting me! Help!... Uhh... They left me alone... Everything is hurting me. They must've been poisonous. My muscle feel paralised.</text>
+                                <text>Oh crap! What is it? A hive of some strange flies surrounded me! They are biting me! Help!...
+Uhh... They left me alone... Everything is hurting me. They must've been poisonous. My muscle feel paralised.</text>
                                 <events>
                                     <event type="Action" subtype="GiveStress">
                                         <addedValue value="&lt;15;35>"></addedValue>
@@ -1558,7 +1586,7 @@
                                                             <results>
                                                                 <positive>
                                                                     <event type="Multi">
-                                                                        <text>They tried to pickpocket me! I couldn't let that happened, and it ended up in a quite phisical conflict. They seem to like collecting stuff. I'll take what's remaining.</text>
+                                                                        <text>They tried to pickpocket me! I couldn't let that happen, and it ended up in a quite physical conflict. They seem to like collecting stuff. I'll take what's remaining.</text>
                                                                         <unlockedDBEntries>
                                                                             <entry>Deftdragger</entry>
                                                                         </unlockedDBEntries>
@@ -1594,7 +1622,7 @@
                                                                             </event>
                                                                             <event type="Possibility">
                                                                                 <event chance="20" type="Multi">
-                                                                                    <text>I foound some kind of sculpture made of Aetherite. Really interesting...</text>
+                                                                                    <text>I found some kind of sculpture made of Aetherite. Really interesting...</text>
                                                                                     <events>
                                                                                         <event type="Action" subtype="GiveStress">
                                                                                             <addedValue value="&lt;-35;-16>"></addedValue>

@@ -120,7 +120,7 @@
 			<results>
 				<positive>
 					<event chance="65" type="Multi">
-						<text>Oh shit, it's huge! I gotta hide somewhere. Thankfuly that flyig lizard flew away.</text>
+                        <text>Oh shit, it's huge! I gotta hide somewhere. Thankfully that flying lizard flew away.</text>
 						<events>
 							<event type="Action" subtype="GiveStress">
 								<addedValue value="&lt;-30;-15>"></addedValue>
@@ -150,7 +150,7 @@
 													<results>
 														<positive>
 															<event type="Multi">
-																<text>Finally end of this shit. You're dead, lizard! At least you look like eatable.</text>
+                                                                <text>Finally end of this shit. You're dead, lizard! At least you look eatable.</text>
 																<events>
 																	<event type="Action" subtype="GiveHealth">
 																		<addedValue value="&lt;-3;0>"></addedValue>
@@ -166,7 +166,7 @@
 														</positive>
 														<negative>
 															<event chance="60" type="Multi">
-																<text>This lizard harmed me alot and just flew away! What a disgrace! I hope I will not bleed out. I lost some resources.</text>
+                                                                <text>This lizard harmed me alot and just flew away! What a disgrace! I hope not to bleed out. And I lost some resources.</text>
 																<events>
 																	<event type="Action" subtype="GiveHealth">
 																		<addedValue value="&lt;-5;-3>"></addedValue>
@@ -205,7 +205,7 @@
 													<results>
 														<positive>
 															<event type="Multi">
-																<text>Finally end of this shit. You're dead, lizard! At least you look like eatable.</text>
+                                                                <text>Finally end of this shit. You're dead, lizard! At least you look eatable.</text>
 																<events>
 																	<event type="Action" subtype="GiveHealth">
 																		<addedValue value="&lt;-3;0>"></addedValue>
@@ -221,7 +221,7 @@
 														</positive>
 														<negative>
 															<event chance="60" type="Multi">
-																<text>This lizard harmed me alot and just flew away! What a disgrace! I hope I will not bleed out. I lost some resources.</text>
+                                                                <text>This lizard harmed me alot and just flew away! What a disgrace! I hope not to bleed out. And I lost some resources.</text>
 																<events>
 																	<event type="Action" subtype="GiveHealth">
 																		<addedValue value="&lt;-5;-3>"></addedValue>
@@ -281,7 +281,7 @@
 									</positive>
 									<negative>
 										<event chance="60" type="Multi">
-											<text>This lizard harmed me alot and just flew away! What a disgrace! I hope I will not bleed out. I lost some resources.</text>
+                                            <text>This lizard harmed me a lot and just flew away! What a disgrace! I hope not to bleed out. And I lost some resources.</text>
 											<events>
 												<event type="Action" subtype="GiveHealth">
 													<addedValue value="&lt;-5;-3>"></addedValue>
@@ -365,7 +365,7 @@
 	</encounter>
 	<encounter name="Cavern">
 		<event type="Multi">
-            <text>Oh, there's nice cavern over here. I bet there is something down there.</text>
+            <text>Oh, there's a nice cavern over here. I bet there is something down there.</text>
 			<events>
 				<event type="Check" subtype="Equipment">
                     <condition condition="Light Source"></condition>
@@ -406,7 +406,8 @@
                                             </positive>
                                             <negative>
                                                 <event chance="65" type="Multi">
-                                                    <text>Oh it's pretty slippy down here. Shit!... Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
+                                                    <text>Oh it's pretty slippy down here. Shit!...
+Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
                                                             <resource type="Aetherite" amount="&lt;4;8>"></resource>
@@ -420,7 +421,8 @@
                                                     </events>
                                                 </event>
                                                 <event chance="35" type="Multi">
-                                                    <text>The stone is wet. I hope not to slide from it. Damn!... My arm! It hurts alot but it doesn't seem to be broken. At least I hope so. Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
+                                                    <text>The stone is wet. I hope not to slide from it. Damn!...
+My arm! It hurts alot but it doesn't seem to be broken. At least I hope so. Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
                                                             <resource type="Aetherite" amount="&lt;1;3>"></resource>
@@ -452,7 +454,9 @@
 								</events>
 							</event>
 							<event chance="30" type="Multi">
-								<text>We won't know if we don't check it. I goes pretty nice... Oh shit!... Damn... I feel like something has broken inside of me... I hope I can crawl out of this damned hole... OK, somehow I managed to get out of there but my backpack is somewhere down in the darkness. I won't even try to bring it back.</text>
+                                <text>We won't know if we don't check it. It goes pretty nice... Oh shit!...
+Damn... I feel like something has broken inside of me... I hope I can crawl out of this damned hole...
+OK, somehow I managed to get out of there but my backpack is somewhere down in the darkness. I won't even try to bring it back.</text>
 								<events>
 									<event type="Action" subtype="GiveResource">
                                         <resource type="Food Supplies" amount="&lt;-4;-2>"></resource>
@@ -524,7 +528,9 @@
 								</events>
 							</event>
 							<event chance="60" type="Multi">
-								<text>The glow is so pleasing... I'm pretty sure it will be safe to take a close look of it. Shit! The thing is really hot! My body feels burning inside! I would do anything to end this misery!... The fire is burning out. Strange, my wounds seem to regenerate in unnatural pace!</text>
+                                <text>The glow is so pleasing... I'm pretty sure it will be safe to take a close look of it.
+Shit! The thing is really hot! My body feels burning inside! I would do anything to end this misery!...
+The fire is burning out. Strange, my wounds seem to regenerate in an unnatural pace!</text>
 								<events>
 									<event type="Action" subtype="GiveHealth">
 										<addedValue value="&lt;-6;-5>"></addedValue>
@@ -551,7 +557,8 @@
 					<results>
 						<positive>
 							<event chance="45" type="Multi">
-								<text>I see a strange thing. It looks like a mycelium. I saw similar fungus many times. After little grinding, substance made of them can enhance organisms. Well, it smells really spicy. Since I ate it I feel refreshed. I have a great desire to destroy something.</text>
+                                <text>I see a strange thing. It looks like a mycelium. I saw similar fungus many times. After little grinding, substance made of them can enhance organisms. Well, it smells really spicy.
+Since I have eaten it I've been feeling refreshed. I have a great desire to destroy something.</text>
 								<unlockedDBEntries> 
                                     <entry>Fungusire Mycelium</entry>
 								</unlockedDBEntries>
@@ -568,7 +575,8 @@
 								</events>
 							</event>
 							<event chance="55" type="Multi">
-								<text>I see a strange thing. It looks like a mycelium. I saw similar fungus many times. After little grinding, substance made of them can enhance organisms. Well, it smells really spicy. I feel only a bit dizzy. That's it?! Stupid mycelium!</text>
+                                <text>I see a strange thing. It looks like a mycelium. I saw similar fungus many times. After little grinding, substance made of them can enhance organisms. Well, it smells really spicy.
+I feel only a bit dizzy. That's it?! Stupid mycelium!</text>
 								<unlockedDBEntries> 
                                     <entry>Fungusire Mycelium</entry>
 								</unlockedDBEntries>
@@ -587,14 +595,15 @@
 						</positive>
 						<negative>
 							<event type="Multi">
-								<text> I spotted an unusual plant. It looks more like a mycelium from up close.</text>
+                                <text>I spotted an unusual plant.
+It looks more like a mycelium from up close.</text>
 								<events>
 									<event type="Check" subtype="Equipment">
                                         <condition condition="Biohazard Protection"></condition>
 										<results>
 											<positive>
 												<event type="Multi">
-													<text>After touching it, it released a cloud of spores. Thankfuly my suit protected me from them.</text>
+                                                    <text>After touching it, it released a cloud of spores. Thankfully my suit protected me from them.</text>
 													<events>
 														<event type="Action" subtype="GiveStress">
 															<addedValue value="&lt;-10;-5>"></addedValue>
@@ -730,7 +739,7 @@
 									</positive>
 									<negative>
 										<event chance="35" type="Multi">
-											<text>I got a bit dizzy from this smell. I think I'm going to vommit.</text>
+                                            <text>I got a bit dizzy from this smell. I think I'm going to vomit.</text>
 											<unlockedDBEntries> 
                                                 <entry>Poisonous Fern</entry>
 											</unlockedDBEntries>
@@ -771,7 +780,7 @@
 											<results>
 												<positive>
 													<event type="Multi">
-														<text>My wounds start to itch more than ever probably 'cause of this fog. I'd better keep distance.</text>
+                                                        <text>My wounds start to itch more than ever probably 'cause of this fog. I'd better keep the distance.</text>
 														<unlockedDBEntries> 
                                                             <entry>Poisonous Fern</entry>
 														</unlockedDBEntries>
@@ -804,7 +813,7 @@
 														</events>
 													</event>
 													<event chance="60" type="Multi">
-														<text>My god! What a pain! What happened?! I'm dying from the inside!</text>
+                                                        <text>My gosh! What a pain! What happened?! I'm dying from the inside!</text>
 														<unlockedDBEntries> 
                                                             <entry>Poisonous Fern</entry>
 														</unlockedDBEntries>
@@ -826,7 +835,8 @@
 									</positive>
 									<negative>
 										<event chance="80" type="Multi">
-											<text>I need help... I don't think I can move anymore. My skin is tearing and blood is flowing from my wounds. If i die here at least bury my body.</text>
+                                            <text>I need help...
+I don't think I can move anymore. My skin is tearing and blood is flowing from my wounds. If I die here at least bury my body.</text>
 											<unlockedDBEntries> 
                                                 <entry>Poisonous Fern</entry>
 											</unlockedDBEntries>
@@ -888,14 +898,14 @@
 	</encounter>
 	<encounter name="Toxic Spores">
 		<event type="Multi">
-			<text>Wow... What an unusual sight! Those hills are completly covered by some yellow dust! </text>
+            <text>Wow... What an unusual sight! Those hills are completely covered by some yellow dust! </text>
 			<events>
 				<event type="Check" subtype="Equipment">
                     <condition condition="Biohazard Protection"></condition>
 					<results>
 						<positive>
 							<event type="Multi">
-								<text>My sensors are running crazy! This substance appears to be some kind of spores glued to each other and analysis show that it is toxic. Fortunetely I'm protected.</text>
+                                <text>My sensors are running crazy! This substance appears to be some kind of spores glued to each other and analysis shows that it is a toxin. Fortunetely I'm protected.</text>
 								<unlockedDBEntries> 
                                     <entry>Toxic Spores</entry>
 								</unlockedDBEntries>
@@ -925,7 +935,8 @@
 									</positive>
 									<negative>
 										<event chance="40" type="Multi">
-											<text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up. Shit! My skin is starting to boil inside!</text>
+                                            <text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up.
+Shit! My skin is starting to boil inside!</text>
 											<unlockedDBEntries> 
                                                 <entry>Toxic Spores</entry>
 											</unlockedDBEntries>
@@ -943,7 +954,8 @@
 											<results>
 												<positive>
 													<event type="Multi">
-														<text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up. Shit! My skin is starting to boil inside!</text>
+                                                        <text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up.
+Shit! My skin is starting to boil inside!</text>
 														<unlockedDBEntries> 
                                                             <entry>Toxic Spores</entry>
 														</unlockedDBEntries>
@@ -994,7 +1006,7 @@
 	</encounter>
 	<encounter name="Aetherite Rock">
 		<event type="Multi">
-			<text>Oh,nice! There's nice Aetherite rock!</text>
+            <text>Oh, nice! There's nice Aetherite rock!</text>
 			<events>
 				<event type="Action" subtype="GiveResource">
 					<resource type="Aetherite" amount="&lt;3;7>"></resource>
@@ -1065,7 +1077,7 @@
 					<results>
 						<positive>
 							<event chance="10" type="Multi">
-								<text>Huh? I think I heard a roar. Really fearsome one. Only a huge animal could be so loud. Probably I should go the opposite way.</text>
+                                <text>Huh? I think I heard a roar. A really fearsome one. Only a huge animal could be so loud. Probably I should go the opposite way.</text>
 								<events>
 									<event type="Action" subtype="GiveStress">
 										<addedValue value="&lt;-20;15>"></addedValue>
@@ -1080,7 +1092,8 @@
 										<results>
 											<positive>
 												<event chance="55" type="Multi">
-													<text>I have to stay close to the ground and whatever it is shouldn't be able to see me. Oh nice! There's a little bit of Aetherite. Just remember, no sudden moves.</text>
+                                                    <text>I have to stay close to the ground and whatever it is shouldn't be able to see me.
+Oh nice! There's a little bit of Aetherite. Just remember, no sudden moves.</text>
 													<events>
 														<event type="Action" subtype="GiveStress">
 															<addedValue value="&lt;-5;18>"></addedValue>
@@ -1091,7 +1104,8 @@
 													</events>
 												</event>
 												<event chance="45" type="Multi">
-                                                    <text>Shit! It's closer than I wished. I have to escape... OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
+                                                    <text>Shit! It's closer than I would like to. I have to escape...
+OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing valuable had been lost.</text>
 													<events>
 														<event type="Action" subtype="GiveStress">
 															<addedValue value="&lt;-6;22>"></addedValue>
@@ -1104,7 +1118,8 @@
 											</positive>
 											<negative>
 												<event chance="30" type="Multi">
-                                                    <text>Shit! I'm not sure but I think that I saw it! That's enough! Run for your life!... Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
+                                                    <text>Shit! I'm not sure, but I think that I saw it! That's enough! Run for your life!...
+Oh crap, my backpack was open! I hope that nothing valuable had been lost.</text>
 													<events>
 														<event type="Action" subtype="GiveStress">
 															<addedValue value="&lt;0;25>"></addedValue>
@@ -1115,7 +1130,9 @@
 													</events>
 												</event>
 												<event chance="70" type="Multi">
-													<text>Shit! I saw it! That's enough! I have to run! Oh fuck! It's chasing me! It's faster! Aaahh! Help me! No!... Wait... what? Why did it leave me? Guess my suit didn't taste good. Lucky me...</text>
+                                                    <text>Shit! I saw it! That's enough! I have to run!
+Oh fuck! It's chasing me! It's faster! Aaahh! Help me! No!...
+Wait... what? Why did it leave me? Guess my suit didn't taste good. Lucky me...</text>
 													<unlockedDBEntries> 
 														<entry>Splitterhound</entry>
 													</unlockedDBEntries>
@@ -1149,7 +1166,8 @@
 								<results>
 									<positive>
 										<event chance="20" type="Multi">
-											<text>Oh shit! There's a beast coming. I have to run until it isn't too late!... Oh crap, I lost something during my escape. Nevermind, I won't go back no matter what.</text>
+                                            <text>Oh shit! There's a beast coming. I have to run until it isn't too late!...
+Oh crap, I lost something during my escape. Nevermind, I won't go back no matter what.</text>
 											<unlockedDBEntries> 
 												<entry>Splitterhound</entry>
 											</unlockedDBEntries>
@@ -1163,7 +1181,8 @@
 											</events>
 										</event>
 										<event chance="80" type="Multi">
-											<text>Shhh, I see a great creature. It looks like a predator and surely I don't want to be its prey. I have some food in my backpack. If I threw it, the best would have been distracted nad I would escape. It's a good plan. One, Two, Three, Go!... OK, I'm on a safe distance. Time to continue exploration.</text>
+                                            <text>Shhh, I see a great creature. It looks like a predator and surely I don't want to be its prey. I have some food in my backpack. If I threw it, the best would have been distracted nad I would escape. It's a good plan. One, Two, Three, Go!...
+OK, I'm in a safe distance. Time to continue exploration.</text>
 											<unlockedDBEntries> 
 												<entry>Splitterhound</entry>
 											</unlockedDBEntries>
@@ -1183,7 +1202,8 @@
 											<results>
 												<positive>
 													<event chance="40+(CE-6)*5" type="Multi">
-														<text>Oh shit! There is some huge animal coming! I'm prepared for fight!... It was less dangerous than it seemed. At least it has some meat inside.</text>
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+It was less dangerous than it seemed. At least it has some meat inside.</text>
 														<unlockedDBEntries> 
 															<entry>Splitterhound</entry>
 														</unlockedDBEntries>
@@ -1200,7 +1220,8 @@
 														</events>
 													</event>
 													<event chance="60-(CE-6)*5" type="Multi">
-														<text>Oh shit! There is some huge animal coming! I'm prepared for fight!... The fight was tough, I've got some scratches, but in the end the stronger suvived. Splitterhounds are eatable, aren't they?</text>
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+The fight was tough, I've got some scratches, but in the end the stronger suvived. Splitterhounds are eatable, aren't they?</text>
 														<unlockedDBEntries> 
 															<entry>Splitterhound</entry>
 														</unlockedDBEntries>
@@ -1225,7 +1246,8 @@
 												</positive>
 												<negative>
 													<event chance="50+(CE-6)*5" type="Multi">
-														<text>Oh shit! There is some huge animal coming! I'm prepared for fight!... Ahh... I underestimated it... At least I could scare it off but still I'm badly wounded, and this beast stole most of my food supplies. I have to be more cautious next time.</text>
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+Ahh... I underestimated it... At least I could scare it off but still I'm badly wounded, and this beast stole most of my food supplies. I have to be more cautious next time.</text>
 														<unlockedDBEntries> 
 															<entry>Splitterhound</entry>
 														</unlockedDBEntries>
@@ -1274,7 +1296,7 @@
 								<results>
 									<positive>
 										<event chance="40" type="Multi">
-											<text> They are completly black. I will use some light to see more details. Incredible! They seem to die from artificial light! They are quite big so I suppose that they can be eaten.</text>
+                                            <text> They are completely black. I will use some light to see more details. Incredible! They seem to die from artificial light! They are quite big so I suppose that they can be eaten.</text>
 											<unlockedDBEntries> 
 												<entry>Morgai</entry>
 											</unlockedDBEntries>
@@ -1288,7 +1310,7 @@
 											</events>
 										</event>
 										<event chance="60" type="Multi">
-											<text> They are closing the distance! They bodies are all black! Maybe if I use some light I will see some details? It made them mad! But at the same time they seem to die from artificial light. Probably they are eatable so I'll collect as many as I can.</text>
+                                            <text>They are closing the distance! Their bodies are all black! Maybe if I used some light I will see some details? It made them mad! But at the same time they seem to die from artificial light. Probably they are eatable so I'll collect as many as I can.</text>
 											<unlockedDBEntries> 
 												<entry>Morgai</entry>
 											</unlockedDBEntries>
@@ -1324,7 +1346,8 @@
 								<results>
 									<positive>
 										<event chance="10" type="Multi">
-											<text>They are closing the distance! Those stupid insects disgust me! I'll beat the crap out of you!... Well, that wasn't that hard. I just got bitten few times. They have some flesh, so probably it will be ok to eat them.</text>
+                                            <text>They are closing the distance! Those stupid insects disgust me! I'll beat the crap out of you!...
+Well, that wasn't that hard. I just got bitten few times. They have some flesh, so probably it will be ok to eat them.</text>
 											<unlockedDBEntries> 
 												<entry>Morgai</entry>
 											</unlockedDBEntries>
@@ -1341,7 +1364,8 @@
 											</events>
 										</event>
 										<event chance="90" type="Multi">
-											<text>Oh shoot! They fly to me! Take it easy... don't panic and slowly go the opposite way. Ouch! One of them bit me! It's time to run!</text>
+                                            <text>Oh shoot! They fly to me! Take it easy... don't panic and slowly go the opposite way.
+Ouch! One of them bit me! It's time to run!</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
                                                     <addedValue value="&lt;5;25>"></addedValue>
@@ -1372,7 +1396,7 @@
 	</encounter>
 	<encounter name="A Hill">
 		<event type="Multi">
-			<text>Oh nice hill I see over there. It will be a good spot to rest and do some recon.</text>
+            <text>Oh, a nice hill I see over there. It will be a good spot to rest and do some recon.</text>
 			<events>
 				<event type="Action" subtype="NoSignal">
                     <duration duration="0"></duration>
@@ -1452,7 +1476,7 @@
 	</encounter>
 	<encounter name="Brook">
 		<event type="Multi">
-			<text>Oh I little brook over here! The sound of water is very relaxing.</text>
+            <text>Oh, a little brook over here! The sound of water is very relaxing.</text>
 			<events>
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-6;-1>"></addedValue>
@@ -1486,10 +1510,10 @@
 						</positive>
 						<negative>
 							<event chance="70" type="Multi">
-								<text>When I was breaching this small river, something bit my leg! It scared shit out of me!</text>
+                                <text>When I was traversing this small river, something bit my leg! It scared shit out of me!</text>
 								<events>
 									<event type="Action" subtype="GiveHealth">
-										<addedValue value="&lt;-1;-2>"></addedValue>
+                                        <addedValue value="&lt;-2;-1>"></addedValue>
 									</event>
 									<event type="Action" subtype="GiveStress">
 										<addedValue value="&lt;20;30>"></addedValue>
@@ -1524,7 +1548,7 @@
 					<results>
 						<positive>
 							<event chance="20" type="Multi">
-								<text>Oh shit! I found pretty big Aetherite rock underwater! I have to pull it out!</text>
+                                <text>Oh shit! I found a pretty big Aetherite rock underwater! I have to pull it out!</text>
 								<events>
 									<event type="Action" subtype="GiveResource">
 										<resource type="Aetherite" amount="&lt;8;14>"></resource>
@@ -1570,7 +1594,7 @@
 										<results>
 											<positive>
 												<event type="Multi">
-													<text>Yeah! I've go it!</text>
+                                                    <text>Yeah! I've got it!</text>
 													<events>
 														<event type="Check" subtype="Value">
 															<condition condition="PR>6"></condition>
@@ -1653,7 +1677,7 @@
 					<results>
 						<positive>
 							<event type="Multi">
-								<text>I hear grwoling and munching. A whole group of creatures.</text>
+                                <text>I hear growling and munching. A whole group of creatures.</text>
 								<events>
 									<event type="Check" subtype="Value">
                                         <condition condition="SR&lt;1.2"></condition>
@@ -1664,7 +1688,9 @@
 													<addedValue value="&lt;-10;10>"></addedValue>
 												</event>
 												<event chance="20" type="Multi">
-													<text>Oh shit! They saw me! I have to run!... Uh... Huh... I think I lost them. One of this little monsters scratched me but it's minor injury.</text>
+                                                    <text>Oh shit! They saw me! I have to run!...
+Uh... Huh...
+I think I lost them. One of these monsters scratched me but it's minor injury.</text>
 													<unlockedDBEntries> 
 														<entry>Nibbler</entry>
 													</unlockedDBEntries>
@@ -1704,7 +1730,7 @@
 						</positive>
 						<negative>
 							<event type="Multi">
-								<text>I was ambushed by a group of small hideous creatures!</text>
+                                <text>I was ambushed by a group of hideous creatures!</text>
 								<unlockedDBEntries> 
 									<entry>Nibbler</entry>
 								</unlockedDBEntries>
@@ -1733,7 +1759,7 @@
 											</positive>
 											<negative>
 												<event type="Multi">
-													<text>They got on me, but fortunetely they didn't like taste of my suit and left me alone. Regardless of that, it was traumatic experience.</text>
+                                                    <text>They got on me, but fortunetely they didn't like the taste of my suit and left me alone. Regardless of that, it was a traumatic experience.</text>
 													<events>
 														<event type="Action" subtype="GiveHealth">
 															<addedValue value="&lt;-5;-3>"></addedValue>

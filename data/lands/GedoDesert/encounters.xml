@@ -142,7 +142,7 @@
 											<results>
 												<positive>
 													<event chance="75" type="Multi">
-														<text>I think I'm safe now. Running on sand is hard and exhausting. O shit, I lost something! I'm almost 100% sure that I put something in this pocket.</text>
+                                                        <text>I think I'm safe now. Running on sand is hard and exhausting. Oh shit, I lost something! I'm almost 100% sure that I put something in this pocket.</text>
 														<events>
 															<event type="Action" subtype="GiveStress">
 																<addedValue value="&lt;-10;10>"></addedValue>
@@ -178,7 +178,7 @@
 												</positive>
 												<negative>
 													<event chance="15" type="Multi">
-														<text>I couldn't run away from it! This freaking scoprpio was too fast! It used its claws and stinged me and it came to eating me, I kicked it in the face. The creature was unexpecting such plottwist and confused started to retreat.</text>
+                                                        <text>I couldn't run away from it! This freaking scorpio was too fast! It used its claws and stinged me and it came to eating me, I kicked it in the face. The creature was unexpecting such a plot twist and confused started to retreat.</text>
 														<events>
 															<event type="Action" subtype="GiveStress">
 																<addedValue value="&lt;40;75>"></addedValue>
@@ -254,7 +254,7 @@
 								<results>
 									<positive>
 										<event chance="65" type="Multi">
-											<text>I found some strange wrinkled fruits! Propably some animal had hidden them hire but they are my now!</text>
+                                            <text>I found some strange wrinkled fruits! Propably some animal had hidden them here, but they are mine now!</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
 													<addedValue value="&lt;-15;-5>"></addedValue>
@@ -265,17 +265,17 @@
 											</events>
 										</event>
 										<event chance="35" type="Action" subtype="GiveStress">
-											<text>Well... There is nothing... Could've predicted.</text>
+                                            <text>Well... There is nothing here... Could've predicted.</text>
 											<addedValue value="&lt;3;4>"></addedValue>
 										</event>
 									</positive>
 									<negative>
 										<event chance="30" type="Action" subtype="GiveStress">
-											<text>Well... There is nothing... Could've predicted.</text>
+                                            <text>Well... There is nothing here... Could've predicted.</text>
 											<addedValue value="&lt;2;5"></addedValue>
 										</event>
 										<event chance="70" type="Multi">
-											<text>Ouch! A splinter jabbed my finger! And there is nothing... What a disappointment...</text>
+                                            <text>Ouch! A splinter jabbed my finger! And there is nothing here... What a disappointment...</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
 													<addedValue value="&lt;10;25>"></addedValue>
@@ -307,12 +307,13 @@
 					<results>
 						<positive>
 							<event type="Check" subtype="Value">
-								<text>The sand around me is shaking and only on small radius! I'd better leave it fast!</text>
+                                <text>The sand around me is shaking and only in small radius! I'd better leave it fast!</text>
 								<condition condition="CE>6"></condition>
 								<results>
 									<positive>
 										<event chance="70" type="Multi">
-											<text>Oh fuck! What a monstrosity came out from the ground! It's huge worm with maw bigger than me!... The fight was tough but I did it. I slayed that monster.</text>
+                                            <text>Oh fuck! What a monstrosity came out from the ground! It's a huge worm with maw bigger than me!...
+The fight was tough but I did it. I slayed that monster.</text>
 											<unlockedDBEntries> 
 												<entry>Lurkerworm</entry>
 											</unlockedDBEntries>
@@ -328,7 +329,7 @@
 													<results>
 														<positive>
 															<event type="Multi">
-																<text>Oh! There was a package in it's maw! Wow! It's a weapon!</text>
+                                                                <text>Oh! There was a package in its maw! Wow! It's a weapon!</text>
 																<events>
 																	<event type="Action" subtype="GiveStress">
 																		<addedValue value="&lt;-30;-20>"></addedValue>
@@ -341,7 +342,7 @@
 														</positive>
 														<negative>
 															<event type="Multi">
-																<text>Oh! There was a package in it's maw! It has some food inside!</text>
+                                                                <text>Oh! There was a package in its maw! It has some food inside!</text>
 																<events>
 																	<event type="Action" subtype="GiveStress">
 																		<addedValue value="&lt;-10;-5>"></addedValue>
@@ -357,7 +358,8 @@
 											</events>
 										</event>
 										<event chance="30" type="Multi">
-											<text>Oh crap! A huge worm came out from the ground! So disgusting!... Uh... The fight was very demanding but it turned out that I am to be the winner today. At least I found a package of food that probably belonged to other explorer.</text>
+                                            <text>Oh crap! A huge worm came out from the ground! So disgusting!... Uh...
+The fight was very demanding but it turned out that I am to be the winner today. At least I found a package of food that probably belonged to other explorer.</text>
 											<unlockedDBEntries> 
 												<entry>Lurkerworm</entry>
 											</unlockedDBEntries>
@@ -376,7 +378,7 @@
 									</positive>
 									<negative>
 										<event type="Action" subtype="GiveStress">
-											<text>Oh shit! A huge worm cameo out of sand just in place where I was standing! Thankfuly I managed to escape.</text>
+                                            <text>Oh shit! A huge worm came out of sand just in place where I was standing! Thankfully I managed to escape.</text>
 											<unlockedDBEntries> 
 												<entry>Lurkerworm</entry>
 											</unlockedDBEntries>
@@ -388,7 +390,8 @@
 						</positive>
 						<negative>
 							<event chance="30" type="Multi">
-								<text>Ugh... I just experienced the worst thing in my life. I was wandering through the desert and suddenly a worm came out just under me! I was in its maw being crushed by its teeth! Somehow I jumped out of there. The worm didn't notice it and got back under ground.</text>
+                                <text>Ugh...
+I've just experienced the worst thing in my life. I had been wandering through the desert and suddenly a worm came out just under me! I had been in its maw being crushed by its teeth! Somehow I had jumped out of there. The worm hadn't noticed it and had got back under ground.</text>
 								<unlockedDBEntries> 
 									<entry>Lurkerworm</entry>
 								</unlockedDBEntries>
@@ -671,7 +674,7 @@
 				</event>
                 <event type="Possibility">
 					<event chance="50" type="Action" subtype="GiveStress">
-						<text>This place give me chills. I feel observed by somthing.</text>
+                        <text>This place give me chills. I feel observed by something.</text>
 						<addedValue value="&lt;8;14>"></addedValue>
 					</event>
 				</event>
@@ -737,7 +740,7 @@
 										</positive>
 										<negative>
 											<event chance="30" type="Multi">
-												<text>Shit! It catched me but managed to escape but I lost few items.</text>
+                                                <text>Shit! It catched me but I managed to escape. Unfortunately I lost a few items.</text>
 												<events>
 													<event type="Action" subtype="GiveStress">
 														<addedValue value="&lt;15;40>"></addedValue>
@@ -754,7 +757,8 @@
 												</events>
 											</event>
 											<event chance="70" type="Multi">
-												<text>Shit! It stinged me! Somehow it lost track of me. I lost few items during my escape.</text>
+                                                <text>Shit! It stinged me!
+Somehow it lost track of me. I lost few items during my escape.</text>
 												<unlockedDBEntries> 
                                                     <entry>Speckled Scorpioid</entry>
 												</unlockedDBEntries>
@@ -838,7 +842,7 @@
 				</event>
                 <event type="Possibility">
 					<event chance="2,5" type="Multi">
-						<text>Oh nice! I'll take that piece of equipment my friend. I won't let it rust it on this damned desert.</text>
+                        <text>Oh nice! I'll take that piece of equipment, my friend. I won't let it rust it on this damned desert.</text>
 						<events>
 							<event type="Action" subtype="GiveStress">
 								<addedValue value="&lt;-60;5>"></addedValue>
@@ -867,7 +871,7 @@
 					<results>
 						<positive>
 							<event type="Multi">
-								<text>Decay process is in advanced state but I still could find some untouched flesh.</text>
+                                <text>Decay process is in advanced state, but I still could find some untouched flesh.</text>
 								<events>
 									<event type="Action" subtype="GiveStress">
 										<addedValue value="&lt;-20;-3>"></addedValue>
@@ -890,7 +894,7 @@
 									</positive>
 									<negative>
 										<event type="Multi">
-											<text>Ough! It covered by some sticky goo! I should leave it.</text>
+                                            <text>Ough! It's covered by some sticky goo! I should leave it.</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
 													<addedValue value="&lt;5;25>"></addedValue>
@@ -914,7 +918,7 @@
 	</encounter>
 	<encounter name="Sand Avalanche">
 		<event type="Multi">
-			<text>Woah! This dune is moving! It's like a sand avalanche! And it's comes to me!</text>
+            <text>Woah! This dune is moving! It's like a sand avalanche! And it's coming to me!</text>
 			<events>
                 <event type="Check" subtype="Value">
                     <condition condition="PR>4"></condition>
@@ -938,7 +942,8 @@
 						</positive>
 						<negative>
 							<event chance="40" type="Multi">
-								<text>Oh crap! It's really close! Gotta go fast!... Ok, I escaped that avalanche but I lost some resources. Damn it!</text>
+                                <text>Oh crap! It's really close! Gotta go fast!...
+Ok, I escaped that avalanche but I lost some resources. Damn it!</text>
 								<events>
 									<event type="Action" subtype="GiveStress">
 										<addedValue value="&lt;-6;16>"></addedValue>
@@ -949,7 +954,8 @@
 								</events>
 							</event>
 							<event chance="60" type="Multi">
-								<text>Oh fuck! It's too fast! Oh no... Ough... My suit is full of sand! I have to crawl out of this sand...</text>
+                                <text>Oh fuck! It's too fast! Oh no...
+Ough... My suit is full of sand! I have to crawl out...</text>
 								<events>
 									<event type="Action" subtype="GiveStress">
 										<addedValue value="&lt;5;27>"></addedValue>
@@ -995,7 +1001,7 @@
 	</encounter>
 	<encounter name="Oasis">
 		<event type="Multi">
-			<text>Is it really true? I see a green spot on a horizon! It's an oasis! I just must investigate it!</text>
+            <text>Is it really true? I see a green spot on a horizon! It's an oasis! I have to investigate it!</text>
 			<events>
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-50;-32>"></addedValue>
@@ -1033,7 +1039,7 @@
 							</positive>
 							<negative>
 								<event chance="50" type="Multi">
-									<text>I found few hairy fruits on a tree that looks like a palm! I hope they are eatable.</text>
+                                    <text>I found a few hairy fruits on a tree that looks like a palm! I hope they are eatable.</text>
 									<events>
 										<event type="Action" subtype="GiveStress">
 											<addedValue value="&lt;-13;-5>"></addedValue>
@@ -1044,7 +1050,7 @@
 									</events>
 								</event>
 								<event chance="50" type="Multi">
-									<text>I found few fruits on a strange spiky plant! It's strange that it grows in oasis but still I have more food so I shouldn't complain.</text>
+                                    <text>I found a few fruits on a strange spiky plant! It's strange that it grows in oasis but still I have more food so I shouldn't complain.</text>
 									<unlockedDBEntries> 
 										<entry>Thornettle</entry>
 									</unlockedDBEntries>
@@ -1117,13 +1123,15 @@
 					<results>
 						<positive>
 							<event type="Action" subtype="GiveStress">
-								<text>Woah! It's a lot of fun! Sadly it's over now.</text>
+                                <text>Woah! It's a lot of fun!
+Sadly it's over now.</text>
 								<addedValue value="&lt;-20;-5>"></addedValue>
 							</event>
 						</positive>
 						<negative>
 							<event type="Action" subtype="GiveStress">
-								<text>It's scary! Help me! Oh... It is over... finally...</text>
+                                <text>It's scary! Help me!
+Oh... It is over... finally...</text>
 								<addedValue value="&lt;5;20>"></addedValue>
 							</event>
 						</negative>
@@ -1146,7 +1154,7 @@
 								<results>
 									<positive>
 										<event type="Check" subtype="Value">
-											<text>I see a huge rock made of Aetherite! It's glowing and calls me!</text>
+                                            <text>I see a huge rock made of Aetherite! It's glowing and calling me!</text>
 											<condition condition="CL>5"></condition>
 											<results>
 												<positive>
@@ -1239,7 +1247,7 @@
 	</encounter>
 	<encounter name="Dark Loathsomers Swarm">
 		<event type="Multi">
-			<text> Some creatures crawl out of the ground around me! They look loathsome Disgusting!</text>
+            <text>Some creatures are crawling out of the ground around me! They look loathsomely disgusting!</text>
 			<events>
 				<event type="Check" subtype="Value">
                     <condition condition="CL>4"></condition>
@@ -1255,7 +1263,8 @@
 											<addedValue value="&lt;-35;-25>"></addedValue>
 										</event>
 										<event chance="5" type="Multi">
-											<text>Oh, c'mon! The light doesn't want to work! C'mon, c'mon... It's too late. We will have to do it the hard way.</text>
+                                            <text>Oh, c'mon! The light doesn't want to work! C'mon, c'mon...
+It's too late. We will have to do it the hard way.</text>
 											<events>
 												<event type="Action" subtype="GiveStress">
 													<addedValue value="&lt;5;10>"></addedValue>
@@ -1281,7 +1290,7 @@
 														</positive>
 														<negative>
 															<event chance="10" type="Action" subtype="GiveStress">
-																<text>There were too many of them! Thankfuly I escaped and it seems safe now.</text>
+                                                                <text>There were too many of them! Thankfully I escaped and it seems safe now.</text>
 																<addedValue value="&lt;-20;10>"></addedValue>
 															</event>
 															<event type="Multi">
@@ -1336,7 +1345,7 @@
 												</positive>
 												<negative>
 													<event chance="10" type="Action" subtype="GiveStress">
-														<text>There were too many of them! Thankfuly I escaped and it seems safe now.</text>
+                                                        <text>There were too many of them! Thankfully I escaped and it seems safe now.</text>
 														<addedValue value="&lt;-20;10>"></addedValue>
 													</event>
 													<event type="Multi">
@@ -1392,7 +1401,7 @@
 									</positive>
 									<negative>
 										<event chance="10" type="Action" subtype="GiveStress">
-											<text>There were too many of them! Thankfuly I escaped and it seems safe now.</text>
+                                            <text>There were too many of them! Thankfully I escaped and it seems safe now.</text>
 											<addedValue value="&lt;-20;10>"></addedValue>
 										</event>
 										<event type="Multi">
@@ -1429,7 +1438,8 @@
 	</encounter>
 	<encounter name="Space Junk">
 		<event type="Multi">
-			<text>There is some huge field of metal waste! Oh wait... It looks more like an early spaceship crashed here!</text>
+            <text>There is some huge field of metal waste! Oh wait...
+It looks more like an early spaceship crashed here!</text>
 			<events>
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-20;-13>"></addedValue>
@@ -1449,7 +1459,7 @@
 				</event>
                 <event type="Possibility">
 					<event chance="10" type="Multi">
-						<text>There is Aetherite container! So someone has been here before to collect Aetherite!</text>
+                        <text>There is Aetherite container! So someone has been here before to collect this mineral!</text>
 						<events>
 							<event type="Action" subtype="GiveStress">
 								<addedValue value="&lt;-20;-6>"></addedValue>
