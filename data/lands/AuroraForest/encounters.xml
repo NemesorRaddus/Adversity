@@ -323,7 +323,7 @@
             <text>Wow. What an unusual plant! It's all purple!</text>
             <events>
                 <event type="Check" subtype="Value">
-                    <condition condition="PR>7"></condition>
+                    <condition condition="PR>6"></condition>
                     <results>
                         <positive>
                             <event type="Multi">
@@ -1572,7 +1572,7 @@ Uhh... They left me alone... Everything is hurting me. They must've been poisono
                                         <addedValue value="&lt;-5;5>"></addedValue>
                                     </event>
                                     <event type="Check" subtype="Value">
-                                        <condition condition="PR>7"></condition>
+                                        <condition condition="PR>5"></condition>
                                         <results>
                                             <positive>
                                                 <event type="Multi">

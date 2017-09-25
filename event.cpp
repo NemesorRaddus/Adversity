@@ -1272,19 +1272,19 @@ unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDif
     switch (difficulty)
     {
     case EventEnums::MD_Short:
-        return Randomizer::randomBetweenAAndB(0,1);
+        return Randomizer::randomBetweenAAndB(0,2);
     case EventEnums::MD_Medium:
         [[fallthrough]];
     case EventEnums::MD_Long:
         [[fallthrough]];
     case EventEnums::MD_Extreme:
-        return Randomizer::randomBetweenAAndB(0,2);
+        return Randomizer::randomBetweenAAndB(0,3);
     case EventEnums::MD_Veteran:
         [[fallthrough]];
     case EventEnums::MD_Master:
-        return Randomizer::randomBetweenAAndB(2,3);
+        return Randomizer::randomBetweenAAndB(2,5);
     case EventEnums::MD_Heroic:
-        return Randomizer::randomBetweenAAndB(2,4);
+        return Randomizer::randomBetweenAAndB(2,6);
     default:
         return 0;
     }

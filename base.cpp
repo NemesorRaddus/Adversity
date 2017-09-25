@@ -1699,10 +1699,10 @@ void Base::setupNewBase() noexcept
     m_dockingStation->prepareEquipments();
 
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
-    m_gameObject->assetsPool().loadHeroNamedFromList("AdamAnderson");
+    m_gameObject->assetsPool().loadHeroNamedFromList("HeinzWitt");
     auto loadedH = m_gameObject->assetsPool().loadedHeroes();
     for (auto e : loadedH)
-        if (e->name() == "AdamAnderson")
+        if (e->name() == "HeinzWitt")
         {
             m_heroes->addHero(e);
             break;

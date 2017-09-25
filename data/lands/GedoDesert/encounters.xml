@@ -94,7 +94,7 @@
 						<positive>
 							<event type="Check" subtype="Value">
                                 <text>OK, I'm not afraid. Just keep a cool head.</text>
-								<condition condition="CE>7"></condition>
+                                <condition condition="CE>6"></condition>
 								<results>
 									<positive>
 										<event chance="65" type="Multi">
@@ -1325,7 +1325,7 @@ It's too late. We will have to do it the hard way.</text>
 									<negative>
 										<event type="Check" subtype="Value">
                                             <text>But I don't have any light source with me. Fuck! I will have to fight them.</text>
-                                            <condition condition="CE>7"></condition>
+                                            <condition condition="CE>6"></condition>
 											<results>
 												<positive>
 													<event type="Multi">
@@ -1381,7 +1381,7 @@ It's too late. We will have to do it the hard way.</text>
 						<negative>
 							<event type="Check" subtype="Value">
 								<text>Disgusting or not, I will have to kill them!</text>
-                                <condition condition="CE>7"></condition>
+                                <condition condition="CE>6"></condition>
 								<results>
 									<positive>
 										<event type="Multi">
