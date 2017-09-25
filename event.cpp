@@ -991,15 +991,12 @@ void Mission::start() noexcept
 {
     m_assignedHero->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedHero->pathToArt(), m_assignedHero->stress(), m_assignedHero->stressLimit(), m_assignedHero->base()->gameClock()->currentTime())));
     m_assignedHero->base()->registerLatestReportInMission(this);
-    planNextEncounter();
+    planEverything();
 }
 
 EncounterReport *Mission::doEncounter(const Time &now) noexcept
 {
-    auto r = m_encounters[m_nextEncounter].second->execute(m_assignedHero, now);
-    ++m_nextEncounter;
-    planNextEncounter();
-    return r;
+    return m_encounters[m_nextEncounter++].second->execute(m_assignedHero, now);
 }
 
 void Mission::end() noexcept
@@ -1041,17 +1038,23 @@ void Mission::prepareReport(unsigned index) noexcept
 Mission::Mission() noexcept
     : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_nextEncounter(0), m_minutesSinceMidnightOfLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
 
-void Mission::planNextEncounter() noexcept
+void Mission::planEverything() noexcept
 {
-    if (m_nextEncounter<m_encounters.size())
+    planAllEncounters();
+    planEnd();
+}
+
+void Mission::planAllEncounters() noexcept
 {
     auto clock=m_assignedHero->base()->gameClock();
-        unsigned missionDayOfPlannedEncounter = m_encounters[m_nextEncounter].first;
-        unsigned daysToAdd = m_nextEncounter==0 ? missionDayOfPlannedEncounter : missionDayOfPlannedEncounter-m_encounters[m_nextEncounter-1].first;
+    for (int i=0;i<m_encounters.size();++i)
+    {
+        unsigned missionDayOfPlannedEncounter = m_encounters[i].first;
+        unsigned daysToAdd = i==0 ? missionDayOfPlannedEncounter : missionDayOfPlannedEncounter-m_encounters[0].first;
         unsigned dayOfPlannedEncounter = clock->currentDay() + daysToAdd;
-        unsigned maxMinutes = 24*60-(m_encounters.size()-1-m_nextEncounter);// minutes since midnight
+        unsigned maxMinutes = 24*60-(m_encounters.size()-1-i);// minutes since midnight
         unsigned minMinutes;
-        if (m_nextEncounter == 0)
+        if (i == 0)
             minMinutes = clock->currentHour()*60 + clock->currentMin() + 1;
         else
         {
@@ -1068,8 +1071,11 @@ void Mission::planNextEncounter() noexcept
 
         clock->addMissionAlarm(timeResult, this);
     }
-    else
-        m_assignedHero->base()->gameClock()->addAlarm(m_remainingDays, new MissionEndTimerAlarm(m_assignedHero->base(),this));
+}
+
+void Mission::planEnd() noexcept
+{
+    m_assignedHero->base()->gameClock()->addAlarm(m_duration, new MissionEndTimerAlarm(m_assignedHero->base(),this));
 }
 
 void Mission::setLand(Land *land) noexcept

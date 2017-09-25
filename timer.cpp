@@ -183,10 +183,6 @@ QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() con
 
 void TimerAlarmsContainer::addMissionAlarm(const Time &time, Mission *mission) noexcept
 {
-    for (auto e : m_missionAlarms)
-        if (e.second == mission)
-            return;
-
     m_missionAlarms+={time, mission};
 }
 
@@ -237,11 +233,12 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 
 void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
 {
-    for (int i=0;i<m_missionAlarms.size();++i)
-        if (m_missionAlarms[i].second == mission)
+    for (int i=0;i<m_missionAlarms.size();)
         {
+        if (m_missionAlarms[i].second == mission)
             m_missionAlarms.remove(i);
-            break;
+        else
+            ++i;
         }
 }
 

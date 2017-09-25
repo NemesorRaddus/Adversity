@@ -992,7 +992,9 @@ public:
 private:
     Mission() noexcept;
 
-    void planNextEncounter() noexcept;
+    void planEverything() noexcept;
+    void planAllEncounters() noexcept;
+    void planEnd() noexcept;
 
     void setLand(Land *land) noexcept;
     void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
