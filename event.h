@@ -66,6 +66,7 @@ struct EventEnums
     };
     enum ReportType
     {
+        RT_Null,
         RT_Encounter,
         RT_BuildingUpgrade,
         RT_HeroArrival,
@@ -515,7 +516,23 @@ private:
     Time m_time;
 };
 
-class EncounterReport : public Report
+class NullReport final : public Report
+{
+public:
+    NullReport(const Time &time = {}) noexcept
+        : Report(EventEnums::RT_Null, time) {}
+
+    inline QString art() const noexcept final
+    {
+        return "";
+    }
+    inline QString text() const noexcept final
+    {
+        return "";
+    }
+};
+
+class EncounterReport final : public Report
 {
 public:
     EncounterReport(const QString &heroArt, const QVector <EventReport> &events, const Time &time) noexcept;
@@ -531,7 +548,7 @@ private:
     QVector <EventReport> m_events;
 };
 
-class BuildingUpgradeReport : public Report
+class BuildingUpgradeReport final : public Report
 {
 public:
     BuildingUpgradeReport(BaseEnums::Building building, unsigned level, const Time &time) noexcept;
@@ -548,7 +565,7 @@ private:
     unsigned m_level;
 };
 
-class HeroArrivalReport : public Report
+class HeroArrivalReport final : public Report
 {
 public:
     HeroArrivalReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept;
@@ -564,7 +581,7 @@ private:
     QString m_name;
 };
 
-class TradeCompletionReport : public Report
+class TradeCompletionReport final : public Report
 {
 public:
     TradeCompletionReport(BaseEnums::Resource targetResource, unsigned amount, const Time &time) noexcept;
@@ -580,7 +597,7 @@ private:
     unsigned m_amount;
 };
 
-class EquipmentArrivalReport : public Report
+class EquipmentArrivalReport final : public Report
 {
 public:
     EquipmentArrivalReport(const QString &name, const Time &time) noexcept;
@@ -595,7 +612,7 @@ private:
     QString m_name;
 };
 
-class DesertionReport : public Report
+class DesertionReport final : public Report
 {
 public:
     DesertionReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
@@ -611,7 +628,7 @@ private:
     QString m_name;
 };
 
-class HungerReport : public Report
+class HungerReport final : public Report
 {
 public:
     HungerReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
@@ -627,7 +644,7 @@ private:
     QString m_name;
 };
 
-class NoSalaryReport : public Report
+class NoSalaryReport final : public Report
 {
 public:
     NoSalaryReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
@@ -643,7 +660,7 @@ private:
     QString m_name;
 };
 
-class MissionEndReport : public Report
+class MissionEndReport final : public Report
 {
 public:
     MissionEndReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
@@ -659,7 +676,7 @@ private:
     QString m_name;
 };
 
-class TrainingCompletionReport : public Report
+class TrainingCompletionReport final : public Report
 {
 public:
     TrainingCompletionReport(const QString &heroArt, const QString &heroName, BaseEnums::Building building, const Time &time) noexcept;
@@ -676,7 +693,7 @@ private:
     BaseEnums::Building m_building;
 };
 
-class SignalLostReport : public Report
+class SignalLostReport final : public Report
 {
 public:
     SignalLostReport(const QString &heroArt, const QString &heroName, const QString &landName, const Time &time) noexcept;
@@ -693,7 +710,7 @@ private:
     QString m_landName;
 };
 
-class SignalRetrievedReport : public Report
+class SignalRetrievedReport final : public Report
 {
 public:
     SignalRetrievedReport(const QString &heroArt, const QString &landName, const Time &time) noexcept;
@@ -709,7 +726,7 @@ private:
     QString m_landName;
 };
 
-class MissionStartReport : public Report
+class MissionStartReport final : public Report
 {
 public:
     MissionStartReport(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept;
@@ -725,7 +742,7 @@ private:
     int m_stress, m_stressLimit;
 };
 
-class HeroDeathReport : public Report
+class HeroDeathReport final : public Report
 {
 public:
     HeroDeathReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept;
