@@ -64,11 +64,15 @@ DISTFILES += \
     android-sources/src/org/qtproject/qt5/android/bindings/MyActivity.java \
     versionnumber.txt \
     save.txt \
-    Gra-spis.rtf
+    Gra-spis.rtf \
+    qml/H4XWindow.qml
 
 CONFIG(release, debug|release) {
     #This is a release build
     DEFINES += QT_NO_DEBUG_OUTPUT
 } else {
     #This is a debug build
+    win32 {
+        DEFINES += ENABLE_CONSOLE_WINDOW
+    }
 }

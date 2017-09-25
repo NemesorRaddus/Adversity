@@ -61,5 +61,14 @@ int main(int argc, char *argv[])
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
+#ifdef ENABLE_CONSOLE_WINDOW
+    engine.load("../GameBase/qml/H4XWindow.qml");
+    bool *eventFiltersLocker=new bool(0);
+    MainWindowEventFilter mwef{engine.rootObjects()[1], eventFiltersLocker};
+    ConsoleWindowEventFilter cwef{engine.rootObjects()[0], eventFiltersLocker};
+    engine.rootObjects()[0]->installEventFilter(&mwef);
+    engine.rootObjects()[1]->installEventFilter(&cwef);
+#endif
+
     return app.exec();
 }

@@ -2,7 +2,42 @@
 
 #include "game.h"
 
+#ifdef ENABLE_CONSOLE_WINDOW
+bool MainWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
+{
+    if (!*m_lock)
+    {
+        *m_lock=1;
+        if (event->type() == QEvent::Close)
+            QMetaObject::invokeMethod(m_consoleWindow, "close");
+        else if (event->type() == QEvent::Show)
+            QMetaObject::invokeMethod(m_consoleWindow, "show");//doesn't work...
+        else if (event->type() == QEvent::Hide)
+            QMetaObject::invokeMethod(m_consoleWindow, "hide");//that too
+        *m_lock=0;
+    }
+    return QObject::eventFilter(obj, event);
+}
+
+bool ConsoleWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
+{
+    if (!*m_lock)
+    {
+        *m_lock=1;
+        if (event->type() == QEvent::Close)
+            QMetaObject::invokeMethod(m_mainWindow, "close");
+        else if (event->type() == QEvent::Show)
+            QMetaObject::invokeMethod(m_mainWindow, "show");//and that
+        else if (event->type() == QEvent::Hide)
+            QMetaObject::invokeMethod(m_mainWindow, "hide");//and that
+        *m_lock=0;
+    }
+    return QObject::eventFilter(obj, event);
+}
+#endif
+
 H4X::H4X(QQmlApplicationEngine *engine)
+    : m_autoUpdate(1)
 {
     m_qmlEngine=engine;
     _h4xQmlEngine=engine;
@@ -295,4 +330,9 @@ void H4X::freezeGameProgress() noexcept
     Game::gameInstance()->m_base->m_freezeGameProgress=1;
     Game::gameInstance()->saveBase();
     exit(0);
+}
+
+void H4X::enableAutoUpdate(bool enable) noexcept
+{
+    m_autoUpdate=enable;
 }

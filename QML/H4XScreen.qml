@@ -73,11 +73,24 @@ Item {
         font.family: "Consolas"
 
         onAccepted: {
-            eval("GameApi.h4xLogic."+text);
-            eval("GameApi.h4xLogic.forceUIUpdate()");
-
-            parent.forceActiveFocus();
-            parent.visible=false;
+            if (text == "forceUIUpdate()")
+            {
+                eval("GameApi.h4xLogic.forceUIUpdate()");
+                parent.forceActiveFocus();
+                parent.visible=false;
+            }
+            else
+            {
+                eval("GameApi.h4xLogic."+text);
+                if (eval("(GameApi.h4xLogic.isAutoUpdateEnabled())"))
+                {
+                    eval("GameApi.h4xLogic.forceUIUpdate()");
+                    parent.forceActiveFocus();
+                    parent.visible=false;
+                }
+                else
+                    text = "";
+            }
         }
     }
 }

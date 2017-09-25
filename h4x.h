@@ -4,6 +4,38 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#ifdef ENABLE_CONSOLE_WINDOW
+class MainWindowEventFilter : public QObject
+{
+    Q_OBJECT
+public:
+    MainWindowEventFilter(QObject *consoleWindow, bool *lock) noexcept
+        : m_consoleWindow(consoleWindow), m_lock(lock) {}
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) noexcept;
+
+private:
+    QObject *m_consoleWindow;
+    bool *m_lock;
+};
+
+class ConsoleWindowEventFilter : public QObject
+{
+    Q_OBJECT
+public:
+    ConsoleWindowEventFilter(QObject *mainWindow, bool *lock) noexcept
+        : m_mainWindow(mainWindow), m_lock(lock) {}
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) noexcept;
+
+private:
+    QObject *m_mainWindow;
+    bool *m_lock;
+};
+#endif
+
 static QQmlApplicationEngine *_h4xQmlEngine;
 
 class H4X : public QObject
@@ -65,10 +97,17 @@ public:
     //app hacks
     Q_INVOKABLE void destroyEverything() noexcept;
     Q_INVOKABLE void freezeGameProgress() noexcept;
+
+    //hacks settings
+    Q_INVOKABLE void enableAutoUpdate(bool enable) noexcept;
+    Q_INVOKABLE inline bool isAutoUpdateEnabled() const noexcept
+    {
+        return m_autoUpdate;
+    }
     
 private:
     QQmlApplicationEngine *m_qmlEngine;
-
+    bool m_autoUpdate;
 };
 
 #endif // H4X_H
