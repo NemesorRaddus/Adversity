@@ -41,6 +41,8 @@ Item {
 
     function setItem(name, category)
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         root.category = category;
         setArtSource("qrc:/graphics/Database/"+GameApi.globalsCpp.alterNormalTextToInternal(category)+"/"+GameApi.globalsCpp.alterNormalTextToInternal(name)+".png");
         setName(name);
@@ -383,7 +385,7 @@ Item {
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 300 }
+            NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 300 }
         }
     ]
 

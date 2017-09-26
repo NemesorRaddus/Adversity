@@ -20,6 +20,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         var am=GameApi.base.heroes.amountOfHeroes();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
         for (var i=0;i<am;++i)
@@ -272,11 +274,9 @@ Item {
         }
     ]
 
-    transitions: [
-        Transition {
-            NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 500 }
-        }
-    ]
+    transitions: Transition {
+        NumberAnimation { id: transitionRoot; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
+    }
 
     FontLoader {
         id: fontStencil

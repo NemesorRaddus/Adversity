@@ -30,6 +30,12 @@ Item {
 
     function show(internalName_, name_)
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        transitionLengthShort.duration = transitionLengthShort.baseDuration * GameApi.animMultiplier();
+        transitionLengthMedium.duration = transitionLengthMedium.baseDuration * GameApi.animMultiplier();
+        transitionLengthLong.duration = transitionLengthLong.baseDuration * GameApi.animMultiplier();
+        transitionLengthExtreme.duration = transitionLengthExtreme.baseDuration * GameApi.animMultiplier();
+
         intLandName = internalName_;
         art.source = "qrc:/graphics/Missions/Lands/"+internalName_+".png";
         name.text = name_;
@@ -162,7 +168,7 @@ Item {
             ]
 
             transitions: Transition {
-                NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 200 }
+                NumberAnimation { id: transitionLengthShort; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 200 }
             }
         }
 
@@ -210,7 +216,7 @@ Item {
             ]
 
             transitions: Transition {
-                NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 200 }
+                NumberAnimation { id: transitionLengthMedium; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 200 }
             }
         }
 
@@ -258,7 +264,7 @@ Item {
             ]
 
             transitions: Transition {
-                NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 200 }
+                NumberAnimation { id: transitionLengthLong; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 200 }
             }
         }
 
@@ -306,7 +312,7 @@ Item {
             ]
 
             transitions: Transition {
-                NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 200 }
+                NumberAnimation { id: transitionLengthExtreme; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 200 }
             }
         }
     }
@@ -414,7 +420,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     FontLoader {

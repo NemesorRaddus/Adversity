@@ -19,7 +19,12 @@ Item {
 
     function updateEverything()
     {
-
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        transitionLandmarkInfo.duration = transitionLandmarkInfo.baseDuration * GameApi.animMultiplier();
+        transitionMissionButton.duration = transitionMissionButton.baseDuration * GameApi.animMultiplier();
+        transitionDatabaseButton.duration = transitionDatabaseButton.baseDuration * GameApi.animMultiplier();
+        missionShowTimer.interval = missionShowTimer.baseInterval * GameApi.animMultiplier();
+        databaseShowTimer.interval = databaseShowTimer.baseInterval * GameApi.animMultiplier();
     }
 
     function acknowledgeModeStateChange(currentState)
@@ -359,7 +364,7 @@ Item {
                 ]
 
                 transitions: Transition {
-                    NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 100 }
+                    NumberAnimation { id: transitionLandmarkInfo; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 100 }
                 }
             }
         }
@@ -402,7 +407,8 @@ Item {
         Timer {
             id: databaseShowTimer
 
-            interval: 500
+            property int baseInterval: 500
+            interval: baseInterval
 
             running: false
             repeat: false
@@ -426,7 +432,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 1000 }
+            NumberAnimation { id: transitionDatabaseButton; properties: "y"; easing.type: Easing.OutQuint; duration: baseDuration; property int baseDuration: 1000 }
         }
     }
 
@@ -467,7 +473,8 @@ Item {
         Timer {
             id: missionShowTimer
 
-            interval: 700
+            property int baseInterval: 700
+            interval: baseInterval
 
             running: false
             repeat: false
@@ -491,7 +498,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.OutQuint; duration: 1000 }
+            NumberAnimation { id: transitionMissionButton; properties: "y"; easing.type: Easing.OutQuint; duration: baseDuration; property int baseDuration: 1000 }
         }
     }
 
@@ -507,7 +514,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     FontLoader {

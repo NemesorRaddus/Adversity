@@ -21,6 +21,11 @@ Item {
     }
     function update()
     {
+        fadeIn.duration = fadeIn.baseDuration * GameApi.animMultiplier();
+        fadeOut.duration = fadeOut.baseDuration * GameApi.animMultiplier();
+        forFadeIn.duration = forFadeIn.baseDuration * GameApi.animMultiplier();
+        forFadeOut.duration = forFadeOut.baseDuration * GameApi.animMultiplier();
+
         forAmount.calculate();
 
         if (buyRes.mode == 0)
@@ -191,7 +196,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 1
                 to: 0
                 target: buyRes
@@ -218,7 +224,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 0
                 to: 1
                 target: buyRes
@@ -687,7 +694,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 1
                 to: 0
                 target: forRes
@@ -714,7 +722,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 0
                 to: 1
                 target: forRes

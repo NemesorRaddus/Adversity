@@ -44,6 +44,9 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        transitionHeroesAmountItem.duration = transitionHeroesAmountItem.baseDuration * GameApi.animMultiplier();
+
         list.returnToDefault();
         list.updateEverything();
         view.updateEverything();
@@ -165,7 +168,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+            NumberAnimation { id: transitionHeroesAmountItem; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 
@@ -235,6 +238,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 250 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 250 }
     }
 }

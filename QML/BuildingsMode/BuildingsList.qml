@@ -9,6 +9,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         Scripts.setItem(0,GameApi.tr("CentralUnit"),"CentralUnit",GameApi.base.centralUnit.currentLevel(), GameApi.base.centralUnit.description());
         Scripts.setItem(1,GameApi.tr("DockingStation"),"DockingStation",GameApi.base.dockingStation.currentLevel(), GameApi.base.dockingStation.description());
         Scripts.setItem(2,GameApi.tr("Hospital"),"Hospital",GameApi.base.hospital.currentLevel(), GameApi.base.hospital.description());
@@ -139,6 +141,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 }

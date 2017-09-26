@@ -15,6 +15,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         topBar.setDescription(GameApi.base.storageRoom.description());
         topBar.setLevel("Level: "+GameApi.base.storageRoom.currentLevel());
         table.update();
@@ -596,7 +598,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+            NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 

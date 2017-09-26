@@ -1,5 +1,7 @@
 import QtQuick 2.9
 
+import Game 1.0
+
 Item {
     id: root
 
@@ -20,6 +22,9 @@ Item {
 
     function show()
     {
+        transitionRoot0.duration = transitionRoot0.baseDuration * GameApi.animMultiplier();
+        transitionRoot1.duration = transitionRoot1.baseDuration * GameApi.animMultiplier();
+
         state = "";
         animTimer.start();
     }
@@ -89,11 +94,11 @@ Item {
     transitions: [
         Transition {
             from: "hidden"; to: ""
-            NumberAnimation { properties: "x"; easing.type: Easing.OutQuart; duration: 500 }
+            NumberAnimation { id: transitionRoot0; properties: "x"; easing.type: Easing.OutQuart; duration: baseDuration; property int baseDuration: 500 }
         },
         Transition {
             from: ""; to: "hidden"
-            NumberAnimation { properties: "x"; easing.type: Easing.InQuart; duration: 1000 }
+            NumberAnimation { id: transitionRoot1; properties: "x"; easing.type: Easing.InQuart; duration: baseDuration; property int baseDuration: 1000 }
         }
     ]
 

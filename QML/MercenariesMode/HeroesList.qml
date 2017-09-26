@@ -10,6 +10,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         var heroesAmount=0;
         var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
@@ -114,6 +116,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 }

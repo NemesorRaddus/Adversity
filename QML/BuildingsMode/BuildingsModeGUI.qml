@@ -1,5 +1,7 @@
 import QtQuick 2.9
 
+import Game 1.0
+
 Item {
     id: root
 
@@ -19,6 +21,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         list.updateEverything();
         menu.updateEverything();
     }
@@ -138,6 +142,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 250 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 250 }
     }
 }

@@ -14,6 +14,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         var am=GameApi.base.amountOfReports();
         Scripts.setupList(am, width, back.y);
         for (var i=am-1;i>=0;--i)
@@ -161,7 +163,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     FontLoader {

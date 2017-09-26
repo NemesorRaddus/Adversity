@@ -467,6 +467,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         centralUnit.updateEverything();
         hospital.updateEverything();
         trainingGround.updateEverything();
@@ -732,7 +734,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     Component.onCompleted: {

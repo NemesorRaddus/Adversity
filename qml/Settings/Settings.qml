@@ -53,6 +53,10 @@ Item {
 
     function update()
     {
+        transitionShowFPS.duration = transitionShowFPS.baseDuration * GameApi.animMultiplier();
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        animsFadeIn.duration = animsFadeIn.baseDuration * GameApi.animMultiplier();
+        animsFadeOut.duration = animsFadeOut.baseDuration * GameApi.animMultiplier();
     }
 
     Rectangle {
@@ -138,6 +142,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 1
                 to: 0
                 target: animsText
@@ -182,6 +188,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 0
                 to: 1
                 target: animsText
@@ -286,7 +294,7 @@ Item {
             }
 
             transitions: Transition {
-                NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 500 }
+                NumberAnimation { id: transitionShowFPS; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
             }
         }
     }
@@ -409,7 +417,7 @@ Item {
     }
 
     transitions: Transition {
-        NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 200 }
+        NumberAnimation { id: transitionRoot; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 200 }
     }
 
     FontLoader {

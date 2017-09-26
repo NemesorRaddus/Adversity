@@ -42,6 +42,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         reportsList.updateEverything();
         missionView.update();
         heroView.updateEverything();
@@ -196,11 +198,9 @@ Item {
         }
     ]
 
-    transitions: [
-        Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 300 }
-        }
-    ]
+    transitions: Transition {
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 300 }
+    }
 
     FontLoader {
         id: fontStencil

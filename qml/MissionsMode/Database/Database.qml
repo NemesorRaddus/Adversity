@@ -12,6 +12,8 @@ Item {
 
     function update()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         Scripts.scrollList(9999);
         if (category == "")
         {
@@ -273,7 +275,7 @@ Item {
 
     transitions: [
         Transition {
-            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 300 }
+            NumberAnimation { id: transitionRoot; properties: "opacity,y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 300 }
         }
     ]
 

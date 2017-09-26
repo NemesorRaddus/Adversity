@@ -60,6 +60,10 @@ Item {
 
     function updateDelegate()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        transitionHeroesList.duration = transitionHeroesList.baseDuration * GameApi.animMultiplier();
+        transitionEquipmentsList.duration = transitionEquipmentsList.baseDuration * GameApi.animMultiplier();
+
         if (GameApi.base.missionInitializer.isHeroSelected())
         {
             delegate.setEmpty(false);
@@ -1049,7 +1053,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+            NumberAnimation { id: transitionHeroesList; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 
@@ -1112,7 +1116,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+            NumberAnimation { id: transitionEquipmentsList; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 
@@ -1128,7 +1132,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     FontLoader {

@@ -186,6 +186,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         setMercenary(heroName);
     }
 
@@ -1323,7 +1325,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     FontLoader {

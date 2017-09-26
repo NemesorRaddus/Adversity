@@ -10,6 +10,9 @@ Item {
 
     function update()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        fade.duration = fade.baseDuration * GameApi.animMultiplier();
+
         var am=GameApi.base.amountOfMissions();
         Scripts.setupList(am,width,height);
         for (var i=0;i<am;++i)
@@ -90,7 +93,8 @@ Item {
 
             properties: "opacity"
             easing.type: Easing.InQuad
-            duration: 300
+            property int baseDuration: 300
+            duration: baseDuration
             from: 1
             to: 0
             target: listHandler
@@ -232,11 +236,9 @@ Item {
         }
     ]
 
-    transitions: [
-        Transition {
-            NumberAnimation { properties: "opacity,y"; easing.type: Easing.InQuad; duration: 300 }
-        }
-    ]
+    transitions: Transition {
+        NumberAnimation { id: transitionRoot; properties: "opacity,y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 300 }
+    }
 
     FontLoader {
         id: fontStencil
