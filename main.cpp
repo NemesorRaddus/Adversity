@@ -56,6 +56,10 @@ int main(int argc, char *argv[])
 
     Game::setQMLEnginePtr(&engine);
 
+#ifdef ANDROID
+    qInstallMessageHandler(LoggersHandler::redirectQtMsgs);
+#endif
+
     QJSValue globalsObj = engine.newQObject(new Global);
     engine.globalObject().setProperty("GlobalsCpp", globalsObj);
 

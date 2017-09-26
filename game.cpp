@@ -1,7 +1,8 @@
 #include "game.h"
 
+#include "h4x.h"
+
 #include <QDebug>
-#include <h4x.h>
 
 Game *Game::m_ptrToGameObject;
 QQmlApplicationEngine *Game::m_ptrToEngine;
@@ -82,24 +83,43 @@ void LandsInfo::prepareLandAt(unsigned index) noexcept
 
 LoggersHandler::LoggersHandler() noexcept
 {
-    QString path;
+    if (isLoggingEnabled())
+    {
 #ifdef ANDROID // QStandardPaths was giving strange paths for Android devices
-    path = "/storage/emulated/0/Android/data/com.raddosgames.adversity/logs";
+        m_outputPath = "/storage/emulated/0/Android/data/com.raddosgames.adversity/logs";
 #else
-    path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
+        m_outputPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
 #endif
-    QDir d;
-    d.mkpath(path);
-    m_output = std::make_shared<spdlog::sinks::rotating_file_sink_st>(path.toStdString()+"/adversity.log",1024*1024,20);
-    m_mainLogger = std::make_shared<spdlog::logger>("main", m_output);
-    m_xmlLogger = std::make_shared<spdlog::logger>("xml", m_output);
-    m_qmlLogger = std::make_shared<spdlog::logger>("qml", m_output);
+        QDir().mkpath(m_outputPath);
+        m_output = std::make_shared<spdlog::sinks::rotating_file_sink_st>(m_outputPath.toStdString()+"/adversity.log",1024*1024,20);
+    }
+    else
+        m_output = std::make_shared<spdlog::sinks::rotating_file_sink_st>(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).toStdString()+"/adversity.log",1,1);
+
+    m_mainLogger = std::make_shared<spdlog::logger>("Main", m_output);
+    m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_output);
+    m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_output);
+    m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_output);
+    m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_output);
+    m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_output);
+    m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_output);
 
     spdlog::register_logger(m_mainLogger);
+    spdlog::register_logger(m_missionsLogger);
+    spdlog::register_logger(m_buildingsLogger);
+    spdlog::register_logger(m_mercenariesLogger);
     spdlog::register_logger(m_xmlLogger);
     spdlog::register_logger(m_qmlLogger);
+    spdlog::register_logger(m_qtLogger);
 
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%n) %l: %v");
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %n: %v");
+
+    if (isLoggingEnabled())
+    {
+        auto lvl = spdlog::level::critical;
+        m_mainLogger->log(lvl, "Adversity "+Game::gameInstance()->appBuildInfo()->versionNumber().toStdString());
+        m_mainLogger->log(lvl, "");
+    }
 }
 
 void LoggersHandler::setLevel(spdlog::level::level_enum lvl) noexcept
@@ -167,6 +187,30 @@ void LoggersHandler::errorIf(bool cond, const QString &msg) noexcept
 void LoggersHandler::criticalIf(bool cond, const QString &msg) noexcept
 {
     m_qmlLogger->critical_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::redirectQtMsgs(QtMsgType type, const QMessageLogContext &, const QString &msg) noexcept
+{
+    switch (type) {
+    case QtDebugMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::debug, msg.toStdString());
+        break;
+    case QtInfoMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::info, msg.toStdString());
+        break;
+    case QtWarningMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::warn, msg.toStdString());
+        break;
+    case QtCriticalMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::critical, msg.toStdString());
+        break;
+    case QtFatalMsg:
+        abort();
+    }
+}
+
+bool LoggersHandler::isLoggingEnabled() const noexcept
+{
 }
 
 Game::Game(QObject *parent) noexcept

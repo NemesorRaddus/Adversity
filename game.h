@@ -18,10 +18,10 @@
 #include "translations.h"
 #include "h4x.h"
 
-#include "libs/spdlog-0.14.0/spdlog.h"
-
 #define SPDLOG_TRACE_ON
 #define SPDLOG_DEBUG_ON
+
+#include "libs/spdlog-0.14.0/spdlog.h"
 
 #include <QDebug>
 
@@ -140,16 +140,47 @@ public:
     {
         return m_mainLogger;
     }
+    inline auto missionsLogger() noexcept
+    {
+        return m_missionsLogger;
+    }
+    inline auto buildingsLogger() noexcept
+    {
+        return m_buildingsLogger;
+    }
+    inline auto mercenariesLogger() noexcept
+    {
+        return m_mercenariesLogger;
+    }
     inline auto xmlLogger() noexcept
     {
         return m_xmlLogger;
     }
 
+    inline auto qtLogger() noexcept
+    {
+        return m_qtLogger;
+    }
+
+    static void redirectQtMsgs(QtMsgType type, const QMessageLogContext &, const QString &msg) noexcept;
+
+    Q_INVOKABLE inline QString outputPath() const noexcept
+    {
+        return m_outputPath;
+    }
+
 private:
+    bool isLoggingEnabled() const noexcept;
+
+    QString m_outputPath;
     std::shared_ptr <spdlog::sinks::rotating_file_sink_st> m_output;
     std::shared_ptr <spdlog::logger> m_mainLogger;
+    std::shared_ptr <spdlog::logger> m_missionsLogger;
+    std::shared_ptr <spdlog::logger> m_buildingsLogger;
+    std::shared_ptr <spdlog::logger> m_mercenariesLogger;
     std::shared_ptr <spdlog::logger> m_xmlLogger;
     std::shared_ptr <spdlog::logger> m_qmlLogger;
+    std::shared_ptr <spdlog::logger> m_qtLogger;
 };
 
 class Game : public QObject
@@ -214,6 +245,16 @@ public:
     void addDoStBan(QString name, unsigned daysAmount) noexcept;
 
     void showReportNotification() noexcept;
+
+    inline LoggersHandler *loggers() const noexcept
+    {
+        return m_loggersHandler;
+    }
+
+    inline const AppBuildInfo *appBuildInfo() const noexcept
+    {
+        return m_buildInfo;
+    }
 
 public slots:
     void saveBase_slot() noexcept;
