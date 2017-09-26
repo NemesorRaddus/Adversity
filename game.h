@@ -6,6 +6,7 @@
 #include <QElapsedTimer>
 #include <QStandardPaths>
 #include <QDir>
+#include <QTimer>
 
 #include <sstream>
 #include <string>
@@ -183,6 +184,51 @@ private:
     std::shared_ptr <spdlog::logger> m_qtLogger;
 };
 
+class Settings
+{
+public:
+    enum AnimationsSpeed
+    {
+        AS_None,
+        AS_Slow,
+        AS_Normal,
+        AS_Fast,
+        AS_END
+    };
+    enum LogsAmount
+    {
+        LA_None,
+        LA_Some,
+        LA_Most,
+        LA_All,
+        LA_END
+    };
+
+    Settings() noexcept;
+
+    void setAnimationsSpeed(AnimationsSpeed speed) noexcept;
+    void showFPS(bool enabled) noexcept;
+    void setLogsAmount(LogsAmount amount) noexcept;
+
+    inline AnimationsSpeed animationsSpeed() const noexcept
+    {
+        return m_animsSpeed;
+    }
+    inline bool showsFPS() const noexcept
+    {
+        return m_showFPS;
+    }
+    inline LogsAmount logsAmount() const noexcept
+    {
+        return m_logsAmount;
+    }
+
+private:
+    AnimationsSpeed m_animsSpeed;
+    bool m_showFPS;
+    LogsAmount m_logsAmount;
+};
+
 class Game : public QObject
 {
     Q_OBJECT
@@ -246,9 +292,26 @@ public:
 
     void showReportNotification() noexcept;
 
+    Q_INVOKABLE void setAnimationsSpeed(unsigned speed) noexcept;
+    Q_INVOKABLE inline unsigned animationSpeed() const noexcept
+    {
+        return static_cast<unsigned>(m_settings.animationsSpeed());
+    }
+    Q_INVOKABLE float animMultiplier() noexcept;
+
+    Q_INVOKABLE void showFPS(bool show) noexcept;
+    void acknowledgeFPSToggle() noexcept;
+
+    Q_INVOKABLE void setLogsAmount(unsigned amount) noexcept;
+
     inline LoggersHandler *loggers() const noexcept
     {
         return m_loggersHandler;
+    }
+
+    inline Settings settings() const noexcept
+    {
+        return m_settings;
     }
 
     inline const AppBuildInfo *appBuildInfo() const noexcept
@@ -269,6 +332,11 @@ private:
 
     void loadTranslations(const QString &lang) noexcept;
 
+    void loadSettings() noexcept;
+    void saveSettings() noexcept;
+
+    void applyLoadedSettings() noexcept;
+
     static Game *m_ptrToGameObject;
 
     Base *m_base;
@@ -281,6 +349,8 @@ private:
     H4X *m_h4xLogic;
     Global *m_globalsExportToQML;
     LoggersHandler *m_loggersHandler;
+    Settings m_settings;
+    QTimer *m_settingsApplierTimer;
 
     static QQmlApplicationEngine *m_ptrToEngine;
 };

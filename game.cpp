@@ -114,6 +114,22 @@ LoggersHandler::LoggersHandler() noexcept
 
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %n: %v");
 
+    switch (Game::gameInstance()->settings().logsAmount())
+    {
+    case Settings::LA_All:
+        spdlog::set_level(spdlog::level::trace);
+        break;
+    case Settings::LA_Most:
+        spdlog::set_level(spdlog::level::info);
+        break;
+    case Settings::LA_Some:
+        spdlog::set_level(spdlog::level::warn);
+        break;
+    default:
+        spdlog::set_level(spdlog::level::off);
+        break;
+    }
+
     if (isLoggingEnabled())
     {
         auto lvl = spdlog::level::critical;
@@ -211,6 +227,25 @@ void LoggersHandler::redirectQtMsgs(QtMsgType type, const QMessageLogContext &, 
 
 bool LoggersHandler::isLoggingEnabled() const noexcept
 {
+    return Game::gameInstance()->settings().logsAmount() != Settings::LA_None;
+}
+
+Settings::Settings() noexcept
+    : m_animsSpeed(AS_Normal), m_showFPS(0), m_logsAmount(LA_None) {}
+
+void Settings::setAnimationsSpeed(Settings::AnimationsSpeed speed) noexcept
+{
+    m_animsSpeed = speed;
+}
+
+void Settings::showFPS(bool enabled) noexcept
+{
+    m_showFPS = enabled;
+}
+
+void Settings::setLogsAmount(Settings::LogsAmount amount) noexcept
+{
+    m_logsAmount = amount;
 }
 
 Game::Game(QObject *parent) noexcept
@@ -224,6 +259,8 @@ Game::Game(QObject *parent) noexcept
 
     m_buildInfo=new AppBuildInfo;
     loadVersionInfo();
+
+    loadSettings();
 
     m_translations=new TranslationsDB(":/");
     if (!QSettings().contains("lang"))
@@ -248,6 +285,7 @@ Game::Game(QObject *parent) noexcept
 
 Game::~Game() noexcept
 {
+    saveSettings();
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
     disconnectAutosave();
 
@@ -333,6 +371,45 @@ void Game::setLocale(const QString &locale) noexcept
 void Game::showReportNotification() noexcept
 {
     QMetaObject::invokeMethod(m_ptrToEngine->rootObjects().value(0), "showReportNotification");
+}
+
+void Game::setAnimationsSpeed(unsigned speed) noexcept
+{
+    m_settings.setAnimationsSpeed(static_cast<Settings::AnimationsSpeed>(speed));
+    H4X().forceUIUpdate();
+}
+
+float Game::animMultiplier() noexcept
+{
+    switch (m_settings.animationsSpeed()) {
+    case Settings::AS_Fast:
+        return 0.5;
+    case Settings::AS_Normal:
+        return 1;
+    case Settings::AS_Slow:
+        return 2;
+    default:
+        return 0.00001;
+    }
+}
+
+void Game::showFPS(bool show) noexcept
+{
+    if (show != m_settings.showsFPS())
+    {
+        H4X hax;
+        hax.fps();
+    }
+}
+
+void Game::acknowledgeFPSToggle() noexcept
+{
+    m_settings.showFPS(!m_settings.showsFPS());
+}
+
+void Game::setLogsAmount(unsigned amount) noexcept
+{
+    m_settings.setLogsAmount(static_cast<Settings::LogsAmount>(amount));
 }
 
 void Game::saveBase_slot() noexcept
@@ -483,4 +560,53 @@ void Game::loadVersionInfo() noexcept
 void Game::loadTranslations(const QString &lang) noexcept
 {
     m_translations->loadLanguage(lang);
+}
+
+void Game::loadSettings() noexcept
+{
+    if (!QSettings().contains("settings"))
+        saveSettings();
+    else
+    {
+        auto v = QSettings().value("settings").toByteArray();
+        QDataStream ds{&v, QIODevice::ReadOnly};
+        quint8 u;
+        ds>>u;
+        m_settings.setAnimationsSpeed(static_cast<Settings::AnimationsSpeed>(u));
+        bool b;
+        ds>>b;
+        m_settings.showFPS(b);
+        ds>>u;
+        m_settings.setLogsAmount(static_cast<Settings::LogsAmount>(u));
+
+        //changes to UI cannot be done now, so:
+        m_settingsApplierTimer = new QTimer;
+        m_settingsApplierTimer->setSingleShot(1);
+        QObject::connect(m_settingsApplierTimer, &QTimer::timeout, [this](){
+                applyLoadedSettings();
+                m_settingsApplierTimer->deleteLater();
+            });
+        m_settingsApplierTimer->start(1000);
+    }
+}
+
+void Game::saveSettings() noexcept
+{
+    QByteArray bytes;
+    {
+    QDataStream ds{&bytes, QIODevice::WriteOnly};
+    ds<<static_cast<quint8>(m_settings.animationsSpeed());
+    ds<<m_settings.showsFPS();
+    ds<<static_cast<quint8>(m_settings.logsAmount());
+    }
+    QSettings().setValue("settings", bytes);
+}
+
+void Game::applyLoadedSettings() noexcept
+{
+    if (m_settings.showsFPS())
+    {
+        m_settings.showFPS(0);//because
+        H4X().fps();//<- this inverts
+    }
 }

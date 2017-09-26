@@ -31,6 +31,7 @@
 #include <QSettings>
 
 #include <QElapsedTimer>
+#include <QTimer>
 
 // std
 #include <string>

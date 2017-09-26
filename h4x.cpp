@@ -317,6 +317,7 @@ void H4X::fps() noexcept
 {
     QObject *win=m_qmlEngine->rootObjects().value(0);
     win->setProperty("enableFPSCounter",{!(win->property("enableFPSCounter").toBool())});
+    Game::gameInstance()->acknowledgeFPSToggle();
 }
 
 void H4X::destroyEverything() noexcept

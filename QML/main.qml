@@ -15,6 +15,7 @@ Window {
     function changeMode(mode)
     {
         mainGUI.reportsList.state = "hidden";
+        mainGUI.settings.hide();
 
         if (currentMode == 0)
         {
@@ -147,6 +148,7 @@ Window {
             updateClock();
             updateMainContent();
             reportsList.updateEverything();
+            settings.update();
             splash.canClose = true;//only for first gui loading,but it's inexpensive so it can stay
         }
 
@@ -193,9 +195,10 @@ Window {
         mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
         heroArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
 
-        settingsButton.visible: false// TODO remove when ready to use
         settingsButton.onClicked: settings.show();
         settings.onBackClicked: settings.hide();
+
+        onEnableFPSCounterChanged: settings.acknowledgeFPSToggle(enableFPSCounter);
 
         reportsNotification.onClicked: {
             reportsList.updateEverything();

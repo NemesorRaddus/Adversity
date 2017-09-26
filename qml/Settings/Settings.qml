@@ -1,4 +1,7 @@
 import QtQuick 2.9
+import QtQml 2.2
+
+import Game 1.0
 
 Item {
     id: root
@@ -32,6 +35,24 @@ Item {
         exitMA.visible = false;
         creditsMA.visible = false;
         backButton.visible = false;
+    }
+
+    function acknowledgeFPSToggle(show)
+    {
+        if (show)
+        {
+            showFpsIcon.state = "";
+            anim.start();
+        }
+        else
+        {
+            showFpsIcon.state = "off";
+            anim.stop();
+        }
+    }
+
+    function update()
+    {
     }
 
     Rectangle {
@@ -76,45 +97,124 @@ Item {
         }
 
         Text {
-            id: arrows
+            id: arrowL
             x: 590
             width: 460
             color: "#94ef94"
             font.pixelSize: 60
             font.family: fontStencil.name
-            text: "<                           >"
+            text: "<"
         }
         Text {
-            x: arrows.x
-            width: arrows.width
+            id: arrowR
+            x: 590
+            width: 460
             color: "#94ef94"
-            font.pixelSize: arrows.font.pixelSize
+            font.pixelSize: 60
             font.family: fontStencil.name
-            text: "Normal"
+            text: "                            >"
+        }
+
+        Text {
+            id: animsText
+
+            x: arrowL.x
+            width: arrowR.width
+            color: "#94ef94"
+            font.pixelSize: arrowL.font.pixelSize
+            font.family: fontStencil.name
             horizontalAlignment: Text.AlignHCenter
+
+            property int option: -1
+
+            onOptionChanged: {
+                animsFadeIn.start();
+            }
+
+            Component.onCompleted: option = GameApi.animationSpeed();
+
+            NumberAnimation {
+                id: animsFadeIn
+
+                properties: "opacity"
+                easing.type: Easing.InQuad
+                from: 1
+                to: 0
+                target: animsText
+                onRunningChanged: {
+                    if (running == false)
+                    {
+                        if (animsText.option == 0)
+                        {
+                            animsText.text = "None";
+                            GameApi.setAnimationsSpeed(0);
+                            arrowL.visible = false;
+                            arrowR.visible = true;
+                        }
+                        else if (animsText.option == 1)
+                        {
+                            animsText.text = "Slow";
+                            GameApi.setAnimationsSpeed(1);
+                            arrowL.visible = true;
+                            arrowR.visible = true;
+                        }
+                        else if (animsText.option == 2)
+                        {
+                            animsText.text = "Normal";
+                            GameApi.setAnimationsSpeed(2);
+                            arrowL.visible = true;
+                            arrowR.visible = true;
+                        }
+                        else if (animsText.option == 3)
+                        {
+                            animsText.text = "Fast";
+                            GameApi.setAnimationsSpeed(3);
+                            arrowL.visible = true;
+                            arrowR.visible = false;
+                        }
+
+                        animsFadeOut.start();
+                    }
+                }
+            }
+            NumberAnimation {
+                id: animsFadeOut
+
+                properties: "opacity"
+                easing.type: Easing.InQuad
+                from: 0
+                to: 1
+                target: animsText
+            }
         }
         MouseArea {
             id: leftArrow
 
-            x: arrows.x-10
+            x: arrowL.x-10
             y: -10
             width: 65
-            height: arrows.height-2*y
+            height: arrowL.height-2*y
 
             visible: false
 
-//            onClicked: ;
+            onClicked: {
+                if (animsText.option > 0)
+                    --animsText.option;
+            }
         }
         MouseArea {
             id: rightArrow
-            x: arrows.x+arrows.width-width+10
+            x: arrowR.x+arrowR.width-width+10
             y: leftArrow.y
             width: leftArrow.width
             height: leftArrow.height
 
             visible: false
 
-//            onClicked: ;
+            onClicked: {
+                if (animsText.option < 3)
+                    ++animsText.option;
+            }
         }
     }
 
@@ -145,13 +245,15 @@ Item {
             function setOn()
             {
                 state = "";
-                anim.restart();
+                anim.start();
+                GameApi.showFPS(true);
             }
 
             function setOff()
             {
-                state = "hidden";
+                state = "off";
                 anim.stop();
+                GameApi.showFPS(false);
             }
 
             MouseArea {
@@ -161,7 +263,12 @@ Item {
 
                 visible: false
 
-//                onClicked: ;
+                onClicked: {
+                    if (parent.state == "off")
+                        parent.setOn();
+                    else
+                        parent.setOff();
+                }
             }
 
             RotationAnimator on rotation {
@@ -214,7 +321,9 @@ Item {
 
                 visible: false
 
-//                onClicked: ;
+                onClicked: {
+                    Qt.quit();
+                }
             }
         }
     }
