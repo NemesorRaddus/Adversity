@@ -81,7 +81,7 @@ Item {
             }
             else
             {
-                eval("GameApi.h4xLogic."+text);
+                eval("GameApi.h4xLogic."+GameApi.globalsCpp.sanitize(text));
                 if (eval("(GameApi.h4xLogic.isAutoUpdateEnabled())"))
                 {
                     eval("GameApi.h4xLogic.forceUIUpdate()");

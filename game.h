@@ -31,6 +31,7 @@ class Global : public QObject
 public:
     Q_INVOKABLE static double roundDouble(double d, unsigned prec) noexcept;
     Q_INVOKABLE static QString alterNormalTextToInternal(QString normalText) noexcept;
+    Q_INVOKABLE static QString sanitize(QString script) noexcept;
 };
 
 class QQmlEngine;

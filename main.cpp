@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    H4X *hacksLogic=new H4X(&engine);
+    H4X{&engine};
 
     Game::setQMLEnginePtr(&engine);
 

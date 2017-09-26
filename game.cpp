@@ -45,6 +45,32 @@ QString Global::alterNormalTextToInternal(QString normalText) noexcept
     return normalText;
 }
 
+QString Global::sanitize(QString script) noexcept
+{
+    script.remove(';');
+    script.remove('|');
+    script.remove('&');
+    script.remove('\n');
+
+    int parCnt = 0;
+    for (int i=0;i<script.size();++i)
+    {
+        if (script[i] == '(')
+            ++parCnt;
+        else if (script[i] == ')')
+        {
+            --parCnt;
+            if (parCnt == 0)
+            {
+                script.remove(i+1,script.size()-i-1);
+                break;
+            }
+        }
+    }
+
+    return script;
+}
+
 LandsInfo::LandsInfo(const QVector<Land *> *lands) noexcept
     : m_lands(lands), m_preparedLand(nullptr) {}
 
