@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>graphics/Database/Plants/AcidberryBush.png</file>
         <file>graphics/Database/Plants/BluegrapeBush.png</file>
-        <file>graphics/Database/Plants/BlueHerbLichen.png</file>
+        <file>graphics/Database/Plants/BlueherbLichen.png</file>
         <file>graphics/Database/Plants/PoisonousFern.png</file>
         <file>graphics/Database/Plants/PurpleleafBush.png</file>
         <file>graphics/Database/Plants/Tentacleroot.png</file>
