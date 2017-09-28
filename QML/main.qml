@@ -273,7 +273,8 @@ Window {
         {
             if (mainGUI.settings.state == "")
             {
-                mainGUI.settings.state = "hidden";
+                if (!mainGUI.settings.reactToBackOnToolbar())
+                    mainGUI.settings.state = "hidden";
                 close.accepted = false;
             }
             else if (mainGUI.reportsList.state == "")

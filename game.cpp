@@ -85,23 +85,23 @@ LoggersHandler::LoggersHandler() noexcept
 {
     try
     {
-    if (isLoggingEnabled())
-    {
+        if (isLoggingEnabled())
+        {
 #ifdef ANDROID // QStandardPaths was giving strange paths for Android devices
-        m_outputPath = "/storage/emulated/0/Android/data/com.raddosgames.adversity/logs";
+            m_outputPath = "/storage/emulated/0/Android/data/com.raddosgames.adversity/logs";
 #else
-        m_outputPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
+            m_outputPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
 #endif
-        QDir().mkpath(m_outputPath);
+            QDir().mkpath(m_outputPath);
             m_output = std::make_shared<spdlog::sinks::app_start_rotating_file_sink_st>(m_outputPath.toStdString()+"/adversity.log",40);
 
-    m_mainLogger = std::make_shared<spdlog::logger>("Main", m_output);
-    m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_output);
-    m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_output);
-    m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_output);
-    m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_output);
-    m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_output);
-    m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_output);
+            m_mainLogger = std::make_shared<spdlog::logger>("Main", m_output);
+            m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_output);
+            m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_output);
+            m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_output);
+            m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_output);
+            m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_output);
+            m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_output);
 
 #ifdef ANDROID
             qInstallMessageHandler(LoggersHandler::redirectQtMsgs);
@@ -121,13 +121,13 @@ LoggersHandler::LoggersHandler() noexcept
             m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_noOutput);
         }
 
-    spdlog::register_logger(m_mainLogger);
-    spdlog::register_logger(m_missionsLogger);
-    spdlog::register_logger(m_buildingsLogger);
-    spdlog::register_logger(m_mercenariesLogger);
-    spdlog::register_logger(m_xmlLogger);
-    spdlog::register_logger(m_qmlLogger);
-    spdlog::register_logger(m_qtLogger);
+        spdlog::register_logger(m_mainLogger);
+        spdlog::register_logger(m_missionsLogger);
+        spdlog::register_logger(m_buildingsLogger);
+        spdlog::register_logger(m_mercenariesLogger);
+        spdlog::register_logger(m_xmlLogger);
+        spdlog::register_logger(m_qmlLogger);
+        spdlog::register_logger(m_qtLogger);
 
         if (isLoggingEnabled())
         {
@@ -139,23 +139,23 @@ LoggersHandler::LoggersHandler() noexcept
             m_mainLogger->log(lvl, "");
         }
 
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %n: %v");
+        spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %n: %v");
 
-    switch (Game::gameInstance()->settings().logsAmount())
-    {
-    case Settings::LA_All:
-        spdlog::set_level(spdlog::level::trace);
-        break;
-    case Settings::LA_Most:
-        spdlog::set_level(spdlog::level::info);
-        break;
-    case Settings::LA_Some:
-        spdlog::set_level(spdlog::level::warn);
-        break;
-    default:
-        spdlog::set_level(spdlog::level::off);
-        break;
-    }
+        switch (Game::gameInstance()->settings().logsAmount())
+        {
+        case Settings::LA_All:
+            spdlog::set_level(spdlog::level::trace);
+            break;
+        case Settings::LA_Most:
+            spdlog::set_level(spdlog::level::info);
+            break;
+        case Settings::LA_Some:
+            spdlog::set_level(spdlog::level::warn);
+            break;
+        default:
+            spdlog::set_level(spdlog::level::off);
+            break;
+        }
     }
     catch (const spdlog::spdlog_ex &ex)
     {
@@ -422,7 +422,7 @@ float Game::animMultiplier() noexcept
     case Settings::AS_Slow:
         return 2;
     default:
-        return 0.00001;
+        return 0.0000001;
     }
 }
 

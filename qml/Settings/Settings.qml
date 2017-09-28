@@ -19,6 +19,8 @@ Item {
 
         leftArrow.visible = true;
         rightArrow.visible = true;
+        leftArrowLogs.visible = true;
+        rightArrowLogs.visible = true;
         fpsMA.visible = true;
         exitMA.visible = true;
         creditsMA.visible = true;
@@ -31,10 +33,29 @@ Item {
 
         leftArrow.visible = false;
         rightArrow.visible = false;
+        leftArrowLogs.visible = false;
+        rightArrowLogs.visible = false;
         fpsMA.visible = false;
         exitMA.visible = false;
         creditsMA.visible = false;
         backButton.visible = false;
+
+        creditsComp.hide();
+    }
+
+    function returnToDefault()
+    {
+        creditsComp.hide();
+    }
+
+    function reactToBackOnToolbar()
+    {
+        if (creditsComp.state == "")
+        {
+            creditsComp.hide();
+            return true;
+        }
+        return false;
     }
 
     function acknowledgeFPSToggle(show)
@@ -57,6 +78,8 @@ Item {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
         animsFadeIn.duration = animsFadeIn.baseDuration * GameApi.animMultiplier();
         animsFadeOut.duration = animsFadeOut.baseDuration * GameApi.animMultiplier();
+
+        versionNumber.text = GameApi.currentVersionNumber();
     }
 
     Rectangle {
@@ -307,6 +330,161 @@ Item {
             color: "#94ef94"
             font.pixelSize: 60
             font.family: fontStencil.name
+            text: "Logs"
+        }
+
+        Text {
+            id: arrowLLogs
+            x: 590
+            width: 460
+            color: "#94ef94"
+            font.pixelSize: 60
+            font.family: fontStencil.name
+            text: "<"
+        }
+        Text {
+            id: arrowRLogs
+            x: 590
+            width: 460
+            color: "#94ef94"
+            font.pixelSize: 60
+            font.family: fontStencil.name
+            text: "                            >"
+        }
+
+        Text {
+            id: logsText
+
+            x: arrowLLogs.x
+            width: arrowRLogs.width
+            color: "#94ef94"
+            font.pixelSize: arrowLLogs.font.pixelSize
+            font.family: fontStencil.name
+            horizontalAlignment: Text.AlignHCenter
+
+            property int option: -1
+            property int lastSavedOption: GameApi.logsAmount();
+
+            onOptionChanged: {
+                logsFadeIn.start();
+            }
+
+            Component.onCompleted: option = GameApi.logsAmount();
+
+            NumberAnimation {
+                id: logsFadeIn
+
+                properties: "opacity"
+                easing.type: Easing.InQuad
+                property int baseDuration: 300
+                duration: baseDuration
+                from: 1
+                to: 0
+                target: logsText
+                onRunningChanged: {
+                    if (running == false)
+                    {
+                        if (logsText.option == 0)
+                        {
+                            logsText.text = "None";
+                            GameApi.setLogsAmount(0);
+                            arrowLLogs.visible = false;
+                            arrowRLogs.visible = true;
+                            if (logsText.option != logsText.lastSavedOption)
+                                pleaseRestartText.visible = true;
+                            else
+                                pleaseRestartText.visible = false;
+                        }
+                        else if (logsText.option == 1)
+                        {
+                            logsText.text = "Some";
+                            GameApi.requestReadWritePermissions();
+                            GameApi.setLogsAmount(1);
+                            arrowLLogs.visible = true;
+                            arrowRLogs.visible = true;
+                            if (logsText.option != logsText.lastSavedOption)
+                                pleaseRestartText.visible = true;
+                            else
+                                pleaseRestartText.visible = false;
+                        }
+                        else if (logsText.option == 2)
+                        {
+                            logsText.text = "Most";
+                            GameApi.setLogsAmount(2);
+                            arrowLLogs.visible = true;
+                            arrowRLogs.visible = true;
+                            if (logsText.option != logsText.lastSavedOption)
+                                pleaseRestartText.visible = true;
+                            else
+                                pleaseRestartText.visible = false;
+                        }
+                        else if (logsText.option == 3)
+                        {
+                            logsText.text = "All";
+                            GameApi.setLogsAmount(3);
+                            arrowLLogs.visible = true;
+                            arrowRLogs.visible = false;
+                            if (logsText.option != logsText.lastSavedOption)
+                                pleaseRestartText.visible = true;
+                            else
+                                pleaseRestartText.visible = false;
+                        }
+
+                        logsFadeOut.start();
+                    }
+                }
+            }
+            NumberAnimation {
+                id: logsFadeOut
+
+                properties: "opacity"
+                easing.type: Easing.InQuad
+                property int baseDuration: 300
+                duration: baseDuration
+                from: 0
+                to: 1
+                target: logsText
+            }
+        }
+        MouseArea {
+            id: leftArrowLogs
+
+            x: arrowLLogs.x-10
+            y: -10
+            width: 65
+            height: arrowLLogs.height-2*y
+
+            visible: false
+
+            onClicked: {
+                if (logsText.option > 0)
+                    --logsText.option;
+            }
+        }
+        MouseArea {
+            id: rightArrowLogs
+            x: arrowRLogs.x+arrowRLogs.width-width+10
+            y: leftArrowLogs.y
+            width: leftArrowLogs.width
+            height: leftArrowLogs.height
+
+            visible: false
+
+            onClicked: {
+                if (logsText.option < 3)
+                    ++logsText.option;
+            }
+        }
+    }
+
+    Item {
+        x: 17
+        y: 420
+
+        Text {
+            color: "#94ef94"
+            font.pixelSize: 60
+            font.family: fontStencil.name
             text: "Exit game"
         }
 
@@ -338,7 +516,7 @@ Item {
 
     Item {
         x: 17
-        y: 420
+        y: 510
 
         Text {
             color: "#94ef94"
@@ -363,11 +541,63 @@ Item {
 
                 anchors.margins: -10
 
-                visible: false
-
-//                onClicked: ;
+                onClicked: creditsComp.show();
             }
         }
+    }
+
+    Text {
+        id: logsPathText
+
+        x: 17
+        y: 900
+        width: parent.width - 2*x
+
+        horizontalAlignment: Text.AlignHCenter
+
+        function setPath(path)
+        {
+            if (path == "" || path == undefined)
+                text = "";
+            else
+                text = "Logs are stored in:\n"+path;
+        }
+
+        color: "#94ef94"
+        font.pixelSize: 50
+        font.family: fontStencil.name
+        wrapMode: Text.Wrap
+
+        Component.onCompleted: setPath(GameApi.pathToLogs());
+    }
+
+    Text {
+        id: pleaseRestartText
+
+        x: 17
+        y: 1130
+        width: parent.width - 2*x
+
+        horizontalAlignment: Text.AlignHCenter
+
+        visible: false
+
+        color: "#94ef94"
+        font.pixelSize: 60
+        font.family: fontStencil.name
+        text: "Please restart the game"
+    }
+
+    Text {
+        id: versionNumber
+
+        x: 17
+        y: 1250
+
+        color: "#94ef94"
+        font.pixelSize: 60
+        font.family: fontStencil.name
+        text: "v1.0.0"
     }
 
     Image {
@@ -395,7 +625,7 @@ Item {
 
             anchors.fill: parent
             color: "#94ef94"
-            text: qsTr("Back")
+            text: "Back"
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 100
             font.family: fontStencil.name
@@ -409,6 +639,14 @@ Item {
 
             onClicked: backClicked()
         }
+    }
+
+    Credits {
+        id: creditsComp
+
+        anchors.fill: parent
+
+        onBackClicked: hide();
     }
 
     states: State {
