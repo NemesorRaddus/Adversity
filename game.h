@@ -19,9 +19,6 @@
 #include "translations.h"
 #include "h4x.h"
 
-#define SPDLOG_TRACE_ON
-#define SPDLOG_DEBUG_ON
-
 #include "libs/spdlog-0.14.0/spdlog.h"
 
 #include <QDebug>
@@ -174,7 +171,8 @@ private:
     bool isLoggingEnabled() const noexcept;
 
     QString m_outputPath;
-    std::shared_ptr <spdlog::sinks::rotating_file_sink_st> m_output;
+    std::shared_ptr <spdlog::sinks::app_start_rotating_file_sink_st> m_output;
+    std::shared_ptr <spdlog::sinks::null_sink_st> m_noOutput;//probably could change those 2 into one thing, but meh
     std::shared_ptr <spdlog::logger> m_mainLogger;
     std::shared_ptr <spdlog::logger> m_missionsLogger;
     std::shared_ptr <spdlog::logger> m_buildingsLogger;
@@ -257,6 +255,10 @@ public:
     {
         return m_buildInfo;
     }
+    Q_INVOKABLE inline QString currentVersionNumber() const noexcept
+    {
+        return m_buildInfo->versionNumber();
+    }
 
     Q_INVOKABLE void setLocale(const QString &locale) noexcept;
     Q_INVOKABLE QString tr(const QString &text) noexcept
@@ -303,6 +305,14 @@ public:
     void acknowledgeFPSToggle() noexcept;
 
     Q_INVOKABLE void setLogsAmount(unsigned amount) noexcept;
+    Q_INVOKABLE inline unsigned logsAmount() const noexcept
+    {
+        return static_cast<unsigned>(m_settings.logsAmount());
+    }
+    Q_INVOKABLE inline QString pathToLogs() const noexcept
+    {
+        return m_loggersHandler->outputPath();
+    }
 
     inline LoggersHandler *loggers() const noexcept
     {
@@ -318,6 +328,8 @@ public:
     {
         return m_buildInfo;
     }
+
+    Q_INVOKABLE void requestReadWritePermissions() noexcept;
 
 public slots:
     void saveBase_slot() noexcept;

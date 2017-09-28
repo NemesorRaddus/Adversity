@@ -83,6 +83,8 @@ void LandsInfo::prepareLandAt(unsigned index) noexcept
 
 LoggersHandler::LoggersHandler() noexcept
 {
+    try
+    {
     if (isLoggingEnabled())
     {
 #ifdef ANDROID // QStandardPaths was giving strange paths for Android devices
@@ -91,10 +93,7 @@ LoggersHandler::LoggersHandler() noexcept
         m_outputPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
 #endif
         QDir().mkpath(m_outputPath);
-        m_output = std::make_shared<spdlog::sinks::rotating_file_sink_st>(m_outputPath.toStdString()+"/adversity.log",1024*1024,20);
-    }
-    else
-        m_output = std::make_shared<spdlog::sinks::rotating_file_sink_st>(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).toStdString()+"/adversity.log",1,1);
+            m_output = std::make_shared<spdlog::sinks::app_start_rotating_file_sink_st>(m_outputPath.toStdString()+"/adversity.log",40);
 
     m_mainLogger = std::make_shared<spdlog::logger>("Main", m_output);
     m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_output);
@@ -104,6 +103,24 @@ LoggersHandler::LoggersHandler() noexcept
     m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_output);
     m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_output);
 
+#ifdef ANDROID
+            qInstallMessageHandler(LoggersHandler::redirectQtMsgs);
+#endif
+
+        }
+        else
+        {
+            m_noOutput = std::make_shared<spdlog::sinks::null_sink_st>();
+
+            m_mainLogger = std::make_shared<spdlog::logger>("Main", m_noOutput);
+            m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_noOutput);
+            m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_noOutput);
+            m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_noOutput);
+            m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_noOutput);
+            m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_noOutput);
+            m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_noOutput);
+        }
+
     spdlog::register_logger(m_mainLogger);
     spdlog::register_logger(m_missionsLogger);
     spdlog::register_logger(m_buildingsLogger);
@@ -111,6 +128,16 @@ LoggersHandler::LoggersHandler() noexcept
     spdlog::register_logger(m_xmlLogger);
     spdlog::register_logger(m_qmlLogger);
     spdlog::register_logger(m_qtLogger);
+
+        if (isLoggingEnabled())
+        {
+            spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+            spdlog::set_level(spdlog::level::trace);
+
+            auto lvl = spdlog::level::info;
+            m_mainLogger->log(lvl, "Adversity "+Game::gameInstance()->appBuildInfo()->versionNumber().toStdString());
+            m_mainLogger->log(lvl, "");
+        }
 
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %n: %v");
 
@@ -129,12 +156,14 @@ LoggersHandler::LoggersHandler() noexcept
         spdlog::set_level(spdlog::level::off);
         break;
     }
-
-    if (isLoggingEnabled())
+    }
+    catch (const spdlog::spdlog_ex &ex)
     {
-        auto lvl = spdlog::level::critical;
-        m_mainLogger->log(lvl, "Adversity "+Game::gameInstance()->appBuildInfo()->versionNumber().toStdString());
-        m_mainLogger->log(lvl, "");
+        qCritical() << "Loggers initialization failed: " << ex.what();
+    }
+    catch (...)
+    {
+        abort();
     }
 }
 
@@ -251,16 +280,20 @@ void Settings::setLogsAmount(Settings::LogsAmount amount) noexcept
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
-    m_startupTimer=new QElapsedTimer;
-    m_startupTimer->start();
-    qInfo()<<QString("[0.000] Game object initialization has started");
-
     m_ptrToGameObject=this;
 
     m_buildInfo=new AppBuildInfo;
     loadVersionInfo();
 
     loadSettings();
+
+    m_permissionsManager = new APeR::PermissionsManager;
+
+    m_loggersHandler = new LoggersHandler;
+
+    m_startupTimer=new QElapsedTimer;
+    m_startupTimer->start();
+    qInfo()<<QString("[0.000] Game object initialization has started");
 
     m_translations=new TranslationsDB(":/");
     if (!QSettings().contains("lang"))
@@ -279,8 +312,6 @@ Game::Game(QObject *parent) noexcept
     m_globalsExportToQML=new Global;
 
     connectAutosave();
-
-    m_loggersHandler = new LoggersHandler;m_loggersHandler->mainLogger()->debug("HEJ");
 }
 
 Game::~Game() noexcept
@@ -305,6 +336,8 @@ Game::~Game() noexcept
     delete m_startupTimer;
 
     delete m_loggersHandler;
+
+    delete m_permissionsManager;
 }
 
 void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept
@@ -410,6 +443,10 @@ void Game::acknowledgeFPSToggle() noexcept
 void Game::setLogsAmount(unsigned amount) noexcept
 {
     m_settings.setLogsAmount(static_cast<Settings::LogsAmount>(amount));
+}
+
+void Game::requestReadWritePermissions() noexcept
+{
 }
 
 void Game::saveBase_slot() noexcept
