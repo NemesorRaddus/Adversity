@@ -20,6 +20,7 @@
 #include "h4x.h"
 
 #include "libs/spdlog-0.14.0/spdlog.h"
+#include "libs/APeR-0.1.0/aper.h"
 
 #include <QDebug>
 
@@ -363,6 +364,7 @@ private:
     LoggersHandler *m_loggersHandler;
     Settings m_settings;
     QTimer *m_settingsApplierTimer;
+    APeR::PermissionsManager *m_permissionsManager;
 
     static QQmlApplicationEngine *m_ptrToEngine;
 };

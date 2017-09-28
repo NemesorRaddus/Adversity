@@ -447,6 +447,7 @@ void Game::setLogsAmount(unsigned amount) noexcept
 
 void Game::requestReadWritePermissions() noexcept
 {
+//    m_permissionsManager->requestPermissions(APeR::PermissionsManager::READ_EXTERNAL_STORAGE | APeR::PermissionsManager::WRITE_EXTERNAL_STORAGE, {});
 }
 
 void Game::saveBase_slot() noexcept

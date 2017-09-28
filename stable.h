@@ -16,6 +16,7 @@
 
 #include <QString>
 #include <QDateTime>
+#include <QMetaEnum>
 
 #include <QVector>
 #include <QMap>
@@ -32,6 +33,12 @@
 
 #include <QElapsedTimer>
 #include <QTimer>
+
+#ifdef ANDROID
+#include <QAndroidJniObject>
+#include <QAndroidJniEnvironment>
+#include <QtAndroid>
+#endif
 
 // std
 #include <string>

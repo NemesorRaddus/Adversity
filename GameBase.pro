@@ -5,6 +5,10 @@ CONFIG += c++14
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
 
+android {
+    QT += androidextras
+}
+
 SOURCES += main.cpp \
     hero.cpp \
     base.cpp \
@@ -61,11 +65,16 @@ PRECOMPILED_HEADER = stable.h
 
 DISTFILES += \
     android-sources/AndroidManifest.xml \
+    android-sources/build.gradle \
     android-sources/src/org/qtproject/qt5/android/bindings/MyActivity.java \
     versionnumber.txt \
     save.txt \
     Gra-spis.rtf \
     qml/H4XWindow.qml
+
+#APeR lib
+SOURCES += libs/APeR-0.1.0/aper.cpp
+HEADERS += libs/APeR-0.1.0/aper.h
 
 CONFIG(release, debug|release) {
     #This is a release build

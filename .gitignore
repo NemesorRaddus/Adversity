@@ -80,3 +80,4 @@ versioning.txt
 
 # My libs
 libs/
+android-sources/src/org/qtproject/qt5/android/bindings/RequestPermissions.java
