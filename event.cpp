@@ -1025,9 +1025,7 @@ void Mission::forceEndHappily() noexcept
 
 void Mission::forceEndSilently() noexcept
 {
-    auto b=m_assignedHero->base();
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
-    b->removeMission(this);
 }
 
 void Mission::forceEndBecauseOfDeath() noexcept

@@ -1101,14 +1101,10 @@ void Hero::die() noexcept
 {
     m_isDead=1;
     m_currentAttributesValues.health=0;
+    m_noSignalDaysRemaining=-1;
     if (m_currentActivity != HeroEnums::CA_OnMission)
     {
         m_base->addReport(new UnifiedReport(new HeroDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
-        emit died(name());
-    }
-    else if (isCommunicationAvailable())
-    {
-        m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         emit died(name());
     }
     else
@@ -1119,6 +1115,7 @@ void Hero::becomeMIA() noexcept
 {
     if (m_currentActivity==HeroEnums::CA_OnMission && m_assignedMission!=nullptr)
     {
+        m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         m_assignedMission->forceEndSilently();
     }
