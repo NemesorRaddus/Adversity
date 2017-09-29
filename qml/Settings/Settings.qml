@@ -387,6 +387,7 @@ Item {
                         if (logsText.option == 0)
                         {
                             logsText.text = "None";
+                            permissionsText.visible = false;
                             GameApi.setLogsAmount(0);
                             arrowLLogs.visible = false;
                             arrowRLogs.visible = true;
@@ -399,6 +400,7 @@ Item {
                         {
                             logsText.text = "Some";
                             GameApi.requestReadWritePermissions();
+                            permissionsText.visible = true;
                             GameApi.setLogsAmount(1);
                             arrowLLogs.visible = true;
                             arrowRLogs.visible = true;
@@ -410,6 +412,7 @@ Item {
                         else if (logsText.option == 2)
                         {
                             logsText.text = "Most";
+                            permissionsText.visible = true;
                             GameApi.setLogsAmount(2);
                             arrowLLogs.visible = true;
                             arrowRLogs.visible = true;
@@ -421,6 +424,7 @@ Item {
                         else if (logsText.option == 3)
                         {
                             logsText.text = "All";
+                            permissionsText.visible = true;
                             GameApi.setLogsAmount(3);
                             arrowLLogs.visible = true;
                             arrowRLogs.visible = false;
@@ -547,6 +551,24 @@ Item {
     }
 
     Text {
+        id: permissionsText
+
+        x: 17
+        y: 750
+        width: parent.width - 2*x
+
+        horizontalAlignment: Text.AlignHCenter
+
+        visible: false
+
+        text: "Android read/write permission must be granted to save logs."
+        color: "#c0efc0"
+        font.pixelSize: 50
+        font.family: fontStencil.name
+        wrapMode: Text.Wrap
+    }
+
+    Text {
         id: logsPathText
 
         x: 17
@@ -560,7 +582,7 @@ Item {
             if (path == "" || path == undefined)
                 text = "";
             else
-                text = "Logs are stored in:\n"+path;
+                text = "Logs are saved in:\n"+path;
         }
 
         color: "#94ef94"
