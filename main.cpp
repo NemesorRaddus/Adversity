@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationDisplayName("Adversity");
     QGuiApplication::setApplicationName("Adversity");
     QGuiApplication::setOrganizationName("Raddos Games");
-    QGuiApplication::setApplicationVersion("0.7.0-5");
+    QGuiApplication::setApplicationVersion("0.7.0-Preview_1");
 
     Randomizer::initialize();
 

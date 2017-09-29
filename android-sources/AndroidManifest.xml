@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<manifest package="com.raddosgames.adversity" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.7.0-5" android:versionCode="1" android:installLocation="auto">
+<manifest package="com.raddosgames.adversity" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.7.0-Preview_1" android:versionCode="1" android:installLocation="auto">
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="Adversity" android:icon="@drawable/icon">
         <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.MyActivity" android:label="Adversity" android:screenOrientation="portrait" android:launchMode="singleTop" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -76,8 +76,6 @@
 
 
     <uses-permission android:name="android.permission.SET_ORIENTATION"/>
-
-
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 </manifest>
