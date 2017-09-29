@@ -184,6 +184,8 @@ QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() con
 void TimerAlarmsContainer::addMissionAlarm(const Time &time, Mission *mission) noexcept
 {
     m_missionAlarms+={time, mission};
+
+    Game::gameInstance()->loggers()->missionsLogger()->trace("Adding mission alarm (time: {}, mercenary: {})",time.toQString().toStdString(), mission->assignedHero()->name().toStdString());
 }
 
 void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
@@ -237,7 +239,11 @@ void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
     for (int i=0;i<m_missionAlarms.size();)
     {
         if (m_missionAlarms[i].second == mission)
+        {
+            Game::gameInstance()->loggers()->missionsLogger()->trace("Removing mission alarm (mercenary: {})", mission->assignedHero()->name().toStdString());
+
             m_missionAlarms.remove(i);
+        }
         else
             ++i;
     }
@@ -280,6 +286,11 @@ bool Time::operator <(const Time &other) const noexcept
         return 1;
     else
         return 0;
+}
+
+QString Time::toQString() const noexcept
+{
+    return QString("D")+QString::number(d)+" "+QString::number(h)+" "+QString::number(min);
 }
 
 QDataStream &operator<<(QDataStream &stream, const Time &time) noexcept

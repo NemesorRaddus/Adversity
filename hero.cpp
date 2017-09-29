@@ -14,7 +14,7 @@ HeroEnums::Nature HeroEnums::fromQStringToNatureEnum(const QString &nature) noex
         return N_Religious;
     if (nature == "Recluse")
         return N_Recluse;
-    qWarning()<<"QString->enum conversion failed for "<<nature;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Nature enum conversion failed for {}",nature.toStdString());
 }
 
 QString HeroEnums::fromNatureEnumToQString(HeroEnums::Nature nature) noexcept
@@ -27,7 +27,7 @@ QString HeroEnums::fromNatureEnumToQString(HeroEnums::Nature nature) noexcept
         return "Religious";
     if (nature == N_Recluse)
         return "Recluse";
-    qWarning()<<"enum->QString conversion failed for "<<nature;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Nature enum->QString conversion failed for {}",static_cast<unsigned>(nature));
 }
 
 HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept
@@ -86,7 +86,7 @@ HeroEnums::StressBorderEffect HeroEnums::fromQStringToStressBorderEffectEnum(con
         return SBE_Excellence;
     if (stressBorderEffect == "Absolute")
         return SBE_Absolute;
-    qWarning()<<"QString->enum conversion failed for "<<stressBorderEffect;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->StressBorderEffect enum conversion failed for {}",stressBorderEffect.toStdString());
 }
 
 QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEffect stressBorderEffect) noexcept
@@ -145,7 +145,7 @@ QString HeroEnums::fromStressBorderEffectEnumToQString(HeroEnums::StressBorderEf
         return "Excellence";
     if (stressBorderEffect == SBE_Absolute)
         return "Absolute";
-    qWarning()<<"enum->QString conversion failed for "<<stressBorderEffect;
+    Game::gameInstance()->loggers()->mainLogger()->warn("StressBorderEffect enum->QString conversion failed for {}",static_cast<unsigned>(stressBorderEffect));
 }
 
 HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attribute) noexcept
@@ -178,7 +178,7 @@ HeroEnums::Attribute HeroEnums::fromQStringToAttributeEnum(const QString &attrib
         return A_Salary;
     if (attribute == "Daily Food Consumption")
         return A_DailyFoodConsumption;
-    qWarning()<<"QString->enum conversion failed for "<<attribute;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Attribute enum conversion failed for {}",attribute.toStdString());
 }
 
 QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) noexcept
@@ -211,7 +211,7 @@ QString HeroEnums::fromAttributeEnumToQString(HeroEnums::Attribute attribute) no
         return "Salary";
     if (attribute == A_DailyFoodConsumption)
         return "Daily Food Consumption";
-    qWarning()<<"enum->QString conversion failed for "<<attribute;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Attribute enum->QString conversion failed for {}",static_cast<unsigned>(attribute));
 }
 
 HeroEnums::CurrentActivity HeroEnums::fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept
@@ -238,7 +238,7 @@ HeroEnums::CurrentActivity HeroEnums::fromQStringToCurrentActivityEnum(const QSt
         return CA_InSeclusion;
     if (currentActivity == "Arriving")
         return CA_Arriving;
-    qWarning()<<"QString->enum conversion failed for "<<currentActivity;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->CurrentActivity enum conversion failed for {}",currentActivity.toStdString());
 }
 
 QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity currentActivity) noexcept
@@ -265,7 +265,7 @@ QString HeroEnums::fromCurrentActivityEnumToQString(HeroEnums::CurrentActivity c
         return "In Seclusion";
     if (currentActivity == CA_Arriving)
         return "Arriving";
-    qWarning()<<"enum->QString conversion failed for "<<currentActivity;
+    Game::gameInstance()->loggers()->mainLogger()->warn("CurrentActivity enum->QString conversion failed for {}",static_cast<unsigned>(currentActivity));
 }
 
 HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &profession) noexcept
@@ -292,7 +292,7 @@ HeroEnums::Profession HeroEnums::fromQStringToProfessionEnum(const QString &prof
         return P_Specialist;
     if (profession == "Doomsayer")
         return P_Doomsayer;
-    qWarning()<<"QString->enum conversion failed for "<<profession;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Profession enum conversion failed for {}",profession.toStdString());
 }
 
 QString HeroEnums::fromProfessionEnumToQString(HeroEnums::Profession profession) noexcept
@@ -319,7 +319,7 @@ QString HeroEnums::fromProfessionEnumToQString(HeroEnums::Profession profession)
         return "Specialist";
     if (profession == P_Doomsayer)
         return "Doomsayer";
-    qWarning()<<"enum->QString conversion failed for "<<profession;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Profession enum->QString conversion failed for {}",static_cast<unsigned>(profession));
 }
 
 QDataStream &HeroStressBorderEffect::read(QDataStream &stream) noexcept
@@ -936,13 +936,18 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     m_noSignalDaysRemaining = noSignalDaysRemaining;
     if (m_noSignalDaysRemaining == 0)
     {
+        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal retrieved",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (m_assignedMission==nullptr || isDead())
             return;//safety measure
         addWaitingReport(new UnifiedReport(new SignalRetrievedReport(pathToArt(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         sendWaitingReports();
     }
-    else if (m_assignedMission!=nullptr)
-        trySendingReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())), 1);
+    else
+    {
+        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        if (m_assignedMission!=nullptr)
+            trySendingReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())), 1);
+    }
 }
 
 Hero::Hero(Base *base) noexcept
@@ -1061,6 +1066,7 @@ void Hero::handleNewWeek() noexcept
 
 void Hero::returnToBase() noexcept
 {
+    Game::gameInstance()->loggers()->mercenariesLogger()->trace("{} has returned to base",m_name.toStdString());
     m_base->increaseAetheriteAmount(m_carriedAetheriteOre);
     m_base->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
     m_base->increaseEnergyAmount(m_carriedEnergy);
@@ -1099,6 +1105,7 @@ void Hero::returnToBase() noexcept
 
 void Hero::die() noexcept
 {
+    Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} died",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
     m_isDead=1;
     m_currentAttributesValues.health=0;
     m_noSignalDaysRemaining=-1;
@@ -1115,6 +1122,7 @@ void Hero::becomeMIA() noexcept
 {
     if (m_currentActivity==HeroEnums::CA_OnMission && m_assignedMission!=nullptr)
     {
+        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         m_assignedMission->forceEndSilently();
@@ -1126,6 +1134,7 @@ void Hero::activateStressBorderEffect() noexcept
     if (!isImmuneToStress())
     {
         m_indexOfCurrentSBE = Randomizer::randomBetweenAAndB(0,m_stressBorderEffects.size()-1);
+        Game::gameInstance()->loggers()->mercenariesLogger()->trace("SBE activated for {}: {}",m_name.toStdString(),static_cast<unsigned>(m_stressBorderEffects[m_indexOfCurrentSBE].effectName));
 
         if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == HeroEnums::SBE_Consciousness)
         {
@@ -1140,6 +1149,7 @@ void Hero::deactivateStressBorderEffect() noexcept
 {
     if (!isImmuneToStress())
     {
+        Game::gameInstance()->loggers()->mercenariesLogger()->trace("SBE deactivated for {}",m_name.toStdString());
         m_indexOfCurrentSBE = -1;
 
         calculateCurrentAttributeValues();
@@ -2481,12 +2491,16 @@ void HeroesContainer::addHero(Hero *hero) noexcept
 {
     m_heroes+=hero;
     connectHeroToBanSystem(hero->name());
+
+    Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}] Mercenary added: {}",hero->base()->gameClock()->currentTime().toQString().toStdString(), hero->name().toStdString());
 }
 
 void HeroesContainer::removeHero(unsigned index) noexcept
 {
     if (index < m_heroes.size())
     {
+        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}] Removing mercenary: {}",m_heroes[index]->base()->gameClock()->currentTime().toQString().toStdString(), m_heroes[index]->name().toStdString());
+
         if (m_heroes[index]->currentActivity() == HeroEnums::CA_InHospital)
             m_basePtr->hospital()->removeHero(m_heroes[index]->name());
         else if (m_heroes[index]->currentActivity() == HeroEnums::CA_OnTrainingGround)

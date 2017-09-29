@@ -4,6 +4,24 @@
 
 #include <QDebug>
 
+void Randomizer::initialize() noexcept
+{
+    qsrand(static_cast<quint64>(QTime::currentTime().msecsSinceStartOfDay()));
+}
+
+unsigned Randomizer::randomBetweenAAndB(unsigned a, unsigned b) noexcept
+{
+    try
+    {
+        return {qrand() % ((b + 1) - a) + a};
+    }
+    catch(...)
+    {
+        Game::gameInstance()->loggers()->mainLogger()->critical("Wrong params for randomBetweenAAndB (a={}, b={})!",a,b);
+        abort();
+    }
+}
+
 EventEnums::MissionDifficulty EventEnums::fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept
 {
     if (missionDifficulty == "Short")
@@ -20,7 +38,7 @@ EventEnums::MissionDifficulty EventEnums::fromQStringToMissionDifficultyEnum(con
         return MD_Master;
     if (missionDifficulty == "Heroic")
         return MD_Heroic;
-    qWarning()<<"QString->enum conversion failed for "<<missionDifficulty;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->MissionDifficulty enum conversion failed for {}",missionDifficulty.toStdString());
 }
 
 QString EventEnums::fromMissionDifficultyEnumToQString(EventEnums::MissionDifficulty missionDifficulty) noexcept
@@ -39,7 +57,7 @@ QString EventEnums::fromMissionDifficultyEnumToQString(EventEnums::MissionDiffic
         return "Master";
     if (missionDifficulty == MD_Heroic)
         return "Heroic";
-    qWarning()<<"enum->QString conversion failed for "<<missionDifficulty;
+    Game::gameInstance()->loggers()->mainLogger()->warn("MissionDifficulty enum->QString conversion failed for {}",static_cast<unsigned>(missionDifficulty));
 }
 
 Expression::Expression() noexcept
@@ -897,7 +915,7 @@ EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const n
         else
             ++i;
     }
-    if (!b->heroes()->heroes().contains(hero))
+    if (!b->heroes()->heroes().contains(hero))//TODO probably remove
         return static_cast<EncounterReport *>(static_cast<Report *>(new NullReport));//hero died during encounter
     return new EncounterReport{hero->pathToArt(), reps, currentTime};
 }
@@ -1002,21 +1020,34 @@ void Mission::start() noexcept
     m_assignedHero->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedHero->pathToArt(), m_assignedHero->stress(), m_assignedHero->stressLimit(), m_assignedHero->base()->gameClock()->currentTime())));
     m_assignedHero->base()->registerLatestReportInMission(this);
     planEverything();
+
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    for (const auto &e : m_encounters)
+        Game::gameInstance()->loggers()->missionsLogger()->trace("Day {}: {}",e.first,e.second->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("Mission ends in {}",m_remainingDays);
+
 }
 
 EncounterReport *Mission::doEncounter(const Time &now) noexcept
 {
     m_timeOfCurrentEncounter = now;
+
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Doing encounter: {} (mercenary: {})",now.toQString().toStdString(),m_encounters[m_nextEncounter].second->name().toStdString(), m_assignedHero->name().toStdString());
+
     return m_encounters[m_nextEncounter++].second->execute(m_assignedHero, now);
 }
 
 void Mission::end() noexcept
 {
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Ending mission (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+
     m_assignedHero->returnToBase();
 }
 
-void Mission::forceEndHappily() noexcept
+void Mission::forceEndSuccessfully() noexcept
 {
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     auto b=m_assignedHero->base();
     end();
@@ -1025,11 +1056,15 @@ void Mission::forceEndHappily() noexcept
 
 void Mission::forceEndSilently() noexcept
 {
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end silently (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
 }
 
 void Mission::forceEndBecauseOfDeath() noexcept
 {
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end because of death or sth like that (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedHero->assignMission(nullptr);
     m_assignedHero->base()->removeMission(this);
@@ -1037,6 +1072,8 @@ void Mission::forceEndBecauseOfDeath() noexcept
 
 void Mission::abort() noexcept
 {
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Aborting mission (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedHero->assignMission(nullptr);
     auto b=m_assignedHero->base();

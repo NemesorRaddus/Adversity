@@ -13,6 +13,7 @@ SaveData SaveParser::readData(QByteArray &array)
     QByteArray t=qUncompress(array);
 
     SaveData data;
+    data.raw = array;
     if (!t.isEmpty())
     {
         QDataStream str(&t,QIODevice::ReadOnly);

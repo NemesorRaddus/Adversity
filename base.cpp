@@ -15,7 +15,7 @@ BaseEnums::Resource BaseEnums::fromQStringToResourceEnum(const QString &resource
         return R_BuildingMaterials;
     if (resource=="Aetherite")
         return R_AetheriteOre;
-    qWarning()<<"QString->enum conversion failed for "<<resource;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Resource enum conversion failed for {}",resource.toStdString());
 }
 
 QString BaseEnums::fromResourceEnumToQString(BaseEnums::Resource resource) noexcept
@@ -28,7 +28,7 @@ QString BaseEnums::fromResourceEnumToQString(BaseEnums::Resource resource) noexc
         return "Building Materials";
     if (resource==R_AetheriteOre)
         return "Aetherite";
-    qWarning()<<"enum->QString conversion failed for "<<resource;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Resource enum->QString conversion failed for {}",static_cast<unsigned>(resource));
 }
 
 BaseEnums::Building BaseEnums::fromQStringToBuildingEnum(const QString &building) noexcept
@@ -65,7 +65,7 @@ BaseEnums::Building BaseEnums::fromQStringToBuildingEnum(const QString &building
         return B_Shrine;
     if (building=="Seclusion")
         return B_Seclusion;
-    qWarning()<<"QString->enum conversion failed for "<<building;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Building enum conversion failed for {}",building.toStdString());
 }
 
 QString BaseEnums::fromBuildingEnumToQString(BaseEnums::Building building) noexcept
@@ -102,7 +102,7 @@ QString BaseEnums::fromBuildingEnumToQString(BaseEnums::Building building) noexc
         return "Shrine";
     if (building==B_Seclusion)
         return "Seclusion";
-    qWarning()<<"enum->QString conversion failed for "<<building;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Building enum->QString conversion failed for {}",static_cast<unsigned>(building));
 }
 
 unsigned Building::currentLevel() const noexcept
@@ -1709,6 +1709,7 @@ void Base::setupNewBase() noexcept
         }
 
     m_database=m_gameObject->assetsPool().makeStockDatabase();
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}]Base has been set up",gameClock()->currentTime().toQString().toStdString());
 }
 
 Base::~Base() noexcept
@@ -1742,6 +1743,9 @@ Base::~Base() noexcept
 
 void Base::loadSaveData(const SaveData &data) noexcept
 {
+    Game::gameInstance()->loggers()->mainLogger()->trace("Loading save...");
+    Game::gameInstance()->loggers()->mainLogger()->trace("Save content:");
+    Game::gameInstance()->loggers()->mainLogger()->trace(QString(data.raw.toHex()).toStdString());
     if (m_database!=nullptr)
         delete m_database;
     m_database=m_gameObject->assetsPool().makeStockDatabase();
@@ -1895,11 +1899,14 @@ void Base::loadSaveData(const SaveData &data) noexcept
             }
         m_gameClock->addMissionAlarm(ma.first,ma.second);
     }
+    Game::gameInstance()->loggers()->mainLogger()->trace("Save loaded");
 }
 
 SaveData Base::getSaveData() noexcept
 {
     SaveData data;
+
+    Game::gameInstance()->loggers()->mainLogger()->trace("Creating save data...");
 
     data.parserVersion = m_gameObject->currentVersion()->versionNumber();
 
@@ -2037,11 +2044,14 @@ SaveData Base::getSaveData() noexcept
     for (const auto &e : m_reports)
         data.missions.reports+=*e;
 
+    Game::gameInstance()->loggers()->mainLogger()->trace("Saving save data");
+
     return data;
 }
 
 void Base::startNewDay() noexcept
 {
+    Game::gameInstance()->loggers()->mainLogger()->trace("[{}] Starting new day",gameClock()->currentTime().toQString().toStdString());
     if (m_gameClock->currentDay() % 7 == 1)
         startNewWeek();
 
@@ -2272,7 +2282,7 @@ Building *Base::getBuilding(BaseEnums::Building buildingName) noexcept
     case BaseEnums::B_TrainingGround:
         return m_trainingGround;
     default:
-        qWarning()<<"BaseEnums::Building enum->Building * conversion failed for "<<buildingName;
+        Game::gameInstance()->loggers()->buildingsLogger()->warn("BaseEnums::Building enum->Building * conversion failed for {}", static_cast<unsigned>(buildingName));
         return nullptr;
     }
 }

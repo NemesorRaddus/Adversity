@@ -14,7 +14,7 @@ DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString
         return ET_Plants;
     if (entryType == "Fungi")
         return ET_Fungi;
-    qWarning()<<"QString->enum conversion failed for "<<entryType;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->EntryType enum conversion failed for {}",entryType.toStdString());
 }
 
 QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entryType) noexcept
@@ -27,7 +27,7 @@ QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entry
         return "Plants";
     if (entryType == ET_Fungi)
         return "Fungi";
-    qWarning()<<"enum->QString conversion failed for "<<entryType;
+    Game::gameInstance()->loggers()->mainLogger()->warn("EntryType enum->QString conversion failed for {}",static_cast<unsigned>(entryType));
 }
 
 void DatabaseUnlocksInfo::clear() noexcept

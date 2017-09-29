@@ -1376,6 +1376,9 @@ QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
         qCritical()<<"Couldn't read "+path+" properly.";
         return {};
     }
+
+    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded equipment at {}. Entries: {}", path.toStdString(), r.size());
+
     return r;
 }
 
@@ -1498,6 +1501,9 @@ QVector<DatabaseEntry> XmlFileReader::getDatabaseEntries(const QString &path) no
         qCritical()<<"Couldn't read "+path+" properly.";
         return {};
     }
+
+    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded db entries at {}. Entries: {}", path.toStdString(), r.size());
+
     return r;
 }
 
@@ -1551,6 +1557,9 @@ LandInfo XmlFileReader::getLandInfo(const QString &path) noexcept
         qCritical()<<"Couldn't read "+path+" properly.";
         return {};
     }
+
+    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded land at {}.", path.toStdString());
+
     return r;
 }
 
@@ -1591,6 +1600,9 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
         else
             m_xmlReader->raiseError("Incorrect file");
     }
+
+    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded encounters at {}. Entries: {}", path.toStdString(), r->encounters().size());
+
     if (m_xmlReader->hasError())
     {
         qCritical()<<"Couldn't read "+path+" properly.";

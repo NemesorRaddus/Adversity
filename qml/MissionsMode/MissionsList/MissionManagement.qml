@@ -114,6 +114,7 @@ Item {
             visible: false
 
             onClicked: {
+                GameApi.logger.trace("Abort clicked");
                 var am=GameApi.base.heroes.amountOfHeroes();
                 var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
                 for (var i=0;i<am;++i)

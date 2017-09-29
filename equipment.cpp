@@ -10,7 +10,7 @@ EquipmentEnums::Type EquipmentEnums::fromQStringToTypeEnum(const QString &type) 
         return T_Armor;
     if (type == "Weapon/Tool")
         return T_WeaponTool;
-    qWarning()<<"QString->enum conversion failed for "<<type;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Equipment::Type enum conversion failed for {}",type.toStdString());
 }
 
 QString EquipmentEnums::fromTypeEnumToQString(EquipmentEnums::Type type) noexcept
@@ -19,7 +19,7 @@ QString EquipmentEnums::fromTypeEnumToQString(EquipmentEnums::Type type) noexcep
         return "Armor";
     if (type == T_WeaponTool)
         return "Weapon/Tool";
-    qWarning()<<"QString->enum conversion failed for "<<type;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Equipment::Type enum->QString conversion failed for {}",static_cast<unsigned>(type));
 }
 
 EquipmentEnums::Category EquipmentEnums::fromQStringToCategoryEnum(const QString &category) noexcept
@@ -30,7 +30,7 @@ EquipmentEnums::Category EquipmentEnums::fromQStringToCategoryEnum(const QString
         return C_Climbing;
     if (category == "Light Source")
         return C_LightSource;
-    qWarning()<<"QString->enum conversion failed for "<<category;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Equipment::Category enum conversion failed for {}",category.toStdString());
 }
 
 QString EquipmentEnums::fromCategoryEnumToQString(EquipmentEnums::Category category) noexcept
@@ -41,7 +41,7 @@ QString EquipmentEnums::fromCategoryEnumToQString(EquipmentEnums::Category categ
         return "Climbing";
     if (category == C_LightSource)
         return "Light Source";
-    qWarning()<<"QString->enum conversion failed for "<<category;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Equipment::Category enum->QString conversion failed for {}",static_cast<unsigned>(category));
 }
 
 EquipmentEnums::Bonus EquipmentEnums::fromQStringToBonusEnum(const QString &bonus) noexcept
@@ -70,7 +70,7 @@ EquipmentEnums::Bonus EquipmentEnums::fromQStringToBonusEnum(const QString &bonu
         return B_Salary;
     if (bonus == "Daily Food Consumption")
         return B_DailyFoodConsumption;
-    qWarning()<<"QString->enum conversion failed for "<<bonus;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Equipment::Bonus enum conversion failed for {}",bonus.toStdString());
 }
 
 QString EquipmentEnums::fromBonusEnumToQString(EquipmentEnums::Bonus bonus) noexcept
@@ -99,7 +99,7 @@ QString EquipmentEnums::fromBonusEnumToQString(EquipmentEnums::Bonus bonus) noex
         return "Salary";
     if (bonus == B_DailyFoodConsumption)
         return "Daily Food Consumption";
-    qWarning()<<"enum->QString conversion failed for "<<bonus;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Equipment::Bonus enum->QString conversion failed for {}",static_cast<unsigned>(bonus));
 }
 
 int Equipment::combatEffectivenessBonus() const noexcept

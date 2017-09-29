@@ -117,7 +117,7 @@ LoggersHandler::LoggersHandler() noexcept
             m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_noOutput);
             m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_noOutput);
             m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_noOutput);
-            m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_noOutput);
+            m_qmlLogger = std::make_shared<spdlog::logger>("Gui", m_noOutput);
             m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_noOutput);
         }
 
@@ -128,6 +128,8 @@ LoggersHandler::LoggersHandler() noexcept
         spdlog::register_logger(m_xmlLogger);
         spdlog::register_logger(m_qmlLogger);
         spdlog::register_logger(m_qtLogger);
+
+        spdlog::set_async_mode(1, spdlog::async_overflow_policy::block_retry,nullptr,std::chrono::seconds(1));
 
         if (isLoggingEnabled())
         {
@@ -165,6 +167,13 @@ LoggersHandler::LoggersHandler() noexcept
     {
         abort();
     }
+}
+
+LoggersHandler::~LoggersHandler() noexcept
+{
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+    spdlog::set_level(spdlog::level::trace);
+    m_mainLogger->info("Closing");
 }
 
 void LoggersHandler::setLevel(spdlog::level::level_enum lvl) noexcept

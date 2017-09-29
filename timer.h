@@ -135,6 +135,8 @@ struct Time
         return !(*this<other);
     }
 
+    QString toQString() const noexcept;
+
     Day d;
     Hour h;
     Minute min;

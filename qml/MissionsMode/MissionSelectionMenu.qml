@@ -998,6 +998,7 @@ Item {
             height: parent.height - 2*y
 
             onClicked: {
+                GameApi.logger.trace("Explore clicked");
                 warningNotEnoughResourcesText.checkResources();
                 if (!warningNotEnoughResourcesText.isShowing && GameApi.base.missionInitializer.isHeroSelected())
                 {

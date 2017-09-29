@@ -129,6 +129,7 @@ struct SaveData
         QVector<MissionDataHelper> missions;
         QVector<UnifiedReportDataHelper> reports;
     } missions;
+    QByteArray raw;
 };
 
 class SaveParser

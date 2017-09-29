@@ -14,14 +14,8 @@
 
 namespace Randomizer
 {
-    static void initialize() noexcept
-    {
-        qsrand(static_cast<quint64>(QTime::currentTime().msecsSinceStartOfDay()));
-    }
-    static unsigned randomBetweenAAndB(unsigned a, unsigned b) noexcept
-    {
-        return {qrand() % ((b + 1) - a) + a};
-    }
+    void initialize() noexcept;
+    unsigned randomBetweenAAndB(unsigned a, unsigned b) noexcept;
 }
 
 struct EventEnums
@@ -978,7 +972,7 @@ public:
     }
 
     void end() noexcept;
-    void forceEndHappily() noexcept;
+    void forceEndSuccessfully() noexcept;
     void forceEndSilently() noexcept;
     void forceEndBecauseOfDeath() noexcept;
     Q_INVOKABLE void abort() noexcept;

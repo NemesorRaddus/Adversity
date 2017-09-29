@@ -1285,6 +1285,7 @@ Item {
         anchors.fill: dismissButtonText
 
         onClicked: {
+            GameApi.logger.trace("Dismiss clicked");
             dismissConfirmDialogVisible = true;
             dismissClicked();
         }

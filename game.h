@@ -116,6 +116,7 @@ class LoggersHandler : public QObject
 
 public:
     LoggersHandler() noexcept;
+    ~LoggersHandler() noexcept;
 
     void setLevel(spdlog::level::level_enum lvl) noexcept;
 
