@@ -39,6 +39,7 @@ Item {
         map.state = "";
         missionsList.hide();
         missionViewMenu.state = "hiddenDown";
+        missionViewMenu.returnToDefault();
     }
 
     function updateEverything()

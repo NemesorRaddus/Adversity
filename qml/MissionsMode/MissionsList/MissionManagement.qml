@@ -33,13 +33,13 @@ Item {
                 {
                     connectionBackground.source = "qrc:/graphics/GUI/Connected.png";
                     connectionLostText.stopShowing();
-                    noSignalAbortText.setNoSignal(false);
+                    noSignalAbortText.setNoSignal(0);
                 }
                 else
                 {
                     connectionBackground.source = "qrc:/graphics/GUI/Disconnected.png";
                     connectionLostText.startShowing();
-                    noSignalAbortText.setNoSignal(true);
+                    noSignalAbortText.setNoSignal(1);
                 }
 
                 break;
@@ -235,8 +235,6 @@ Item {
         width: 1040
 
         horizontalAlignment: Text.AlignHCenter
-
-        visible: false
 
         function setNoSignal(noSignal)
         {
