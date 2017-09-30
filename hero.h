@@ -477,7 +477,7 @@ public:
 
     void returnToBase() noexcept;
 
-    void die() noexcept;
+    void die(bool playerKnowsIt = 0) noexcept;
     void becomeMIA() noexcept;
 
     inline Base *base() noexcept

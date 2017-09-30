@@ -1103,13 +1103,13 @@ void Hero::returnToBase() noexcept
     calculateCurrentAttributeValues();
 }
 
-void Hero::die() noexcept
+void Hero::die(bool playerKnowsIt) noexcept
 {
     Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} died",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
     m_isDead=1;
     m_currentAttributesValues.health=0;
     m_noSignalDaysRemaining=-1;
-    if (m_currentActivity != HeroEnums::CA_OnMission)
+    if (m_currentActivity != HeroEnums::CA_OnMission || playerKnowsIt)
     {
         m_base->addReport(new UnifiedReport(new HeroDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
         emit died(name());
