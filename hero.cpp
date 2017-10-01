@@ -577,7 +577,7 @@ void Hero::changeLuck(float amount) noexcept
 
 void Hero::changeHealth(int amount) noexcept
 {
-    if (m_currentAttributesValues.health+amount >= 0)
+    if (m_currentAttributesValues.health + amount > 0)
     {
         if (m_currentAttributesValues.health+amount<m_currentAttributesValues.healthLimit)
             m_currentAttributesValues.health+=amount;
