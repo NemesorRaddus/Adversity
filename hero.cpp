@@ -933,9 +933,9 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     if (m_noSignalDaysRemaining == noSignalDaysRemaining)
         return;
 
-    m_noSignalDaysRemaining = noSignalDaysRemaining;
-    if (m_noSignalDaysRemaining == 0)
+    if (noSignalDaysRemaining == 0)
     {
+        m_noSignalDaysRemaining = 0;
         Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal retrieved",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (m_assignedMission==nullptr || isDead())
             return;//safety measure
@@ -945,8 +945,9 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     else
     {
         Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
-        if (m_assignedMission!=nullptr)
-            trySendingReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())), 1);
+        if (m_assignedMission!=nullptr && isCommunicationAvailable())
+            m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
+        m_noSignalDaysRemaining = noSignalDaysRemaining;
     }
 }
 
@@ -1123,7 +1124,8 @@ void Hero::becomeMIA() noexcept
     if (m_currentActivity==HeroEnums::CA_OnMission && m_assignedMission!=nullptr)
     {
         Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
-        m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
+        if (isCommunicationAvailable())
+            m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         m_assignedMission->forceEndSilently();
     }
@@ -1953,7 +1955,8 @@ void Hero::handleSBEAtDayEnd()  noexcept
         {
             if (10 >= Randomizer::randomBetweenAAndB(1,100))
             {
-                trySendingReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())), 1);
+                if (isCommunicationAvailable())
+                    m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
                 m_noSignalDaysRemaining=-1;
             }
         }
@@ -2546,7 +2549,8 @@ void HeroesContainer::handleNewDay() noexcept
     for (auto e : m_heroes)
         if (!e->isCommunicationAvailable())
         {
-            e->increaseStress(20);
+            if (!e->isDead())
+                e->increaseStress(20);
             for (auto f : m_heroes)
                 if (!f->isDead() && (f->currentActivity() != HeroEnums::CA_Arriving && f->currentActivity() != HeroEnums::CA_OnMission))
                 {
