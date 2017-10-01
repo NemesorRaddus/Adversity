@@ -1584,6 +1584,7 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
                     QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     QString name=attrs.value("name").toString();
                     Event *rootev=getEvent(0);
+                    unsigned probability = attrs.hasAttribute("probability") ? attrs.value("probability").toUInt() : 1;
 
                     if (m_xmlReader->hasError())
                     {
@@ -1592,7 +1593,7 @@ EncountersContainer *XmlFileReader::getEncounters(const QString &path) noexcept
                         return nullptr;
                     }
 
-                    r->addEncounter(new Encounter(name, rootev));
+                    r->addEncounter(new Encounter(name, rootev, probability));
                 }
                 m_xmlReader->skipCurrentElement();//encounter/*
             }

@@ -819,7 +819,7 @@ QDataStream &operator>>(QDataStream &stream, UnifiedReportDataHelper &report) no
 class Encounter
 {
 public:
-    explicit Encounter(const QString &name, Event *rootEvent) noexcept;
+    explicit Encounter(const QString &name, Event *rootEvent, unsigned probability) noexcept;
 
     EncounterReport *execute(Hero *hero, const Time &currentTime) const noexcept;
 
@@ -828,9 +828,15 @@ public:
         return m_name;
     }
 
+    inline unsigned probabilty() const noexcept
+    {
+        return m_probability;
+    }
+
 private:
     QString m_name;
     Event *m_rootEvent;
+    unsigned m_probability;
 };
 
 class EncountersContainer

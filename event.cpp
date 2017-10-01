@@ -901,8 +901,8 @@ QDataStream &operator>>(QDataStream &stream, UnifiedReportDataHelper &report) no
     return stream;
 }
 
-Encounter::Encounter(const QString &name, Event *rootEvent) noexcept
-    : m_name(name), m_rootEvent(rootEvent) {}
+Encounter::Encounter(const QString &name, Event *rootEvent, unsigned probability) noexcept
+    : m_name(name), m_rootEvent(rootEvent), m_probability(probability) {}
 
 EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
 {
@@ -956,8 +956,23 @@ Encounter *Land::makeRandomEncounter() const noexcept
     if (m_encounters->encounters().isEmpty())
         return nullptr;
 
-    auto r=new Encounter("",nullptr);
-    *r=*(m_encounters->encounters()[Randomizer::randomBetweenAAndB(0, m_encounters->encounters().size()-1)]);
+    auto r=new Encounter("",nullptr,0);
+
+    unsigned amount = m_encounters->encounters().size();
+    unsigned probs[amount];
+    probs[0] = m_encounters->encounters()[0]->probabilty();
+    for (int i=1;i<amount;++i)
+        probs[i] = probs[i-1] + m_encounters->encounters()[i]->probabilty();
+
+    unsigned resultProb = Randomizer::randomBetweenAAndB(1, probs[amount-1]);
+    unsigned resultEnc = amount-1;
+    for (int i=0;i<amount-1;++i)
+        if (resultProb <= probs[i])
+        {
+            resultEnc = i;
+            break;
+        }
+    *r=*(m_encounters->encounters()[resultEnc]);
     return r;
 }
 
