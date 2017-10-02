@@ -358,7 +358,7 @@
             </events>
         </event>
     </encounter>
-    <encounter name="Aetherite Rock">
+    <encounter probabilty="4" name="Aetherite Rock">
         <event type="Multi">
             <text>Huh? What's that? Oh it's an Aetherite rock! Nice!</text>
             <events>
@@ -627,7 +627,7 @@ Mmm... They are delicious! I almost feel how new energy travels through my body.
             </events>
         </event>
     </encounter>
-    <encounter name="Aetherite Rock Beneath a Fracture in Dead Tree">
+    <encounter probabilty="2" name="Aetherite Rock Beneath a Fracture in Dead Tree">
         <event type="Multi">
             <text>There is a huge dead tree.</text>
             <events>
@@ -1255,7 +1255,7 @@ At least I could scare it off but still I'm badly wounded, and this beast stole 
             </events>
         </event>
     </encounter>
-    <encounter name="Meadow">
+    <encounter probabilty="3" name="Meadow">
         <event type="Multi">
             <text>Oh... I found a meadow here! Finally some open space! I didn't realise how much I missed it!</text>
             <events>

@@ -241,7 +241,7 @@
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Dead Tree">
+	<encounter probabilty="2" name="Dead Tree">
 		<event type="Multi">
 			<events>
 				<event type="Check" subtype="Value">
@@ -463,7 +463,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Aetherite Rock">
+	<encounter probabilty="4" name="Aetherite Rock">
 		<event type="Multi">
 			<text>Huh? There's piece of Aetherite. Little things also have to be apprieciated!</text>
 			<events>
@@ -659,7 +659,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Forest Leftovers">
+	<encounter probabilty="3" name="Forest Leftovers">
 		<event type="Multi">
 			<text>Looks like there was a forest before. Maybe I can find something here.</text>
 			<events>
@@ -999,7 +999,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Oasis">
+	<encounter probabilty="2" name="Oasis">
 		<event type="Multi">
             <text>Is it really true? I see a green spot on a horizon! It's an oasis! I have to investigate it!</text>
 			<events>
@@ -1436,7 +1436,7 @@ It's too late. We will have to do it the hard way.</text>
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Space Junk">
+	<encounter probabilty="3" name="Space Junk">
 		<event type="Multi">
             <text>There is some huge field of metal waste! Oh wait...
 It looks more like an early spaceship crashed here!</text>

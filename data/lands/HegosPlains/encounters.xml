@@ -314,7 +314,7 @@
 			</results>
 		</event>
 	</encounter>
-	<encounter name="Small Aetherite Rock">
+	<encounter probility=" name="Small Aetherite Rock">
 		<event type="Multi">
             <text>Huh? There's small rock of Aetherite. Nice!</text>
 			<events>
@@ -481,7 +481,7 @@ OK, somehow I managed to get out of there but my backpack is somewhere down in t
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Dazzling Rock">
+	<encounter probability="2" name="Dazzling Rock">
 		<event type="Multi">
 			<text>Woah! My sensors are running crazy! What's that? This little rock seems to glow!</text>
 			<events>
@@ -1004,7 +1004,7 @@ Shit! My skin is starting to boil inside!</text>
 			</events>
 		</event>
 	</encounter>
-	<encounter name="Aetherite Rock">
+	<encounter probability="4" name="Aetherite Rock">
 		<event type="Multi">
             <text>Oh, nice! There's nice Aetherite rock!</text>
 			<events>
