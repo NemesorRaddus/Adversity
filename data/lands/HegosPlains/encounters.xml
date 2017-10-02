@@ -314,7 +314,7 @@
 			</results>
 		</event>
 	</encounter>
-	<encounter probility=" name="Small Aetherite Rock">
+    <encounter probability="4" name="Small Aetherite Rock">
 		<event type="Multi">
             <text>Huh? There's small rock of Aetherite. Nice!</text>
 			<events>

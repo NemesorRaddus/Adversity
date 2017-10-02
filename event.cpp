@@ -960,9 +960,9 @@ Encounter *Land::makeRandomEncounter() const noexcept
 
     unsigned amount = m_encounters->encounters().size();
     unsigned probs[amount];
-    probs[0] = m_encounters->encounters()[0]->probabilty();
+    probs[0] = m_encounters->encounters()[0]->probability();
     for (int i=1;i<amount;++i)
-        probs[i] = probs[i-1] + m_encounters->encounters()[i]->probabilty();
+        probs[i] = probs[i-1] + m_encounters->encounters()[i]->probability();
 
     unsigned resultProb = Randomizer::randomBetweenAAndB(1, probs[amount-1]);
     unsigned resultEnc = amount-1;

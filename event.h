@@ -828,7 +828,7 @@ public:
         return m_name;
     }
 
-    inline unsigned probabilty() const noexcept
+    inline unsigned probability() const noexcept
     {
         return m_probability;
     }
