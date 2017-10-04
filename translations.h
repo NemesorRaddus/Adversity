@@ -28,7 +28,7 @@ public:
         return m_translations.value(text).value(context,text);
     }
 
-    QString currentLanguage() const noexcept
+    inline QString currentLanguage() const noexcept
     {
         return m_currentLanguage;
     }

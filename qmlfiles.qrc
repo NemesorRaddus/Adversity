@@ -54,5 +54,38 @@
         <file>qml/MissionsMode/Map.qml</file>
         <file>qml/MissionsMode/LandmarkScripts.js</file>
         <file>qml/MissionsMode/Landmark.qml</file>
+        <file>qml/MissionsMode/MissionStartMenu.qml</file>
+        <file>qml/MissionsMode/MissionSelectionMenu.qml</file>
+        <file>qml/MissionsMode/HeroDelegate.qml</file>
+        <file>qml/MissionsMode/EquipmentsList.qml</file>
+        <file>qml/MissionsMode/EquipmentsListDelegate.qml</file>
+        <file>qml/MissionsMode/EquipmentsListScripts.js</file>
+        <file>qml/MissionsMode/HeroesList.qml</file>
+        <file>qml/MissionsMode/HeroesListScripts.js</file>
+        <file>qml/MissionsMode/HeroesListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsListDelegate.qml</file>
+        <file>qml/MissionsMode/Database/Database.qml</file>
+        <file>qml/MissionsMode/Database/DatabaseEntry.qml</file>
+        <file>qml/MissionsMode/Database/DatabaseScripts.js</file>
+        <file>qml/MissionsMode/Database/DatabaseEntryView.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsListScripts.js</file>
+        <file>qml/MissionsMode/MissionsList/MissionsList.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionsListDelegate.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionsListScripts.js</file>
+        <file>qml/MissionsMode/MissionsList/MissionView.qml</file>
+        <file>qml/Reports/ReportsList.qml</file>
+        <file>qml/Reports/ReportsListDelegate.qml</file>
+        <file>qml/Reports/ReportsListScripts.js</file>
+        <file>qml/Reports/ReportsNotification.qml</file>
+        <file>qml/MissionsMode/MissionsList/HeroView.qml</file>
+        <file>qml/MissionsMode/MissionsList/HeroDelegate.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionManagement.qml</file>
+        <file>qml/Settings/Settings.qml</file>
+        <file>qml/MissionsMode/MissionsList/MissionViewMenu.qml</file>
+        <file>qml/MissionsMode/MissionsList/Reports/ReportsList.qml</file>
+        <file>qml/MissionsMode/MissionsList/Reports/ReportsListDelegate.qml</file>
+        <file>qml/MissionsMode/MissionsList/Reports/ReportsListScripts.js</file>
+        <file>qml/Settings/Credits.qml</file>
     </qresource>
 </RCC>

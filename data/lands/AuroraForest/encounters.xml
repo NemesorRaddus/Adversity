@@ -1,0 +1,1817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<encounters>
+    <encounter name="Acidberry Bush">
+        <event type="Check" subtype="Value">
+            <unlockedDBEntries>
+                <entry>Acidberry Bush</entry>
+            </unlockedDBEntries>
+            <text>I think I found a bunch of berries on a bush.</text>
+            <condition condition="CL>5"></condition>
+            <results>
+                <positive>
+                    <event type="Multi">
+                        <events>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;-15;5>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="Null">
+                                <text>From up close they don't seem so tasty as they used to. I'd better leave them.</text>
+                            </event>
+                        </events>
+                    </event>
+                </positive>
+                <negative>
+                    <event chance="40" type="Multi">
+                        <text>They are sour and I don't feel so good. This was a mistake.</text>
+                        <events>
+                            <event type="Action" subtype="GiveHealth">
+                                <addedValue value="&lt;-4;-1>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;10;25>"></addedValue>
+                            </event>
+                        </events>
+                    </event>
+                    <event chance="60" type="Multi">
+                        <text>Eating them was a mistake. I think I'm gonna throw up.</text>
+                        <events>
+                            <event type="Action" subtype="GiveHealth">
+                                <addedValue value="&lt;-6;-2>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;15;30>"></addedValue>
+                            </event>
+                        </events>
+                    </event>
+                </negative>
+            </results>
+        </event>
+    </encounter>
+    <encounter name="Blueherb Lichen">
+        <event type="Check" subtype="Value">
+            <condition condition="CL>6"></condition>
+            <results>
+                <positive>
+                    <event type="Multi">
+                        <text>I'm pretty sure that I saw a plant similar to that one here in many databases. The one I saw had healing properties so I guess this will have them too. Despite of harsh taste, I feel fresh energy filling my body and hunger seems to have gone right away.</text>
+                        <unlockedDBEntries>
+                            <entry>Blueherb Lichen</entry>
+                        </unlockedDBEntries>
+                        <events>
+                            <event type="Action" subtype="GiveHealth">
+                                <addedValue value="&lt;2;3>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;-6;-3>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="ModifyAttribute">
+                                <modification attribute="Daily Food Consumption" type="-" value="1" duration="2"></modification>
+                            </event>
+                        </events>
+                    </event>
+                </positive>
+                <negative>
+                    <event type="Multi">
+                        <text>I see a really odd plant. It has unregular shape and unhealthy colour. I'd better leave it undisturbed.</text>
+                        <events>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;1;3>"></addedValue>
+                            </event>
+                        </events>
+                    </event>
+                </negative>
+            </results>
+        </event>
+    </encounter>
+    <encounter name="Poisonous Fern">
+        <event type="Multi">
+            <text>Oh, what's that smell? It seems to come from this fern. Strange, there is a bit of greenish fog around it.</text>
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="HP/HL>0.9"></condition>
+                    <results>
+                        <positive>
+                            <event type="Check" subtype="Value">
+                                <condition condition="CL>5"></condition>
+                                <results>
+                                    <positive>
+                                        <event type="Multi">
+                                            <text>It might be dangerous. I'd better step off.</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-30;-25>"></addedValue>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event chance="35" type="Multi">
+                                            <text>I got a bit dizzy from this smell. I think I'm going to vommit.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Poisonous Fern</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;0;15>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Daily Food Consumption" type="+" value="2" duration="2"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="65" type="Multi">
+                                            <text>Uh... I feel miserable... I can't stand on my feet. I'm gonna throw up.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Poisonous Fern</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;10;25>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Daily Food Consumption" type="+" value="3" duration="2"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Check" subtype="Value">
+                                <condition condition="HP/HL>0.5"></condition>
+                                <results>
+                                    <positive>
+                                        <event type="Check" subtype="Value">
+                                            <condition condition="CL>5"></condition>
+                                            <results>
+                                                <positive>
+                                                    <event type="Multi">
+                                                        <text>My wounds start to itch more than ever probably 'cause of this fog. I'd better keep distance.</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Poisonous Fern</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;-15;-5>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-2;>"></addedValue>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </positive>
+                                                <negative>
+                                                    <event chance="40" type="Multi">
+                                                        <text>Ouch! My wounds burn! I feel how the fire spreads in my veins!</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Poisonous Fern</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;0.02*SL;0.04*SL>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Daily Health Recovery" type="-" value="0.5*DHR" duration="-1"></modification>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-0.1*HL;-0.05*HL>"></addedValue>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                    <event chance="60" type="Multi">
+                                                        <text>My god! What a pain! What happened?! I'm dying from the inside!</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Poisonous Fern</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;0.05*SL;0.07*SL>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Daily Health Recovery" type="-" value="DHR" duration="-1"></modification>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-0.2*HL;-0.1*HL>"></addedValue>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </negative>
+                                            </results>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event chance="80" type="Multi">
+                                            <text>I need help... I don't think I can move anymore. My skin is tearing and blood is flowing from my wounds. If i die here at least bury my body.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Poisonous Fern</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Health" type="=" value="0.1*HL" duration="0"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Health Limit" type="-" value="1" duration="-1"></modification>
+                                                </event>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;50;100>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Combat Effectiveness" type="-" value="1" duration="3"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Cleverness" type="-" value="1" duration="3"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="20" type="Multi">
+                                            <text>I feel so disasterous that I would rather like to die... My wounds... My wounds are spreading all over my body. I feel it... My body is falling apart.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Poisonous Fern</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Health" type="=" value="0.05*HL" duration="0"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Health Limit" type="-" value="2" duration="-1"></modification>
+                                                </event>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;80;140>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Combat Effectiveness" type="-" value="2" duration="4"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Proficiency" type="-" value="2" duration="4"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Cleverness" type="-" value="2" duration="4"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Falling Branch">
+        <event type="Multi">
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>6"></condition>
+                    <results>
+                        <positive>
+                            <event chance="70" type="Action" subtype="GiveStress">
+                                <text>Oh crap! A branch almost fell on me!</text>
+                                <addedValue value="&lt;-30;-10>"></addedValue>
+                            </event>
+                            <event chance="30" type="Multi">
+                                <text>Oh! A branch fell and almost landed on me! I've got just a scratch.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-20;5>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-1;0>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event chance="25" type="Multi">
+                                <text>Woah! A branch hit the ground right next to me! I just got some scratches. Lucky me!</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-5;10>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-1;0>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="75" type="Multi">
+                                <text>Ouch... My back... A branch fell on me...</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;15;40>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-5;-2>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="-" value="1" duration="2"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Purpleleaf Bush">
+        <event type="Multi">
+            <text>Wow. What an unusual plant! It's all purple!</text>
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>6"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>Hey! It has some fruits! And they are so sweet! I'm gonna take some.</text>
+                                <unlockedDBEntries>
+                                    <entry>Purpleleaf Bush</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-15;-5>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <resource type="Food Supplies" amount="PR"></resource>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Daily Health Recovery" type="+" value="1" duration="3"></modification>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Daily Stress Recovery" type="+" value="&lt;6;12>" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Action" subtype="GiveStress">
+                                <text>I'm not sure if touching it is safe. I'll leave it alone.</text>
+                                <addedValue value="&lt;2;4>"></addedValue>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter probability="4" name="Aetherite Rock">
+        <event type="Multi">
+            <text>Huh? What's that? Oh it's an Aetherite rock! Nice!</text>
+            <events>
+                <event type="Action" subtype="GiveStress">
+                    <addedValue value="&lt;-12;-6>"></addedValue>
+                </event>
+                <event type="Action" subtype="GiveResource">
+                    <resource type="Aetherite" amount="&lt;2;5>"></resource>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Redneck Lizard on a tree">
+        <event type="Multi">
+            <text>Shh... There is a great lizard on that tree!</text>
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>6"></condition>
+                    <results>
+                        <positive>
+                            <event chance="80" type="Multi">
+                                <text>It did not notice me. Maybe I can hunt it down?</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-20;-10>"></addedValue>
+                                    </event>
+                                    <event type="Check" subtype="Value">
+                                        <condition condition="CE>5"></condition>
+                                        <results>
+                                            <positive>
+                                                <event chance="80" type="Multi">
+                                                    <text>It appears that Redneck Lizards have sharp claws. But I got it!</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Redneck Lizard</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-15;5>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-3;0>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Food Supplies" amount="&lt;1;3>"></resource>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="20" type="Multi">
+                                                    <text>Man, that lizard was so stubborn! But I took care of it anyway.</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Redneck Lizard</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-5;20>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-5;-3>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Food Supplies" amount="&lt;1;3>"></resource>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event type="Multi">
+                                                    <text>Damn it! It managed to cut my armour with its sharp claws and escaped into the wilderness.</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Redneck Lizard</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-15;-5>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-5;-3>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="20" type="Multi">
+                                <text>Damn! It saw me. It spitted something on me that dissolved my suit like it was made of paper! And that lizard took advantage of my astonishment and ran away.</text>
+                                <unlockedDBEntries>
+                                    <entry>Redneck Lizard</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;10;25>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-5;-3>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event chance="10" type="Action" subtype="GiveStress">
+                                <text>Phew. Somehow it didn't see me and I could back off.</text>
+                                <addedValue value="&lt;5;20>"></addedValue>
+                            </event>
+                            <event chance="90" type="Multi">
+                                <text>Oh crap! It saw me! It spitted something on me that dissolved my suit like it was made of paper! I was so astonished that I let that lizard escape.</text>
+                                <unlockedDBEntries>
+                                    <entry>Redneck Lizard</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;15;35>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-5;-3>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Toxic Spores">
+        <event type="Multi">
+            <text>Wow... What an unusual sight! Everything is completly covered by some yellow dust! Everything! Trees, rocks, grass! </text>
+            <events>
+                <event type="Check" subtype="Equipment">
+                    <condition condition="Biohazard Protection"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>My sensors are running crazy! This substance appears to be some kind of spores glued to each other and analysis shows that it is toxic. Fortunetely I'm protected.</text>
+                                <unlockedDBEntries>
+                                    <entry>Toxic Spores</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-20;-10>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Check" subtype="Value">
+                                <condition condition="CL>6"></condition>
+                                <results>
+                                    <positive>
+                                        <event type="Multi">
+                                            <text>Strange, my skin starts to itch. I guess it's because of this substance. I'd rather go around this place.</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-15;15>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveHealth">
+                                                    <addedValue value="&lt;-2;-1>"></addedValue>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event chance="40" type="Multi">
+                                            <text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up. Shit! My skin is starting to boil inside!</text>
+                                            <unlockedDBEntries>
+                                                <entry>Toxic Spores</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;10;32>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveHealth">
+                                                    <addedValue value="&lt;-0.1*HL;-0.05*HL>"></addedValue>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="60" type="Check" subtype="Value">
+                                            <condition condition="HP/HL>0.3"></condition>
+                                            <results>
+                                                <positive>
+                                                    <event type="Multi">
+                                                        <text>Ugh... This substance is sticky and it's all over me! It doesn't want to go off and starts to warm up. Shit! My skin is starting to boil inside!</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Toxic Spores</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;15;45>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-0.15*HL;-0.1*HL>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Daily Health Recovery" type="-" value="2" duration="3"></modification>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </positive>
+                                                <negative>
+                                                    <event chance="85" type="Multi">
+                                                        <text> Ugh... It has covered me too! It's so sickening... My skin starts to burn! I have to take it off!</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Toxic Spores</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;60;80>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-0.22*HL;-0.15*HL>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Daily Health Recovery" type="-" value="2" duration="3"></modification>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                    <event chance="15" type="Action" subtype="Kill">
+                                                    </event>
+                                                </negative>
+                                            </results>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Wideleaf Plant">
+        <event type="Multi">
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>6"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>Oh man! This plant's leaves are enormous! Chemical analisis says they should be eatable.
+Mmm... They are delicious! I almost feel how new energy travels through my body. Unfortunetely they are to big to carry them  with me.</text>
+                                <unlockedDBEntries>
+                                    <entry>Wideleaf Plant</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-25;-15>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;2;4>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Daily Health Recovery" type="+" value="&lt;1;2>" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Action" subtype="GiveStress">
+                                <text>I feel really unfamiliar in this forest. I hope this mission is towards its end.</text>
+                                <addedValue value="&lt;2;5>"></addedValue>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter probability="2" name="Aetherite Rock Beneath a Fracture in Dead Tree">
+        <event type="Multi">
+            <text>There is a huge dead tree.</text>
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>5"></condition>
+                    <results>
+                        <positive>
+                            <event chance="40" type="Multi">
+                                <text>It's partially fractured. Maybe I will find something inside?
+Yes! It's a nice piece of Aetherite!</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-30;-10>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <resource type="Aetherite" amount="&lt;4;7>"></resource>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="60" type="Action" subtype="GiveStress">
+                                <text>It's partially fractured. Maybe I will find something inside?
+Meh... Should've guessed it. There's nothing here.</text>
+                                <addedValue value="&lt;-5;5>"></addedValue>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Action" subtype="GiveStress">
+                                <text>It can collapse in any minute. I'd rather back off.</text>
+                                <addedValue value="&lt;2;7>"></addedValue>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Tentacleroot Ambush">
+        <event type="Multi">
+            <text>Oh fuck! That root just moved! I'm sure of that! Oh shit! It grabbed my leg!</text>
+            <events>
+                <event type="Action" subtype="GiveStress">
+                    <addedValue value="&lt;5;10>"></addedValue>
+                </event>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>5"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>It pulls me to what it seems to be its maw, a disgusting stench is almost unbearable.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;6;12>"></addedValue>
+                                    </event>
+                                    <event type="Check" subtype="Value">
+                                        <condition condition="CE>4"></condition>
+                                        <results>
+                                            <positive>
+                                                <event chance="75" type="Action" subtype="GiveStress">
+                                                    <text>You messed with the wrong person, plant. It's finally dead. I'll have to watch out for thing like it in the future.</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Tentacleroot</entry>
+                                                    </unlockedDBEntries>
+                                                    <addedValue value="&lt;-10;-2>"></addedValue>
+                                                </event>
+                                                <event chance="25" type="Multi">
+                                                    <text>It started to consume my foot, but I killed it in time. Man, what other strange creatures live in this forest?</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Tentacleroot</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-13;5>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-2;-1>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event chance="50" type="Action" subtype="GiveStress">
+                                                    <text>Holy crap, I freed my leg from its grip. I'll have to watch out next time.</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Tentacleroot</entry>
+                                                    </unlockedDBEntries>
+                                                    <addedValue value="&lt;-6;2>"></addedValue>
+                                                </event>
+                                                <event chance="50" type="Multi">
+                                                    <text>It started to consume my foot, but I started kicking and shaking with my leg which loosened the grip and made me free. Never more...</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Tentacleroot</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-9;7>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-3;-1>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event chance="40" type="Multi">
+                                <text>Oh crap! It's pulling me towards what it seems to be a maw! Shit! The stench is horrible! And it tries to digest my foot! I have to free myself!...
+Ugh... C'mon!...
+Ok, I'm free but my foot is a bit harmed and hurts from time to time. I have to be careful.</text>
+                                <unlockedDBEntries>
+                                    <entry>Tentacleroot</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;10;20>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-4;-2>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="40" type="Multi">
+                                <text>Oh crap! It's pulling me towards what it seems to be a maw! Shit! The stench is horrible! And it tries to digest my foot! I have to free myself!...
+Ugh... C'mon!...
+Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do you hear me? Oh shit... The communication module must've hit something when I was pulling myself out of this shit...</text>
+                                <unlockedDBEntries>
+                                    <entry>Tentacleroot</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;12;24>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-5;-3>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                    </event>
+                                    <event type="Action" subtype="NoSignal">
+                                        <duration duration="2"></duration>
+                                    </event>
+                                </events>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Stone Cliff">
+        <event type="Multi">
+            <text>A cliff got in my way. Surely there should be some way around it but maybe there is something up there. I only need some climbing tools.</text>
+            <events>
+                <event type="Check" subtype="Equipment">
+                    <condition condition="Climbing"></condition>
+                    <results>
+                        <positive>
+                            <event chance="95" type="Multi">
+                                <text>Climbing up really warmed me up! It's really satisfying.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-40;-15>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="+" value="1" duration="3"></modification>
+                                    </event>
+                                    <event type="Possibility">
+                                        <event chance="30" type="Check" subtype="Value">
+                                            <condition condition="PR>5"></condition>
+                                            <results>
+                                                <positive>
+                                                    <event type="Multi">
+                                                        <text>Oh! there is a bush with grapelike fruits up there! I'll take some.</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Bluegrape Bush</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;-10;-5>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveResource">
+                                                                <resource type="Food Supplies" amount="&lt;PR;PR+2>"></resource>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </positive>
+                                                <negative>
+                                                    <event type="Action" subtype="Null">
+                                                        <text>Unfortunetely there is nothing interesting here. At least I don't have to walk around.</text>
+                                                    </event>
+                                                </negative>
+                                            </results>
+                                        </event>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="5" type="Multi">
+                                <text>Ough... My back... I underestimated the distance between my hand and a rock I wanted to hang on which resulted in a painful fall. I'm fine, I guess. Yet, it was close.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;20;65>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-3;-1>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Combat Effectiveness" type="-" value="1" duration="2"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Check" subtype="Value">
+                                <condition condition="PR>6"></condition>
+                                <results>
+                                    <positive>
+                                        <event chance="95" type="Multi">
+                                            <text>I guess I'm fit enough to climb it without support of equipment. Wow! Climbing it really warmed me up!</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-45;-10>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Proficiency" type="+" value="1" duration="3"></modification>
+                                                </event>
+                                                <event type="Possibility">
+                                                    <event chance="30" type="Multi">
+                                                        <text>Oh! There is a bush with grapelike fruits up there! I'll take some with me.</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Bluegrape Bush</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;-10;-5>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveResource">
+                                                                <resource type="Food Supplies" amount="&lt;PR;PR+2>"></resource>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="5" type="Multi">
+                                            <text>Maybe I don't have any climbing equipment but I'm sure that I can climb it the traditional way. Ough... My chest... My foot slipped from a rock that served as abutment which ended up in a spectacular fall. I guess I'm fine now. It just scared crap of me.</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;26;70>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveHealth">
+                                                    <addedValue value="&lt;-4;-2>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Proficiency" type="-" value="1" duration="4"></modification>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Combat Effectiveness" type="-" value="1" duration="3"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event type="Multi">
+                                            <text>There's no way I can climb it without them. Meh... I guess I'll have to find a way around.</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;10-DSR;20-DSR>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveHealth">
+                                                    <addedValue value="DHR"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveResource">
+                                                    <resource type="Food Supplies" amount="-DFC"></resource>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Cavern">
+        <event type="Multi">
+            <text>Oh, there's a nice cavern over here. I bet there is something down there.</text>
+            <events>
+                <event type="Check" subtype="Equipment">
+                    <condition condition="Light Source"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>With a light source it will be a lot safer.</text>
+                                <events>
+                                    <event type="Check" subtype="Value">
+                                        <condition condition="PR>7"></condition>
+                                        <results>
+                                            <positive>
+                                                <event chance="10" type="Multi">
+                                                    <text>Oh yeah! Guess it's a lucky day for me! Someone lost backpack in this cavern but it's mine now!</text>
+                                                    <events>
+                                                        <event type="Action" subtype="AddEquipment">
+                                                            <random armor="true" weaponTool="true" tier="1"></random>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;0;3>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-25;-18>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="90" type="Multi">
+                                                    <text>You... You won't believe it. It is a cave full of Aetherite. What a marvelous glimmer! Enough talking. Someone is gonna collect it all.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;7;14>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-10;-5>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event chance="65" type="Multi">
+                                                    <text>Oh it's pretty slippy down here. Shit!...
+Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;4;8>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-3;-1>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;5;17>"></addedValue>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="35" type="Multi">
+                                                    <text>The stone is wet. I hope not to slide from it. Damn!...
+My arm! It hurts alot but it doesn't seem to be broken. At least I hope so.
+Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;1;3>"></resource>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-4;-1>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;10;24>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="ModifyAttribute">
+                                                            <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event chance="70" type="Multi">
+                                <text>Damn. I wish I had something to light up this cave. I even can't see if there is anything interesting down there. I think it's not worth taking the risk. I hate such situations so much.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;3;7>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="30" type="Multi">
+                                <text>We won't know if we don't check it. I goes pretty nice... Oh shit!...
+Damn... I feel like something has broken inside of me... I hope I can crawl out of this damned hole...
+OK, somehow I managed to get out of there but my backpack is somewhere down in the darkness. I won't even try to bring it back.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveResource">
+                                        <resource type="Food Supplies" amount="&lt;-4;-2>"></resource>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-6;-3>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;30;44>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="-" value="2" duration="3"></modification>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Combat Effectiveness" type="-" value="1" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Alpha Splitterhound Encounter">
+        <event type="Multi">
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>4"></condition>
+                    <results>
+                        <positive>
+                            <event chance="15" type="Multi">
+                                <text>Huh? I think I heard a roar. Really loud. A big animal could've roared this way. I'd better turn back.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-20;15>"></addedValue>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="85" type="Multi">
+                                <text>Huh? I think I heard a roar. Really loud and what is worse close to me!</text>
+                                <events>
+                                    <event type="Check" subtype="Value">
+                                        <condition condition="PR>5"></condition>
+                                        <results>
+                                            <positive>
+                                                <event chance="55" type="Multi">
+                                                    <text>I have to stay in these bushes. Whatever it is, it shouldn't be able to sense me. Oh! There's a little bit of Aetherite. Just remember, no sudden moves.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-6;21>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <resource type="Aetherite" amount="&lt;2;4>"></resource>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="45" type="Multi">
+                                                    <text>Shit! It's closer than I would like to. I have to run!...
+OK, I'm on the safe distance. Oh crap, my backpack was open! I hope that nothing value had been lost.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;-6;22>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <random amount="-C_RESO*0.1"></random>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event chance="30" type="Multi">
+                                                    <text>Shit! I'm not sure but I think that I saw it! That's enough! Run for your life!...
+Oh crap, my backpack was open! I hope that nothing valuable was lost.</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;0;25>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <random amount="-C_RESO*0.15"></random>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                                <event chance="70" type="Multi">
+                                                    <text>Shit! I saw it! It's huge and looks like a creature from a horror film! That's enough! I have to run!
+Oh fuck! It's chasing me! It's faster! Aaahh! Help me! No!...
+Wait... what? Why did it leave me? Guess my suit didn't taste good. Lucky me... Lucky indeed...</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Alpha Splitterhound</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;15;45>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveHealth">
+                                                            <addedValue value="&lt;-0.45*HL;-0.2*HL>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <random amount="&lt;-C_RESO;-C_RESO*0.4>"></random>
+                                                        </event>
+                                                        <event type="Action" subtype="ModifyAttribute">
+                                                            <modification attribute="Proficiency" type="-" value="1" duration="5"></modification>
+                                                        </event>
+                                                        <event type="Action" subtype="ModifyAttribute">
+                                                            <modification attribute="Combat Effectiveness" type="-" value="1" duration="5"></modification>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Check" subtype="Value">
+                                <condition condition="CL>5"></condition>
+                                <results>
+                                    <positive>
+                                        <event chance="20" type="Multi">
+                                            <text>Oh shit! There's a beast coming. I have to run until it isn't too late!...
+Oh crap, I lost something during my escape. Nevermind, I won't go back no matter what.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Alpha Splitterhound</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;15;45>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveResource">
+                                                    <random amount="-C_RESO*0.2"></random>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="80" type="Multi">
+                                            <text>Shhh, I see a great creature. It looks like a predator and I surely don't want to be its prey. I have some food in my backpack. If I threw it, the best would have been distracted and I would escape. It's a good plan. One, Two, Three, Go!...
+OK, I'm in a safe distance. Time to continue exploration.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Alpha Splitterhound</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveResource">
+                                                    <resource type="Food Supplies" amount="&lt;-4;-2>"></resource>
+                                                </event>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-10;25>"></addedValue>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event type="Check" subtype="Value">
+                                            <condition condition="CE>6"></condition>
+                                            <results>
+                                                <positive>
+                                                    <event chance="40+(CE-6)*5" type="Multi">
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+It was less dangerous than it seemed. At least it has some meat inside.</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Alpha Splitterhound</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveResource">
+                                                                <resource type="Food Supplies" amount="&lt;4;7>"></resource>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;20;50>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-3;0>"></addedValue>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                    <event chance="60-(CE-6)*5" type="Multi">
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+The fight was tough, I've got some scratches, but in the end the stronger suvived. Splitterhounds are eatable, aren't they?</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Alpha Splitterhound</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveResource">
+                                                                <resource type="Food Supplies" amount="&lt;4;7>"></resource>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;33;66>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-6;-4>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Combat Effectiveness" type="-" value="1" duration="3"></modification>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </positive>
+                                                <negative>
+                                                    <event chance="50+(CE-6)*5" type="Multi">
+                                                        <text>Oh shit! There is some huge animal coming! I'm prepared for fight!...
+Ahh... I underestimated it...
+At least I could scare it off but still I'm badly wounded, and this beast stole most of my food supplies. I have to be more cautious next time.</text>
+                                                        <unlockedDBEntries>
+                                                            <entry>Alpha Splitterhound</entry>
+                                                        </unlockedDBEntries>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveResource">
+                                                                <resource type="Food Supplies" amount="&lt;-C_FOOS*0.8;-C_FOOS/2>"></resource>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;40;80>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-8;-6>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Combat Effectiveness" type="-" value="2" duration="5"></modification>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Proficiency" type="-" value="1" duration="5"></modification>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                    <event chance="50-(CE-6)*5" type="Action" subtype="Kill">
+                                                    </event>
+                                                </negative>
+                                            </results>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter probability="3" name="Meadow">
+        <event type="Multi">
+            <text>Oh... I found a meadow here! Finally some open space! I didn't realise how much I missed it!</text>
+            <events>
+                <event type="Action" subtype="GiveStress">
+                    <addedValue value="&lt;-5;-2>"></addedValue>
+                </event>
+                <event type="Possibility">
+                    <event chance="70" type="Check" subtype="Value">
+                        <condition condition="PR>6"></condition>
+                        <results>
+                            <positive>
+                                <event type="Multi">
+                                    <text>There is a small bush with grapelike fruits! I'll take some of them!</text>
+                                    <events>
+                                        <event type="Action" subtype="GiveStress">
+                                            <addedValue value="&lt;-12;-5>"></addedValue>
+                                        </event>
+                                        <event type="Action" subtype="GiveResource">
+                                            <resource type="Food Supplies" amount="&lt;2;3>"></resource>
+                                        </event>
+                                    </events>
+                                </event>
+                            </positive>
+                            <negative>
+                                <event type="Action" subtype="Null">
+                                </event>
+                            </negative>
+                        </results>
+                    </event>
+                </event>
+                <event type="Possibility">
+                    <event chance="50" type="Multi">
+                        <text>Here lies an Aetherite rock! Nice!</text>
+                        <events>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;-20;-10>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="GiveResource">
+                                <resource type="Aetherite" amount="&lt;2;6>"></resource>
+                            </event>
+                        </events>
+                    </event>
+                </event>
+                <event type="Possibility">
+                    <event chance="65" type="Multi">
+                        <text>There is a portable food freezer sticking out of ground! I bet there is still something inside!</text>
+                        <events>
+                            <event type="Action" subtype="GiveStress">
+                                <addedValue value="&lt;-6;-2>"></addedValue>
+                            </event>
+                            <event type="Action" subtype="GiveResource">
+                                <resource type="Food Supplies" amount="&lt;2;5>"></resource>
+                            </event>
+                        </events>
+                    </event>
+                </event>
+                <event type="Possibility">
+                    <event chance="65" type="Check" subtype="Value">
+                        <condition condition="PR>3"></condition>
+                        <results>
+                            <positive>
+                                <event type="Multi">
+                                    <text>I found some scrapped metal stuck in the ground! I'll try to pull it off.
+Success! This metal is in a pretty good condition. Surely it can be used somewhere in the base.</text>
+                                    <events>
+                                        <event type="Action" subtype="GiveStress">
+                                            <addedValue value="&lt;-8;-4>"></addedValue>
+                                        </event>
+                                        <event type="Action" subtype="GiveResource">
+                                            <resource type="Building Materials" amount="&lt;3;6>"></resource>
+                                        </event>
+                                    </events>
+                                </event>
+                            </positive>
+                            <negative>
+                                <event type="Action" subtype="Null">
+                                </event>
+                            </negative>
+                        </results>
+                    </event>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="High Hill">
+        <event type="Multi">
+            <text>I went onto a high hill. It's nice to see anything above the trees' leaves.</text>
+            <events>
+                <event type="Action" subtype="NoSignal">
+                    <duration duration="0"></duration>
+                </event>
+                <event type="Action" subtype="GiveResource">
+                    <resource type="Aetherite" amount="1"></resource>
+                </event>
+                <event type="Check" subtype="Value">
+                    <condition condition="M_REMDAYS/M_FULLDUR&lt;0.5"></condition>
+                    <results>
+                        <positive>
+                            <event chance="50" type="Multi">
+                                <text>I see our base from there! That's a sign that my mission goes towards its end!</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-20;-5>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Daily Stress Recovery" type="+" value="&lt;0.3*DSR;0.5*DSR>" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="50" type="Multi">
+                                <text>I see our base from there! That's a sign that my mission goes towards its end!</text>
+                                <events>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Daily Stress Recovery" type="+" value="&lt;0.6*DSR;0.8*DSR>" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Check" subtype="Value">
+                                <condition condition="ST/SL>0.5"></condition>
+                                <results>
+                                    <positive>
+                                        <event type="Multi">
+                                            <text>I can't see any familiar place... This mission is going to end me. I already barely bear it. How long will it last?!</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;20;40>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Stress Resistance" type="+" value="&lt;0.1;0.4>" duration="4"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event chance="90-ST/SL" type="Multi">
+                                            <text>It's still far away from base, but I'm holding good. I'm optimistic about this journey.</text>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-5;5>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Stress Resistance" type="-" value="&lt;0.1;0.3>" duration="4"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="10+ST/SL" type="Multi">
+                                            <text>It's still far away from base, but I'm holding good. I'm optimistic about this journey.</text>
+                                            <events>
+                                                <event type="Action" subtype="ModifyAttribute">
+                                                    <modification attribute="Daily Stress Recovery" type="+" value="&lt;2;5>" duration="4"></modification>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Rain">
+        <event type="Multi">
+            <text>Great... It looks like it's going to rain...</text>
+            <events>
+                <event type="Action" subtype="GiveStress">
+                    <addedValue value="&lt;-5;10>"></addedValue>
+                </event>
+                <event type="Action" subtype="ModifyAttribute">
+                    <modification attribute="Stress Resistance" type="+" value="&lt;0.05;0.1>" duration="&lt;2;4>"></modification>
+                </event>
+                <event type="Action" subtype="ModifyAttribute">
+                    <modification attribute="Proficiency" type="-" value="1" duration="&lt;2;4>"></modification>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Mokareez Encounter">
+        <event type="Multi">
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>4"></condition>
+                    <results>
+                        <positive>
+                            <event type="Check" subtype="Value">
+                                <text>What's that? I see a strange cloudlike shape. It's a hive of some strange insects!</text>
+                                <condition condition="CE>5"></condition>
+                                <results>
+                                    <positive>
+                                        <event chance="50" type="Multi">
+                                            <text>They are attacking me! This will not be left unanswered!
+OK, I killed most of them. They look similar to Malaneezes, insects that after some roasting are perfectly eatable and even kind of tasty.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Mokareez</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-15;5>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveHealth">
+                                                    <addedValue value="&lt;-2;0>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveResource">
+                                                    <resource type="Food Supplies" amount="&lt;2;5>"></resource>
+                                                </event>
+                                            </events>
+                                        </event>
+                                        <event chance="50" type="Multi">
+                                            <text>They are attacking me! Ouch! They're biting hard!
+OK, I killed most of them. They look similar to Malaneezes, insects that after some roasting are perfectly eatable and even kind of tasty.</text>
+                                            <unlockedDBEntries>
+                                                <entry>Mokareez</entry>
+                                            </unlockedDBEntries>
+                                            <events>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <addedValue value="&lt;-10;15>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveHealth">
+                                                    <addedValue value="&lt;-3;0>"></addedValue>
+                                                </event>
+                                                <event type="Action" subtype="GiveResource">
+                                                    <resource type="Food Supplies" amount="&lt;1;3>"></resource>
+                                                </event>
+                                            </events>
+                                        </event>
+                                    </positive>
+                                    <negative>
+                                        <event type="Check" subtype="Value">
+                                            <condition condition="PR>6"></condition>
+                                            <results>
+                                                <positive>
+                                                    <event type="Multi">
+                                                        <text>They fly towards me! Run!...
+Phew, I lost them. That was close.</text>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;-50;-30>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Proficiency" type="+" value="1" duration="2"></modification>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </positive>
+                                                <negative>
+                                                    <event type="Multi">
+                                                        <text>They fly towards me! Oh crap, they are to fast! Help!...
+Ough, they have bitten every inch of my body. My muscles hurt whenever I move. Probably those insects are poisonous.</text>
+                                                        <events>
+                                                            <event type="Action" subtype="GiveStress">
+                                                                <addedValue value="&lt;15;35>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="GiveHealth">
+                                                                <addedValue value="&lt;-6;-3>"></addedValue>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                                            </event>
+                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                <modification attribute="Combat Effectiveness" type="-" value="1" duration="3"></modification>
+                                                            </event>
+                                                        </events>
+                                                    </event>
+                                                </negative>
+                                            </results>
+                                        </event>
+                                    </negative>
+                                </results>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event chance="20" type="Action" subtype="Null">
+                                <text>It seems to be quiet here. Finally some rest.</text>
+                            </event>
+                            <event chance="80" type="Multi">
+                                <text>Oh crap! What is it? A hive of some strange flies surrounded me! They are biting me! Help!...
+Uhh... They left me alone... Everything is hurting me. They must've been poisonous. My muscle feel paralised.</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;15;35>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveHealth">
+                                        <addedValue value="&lt;-6;-3>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Proficiency" type="-" value="1" duration="3"></modification>
+                                    </event>
+                                    <event type="Action" subtype="ModifyAttribute">
+                                        <modification attribute="Combat Effectiveness" type="-" value="1" duration="3"></modification>
+                                    </event>
+                                </events>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Deftdraggers">
+        <event type="Multi">
+            <text>Shh... What was that sound?</text>
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="PR>4"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>Something moved in behind that bush!</text>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;-5;5>"></addedValue>
+                                    </event>
+                                    <event type="Check" subtype="Value">
+                                        <condition condition="PR>5"></condition>
+                                        <results>
+                                            <positive>
+                                                <event type="Multi">
+                                                    <text>There are some small humanoid creatures! Man, they are so nimble!</text>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;10;18>"></addedValue>
+                                                        </event>
+                                                        <event type="Check" subtype="Value">
+                                                            <condition condition="CE>5"></condition>
+                                                            <results>
+                                                                <positive>
+                                                                    <event type="Multi">
+                                                                        <text>They tried to pickpocket me! I couldn't let that happen, and it ended up in a quite physical conflict. They seem to like collecting stuff. I'll take what's remaining.</text>
+                                                                        <unlockedDBEntries>
+                                                                            <entry>Deftdragger</entry>
+                                                                        </unlockedDBEntries>
+                                                                        <events>
+                                                                            <event type="Action" subtype="GiveStress">
+                                                                                <addedValue value="&lt;-15;-8>"></addedValue>
+                                                                            </event>
+                                                                            <event type="Possibility">
+                                                                                <event chance="40" type="Multi">
+                                                                                    <text>Hmmm... They craft Aetherite necklaces.</text>
+                                                                                    <events>
+                                                                                        <event type="Action" subtype="GiveStress">
+                                                                                            <addedValue value="&lt;-10;-7>"></addedValue>
+                                                                                        </event>
+                                                                                        <event type="Action" subtype="GiveResource">
+                                                                                            <resource type="Aetherite" amount="&lt;1;3>"></resource>
+                                                                                        </event>
+                                                                                    </events>
+                                                                                </event>
+                                                                            </event>
+                                                                            <event type="Possibility">
+                                                                                <event chance="65" type="Multi">
+                                                                                    <text>They know how to keep food. Impressing...</text>
+                                                                                    <events>
+                                                                                        <event type="Action" subtype="GiveStress">
+                                                                                            <addedValue value="&lt;-12;-9>"></addedValue>
+                                                                                        </event>
+                                                                                        <event type="Action" subtype="GiveResource">
+                                                                                            <resource type="Food Supplies" amount="&lt;2;5>"></resource>
+                                                                                        </event>
+                                                                                    </events>
+                                                                                </event>
+                                                                            </event>
+                                                                            <event type="Possibility">
+                                                                                <event chance="20" type="Multi">
+                                                                                    <text>I found some kind of sculpture made of Aetherite. Really interesting...</text>
+                                                                                    <events>
+                                                                                        <event type="Action" subtype="GiveStress">
+                                                                                            <addedValue value="&lt;-35;-16>"></addedValue>
+                                                                                        </event>
+                                                                                        <event type="Action" subtype="GiveResource">
+                                                                                            <resource type="Aetherite" amount="&lt;4;8>"></resource>
+                                                                                        </event>
+                                                                                    </events>
+                                                                                </event>
+                                                                            </event>
+                                                                        </events>
+                                                                    </event>
+                                                                </positive>
+                                                                <negative>
+                                                                    <event type="Action" subtype="GiveStress">
+                                                                        <text>They tried to pickpocket me! They seem to like collecting various items. Fortunetely I was agile enough and didn't let my stuff join their collecttion.</text>
+                                                                        <unlockedDBEntries>
+                                                                            <entry>Deftdragger</entry>
+                                                                        </unlockedDBEntries>
+                                                                        <addedValue value="&lt;-7;3>"></addedValue>
+                                                                    </event>
+                                                                </negative>
+                                                            </results>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event type="Multi">
+                                                    <text>Holy crap! That happened so quickly! There were some small humanoid creatures! And they were so nimble! They just straight up pickpocketed me!</text>
+                                                    <unlockedDBEntries>
+                                                        <entry>Deftdragger</entry>
+                                                    </unlockedDBEntries>
+                                                    <events>
+                                                        <event type="Action" subtype="GiveStress">
+                                                            <addedValue value="&lt;10;20>"></addedValue>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <random amount="&lt;-C_RESO*0.1;-C_RESO*0.05>"></random>
+                                                        </event>
+                                                        <event type="Action" subtype="GiveResource">
+                                                            <random amount="&lt;-C_RESO*0.1;-C_RESO*0.05>"></random>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event chance="40" type="Multi">
+                                <text>Holy crap! That happened so quickly! There were some small humanoid creatures! And they were so nimble! They just straight up pickpocketed me!</text>
+                                <unlockedDBEntries>
+                                    <entry>Deftdragger</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;20;30>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.2;-C_RESO*0.1>"></random>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.1;-C_RESO*0.05>"></random>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.1;-C_RESO*0.05>"></random>
+                                    </event>
+                                </events>
+                            </event>
+                            <event chance="60" type="Multi">
+                                <text>Holy crap! That happened so quickly! There were some small humanoid creatures! And they were so nimble! They just straight up pickpocketed me!</text>
+                                <unlockedDBEntries>
+                                    <entry>Deftdragger</entry>
+                                </unlockedDBEntries>
+                                <events>
+                                    <event type="Action" subtype="GiveStress">
+                                        <addedValue value="&lt;30;45>"></addedValue>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.3;-C_RESO*0.1>"></random>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.3;-C_RESO*0.1>"></random>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.15;-C_RESO*0.05>"></random>
+                                    </event>
+                                    <event type="Action" subtype="GiveResource">
+                                        <random amount="&lt;-C_RESO*0.15;-C_RESO*0.05>"></random>
+                                    </event>
+                                </events>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+    <encounter name="Aetherite Pit">
+        <event type="Multi">
+            <events>
+                <event type="Check" subtype="Value">
+                    <condition condition="CL>5"></condition>
+                    <results>
+                        <positive>
+                            <event type="Multi">
+                                <text>Oh man, there's a cave going straight down. It's very dark there. If only I had a light source I could go down there and search for loot.</text>
+                                <events>
+                                    <event type="Check" subtype="Equipment">
+                                        <condition condition="Light Source"></condition>
+                                        <results>
+                                            <positive>
+                                                <event type="Multi">
+                                                    <text>Yeah! I've go it!</text>
+                                                    <events>
+                                                        <event type="Check" subtype="Value">
+                                                            <condition condition="PR>6"></condition>
+                                                            <results>
+                                                                <positive>
+                                                                    <event type="Multi">
+                                                                        <text> OK, I've climbed down and... Oh... I don't know what to say... The cave is full of Aetherite! I'll take as much as I can.</text>
+                                                                        <events>
+                                                                            <event type="Action" subtype="GiveResource">
+                                                                                <resource type="Aetherite" amount="&lt;17;28>"></resource>
+                                                                            </event>
+                                                                            <event type="Action" subtype="GiveStress">
+                                                                                <addedValue value="&lt;-55;-45>"></addedValue>
+                                                                            </event>
+                                                                        </events>
+                                                                    </event>
+                                                                </positive>
+                                                                <negative>
+                                                                    <event chance="80" type="Multi">
+                                                                        <text>The walls are too steep. I don't want to risk. It's not worth it.</text>
+                                                                        <events>
+                                                                            <event type="Action" subtype="GiveStress">
+                                                                                <addedValue value="&lt;5;10>"></addedValue>
+                                                                            </event>
+                                                                        </events>
+                                                                    </event>
+                                                                    <event chance="20" type="Multi">
+                                                                        <text>Oh Fuck! I fell down! My chest is bursting in pain! I hope none of my ribs are broken... I feel disasterous... Now my only dream is to exit this damned cave.</text>
+                                                                        <events>
+                                                                            <event type="Action" subtype="GiveStress">
+                                                                                <addedValue value="&lt;80;100>"></addedValue>
+                                                                            </event>
+                                                                            <event type="Action" subtype="GiveHealth">
+                                                                                <addedValue value="&lt;-14;-8>"></addedValue>
+                                                                            </event>
+                                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                                <modification attribute="Combat Effectiveness" type="-" value="&lt;2;3>" duration="6"></modification>
+                                                                            </event>
+                                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                                <modification attribute="Proficiency" type="-" value="&lt;2;3>" duration="6"></modification>
+                                                                            </event>
+                                                                            <event type="Action" subtype="ModifyAttribute">
+                                                                                <modification attribute="Cleverness" type="-" value="&lt;2;3>" duration="6"></modification>
+                                                                            </event>
+                                                                        </events>
+                                                                    </event>
+                                                                </negative>
+                                                            </results>
+                                                        </event>
+                                                    </events>
+                                                </event>
+                                            </positive>
+                                            <negative>
+                                                <event type="Action" subtype="GiveStress">
+                                                    <text>But I don't have any, so it's pointless to risk especially if there are so steep walls.</text>
+                                                    <addedValue value="&lt;-5;5>"></addedValue>
+                                                </event>
+                                            </negative>
+                                        </results>
+                                    </event>
+                                </events>
+                            </event>
+                        </positive>
+                        <negative>
+                            <event type="Action" subtype="GiveStress">
+                                <text>Well, nothing interesting in my sight. What a peaceful time.</text>
+                                <addedValue value="&lt;-10;5>"></addedValue>
+                            </event>
+                        </negative>
+                    </results>
+                </event>
+            </events>
+        </event>
+    </encounter>
+</encounters>

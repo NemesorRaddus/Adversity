@@ -10,23 +10,28 @@
 #include <QDateTime>
 #include <QVector>
 
+#include "database.h"
+
 #include <QDebug>
 
 class BuildingUpgradeTimerAlarm;
+class MissionEndTimerAlarm;
 struct HeroDataHelper;
 class Equipment;
 struct ActiveTransaction;
+struct MissionDataHelper;
+struct Time;
+struct UnifiedReportDataHelper;
 
 struct SaveData
 {
+    QString parserVersion;
     struct Overall
     {
         QString baseName;
-        QDateTime lastKnownDate;
         quint16 lastKnownDay;
         quint16 lastKnownHour;
         quint16 lastKnownMinute;
-        bool freezeGameProgress;
     } overall;
     struct Buildings
     {
@@ -102,7 +107,9 @@ struct SaveData
     } resources;
     struct Alarms
     {
-        QVector<QPair<unsigned,BuildingUpgradeTimerAlarm>> buildingUpgrades;
+        QVector<QPair<quint8,BuildingUpgradeTimerAlarm>> buildingUpgrades;
+        QVector<QPair<quint8,MissionEndTimerAlarm>> missionEnds;
+        QVector<QPair<Time,QString>> missionAlarms;
     } alarms;
     struct Heroes
     {
@@ -113,6 +120,17 @@ struct SaveData
         QVector<QString> freeArmor;
         QVector<QString> freeWeaponsTools;
     } equipments;
+    struct Database
+    {
+        DatabaseUnlocksInfo unlocks;
+        bool areThereNewDBEntries;
+    } database;
+    struct Missions
+    {
+        QVector<MissionDataHelper> missions;
+        QVector<UnifiedReportDataHelper> reports;
+    } missions;
+    QByteArray raw;
 };
 
 class SaveParser

@@ -4,6 +4,8 @@
 #include <QVector>
 #include <QDateTime>
 
+#include "libs/RBoundedValue_v0_1_1-Beta/rboundedvalue.h"
+
 #include "base.h"
 
 #include <QDebug>
@@ -22,11 +24,11 @@ struct TimerAlarmEnums
 class TimerAlarm
 {
 public:
-    TimerAlarmEnums::AlarmType type() const noexcept
+    inline TimerAlarmEnums::AlarmType type() const noexcept
     {
         return m_type;
     }
-    bool isAlreadyActive() const noexcept
+    inline bool isAlreadyActive() const noexcept
     {
         return m_isAlreadyActive;
     }
@@ -35,31 +37,34 @@ public:
 
     bool isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept;
 
+    void setBasePtr(Base *base) noexcept;
+
 protected:
-    explicit TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive = 0) noexcept;
+    explicit TimerAlarm(Base *base, TimerAlarmEnums::AlarmType type, bool isAlreadyActive = 0) noexcept;
     TimerAlarm() noexcept{}//NEVER USE MANUALLY - ONLY FOR QT
 
     TimerAlarmEnums::AlarmType m_type;
     bool m_isAlreadyActive;//if true, decrease daysToTimeout in container at the end of current day
+    Base *m_base;
 };
 
 class BuildingUpgradeTimerAlarm : public TimerAlarm
 {
 public:
-    explicit BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept;
+    explicit BuildingUpgradeTimerAlarm(Base *base, BaseEnums::Building buildingName, unsigned buildingLevel) noexcept;
     BuildingUpgradeTimerAlarm() noexcept{}//NEVER USE MANUALLY - ONLY FOR QT
 
     bool operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept;
-    bool operator !=(const BuildingUpgradeTimerAlarm &other) const noexcept
+    inline bool operator !=(const BuildingUpgradeTimerAlarm &other) const noexcept
     {
         return !(*this==other);
     }
 
-    BaseEnums::Building buildingName() const noexcept
+    inline BaseEnums::Building buildingName() const noexcept
     {
         return m_buildingName;
     }
-    unsigned buildingLevel() const noexcept
+    inline unsigned buildingLevel() const noexcept
     {
         return m_buildingLevel;
     }
@@ -75,10 +80,75 @@ private:
 QDataStream &operator<<(QDataStream &stream, const BuildingUpgradeTimerAlarm &alarm) noexcept;
 QDataStream &operator>>(QDataStream &stream, BuildingUpgradeTimerAlarm &alarm) noexcept;
 
+class MissionEndTimerAlarm : public TimerAlarm
+{
+public:
+    explicit MissionEndTimerAlarm(Base *base, Mission *mission) noexcept;
+    MissionEndTimerAlarm() noexcept//NEVER USE MANUALLY - ONLY FOR QT
+        : m_mission(nullptr) {}
+
+    bool operator ==(const MissionEndTimerAlarm &other) const noexcept;
+    inline bool operator !=(const MissionEndTimerAlarm &other) const noexcept
+    {
+        return !(*this==other);
+    }
+
+    Mission *mission() noexcept;
+
+    QDataStream &read(QDataStream &stream) noexcept;
+    QDataStream &write(QDataStream &stream) const noexcept;
+
+private:
+    QString m_missionHeroName;
+    Mission *m_mission;
+};
+
+QDataStream &operator<<(QDataStream &stream, const MissionEndTimerAlarm &alarm) noexcept;
+QDataStream &operator>>(QDataStream &stream, MissionEndTimerAlarm &alarm) noexcept;
+
+struct Time
+{
+    typedef unsigned Day;
+    typedef RBoundedValue<unsigned, 0, 23, true> Hour;
+    typedef RBoundedValue<unsigned, 0, 59, true> Minute;
+
+    Time() noexcept;
+    Time(unsigned day, unsigned hour, unsigned minute) noexcept;
+
+    bool operator ==(const Time &other) const noexcept;
+    inline bool operator !=(const Time &other) const noexcept
+    {
+        return !(*this==other);
+    }
+
+    bool operator <(const Time &other) const noexcept;
+    inline bool operator <=(const Time &other) const noexcept
+    {
+        return *this==other || *this<other;
+    }
+    inline bool operator >(const Time &other) const noexcept
+    {
+        return !(*this<=other);
+    }
+    inline bool operator >=(const Time &other) const noexcept
+    {
+        return !(*this<other);
+    }
+
+    QString toQString() const noexcept;
+
+    Day d;
+    Hour h;
+    Minute min;
+};
+
+QDataStream &operator<<(QDataStream &stream, const Time &time) noexcept;
+QDataStream &operator>>(QDataStream &stream, Time &time) noexcept;
 
 class TimerAlarmsContainer : public QObject
 {
     Q_OBJECT
+
 public:
     void addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept;
     void cancelAlarm(TimerAlarm *alarm) noexcept;
@@ -92,11 +162,26 @@ public:
 
     QVector <QPair <unsigned, TimerAlarm *> > getAllAlarms() const noexcept;
 
+    void addMissionAlarm(const Time &time, Mission *mission) noexcept;
+    void checkMissionAlarms(const Time &now) noexcept;
+    inline QVector <QPair <Time, Mission *> > missionAlarms() const noexcept
+    {
+        return m_missionAlarms;
+    }
+    void setMissionAlarms(const QVector <QPair <Time, Mission *> > &alarms) noexcept;
+    void removeAlarmsConnectedWithMission(const Mission *mission) noexcept;
+
+protected:
+    Base *m_base;
+
 private:
     void decreaseDaysToTimeout() noexcept;
     QVector <TimerAlarm *> takeTimeoutedAlarms() noexcept;
+    void removeMissionAlarms(const Mission *mission) noexcept;
+    void removeMissionEndAlarm(const Mission *mission) noexcept;
 
     QVector <QPair <unsigned, TimerAlarm *> > m_alarms;
+    QVector <QPair <Time, Mission *> > m_missionAlarms;
 };
 
 class GameClock : public TimerAlarmsContainer
@@ -110,32 +195,36 @@ public:
 
     void setBasePtr(Base *base) noexcept;
 
-    Q_INVOKABLE void saveCurrentDate() noexcept;
-
-    Q_INVOKABLE void updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept;//gets time from date time
+    Q_INVOKABLE void updateClock(const Time &lastKnownTimeInGame) noexcept;//gets time from save
     Q_INVOKABLE void updateClock(int minutesToAdd) noexcept;//enforces time change
     Q_INVOKABLE void updateClock() noexcept;//changes time smartly
     Q_INVOKABLE bool hasDayChangedLately() const noexcept
     {
-        return (m_currentTimeInGameHour==0 && m_currentTimeInGameMin==0);
+        return (static_cast<unsigned>(m_currentTimeInGame.h)==0 && static_cast<unsigned>(m_currentTimeInGame.min)==0);
     }
 
-    Q_INVOKABLE int currentDay() const noexcept
+    Q_INVOKABLE inline int currentDay() const noexcept
     {
-        return m_currentTimeInGameDay;
+        return m_currentTimeInGame.d;
     }
-    Q_INVOKABLE int currentHour() const noexcept
+    Q_INVOKABLE inline int currentHour() const noexcept
     {
-        return m_currentTimeInGameHour;
+        return m_currentTimeInGame.h;
     }
-    Q_INVOKABLE int currentMin() const noexcept
+    Q_INVOKABLE inline int currentMin() const noexcept
     {
-        return m_currentTimeInGameMin;
+        return m_currentTimeInGame.min;
     }
+    inline Time currentTime() const noexcept
+    {
+        return m_currentTimeInGame;
+    }
+
+    Q_INVOKABLE void skipToNextDay() noexcept;
 
     void forceAutosave() noexcept;
 
-    Q_INVOKABLE int realMinutesToOneGameDayRatio() const noexcept
+    Q_INVOKABLE inline int realMinutesToOneGameDayRatio() const noexcept
     {
         return m_realMinutesToOneGameDayRatio;
     }
@@ -148,31 +237,17 @@ private:
     void addHoursToGameTime(int hours) noexcept;
     void addDaysToGameTime(int days) noexcept;
 
-    bool isClockHealthy() const noexcept;//for clock freezes
-    void updateDateFromPreviousClockUpdate() noexcept;
-
     int realMsToOneGameMin() const noexcept;
 
     void tryAutosaving() noexcept;
     void autosave() noexcept;
 
-    QDateTime m_lastKnownDate;
-    unsigned m_lastKnownDay;
-    unsigned m_lastKnownHour;
-    unsigned m_lastKnownMin;
-
-    unsigned m_currentTimeInGameDay;
-    unsigned m_currentTimeInGameHour;
-    unsigned m_currentTimeInGameMin;
-
-    QDateTime m_dateFromPreviousClockUpdate;//to handle all clock freezes (game freezes on Android, etc.)
+    Time m_currentTimeInGame;
 
     const unsigned m_autosaveIntervalInMin = 15;//1-59
     unsigned m_latestAutosaveMinTimestamp;
 
-    unsigned m_realMinutesToOneGameDayRatio = 30;
-
-    Base *m_base;
+    unsigned m_realMinutesToOneGameDayRatio = 15;
 };
 
 #endif // GAMECLOCK_H

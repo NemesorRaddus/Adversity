@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -127,6 +127,11 @@ Item {
         heroSelectionList.unbanHero(heroName);
     }
 
+    function acknowledgeConsoleHiding()
+    {
+        h4xEntrance.latestHidingTime = new Date().getTime();
+    }
+
     width: 1080
     height: 1464
 
@@ -163,9 +168,16 @@ Item {
 
         property int clicks: 0
         property double startTime: 0
+        property double latestHidingTime: 0
 
         function add()
         {
+            if (new Date().getTime() - latestHidingTime <= 3000) // F0R R4P1D H4X1n6
+            {
+                showSpecial();
+                return;
+            }
+
             ++clicks;
             if (startTime==0)
                 startTime = new Date().getTime();
@@ -289,7 +301,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -387,7 +399,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyCostAmount1
@@ -436,7 +448,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/CL.png"
+            source: "qrc:/graphics/GUI/Attributes/CL.png"
         }
         Text {
             id: clevernessBonusAmount1
@@ -558,7 +570,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -583,7 +595,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {

@@ -1,7 +1,9 @@
-import QtQuick 2.7
+import QtQuick 2.9
 import "./BuildingsMode"
 import "./MercenariesMode"
 import "./MissionsMode"
+import "./Reports"
+import "./Settings"
 import FPSComponent 1.0
 
 Rectangle {
@@ -27,10 +29,15 @@ Rectangle {
     property alias dayValue: day
 
     property alias settingsButton: settingsMA
+    property alias settings: settings
 
     property alias buildingsGUI: buildingsMode
     property alias mercenariesGUI: mercenariesMode
     property alias missionsGUI: missionsMode
+
+    property alias reportsNotification: reportsNotification
+    property alias reportsOpener: reportsOpener
+    property alias reportsList: reportsList
 
     property alias h4xScreen: h4xScreen
 
@@ -71,6 +78,24 @@ Rectangle {
 
     MissionsModeGUI {
         id: missionsMode
+
+        x: 0
+        y: 189
+        width: parent.width
+        height: 1464
+    }
+
+    ReportsNotification {
+        id: reportsNotification
+
+        x: 1080 - width
+        y: 1400
+        width: 425
+        height: 200
+    }
+
+    ReportsList {
+        id: reportsList
 
         x: 0
         y: 189
@@ -142,6 +167,15 @@ Rectangle {
             height: 268
         }
 
+        MouseArea {
+            id: reportsOpener
+
+            x: 0
+            y: 0
+            width: parent.width
+            height: 125
+        }
+
         Image {
             id: energyIcon
 
@@ -150,7 +184,7 @@ Rectangle {
             width: 90
             height: 90
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyText
@@ -189,7 +223,7 @@ Rectangle {
             width: 98
             height: 98
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
         Text {
             id: buildingMaterialsText
@@ -228,7 +262,7 @@ Rectangle {
             width: 88
             height: 88
 
-            source: "qrc:/graphics/GUI/Foodsupplies.png"
+            source: "qrc:/graphics/GUI/Resources/Foodsupplies.png"
         }
         Text {
             id: foodSuppliesText
@@ -267,7 +301,7 @@ Rectangle {
             width: 90
             height: 90
 
-            source: "qrc:/graphics/GUI/Aetherite.png"
+            source: "qrc:/graphics/GUI/Resources/Aetherite.png"
         }
         Text {
             id: aetheriteText
@@ -343,9 +377,21 @@ Rectangle {
             MouseArea {
                 id: settingsMA
 
-                anchors.fill: parent
+                x: -132
+                y: -3
+                width: 217
+                height: 129
             }
         }
+    }
+
+    Settings {
+        id: settings
+
+        x: 0
+        y: 189
+        width: parent.width
+        height: 1464
     }
 
     H4XScreen {
@@ -380,6 +426,8 @@ Rectangle {
 
         Text {
             x: 0
+            width: parent.width
+            height: parent.height
             anchors.verticalCenter: parent.verticalCenter
 
             font.family: "Comic Sans"

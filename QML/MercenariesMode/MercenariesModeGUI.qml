@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
 import Game 1.0
 
@@ -40,11 +40,13 @@ Item {
         heroesAmountItem.state = "";
         view.state = "hidden";
         list.returnToDefault();
-        view.returnToDefault();
     }
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+        transitionHeroesAmountItem.duration = transitionHeroesAmountItem.baseDuration * GameApi.animMultiplier();
+
         list.returnToDefault();
         list.updateEverything();
         view.updateEverything();
@@ -107,6 +109,7 @@ Item {
         function update()
         {
             heroesAmountAmount.text = GameApi.base.heroes.amountOfHeroes() + '/' + GameApi.base.heroes.amountOfSlots();
+            totalSalary.text = "Total salary: "+GameApi.base.currentTotalSalary();
         }
 
         Text {
@@ -131,11 +134,26 @@ Item {
             font.family: fontStencil.name
         }
 
+        Text {
+            id: totalSalary
+
+            x: 0
+            y: heroesAmountAmount.y + heroesAmountAmount.height
+            width: parent.width
+            height: font.pixelSize + 4
+
+            color: "#94ef94"
+            text: "Total salary: 100"
+            font.pixelSize: 60
+            horizontalAlignment: Text.AlignHCenter
+            font.family: fontStencil.name
+        }
+
         Image {
             id: heroesAmountTaskBorder
 
             x: 17
-            y: 68
+            y: totalSalary.y + totalSalary.height + 4
             width: 1048
             height: 3
 
@@ -150,7 +168,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+            NumberAnimation { id: transitionHeroesAmountItem; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 
@@ -220,6 +238,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 250 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 250 }
     }
 }

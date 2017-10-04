@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import "qrc:/qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListScripts.js" as Scripts
 import "../../.."
@@ -10,6 +10,8 @@ Item {
 
     function updateEverything(trainedAttr)//"ce","pr","cl" or ""
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         var heroesAmount=0;
         var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
@@ -138,14 +140,7 @@ Item {
                     if (Math.abs(mouseArea.mouseY - mouseArea.y0) >= Globals.windowHeight * mouseArea.yChangedThresholdForScrolling / 100)
                     {
                         mouseArea.isScrollingActive = true;
-                        if (mouseArea.y0 > mouseArea.mouseY)
-                        {
-                            Scripts.scrollList(1);
-                        }
-                        else
-                        {
-                            Scripts.scrollList(-1);
-                        }
+                        Scripts.scrollList(mouseArea.mouseY - mouseArea.y0);
                         mouseArea.y0 = mouseArea.mouseY;
                     }
                 }
@@ -172,6 +167,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 }

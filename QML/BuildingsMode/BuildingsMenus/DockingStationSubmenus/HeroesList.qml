@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import "qrc:/qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesListScripts.js" as Scripts
 import "../../.."
@@ -92,14 +92,7 @@ Item {
                     if (Math.abs(mouseArea.mouseY - mouseArea.y0) >= Globals.windowHeight * mouseArea.yChangedThresholdForScrolling / 100)
                     {
                         mouseArea.isScrollingActive = true;
-                        if (mouseArea.y0 > mouseArea.mouseY)
-                        {
-                            Scripts.scrollList(1);
-                        }
-                        else
-                        {
-                            Scripts.scrollList(-1);
-                        }
+                        Scripts.scrollList(mouseArea.mouseY - mouseArea.y0);
                         mouseArea.y0 = mouseArea.mouseY;
                     }
                 }

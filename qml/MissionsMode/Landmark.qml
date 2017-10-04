@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
 Item {
     id: root
@@ -44,7 +44,7 @@ Item {
 
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/CE.png"
+        source: "qrc:/graphics/GUI/Attributes/CE.png"
 
         MouseArea {
             id: ma

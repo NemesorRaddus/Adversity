@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -140,7 +140,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -262,7 +262,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -287,7 +287,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
@@ -395,6 +395,70 @@ Item {
                 anchors.fill: parent
 
                 onClicked: upgradeRequested()
+            }
+        }
+    }
+
+    Item {
+        id: skip
+
+        y: upgradeInfo.y + upgradeInfo.height + 10
+        width: parent.width
+        height: parent.height-y
+
+        Text {
+            id: skipText
+
+            width: parent.width
+
+            color: "#94ef94"
+            text: "Proceed to next day"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 70
+            font.family: fontStencil.name
+        }
+
+        Item {
+            id: skipButton
+
+            x: 440
+            y: 120
+            width: 200
+            height: width
+
+            Image {
+                x: 62
+                y: 62
+                width: 76
+                height: width
+
+                source: "qrc:/graphics/GUI/Time.png"
+            }
+            Image {
+                width: parent.width
+                height: width
+
+                source: "qrc:/graphics/GUI/Settings.png"
+
+                RotationAnimator on rotation {
+                    id: animSkip
+
+                    from: 0
+                    to: 360
+                    duration: 600
+                    loops: 1
+                    running: false
+                }
+            }
+            MouseArea {
+                id: skipMA
+
+                anchors.fill: parent
+
+                onClicked: {
+                    animSkip.start();
+                    GameApi.base.gameClock.skipToNextDay();
+                }
             }
         }
     }

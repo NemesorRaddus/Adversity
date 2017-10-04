@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -341,7 +341,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -439,7 +439,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: activeStressReliefAmount1
@@ -488,7 +488,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: convivialStressReliefAmount1
@@ -537,7 +537,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: recluseStressReliefAmount1
@@ -586,7 +586,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: religiousStressReliefAmount1
@@ -708,7 +708,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -733,7 +733,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {

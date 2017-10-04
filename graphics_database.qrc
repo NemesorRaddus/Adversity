@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Database/Plants/AcidberryBush.png</file>
+        <file>graphics/Database/Plants/BluegrapeBush.png</file>
+        <file>graphics/Database/Plants/BlueherbLichen.png</file>
+        <file>graphics/Database/Plants/PoisonousFern.png</file>
+        <file>graphics/Database/Plants/PurpleleafBush.png</file>
+        <file>graphics/Database/Plants/Tentacleroot.png</file>
+        <file>graphics/Database/Plants/Thornettle.png</file>
+        <file>graphics/Database/Plants/WideleafPlant.png</file>
+        <file>graphics/Database/Animals/WingedSerpent.png</file>
+        <file>graphics/Database/Fungi/FungusireMycelinium.png</file>
+        <file>graphics/Database/Fungi/ToxicSpores.png</file>
+        <file>graphics/Database/Lands/AuroraForest.png</file>
+        <file>graphics/Database/Lands/GedoDesert.png</file>
+        <file>graphics/Database/Lands/HegosPlains.png</file>
+        <file>graphics/Database/Animals/Morgai.png</file>
+        <file>graphics/Database/Animals/Nibbler.png</file>
+        <file>graphics/Database/Animals/Splitterhound.png</file>
+        <file>graphics/Database/Animals/SpeckledScorpioid.png</file>
+        <file>graphics/Database/Animals/AlphaSplitterhound.png</file>
+        <file>graphics/Database/Animals/Lurkerworm.png</file>
+        <file>graphics/Database/Animals/RedneckLizard.png</file>
+        <file>graphics/Database/Animals/Mokareez.png</file>
+    </qresource>
+</RCC>

@@ -15,7 +15,7 @@ BaseEnums::Resource BaseEnums::fromQStringToResourceEnum(const QString &resource
         return R_BuildingMaterials;
     if (resource=="Aetherite")
         return R_AetheriteOre;
-    qWarning()<<"QString->enum conversion failed for "<<resource;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Resource enum conversion failed for {}",resource.toStdString());
 }
 
 QString BaseEnums::fromResourceEnumToQString(BaseEnums::Resource resource) noexcept
@@ -28,7 +28,7 @@ QString BaseEnums::fromResourceEnumToQString(BaseEnums::Resource resource) noexc
         return "Building Materials";
     if (resource==R_AetheriteOre)
         return "Aetherite";
-    qWarning()<<"enum->QString conversion failed for "<<resource;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Resource enum->QString conversion failed for {}",static_cast<unsigned>(resource));
 }
 
 BaseEnums::Building BaseEnums::fromQStringToBuildingEnum(const QString &building) noexcept
@@ -65,7 +65,7 @@ BaseEnums::Building BaseEnums::fromQStringToBuildingEnum(const QString &building
         return B_Shrine;
     if (building=="Seclusion")
         return B_Seclusion;
-    qWarning()<<"QString->enum conversion failed for "<<building;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Building enum conversion failed for {}",building.toStdString());
 }
 
 QString BaseEnums::fromBuildingEnumToQString(BaseEnums::Building building) noexcept
@@ -102,7 +102,7 @@ QString BaseEnums::fromBuildingEnumToQString(BaseEnums::Building building) noexc
         return "Shrine";
     if (building==B_Seclusion)
         return "Seclusion";
-    qWarning()<<"enum->QString conversion failed for "<<building;
+    Game::gameInstance()->loggers()->mainLogger()->warn("Building enum->QString conversion failed for {}",static_cast<unsigned>(building));
 }
 
 unsigned Building::currentLevel() const noexcept
@@ -138,7 +138,7 @@ bool Building::tryUpgrading() noexcept
     if (reqs.requiredEnergy > m_base->currentEnergyAmount())
         return 0;
 
-    TimerAlarm *alrm=new BuildingUpgradeTimerAlarm(m_buildingName,currentLevel()+1);
+    TimerAlarm *alrm=new BuildingUpgradeTimerAlarm(m_base,m_buildingName,currentLevel()+1);
     if (m_base->gameClock()->checkIfAlarmIsSet(alrm))
     {
         delete alrm;
@@ -174,7 +174,7 @@ void CentralUnit::setLevelsInfo(const QVector<CentralUnitLevelInfo> &info) noexc
 
 unsigned CentralUnit::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_CentralUnit,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_CentralUnit,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -293,7 +293,7 @@ void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
 
 unsigned Hospital::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Hospital,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Hospital,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -385,6 +385,7 @@ void TrainingGround::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_TrainingGround, base()->gameClock()->currentTime())));
                 m_heroesBeingTrained[i].first->trainCombatEffectiveness();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
@@ -400,7 +401,7 @@ void TrainingGround::setLevelsInfo(const QVector<TrainingGroundLevelInfo> &info)
 
 unsigned TrainingGround::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_TrainingGround,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_TrainingGround,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -497,6 +498,7 @@ void Gym::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_Gym, base()->gameClock()->currentTime())));
                 m_heroesBeingTrained[i].first->trainProficiency();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
@@ -512,7 +514,7 @@ void Gym::setLevelsInfo(const QVector<GymLevelInfo> &info) noexcept
 
 unsigned Gym::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Gym,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Gym,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -609,6 +611,7 @@ void Laboratory::trainHeroes() noexcept
             }
             else if (m_heroesBeingTrained[i].second==0)
             {
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_Laboratory, base()->gameClock()->currentTime())));
                 m_heroesBeingTrained[i].first->trainCleverness();
                 m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
                 m_heroesBeingTrained[i].first=nullptr;
@@ -624,7 +627,7 @@ void Laboratory::setLevelsInfo(const QVector<LaboratoryLevelInfo> &info) noexcep
 
 unsigned Laboratory::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Laboratory,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Laboratory,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -753,7 +756,7 @@ void PlayingField::setLevelsInfo(const QVector<PlayingFieldLevelInfo> &info) noe
 
 unsigned PlayingField::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_PlayingField,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_PlayingField,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -882,7 +885,7 @@ void Bar::setLevelsInfo(const QVector<BarLevelInfo> &info) noexcept
 
 unsigned Bar::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Bar,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Bar,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1011,7 +1014,7 @@ void Shrine::setLevelsInfo(const QVector<ShrineLevelInfo> &info) noexcept
 
 unsigned Shrine::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Shrine,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Shrine,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1140,7 +1143,7 @@ void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo> &info) noexcept
 
 unsigned Seclusion::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Seclusion,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Seclusion,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1187,7 +1190,7 @@ void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo> &info) noexcep
 
 unsigned Powerplant::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Powerplant,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Powerplant,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1226,7 +1229,7 @@ void Factory::setLevelsInfo(const QVector<FactoryLevelInfo> &info) noexcept
 
 unsigned Factory::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Factory,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Factory,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1242,7 +1245,7 @@ void CoolRoom::setLevelsInfo(const QVector<CoolRoomLevelInfo> &info) noexcept
 
 unsigned CoolRoom::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_CoolRoom,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_CoolRoom,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1258,7 +1261,7 @@ void StorageRoom::setLevelsInfo(const QVector<StorageRoomLevelInfo> &info) noexc
 
 unsigned StorageRoom::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_StorageRoom,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_StorageRoom,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1274,7 +1277,7 @@ void AetheriteSilo::setLevelsInfo(const QVector<AetheriteSiloLevelInfo> &info) n
 
 unsigned AetheriteSilo::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_AetheriteSilo,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_AetheriteSilo,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1293,7 +1296,7 @@ void Barracks::setLevelsInfo(const QVector<BarracksLevelInfo> &info) noexcept
 
 unsigned Barracks::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_Barracks,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_Barracks,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1403,6 +1406,7 @@ void DockingStation::doRecrutationStuff() noexcept
         if (m_arrivingHeroes[i].second == 0)
         {
             Hero *h=m_arrivingHeroes[i].first;//antibug thing, leave it as it is
+            base()->addReport(new UnifiedReport(new HeroArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
             h->setCurrentActivity(HeroEnums::CA_Idle);
             m_arrivingHeroes.remove(i);
         }
@@ -1431,7 +1435,7 @@ void DockingStation::cancelHeroArrival(const QString &name) noexcept
 
 unsigned DockingStation::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(BaseEnums::B_DockingStation,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BaseEnums::B_DockingStation,currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
@@ -1471,6 +1475,8 @@ void DockingStation::handleActiveTransactions() noexcept
     {
         if (m_activeTransactions[i].second == 0)
         {
+            base()->addReport(new UnifiedReport(new TradeCompletionReport(m_activeTransactions[i].first.targetRes, m_activeTransactions[i].first.targetAmount, base()->gameClock()->currentTime())));
+
             if (m_activeTransactions[i].first.targetRes == BaseEnums::R_Energy)
                 base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + m_activeTransactions[i].first.targetAmount);
             else if (m_activeTransactions[i].first.targetRes == BaseEnums::R_FoodSupplies)
@@ -1522,7 +1528,7 @@ void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
         }
         else//instant
         {
-            base()->freeEquipment().push_back(m_equipments[pos]);
+            base()->availableEquipment().push_back(m_equipments[pos]);
             if (m_equipmentPreparedForQML==m_equipments[pos])
             {
                 if (m_equipments.size()>pos+1)
@@ -1544,7 +1550,8 @@ void DockingStation::doBuyingEquipmentStuff() noexcept
         if (m_arrivingEquipments[i].second == 0)
         {
             Equipment *eq=m_arrivingEquipments[i].first;
-            base()->freeEquipment().push_back(eq);
+            base()->addReport(new UnifiedReport(new EquipmentArrivalReport(eq->name(), base()->gameClock()->currentTime())));
+            base()->availableEquipment().push_back(eq);
             m_arrivingEquipments.remove(i);
         }
         else
@@ -1635,8 +1642,10 @@ void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
 }
 
 Base::Base(Game *gameObject) noexcept
-    : QObject(nullptr), m_gameObject(gameObject), m_freezeGameProgress(false)
+    : QObject(nullptr), m_gameObject(gameObject), m_database(nullptr)
 {
+    HeroBuilder::init(this);
+
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
 
@@ -1675,12 +1684,14 @@ Base::Base(Game *gameObject) noexcept
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
 
     m_heroes=new HeroesContainer(this);
+
+    m_missionInitializer=new MissionInitializer(this);
 }
 
 void Base::setupNewBase() noexcept
 {
-    m_energy=100;
-    m_foodSupplies=5;
+    m_energy=250;
+    m_foodSupplies=24;
     m_buildingMaterials=5;
     m_aetherite=50;
 
@@ -1688,6 +1699,17 @@ void Base::setupNewBase() noexcept
     m_dockingStation->prepareEquipments();
 
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
+    m_gameObject->assetsPool().loadHeroNamedFromList("HeinzWitt");
+    auto loadedH = m_gameObject->assetsPool().loadedHeroes();
+    for (auto e : loadedH)
+        if (e->name() == "HeinzWitt")
+        {
+            m_heroes->addHero(e);
+            break;
+        }
+
+    m_database=m_gameObject->assetsPool().makeStockDatabase();
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}]Base has been set up",gameClock()->currentTime().toQString().toStdString());
 }
 
 Base::~Base() noexcept
@@ -1712,10 +1734,22 @@ Base::~Base() noexcept
     delete m_gameClock;
 
     delete m_heroes;
+
+    if (m_database!=nullptr)
+        delete m_database;
+
+    delete m_missionInitializer;
 }
 
 void Base::loadSaveData(const SaveData &data) noexcept
 {
+    Game::gameInstance()->loggers()->mainLogger()->trace("Loading save...");
+    Game::gameInstance()->loggers()->mainLogger()->trace("Save content:");
+    Game::gameInstance()->loggers()->mainLogger()->trace(QString(data.raw.toHex()).toStdString());
+    if (m_database!=nullptr)
+        delete m_database;
+    m_database=m_gameObject->assetsPool().makeStockDatabase();
+
     m_buildingLevels.insert(BaseEnums::B_CentralUnit,data.buildings.levels.centralUnit);//buildings levels loading
     m_buildingLevels.insert(BaseEnums::B_Hospital,data.buildings.levels.hospital);
     m_buildingLevels.insert(BaseEnums::B_TrainingGround,data.buildings.levels.trainingGround);
@@ -1770,9 +1804,9 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_seclusion->setIsBeingUpgraded(data.buildings.upgrading.seclusion);
 
     for (int i=0;i<data.equipments.freeArmor.size();++i)//creating owned equipment
-        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeArmor[i]));
+        m_availableEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeArmor[i]));
     for (int i=0;i<data.equipments.freeWeaponsTools.size();++i)
-        m_freeEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeWeaponsTools[i]));
+        m_availableEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeWeaponsTools[i]));
 
     for (int i=0;i<data.heroes.hiredHeroes.size();++i)//adding mercenaries
         m_heroes->addHero(HeroBuilder::qobjectifyHeroData(data.heroes.hiredHeroes[i]));
@@ -1834,15 +1868,48 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_gameClock->clearAlarms();//setting alarms in GameClock
     for (int i=0;i<data.alarms.buildingUpgrades.size();++i)
     {
-        m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
+        m_gameClock->addAlarm(data.alarms.buildingUpgrades[i].first, static_cast<TimerAlarm*>(new BuildingUpgradeTimerAlarm (this,data.alarms.buildingUpgrades[i].second.buildingName(), data.alarms.buildingUpgrades[i].second.buildingLevel())));
     }
 
-    m_gameClock->updateClock(data.overall.freezeGameProgress ? QDateTime::currentDateTime() : data.overall.lastKnownDate, data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute);//setting date and time in GameClock
+    m_gameClock->updateClock({data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
+
+    m_database->setUnlocksInfo(data.database.unlocks);//database
+    m_database->setAreThereNewUnlockedEntries(data.database.areThereNewDBEntries);
+
+    for (const auto &e : data.missions.reports)//reports
+        m_reports+=new UnifiedReport{e};
+
+    for (auto e : data.missions.missions)//missions
+        m_missions+=MissionBuilder::qobjectifyMissionData(e,this);
+
+    for (int i=0;i<data.alarms.missionEnds.size();++i)//setting alarms in GameClock, part 2
+    {
+        auto me=data.alarms.missionEnds[i];
+        me.second.setBasePtr(this);
+        m_gameClock->addAlarm(me.first, static_cast<TimerAlarm*>(new MissionEndTimerAlarm (this,me.second.mission())));
+    }
+    for (int i=0;i<data.alarms.missionAlarms.size();++i)
+    {
+        QPair <Time, Mission *> ma;
+        ma.first=data.alarms.missionAlarms[i].first;
+        for (auto e : m_missions)
+            if (e->assignedHero()->name() == data.alarms.missionAlarms[i].second)
+            {
+                ma.second=e;
+                break;
+            }
+        m_gameClock->addMissionAlarm(ma.first,ma.second);
+    }
+    Game::gameInstance()->loggers()->mainLogger()->trace("Save loaded");
 }
 
 SaveData Base::getSaveData() noexcept
 {
     SaveData data;
+
+    Game::gameInstance()->loggers()->mainLogger()->trace("Creating save data...");
+
+    data.parserVersion = m_gameObject->currentVersion()->versionNumber();
 
     data.buildings.levels.centralUnit=m_buildingLevels.value(BaseEnums::B_CentralUnit,0);
     data.buildings.levels.hospital=m_buildingLevels.value(BaseEnums::B_Hospital,0);
@@ -1881,12 +1948,12 @@ SaveData Base::getSaveData() noexcept
     data.buildings.upgrading.shrine=m_shrine->isBeingUpgraded();
     data.buildings.upgrading.seclusion=m_seclusion->isBeingUpgraded();
 
-    for (int i=0;i<m_freeEquipment.size();++i)
+    for (int i=0;i<m_availableEquipment.size();++i)
     {
-        if (m_freeEquipment[i]->type()==EquipmentEnums::T_Armor)
-            data.equipments.freeArmor.push_back(m_freeEquipment[i]->name());
-        else if (m_freeEquipment[i]->type()==EquipmentEnums::T_WeaponTool)
-            data.equipments.freeWeaponsTools.push_back(m_freeEquipment[i]->name());
+        if (m_availableEquipment[i]->type()==EquipmentEnums::T_Armor)
+            data.equipments.freeArmor.push_back(m_availableEquipment[i]->name());
+        else if (m_availableEquipment[i]->type()==EquipmentEnums::T_WeaponTool)
+            data.equipments.freeWeaponsTools.push_back(m_availableEquipment[i]->name());
     }
 
     for (int i=0;i<m_heroes->amountOfHeroes();++i)
@@ -1946,38 +2013,51 @@ SaveData Base::getSaveData() noexcept
     data.resources.buildingMaterials=m_buildingMaterials;
     data.resources.aetheriteOre=m_aetherite;
 
-    m_gameClock->saveCurrentDate();
-    data.overall.lastKnownDate=QDateTime::currentDateTime();
     data.overall.lastKnownDay=m_gameClock->currentDay();
     data.overall.lastKnownHour=m_gameClock->currentHour();
     data.overall.lastKnownMinute=m_gameClock->currentMin();
-    data.overall.freezeGameProgress=m_freezeGameProgress;
 
-    QVector <QPair<unsigned,BuildingUpgradeTimerAlarm>> buTimerAlarms;
+    QVector <QPair<quint8,BuildingUpgradeTimerAlarm>> buTimerAlarms;
+    QVector <QPair<quint8,MissionEndTimerAlarm>> meTimerAlarms;
     QVector <QPair<unsigned,TimerAlarm*>> timerAlarms = m_gameClock->getAllAlarms();
     for (int i=0;i<timerAlarms.size();++i)
     {
         if (timerAlarms[i].second->type()==TimerAlarmEnums::AT_BuildingUpgrade)
             buTimerAlarms.push_back({timerAlarms[i].first,*static_cast<BuildingUpgradeTimerAlarm*>(timerAlarms[i].second)});
+        else if (timerAlarms[i].second->type()==TimerAlarmEnums::AT_MissionEnd)
+            meTimerAlarms.push_back({timerAlarms[i].first,*static_cast<MissionEndTimerAlarm*>(timerAlarms[i].second)});
     }
     data.alarms.buildingUpgrades=buTimerAlarms;
+    data.alarms.missionEnds=meTimerAlarms;
     buTimerAlarms.clear();
+    meTimerAlarms.clear();
+
+    QVector <QPair <Time, QString> > mals;
+    for (auto e : m_gameClock->missionAlarms())
+        mals+={e.first,e.second->assignedHero()->name()};
+    data.alarms.missionAlarms=mals;
+
+    data.database.unlocks=m_database->unlockedEntries();
+    data.database.areThereNewDBEntries=m_database->areThereNewEntries();
+
+    for (auto e : m_missions)
+        data.missions.missions+=MissionBuilder::deqobjectifyMission(e);
+
+    for (const auto &e : m_reports)
+        data.missions.reports+=*e;
+
+    Game::gameInstance()->loggers()->mainLogger()->trace("Saving save data");
 
     return data;
 }
 
 void Base::startNewDay() noexcept
 {
+    Game::gameInstance()->loggers()->mainLogger()->trace("[{}] Starting new day",gameClock()->currentTime().toQString().toStdString());
     if (m_gameClock->currentDay() % 7 == 1)
         startNewWeek();
 
-    int dailyFoodConsumptionCost=0;
-    for (int i=0;i<m_heroes->amountOfHeroes();++i)
-        dailyFoodConsumptionCost+=m_heroes->getHero(i)->dailyFoodConsumption();
-    if (dailyFoodConsumptionCost < m_foodSupplies)
-        m_foodSupplies-=dailyFoodConsumptionCost;
-    else
-        m_foodSupplies=0;
+    handleHeroesAtDayEnd();
 
     activateBuildingsAtDayEnd();
 
@@ -1987,13 +2067,28 @@ void Base::startNewDay() noexcept
     {
         if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_BuildingUpgrade)
         {
-            m_buildingLevels.insert(static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName(), static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingLevel());
-            m_buildings[static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i])->buildingName()]->registerUpgradeCompletion();
+            auto buta = static_cast<BuildingUpgradeTimerAlarm*>(timeoutedAlarms[i]);
+            addReport(new UnifiedReport(new BuildingUpgradeReport(buta->buildingName(), buta->buildingLevel(), m_gameClock->currentTime())));
+            m_buildingLevels.insert(buta->buildingName(), buta->buildingLevel());
+            m_buildings[buta->buildingName()]->registerUpgradeCompletion();
+        }
+        else if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_MissionEnd)
+        {
+            auto meta = static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i]);
+            if (!meta->mission()->assignedHero()->isDead())
+                meta->mission()->end();
+            auto hero = meta->mission()->assignedHero();
+            removeMission(meta->mission());
+            if (!hero->isDead())
+                addReport(new UnifiedReport(new MissionEndReport(hero->pathToArt(), hero->name(), m_gameClock->currentTime())));
         }
     }
 
     for (int i=0;i<timeoutedAlarms.size();++i)
         delete timeoutedAlarms[i];
+
+    for (auto &e : m_missions)
+        e->decrementDuration();
 
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());
 
@@ -2012,45 +2107,26 @@ void Base::startNewDay() noexcept
     m_dockingStation->handleActiveTransactions();
 }
 
-void Base::activateBuildingsAtDayEnd() noexcept
-{
-    int basicEnergyCost=0;
-    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-        basicEnergyCost+=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy();
-    if (basicEnergyCost < m_energy)
-        m_energy-=basicEnergyCost;
-    else
-        m_energy=0;
-
-    bar()->destressHeroes();
-    factory()->exchangeResources();
-    gym()->trainHeroes();
-    hospital()->healHeroes();
-    laboratory()->trainHeroes();
-    playingField()->destressHeroes();
-    powerplant()->exchangeResources();
-    seclusion()->destressHeroes();
-    shrine()->destressHeroes();
-    trainingGround()->trainHeroes();
-}
-
 void Base::startNewWeek() noexcept
 {
     m_dockingStation->prepareRecruits();
     m_dockingStation->prepareEquipments();
 
-    int salaryAetheriteCost=0;
-    for (int i=0;i<m_heroes->amountOfHeroes();++i)
-        salaryAetheriteCost+=m_heroes->getHero(i)->salary();
-    if (salaryAetheriteCost < m_aetherite)
-        m_aetherite-=salaryAetheriteCost;
-    else
-        m_aetherite=0;
+    handleHeroesAtWeekEnd();
 }
 
 BuildingUpgradeRequirements Base::buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept
 {
     return m_buildingRequirements.value({buildingName,level});
+}
+
+int Base::currentTotalSalary() const noexcept
+{
+    int r=0;
+    for (auto e : m_heroes->heroes())
+        if (e->currentActivity() != HeroEnums::CA_Arriving)
+            r+=e->salary();
+    return r;
 }
 
 void Base::setCurrentEnergyAmount(unsigned amount) noexcept
@@ -2095,6 +2171,60 @@ void Base::decreaseBuildingMaterialsAmount(unsigned amount) noexcept
 void Base::decreaseAetheriteAmount(unsigned amount) noexcept
 {
     m_aetherite = m_aetherite>amount ? m_aetherite-amount : 0;
+}
+
+void Base::increaseEnergyAmount(unsigned amount) noexcept
+{
+    m_energy = m_energy+amount<currentEnergyLimit() ? m_energy+amount : currentEnergyLimit();
+}
+
+void Base::increaseFoodSuppliesAmount(unsigned amount) noexcept
+{
+    m_foodSupplies = m_foodSupplies+amount<currentFoodSuppliesLimit() ? m_foodSupplies+amount : currentFoodSuppliesLimit();
+}
+
+void Base::increaseBuildingMaterialsAmount(unsigned amount) noexcept
+{
+    m_buildingMaterials = m_buildingMaterials+amount<currentBuildingMaterialsLimit() ? m_buildingMaterials+amount : currentBuildingMaterialsLimit();
+}
+
+void Base::increaseAetheriteAmount(unsigned amount) noexcept
+{
+    m_aetherite = m_aetherite+amount<currentAetheriteLimit() ? m_aetherite+amount : currentAetheriteLimit();
+}
+
+int Base::currentEnergyIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInEnergy();
+    return r;
+}
+
+int Base::currentFoodSuppliesIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
+    for (auto e : m_heroes->heroes())
+        r-=e->dailyFoodConsumption();
+    return r;
+}
+
+int Base::currentBuildingMaterialsIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInBuildingMaterials();
+    return r;
+}
+
+int Base::currentAetheriteIncome() const noexcept
+{
+    int r=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInAetherite();
+    return r;
 }
 
 void Base::setBuildingLevel(BaseEnums::Building buildingName, unsigned level) noexcept
@@ -2154,7 +2284,157 @@ Building *Base::getBuilding(BaseEnums::Building buildingName) noexcept
     case BaseEnums::B_TrainingGround:
         return m_trainingGround;
     default:
-        qWarning()<<"BaseEnums::Building enum->Building * conversion failed for "<<buildingName;
+        Game::gameInstance()->loggers()->buildingsLogger()->warn("BaseEnums::Building enum->Building * conversion failed for {}", static_cast<unsigned>(buildingName));
         return nullptr;
     }
+}
+
+unsigned Base::amountOfAvailableArmors() const noexcept
+{
+    unsigned r=0;
+    for (auto e : m_availableEquipment)
+        if (e->type() == EquipmentEnums::T_Armor)
+            ++r;
+    return r;
+}
+
+unsigned Base::amountOfAvailableWeaponsTools() const noexcept
+{
+    unsigned r=0;
+    for (auto e : m_availableEquipment)
+        if (e->type() == EquipmentEnums::T_WeaponTool)
+            ++r;
+    return r;
+}
+
+void Base::prepareAvailableEquipment(unsigned index) noexcept
+{
+    if (index<m_availableEquipment.size())
+        m_preparedAvailableEquipment=m_availableEquipment[index];
+}
+
+void Base::startMission(Mission *mission) noexcept
+{
+    m_missions+=mission;
+    mission->start();
+}
+
+void Base::removeMission(Mission *mission) noexcept
+{
+    for (int i=0;i<m_missions.size();++i)
+        if (m_missions[i] == mission)
+        {
+            delete m_missions[i];
+            m_missions.remove(i);
+            break;
+        }
+}
+
+void Base::prepareMission(unsigned index) noexcept
+{
+    if (index<m_missions.size())
+        m_preparedMission=m_missions[index];
+}
+
+void Base::prepareReport(unsigned index) noexcept
+{
+    if (index<m_reports.size())
+        m_preparedReport=m_reports[index];
+}
+
+void Base::prepareNewReport(unsigned index) noexcept
+{
+    if (index<m_newReports.size())
+        m_preparedReport=m_newReports[index];
+}
+
+void Base::addReport(UnifiedReport *report) noexcept
+{
+    m_reports+=report;
+    if (m_reports.size()>m_maxReportsAmount)
+    {
+        delete m_reports.first();
+        m_reports.removeFirst();
+    }
+    m_newReports+=report;
+    if (m_newReports.size()>m_maxReportsAmount)
+        m_newReports.removeFirst();
+    m_gameObject->showReportNotification();
+}
+
+void Base::registerLatestReportInMission(Mission *mission) noexcept
+{
+    if (m_reports.isEmpty() || mission==nullptr)
+        return;
+
+    mission->addRelatedReport(m_reports.last());
+}
+
+void Base::markAllAsRead() noexcept
+{
+    m_newReports.clear();
+}
+
+void Base::removeReport(unsigned index) noexcept
+{
+    if (index<m_reports.size())
+    {
+        delete m_reports[index];
+        m_reports.remove(index);
+    }
+}
+
+void Base::clearReports() noexcept
+{
+    m_newReports.clear();
+    for (auto &e : m_reports)
+        delete e;
+    m_reports.clear();
+}
+
+int Base::remainingMissionDaysForHero(const QString &heroName)
+{
+    for (const auto &e : m_heroes->heroes())
+        if (e->name() == heroName)
+        {
+            if (e->currentActivity() != HeroEnums::CA_OnMission)
+                return -2;
+            if (e->isCommunicationAvailable())
+                return e->assignedMission()->remainingDays();
+            else
+                return -1;
+        }
+    return -3;
+}
+
+void Base::activateBuildingsAtDayEnd() noexcept
+{
+    int basicEnergyCost=0;
+    for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
+        basicEnergyCost+=m_buildings.value(static_cast<BaseEnums::Building>(i))->basicCostInEnergy();
+    if (basicEnergyCost < m_energy)
+        m_energy-=basicEnergyCost;
+    else
+        m_energy=0;
+
+    bar()->destressHeroes();
+    factory()->exchangeResources();
+    gym()->trainHeroes();
+    hospital()->healHeroes();
+    laboratory()->trainHeroes();
+    playingField()->destressHeroes();
+    powerplant()->exchangeResources();
+    seclusion()->destressHeroes();
+    shrine()->destressHeroes();
+    trainingGround()->trainHeroes();
+}
+
+void Base::handleHeroesAtDayEnd() noexcept
+{
+    m_heroes->handleNewDay();
+}
+
+void Base::handleHeroesAtWeekEnd() noexcept
+{
+    m_heroes->handleNewWeek();
 }

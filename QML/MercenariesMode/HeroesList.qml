@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import "qrc:/qml/MercenariesMode/HeroesListScripts.js" as Scripts
 import "../.."
@@ -10,27 +10,17 @@ Item {
 
     function updateEverything()
     {
-        var heroesAmount=0;
-        var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
-        for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
+        var heroesAmount=GameApi.base.heroes.amountOfHeroes();
+        Scripts.setupList(Math.round((271/1080)*width), heroesAmount, width, height);
+        for (var i=0;i<heroesAmount;++i)
         {
             GameApi.base.heroes.prepareHeroAt(i);
-            if (!GameApi.base.heroes.preparedHero.isDead())
-            {
-                ++heroesAmount;
-                availableHeroes[i]=true;
-            }
-        }
-        Scripts.setupList(Math.round((271/1080)*width), heroesAmount, width, height);
-        var j=0;
-        for (i=0;i<GameApi.base.heroes.amountOfHeroes() && j<heroesAmount;++i)
-        {
-            if (availableHeroes[i] == true)
-            {
-                GameApi.base.heroes.prepareHeroAt(i);
-                Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(), GameApi.base.heroes.preparedHero.combatEffectiveness(), GameApi.base.heroes.preparedHero.proficiency(), GameApi.base.heroes.preparedHero.cleverness(), GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit(), GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit(), GameApi.base.heroes.preparedHero.stressResistance(), GameApi.base.heroes.preparedHero.salary(), GameApi.base.heroes.preparedHero.dailyFoodConsumption(), GameApi.base.heroes.preparedHero.currentActivityString(), GameApi.base.heroes.preparedHero.baseCombatEffectiveness(), GameApi.base.heroes.preparedHero.baseProficiency(), GameApi.base.heroes.preparedHero.baseCleverness(), GameApi.base.heroes.preparedHero.baseHealthLimit(), GameApi.base.heroes.preparedHero.baseStressLimit(), GameApi.base.heroes.preparedHero.baseStressResistance(), GameApi.base.heroes.preparedHero.baseSalary(), GameApi.base.heroes.preparedHero.baseDailyFoodConsumption());
-                ++j;
-            }
+            if (GameApi.base.heroes.preparedHero.isCommunicationAvailable())
+                Scripts.createHero(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(), GameApi.base.heroes.preparedHero.combatEffectiveness(), GameApi.base.heroes.preparedHero.proficiency(), GameApi.base.heroes.preparedHero.cleverness(), GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit(), GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit(), GameApi.base.heroes.preparedHero.stressResistance(), GameApi.base.heroes.preparedHero.salary(), GameApi.base.heroes.preparedHero.dailyFoodConsumption(), GameApi.base.heroes.preparedHero.currentActivityString(), GameApi.base.heroes.preparedHero.baseCombatEffectiveness(), GameApi.base.heroes.preparedHero.baseProficiency(), GameApi.base.heroes.preparedHero.baseCleverness(), GameApi.base.heroes.preparedHero.baseHealthLimit(), GameApi.base.heroes.preparedHero.baseStressLimit(), GameApi.base.heroes.preparedHero.baseStressResistance(), GameApi.base.heroes.preparedHero.baseSalary(), GameApi.base.heroes.preparedHero.baseDailyFoodConsumption());
+            else
+                Scripts.createMIAHero(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString());
         }
     }
 
@@ -68,9 +58,9 @@ Item {
                 isScrollingActive = false;
             else
             {
-                var h=Scripts.getClickedItemName(y0);
+                var h=Scripts.getClickedHeroName(y0);
                 if (h!="")
-                    heroClicked(h, Scripts.getClickedItemName2(y0));
+                    heroClicked(h, Scripts.getClickedHeroName2(y0));
             }
             y0 = -1;
             movementCheckTimer.stop();
@@ -95,7 +85,7 @@ Item {
                     if (Math.abs(mouseArea.mouseY - mouseArea.y0) >= Globals.windowHeight * mouseArea.yChangedThresholdForScrolling / 100)
                     {
                         mouseArea.isScrollingActive = true;
-                        Scripts.scrollList(mouseArea.y0 - mouseArea.mouseY);
+                        Scripts.scrollList(mouseArea.mouseY - mouseArea.y0);
                         mouseArea.y0 = mouseArea.mouseY;
                     }
                 }
@@ -111,6 +101,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 }

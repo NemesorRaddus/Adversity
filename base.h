@@ -8,6 +8,7 @@
 #include "equipment.h"
 #include "hero.h"
 #include "saveparser.h"
+#include "database.h"
 
 #include <QDebug>
 
@@ -69,7 +70,7 @@ class Building : public QObject
 public:
     Q_INVOKABLE virtual unsigned currentLevel() const noexcept;
     Q_INVOKABLE virtual unsigned maxLevel() const noexcept = 0;
-    Q_INVOKABLE virtual bool maxLevelReached() const noexcept
+    Q_INVOKABLE inline virtual bool maxLevelReached() const noexcept
     {
         return currentLevel()==maxLevel();
     }
@@ -116,7 +117,7 @@ public:
     {
         m_isBeingUpgraded=0;
     }
-    Q_INVOKABLE bool isBeingUpgraded() const noexcept
+    Q_INVOKABLE inline bool isBeingUpgraded() const noexcept
     {
         return m_isBeingUpgraded;
     }
@@ -2088,7 +2089,7 @@ public:
 
     Q_INVOKABLE void startTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) noexcept;
     void handleActiveTransactions() noexcept;
-    const QVector <QPair <ActiveTransaction, unsigned> > &activeTransactions() const noexcept
+    inline const QVector <QPair <ActiveTransaction, unsigned> > &activeTransactions() const noexcept
     {
         return m_activeTransactions;
     }
@@ -2108,7 +2109,7 @@ public:
     Q_INVOKABLE void prepareEquipmentForQML(unsigned pos) noexcept;
     Q_INVOKABLE void buyEquipment(unsigned pos, unsigned eta) noexcept;
     void doBuyingEquipmentStuff() noexcept;
-    QVector <QPair <Equipment *, unsigned> > arrivingEquipments() noexcept
+    inline QVector <QPair <Equipment *, unsigned> > arrivingEquipments() noexcept
     {
         return m_arrivingEquipments;
     }
@@ -2151,6 +2152,8 @@ private:
 
 class GameClock;
 class Game;
+class MissionInitializer;
+class UnifiedReport;
 
 class Base : public QObject
 {
@@ -2176,6 +2179,15 @@ class Base : public QObject
     Q_PROPERTY(GameClock* gameClock MEMBER m_gameClock)
 
     Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
+
+    Q_PROPERTY(Equipment* preparedAvailableEquipment MEMBER m_preparedAvailableEquipment)
+
+    Q_PROPERTY(MissionInitializer* missionInitializer MEMBER m_missionInitializer)
+
+    Q_PROPERTY(Database* database MEMBER m_database)
+
+    Q_PROPERTY(Mission* preparedMission MEMBER m_preparedMission)
+    Q_PROPERTY(UnifiedReport* preparedReport MEMBER m_preparedReport)
 
     friend class H4X;
 
@@ -2255,7 +2267,6 @@ public:
     }
 
     Q_INVOKABLE void startNewDay() noexcept;
-    Q_INVOKABLE void activateBuildingsAtDayEnd() noexcept;
 
     Q_INVOKABLE void startNewWeek() noexcept;
 
@@ -2270,41 +2281,43 @@ public:
     }
 
     //resources
-    Q_INVOKABLE int currentEnergyAmount() const noexcept
+    Q_INVOKABLE inline int currentEnergyAmount() const noexcept
     {
         return m_energy;
     }
-    Q_INVOKABLE int currentFoodSuppliesAmount() const noexcept
+    Q_INVOKABLE inline int currentFoodSuppliesAmount() const noexcept
     {
         return m_foodSupplies;
     }
-    Q_INVOKABLE int currentBuildingMaterialsAmount() const noexcept
+    Q_INVOKABLE inline int currentBuildingMaterialsAmount() const noexcept
     {
         return m_buildingMaterials;
     }
-    Q_INVOKABLE int currentAetheriteAmount() const noexcept
+    Q_INVOKABLE inline int currentAetheriteAmount() const noexcept
     {
         return m_aetherite;
     }
+
+    Q_INVOKABLE int currentTotalSalary() const noexcept;
 
     void setCurrentEnergyAmount(unsigned amount) noexcept;
     void setCurrentFoodSuppliesAmount(unsigned amount) noexcept;
     void setCurrentBuildingMaterialsAmount(unsigned amount) noexcept;
     void setCurrentAetheriteAmount(unsigned amount) noexcept;
 
-    bool canDecreaseEnergyAmount(unsigned amount) const noexcept
+    inline bool canDecreaseEnergyAmount(unsigned amount) const noexcept
     {
         return m_energy>=amount;
     }
-    bool canDecreaseFoodSuppliesAmount(unsigned amount) const noexcept
+    inline bool canDecreaseFoodSuppliesAmount(unsigned amount) const noexcept
     {
         return m_foodSupplies>=amount;
     }
-    bool canDecreaseBuildingMaterialsAmount(unsigned amount) const noexcept
+    inline bool canDecreaseBuildingMaterialsAmount(unsigned amount) const noexcept
     {
         return m_buildingMaterials>=amount;
     }
-    bool canDecreaseAetheriteAmount(unsigned amount) const noexcept
+    inline bool canDecreaseAetheriteAmount(unsigned amount) const noexcept
     {
         return m_aetherite>=amount;
     }
@@ -2314,52 +2327,29 @@ public:
     void decreaseBuildingMaterialsAmount(unsigned amount) noexcept;
     void decreaseAetheriteAmount(unsigned amount) noexcept;
 
-    Q_INVOKABLE int currentEnergyIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInEnergy();
-        return r;
-    }
-    Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
-        for (auto e : m_heroes->heroes())
-            r-=e->dailyFoodConsumption();
-        return r;
-    }
-    Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInBuildingMaterials();
-        return r;
-    }
-    Q_INVOKABLE int currentAetheriteIncome() const noexcept
-    {
-        int r=0;
-        for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
-            r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInAetherite();
-        for (auto e : m_heroes->heroes())
-            r-=e->salary();
-        return r;
-    }
+    void increaseEnergyAmount(unsigned amount) noexcept;
+    void increaseFoodSuppliesAmount(unsigned amount) noexcept;
+    void increaseBuildingMaterialsAmount(unsigned amount) noexcept;
+    void increaseAetheriteAmount(unsigned amount) noexcept;
 
-    Q_INVOKABLE int currentEnergyLimit() noexcept
+    Q_INVOKABLE int currentEnergyIncome() const noexcept;
+    Q_INVOKABLE int currentFoodSuppliesIncome() const noexcept;
+    Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept;
+    Q_INVOKABLE int currentAetheriteIncome() const noexcept;
+
+    Q_INVOKABLE inline int currentEnergyLimit() noexcept
     {
         return powerplant()->energyLimit();
     }
-    Q_INVOKABLE int currentFoodSuppliesLimit() noexcept
+    Q_INVOKABLE inline int currentFoodSuppliesLimit() noexcept
     {
         return coolRoom()->foodSuppliesLimit();
     }
-    Q_INVOKABLE int currentBuildingMaterialsLimit() noexcept
+    Q_INVOKABLE inline int currentBuildingMaterialsLimit() noexcept
     {
         return storageRoom()->buildingMaterialsLimit();
     }
-    Q_INVOKABLE int currentAetheriteLimit() noexcept
+    Q_INVOKABLE inline int currentAetheriteLimit() noexcept
     {
         return aetheriteSilo()->aetheriteLimit();
     }
@@ -2373,11 +2363,11 @@ public:
     Building *getBuilding(BaseEnums::Building buildingName) noexcept;
 
     //heroes
-    HeroesContainer *heroes() noexcept
+    inline HeroesContainer *heroes() noexcept
     {
         return m_heroes;
     }
-    QMap <QString, unsigned> &heroDockingStationBans() noexcept
+    inline QMap <QString, unsigned> &heroDockingStationBans() noexcept
     {
         return m_heroDockingStationBans;
     }
@@ -2387,19 +2377,67 @@ public:
     }
 
     //equipment
-    QVector <Equipment *> &freeEquipment() noexcept
+    inline QVector <Equipment *> &availableEquipment() noexcept
     {
-        return m_freeEquipment;
+        return m_availableEquipment;
     }
+    Q_INVOKABLE inline unsigned amountOfAvailableEquipment() const noexcept
+    {
+        return m_availableEquipment.size();
+    }
+    Q_INVOKABLE unsigned amountOfAvailableArmors() const noexcept;
+    Q_INVOKABLE unsigned amountOfAvailableWeaponsTools() const noexcept;
+    Q_INVOKABLE void prepareAvailableEquipment(unsigned index) noexcept;
 
     //game clock
-    GameClock *gameClock() noexcept
+    inline GameClock *gameClock() noexcept
     {
         return m_gameClock;
     }
 
+    //missions
+    void startMission(Mission *mission) noexcept;
+    inline const QVector <Mission *> &missions() const noexcept
+    {
+        return m_missions;
+    }
+    inline Database *database() noexcept
+    {
+        return m_database;
+    }
+    void removeMission(Mission *mission) noexcept;
+
+    Q_INVOKABLE inline unsigned amountOfMissions() const noexcept
+    {
+        return m_missions.size();
+    }
+    Q_INVOKABLE void prepareMission(unsigned index) noexcept;
+
+    //reports
+    Q_INVOKABLE inline unsigned amountOfReports() const noexcept
+    {
+        return m_reports.size();
+    }
+    Q_INVOKABLE inline unsigned amountOfNewReports() const noexcept
+    {
+        return m_newReports.size();
+    }
+    Q_INVOKABLE void prepareReport(unsigned index) noexcept;
+    Q_INVOKABLE void prepareNewReport(unsigned index) noexcept;
+    void addReport(UnifiedReport *report) noexcept;
+    void registerLatestReportInMission(Mission *mission) noexcept;
+    inline QVector <UnifiedReport *> &reports() noexcept
+    {
+        return m_reports;
+    }
+    Q_INVOKABLE void markAllAsRead() noexcept;
+    Q_INVOKABLE void removeReport(unsigned index) noexcept;
+    Q_INVOKABLE void clearReports() noexcept;
+
+    Q_INVOKABLE int remainingMissionDaysForHero(const QString &heroName);
+
     //game
-    Game *gameObject() noexcept
+    inline Game *gameObject() noexcept
     {
         return m_gameObject;
     }
@@ -2440,10 +2478,25 @@ private:
     QMap <QString, unsigned> m_heroDockingStationBans;//in days; when banned, hero won't appear in docking station menu
 
     //equipment
-    QVector <Equipment *> m_freeEquipment;
+    QVector <Equipment *> m_availableEquipment;
+    Equipment *m_preparedAvailableEquipment;
 
     //game clock/timer
+    void activateBuildingsAtDayEnd() noexcept;
+    void handleHeroesAtDayEnd() noexcept;
+    void handleHeroesAtWeekEnd() noexcept;
+
     GameClock *m_gameClock;
+
+    //missions
+    MissionInitializer *m_missionInitializer;
+    Database *m_database;
+    QVector <Mission *> m_missions;
+    Mission *m_preparedMission;
+    QVector <UnifiedReport *> m_reports;
+    const unsigned m_maxReportsAmount=50;
+    QVector <UnifiedReport *> m_newReports;
+    UnifiedReport *m_preparedReport;
 
     //game
     Game *m_gameObject;

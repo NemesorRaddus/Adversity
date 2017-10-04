@@ -1,5 +1,8 @@
 #include "timer.h"
 
+#include "event.h"
+#include "game.h"
+
 #include <QDebug>
 
 void TimerAlarm::activate() noexcept
@@ -13,22 +16,24 @@ bool TimerAlarm::isTrulyEqualTo(TimerAlarm *alarmsSubclassObject) noexcept
         return 0;
     if (m_type==TimerAlarmEnums::AT_BuildingUpgrade)
         if (*static_cast<BuildingUpgradeTimerAlarm*>(this)!=*static_cast<BuildingUpgradeTimerAlarm*>(alarmsSubclassObject))
-            return 0;//TODO make implementations of other subclasses of TimerAlarm
-//    else if (m_type==TimerAlarmEnums::AT_MissionEnd)
-//            if (*static_cast<MissionEndTimerAlarm*>(this)!=*static_cast<MissionEndTimerAlarm*>(alarmsSubclassObject))
-//                return 0;
-//    else if (m_type==TimerAlarmEnums::AT_Information)
-//        if (*static_cast<InformationTimerAlarm*>(this)!=*static_cast<InformationTimerAlarm*>(alarmsSubclassObject))
-//            return 0;
+            return 0;
+    else if (m_type==TimerAlarmEnums::AT_MissionEnd)
+        if (*static_cast<MissionEndTimerAlarm*>(this)!=*static_cast<MissionEndTimerAlarm*>(alarmsSubclassObject))
+            return 0;
     return 1;
 }
 
-TimerAlarm::TimerAlarm(TimerAlarmEnums::AlarmType type, bool isAlreadyActive) noexcept
-    : m_type(type), m_isAlreadyActive(isAlreadyActive)
+void TimerAlarm::setBasePtr(Base *base) noexcept
+{
+    m_base=base;
+}
+
+TimerAlarm::TimerAlarm(Base *base, TimerAlarmEnums::AlarmType type, bool isAlreadyActive) noexcept
+    : m_base(base), m_type(type), m_isAlreadyActive(isAlreadyActive)
 {}
 
-BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
-    : TimerAlarm(TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
+BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(Base *base, BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
+    : TimerAlarm(base,TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
 {}
 
 QDataStream &BuildingUpgradeTimerAlarm::read(QDataStream &stream) noexcept
@@ -75,6 +80,51 @@ bool BuildingUpgradeTimerAlarm::operator ==(const BuildingUpgradeTimerAlarm &oth
     if (m_buildingName!=other.m_buildingName)
         return 0;
     return 1;
+}
+
+MissionEndTimerAlarm::MissionEndTimerAlarm(Base *base, Mission *mission) noexcept
+    : TimerAlarm(base,TimerAlarmEnums::AT_MissionEnd,1), m_mission(mission) {}
+
+bool MissionEndTimerAlarm::operator ==(const MissionEndTimerAlarm &other) const noexcept
+{
+    return m_mission==other.m_mission;
+}
+
+Mission *MissionEndTimerAlarm::mission() noexcept
+{
+    if (m_mission!=nullptr)
+        return m_mission;
+    for (const auto &e : m_base->missions())
+        if (m_missionHeroName==e->assignedHero()->name())
+        {
+            m_mission=e;
+            return e;
+        }
+    return nullptr;
+}
+
+QDataStream &MissionEndTimerAlarm::read(QDataStream &stream) noexcept
+{
+    stream>>m_missionHeroName;
+
+    return stream;
+}
+
+QDataStream &MissionEndTimerAlarm::write(QDataStream &stream) const noexcept
+{
+    stream<<(m_mission!=nullptr ? m_mission->assignedHero()->name() : m_missionHeroName);
+
+    return stream;
+}
+
+QDataStream &operator<<(QDataStream &stream, const MissionEndTimerAlarm &alarm) noexcept
+{
+    alarm.write(stream);
+}
+
+QDataStream &operator>>(QDataStream &stream, MissionEndTimerAlarm &alarm) noexcept
+{
+    alarm.read(stream);
 }
 
 void TimerAlarmsContainer::addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept
@@ -131,6 +181,38 @@ QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() con
     return m_alarms;
 }
 
+void TimerAlarmsContainer::addMissionAlarm(const Time &time, Mission *mission) noexcept
+{
+    m_missionAlarms+={time, mission};
+
+    Game::gameInstance()->loggers()->missionsLogger()->trace("Adding mission alarm (time: {}, mercenary: {})",time.toQString().toStdString(), mission->assignedHero()->name().toStdString());
+}
+
+void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
+{
+    for (int i=0;i<m_missionAlarms.size();++i)
+        if (m_missionAlarms[i].first <= now)
+        {
+            auto temp = m_missionAlarms[i];
+            m_missionAlarms.remove(i);
+            --i;
+            auto er=temp.second->doEncounter(temp.first);
+            if (m_base->missions().contains(temp.second) && !temp.second->assignedHero()->isDead())
+                temp.second->assignedHero()->trySendingReport(new UnifiedReport(er), temp.second);
+        }
+}
+
+void TimerAlarmsContainer::setMissionAlarms(const QVector<QPair<Time, Mission *> > &alarms) noexcept
+{
+    m_missionAlarms=alarms;
+}
+
+void TimerAlarmsContainer::removeAlarmsConnectedWithMission(const Mission *mission) noexcept
+{
+    removeMissionAlarms(mission);
+    removeMissionEndAlarm(mission);
+}
+
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
 {
     for (int i=0;i<m_alarms.size();++i)
@@ -152,79 +234,131 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
     return r;
 }
 
+void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
+{
+    for (int i=0;i<m_missionAlarms.size();)
+    {
+        if (m_missionAlarms[i].second == mission)
+        {
+            Game::gameInstance()->loggers()->missionsLogger()->trace("Removing mission alarm (mercenary: {})", mission->assignedHero()->name().toStdString());
+
+            m_missionAlarms.remove(i);
+        }
+        else
+            ++i;
+    }
+}
+
+void TimerAlarmsContainer::removeMissionEndAlarm(const Mission *mission) noexcept
+{
+    for (int i=0;i<m_alarms.size();++i)
+        if (m_alarms[i].second->type() == TimerAlarmEnums::AT_MissionEnd && static_cast<MissionEndTimerAlarm *>(m_alarms[i].second)->mission() == mission)
+        {
+            m_alarms.remove(i);
+            break;
+        }
+}
+
+Time::Time() noexcept
+    : d(1), h(0), min(0) {}
+
+Time::Time(unsigned day, unsigned hour, unsigned minute) noexcept
+    : d(day), h(hour), min(minute) {}
+
+bool Time::operator ==(const Time &other) const noexcept
+{
+    return d==other.d && h==other.h && min==other.min;
+}
+
+bool Time::operator <(const Time &other) const noexcept
+{
+    if (d<other.d)
+        return 1;
+    else if (d>other.d)
+        return 0;
+
+    if (h<other.h)
+        return 1;
+    else if (h>other.h)
+        return 0;
+
+    if (min<other.min)
+        return 1;
+    else
+        return 0;
+}
+
+QString Time::toQString() const noexcept
+{
+    return QString("D")+QString::number(d)+" "+QString::number(h)+" "+QString::number(min);
+}
+
+QDataStream &operator<<(QDataStream &stream, const Time &time) noexcept
+{
+    stream<<static_cast<quint16>(time.d);
+    stream<<static_cast<quint16>(time.h);
+    stream<<static_cast<quint16>(time.min);
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Time &time) noexcept
+{
+    quint16 uii;
+
+    stream>>uii;
+    time.d=uii;
+
+    stream>>uii;
+    time.h=uii;
+
+    stream>>uii;
+    time.min=uii;
+
+    return stream;
+}
+
 GameClock::GameClock() noexcept
-    : m_currentTimeInGameDay(1), m_currentTimeInGameHour(12), m_currentTimeInGameMin(0), m_lastKnownDate(QDateTime::currentDateTime()), m_lastKnownDay(1), m_lastKnownHour(12), m_lastKnownMin(0), m_latestAutosaveMinTimestamp(0), m_dateFromPreviousClockUpdate({QDate(1970,1,1),QTime(0,0)})
-{}
+    : m_currentTimeInGame(1,0,0), m_latestAutosaveMinTimestamp(0) {}
 
 void GameClock::setBasePtr(Base *base) noexcept
 {
     m_base=base;
 }
 
-void GameClock::saveCurrentDate() noexcept
+void GameClock::updateClock(const Time &lastKnownTimeInGame) noexcept
 {
-    m_lastKnownDate=QDateTime::currentDateTime();
-    m_lastKnownDay=m_currentTimeInGameDay;
-    m_lastKnownHour=m_currentTimeInGameHour;
-    m_lastKnownMin=m_currentTimeInGameMin;
-
-    updateDateFromPreviousClockUpdate();
-}
-
-void GameClock::updateClock(const QDateTime &lastKnownDate, unsigned lastKnownDay, unsigned lastKnownHour, unsigned lastKnownMin) noexcept
-{
-    m_lastKnownDate=lastKnownDate;
-    m_lastKnownDay=lastKnownDay;
-    m_lastKnownHour=lastKnownHour;
-    m_lastKnownMin=lastKnownMin;
-
-    m_currentTimeInGameDay=lastKnownDay;
-    m_currentTimeInGameHour=lastKnownHour;
-    m_currentTimeInGameMin=lastKnownMin;
-
-    updateDateFromPreviousClockUpdate();
-
-    long long ms = m_lastKnownDate.msecsTo(QDateTime::currentDateTime());
-
-    int daysPassed=(ms*24*60*60*1000/1000/60/realMinutesToOneGameDayRatio() + m_lastKnownHour*60*60*1000 + m_lastKnownMin*60*1000)/1000/60/60/24;
-    int minutesToAdd=ms*24*60/1000/60/realMinutesToOneGameDayRatio();// /1000 s /60 min /r dni *24 h *60 min
-    for (int i=0;i<daysPassed;++i)
-    {
-        addMinutesToGameTime(60*24);
-        minutesToAdd-=60*24;
-        ++m_currentTimeInGameDay;
-
-        m_base->startNewDay();
-    }
-
-    addMinutesToGameTime(minutesToAdd);
-    tryAutosaving();
+    m_currentTimeInGame=lastKnownTimeInGame;
 }
 
 void GameClock::updateClock(int minutesToAdd) noexcept
 {
-    int daysPassed=(minutesToAdd + m_currentTimeInGameHour*60 + m_currentTimeInGameMin)/(60*24);
+    int daysPassed=(minutesToAdd + m_currentTimeInGame.h*60 + m_currentTimeInGame.min)/(60*24);
     for (int i=0;i<daysPassed;++i)
     {
         addMinutesToGameTime(60*24);
         minutesToAdd-=60*24;
 
+        checkMissionAlarms(m_currentTimeInGame);
         m_base->startNewDay();
     }
 
     addMinutesToGameTime(minutesToAdd);
-
-    updateDateFromPreviousClockUpdate();
+    checkMissionAlarms(m_currentTimeInGame);
 
     tryAutosaving();
 }
 
 void GameClock::updateClock() noexcept
 {
-    if (isClockHealthy())
-        updateClock(1);
-    else
-        updateClock(m_lastKnownDate,m_lastKnownDay,m_lastKnownHour,m_lastKnownMin);
+    updateClock(1);
+}
+
+void GameClock::skipToNextDay() noexcept
+{
+    updateClock((24-m_currentTimeInGame.h-1)*60 + (60-m_currentTimeInGame.min));
+    H4X hax;
+    hax.forceUIUpdate();
 }
 
 void GameClock::forceAutosave() noexcept
@@ -236,41 +370,31 @@ void GameClock::addMinutesToGameTime(int minutes) noexcept
 {
     addHoursToGameTime(minutes/60);
     minutes%=60;
-    if (minutes+m_currentTimeInGameMin>59)
+    if (minutes+m_currentTimeInGame.min>59)
     {
         addHoursToGameTime(1);
-        minutes-=(60-m_currentTimeInGameMin-1);
+        minutes-=(60-m_currentTimeInGame.min-1);
     }
-    m_currentTimeInGameMin+=minutes;
-    m_currentTimeInGameMin%=60;
+    m_currentTimeInGame.min+=minutes;
+    m_currentTimeInGame.min%=60;
 }
 
 void GameClock::addHoursToGameTime(int hours) noexcept
 {
     addDaysToGameTime(hours/24);
     hours%=24;
-    if (hours+m_currentTimeInGameHour>23)
+    if (hours+m_currentTimeInGame.h>23)
     {
         addDaysToGameTime(1);
-        hours-=(24-m_currentTimeInGameHour-1);
+        hours-=(24-m_currentTimeInGame.h-1);
     }
-    m_currentTimeInGameHour+=hours;
-    m_currentTimeInGameHour%=24;
+    m_currentTimeInGame.h+=hours;
+    m_currentTimeInGame.h%=24;
 }
 
 void GameClock::addDaysToGameTime(int days) noexcept
 {
-    m_currentTimeInGameDay+=days;
-}
-
-bool GameClock::isClockHealthy() const noexcept
-{
-    return m_dateFromPreviousClockUpdate.msecsTo(QDateTime::currentDateTime())<realMsToOneGameMin()*2;
-}
-
-void GameClock::updateDateFromPreviousClockUpdate() noexcept
-{
-    m_dateFromPreviousClockUpdate=QDateTime::currentDateTime();
+    m_currentTimeInGame.d+=days;
 }
 
 int GameClock::realMsToOneGameMin() const noexcept
@@ -280,20 +404,20 @@ int GameClock::realMsToOneGameMin() const noexcept
 
 void GameClock::tryAutosaving() noexcept
 {
-    if (m_currentTimeInGameMin>m_latestAutosaveMinTimestamp)
+    if (m_currentTimeInGame.min>m_latestAutosaveMinTimestamp)
     {
-        if (m_currentTimeInGameMin>=m_latestAutosaveMinTimestamp+m_autosaveIntervalInMin)
+        if (m_currentTimeInGame.min>=m_latestAutosaveMinTimestamp+m_autosaveIntervalInMin)
             autosave();
     }
     else
     {
-        if (m_currentTimeInGameMin+60-m_latestAutosaveMinTimestamp>=m_autosaveIntervalInMin)
+        if (m_currentTimeInGame.min+60-m_latestAutosaveMinTimestamp>=m_autosaveIntervalInMin)
             autosave();
     }
 }
 
 void GameClock::autosave() noexcept
 {
-    m_latestAutosaveMinTimestamp=m_currentTimeInGameMin;
+    m_latestAutosaveMinTimestamp=m_currentTimeInGame.min;
     emit doAutosave();
 }

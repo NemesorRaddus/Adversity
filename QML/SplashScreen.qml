@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import Game 1.0
 
 Item {
@@ -116,12 +116,10 @@ Item {
         }
     ]
 
-    transitions: [
-        Transition {
-            from: "showingSplash"; to: ""
-            PropertyAnimation { target: splashScreen; property: "opacity";  duration: splashDisappearAnimationDuration }
-        }
-    ]
+    transitions: Transition {
+        from: "showingSplash"; to: ""
+        PropertyAnimation { id: transitionRoot; target: splashScreen; property: "opacity";  duration: splashDisappearAnimationDuration * GameApi.animMultiplier() }
+    }
 
     Component.onCompleted: {
         canClose = false;

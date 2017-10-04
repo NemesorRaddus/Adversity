@@ -2,7 +2,42 @@
 
 #include "game.h"
 
+#ifdef ENABLE_CONSOLE_WINDOW
+bool MainWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
+{
+    if (!*m_lock)
+    {
+        *m_lock=1;
+        if (event->type() == QEvent::Close)
+            QMetaObject::invokeMethod(m_consoleWindow, "close");
+        else if (event->type() == QEvent::Show)
+            QMetaObject::invokeMethod(m_consoleWindow, "show");//doesn't work...
+        else if (event->type() == QEvent::Hide)
+            QMetaObject::invokeMethod(m_consoleWindow, "hide");//that too
+        *m_lock=0;
+    }
+    return QObject::eventFilter(obj, event);
+}
+
+bool ConsoleWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
+{
+    if (!*m_lock)
+    {
+        *m_lock=1;
+        if (event->type() == QEvent::Close)
+            QMetaObject::invokeMethod(m_mainWindow, "close");
+        else if (event->type() == QEvent::Show)
+            QMetaObject::invokeMethod(m_mainWindow, "show");//and that
+        else if (event->type() == QEvent::Hide)
+            QMetaObject::invokeMethod(m_mainWindow, "hide");//and that
+        *m_lock=0;
+    }
+    return QObject::eventFilter(obj, event);
+}
+#endif
+
 H4X::H4X(QQmlApplicationEngine *engine)
+    : m_autoUpdate(1)
 {
     m_qmlEngine=engine;
     _h4xQmlEngine=engine;
@@ -144,7 +179,7 @@ void H4X::burnItDown() noexcept
     Game::gameInstance()->m_base->m_buildingLevels.insert(BaseEnums::B_DockingStation, 1);
 }
 
-void H4X::setMercenaryAttribute(const QString &mercenaryName, const QString &attribute, float value) noexcept
+void H4X::setMercenaryAttribute(const QString &mercenaryName, const QString &attribute, QVariant value) noexcept
 {
     int pos = Game::gameInstance()->m_base->m_heroes->findHero(mercenaryName);
     if (pos==-1)
@@ -181,14 +216,20 @@ void H4X::kill(const QString &mercenaryName) noexcept
 {
     for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
         if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && !Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
+        {
             Game::gameInstance()->m_base->m_heroes->getHero(i)->die();
+            break;
+        }
 }
 
 void H4X::dismiss(const QString &mercenaryName, unsigned banTime) noexcept
 {
     for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
         if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && !Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
+        {
             Game::gameInstance()->m_base->m_heroes->getHero(i)->dismiss(banTime);
+            break;
+        }
 }
 
 void H4X::killThemAll() noexcept
@@ -220,6 +261,52 @@ void H4X::chaosComesForYou() noexcept
         }
 }
 
+void H4X::setMercenaryVariable(const QString &mercenaryName, const QString &varName, QVariant value) noexcept
+{
+    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
+        if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName)
+        {
+            if (varName == "noSignalDays")
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->setNoSignalDaysRemaining(value.toInt());
+            else if (varName == "isDead")
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->setIsDead(value.toBool());
+            else if (varName == "carriedAetherite")
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedAetheriteOre(value.toUInt());
+            else if (varName == "carriedBuildingMaterials")
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedBuildingMaterials(value.toUInt());
+            else if (varName == "carriedEnergy")
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedEnergy(value.toUInt());
+            else if (varName == "carriedFoodSupplies")
+                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedFoodSupplies(value.toUInt());
+            break;
+        }
+}
+
+void H4X::unlockDBEntry(const QString &entryName) noexcept
+{
+    Game::gameInstance()->m_base->database()->unlockEntry(entryName);
+}
+
+void H4X::receiveReport(const QString &msg, const QString &art) noexcept
+{
+    Game::gameInstance()->m_base->addReport(new UnifiedReport(Game::gameInstance()->m_base->gameClock()->currentTime(),msg,art));
+}
+
+void H4X::clearReports() noexcept
+{
+    Game::gameInstance()->m_base->clearReports();
+}
+
+void H4X::finishMission(const QString &mercenaryName) noexcept
+{
+    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
+        if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()!=nullptr)
+        {
+            Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()->forceEndSuccessfully();
+            break;
+        }
+}
+
 void H4X::forceUIUpdate() noexcept
 {
     QObject *win=m_qmlEngine->rootObjects().value(0);
@@ -230,6 +317,7 @@ void H4X::fps() noexcept
 {
     QObject *win=m_qmlEngine->rootObjects().value(0);
     win->setProperty("enableFPSCounter",{!(win->property("enableFPSCounter").toBool())});
+    Game::gameInstance()->acknowledgeFPSToggle();
 }
 
 void H4X::destroyEverything() noexcept
@@ -243,4 +331,9 @@ void H4X::freezeGameProgress() noexcept
     Game::gameInstance()->m_base->m_freezeGameProgress=1;
     Game::gameInstance()->saveBase();
     exit(0);
+}
+
+void H4X::enableAutoUpdate(bool enable) noexcept
+{
+    m_autoUpdate=enable;
 }

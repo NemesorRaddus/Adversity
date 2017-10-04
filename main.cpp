@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationDisplayName("Adversity");
     QGuiApplication::setApplicationName("Adversity");
     QGuiApplication::setOrganizationName("Raddos Games");
+    QGuiApplication::setApplicationVersion("0.7.0-Preview_1");
 
     Randomizer::initialize();
 
@@ -38,17 +39,36 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
     qmlRegisterInterface<GameClock>("GameClock");
+    qmlRegisterInterface<HeroesContainer>("HeroesContainer");
+    qmlRegisterInterface<Equipment>("Equipment");
+    qmlRegisterInterface<Mission>("Mission");
+    qmlRegisterInterface<MissionInitializer>("MissionInitializer");
+    qmlRegisterInterface<Land>("Land");
+    qmlRegisterInterface<LandsInfo>("LandsInfo");
+    qmlRegisterInterface<UnifiedReport>("UnifiedReport");
+    qmlRegisterInterface<LoggersHandler>("LoggersHandler");
 
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 
     QQmlApplicationEngine engine;
 
-    H4X *hacksLogic=new H4X(&engine);
+    H4X{&engine};
+
+    Game::setQMLEnginePtr(&engine);
 
     QJSValue globalsObj = engine.newQObject(new Global);
     engine.globalObject().setProperty("GlobalsCpp", globalsObj);
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
+#ifdef ENABLE_CONSOLE_WINDOW
+    engine.load("../GameBase/qml/H4XWindow.qml");
+    bool *eventFiltersLocker=new bool(0);
+    MainWindowEventFilter mwef{engine.rootObjects()[1], eventFiltersLocker};
+    ConsoleWindowEventFilter cwef{engine.rootObjects()[0], eventFiltersLocker};
+    engine.rootObjects()[0]->installEventFilter(&mwef);
+    engine.rootObjects()[1]->installEventFilter(&cwef);
+#endif
 
     return app.exec();
 }

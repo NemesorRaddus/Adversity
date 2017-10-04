@@ -1,7 +1,8 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
+import "./EquipmentsList"
 
 Item {
     id: root
@@ -14,15 +15,24 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         topBar.setDescription(GameApi.base.storageRoom.description());
         topBar.setLevel("Level: "+GameApi.base.storageRoom.currentLevel());
         table.update();
         upgradeInfo.update();
+        equipmentsListCnt.update();
     }
 
     function reactToBackOnToolbar()
     {
-        return false;
+        if (armoury.state == "")
+        {
+            armoury.state = "hidden";
+            return true;
+        }
+        else
+            return false;
     }
 
     function returnToDefault()
@@ -143,7 +153,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -192,7 +202,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
         Text {
             id: maxStorageAmount1
@@ -314,7 +324,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -339,7 +349,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
@@ -452,6 +462,84 @@ Item {
     }
 
     Item {
+        id: equipmentsListItem
+
+        x: 0
+        y: upgradeInfo.y + upgradeInfo.height + 8
+
+        Text {
+            id: equipmentsListText
+
+            x: 15
+            y: 0
+
+            color: "#94ef94"
+            text: "Owned Equipment:"
+            font.pixelSize: 70
+            font.family: fontStencil.name
+        }
+
+        Text {
+            id: equipmentsListCnt
+
+            x: 15
+            y: 80
+            width: root.width
+
+            function update()
+            {
+                text = GameApi.base.amountOfAvailableWeaponsTools()+" weapons and tools available.\n"+GameApi.base.amountOfAvailableArmors()+" armours and uniforms available.";
+            }
+
+            color: "#94ef94"
+            font.pixelSize: 50
+            font.family: fontStencil.name
+        }
+    }
+
+    Item {
+        id: viewArmoury
+
+        x: 15
+        y: equipmentsListItem.y + 200
+        width: 500
+        height: viewArmouryText.font.pixelSize + 6
+
+        Text {
+            id: viewArmouryText
+
+            x: 0
+            y: 0
+
+            color: "#94ef94"
+            text: "View Armoury >"
+            font.pixelSize: 60
+            font.family: fontStencil.name
+        }
+        MouseArea {
+            id: viewArmouryMA
+
+            anchors.fill: parent
+
+            onClicked: {
+                armouryList.update();
+                armoury.state = "";
+            }
+        }
+    }
+
+    Image {
+        id: backTaskBorder
+
+        x: 17
+        y: 1348
+        width: 1048
+        height: 3
+
+        source: "qrc:/graphics/GUI/Task_Border.png"
+    }
+
+    Item {
         id: back
 
         x: 400
@@ -474,7 +562,43 @@ Item {
 
             anchors.fill: parent
 
-            onClicked: backClicked()
+            onClicked: {
+                if (armoury.state == "")
+                    armoury.state = "hidden";
+                else
+                    backClicked();
+            }
+        }
+    }
+
+    Item {
+        id: armoury
+
+        x: 0
+        y: 0
+        width: parent.width
+        height: backTaskBorder.y
+
+        state: "hidden"
+
+        EquipmentsList {
+            id: armouryList
+
+            x: 0
+            y: 0
+            width: parent.width
+            height: parent.height
+        }
+
+        states: [
+            State {
+                name: "hidden"
+                PropertyChanges { target: armoury; x: width }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 

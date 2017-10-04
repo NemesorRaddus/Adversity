@@ -1,4 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.9
+
+import Game 1.0
 
 Item {
     id: root
@@ -11,6 +13,8 @@ Item {
 
     function show()
     {
+        transitionBackgroundHider.duration = transitionBackgroundHider.baseDuration * GameApi.animMultiplier();
+
         confirmBox.visible = true;
         backgroundHider.state = "hidingContent";
         backgroundClicksCatcher.visible = true;
@@ -56,7 +60,7 @@ Item {
         ]
 
         transitions: Transition {
-            NumberAnimation { properties: "opacity"; easing.type: Easing.InQuad; duration: 500 }
+            NumberAnimation { id: transitionBackgroundHider; properties: "opacity"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 
