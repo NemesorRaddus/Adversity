@@ -25,6 +25,12 @@ Item {
         transitionDatabaseButton.duration = transitionDatabaseButton.baseDuration * GameApi.animMultiplier();
         missionShowTimer.interval = missionShowTimer.baseInterval * GameApi.animMultiplier();
         databaseShowTimer.interval = databaseShowTimer.baseInterval * GameApi.animMultiplier();
+        databaseNewEntryAnimation.duration = databaseNewEntryAnimation.baseDuration * GameApi.animMultiplier();
+
+        if (GameApi.base.database.areThereNewEntries())
+            databaseButton.startAnimating();
+        else
+            databaseButton.stopAnimating();
     }
 
     function acknowledgeModeStateChange(currentState)
@@ -380,6 +386,21 @@ Item {
 
         state: "hidden"
 
+        property bool isAnimationActive: false
+
+        function startAnimating()
+        {
+            isAnimationActive=true;
+            databaseNewEntryAnimation.start();
+        }
+
+        function stopAnimating()
+        {
+            isAnimationActive=false;
+            databaseNewEntryAnimation.stop();
+            databaseButtonIcon.opacity=1.0;
+        }
+
         Rectangle {
             anchors.fill: parent
 
@@ -394,12 +415,42 @@ Item {
                 color: "#171717"
 
                 Image {
+                    id: databaseButtonIcon
+
                     x: 5
                     y: 10
                     width: 80
                     height: 120
 
                     source: "qrc:/graphics/GUI/Database.png"
+                }
+            }
+        }
+
+        NumberAnimation {
+            id: databaseNewEntryAnimation
+
+            properties: "opacity"
+            easing.type: Easing.InQuad
+            property int baseDuration: 1200
+            duration: baseDuration
+            from: 1
+            to: 0.5
+            target: databaseButtonIcon
+            onRunningChanged: {
+                if (running == false && databaseButton.isAnimationActive)
+                {
+                    if (from == 1)
+                    {
+                        from = 0.5;
+                        to = 1;
+                    }
+                    else
+                    {
+                        from = 1;
+                        to = 0.5;
+                    }
+                    start();
                 }
             }
         }
@@ -421,7 +472,11 @@ Item {
         MouseArea {
             anchors.fill: parent
 
-            onClicked: root.databaseClicked()
+            onClicked: {
+                GameApi.base.database.setAreThereNewUnlockedEntries(0);
+                parent.stopAnimating();
+                root.databaseClicked();
+            }
         }
 
         states: [

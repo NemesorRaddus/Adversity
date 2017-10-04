@@ -941,6 +941,7 @@ void Hero::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
             return;//safety measure
         addWaitingReport(new UnifiedReport(new SignalRetrievedReport(pathToArt(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         sendWaitingReports();
+        sendWaitingDBEntries();
     }
     else
     {
@@ -990,6 +991,7 @@ void Hero::assignMission(Mission *mission) noexcept
 {
     m_assignedMission=mission;
     m_currentActivity=HeroEnums::CA_OnMission;
+    m_lastKnownLandName=mission->land()->name();
 }
 
 void Hero::trySendingReport(UnifiedReport *report, bool registerInMission) noexcept
@@ -1017,6 +1019,19 @@ void Hero::sendWaitingReports() noexcept
         m_base->registerLatestReportInMission(m_assignedMission);
     }
     m_waitingReports.clear();
+}
+
+void Hero::addWaitingDBEntry(const QString &entryName) noexcept
+{
+    m_waitingDBEntries+=entryName;
+}
+
+void Hero::sendWaitingDBEntries() noexcept
+{
+    for (const auto &e : m_waitingDBEntries)
+        if (m_base->database()->isEntryUnlocked(e,m_lastKnownLandName))
+            m_base->database()->unlockEntry(e,m_lastKnownLandName);
+    m_waitingDBEntries.clear();
 }
 
 QString Hero::currentActivityString() const noexcept
@@ -1100,6 +1115,7 @@ void Hero::returnToBase() noexcept
     m_noSignalDaysRemaining = 0;
 
     sendWaitingReports();
+    sendWaitingDBEntries();
 
     calculateCurrentAttributeValues();
 }
@@ -2138,7 +2154,9 @@ Hero *HeroBuilder::qobjectifyHeroData(const HeroDataHelper &hero) noexcept
     r->m_carriedBuildingMaterials = hero.carriedBuildingMaterials;
     r->m_carriedAetheriteOre = hero.carriedAetheriteOre;
     r->m_noSalaryWeeks = hero.noSalaryWeeks;
+    r->m_lastKnownLandName = hero.lastKnownLandName;
     r->m_waitingReports = hero.waitingReports;
+    r->m_waitingDBEntries = hero.waitingDBEntries;
     r->m_currentActivity = hero.currentActivity;
     if (hero.currentActivity == HeroEnums::CA_OnMission)
     {
@@ -2201,7 +2219,9 @@ HeroDataHelper HeroBuilder::deqobjectifyHero(Hero *hero) noexcept
     r.carriedBuildingMaterials = hero->m_carriedBuildingMaterials;
     r.carriedAetheriteOre = hero->m_carriedAetheriteOre;
     r.noSalaryWeeks = hero->m_noSalaryWeeks;
+    r.lastKnownLandName = hero->m_lastKnownLandName;
     r.waitingReports = hero->m_waitingReports;
+    r.waitingDBEntries = hero->m_waitingDBEntries;
     r.currentActivity = hero->m_currentActivity;
 
     return r;
@@ -2257,10 +2277,14 @@ QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcep
 
     stream<<static_cast<qint16>(hero.noSalaryWeeks);
 
+    stream<<hero.lastKnownLandName;
+
     QVector<QPair<Time,QString>> wrs;
     for (const auto e : hero.waitingReports)
         wrs+={e->time(),e->msg()};
     stream<<wrs;
+
+    stream<<hero.waitingDBEntries;
 
     stream<<static_cast<quint8>(hero.currentActivity);
 
@@ -2337,10 +2361,14 @@ QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept
     stream>>ii;
     hero.noSalaryWeeks=ii;
 
+    stream>>hero.lastKnownLandName;
+
     QVector<QPair<Time,QString>> wrs;
     stream>>wrs;
     for (const auto e : wrs)
         hero.waitingReports+=new UnifiedReport{e.first,e.second};
+
+    stream>>hero.waitingDBEntries;
 
     stream>>n;
     hero.currentActivity=static_cast<HeroEnums::CurrentActivity>(n);

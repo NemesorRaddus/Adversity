@@ -123,6 +123,7 @@ struct SaveData
     struct Database
     {
         DatabaseUnlocksInfo unlocks;
+        bool areThereNewDBEntries;
     } database;
     struct Missions
     {

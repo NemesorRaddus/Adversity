@@ -461,6 +461,9 @@ public:
     void addWaitingReport(UnifiedReport *report) noexcept;
     void sendWaitingReports() noexcept;
 
+    void addWaitingDBEntry(const QString &entryName) noexcept;
+    void sendWaitingDBEntries() noexcept;
+
     inline HeroEnums::CurrentActivity currentActivity() const noexcept
     {
         return m_currentActivity;
@@ -579,8 +582,10 @@ private:
 
     Mission *m_assignedMission;
     HeroEnums::CurrentActivity m_currentActivity;
+    QString m_lastKnownLandName;
 
     QVector <UnifiedReport *> m_waitingReports;
+    QVector <QString> m_waitingDBEntries;
 
     Base *m_base;
 };
@@ -625,7 +630,9 @@ struct HeroDataHelper
     int noSalaryWeeks;
 
     Mission *assignedMission;
+    QString lastKnownLandName;
     QVector <UnifiedReport *> waitingReports;
+    QVector <QString> waitingDBEntries;
     HeroEnums::CurrentActivity currentActivity;
 };
 

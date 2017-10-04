@@ -178,7 +178,15 @@ QVector<EventReport> Event::execute(Hero *context) noexcept
 {
     auto r = executeSpecificOps(context);
     if (!context->isDead())
-        unlockDatabaseEntries(context);
+    {
+        if (context->isCommunicationAvailable())
+            unlockDatabaseEntries(context);
+        else
+        {
+            for (const auto &e : m_unlockedDatabaseEntries)
+                context->addWaitingDBEntry(e);
+        }
+    }
     return r;
 }
 
@@ -190,13 +198,8 @@ void Event::setEventText(const QString &text) noexcept
 void Event::unlockDatabaseEntries(Hero *context) noexcept
 {
     for (auto e : m_unlockedDatabaseEntries)
-    {
         if (!context->base()->database()->isEntryUnlocked(e, context->assignedMission()->land()->name()))
-        {
             context->base()->database()->unlockEntry(e,context->assignedMission()->land()->name());
-            context->base()->addReport(new UnifiedReport(new NewDBEntryReport(context->base()->database()->pathToEntryArt(e), context->assignedMission()->timeOfCurrentEncounter())));
-        }
-    }
 }
 
 MultiEvent::~MultiEvent() noexcept
@@ -835,14 +838,6 @@ HeroDeathReport::HeroDeathReport(const QString &heroArt, const QString &heroName
 QString HeroDeathReport::text() const noexcept
 {
     return Game::gameInstance()->tr(m_heroName)+" has passed away.";
-}
-
-NewDBEntryReport::NewDBEntryReport(const QString &entryArt, const Time &time) noexcept
-    : Report(EventEnums::RT_NewDBEntry, time), m_entryArt(entryArt) {}
-
-QString NewDBEntryReport::text() const noexcept
-{
-    return "Your database has been updated.";
 }
 
 unsigned UnifiedReport::m_currentID = 0;

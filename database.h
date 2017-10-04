@@ -83,9 +83,16 @@ public:
 
     QString pathToEntryArt(const Name &entryName) const noexcept;
 
+    Q_INVOKABLE void setAreThereNewUnlockedEntries(bool areThere) noexcept;
+    Q_INVOKABLE inline bool areThereNewEntries() const noexcept
+    {
+        return m_areThereNewEntries;
+    }
+
 private:
     QVector <DatabaseEntry> m_entriesData;
     DatabaseUnlocksInfo m_unlocksInfo;
+    bool m_areThereNewEntries;
 
     QVector <DatabaseEntry> m_entriesFromCurrentCategory;
 };

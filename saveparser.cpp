@@ -80,6 +80,7 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.equipments.freeArmor;
         str>>data.equipments.freeWeaponsTools;
         str>>data.database.unlocks;
+        str>>data.database.areThereNewDBEntries;
         str>>data.missions.missions;
         str>>data.missions.reports;
     }
@@ -148,6 +149,7 @@ SaveData SaveParser::readData(QByteArray &array)
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
         data.database.unlocks.clear();
+        data.database.areThereNewDBEntries=false;
         data.missions.missions.clear();
         data.missions.reports.clear();
 
@@ -224,6 +226,7 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;
     str<<data.database.unlocks;
+    str<<data.database.areThereNewDBEntries;
     str<<data.missions.missions;
     str<<data.missions.reports;
 

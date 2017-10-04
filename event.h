@@ -752,21 +752,6 @@ private:
     QString m_heroName;
 };
 
-class NewDBEntryReport final : public Report
-{
-public:
-    NewDBEntryReport(const QString &entryArt, const Time &time) noexcept;
-
-    inline QString art() const noexcept final
-    {
-        return m_entryArt;
-    }
-    QString text() const noexcept final;
-
-private:
-    QString m_entryArt;
-};
-
 struct UnifiedReportDataHelper
 {
     unsigned id;

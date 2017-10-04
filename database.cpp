@@ -164,10 +164,15 @@ void Database::unlockEntry(const Database::Name &entryName) noexcept
             QVector <bool> vb;
             vb.fill(1,m_entriesData[pos].second.inhabitancies.size());
             m_unlocksInfo.unlockedInhabitancies+=vb;
+            m_areThereNewEntries=1;
         }
     }
     else
+    {
+        if (m_unlocksInfo.unlockedInhabitancies[index].contains(0))
+            m_areThereNewEntries=1;
         m_unlocksInfo.unlockedInhabitancies[index].fill(1);
+    }
 }
 
 void Database::unlockEntry(const Database::Name &entryName, const QString &landName) noexcept
@@ -194,6 +199,7 @@ void Database::unlockEntry(const Database::Name &entryName, const QString &landN
                     break;
                 }
             m_unlocksInfo.unlockedInhabitancies+=vb;
+            m_areThereNewEntries=1;
         }
     }
     else
@@ -208,6 +214,8 @@ void Database::unlockEntry(const Database::Name &entryName, const QString &landN
         for (int i=0;i<m_entriesData[pos].second.inhabitancies.size();++i)
             if (m_entriesData[pos].second.inhabitancies[i] == landName)
             {
+                if (!m_unlocksInfo.unlockedInhabitancies[index][i])
+                    m_areThereNewEntries=1;
                 m_unlocksInfo.unlockedInhabitancies[index][i]=1;
                 break;
             }
@@ -260,4 +268,9 @@ QString Database::pathToEntryArt(const Database::Name &entryName) const noexcept
     if (type == DatabaseEnums::ET_END)
         return "";
     return "qrc:/graphics/Database/"+DatabaseEnums::fromEntryTypeEnumToQString(type)+"/"+Global::alterNormalTextToInternal(entryName)+".png";
+}
+
+void Database::setAreThereNewUnlockedEntries(bool areThere) noexcept
+{
+    m_areThereNewEntries=areThere;
 }

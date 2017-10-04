@@ -1874,6 +1874,7 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_gameClock->updateClock({data.overall.lastKnownDay, data.overall.lastKnownHour, data.overall.lastKnownMinute});//setting date and time in GameClock
 
     m_database->setUnlocksInfo(data.database.unlocks);//database
+    m_database->setAreThereNewUnlockedEntries(data.database.areThereNewDBEntries);
 
     for (const auto &e : data.missions.reports)//reports
         m_reports+=new UnifiedReport{e};
@@ -2037,6 +2038,7 @@ SaveData Base::getSaveData() noexcept
     data.alarms.missionAlarms=mals;
 
     data.database.unlocks=m_database->unlockedEntries();
+    data.database.areThereNewDBEntries=m_database->areThereNewEntries();
 
     for (auto e : m_missions)
         data.missions.missions+=MissionBuilder::deqobjectifyMission(e);
