@@ -480,7 +480,7 @@ public:
 
     void returnToBase() noexcept;
 
-    void die(bool playerKnowsIt = 0) noexcept;
+    void die(bool playerKnowsIt = 0, bool showNotification = 1) noexcept;
     void becomeMIA() noexcept;
 
     inline Base *base() noexcept

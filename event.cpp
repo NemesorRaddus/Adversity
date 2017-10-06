@@ -1068,7 +1068,7 @@ void Mission::abort() noexcept
     m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedHero->assignMission(nullptr);
     auto b=m_assignedHero->base();
-    m_assignedHero->die(1);
+    m_assignedHero->die(1,0);
     b->removeMission(this);
 }
 
