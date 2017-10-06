@@ -1015,9 +1015,9 @@ void LandBuilder::setAssociatedEncountersContainer(EncountersContainer *encCont)
     m_land->setAssociatedEncountersContainer(encCont);
 }
 
-void Mission::decrementDuration() noexcept
+void Mission::handleNewDay() noexcept
 {
-    --m_remainingDays;
+    ++m_daysSpent;
 }
 
 void Mission::assignHero(Hero *hero) noexcept
@@ -1034,8 +1034,7 @@ void Mission::start() noexcept
     Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
     for (const auto &e : m_encounters)
         Game::gameInstance()->loggers()->missionsLogger()->trace("Day {}: {}",e.first,e.second->name().toStdString());
-    Game::gameInstance()->loggers()->missionsLogger()->trace("Mission ends in {}",m_remainingDays);
-
+    Game::gameInstance()->loggers()->missionsLogger()->trace("Mission ends in {}",remainingDays());
 }
 
 EncounterReport *Mission::doEncounter(const Time &now) noexcept
@@ -1103,7 +1102,7 @@ void Mission::prepareReport(unsigned index) noexcept
 }
 
 Mission::Mission() noexcept
-    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_remainingDays(1), m_nextEncounter(0), m_minutesSinceMidnightOfLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
+    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_daysSpent(0), m_nextEncounter(0), m_minutesSinceMidnightOfLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
 
 void Mission::planEverything() noexcept
 {
@@ -1160,7 +1159,7 @@ void Mission::setDuration(unsigned days) noexcept
     if (days<1)
         return;
     m_duration=days;
-    m_remainingDays=days;
+    m_daysSpent=0;
 }
 
 void Mission::addEncounter(MissionDay day, Encounter *encounter) noexcept
@@ -1173,7 +1172,7 @@ QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) n
     stream<<mission.land;
     stream<<static_cast<quint8>(mission.difficulty);
     stream<<static_cast<qint16>(mission.duration);
-    stream<<static_cast<qint16>(mission.remainingDays);
+    stream<<static_cast<qint16>(mission.daysSpent);
     QVector <QPair <qint16, QString> > encounters;
     for (auto e : mission.encounters)
         encounters+={static_cast<qint16>(e.first),e.second};
@@ -1200,7 +1199,7 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
     mission.duration=ii;
 
     stream>>ii;
-    mission.remainingDays=ii;
+    mission.daysSpent=ii;
 
     QVector <QPair <qint16, QString> > encounters;
     stream>>encounters;
@@ -1272,7 +1271,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
         return r;
     r->m_difficulty = mission.difficulty;
     r->m_duration = mission.duration;
-    r->m_remainingDays = mission.remainingDays;
+    r->m_daysSpent = mission.daysSpent;
     for (int i=0;i<mission.encounters.size();++i)
         for (auto e : r->m_land->encounters()->encounters())
             if (e->name() == mission.encounters[i].second)
@@ -1311,7 +1310,7 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     r.land = mission->land()->name();
     r.difficulty = mission->difficulty();
     r.duration = mission->fullDuration();
-    r.remainingDays = mission->remainingDays();
+    r.daysSpent = mission->remainingDays();
     QVector <QPair <unsigned, QString> > encs;
     for (auto e : mission->m_encounters)
         encs+={e.first,e.second->name()};

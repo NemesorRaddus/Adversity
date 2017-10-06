@@ -25,7 +25,7 @@ Item {
                                "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
                                GameApi.base.preparedMission.land.name(),
                                GameApi.base.preparedMission.difficultyString(),
-                               GameApi.base.preparedMission.fullDuration()-GameApi.base.preparedMission.remainingDays(),
+                               GameApi.base.preparedMission.daysSpent(),
                                GameApi.base.preparedMission.hero.isCommunicationAvailable(),
                                GameApi.base.preparedMission.hero.isStressBorderEffectActive(),
                                GameApi.base.preparedMission.hero.health(),
