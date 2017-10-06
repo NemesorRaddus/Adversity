@@ -991,7 +991,8 @@ void Hero::assignMission(Mission *mission) noexcept
 {
     m_assignedMission=mission;
     m_currentActivity=HeroEnums::CA_OnMission;
-    m_lastKnownLandName=mission->land()->name();
+    if (mission != nullptr)
+        m_lastKnownLandName=mission->land()->name();
 }
 
 void Hero::trySendingReport(UnifiedReport *report, bool registerInMission) noexcept
