@@ -1310,7 +1310,7 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     r.land = mission->land()->name();
     r.difficulty = mission->difficulty();
     r.duration = mission->fullDuration();
-    r.daysSpent = mission->remainingDays();
+    r.daysSpent = mission->daysSpent();
     QVector <QPair <unsigned, QString> > encs;
     for (auto e : mission->m_encounters)
         encs+={e.first,e.second->name()};
