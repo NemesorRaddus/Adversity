@@ -12,12 +12,6 @@
 
 #include <QDebug>
 
-namespace Randomizer
-{
-    void initialize() noexcept;
-    unsigned randomBetweenAAndB(unsigned a, unsigned b) noexcept;
-}
-
 struct EventEnums
 {
     enum Action

@@ -4,24 +4,6 @@
 
 #include <QDebug>
 
-void Randomizer::initialize() noexcept
-{
-    qsrand(static_cast<quint64>(QTime::currentTime().msecsSinceStartOfDay()));
-}
-
-unsigned Randomizer::randomBetweenAAndB(unsigned a, unsigned b) noexcept
-{
-    try
-    {
-        return {qrand() % ((b + 1) - a) + a};
-    }
-    catch(...)
-    {
-        Game::gameInstance()->loggers()->mainLogger()->critical("Wrong params for randomBetweenAAndB (a={}, b={})!",a,b);
-        abort();
-    }
-}
-
 EventEnums::MissionDifficulty EventEnums::fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept
 {
     if (missionDifficulty == "Short")
@@ -1377,19 +1359,19 @@ unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDif
     switch (difficulty)
     {
     case EventEnums::MD_Short:
-        return Randomizer::randomBetweenAAndB(0,2);
+        return Randomizer::randomBetweenAAndB(0,2,Randomizer::RandomizationMethods::bentRand);
     case EventEnums::MD_Medium:
         [[fallthrough]];
     case EventEnums::MD_Long:
         [[fallthrough]];
     case EventEnums::MD_Extreme:
-        return Randomizer::randomBetweenAAndB(0,3);
+        return Randomizer::randomBetweenAAndB(0,3,Randomizer::RandomizationMethods::bentRand);
     case EventEnums::MD_Veteran:
         [[fallthrough]];
     case EventEnums::MD_Master:
-        return Randomizer::randomBetweenAAndB(2,5);
+        return Randomizer::randomBetweenAAndB(2,5,Randomizer::RandomizationMethods::bentRand);
     case EventEnums::MD_Heroic:
-        return Randomizer::randomBetweenAAndB(2,6);
+        return Randomizer::randomBetweenAAndB(2,6,Randomizer::RandomizationMethods::bentRand);
     default:
         return 0;
     }

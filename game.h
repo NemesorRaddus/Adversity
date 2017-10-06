@@ -7,6 +7,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QTimer>
+#include <QtMath>
 
 #include <sstream>
 #include <string>
@@ -32,6 +33,18 @@ public:
     Q_INVOKABLE static QString alterNormalTextToInternal(QString normalText) noexcept;
     Q_INVOKABLE static QString sanitize(QString script) noexcept;
 };
+
+namespace Randomizer
+{
+    namespace RandomizationMethods
+    {
+        unsigned flatRand(unsigned a, unsigned b);
+        unsigned bentRand(unsigned a, unsigned b);
+    }
+
+    void initialize() noexcept;
+    unsigned randomBetweenAAndB(unsigned a, unsigned b, unsigned(*randomization)(unsigned, unsigned) = RandomizationMethods::flatRand) noexcept;
+}
 
 class QQmlEngine;
 class QJSEngine;
