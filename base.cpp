@@ -2088,7 +2088,7 @@ void Base::startNewDay() noexcept
         delete timeoutedAlarms[i];
 
     for (auto &e : m_missions)
-        e->decrementDuration();
+        e->handleNewDay();
 
     m_heroes->setAmountOfSlots(m_barracks->heroesLimit());
 

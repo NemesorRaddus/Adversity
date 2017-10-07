@@ -1270,7 +1270,7 @@ It's too late. We will have to do it the hard way.</text>
 													<addedValue value="&lt;5;10>"></addedValue>
 												</event>
 												<event type="Check" subtype="Value">
-                                                    <condition condition="CE>7"></condition>
+                                                    <condition condition="CE>6"></condition>
 													<results>
 														<positive>
 															<event type="Multi">

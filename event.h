@@ -12,12 +12,6 @@
 
 #include <QDebug>
 
-namespace Randomizer
-{
-    void initialize() noexcept;
-    unsigned randomBetweenAAndB(unsigned a, unsigned b) noexcept;
-}
-
 struct EventEnums
 {
     enum Action
@@ -937,13 +931,13 @@ public:
     }
     Q_INVOKABLE inline unsigned remainingDays() const noexcept
     {
-        return m_remainingDays;
+        return m_duration-m_daysSpent>0 ? m_duration-m_daysSpent : 0;
     }
     Q_INVOKABLE inline unsigned daysSpent() const noexcept
     {
-        return fullDuration()-remainingDays();
+        return m_daysSpent;
     }
-    void decrementDuration() noexcept;
+    void handleNewDay() noexcept;
 
     void assignHero(Hero *hero) noexcept;
     inline const Hero *assignedHero() const noexcept
@@ -994,7 +988,7 @@ private:
     Land *m_land;
     EventEnums::MissionDifficulty m_difficulty;
     unsigned m_duration;
-    unsigned m_remainingDays;
+    unsigned m_daysSpent;
     QVector <QPair <MissionDay, Encounter *> > m_encounters;
     unsigned m_nextEncounter;
     Time m_timeOfCurrentEncounter;
@@ -1008,7 +1002,7 @@ struct MissionDataHelper
 {
     QString land;
     EventEnums::MissionDifficulty difficulty;
-    unsigned duration, remainingDays;
+    unsigned duration, daysSpent;
     QVector <QPair <unsigned, QString> > encounters;
     unsigned nextEncounter;
     int minutesSinceMidnightOfLastEncounter;

@@ -33,7 +33,7 @@ TimerAlarm::TimerAlarm(Base *base, TimerAlarmEnums::AlarmType type, bool isAlrea
 {}
 
 BuildingUpgradeTimerAlarm::BuildingUpgradeTimerAlarm(Base *base, BaseEnums::Building buildingName, unsigned buildingLevel) noexcept
-    : TimerAlarm(base,TimerAlarmEnums::AT_BuildingUpgrade), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
+    : TimerAlarm(base,TimerAlarmEnums::AT_BuildingUpgrade,1), m_buildingName(buildingName), m_buildingLevel(buildingLevel)
 {}
 
 QDataStream &BuildingUpgradeTimerAlarm::read(QDataStream &stream) noexcept
