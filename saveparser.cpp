@@ -4,6 +4,7 @@
 
 #include "timer.h"
 #include "hero.h"
+#include "event.h"
 
 #include <QDebug>
 
@@ -12,15 +13,15 @@ SaveData SaveParser::readData(QByteArray &array)
     QByteArray t=qUncompress(array);
 
     SaveData data;
+    data.raw = array;
     if (!t.isEmpty())
     {
         QDataStream str(&t,QIODevice::ReadOnly);
+        str>>data.parserVersion;
         str>>data.overall.baseName;
-        str>>data.overall.lastKnownDate;
         str>>data.overall.lastKnownDay;
         str>>data.overall.lastKnownHour;
         str>>data.overall.lastKnownMinute;
-        str>>data.overall.freezeGameProgress;
         str>>data.buildings.levels.centralUnit;
         str>>data.buildings.levels.powerplant;
         str>>data.buildings.levels.factory;
@@ -73,18 +74,23 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.resources.foodSupplies;
         str>>data.resources.aetheriteOre;
         str>>data.alarms.buildingUpgrades;
+        str>>data.alarms.missionEnds;
+        str>>data.alarms.missionAlarms;
         str>>data.heroes.hiredHeroes;
         str>>data.equipments.freeArmor;
         str>>data.equipments.freeWeaponsTools;
+        str>>data.database.unlocks;
+        str>>data.database.areThereNewDBEntries;
+        str>>data.missions.missions;
+        str>>data.missions.reports;
     }
     else
     {
-        data.overall.baseName="";
-        data.overall.lastKnownDate=QDateTime::currentDateTime();
+        data.parserVersion.clear();
+        data.overall.baseName.clear();
         data.overall.lastKnownDay=1;
-        data.overall.lastKnownHour=12;
+        data.overall.lastKnownHour=0;
         data.overall.lastKnownMinute=0;
-        data.overall.freezeGameProgress=false;
         data.buildings.levels.centralUnit=1;
         data.buildings.levels.powerplant=1;
         data.buildings.levels.factory=1;
@@ -132,14 +138,20 @@ SaveData SaveParser::readData(QByteArray &array)
         data.buildings.dockingStationThings.activeResourceTransactions.clear();
         data.buildings.dockingStationThings.equipments.clear();
         data.buildings.dockingStationThings.arrivingEquipments.clear();
-        data.resources.energy=200;
+        data.resources.energy=250;
         data.resources.buildingMaterials=5;
-        data.resources.foodSupplies=5;
+        data.resources.foodSupplies=24;
         data.resources.aetheriteOre=50;
         data.alarms.buildingUpgrades.clear();
+        data.alarms.missionEnds.clear();
+        data.alarms.missionAlarms.clear();
         data.heroes.hiredHeroes.clear();
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
+        data.database.unlocks.clear();
+        data.database.areThereNewDBEntries=false;
+        data.missions.missions.clear();
+        data.missions.reports.clear();
 
         writeData(array,data);
     }
@@ -151,12 +163,11 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     QByteArray t;
 
     QDataStream str(&t,QIODevice::WriteOnly);
+    str<<data.parserVersion;
     str<<data.overall.baseName;
-    str<<data.overall.lastKnownDate;
     str<<data.overall.lastKnownDay;
     str<<data.overall.lastKnownHour;
     str<<data.overall.lastKnownMinute;
-    str<<data.overall.freezeGameProgress;
     str<<data.buildings.levels.centralUnit;
     str<<data.buildings.levels.powerplant;
     str<<data.buildings.levels.factory;
@@ -209,9 +220,15 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.resources.foodSupplies;
     str<<data.resources.aetheriteOre;
     str<<data.alarms.buildingUpgrades;
+    str<<data.alarms.missionEnds;
+    str<<data.alarms.missionAlarms;
     str<<data.heroes.hiredHeroes;
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;
+    str<<data.database.unlocks;
+    str<<data.database.areThereNewDBEntries;
+    str<<data.missions.missions;
+    str<<data.missions.reports;
 
     array=qCompress(t);
 }

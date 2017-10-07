@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Missions/Map.png</file>
+        <file>graphics/Missions/Lands/AuroraForest.png</file>
+        <file>graphics/Missions/Lands/GedoDesert.png</file>
+        <file>graphics/Missions/Lands/HegosPlains.png</file>
+    </qresource>
+</RCC>

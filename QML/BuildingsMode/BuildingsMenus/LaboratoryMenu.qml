@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -21,7 +21,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.laboratory.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("cl");
         var amountOfSlotsAvailable = GameApi.base.laboratory.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -122,6 +122,16 @@ Item {
         heroSelectionList.state = "hidden";
     }
 
+    function requestUnban(heroName)
+    {
+        heroSelectionList.unbanHero(heroName);
+    }
+
+    function acknowledgeConsoleHiding()
+    {
+        h4xEntrance.latestHidingTime = new Date().getTime();
+    }
+
     width: 1080
     height: 1464
 
@@ -158,9 +168,16 @@ Item {
 
         property int clicks: 0
         property double startTime: 0
+        property double latestHidingTime: 0
 
         function add()
         {
+            if (new Date().getTime() - latestHidingTime <= 3000) // F0R R4P1D H4X1n6
+            {
+                showSpecial();
+                return;
+            }
+
             ++clicks;
             if (startTime==0)
                 startTime = new Date().getTime();
@@ -284,7 +301,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -382,7 +399,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyCostAmount1
@@ -431,7 +448,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/CL.png"
+            source: "qrc:/graphics/GUI/Attributes/CL.png"
         }
         Text {
             id: clevernessBonusAmount1
@@ -553,7 +570,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -578,7 +595,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
@@ -711,7 +728,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("cl");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -742,7 +759,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("cl");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -773,7 +790,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("cl");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }

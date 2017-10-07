@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -20,7 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.trainingGround.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("ce");
         var amountOfSlotsAvailable = GameApi.base.trainingGround.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -119,6 +119,11 @@ Item {
             slotView3.removeHero();
         }
         heroSelectionList.state = "hidden";
+    }
+
+    function requestUnban(heroName)
+    {
+        heroSelectionList.unbanHero(heroName);
     }
 
     width: 1080
@@ -240,7 +245,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -338,7 +343,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyCostAmount1
@@ -387,7 +392,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/CE.png"
+            source: "qrc:/graphics/GUI/Attributes/CE.png"
         }
         Text {
             id: combatEfficiencyBonusAmount1
@@ -509,7 +514,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -534,7 +539,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
@@ -667,7 +672,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("ce");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -698,7 +703,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("ce");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -729,7 +734,7 @@ Item {
             mode: 1
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("ce");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }

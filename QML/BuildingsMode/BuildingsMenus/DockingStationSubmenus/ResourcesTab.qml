@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
 import Game 1.0
 
@@ -17,6 +17,8 @@ Item {
 
     function update()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         tradingTable.update();
     }
 
@@ -122,6 +124,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 250 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 250 }
     }
 }

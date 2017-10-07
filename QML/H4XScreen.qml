@@ -1,4 +1,4 @@
-import QtQuick 2.1
+import QtQuick 2.9
 
 import Game 1.0
 
@@ -10,6 +10,8 @@ Item {
 
     width: 1080
     height: 1920
+
+    signal hiding()
 
     function cursorLoseFocus()
     {
@@ -35,6 +37,8 @@ Item {
             con.text="";
             con.forceActiveFocus();
         }
+        else
+            hiding();
     }
 
     Image {
@@ -69,11 +73,24 @@ Item {
         font.family: "Consolas"
 
         onAccepted: {
-            eval("GameApi.h4xLogic."+text);
-            eval("GameApi.h4xLogic.forceUIUpdate()");
-
-            parent.forceActiveFocus();
-            parent.visible=false;
+            if (text == "forceUIUpdate()")
+            {
+                eval("GameApi.h4xLogic.forceUIUpdate()");
+                parent.forceActiveFocus();
+                parent.visible=false;
+            }
+            else
+            {
+                eval("GameApi.h4xLogic."+GameApi.globalsCpp.sanitize(text));
+                if (eval("(GameApi.h4xLogic.isAutoUpdateEnabled())"))
+                {
+                    eval("GameApi.h4xLogic.forceUIUpdate()");
+                    parent.forceActiveFocus();
+                    parent.visible=false;
+                }
+                else
+                    text = "";
+            }
         }
     }
 }

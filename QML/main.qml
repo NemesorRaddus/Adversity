@@ -1,5 +1,5 @@
-import QtQuick 2.7
-import QtQuick.Window 2.2
+import QtQuick 2.9
+import QtQuick.Window 2.3
 
 import Game 1.0
 import "."
@@ -10,11 +10,16 @@ Window {
     property int currentMode: 0
     property bool updateEverythingInAMoment: true
 
+    color: "black"
+
     function changeMode(mode)
     {
+        mainGUI.reportsList.state = "hidden";
+        mainGUI.settings.hide();
+
         if (currentMode == 0)
         {
-
+            mainGUI.missionsGUI.returnToDefault();
         }
         else if (currentMode == 1)
         {
@@ -29,16 +34,19 @@ Window {
 
         if (mode == 0)
         {
+            mainGUI.missionsGUI.state = "";
             mainGUI.buildingsGUI.state = "hiddenRight";
             mainGUI.mercenariesGUI.state = "hiddenRight2";
         }
         else if (mode == 1)
         {
+            mainGUI.missionsGUI.state = "hiddenLeft";
             mainGUI.buildingsGUI.state = "";
             mainGUI.mercenariesGUI.state = "hiddenRight";
         }
         else if (mode == 2)
         {
+            mainGUI.missionsGUI.state = "hiddenLeft2";
             mainGUI.buildingsGUI.state = "hiddenLeft";
             mainGUI.mercenariesGUI.state = "";
         }
@@ -49,9 +57,17 @@ Window {
         mainGUI.updateEverything();
     }
 
+    function showReportNotification()
+    {
+        mainGUI.reportsNotification.setAmount(GameApi.base.amountOfNewReports());
+        mainGUI.reportsNotification.show();
+    }
+
     //for h4x
     property alias gameTimerInterval: gameTimer.interval
     property alias gameTimerRunning: gameTimer.running
+
+    property alias enableFPSCounter: mainGUI.enableFPSCounter
 
     visible: true
     width: 450
@@ -70,59 +86,35 @@ Window {
         {
             energyValue.text = GameApi.base.currentEnergyAmount() + '/' + GameApi.base.powerplant.energyLimit();
             if (GameApi.base.currentEnergyAmount() === 0)
-            {
                 energyValue.color = "#b30000";
-            }
             else if (GameApi.base.currentEnergyAmount() === GameApi.base.powerplant.energyLimit())
-            {
                 energyValue.color = "#ffd480";
-            }
             else
-            {
                 energyValue.color = "#c0efc0";
-            }
 
             foodSuppliesValue.text = GameApi.base.currentFoodSuppliesAmount() + '/' + GameApi.base.coolRoom.foodSuppliesLimit();
             if (GameApi.base.currentFoodSuppliesAmount() === 0)
-            {
                 foodSuppliesValue.color = "#b30000";
-            }
             else if (GameApi.base.currentFoodSuppliesAmount() === GameApi.base.coolRoom.foodSuppliesLimit())
-            {
                 foodSuppliesValue.color = "#ffd480";
-            }
             else
-            {
                 foodSuppliesValue.color = "#c0efc0";
-            }
 
             buildingMaterialsValue.text = GameApi.base.currentBuildingMaterialsAmount() + '/' + GameApi.base.storageRoom.buildingMaterialsLimit();
             if (GameApi.base.currentBuildingMaterialsAmount() === 0)
-            {
                 buildingMaterialsValue.color = "#b30000";
-            }
             else if (GameApi.base.currentBuildingMaterialsAmount() === GameApi.base.storageRoom.buildingMaterialsLimit())
-            {
                 buildingMaterialsValue.color = "#ffd480";
-            }
             else
-            {
                 buildingMaterialsValue.color = "#c0efc0";
-            }
 
             aetheriteValue.text = GameApi.base.currentAetheriteAmount() + '/' + GameApi.base.aetheriteSilo.aetheriteLimit();
             if (GameApi.base.currentAetheriteAmount() === 0)
-            {
                 aetheriteValue.color = "#b30000";
-            }
             else if (GameApi.base.currentAetheriteAmount() === GameApi.base.aetheriteSilo.aetheriteLimit())
-            {
                 aetheriteValue.color = "#ffd480";
-            }
             else
-            {
                 aetheriteValue.color = "#c0efc0";
-            }
 
             energyValue2.text = GameApi.base.currentEnergyIncome() + '/' + "day";
             foodSuppliesValue2.text = GameApi.base.currentFoodSuppliesIncome() + '/' + "day";
@@ -146,7 +138,8 @@ Window {
         function updateMainContent()
         {
             mainGUI.buildingsGUI.updateEverything();
-            mainGUI.mercenariesGUI.updateEverything();//TODO more
+            mainGUI.mercenariesGUI.updateEverything();
+            mainGUI.missionsGUI.updateEverything();
         }
 
         function updateEverything()
@@ -154,6 +147,8 @@ Window {
             updateResources();
             updateClock();
             updateMainContent();
+            reportsList.updateEverything();
+            settings.update();
             splash.canClose = true;//only for first gui loading,but it's inexpensive so it can stay
         }
 
@@ -178,8 +173,12 @@ Window {
         mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
 
         buildingsGUI.onHeroesModeUpdateRequested: mercenariesGUI.updateEverything();
+        missionsGUI.onHeroesModeUpdateRequested: mercenariesGUI.updateEverything();
+
+        missionsGUI.onResourcesUpdateRequested: updateResources();
 
         buildingsGUI.onShowSpecial: h4xScreen.visible = true;
+        h4xScreen.onHiding: buildingsGUI.acknowledgeConsoleHiding();
 
         mercenariesGUI.onBuildingMenuRequested: {
             changeMode(1);
@@ -190,16 +189,34 @@ Window {
         mercenariesGUI.onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide()
         mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
         mercenaryDismissConfirmDialog.onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing()
+        mercenariesGUI.onUnbanRequested: buildingsGUI.requestUnban(heroName, buildingName)
 
         mercenariesGUI.onArtPreviewRequested: heroArtPreview.show(artSource)
         mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
         heroArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
+
+        settingsButton.onClicked: settings.show();
+        settings.onBackClicked: settings.hide();
+
+        onEnableFPSCounterChanged: settings.acknowledgeFPSToggle(enableFPSCounter);
+
+        reportsNotification.onClicked: {
+            reportsList.updateEverything();
+            reportsList.state = "";
+        }
+        reportsOpener.onClicked: {
+            reportsList.updateEverything();
+            reportsList.state = "";
+        }
+        reportsList.onBackClicked: {
+            reportsList.state = "hidden";
+        }
     }
 
     Timer {
         id: gameTimer
 
-        interval: 1250 // 1000/48*60
+        interval: 625
         running: true
         repeat: true
         onTriggered: {
@@ -213,7 +230,7 @@ Window {
             }
             else if (GameApi.base.gameClock.hasDayChangedLately())
             {
-                mainGUI.updateEverything();//TODO more
+                mainGUI.updateEverything();
             }
         }
     }
@@ -241,7 +258,7 @@ Window {
         splash.show();
         Globals.windowWidth = width;
         Globals.windowHeight = height;
-        changeMode(0);
+        changeMode(1);
         GameApi.loadExistingBase(":/data/");
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
@@ -254,9 +271,26 @@ Window {
         }
         else
         {
-            if (currentMode == 0)
+            if (mainGUI.settings.state == "")
             {
-                GameApi.saveBase();
+                if (!mainGUI.settings.reactToBackOnToolbar())
+                    mainGUI.settings.state = "hidden";
+                close.accepted = false;
+            }
+            else if (mainGUI.reportsList.state == "")
+            {
+                if (!mainGUI.reportsList.reactToBackOnToolbar())
+                    mainGUI.reportsList.state = "hidden";
+                close.accepted = false;
+            }
+            else if (currentMode == 0)
+            {
+                if (mainGUI.missionsGUI.reactToBackOnToolbar())
+                    close.accepted = false;
+                else
+                {
+                    GameApi.saveBase();
+                }
             }
             else if (currentMode == 1)
             {

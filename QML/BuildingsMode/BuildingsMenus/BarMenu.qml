@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -21,7 +21,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.bar.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("");
         var amountOfSlotsAvailable = GameApi.base.bar.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -212,6 +212,11 @@ Item {
         heroSelectionList.state = "hidden";
     }
 
+    function requestUnban(heroName)
+    {
+        heroSelectionList.unbanHero(heroName);
+    }
+
     width: 1080
     height: 1464
 
@@ -337,7 +342,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -435,7 +440,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: activeStressReliefAmount1
@@ -484,7 +489,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: convivialStressReliefAmount1
@@ -533,7 +538,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: recluseStressReliefAmount1
@@ -582,7 +587,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: religiousStressReliefAmount1
@@ -704,7 +709,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -729,7 +734,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
@@ -862,7 +867,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -893,7 +898,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -924,7 +929,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }
@@ -955,7 +960,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 3;
                 heroSelectionList.state = "";
             }
@@ -986,7 +991,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 4;
                 heroSelectionList.state = "";
             }
@@ -1017,7 +1022,7 @@ Item {
             mode: 0
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 5;
                 heroSelectionList.state = "";
             }

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
 import Game 1.0
 
@@ -22,10 +22,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Central Unit");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Hospital")
         {
@@ -33,10 +29,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Hospital");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Training Ground")
@@ -46,10 +38,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Training Ground");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Gym")
         {
@@ -57,10 +45,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Gym");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Laboratory")
@@ -70,10 +54,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Laboratory");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Playing Field")
         {
@@ -81,10 +61,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Playing Field");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Bar")
@@ -94,10 +70,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Bar");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Shrine")
         {
@@ -105,10 +77,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Shrine");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Seclusion")
@@ -118,10 +86,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Seclusion");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Powerplant")
         {
@@ -129,10 +93,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Powerplant");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Factory")
@@ -142,10 +102,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Factory");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Cool Room")
         {
@@ -153,10 +109,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Cool Room");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Storage Room")
@@ -166,10 +118,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Storage Room");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Aetherite Silo")
         {
@@ -177,10 +125,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Aetherite Silo");
-            }
-            else
-            {
-
             }
         }
         else if (buildingName === "Barracks")
@@ -190,10 +134,6 @@ Item {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Barracks");
             }
-            else
-            {
-
-            }
         }
         else if (buildingName === "Docking Station")
         {
@@ -201,10 +141,6 @@ Item {
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Docking Station");
-            }
-            else
-            {
-
             }
         }
     }
@@ -531,6 +467,8 @@ Item {
 
     function updateEverything()
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         centralUnit.updateEverything();
         hospital.updateEverything();
         trainingGround.updateEverything();
@@ -619,6 +557,31 @@ Item {
             barracks.returnToDefault();
         else if (dockingStation.visible)
             dockingStation.returnToDefault();
+    }
+
+    function requestUnban(heroName, buildingName)
+    {
+        if (buildingName == "Hospital")
+            hospital.requestUnban(heroName);
+        else if (buildingName == "Training Ground")
+            trainingGround.requestUnban(heroName);
+        else if (buildingName == "Gym")
+            gym.requestUnban(heroName);
+        else if (buildingName == "Laboratory")
+            laboratory.requestUnban(heroName);
+        else if (buildingName == "Playing Field")
+            playingField.requestUnban(heroName);
+        else if (buildingName == "Bar")
+            bar.requestUnban(heroName);
+        else if (buildingName == "Shrine")
+            shrine.requestUnban(heroName);
+        else if (buildingName == "Seclusion")
+            seclusion.requestUnban(heroName);
+    }
+
+    function acknowledgeConsoleHiding()
+    {
+        laboratory.acknowledgeConsoleHiding();
     }
 
     CentralUnitMenu {
@@ -771,7 +734,7 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "y"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 
     Component.onCompleted: {

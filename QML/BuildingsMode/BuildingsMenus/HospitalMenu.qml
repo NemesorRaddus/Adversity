@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import ".."
@@ -20,7 +20,7 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.hospital.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything();
+        heroSelectionList.updateEverything("");
         var amountOfSlotsAvailable = GameApi.base.hospital.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
@@ -119,6 +119,11 @@ Item {
             slotView3.removeHero();
         }
         heroSelectionList.state = "hidden";
+    }
+
+    function requestUnban(heroName)
+    {
+        heroSelectionList.unbanHero(heroName);
     }
 
     width: 1080
@@ -243,7 +248,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyDrainAmount1
@@ -341,7 +346,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
         Text {
             id: energyCostAmount1
@@ -390,7 +395,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/Foodsupplies.png"
+            source: "qrc:/graphics/GUI/Resources/Foodsupplies.png"
         }
         Text {
             id: foodSuppliesCostAmount1
@@ -439,7 +444,7 @@ Item {
             width: 66
             height: width
 
-            source: "qrc:/graphics/GUI/HealthRestored.png"
+            source: "qrc:/graphics/GUI/Attributes/HealthRestored.png"
         }
         Text {
             id: hpRestoredAmount1
@@ -561,7 +566,7 @@ Item {
             width: 70
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
         }
 
         Text {
@@ -586,7 +591,7 @@ Item {
             width: 80
             height: width
 
-            source: "qrc:/graphics/GUI/Buildingmaterials.png"
+            source: "qrc:/graphics/GUI/Resources/Buildingmaterials.png"
         }
 
         Text {
@@ -719,7 +724,7 @@ Item {
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 0;
                 heroSelectionList.state = "";
             }
@@ -750,7 +755,7 @@ Item {
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 1;
                 heroSelectionList.state = "";
             }
@@ -781,7 +786,7 @@ Item {
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything();
+                heroSelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 2;
                 heroSelectionList.state = "";
             }

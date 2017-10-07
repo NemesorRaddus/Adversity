@@ -2,7 +2,6 @@
 #define EQUIPMENT_H
 
 #include <QString>
-#include <QDataStream>
 
 #include <QDebug>
 
@@ -57,19 +56,19 @@ class Equipment : public QObject
     friend class QDataStream;
 
 public:
-    Q_INVOKABLE QString name() const noexcept
+    Q_INVOKABLE inline QString name() const noexcept
     {
         return m_name;
     }
-    EquipmentEnums::Type type() const noexcept
+    inline EquipmentEnums::Type type() const noexcept
     {
         return m_type;
     }
-    Q_INVOKABLE QString typeString() const noexcept
+    Q_INVOKABLE inline QString typeString() const noexcept
     {
         return EquipmentEnums::fromTypeEnumToQString(m_type);
     }
-    Q_INVOKABLE int tier() const
+    Q_INVOKABLE inline int tier() const
     {
         return m_tier;
     }
@@ -95,7 +94,7 @@ public:
     Q_INVOKABLE QString bonusAtPosName(unsigned pos) const noexcept;
     Q_INVOKABLE float bonusAtPosValue(unsigned pos) const noexcept;
 
-    QVector <EquipmentEnums::Category> categories() const noexcept
+    inline QVector <EquipmentEnums::Category> categories() const noexcept
     {
         return m_categories;
     }
@@ -103,6 +102,8 @@ public:
     Q_INVOKABLE unsigned buyingAetheriteCost() const noexcept;
     Q_INVOKABLE unsigned maintenanceEnergyCost() const noexcept;
     Q_INVOKABLE unsigned maintenanceBuildingMaterialsCost() const noexcept;
+
+    Q_INVOKABLE QString pathToArt() const noexcept;
 
 private:
     Equipment() noexcept;

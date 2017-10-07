@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 Item {
     id: root
@@ -58,6 +58,8 @@ Item {
         startAbortIcon.visible = false;
         startAbortMA.enabled = false;
         isVacant = true;
+        startAbortIcon.source = "qrc:/graphics/GUI/Settings.png"
+        isConfirmed = false;
     }
 
     function forceAbortIcon()
@@ -76,14 +78,14 @@ Item {
         {
             cost2.visible = false;
 
-            cost1Icon.source = "qrc:/graphics/GUI/Energy.png"
+            cost1Icon.source = "qrc:/graphics/GUI/Resources/Energy.png"
         }
         else if (mode == 1)
         {
             if (cost1.visible)
                 cost2.visible = true;
 
-            cost1Icon.source = "qrc:/graphics/GUI/Energy.png"
+            cost1Icon.source = "qrc:/graphics/GUI/Resources/Energy.png"
             cost2Icon.source = "qrc:/graphics/GUI/Time.png"
         }
         else if (mode == 2)
@@ -91,8 +93,8 @@ Item {
             if (cost1.visible)
                 cost2.visible = true;
 
-            cost1Icon.source = "qrc:/graphics/GUI/Energy.png"
-            cost2Icon.source = "qrc:/graphics/GUI/Foodsupplies.png"
+            cost1Icon.source = "qrc:/graphics/GUI/Resources/Energy.png"
+            cost2Icon.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png"
         }
     }
 
@@ -166,7 +168,7 @@ Item {
                 width: 70
                 height: 70
 
-                source: "qrc:/graphics/GUI/Energy.png";
+                source: "qrc:/graphics/GUI/Resources/Energy.png";
             }
             Text {
                 id: cost1Amount
@@ -202,7 +204,7 @@ Item {
                 width: 70
                 height: 70
 
-                source: "qrc:/graphics/GUI/Energy.png";
+                source: "qrc:/graphics/GUI/Resources/Energy.png";
             }
             Text {
                 id: cost2Amount
@@ -249,8 +251,6 @@ Item {
             onClicked: {
                 if (isConfirmed)
                 {
-                    startAbortIcon.source = "qrc:/graphics/GUI/Settings.png"
-                    isConfirmed = false;
                     removeHero();
                     abortClicked();
                 }

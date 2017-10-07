@@ -48,7 +48,18 @@ public:
 
     QMap <QString, QMap<QString,QString> > getTranslations(const QString &path) noexcept;
 
+    QList <QString> getDatabaseFilesList(const QString &pathToDBDir) noexcept;
+    QVector <DatabaseEntry> getDatabaseEntries(const QString &path) noexcept;
+
+    QList <QString> getLandsNamesList(const QString &pathToLandsDir) noexcept;
+    LandInfo getLandInfo(const QString &path) noexcept;
+
+    EncountersContainer *getEncounters(const QString &path) noexcept;
+
 private:
+    Event *getEvent(bool alreadyRead) noexcept;
+    static ValueRange parseValue(QString text) noexcept;
+
     QXmlStreamReader *m_xmlReader;
 };
 

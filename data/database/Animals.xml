@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbEntries type="Animals">
+    <entry>
+        <name>Winged Serpent</name>
+        <description>Winged Serpents belong to reptilia class. Limbs evolved into wings are what makes them stand out from their cousins. Adult Winged Serpent grow to about 5 meters long and 2.5 meters wide. Their bodies are fully covered by scales that prevent any injuries or other damage from rapid landings.
+
+Serpents are predators and seek their prey on open fields where nothing can disturb the hunt. Those hunters feed on animals of size similar to human, but younger ones seek smaller targets. On hunt Winged Serpents take advantage of being above their prey with powerful bite in the back. If the target is light enough they try to lift it and throw them down from few meters hoping to crush their bones which cause immobilization.
+
+Without a ranged weapon there is no point in figting with serpents. If you happen to have one it's totally different situation. Instead of shooting at its body or head, it's much more wiser to damage the wings. They are bigger targets and major wholes will ground the predator often with great impact that can sometimes kill a serpent right away. Even if it survives, without an ability to fly, it isn't a threat and can be easily killed.
+		</description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Splitterhound</name>
+        <description>Splitterhounds are very unique animals. They are the living definition of a predator. Nimble, relentless, tireless. Nature has given them sharp claws and maws that can produce pressure force up to 400 Newtons.
+
+These animals prefer to stay alone and closely guard their territories. Splitterhounds seem to have strong bound to place where they live. Observations show that they are intelligent enough to control amount of hunted herbivores. They do that to make sure that their future prey will not decide to leave the area because of too many dangers. In some rare cases we can observe really outstanding behaviour of Splitterhounds when they decide to defend a herbivore from another predator.
+
+Three pairs of eyes may look terrifying but their main purpose is absorbing different spectrums of electromagnetic waves. Therefore they can perceive the world similar to us and they are also able to use something similar to thermovision.</description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Morgai</name>
+        <description>Morgai is an insect that on average is about 13 cm long. Two pairs of wings allow them to fly omnidirectional and be agile in air. Its maws can bite but they are not dangerous to humans at all. However sting is the weapon you should be scared of. It can penetrate even modern armour and a gland in Morgai's abdomen produce toxic poison.
+
+Despite the level of danger those animals can be easily beaten with some knowledge. At most times Morgai travel in hives during night. Their bodies are almost completely black which makes them really hard to hit in darkness. However one hit will probably be enough because their bodies are really fragile. Because of lifestyle they follow, Morgai are not used to any brighter light. Light, even artificial, is totally absorbed by their black bodies which leads to overheating. Most of them will not survive more than 10 seconds of enlightment.
+
+Morgai are eatible. You just have to remember to remove their abdomens because of toxins inside.</description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Nibbler</name>
+        <description>Nibblers are probably one of the biggest invertebrates you can find. Adult individual can reach up to 2 meters long and 30 cm in diameter. They are scavengers at most times, but when they feel that they have major advantage over an enemy they may attack to pleasure themselves with fresh meat.
+
+Nibbler may seem slow and clumsy but don't let it fool you! Their bodies are soft and very flexible. Despite the lack of legs they can crawl up to 15 km/h.
+
+The best way to deal with Nibblers is to avoid them. They behave in a loud manner, especially while eating. If you happen to get in situation with no possible escape, don't panic and prepare for combat. Aim at their maws. They are very fragile inside and one hit to their guts may scare them off.
+
+Nibblers look disgusting, live disgustingly and so their meat is disgusting too. Scavenger lifestyle ends up with many bacteria infections that they can handle. However human organism isn't strong enough to fight those bacterias. Long story short, don't even try to touch their corpses under any conditions.</description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Speckled Scorpioid</name>
+        <description>Speckled Scorpioids are accustomed dry areas dwellers. Their bodies are able to sustain life on little amounts of water for long periods. They do that by lying buried in sand with limited vital signs awaiting their prey.
+
+Average Scorpioid is 3,2 meters long with its tail straight. These invertebrates are all covered by chitin plates leaving no weak spots. Their main weapon is a nimble tail with a razor sharp sting which injects paralising venom. Claws are used for self defense and after venom being injected, they hold the prey preparing it for consumption.
+
+Speckled Scorpioids take their target by surprise rapidly digging out of sand. The best way to fight with them is to aim at its cephalothorax. Especially its front where eyes and maws are. That place is least defended and a bullet shouldn't have problems with penetrating it. Well, even well struck blow can cause a concussion that will kill or at least scare off an attacking Scorpioid. Just be aware of the claws.</description>
+		<inhabitancies>
+			<inhabitancy>Gedo Desert</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Lurkerworm</name>
+        <description>Lurkerworms are probably the biggest threat you can find in deserts. They are enormous, reaching 20 meters in length and about 2 meters in diameter.
+
+Those animals are predators. Due to their size, they can hunt animals of any size. Most of the time is spent underground waiting patiently for any prey. A lurkerworm may seem clumsy and slow, but many strong legs make it a nimble navigator despite its impressive length. When any animal appears, lurkerworm uses all its power to jump out of sand and devour its prey. Long teeth moved by strong muscles can crush down anything that is in maw wihout a sweat.</description>
+		<inhabitancies>
+			<inhabitancy>Gedo Desert</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Redneck Lizard</name>
+        <description>Redneck Lizards belong to reptilia class. Their name comes from unique red-coloured skin bags around their necks that can be filled with air to appear bigger. This trick is used mainly in self defense to scare off any predator and sometimes to appeal to females.
+
+Despite their rather scary appearance, these lizards feed on insects and aren't aggressive and prefer to run away. If it feels threatened too much, Redneck Lizards are ready to attack with their sharp claws and teeth.
+	
+Redneck Lizards are very agile and can be often found on trees hanging vertically. Agility combined with almost instant reaction time makes these lizards great escapists and insect hunters. They hunt on specific territories. Groups of these lizards split the land between themselves and none of them interferes others.</description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Alpha Splitterhound</name>
+        <description>Splitterhounds are very unique animals. They are the living definition of a predator. Nimble, relentless, tireless. Alpha subtype is more suited for living in densely forested areas. Nature has given them great perception and maws that can produce pressure force up to 340 Newtons.
+
+These animals prefer to stay alone and closely guard their territories. Alpha Splitterhounds are tied to environment they live in. Observations show that they are intelligent enough to control amount of hunted herbivores. They do that to make sure that their future prey will not decide to leave the area because of too many dangers. In some rare cases we can observe really outstanding behaviour of Splitterhounds when they decide to defend a herbivore from another predator.
+
+Three pairs of eyes may look terrifying but their main purpose is absorbing different spectrums of electromagnetic waves. Therefore they can perceive the world similar to us and they are also able to use something similar to thermovision.</description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Mokareez</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Deftdragger</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+</dbEntries>

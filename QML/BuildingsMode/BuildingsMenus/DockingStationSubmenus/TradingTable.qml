@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
 import Game 1.0
 
@@ -21,6 +21,11 @@ Item {
     }
     function update()
     {
+        fadeIn.duration = fadeIn.baseDuration * GameApi.animMultiplier();
+        fadeOut.duration = fadeOut.baseDuration * GameApi.animMultiplier();
+        forFadeIn.duration = forFadeIn.baseDuration * GameApi.animMultiplier();
+        forFadeOut.duration = forFadeOut.baseDuration * GameApi.animMultiplier();
+
         forAmount.calculate();
 
         if (buyRes.mode == 0)
@@ -180,7 +185,7 @@ Item {
             width: buySwitchR.x - x - 20
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
 
             onModeChanged: {
                 fadeIn.start();
@@ -191,7 +196,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 1
                 to: 0
                 target: buyRes
@@ -199,13 +205,13 @@ Item {
                     if (running == false)
                     {
                         if (buyRes.mode == 0)
-                            buyRes.source = "qrc:/graphics/GUI/Energy.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Energy.png";
                         else if (buyRes.mode == 1)
-                            buyRes.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                         else if (buyRes.mode == 2)
-                            buyRes.source = "qrc:/graphics/GUI/Buildingmaterials.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Buildingmaterials.png";
                         else if (buyRes.mode == 3)
-                            buyRes.source = "qrc:/graphics/GUI/Aetherite.png";
+                            buyRes.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
 
                         root.update();
 
@@ -218,7 +224,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 0
                 to: 1
                 target: buyRes
@@ -676,7 +683,7 @@ Item {
             width: forSwitchR.x - x - 20
             height: width
 
-            source: "qrc:/graphics/GUI/Energy.png"
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
 
             onModeChanged: {
                 forFadeIn.start();
@@ -687,7 +694,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 1
                 to: 0
                 target: forRes
@@ -695,13 +703,13 @@ Item {
                     if (running == false)
                     {
                         if (forRes.mode == 0)
-                            forRes.source = "qrc:/graphics/GUI/Energy.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Energy.png";
                         else if (forRes.mode == 1)
-                            forRes.source = "qrc:/graphics/GUI/Foodsupplies.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Foodsupplies.png";
                         else if (forRes.mode == 2)
-                            forRes.source = "qrc:/graphics/GUI/Buildingmaterials.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Buildingmaterials.png";
                         else if (forRes.mode == 3)
-                            forRes.source = "qrc:/graphics/GUI/Aetherite.png";
+                            forRes.source = "qrc:/graphics/GUI/Resources/Aetherite.png";
 
                         root.update();
 
@@ -714,7 +722,8 @@ Item {
 
                 properties: "opacity"
                 easing.type: Easing.InQuad
-                duration: 300
+                property int baseDuration: 300
+                duration: baseDuration
                 from: 0
                 to: 1
                 target: forRes

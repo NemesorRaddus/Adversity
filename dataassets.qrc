@@ -44,9 +44,19 @@
         <file>data/mercenaries/mercenaries/SashaBohdanov.xml</file>
         <file>data/mercenaries/mercenaries/StephanieBradley.xml</file>
         <file>data/mercenaries/mercenaries/StevenBrown.xml</file>
-        <file>data/mercenaries/mercenaries/TakashiMatokai.xml</file>
+        <file>data/mercenaries/mercenaries/TakeshiMatokai.xml</file>
         <file>data/mercenaries/mercenaries/ZbynekTichy.xml</file>
         <file>data/mercenaries/mercenaries/ZofiaWysocka.xml</file>
         <file>data/mercenaries/mercenaries/ZuriUmcia.xml</file>
+        <file>data/lands/AuroraForest/info.xml</file>
+        <file>data/lands/GedoDesert/info.xml</file>
+        <file>data/lands/HegosPlains/info.xml</file>
+        <file>data/database/Animals.xml</file>
+        <file>data/database/Fungi.xml</file>
+        <file>data/database/Lands.xml</file>
+        <file>data/database/Plants.xml</file>
+        <file>data/lands/AuroraForest/encounters.xml</file>
+        <file>data/lands/GedoDesert/encounters.xml</file>
+        <file>data/lands/HegosPlains/encounters.xml</file>
     </qresource>
 </RCC>

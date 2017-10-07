@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import "qrc:/qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListScripts.js" as Scripts
 import "../../.."
@@ -8,8 +8,10 @@ import Game 1.0
 Item {
     id: rootHeroesList
 
-    function updateEverything()
+    function updateEverything(trainedAttr)//"ce","pr","cl" or ""
     {
+        transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
         var heroesAmount=0;
         var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
         for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
@@ -17,6 +19,22 @@ Item {
             GameApi.base.heroes.prepareHeroAt(i);
             if (!GameApi.base.heroes.preparedHero.isDead() && GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
             {
+                if (trainedAttr == "ce")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainCombatEffectiveness())
+                        continue;
+                }
+                else if (trainedAttr == "pr")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainProficiency())
+                        continue;
+                }
+                else if (trainedAttr == "cl")
+                {
+                    if (!GameApi.base.heroes.preparedHero.canTrainCleverness())
+                        continue;
+                }
+
                 ++heroesAmount;
                 availableHeroes[i]=true;
             }
@@ -46,12 +64,14 @@ Item {
 
     property var bannedHeroes: []
 
-    function banHero(name) {
+    function banHero(name)
+    {
         if (bannedHeroes.indexOf(name)==-1)
             bannedHeroes.push(name);
     }
 
-    function unbanHero(name) {
+    function unbanHero(name)
+    {
         if (bannedHeroes.indexOf(name)!=-1)
             bannedHeroes.splice(bannedHeroes.indexOf(name),1);
     }
@@ -92,7 +112,11 @@ Item {
             if (isScrollingActive == true)
                 isScrollingActive = false;
             else
-                heroClicked(Scripts.getClickedItemName(y0), Scripts.getClickedItemName2(y0));
+            {
+                var n=Scripts.getClickedItemName(y0);
+                if (n!="")
+                    heroClicked(n, Scripts.getClickedItemName2(y0));
+            }
             y0 = -1;
             movementCheckTimer.stop();
         }
@@ -116,14 +140,7 @@ Item {
                     if (Math.abs(mouseArea.mouseY - mouseArea.y0) >= Globals.windowHeight * mouseArea.yChangedThresholdForScrolling / 100)
                     {
                         mouseArea.isScrollingActive = true;
-                        if (mouseArea.y0 > mouseArea.mouseY)
-                        {
-                            Scripts.scrollList(1);
-                        }
-                        else
-                        {
-                            Scripts.scrollList(-1);
-                        }
+                        Scripts.scrollList(mouseArea.mouseY - mouseArea.y0);
                         mouseArea.y0 = mouseArea.mouseY;
                     }
                 }
@@ -150,6 +167,6 @@ Item {
     ]
 
     transitions: Transition {
-        NumberAnimation { properties: "x"; easing.type: Easing.InQuad; duration: 500 }
+        NumberAnimation { id: transitionRoot; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
     }
 }

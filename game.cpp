@@ -1,19 +1,29 @@
 #include "game.h"
 
-#include <QDebug>
-#include <h4x.h>
+#include "h4x.h"
 
-Game *Game::ptrToGameObject;
+#include <QDebug>
+
+Game *Game::m_ptrToGameObject;
+QQmlApplicationEngine *Game::m_ptrToEngine;
 
 double Global::roundDouble(double d, unsigned prec) noexcept
 {
-    return d>=0 ? static_cast<double>(static_cast<int>(d*pow(10,prec)+0.5))/(pow(10,prec)) : static_cast<double>(static_cast<int>(d*pow(10,prec)-0.5))/(pow(10,prec));
+    std::stringstream ss;
+    ss << std::fixed;
+    ss.precision(prec);
+    ss << d;
+    return QString(ss.str().data()).toDouble();
 }
 
 QString Global::alterNormalTextToInternal(QString normalText) noexcept
 {
     normalText.remove(' ');
     normalText.remove('/');
+    normalText.remove('\\');
+    normalText.remove('\'');
+    normalText.remove('\"');
+    normalText.remove('|');
 
     normalText.replace('ć','c');
     normalText.replace('ę','e');
@@ -36,17 +46,332 @@ QString Global::alterNormalTextToInternal(QString normalText) noexcept
     return normalText;
 }
 
+QString Global::sanitize(QString script) noexcept
+{
+    script.remove(';');
+    script.remove('|');
+    script.remove('&');
+    script.remove('\n');
+
+    int parCnt = 0;
+    for (int i=0;i<script.size();++i)
+    {
+        if (script[i] == '(')
+            ++parCnt;
+        else if (script[i] == ')')
+        {
+            --parCnt;
+            if (parCnt == 0)
+            {
+                script.remove(i+1,script.size()-i-1);
+                break;
+            }
+        }
+    }
+
+    return script;
+}
+
+unsigned Randomizer::RandomizationMethods::flatRand(unsigned a, unsigned b)
+{
+    return {qrand() % ((b + 1) - a) + a};
+}
+
+unsigned Randomizer::RandomizationMethods::bentRand(unsigned a, unsigned b)
+{
+    const unsigned df = 50; // dispersion factor
+
+    unsigned amountOfValues = b-a+1;
+
+    auto g = [a,b,amountOfValues](unsigned x)
+    {
+        return (100-df)*(qSin((x*M_PI) / (amountOfValues-1)) - 1) + 100;
+    };
+
+    auto getSum = [a,b,g]()
+    {
+        unsigned sum = 0;
+        bool even = (a+b)%2 != 0;
+        unsigned middle = (a+b)/2;
+        for (int i=a;i<middle + even;++i)
+            sum += g(i);
+        sum *= 2;
+        if (!even)
+            sum += g(middle);
+
+        return sum;
+    };
+    unsigned sum = getSum();
+
+    auto f = [a,b,g,sum](unsigned x)
+    {
+        return g(x) / sum * 100;
+    };
+
+    unsigned chances[amountOfValues];
+    for (int i=a;i<=b;++i)
+        chances[i-a] = f(i);
+
+    unsigned random = Randomizer::randomBetweenAAndB(0,100);
+
+    for (int i=0;i<amountOfValues;++i)
+    {
+        if (random <= chances[i])
+            return i+a;
+        else
+            random -= chances[i];
+    }
+}
+
+void Randomizer::initialize() noexcept
+{
+    qsrand(static_cast<quint64>(QTime::currentTime().msecsSinceStartOfDay()));
+}
+
+unsigned Randomizer::randomBetweenAAndB(unsigned a, unsigned b, unsigned (*randomization)(unsigned, unsigned)) noexcept
+{
+    try
+    {
+        return randomization(a,b);
+    }
+    catch(...)
+    {
+        Game::gameInstance()->loggers()->mainLogger()->critical("Wrong params for randomBetweenAAndB (a={}, b={})!",a,b);
+        abort();
+    }
+}
+
+LandsInfo::LandsInfo(const QVector<Land *> *lands) noexcept
+    : m_lands(lands), m_preparedLand(nullptr) {}
+
+void LandsInfo::prepareLandAt(unsigned index) noexcept
+{
+    if (index<m_lands->size())
+        m_preparedLand=(*m_lands)[index];
+}
+
+LoggersHandler::LoggersHandler() noexcept
+{
+    try
+    {
+        if (isLoggingEnabled())
+        {
+#ifdef ANDROID // QStandardPaths was giving strange paths for Android devices
+            m_outputPath = "/storage/emulated/0/Android/data/com.raddosgames.adversity/logs";
+#else
+            m_outputPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
+#endif
+            QDir().mkpath(m_outputPath);
+            m_output = std::make_shared<spdlog::sinks::app_start_rotating_file_sink_st>(m_outputPath.toStdString()+"/adversity.log",40);
+
+            m_mainLogger = std::make_shared<spdlog::logger>("Main", m_output);
+            m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_output);
+            m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_output);
+            m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_output);
+            m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_output);
+            m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_output);
+            m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_output);
+
+#ifdef ANDROID
+            qInstallMessageHandler(LoggersHandler::redirectQtMsgs);
+#endif
+
+        }
+        else
+        {
+            m_noOutput = std::make_shared<spdlog::sinks::null_sink_st>();
+
+            m_mainLogger = std::make_shared<spdlog::logger>("Main", m_noOutput);
+            m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_noOutput);
+            m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_noOutput);
+            m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_noOutput);
+            m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_noOutput);
+            m_qmlLogger = std::make_shared<spdlog::logger>("Gui", m_noOutput);
+            m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_noOutput);
+        }
+
+        spdlog::register_logger(m_mainLogger);
+        spdlog::register_logger(m_missionsLogger);
+        spdlog::register_logger(m_buildingsLogger);
+        spdlog::register_logger(m_mercenariesLogger);
+        spdlog::register_logger(m_xmlLogger);
+        spdlog::register_logger(m_qmlLogger);
+        spdlog::register_logger(m_qtLogger);
+
+        spdlog::set_async_mode(1, spdlog::async_overflow_policy::block_retry,nullptr,std::chrono::seconds(1));
+
+        if (isLoggingEnabled())
+        {
+            spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+            spdlog::set_level(spdlog::level::trace);
+
+            auto lvl = spdlog::level::info;
+            m_mainLogger->log(lvl, "Adversity "+Game::gameInstance()->appBuildInfo()->versionNumber().toStdString());
+            m_mainLogger->log(lvl, "");
+        }
+
+        spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %n: %v");
+
+        switch (Game::gameInstance()->settings().logsAmount())
+        {
+        case Settings::LA_All:
+            spdlog::set_level(spdlog::level::trace);
+            break;
+        case Settings::LA_Most:
+            spdlog::set_level(spdlog::level::info);
+            break;
+        case Settings::LA_Some:
+            spdlog::set_level(spdlog::level::warn);
+            break;
+        default:
+            spdlog::set_level(spdlog::level::off);
+            break;
+        }
+    }
+    catch (const spdlog::spdlog_ex &ex)
+    {
+        qCritical() << "Loggers initialization failed: " << ex.what();
+    }
+    catch (...)
+    {
+        abort();
+    }
+}
+
+LoggersHandler::~LoggersHandler() noexcept
+{
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+    spdlog::set_level(spdlog::level::trace);
+    m_mainLogger->info("Closing");
+}
+
+void LoggersHandler::setLevel(spdlog::level::level_enum lvl) noexcept
+{
+    m_mainLogger->set_level(lvl);
+    m_xmlLogger->set_level(lvl);
+    m_qmlLogger->set_level(lvl);
+}
+
+void LoggersHandler::trace(const QString &msg) noexcept
+{
+    m_qmlLogger->trace(msg.toStdString());
+}
+
+void LoggersHandler::debug(const QString &msg) noexcept
+{
+    m_qmlLogger->debug(msg.toStdString());
+}
+
+void LoggersHandler::info(const QString &msg) noexcept
+{
+    m_qmlLogger->info(msg.toStdString());
+}
+
+void LoggersHandler::warn(const QString &msg) noexcept
+{
+    m_qmlLogger->warn(msg.toStdString());
+}
+
+void LoggersHandler::error(const QString &msg) noexcept
+{
+    m_qmlLogger->error(msg.toStdString());
+}
+
+void LoggersHandler::critical(const QString &msg) noexcept
+{
+    m_qmlLogger->critical(msg.toStdString());
+}
+
+void LoggersHandler::traceIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->trace_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::debugIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->debug_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::infoIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->info_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::warnIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->warn_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::errorIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->error_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::criticalIf(bool cond, const QString &msg) noexcept
+{
+    m_qmlLogger->critical_if(cond, msg.toStdString());
+}
+
+void LoggersHandler::redirectQtMsgs(QtMsgType type, const QMessageLogContext &, const QString &msg) noexcept
+{
+    switch (type) {
+    case QtDebugMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::debug, msg.toStdString());
+        break;
+    case QtInfoMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::info, msg.toStdString());
+        break;
+    case QtWarningMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::warn, msg.toStdString());
+        break;
+    case QtCriticalMsg:
+        Game::gameInstance()->loggers()->qtLogger()->log(spdlog::level::critical, msg.toStdString());
+        break;
+    case QtFatalMsg:
+        abort();
+    }
+}
+
+bool LoggersHandler::isLoggingEnabled() const noexcept
+{
+    return Game::gameInstance()->settings().logsAmount() != Settings::LA_None;
+}
+
+Settings::Settings() noexcept
+    : m_animsSpeed(AS_Normal), m_showFPS(0), m_logsAmount(LA_None) {}
+
+void Settings::setAnimationsSpeed(Settings::AnimationsSpeed speed) noexcept
+{
+    m_animsSpeed = speed;
+}
+
+void Settings::showFPS(bool enabled) noexcept
+{
+    m_showFPS = enabled;
+}
+
+void Settings::setLogsAmount(Settings::LogsAmount amount) noexcept
+{
+    m_logsAmount = amount;
+}
+
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
-    m_startupTimer=new QElapsedTimer;
-    m_startupTimer->start();
-    qInfo()<<QString("[0.000] Game object initialization has started");
-
-    ptrToGameObject=this;
+    m_ptrToGameObject=this;
 
     m_buildInfo=new AppBuildInfo;
     loadVersionInfo();
+
+    loadSettings();
+
+    m_permissionsManager = new APeR::PermissionsManager;
+
+    m_loggersHandler = new LoggersHandler;
+
+    m_startupTimer=new QElapsedTimer;
+    m_startupTimer->start();
+    qInfo()<<QString("[0.000] Game object initialization has started");
 
     m_translations=new TranslationsDB(":/");
     if (!QSettings().contains("lang"))
@@ -69,8 +394,11 @@ Game::Game(QObject *parent) noexcept
 
 Game::~Game() noexcept
 {
+    saveSettings();
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
     disconnectAutosave();
+
+    delete m_lands;
 
     delete m_globalsExportToQML;
 
@@ -84,6 +412,15 @@ Game::~Game() noexcept
 
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Game has been deleted";
     delete m_startupTimer;
+
+    delete m_loggersHandler;
+
+    delete m_permissionsManager;
+}
+
+void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept
+{
+    m_ptrToEngine=engine;
 }
 
 void Game::createNewBase(const QString &pathToAssetsDir) noexcept
@@ -140,6 +477,55 @@ void Game::setLocale(const QString &locale) noexcept
     if (locale!=m_translations->currentLanguage())
         loadTranslations(locale);
     //TODO in QML on lang selection screen add call to update() of everything
+}
+
+void Game::showReportNotification() noexcept
+{
+    QMetaObject::invokeMethod(m_ptrToEngine->rootObjects().value(0), "showReportNotification");
+}
+
+void Game::setAnimationsSpeed(unsigned speed) noexcept
+{
+    m_settings.setAnimationsSpeed(static_cast<Settings::AnimationsSpeed>(speed));
+    H4X().forceUIUpdate();
+}
+
+float Game::animMultiplier() noexcept
+{
+    switch (m_settings.animationsSpeed()) {
+    case Settings::AS_Fast:
+        return 0.5;
+    case Settings::AS_Normal:
+        return 1;
+    case Settings::AS_Slow:
+        return 2;
+    default:
+        return 0.0000001;
+    }
+}
+
+void Game::showFPS(bool show) noexcept
+{
+    if (show != m_settings.showsFPS())
+    {
+        H4X hax;
+        hax.fps();
+    }
+}
+
+void Game::acknowledgeFPSToggle() noexcept
+{
+    m_settings.showFPS(!m_settings.showsFPS());
+}
+
+void Game::setLogsAmount(unsigned amount) noexcept
+{
+    m_settings.setLogsAmount(static_cast<Settings::LogsAmount>(amount));
+}
+
+void Game::requestReadWritePermissions() noexcept
+{
+//    m_permissionsManager->requestPermissions(APeR::PermissionsManager::READ_EXTERNAL_STORAGE | APeR::PermissionsManager::WRITE_EXTERNAL_STORAGE, {});
 }
 
 void Game::saveBase_slot() noexcept
@@ -257,6 +643,8 @@ void Game::loadAssets(const QString &pathToDir) noexcept
     m_base->dockingStation()->setTradingTables(xmlReader.getDockingStationTradingTable(pathToDir+"base/dockingStationTradingTables.xml"));
 
     m_assetsPool.load(pathToDir);
+
+    m_lands = new LandsInfo(&m_assetsPool.lands());
 }
 
 void Game::loadVersionInfo() noexcept
@@ -288,4 +676,53 @@ void Game::loadVersionInfo() noexcept
 void Game::loadTranslations(const QString &lang) noexcept
 {
     m_translations->loadLanguage(lang);
+}
+
+void Game::loadSettings() noexcept
+{
+    if (!QSettings().contains("settings"))
+        saveSettings();
+    else
+    {
+        auto v = QSettings().value("settings").toByteArray();
+        QDataStream ds{&v, QIODevice::ReadOnly};
+        quint8 u;
+        ds>>u;
+        m_settings.setAnimationsSpeed(static_cast<Settings::AnimationsSpeed>(u));
+        bool b;
+        ds>>b;
+        m_settings.showFPS(b);
+        ds>>u;
+        m_settings.setLogsAmount(static_cast<Settings::LogsAmount>(u));
+
+        //changes to UI cannot be done now, so:
+        m_settingsApplierTimer = new QTimer;
+        m_settingsApplierTimer->setSingleShot(1);
+        QObject::connect(m_settingsApplierTimer, &QTimer::timeout, [this](){
+                applyLoadedSettings();
+                m_settingsApplierTimer->deleteLater();
+            });
+        m_settingsApplierTimer->start(1000);
+    }
+}
+
+void Game::saveSettings() noexcept
+{
+    QByteArray bytes;
+    {
+    QDataStream ds{&bytes, QIODevice::WriteOnly};
+    ds<<static_cast<quint8>(m_settings.animationsSpeed());
+    ds<<m_settings.showsFPS();
+    ds<<static_cast<quint8>(m_settings.logsAmount());
+    }
+    QSettings().setValue("settings", bytes);
+}
+
+void Game::applyLoadedSettings() noexcept
+{
+    if (m_settings.showsFPS())
+    {
+        m_settings.showFPS(0);//because
+        H4X().fps();//<- this inverts
+    }
 }

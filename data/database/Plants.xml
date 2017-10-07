@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbEntries type="Plants">
+    <entry>
+        <name>Acidberry Bush</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+            <inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+    <entry>
+        <name>Blueherb Lichen</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Poisonous Fern</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Bluegrape Bush</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Hegos Plains</inhabitancy>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Thornettle</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Gedo Desert</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Purpleleaf Bush</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Wideleaf Plant</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+	<entry>
+        <name>Tentacleroot</name>
+        <description></description>
+		<inhabitancies>
+			<inhabitancy>Aurora Forest</inhabitancy>
+		</inhabitancies>
+	</entry>
+</dbEntries>

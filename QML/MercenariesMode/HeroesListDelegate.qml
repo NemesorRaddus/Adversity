@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 
 import Game 1.0
 import "../.."
@@ -27,6 +27,24 @@ Item {
     {
         profession_ = text;
         prof.text="The "+GameApi.tr(text);
+    }
+
+    function setMIA()
+    {
+        attrCEValue.text = "?";
+        attrPRValue.text = "?";
+        attrCLValue.text = "?";
+        attrHPValue.text = "?/?";
+        attrSTValue.text = "?";
+        attrSLValue.text = "?";
+        attrSRValue.text = "?";
+        attrSAValue.text = "?";
+        attrFCValue.text = "?";
+
+        statusHPFrame.source = "";
+        statusSTFrame.source = "";
+
+        currentlyBusy.source = "qrc:/graphics/GUI/Disconnected.png";
     }
 
     function setCE(amount)
@@ -91,7 +109,7 @@ Item {
         if (ca == "Idle")
             currentlyBusy.source = "";
         else if (ca == "On Mission")
-            currentlyBusy.source = "qrc:/graphics/GUI/Settings.png";
+            currentlyBusy.source = "qrc:/graphics/GUI/OnMission.png";
         else if (ca == "In Hospital")
             currentlyBusy.source = "qrc:/graphics/Buildings/Hospital.png";
         else if (ca == "On Training Ground")
@@ -224,13 +242,13 @@ Item {
             function check(hp, hpMax)
             {
                 if (hp/hpMax <= 0.2)
-                    source = "qrc:/graphics/GUI/LowHealth80.png";
+                    source = "qrc:/graphics/GUI/Status frames/LowHealth80.png";
                 else if (hp/hpMax <= 0.4)
-                    source = "qrc:/graphics/GUI/LowHealth60.png";
+                    source = "qrc:/graphics/GUI/Status frames/LowHealth60.png";
                 else if (hp/hpMax <= 0.6)
-                    source = "qrc:/graphics/GUI/LowHealth40.png";
+                    source = "qrc:/graphics/GUI/Status frames/LowHealth40.png";
                 else if (hp/hpMax <= 0.8)
-                    source = "qrc:/graphics/GUI/LowHealth20.png";
+                    source = "qrc:/graphics/GUI/Status frames/LowHealth20.png";
                 else
                     source = "";
             }
@@ -275,13 +293,13 @@ Item {
             function check(stress, stressLimit)
             {
                 if (stress/stressLimit >= 0.8)
-                    source = "qrc:/graphics/GUI/HighStress80.png";
+                    source = "qrc:/graphics/GUI/Status frames/HighStress80.png";
                 else if (stress/stressLimit >= 0.6)
-                    source = "qrc:/graphics/GUI/HighStress60.png";
+                    source = "qrc:/graphics/GUI/Status frames/HighStress60.png";
                 else if (stress/stressLimit >= 0.4)
-                    source = "qrc:/graphics/GUI/HighStress40.png";
+                    source = "qrc:/graphics/GUI/Status frames/HighStress40.png";
                 else if (stress/stressLimit >= 0.2)
-                    source = "qrc:/graphics/GUI/HighStress20.png";
+                    source = "qrc:/graphics/GUI/Status frames/HighStress20.png";
                 else
                     source = "";
             }
@@ -350,7 +368,7 @@ Item {
             y: 84
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/CE.png"
+            source: "qrc:/graphics/GUI/Attributes/CE.png"
         }
         Text {
             id: attrCEText
@@ -383,7 +401,7 @@ Item {
             y: 140
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/PR.png"
+            source: "qrc:/graphics/GUI/Attributes/PR.png"
         }
         Text {
             id: attrPRText
@@ -416,7 +434,7 @@ Item {
             y: 196
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/CL.png"
+            source: "qrc:/graphics/GUI/Attributes/CL.png"
         }
         Text {
             id: attrCLText
@@ -449,7 +467,7 @@ Item {
             y: 84
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/HealthRestored.png"
+            source: "qrc:/graphics/GUI/Attributes/HealthRestored.png"
         }
         Text {
             id: attrHPText
@@ -482,7 +500,7 @@ Item {
             y: 140
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/StressRelief.png"
+            source: "qrc:/graphics/GUI/Attributes/StressRelief.png"
         }
         Text {
             id: attrSTText
@@ -515,7 +533,7 @@ Item {
             y: 196
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/StressLimit.png"
+            source: "qrc:/graphics/GUI/Attributes/StressLimit.png"
         }
         Text {
             id: attrSLText
@@ -547,7 +565,7 @@ Item {
             y: 84
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/StressResistance.png"
+            source: "qrc:/graphics/GUI/Attributes/StressResistance.png"
         }
         Text {
             id: attrSRText
@@ -581,7 +599,7 @@ Item {
             y: 140
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/Aetherite.png"
+            source: "qrc:/graphics/GUI/Resources/Aetherite.png"
         }
         Text {
             id: attrSAText
@@ -614,7 +632,7 @@ Item {
             y: 196
             width: 50
             height: 50
-            source: "qrc:/graphics/GUI/Foodsupplies.png"
+            source: "qrc:/graphics/GUI/Resources/Foodsupplies.png"
         }
         Text {
             id: attrFCText
