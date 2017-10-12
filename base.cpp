@@ -1158,10 +1158,7 @@ void Seclusion::resizeSlotsAfterUpgrade() noexcept
 }
 
 Powerplant::Powerplant(Base *base, unsigned level, const QVector<PowerplantLevelInfo> &levelsInfo) noexcept
-    : Building(BaseEnums::B_Powerplant, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0)
-{
-
-}
+    : Building(BaseEnums::B_Powerplant, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0) {}
 
 void Powerplant::exchangeResources() noexcept
 {
@@ -1173,6 +1170,7 @@ void Powerplant::exchangeResources() noexcept
     if (cyclesToDo > m_currentCycles)
         cyclesToDo = m_currentCycles;
 
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Powerplant: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
     base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - (cyclesToDo * m_levelsInfo.value(currentLevel()).aetheriteOreTaken));
     base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + (cyclesToDo * m_levelsInfo.value(currentLevel()).energyGiven));
 }
@@ -1180,7 +1178,10 @@ void Powerplant::exchangeResources() noexcept
 void Powerplant::setCurrentCycles(unsigned amount) noexcept
 {
     if (amount<=maxCycles())
+    {
         m_currentCycles=amount;
+        Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Powerplant: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
+    }
 }
 
 void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo> &info) noexcept
@@ -1197,10 +1198,7 @@ unsigned Powerplant::upgradeTimeRemaining() noexcept
 }
 
 Factory::Factory(Base *base, unsigned level, const QVector<FactoryLevelInfo> &levelsInfo) noexcept
-    : Building(BaseEnums::B_Factory, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0)
-{
-
-}
+    : Building(BaseEnums::B_Factory, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0) {}
 
 void Factory::exchangeResources() noexcept
 {
@@ -1212,6 +1210,7 @@ void Factory::exchangeResources() noexcept
     if (cyclesToDo > m_currentCycles)
         cyclesToDo = m_currentCycles;
 
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Factory: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
     base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - (cyclesToDo * m_levelsInfo.value(currentLevel()).aetheriteOreTaken));
     base()->setCurrentBuildingMaterialsAmount(base()->currentBuildingMaterialsAmount() + (cyclesToDo * m_levelsInfo.value(currentLevel()).buildingMaterialsGiven));
 }
@@ -1219,7 +1218,10 @@ void Factory::exchangeResources() noexcept
 void Factory::setCurrentCycles(unsigned amount) noexcept
 {
     if (amount<=maxCycles())
+    {
         m_currentCycles=amount;
+        Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Factory: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
+    }
 }
 
 void Factory::setLevelsInfo(const QVector<FactoryLevelInfo> &info) noexcept
@@ -1467,6 +1469,9 @@ void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, un
         base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - sA);
 
     m_activeTransactions.push_back({{sR,tR,sA,targetAmount},m_levelsInfo.value(currentLevel()).waitingTime});
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Docking Station: started a transaction:",base()->gameClock()->currentTime().toQString().toStdString());
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Source: {} {}",sA,BaseEnums::fromResourceEnumToQString(sR).toStdString());
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Target: {} {}",targetAmount,BaseEnums::fromResourceEnumToQString(tR).toStdString());
 }
 
 void DockingStation::handleActiveTransactions() noexcept
@@ -2105,6 +2110,12 @@ void Base::startNewDay() noexcept
     m_dockingStation->doBuyingEquipmentStuff();
 
     m_dockingStation->handleActiveTransactions();
+
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Current resources:",gameClock()->currentTime().toQString().toStdString());
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Aetherite: {}",m_aetherite);
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Building materials: {}",m_buildingMaterials);
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Energy: {}",m_energy);
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Food Supplies: {}",m_foodSupplies);
 }
 
 void Base::startNewWeek() noexcept
@@ -2360,6 +2371,7 @@ void Base::addReport(UnifiedReport *report) noexcept
     if (m_newReports.size()>m_maxReportsAmount)
         m_newReports.removeFirst();
     m_gameObject->showReportNotification();
+    Game::gameInstance()->loggers()->mainLogger()->trace("[{}] Received a new report: {}",m_gameClock->currentTime().toQString().toStdString(), report->msg().toStdString());
 }
 
 void Base::registerLatestReportInMission(Mission *mission) noexcept

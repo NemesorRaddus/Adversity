@@ -1013,7 +1013,7 @@ void Mission::start() noexcept
     m_assignedHero->base()->registerLatestReportInMission(this);
     planEverything();
 
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started: (mercenary: {}, difficulty: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString(), EventEnums::fromMissionDifficultyEnumToQString(m_difficulty).toStdString());
     for (const auto &e : m_encounters)
         Game::gameInstance()->loggers()->missionsLogger()->trace("Day {}: {}",e.first,e.second->name().toStdString());
     Game::gameInstance()->loggers()->missionsLogger()->trace("Mission ends in {}",remainingDays());
