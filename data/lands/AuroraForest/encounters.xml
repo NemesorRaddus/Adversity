@@ -336,7 +336,7 @@
                                         <addedValue value="&lt;-15;-5>"></addedValue>
                                     </event>
                                     <event type="Action" subtype="GiveResource">
-                                        <resource type="Food Supplies" amount="PR+2"></resource>
+                                        <resource type="Food Supplies" amount="PR+4"></resource>
                                     </event>
                                     <event type="Action" subtype="ModifyAttribute">
                                         <modification attribute="Daily Health Recovery" type="+" value="1" duration="3"></modification>
@@ -366,7 +366,7 @@
                     <addedValue value="&lt;-12;-6>"></addedValue>
                 </event>
                 <event type="Action" subtype="GiveResource">
-                    <resource type="Aetherite" amount="&lt;2;7>"></resource>
+                    <resource type="Aetherite" amount="&lt;3;11>"></resource>
                 </event>
             </events>
         </event>
@@ -402,7 +402,7 @@
                                                             <addedValue value="&lt;-3;0>"></addedValue>
                                                         </event>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Food Supplies" amount="&lt;1;4>"></resource>
+                                                            <resource type="Food Supplies" amount="&lt;2;6>"></resource>
                                                         </event>
                                                     </events>
                                                 </event>
@@ -419,7 +419,7 @@
                                                             <addedValue value="&lt;-5;-3>"></addedValue>
                                                         </event>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Food Supplies" amount="&lt;1;4>"></resource>
+                                                            <resource type="Food Supplies" amount="&lt;2;6>"></resource>
                                                         </event>
                                                     </events>
                                                 </event>
@@ -643,7 +643,7 @@ Yes! It's a nice piece of Aetherite!</text>
                                         <addedValue value="&lt;-30;-10>"></addedValue>
                                     </event>
                                     <event type="Action" subtype="GiveResource">
-                                        <resource type="Aetherite" amount="&lt;4;7>"></resource>
+                                        <resource type="Aetherite" amount="&lt;6;11>"></resource>
                                     </event>
                                 </events>
                             </event>
@@ -815,7 +815,7 @@ Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do
                                                                 <addedValue value="&lt;-10;-5>"></addedValue>
                                                             </event>
                                                             <event type="Action" subtype="GiveResource">
-                                                                <resource type="Food Supplies" amount="&lt;PR;PR+5>"></resource>
+                                                                <resource type="Food Supplies" amount="&lt;PR+3;PR+8>"></resource>
                                                             </event>
                                                         </events>
                                                     </event>
@@ -873,7 +873,7 @@ Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do
                                                                 <addedValue value="&lt;-10;-5>"></addedValue>
                                                             </event>
                                                             <event type="Action" subtype="GiveResource">
-                                                                <resource type="Food Supplies" amount="&lt;PR;PR+5>"></resource>
+                                                                <resource type="Food Supplies" amount="&lt;PR+3;PR+8>"></resource>
                                                             </event>
                                                         </events>
                                                     </event>
@@ -944,7 +944,7 @@ Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do
                                                             <random armor="true" weaponTool="true" tier="1"></random>
                                                         </event>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Aetherite" amount="&lt;0;4>"></resource>
+                                                            <resource type="Aetherite" amount="&lt;0;6>"></resource>
                                                         </event>
                                                         <event type="Action" subtype="GiveStress">
                                                             <addedValue value="&lt;-25;-18>"></addedValue>
@@ -955,7 +955,7 @@ Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do
                                                     <text>You... You won't believe it. It is a cave full of Aetherite. What a marvelous glimmer! Enough talking. Someone is gonna collect it all.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Aetherite" amount="&lt;7;21>"></resource>
+                                                            <resource type="Aetherite" amount="&lt;11;32>"></resource>
                                                         </event>
                                                         <event type="Action" subtype="GiveStress">
                                                             <addedValue value="&lt;-10;-5>"></addedValue>
@@ -969,7 +969,7 @@ Ok, I'm free but my foot is a bit harmed and hurts from time to time. Wait... Do
 Oh... My arm! A sharp stone must had cut it. But what's this? It is a cave full of Aetherite! What a hypnotising sight! Gotta collect as much as I can and leave this cave as soon as possible.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Aetherite" amount="&lt;4;10>"></resource>
+                                                            <resource type="Aetherite" amount="&lt;6;15>"></resource>
                                                         </event>
                                                         <event type="Action" subtype="GiveHealth">
                                                             <addedValue value="&lt;-3;-1>"></addedValue>
@@ -985,7 +985,7 @@ My arm! It hurts alot but it doesn't seem to be broken. At least I hope so.
 Oh, there is some Aetherite. Judging by its size, it wasn't worth the risk but at least it's something.</text>
                                                     <events>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Aetherite" amount="&lt;1;4>"></resource>
+                                                            <resource type="Aetherite" amount="&lt;2;6>"></resource>
                                                         </event>
                                                         <event type="Action" subtype="GiveHealth">
                                                             <addedValue value="&lt;-4;-1>"></addedValue>
@@ -1070,7 +1070,7 @@ OK, somehow I managed to get out of there but my backpack is somewhere down in t
                                                             <addedValue value="&lt;-6;21>"></addedValue>
                                                         </event>
                                                         <event type="Action" subtype="GiveResource">
-                                                            <resource type="Aetherite" amount="&lt;2;6>"></resource>
+                                                            <resource type="Aetherite" amount="&lt;3;9>"></resource>
                                                         </event>
                                                     </events>
                                                 </event>
@@ -1180,7 +1180,7 @@ It was less dangerous than it seemed. At least it has some meat inside.</text>
                                                         </unlockedDBEntries>
                                                         <events>
                                                             <event type="Action" subtype="GiveResource">
-                                                                <resource type="Food Supplies" amount="&lt;4;9>"></resource>
+                                                                <resource type="Food Supplies" amount="&lt;6;14>"></resource>
                                                             </event>
                                                             <event type="Action" subtype="GiveStress">
                                                                 <addedValue value="&lt;20;50>"></addedValue>
@@ -1198,7 +1198,7 @@ The fight was tough, I've got some scratches, but in the end the stronger suvive
                                                         </unlockedDBEntries>
                                                         <events>
                                                             <event type="Action" subtype="GiveResource">
-                                                                <resource type="Food Supplies" amount="&lt;4;9>"></resource>
+                                                                <resource type="Food Supplies" amount="&lt;6;14>"></resource>
                                                             </event>
                                                             <event type="Action" subtype="GiveStress">
                                                                 <addedValue value="&lt;33;66>"></addedValue>
@@ -1274,7 +1274,7 @@ At least I could scare it off but still I'm badly wounded, and this beast stole 
                                             <addedValue value="&lt;-12;-5>"></addedValue>
                                         </event>
                                         <event type="Action" subtype="GiveResource">
-                                            <resource type="Food Supplies" amount="&lt;2;3>"></resource>
+                                            <resource type="Food Supplies" amount="&lt;3;5>"></resource>
                                         </event>
                                     </events>
                                 </event>
@@ -1294,7 +1294,7 @@ At least I could scare it off but still I'm badly wounded, and this beast stole 
                                 <addedValue value="&lt;-20;-10>"></addedValue>
                             </event>
                             <event type="Action" subtype="GiveResource">
-                                <resource type="Aetherite" amount="&lt;2;6>"></resource>
+                                <resource type="Aetherite" amount="&lt;3;9>"></resource>
                             </event>
                         </events>
                     </event>
@@ -1307,7 +1307,7 @@ At least I could scare it off but still I'm badly wounded, and this beast stole 
                                 <addedValue value="&lt;-6;-2>"></addedValue>
                             </event>
                             <event type="Action" subtype="GiveResource">
-                                <resource type="Food Supplies" amount="&lt;2;5>"></resource>
+                                <resource type="Food Supplies" amount="&lt;3;8>"></resource>
                             </event>
                         </events>
                     </event>
@@ -1325,7 +1325,7 @@ Success! This metal is in a pretty good condition. Surely it can be used somewhe
                                             <addedValue value="&lt;-8;-4>"></addedValue>
                                         </event>
                                         <event type="Action" subtype="GiveResource">
-                                            <resource type="Building Materials" amount="&lt;3;7>"></resource>
+                                            <resource type="Building Materials" amount="&lt;5;11>"></resource>
                                         </event>
                                     </events>
                                 </event>
@@ -1348,7 +1348,7 @@ Success! This metal is in a pretty good condition. Surely it can be used somewhe
                     <duration duration="0"></duration>
                 </event>
                 <event type="Action" subtype="GiveResource">
-                    <resource type="Aetherite" amount="1"></resource>
+                    <resource type="Aetherite" amount="2"></resource>
                 </event>
                 <event type="Check" subtype="Value">
                     <condition condition="M_REMDAYS/M_FULLDUR&lt;0.5"></condition>
@@ -1462,7 +1462,7 @@ OK, I killed most of them. They look similar to Malaneezes, insects that after s
                                                     <addedValue value="&lt;-2;0>"></addedValue>
                                                 </event>
                                                 <event type="Action" subtype="GiveResource">
-                                                    <resource type="Food Supplies" amount="&lt;2;7>"></resource>
+                                                    <resource type="Food Supplies" amount="&lt;3;11>"></resource>
                                                 </event>
                                             </events>
                                         </event>
@@ -1480,7 +1480,7 @@ OK, I killed most of them. They look similar to Malaneezes, insects that after s
                                                     <addedValue value="&lt;-3;0>"></addedValue>
                                                 </event>
                                                 <event type="Action" subtype="GiveResource">
-                                                    <resource type="Food Supplies" amount="&lt;1;5>"></resource>
+                                                    <resource type="Food Supplies" amount="&lt;2;8>"></resource>
                                                 </event>
                                             </events>
                                         </event>
@@ -1602,7 +1602,7 @@ Uhh... They left me alone... Everything is hurting me. They must've been poisono
                                                                                             <addedValue value="&lt;-10;-7>"></addedValue>
                                                                                         </event>
                                                                                         <event type="Action" subtype="GiveResource">
-                                                                                            <resource type="Aetherite" amount="&lt;1;4>"></resource>
+                                                                                            <resource type="Aetherite" amount="&lt;2;6>"></resource>
                                                                                         </event>
                                                                                     </events>
                                                                                 </event>
@@ -1615,7 +1615,7 @@ Uhh... They left me alone... Everything is hurting me. They must've been poisono
                                                                                             <addedValue value="&lt;-12;-9>"></addedValue>
                                                                                         </event>
                                                                                         <event type="Action" subtype="GiveResource">
-                                                                                            <resource type="Food Supplies" amount="&lt;2;8>"></resource>
+                                                                                            <resource type="Food Supplies" amount="&lt;3;12>"></resource>
                                                                                         </event>
                                                                                     </events>
                                                                                 </event>
@@ -1628,7 +1628,7 @@ Uhh... They left me alone... Everything is hurting me. They must've been poisono
                                                                                             <addedValue value="&lt;-35;-16>"></addedValue>
                                                                                         </event>
                                                                                         <event type="Action" subtype="GiveResource">
-                                                                                            <resource type="Aetherite" amount="&lt;4;8>"></resource>
+                                                                                            <resource type="Aetherite" amount="&lt;6;12>"></resource>
                                                                                         </event>
                                                                                     </events>
                                                                                 </event>
@@ -1749,7 +1749,7 @@ Uhh... They left me alone... Everything is hurting me. They must've been poisono
                                                                         <text> OK, I've climbed down and... Oh... I don't know what to say... The cave is full of Aetherite! I'll take as much as I can.</text>
                                                                         <events>
                                                                             <event type="Action" subtype="GiveResource">
-                                                                                <resource type="Aetherite" amount="&lt;17;28>"></resource>
+                                                                                <resource type="Aetherite" amount="&lt;26;42>"></resource>
                                                                             </event>
                                                                             <event type="Action" subtype="GiveStress">
                                                                                 <addedValue value="&lt;-55;-45>"></addedValue>
