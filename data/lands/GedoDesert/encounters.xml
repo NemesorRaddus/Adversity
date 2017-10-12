@@ -9,7 +9,7 @@
                     <duration duration="0"></duration>
 				</event>
 				<event type="Action" subtype="GiveResource">
-					<resource type="Aetherite" amount="1"></resource>
+					<resource type="Aetherite" amount="2"></resource>
 				</event>
 				<event type="Check" subtype="Value">
                     <condition condition="M_REMDAYS/M_FULLDUR&lt;0.5"></condition>
@@ -107,7 +107,7 @@
                                                     <addedValue value="&lt;-0.1*HL;0>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-                                                    <resource type="Food Supplies" amount="&lt;3;5>"></resource>
+                                                    <resource type="Food Supplies" amount="&lt;5;8>"></resource>
 												</event>
 											</events>
 										</event>
@@ -260,7 +260,7 @@
 													<addedValue value="&lt;-15;-5>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-													<resource type="Food Supplies" amount="&lt;PR;2*PR>"></resource>
+													<resource type="Food Supplies" amount="&lt;PR+3;2*PR+6>"></resource>
 												</event>
 											</events>
 										</event>
@@ -348,7 +348,7 @@ The fight was tough but I did it. I slayed that monster.</text>
 																		<addedValue value="&lt;-10;-5>"></addedValue>
 																	</event>
 																	<event type="Action" subtype="GiveResource">
-																		<resource type="Food Supplies" amount="&lt;2;4>"></resource>
+																		<resource type="Food Supplies" amount="&lt;3;6>"></resource>
 																	</event>
 																</events>
 															</event>
@@ -371,7 +371,7 @@ The fight was very demanding but it turned out that I am to be the winner today.
 													<addedValue value="&lt;-3;0>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-													<resource type="Food Supplies" amount="&lt;4;6>"></resource>
+													<resource type="Food Supplies" amount="&lt;6;9>"></resource>
 												</event>
 											</events>
 										</event>
@@ -429,10 +429,10 @@ I've just experienced the worst thing in my life. I had been wandering through t
 										<addedValue value="&lt;-12;-9>"></addedValue>
 									</event>
 									<event type="Action" subtype="GiveResource">
-										<random amount="C_RESO"></random>
+										<random amount="-C_RESO"></random>
 									</event>
 									<event type="Action" subtype="GiveResource">
-										<random amount="C_RESO"></random>
+										<random amount="-C_RESO"></random>
 									</event>
 									<event type="Action" subtype="ModifyAttribute">
 										<modification attribute="Proficiency" type="-" value="4" duration="5"></modification>
@@ -468,7 +468,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 			<text>Huh? There's piece of Aetherite. Little things also have to be apprieciated!</text>
 			<events>
 				<event type="Action" subtype="GiveResource">
-                    <resource type="Aetherite" amount="&lt;2;5>"></resource>
+                    <resource type="Aetherite" amount="&lt;3;8>"></resource>
 				</event>
 				<event type="Action" subtype="GiveStress">
 					<addedValue value="&lt;-12;-6>"></addedValue>
@@ -572,7 +572,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 													<addedValue value="&lt;-15;-6>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-													<resource type="Aetherite" amount="&lt;3;8>"></resource>
+													<resource type="Aetherite" amount="&lt;5;12>"></resource>
 												</event>
 											</events>
 										</event>
@@ -583,7 +583,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 													<addedValue value="&lt;-15;-6>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-													<resource type="Building Materials" amount="&lt;5;9>"></resource>
+													<resource type="Building Materials" amount="&lt;8;14>"></resource>
 												</event>
 											</events>
 										</event>
@@ -599,7 +599,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 													<addedValue value="&lt;-2;-1>"></addedValue>
 												</event>
 												<event type="Action" subtype="GiveResource">
-													<resource type="Aetherite" amount="&lt;2;5>"></resource>
+													<resource type="Aetherite" amount="&lt;3;8>"></resource>
 												</event>
 											</events>
 										</event>
@@ -669,7 +669,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
                 <event type="Possibility">
 					<event chance="40" type="Action" subtype="GiveResource">
 						<text>A piece of Aetherite. Nice!</text>
-						<resource type="Aetherite" amount="&lt;1;4>"></resource>
+						<resource type="Aetherite" amount="&lt;2;6>"></resource>
 					</event>
 				</event>
                 <event type="Possibility">
@@ -694,7 +694,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 											<addedValue value="&lt;-15;20>"></addedValue>
 										</event>
 										<event type="Action" subtype="GiveResource">
-											<resource type="Food Supplies" amount="&lt;2;6>"></resource>
+											<resource type="Food Supplies" amount="&lt;3;9>"></resource>
 										</event>
 									</events>
 								</event>
@@ -711,7 +711,7 @@ I've just experienced the worst thing in my life. I had been wandering through t
 											<addedValue value="&lt;-3;-1>"></addedValue>
 										</event>
 										<event type="Action" subtype="GiveResource">
-											<resource type="Food Supplies" amount="&lt;2;5>"></resource>
+											<resource type="Food Supplies" amount="&lt;3;8>"></resource>
 										</event>
 									</events>
 								</event>
@@ -809,7 +809,7 @@ Somehow it lost track of me. I lost few items during my escape.</text>
 								<addedValue value="&lt;-20;-5>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Building Materials" amount="&lt;4;12>"></resource>
+								<resource type="Building Materials" amount="&lt;6;18>"></resource>
 							</event>
 						</events>
 					</event>
@@ -822,7 +822,7 @@ Somehow it lost track of me. I lost few items during my escape.</text>
 								<addedValue value="&lt;-25;-13>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Aetherite" amount="&lt;4;9>"></resource>
+								<resource type="Aetherite" amount="&lt;6;14>"></resource>
 							</event>
 						</events>
 					</event>
@@ -835,7 +835,7 @@ Somehow it lost track of me. I lost few items during my escape.</text>
 								<addedValue value="&lt;-15;-10>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Energy" amount="&lt;4;9>"></resource>
+								<resource type="Energy" amount="&lt;6;14>"></resource>
 							</event>
 						</events>
 					</event>
@@ -877,7 +877,7 @@ Somehow it lost track of me. I lost few items during my escape.</text>
 										<addedValue value="&lt;-20;-3>"></addedValue>
 									</event>
 									<event type="Action" subtype="GiveResource">
-										<resource type="Food Supplies" amount="&lt;1;2>"></resource>
+										<resource type="Food Supplies" amount="&lt;2;3>"></resource>
 									</event>
 								</events>
 							</event>
@@ -1008,7 +1008,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 				</event>
                 <event type="Possibility">
 					<event chance="80" type="Check" subtype="Value">
-						<condition condition="PR>5"></condition>
+						<condition condition="PR>3"></condition>
 						<results>
 							<positive>
 								<event chance="40" type="Multi">
@@ -1018,7 +1018,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 											<addedValue value="&lt;-20;-15>"></addedValue>
 										</event>
 										<event type="Action" subtype="GiveResource">
-											<resource type="Food Supplies" amount="&lt;5+PR;8+PR>"></resource>
+											<resource type="Food Supplies" amount="&lt;8+PR;12+PR>"></resource>
 										</event>
 									</events>
 								</event>
@@ -1032,7 +1032,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 											<addedValue value="&lt;-15;-10>"></addedValue>
 										</event>
 										<event type="Action" subtype="GiveResource">
-											<resource type="Food Supplies" amount="&lt;3+PR;6+PR>"></resource>
+											<resource type="Food Supplies" amount="&lt;5+PR;9+PR>"></resource>
 										</event>
 									</events>
 								</event>
@@ -1045,7 +1045,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 											<addedValue value="&lt;-13;-5>"></addedValue>
 										</event>
 										<event type="Action" subtype="GiveResource">
-											<resource type="Food Supplies" amount="&lt;1+PR;3+PR>"></resource>
+											<resource type="Food Supplies" amount="&lt;2+PR;5+PR>"></resource>
 										</event>
 									</events>
 								</event>
@@ -1059,7 +1059,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 											<addedValue value="&lt;-8;-3>"></addedValue>
 										</event>
 										<event type="Action" subtype="GiveResource">
-											<resource type="Food Supplies" amount="PR+1"></resource>
+											<resource type="Food Supplies" amount="PR+2"></resource>
 										</event>
 									</events>
 								</event>
@@ -1084,7 +1084,7 @@ Ough... My suit is full of sand! I have to crawl out...</text>
 														<addedValue value="&lt;-15;-5>"></addedValue>
 													</event>
 													<event type="Action" subtype="GiveResource">
-														<resource type="Food Supplies" amount="PR+CE"></resource>
+														<resource type="Food Supplies" amount="PR+CE+3"></resource>
 													</event>
 												</events>
 											</event>
@@ -1452,7 +1452,7 @@ It looks more like an early spaceship crashed here!</text>
 								<addedValue value="&lt;-12;-5>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Building Materials" amount="&lt;3;6>"></resource>
+								<resource type="Building Materials" amount="&lt;5;9>"></resource>
 							</event>
 						</events>
 					</event>
@@ -1465,7 +1465,7 @@ It looks more like an early spaceship crashed here!</text>
 								<addedValue value="&lt;-20;-6>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Aetherite" amount="&lt;1;4>"></resource>
+								<resource type="Aetherite" amount="&lt;2;6>"></resource>
 							</event>
 						</events>
 					</event>
@@ -1478,7 +1478,7 @@ It looks more like an early spaceship crashed here!</text>
 								<addedValue value="&lt;-6;-2>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Food Supplies" amount="&lt;2;5>"></resource>
+								<resource type="Food Supplies" amount="&lt;3;8>"></resource>
 							</event>
 						</events>
 					</event>
@@ -1491,7 +1491,7 @@ It looks more like an early spaceship crashed here!</text>
 								<addedValue value="&lt;-10;-2>"></addedValue>
 							</event>
 							<event type="Action" subtype="GiveResource">
-								<resource type="Energy" amount="&lt;20;50>"></resource>
+								<resource type="Energy" amount="&lt;30;75>"></resource>
 							</event>
 						</events>
 					</event>
