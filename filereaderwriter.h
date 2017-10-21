@@ -1,5 +1,4 @@
-#ifndef FILEREADERWRITER_H
-#define FILEREADERWRITER_H
+#pragma once
 
 #include <QXmlStreamReader>
 #include <QFile>
@@ -62,5 +61,3 @@ private:
 
     QXmlStreamReader *m_xmlReader;
 };
-
-#endif // FILEREADERWRITER_H

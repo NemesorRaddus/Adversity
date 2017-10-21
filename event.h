@@ -1,5 +1,4 @@
-#ifndef EVENT_H
-#define EVENT_H
+#pragma once
 
 #include <QMap>
 #include <QVector>
@@ -1086,5 +1085,3 @@ private:
     Equipment *m_weaponTool[2];
     unsigned m_aetherite, m_energy, m_bm, m_food;
 };
-
-#endif // EVENT_H

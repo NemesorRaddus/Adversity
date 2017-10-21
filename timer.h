@@ -1,5 +1,4 @@
-#ifndef GAMECLOCK_H
-#define GAMECLOCK_H
+#pragma once
 
 #include <QVector>
 #include <QDateTime>
@@ -249,5 +248,3 @@ private:
 
     unsigned m_realMinutesToOneGameDayRatio = 15;
 };
-
-#endif // GAMECLOCK_H

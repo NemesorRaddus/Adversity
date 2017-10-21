@@ -1,5 +1,4 @@
-#ifndef SAVEPARSER_H
-#define SAVEPARSER_H
+#pragma once
 
 //File generated using Raddus Binary Data Parser Generator v1.0.1 Beta
 
@@ -139,5 +138,3 @@ public:
     static SaveData readData(QByteArray &array);
     static void writeData(QByteArray &array, const SaveData& data);
 };
-
-#endif // SAVEPARSER_H

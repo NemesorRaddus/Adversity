@@ -1,5 +1,4 @@
-#ifndef H4X_H
-#define H4X_H
+#pragma once
 
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -109,5 +108,3 @@ private:
     QQmlApplicationEngine *m_qmlEngine;
     bool m_autoUpdate;
 };
-
-#endif // H4X_H

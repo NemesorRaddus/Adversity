@@ -1,5 +1,4 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+#pragma once
 
 #include <QString>
 #include <QDataStream>
@@ -96,5 +95,3 @@ private:
 
     QVector <DatabaseEntry> m_entriesFromCurrentCategory;
 };
-
-#endif // DATABASE_H

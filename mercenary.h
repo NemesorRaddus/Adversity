@@ -1,5 +1,4 @@
-#ifndef HERO_H
-#define HERO_H
+#pragma once
 
 #include <QString>
 #include <QVector>
@@ -798,5 +797,3 @@ private:
     const unsigned m_durationOfBanAfterDismiss = 21;
     Base *m_basePtr;
 };
-
-#endif // HERO_H

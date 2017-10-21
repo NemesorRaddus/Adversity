@@ -1,5 +1,4 @@
-#ifndef ASSETSPOOL_H
-#define ASSETSPOOL_H
+#pragma once
 
 #include <QVector>
 
@@ -67,5 +66,3 @@ private:
 
     XmlFileReader m_reader;
 };
-
-#endif // ASSETSPOOL_H

@@ -1,5 +1,4 @@
-#ifndef FPSCOUNTER_H
-#define FPSCOUNTER_H
+#pragma once
 
 #include <QQuickPaintedItem>
 #include <QBrush>
@@ -32,5 +31,3 @@ private:
     int m_cacheCount;
     QVector <qint64> m_times;
 };
-
-#endif // FPSCOUNTER_H

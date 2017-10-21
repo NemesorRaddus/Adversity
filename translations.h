@@ -1,5 +1,4 @@
-#ifndef TRANSLATIONS_H
-#define TRANSLATIONS_H
+#pragma once
 
 #include <QMap>
 #include <QObject>
@@ -45,5 +44,3 @@ private:
     QMap <Text, QMap <Context, Translation> > m_translations;
     XmlFileReader m_xmlReader;
 };
-
-#endif // TRANSLATIONS_H

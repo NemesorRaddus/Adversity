@@ -1,5 +1,4 @@
-#ifndef BASE_H
-#define BASE_H
+#pragma once
 
 #include <QVector>
 #include <QMap>
@@ -2502,5 +2501,3 @@ private:
     Game *m_gameObject;
     bool m_freezeGameProgress;
 };
-
-#endif // BASE_H

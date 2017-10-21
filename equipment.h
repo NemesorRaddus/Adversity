@@ -1,5 +1,4 @@
-#ifndef EQUIPMENT_H
-#define EQUIPMENT_H
+#pragma once
 
 #include <QString>
 
@@ -167,5 +166,3 @@ public:
 private:
     Equipment *m_equipment;
 };
-
-#endif // EQUIPMENT_H

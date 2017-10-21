@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <QObject>
 #include <QSettings>
@@ -391,5 +390,3 @@ static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *
     Game *game =new Game();
     return game;
 }
-
-#endif // GAME_H
