@@ -66,6 +66,6 @@ END
 SECTION Alarms
 QVector<BuildingUpgradeTimerAlarm> buildingUpgrades
 END
-SECTION Heroes
-QVector<Hero>   hiredHeroes
+SECTION Mercenaries
+QVector<Mercenary>   hiredMercenaries
 END

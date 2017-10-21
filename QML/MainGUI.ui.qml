@@ -11,10 +11,10 @@ Rectangle {
 
     property alias missionsButton: missionsButton
     property alias baseButton: baseButton
-    property alias heroesButton: heroesButton
+    property alias mercenariesButton: mercenariesButton
     property alias missionsButtonLight: missionsButtonLight
     property alias baseButtonLight: baseButtonLight
-    property alias heroesButtonLight: heroesButtonLight
+    property alias mercenariesButtonLight: mercenariesButtonLight
 
     property alias energyValue: energyText
     property alias energyValue2: energyText2
@@ -43,7 +43,7 @@ Rectangle {
 
     property alias mercenaryDismissConfirmDialog: mercenaryDismissConfirmDialog
 
-    property alias heroArtPreview: heroArtPreview
+    property alias mercenaryArtPreview: mercenaryArtPreview
 
     property alias enableFPSCounter: fpsCnt.visible
 
@@ -149,7 +149,7 @@ Rectangle {
         }
 
         MouseArea {
-            id: heroesButton
+            id: mercenariesButton
 
             x: 751
             y: 1727
@@ -159,10 +159,10 @@ Rectangle {
             visible: true
         }
         ModeButtonLight {
-            id: heroesButtonLight
+            id: mercenariesButtonLight
 
-            x: heroesButton.x + 2
-            y: heroesButton.y - 63.5
+            x: mercenariesButton.x + 2
+            y: mercenariesButton.y - 63.5
             width: 268
             height: 268
         }
@@ -402,8 +402,8 @@ Rectangle {
         visible: false
     }
 
-    HeroArtPreview {
-        id: heroArtPreview
+    MercenaryArtPreview {
+        id: mercenaryArtPreview
 
         anchors.fill: parent
     }

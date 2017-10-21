@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="AdamAnderson">
+<mercenary name="AdamAnderson">
     <attributes combatEffectiveness="6" proficiency="4" cleverness="5" luck="1.0" health="12" healthLimit="12" dailyHealthRecovery="0" stress="0" stressResistance="0.9" stressLimit="120" stressBorder="75" dailyStressRecovery="7" salary="10" dailyFoodConsumption="3" nature="Active" profession="Bounty Hunter"></attributes>
     <sbeList>
         <sbe>Faint</sbe>
@@ -19,4 +19,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

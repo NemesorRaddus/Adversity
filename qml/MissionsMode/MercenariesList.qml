@@ -1,32 +1,32 @@
 import QtQuick 2.9
 
-import "qrc:/qml/MissionsMode/HeroesListScripts.js" as Scripts
+import "qrc:/qml/MissionsMode/MercenariesListScripts.js" as Scripts
 import "../.."
 import ".."
 import Game 1.0
 
 Item {
-    id: rootHeroesList
+    id: rootMercenariesList
 
     function update()
     {
-        var amount=GameApi.base.heroes.amountOfHeroes()+1;
-        for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
+        var amount=GameApi.base.mercenaries.amountOfMercenaries()+1;
+        for (var i=0;i<GameApi.base.mercenaries.amountOfMercenaries();++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
+            GameApi.base.mercenaries.prepareMercenaryAt(i);
 
-            if (GameApi.base.heroes.preparedHero.currentActivityString() != "Idle")
+            if (GameApi.base.mercenaries.preparedMercenary.currentActivityString() != "Idle")
                 --amount;
         }
         Scripts.setupList(Math.round((271/1080)*width), amount, width, height);
         Scripts.createItem("","","",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
+        for (var i=0;i<GameApi.base.mercenaries.amountOfMercenaries();++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
+            GameApi.base.mercenaries.prepareMercenaryAt(i);
 
-            if (GameApi.base.heroes.preparedHero.currentActivityString() != "Idle")
+            if (GameApi.base.mercenaries.preparedMercenary.currentActivityString() != "Idle")
                 continue;
-            Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(), GameApi.base.heroes.preparedHero.combatEffectiveness(), GameApi.base.heroes.preparedHero.proficiency(), GameApi.base.heroes.preparedHero.cleverness(),  GameApi.base.heroes.preparedHero.health(), GameApi.base.heroes.preparedHero.healthLimit(), GameApi.base.heroes.preparedHero.stress(), GameApi.base.heroes.preparedHero.stressLimit(), GameApi.base.heroes.preparedHero.stressResistance(), GameApi.base.heroes.preparedHero.salary(), GameApi.base.heroes.preparedHero.dailyFoodConsumption(), GameApi.base.heroes.preparedHero.baseCombatEffectiveness(), GameApi.base.heroes.preparedHero.baseProficiency(), GameApi.base.heroes.preparedHero.baseCleverness(), GameApi.base.heroes.preparedHero.baseHealthLimit(), GameApi.base.heroes.preparedHero.baseStressLimit(), GameApi.base.heroes.preparedHero.baseStressResistance(), GameApi.base.heroes.preparedHero.baseSalary(), GameApi.base.heroes.preparedHero.baseDailyFoodConsumption());
+            Scripts.createItem(GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.professionString(), GameApi.base.mercenaries.preparedMercenary.combatEffectiveness(), GameApi.base.mercenaries.preparedMercenary.proficiency(), GameApi.base.mercenaries.preparedMercenary.cleverness(),  GameApi.base.mercenaries.preparedMercenary.health(), GameApi.base.mercenaries.preparedMercenary.healthLimit(), GameApi.base.mercenaries.preparedMercenary.stress(), GameApi.base.mercenaries.preparedMercenary.stressLimit(), GameApi.base.mercenaries.preparedMercenary.stressResistance(), GameApi.base.mercenaries.preparedMercenary.salary(), GameApi.base.mercenaries.preparedMercenary.dailyFoodConsumption(), GameApi.base.mercenaries.preparedMercenary.baseCombatEffectiveness(), GameApi.base.mercenaries.preparedMercenary.baseProficiency(), GameApi.base.mercenaries.preparedMercenary.baseCleverness(), GameApi.base.mercenaries.preparedMercenary.baseHealthLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressResistance(), GameApi.base.mercenaries.preparedMercenary.baseSalary(), GameApi.base.mercenaries.preparedMercenary.baseDailyFoodConsumption());
         }
     }
 
@@ -44,7 +44,7 @@ Item {
 
     clip: true
 
-    signal heroClicked(string heroName, string artSource)
+    signal mercenaryClicked(string mercenaryName, string artSource)
 
     Image {
         id: additionalBackground
@@ -79,7 +79,7 @@ Item {
             {
                 var hN = Scripts.getClickedItemName(y0);
                 if (hN != "nothing")
-                    heroClicked(hN, Scripts.getClickedItemArt(y0));
+                    mercenaryClicked(hN, Scripts.getClickedItemArt(y0));
             }
             y0 = -1;
             movementCheckTimer.stop();

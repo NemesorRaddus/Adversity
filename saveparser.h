@@ -16,7 +16,7 @@
 
 class BuildingUpgradeTimerAlarm;
 class MissionEndTimerAlarm;
-struct HeroDataHelper;
+struct MercenaryDataHelper;
 class Equipment;
 struct ActiveTransaction;
 struct MissionDataHelper;
@@ -88,11 +88,11 @@ struct SaveData
             QVector<QString> bar;
             QVector<QString> shrine;
             QVector<QString> seclusion;
-        } heroSlots;
+        } mercenarySlots;
         struct DockingStationThings
         {
             QVector<QString> recruits;
-            QVector<QPair<QString,quint8>> arrivingHeroes;
+            QVector<QPair<QString,quint8>> arrivingMercenaries;
             QVector<QPair<ActiveTransaction,quint8>> activeResourceTransactions;
             QVector<QString> equipments;
             QVector<QPair<QString,quint8>> arrivingEquipments;
@@ -111,10 +111,10 @@ struct SaveData
         QVector<QPair<quint8,MissionEndTimerAlarm>> missionEnds;
         QVector<QPair<Time,QString>> missionAlarms;
     } alarms;
-    struct Heroes
+    struct Mercenaries
     {
-        QVector<HeroDataHelper> hiredHeroes;
-    } heroes;
+        QVector<MercenaryDataHelper> hiredMercenaries;
+    } mercenaries;
     struct Equipments
     {
         QVector<QString> freeArmor;

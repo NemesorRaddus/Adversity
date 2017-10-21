@@ -189,7 +189,7 @@ Item {
             width: 256
             height: 256
 
-            source: "qrc:/graphics/GUI/Slots/HeroSlot.png"
+            source: "qrc:/graphics/GUI/Slots/MercenarySlot.png"
         }
 
         Image {

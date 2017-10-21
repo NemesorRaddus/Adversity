@@ -144,7 +144,7 @@ void H4X::setBuildingLevel(const QString &buildingName, unsigned level) noexcept
     }
     Game::gameInstance()->m_base->getBuilding(BaseEnums::fromQStringToBuildingEnum(buildingName))->registerUpgradeCompletion();//slots resized
 
-    Game::gameInstance()->m_base->recalculateAmountOfHeroSlots();//barracks slots
+    Game::gameInstance()->m_base->recalculateAmountOfMercenarySlots();//barracks slots
 }
 
 void H4X::completeUpgrade(const QString &buildingName) noexcept
@@ -181,11 +181,11 @@ void H4X::burnItDown() noexcept
 
 void H4X::setMercenaryAttribute(const QString &mercenaryName, const QString &attribute, QVariant value) noexcept
 {
-    int pos = Game::gameInstance()->m_base->m_heroes->findHero(mercenaryName);
+    int pos = Game::gameInstance()->m_base->m_mercenaries->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    Game::gameInstance()->m_base->m_heroes->getHero(pos)->setAttributeValue(HeroEnums::fromQStringToAttributeEnum(attribute),value);
+    Game::gameInstance()->m_base->m_mercenaries->getMercenary(pos)->setAttributeValue(MercenaryEnums::fromQStringToAttributeEnum(attribute),value);
 }
 
 void H4X::hire(const QString &mercenaryName) noexcept
@@ -196,15 +196,15 @@ void H4X::hire(const QString &mercenaryName) noexcept
     }
     else
     {
-        if (Game::gameInstance()->m_base->m_heroes->canAddHero())
+        if (Game::gameInstance()->m_base->m_mercenaries->canAddMercenary())
         {
-            if (Game::gameInstance()->assetsPool().allHeroes().contains(mercenaryName))
+            if (Game::gameInstance()->assetsPool().allMercenaries().contains(mercenaryName))
             {
-                Game::gameInstance()->assetsPool().loadHeroNamedFromList(mercenaryName);
-                for (int i=0;i<Game::gameInstance()->assetsPool().loadedHeroes().size();++i)
-                    if (Game::gameInstance()->assetsPool().loadedHeroes()[i]->name() == mercenaryName)
+                Game::gameInstance()->assetsPool().loadMercenaryNamedFromList(mercenaryName);
+                for (int i=0;i<Game::gameInstance()->assetsPool().loadedMercenaries().size();++i)
+                    if (Game::gameInstance()->assetsPool().loadedMercenaries()[i]->name() == mercenaryName)
                     {
-                        Game::gameInstance()->m_base->m_heroes->addHero(Game::gameInstance()->assetsPool().loadedHeroes()[i]);
+                        Game::gameInstance()->m_base->m_mercenaries->addMercenary(Game::gameInstance()->assetsPool().loadedMercenaries()[i]);
                         break;
                     }
             }
@@ -214,30 +214,30 @@ void H4X::hire(const QString &mercenaryName) noexcept
 
 void H4X::kill(const QString &mercenaryName) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
-        if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && !Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();++i)
+        if (Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->name() == mercenaryName && !Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->isDead())
         {
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->die();
+            Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->die();
             break;
         }
 }
 
 void H4X::dismiss(const QString &mercenaryName, unsigned banTime) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
-        if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && !Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();++i)
+        if (Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->name() == mercenaryName && !Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->isDead())
         {
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->dismiss(banTime);
+            Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->dismiss(banTime);
             break;
         }
 }
 
 void H4X::killThemAll() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();)
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();)
     {
-        if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->die();
+        if (!Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->isDead())
+            Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->die();
         else
             ++i;
     }
@@ -245,39 +245,39 @@ void H4X::killThemAll() noexcept
 
 void H4X::engulfThemInPain() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
-        if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->m_currentAttributesValues.health=1;
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();++i)
+        if (!Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->isDead())
+            Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->m_currentAttributesValues.health=1;
 }
 
 void H4X::chaosComesForYou() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
-        if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isDead())
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();++i)
+        if (!Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->isDead())
         {
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->m_currentAttributesValues.stress = Game::gameInstance()->m_base->m_heroes->getHero(i)->m_currentAttributesValues.stressLimit-1;
-            if (!Game::gameInstance()->m_base->m_heroes->getHero(i)->isStressBorderEffectActive())
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->activateStressBorderEffect();
+            Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->m_currentAttributesValues.stress = Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->m_currentAttributesValues.stressLimit-1;
+            if (!Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->isStressBorderEffectActive())
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->activateStressBorderEffect();
         }
 }
 
 void H4X::setMercenaryVariable(const QString &mercenaryName, const QString &varName, QVariant value) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
-        if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName)
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();++i)
+        if (Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->name() == mercenaryName)
         {
             if (varName == "noSignalDays")
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->setNoSignalDaysRemaining(value.toInt());
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->setNoSignalDaysRemaining(value.toInt());
             else if (varName == "isDead")
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->setIsDead(value.toBool());
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->setIsDead(value.toBool());
             else if (varName == "carriedAetherite")
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedAetheriteOre(value.toUInt());
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->setCarriedAetheriteOre(value.toUInt());
             else if (varName == "carriedBuildingMaterials")
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedBuildingMaterials(value.toUInt());
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->setCarriedBuildingMaterials(value.toUInt());
             else if (varName == "carriedEnergy")
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedEnergy(value.toUInt());
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->setCarriedEnergy(value.toUInt());
             else if (varName == "carriedFoodSupplies")
-                Game::gameInstance()->m_base->m_heroes->getHero(i)->setCarriedFoodSupplies(value.toUInt());
+                Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->setCarriedFoodSupplies(value.toUInt());
             break;
         }
 }
@@ -299,10 +299,10 @@ void H4X::clearReports() noexcept
 
 void H4X::finishMission(const QString &mercenaryName) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->m_heroes->amountOfHeroes();++i)
-        if (Game::gameInstance()->m_base->m_heroes->getHero(i)->name() == mercenaryName && Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()!=nullptr)
+    for (int i=0;i<Game::gameInstance()->m_base->m_mercenaries->amountOfMercenaries();++i)
+        if (Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->name() == mercenaryName && Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->assignedMission()!=nullptr)
         {
-            Game::gameInstance()->m_base->m_heroes->getHero(i)->assignedMission()->forceEndSuccessfully();
+            Game::gameInstance()->m_base->m_mercenaries->getMercenary(i)->assignedMission()->forceEndSuccessfully();
             break;
         }
 }

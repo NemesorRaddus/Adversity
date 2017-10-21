@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="CAI-V2-DY11">
+<mercenary name="CAI-V2-DY11">
     <attributes combatEffectiveness="5" proficiency="5" cleverness="5" luck="1.00" health="15" healthLimit="15" dailyHealthRecovery="2" stressLimit="-1" salary="30" dailyFoodConsumption="0" nature="Recluse" profession="Battle Droid"></attributes>
     <sbeList>
         <sbe>None</sbe>
@@ -10,4 +10,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

@@ -1,52 +1,52 @@
 import QtQuick 2.9
 
-import "qrc:/qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListScripts.js" as Scripts
+import "qrc:/qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesListScripts.js" as Scripts
 import "../../.."
 import "../.."
 import Game 1.0
 
 Item {
-    id: rootHeroesList
+    id: rootMercenariesList
 
     function updateEverything(trainedAttr)//"ce","pr","cl" or ""
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var heroesAmount=0;
-        var availableHeroes = new Array(GameApi.base.heroes.amountOfHeroes());
-        for (var i=0;i<GameApi.base.heroes.amountOfHeroes();++i)
+        var mercenariesAmount=0;
+        var availableMercenaries = new Array(GameApi.base.mercenaries.amountOfMercenaries());
+        for (var i=0;i<GameApi.base.mercenaries.amountOfMercenaries();++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
-            if (!GameApi.base.heroes.preparedHero.isDead() && GameApi.base.heroes.preparedHero.currentActivityString() == "Idle" && bannedHeroes.indexOf(GameApi.base.heroes.preparedHero.name())==-1)
+            GameApi.base.mercenaries.prepareMercenaryAt(i);
+            if (!GameApi.base.mercenaries.preparedMercenary.isDead() && GameApi.base.mercenaries.preparedMercenary.currentActivityString() == "Idle" && bannedMercenaries.indexOf(GameApi.base.mercenaries.preparedMercenary.name())==-1)
             {
                 if (trainedAttr == "ce")
                 {
-                    if (!GameApi.base.heroes.preparedHero.canTrainCombatEffectiveness())
+                    if (!GameApi.base.mercenaries.preparedMercenary.canTrainCombatEffectiveness())
                         continue;
                 }
                 else if (trainedAttr == "pr")
                 {
-                    if (!GameApi.base.heroes.preparedHero.canTrainProficiency())
+                    if (!GameApi.base.mercenaries.preparedMercenary.canTrainProficiency())
                         continue;
                 }
                 else if (trainedAttr == "cl")
                 {
-                    if (!GameApi.base.heroes.preparedHero.canTrainCleverness())
+                    if (!GameApi.base.mercenaries.preparedMercenary.canTrainCleverness())
                         continue;
                 }
 
-                ++heroesAmount;
-                availableHeroes[i]=true;
+                ++mercenariesAmount;
+                availableMercenaries[i]=true;
             }
         }
-        Scripts.setupList(Math.round((271/1080)*width), heroesAmount, width, height);
+        Scripts.setupList(Math.round((271/1080)*width), mercenariesAmount, width, height);
         var j=0;
-        for (i=0;i<GameApi.base.heroes.amountOfHeroes() && j<heroesAmount;++i)
+        for (i=0;i<GameApi.base.mercenaries.amountOfMercenaries() && j<mercenariesAmount;++i)
         {
-            if (availableHeroes[i] == true)
+            if (availableMercenaries[i] == true)
             {
-                GameApi.base.heroes.prepareHeroAt(i);
-                Scripts.createItem(GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.name(), GameApi.base.heroes.preparedHero.professionString(),GameApi.base.heroes.preparedHero.combatEffectiveness(),GameApi.base.heroes.preparedHero.proficiency(),GameApi.base.heroes.preparedHero.cleverness(),GameApi.base.heroes.preparedHero.health(),GameApi.base.heroes.preparedHero.healthLimit(),GameApi.base.heroes.preparedHero.stress(),GameApi.base.heroes.preparedHero.stressLimit(),GameApi.base.heroes.preparedHero.stressResistance(),GameApi.base.heroes.preparedHero.salary(),GameApi.base.heroes.preparedHero.dailyFoodConsumption(), GameApi.base.heroes.preparedHero.baseCombatEffectiveness(), GameApi.base.heroes.preparedHero.baseProficiency(), GameApi.base.heroes.preparedHero.baseCleverness(), GameApi.base.heroes.preparedHero.baseHealthLimit(), GameApi.base.heroes.preparedHero.baseStressLimit(), GameApi.base.heroes.preparedHero.baseStressResistance(), GameApi.base.heroes.preparedHero.baseSalary(), GameApi.base.heroes.preparedHero.baseDailyFoodConsumption());
+                GameApi.base.mercenaries.prepareMercenaryAt(i);
+                Scripts.createItem(GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.professionString(),GameApi.base.mercenaries.preparedMercenary.combatEffectiveness(),GameApi.base.mercenaries.preparedMercenary.proficiency(),GameApi.base.mercenaries.preparedMercenary.cleverness(),GameApi.base.mercenaries.preparedMercenary.health(),GameApi.base.mercenaries.preparedMercenary.healthLimit(),GameApi.base.mercenaries.preparedMercenary.stress(),GameApi.base.mercenaries.preparedMercenary.stressLimit(),GameApi.base.mercenaries.preparedMercenary.stressResistance(),GameApi.base.mercenaries.preparedMercenary.salary(),GameApi.base.mercenaries.preparedMercenary.dailyFoodConsumption(), GameApi.base.mercenaries.preparedMercenary.baseCombatEffectiveness(), GameApi.base.mercenaries.preparedMercenary.baseProficiency(), GameApi.base.mercenaries.preparedMercenary.baseCleverness(), GameApi.base.mercenaries.preparedMercenary.baseHealthLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressResistance(), GameApi.base.mercenaries.preparedMercenary.baseSalary(), GameApi.base.mercenaries.preparedMercenary.baseDailyFoodConsumption());
                 ++j;
             }
         }
@@ -62,25 +62,25 @@ Item {
         Scripts.clearList();
     }
 
-    property var bannedHeroes: []
+    property var bannedMercenaries: []
 
-    function banHero(name)
+    function banMercenary(name)
     {
-        if (bannedHeroes.indexOf(name)==-1)
-            bannedHeroes.push(name);
+        if (bannedMercenaries.indexOf(name)==-1)
+            bannedMercenaries.push(name);
     }
 
-    function unbanHero(name)
+    function unbanMercenary(name)
     {
-        if (bannedHeroes.indexOf(name)!=-1)
-            bannedHeroes.splice(bannedHeroes.indexOf(name),1);
+        if (bannedMercenaries.indexOf(name)!=-1)
+            bannedMercenaries.splice(bannedMercenaries.indexOf(name),1);
     }
 
     property int startY
 
     clip: true
 
-    signal heroClicked(string heroName, string heroProfession)
+    signal mercenaryClicked(string mercenaryName, string mercenaryProfession)
 
     Image {
         id: additionalBackground
@@ -115,7 +115,7 @@ Item {
             {
                 var n=Scripts.getClickedItemName(y0);
                 if (n!="")
-                    heroClicked(n, Scripts.getClickedItemName2(y0));
+                    mercenaryClicked(n, Scripts.getClickedItemName2(y0));
             }
             y0 = -1;
             movementCheckTimer.stop();
@@ -162,7 +162,7 @@ Item {
     states: [
         State {
             name: "hidden"
-            PropertyChanges { target: rootHeroesList; x: width }
+            PropertyChanges { target: rootMercenariesList; x: width }
         }
     ]
 

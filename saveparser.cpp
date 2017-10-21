@@ -3,7 +3,7 @@
 //File generated using Raddus Binary Data Parser Generator v1.0.1 Beta
 
 #include "timer.h"
-#include "hero.h"
+#include "mercenary.h"
 #include "event.h"
 
 #include <QDebug>
@@ -56,16 +56,16 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.buildings.upgrading.bar;
         str>>data.buildings.upgrading.shrine;
         str>>data.buildings.upgrading.seclusion;
-        str>>data.buildings.heroSlots.hospital;
-        str>>data.buildings.heroSlots.trainingGround;
-        str>>data.buildings.heroSlots.gym;
-        str>>data.buildings.heroSlots.laboratory;
-        str>>data.buildings.heroSlots.playingField;
-        str>>data.buildings.heroSlots.bar;
-        str>>data.buildings.heroSlots.shrine;
-        str>>data.buildings.heroSlots.seclusion;
+        str>>data.buildings.mercenarySlots.hospital;
+        str>>data.buildings.mercenarySlots.trainingGround;
+        str>>data.buildings.mercenarySlots.gym;
+        str>>data.buildings.mercenarySlots.laboratory;
+        str>>data.buildings.mercenarySlots.playingField;
+        str>>data.buildings.mercenarySlots.bar;
+        str>>data.buildings.mercenarySlots.shrine;
+        str>>data.buildings.mercenarySlots.seclusion;
         str>>data.buildings.dockingStationThings.recruits;
-        str>>data.buildings.dockingStationThings.arrivingHeroes;
+        str>>data.buildings.dockingStationThings.arrivingMercenaries;
         str>>data.buildings.dockingStationThings.activeResourceTransactions;
         str>>data.buildings.dockingStationThings.equipments;
         str>>data.buildings.dockingStationThings.arrivingEquipments;
@@ -76,7 +76,7 @@ SaveData SaveParser::readData(QByteArray &array)
         str>>data.alarms.buildingUpgrades;
         str>>data.alarms.missionEnds;
         str>>data.alarms.missionAlarms;
-        str>>data.heroes.hiredHeroes;
+        str>>data.mercenaries.hiredMercenaries;
         str>>data.equipments.freeArmor;
         str>>data.equipments.freeWeaponsTools;
         str>>data.database.unlocks;
@@ -125,16 +125,16 @@ SaveData SaveParser::readData(QByteArray &array)
         data.buildings.upgrading.bar=false;
         data.buildings.upgrading.shrine=false;
         data.buildings.upgrading.seclusion=false;
-        data.buildings.heroSlots.hospital.clear();
-        data.buildings.heroSlots.trainingGround.clear();
-        data.buildings.heroSlots.gym.clear();
-        data.buildings.heroSlots.laboratory.clear();
-        data.buildings.heroSlots.playingField.clear();
-        data.buildings.heroSlots.bar.clear();
-        data.buildings.heroSlots.shrine.clear();
-        data.buildings.heroSlots.seclusion.clear();
+        data.buildings.mercenarySlots.hospital.clear();
+        data.buildings.mercenarySlots.trainingGround.clear();
+        data.buildings.mercenarySlots.gym.clear();
+        data.buildings.mercenarySlots.laboratory.clear();
+        data.buildings.mercenarySlots.playingField.clear();
+        data.buildings.mercenarySlots.bar.clear();
+        data.buildings.mercenarySlots.shrine.clear();
+        data.buildings.mercenarySlots.seclusion.clear();
         data.buildings.dockingStationThings.recruits.clear();
-        data.buildings.dockingStationThings.arrivingHeroes.clear();
+        data.buildings.dockingStationThings.arrivingMercenaries.clear();
         data.buildings.dockingStationThings.activeResourceTransactions.clear();
         data.buildings.dockingStationThings.equipments.clear();
         data.buildings.dockingStationThings.arrivingEquipments.clear();
@@ -145,7 +145,7 @@ SaveData SaveParser::readData(QByteArray &array)
         data.alarms.buildingUpgrades.clear();
         data.alarms.missionEnds.clear();
         data.alarms.missionAlarms.clear();
-        data.heroes.hiredHeroes.clear();
+        data.mercenaries.hiredMercenaries.clear();
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
         data.database.unlocks.clear();
@@ -202,16 +202,16 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.buildings.upgrading.bar;
     str<<data.buildings.upgrading.shrine;
     str<<data.buildings.upgrading.seclusion;
-    str<<data.buildings.heroSlots.hospital;
-    str<<data.buildings.heroSlots.trainingGround;
-    str<<data.buildings.heroSlots.gym;
-    str<<data.buildings.heroSlots.laboratory;
-    str<<data.buildings.heroSlots.playingField;
-    str<<data.buildings.heroSlots.bar;
-    str<<data.buildings.heroSlots.shrine;
-    str<<data.buildings.heroSlots.seclusion;
+    str<<data.buildings.mercenarySlots.hospital;
+    str<<data.buildings.mercenarySlots.trainingGround;
+    str<<data.buildings.mercenarySlots.gym;
+    str<<data.buildings.mercenarySlots.laboratory;
+    str<<data.buildings.mercenarySlots.playingField;
+    str<<data.buildings.mercenarySlots.bar;
+    str<<data.buildings.mercenarySlots.shrine;
+    str<<data.buildings.mercenarySlots.seclusion;
     str<<data.buildings.dockingStationThings.recruits;
-    str<<data.buildings.dockingStationThings.arrivingHeroes;
+    str<<data.buildings.dockingStationThings.arrivingMercenaries;
     str<<data.buildings.dockingStationThings.activeResourceTransactions;
     str<<data.buildings.dockingStationThings.equipments;
     str<<data.buildings.dockingStationThings.arrivingEquipments;
@@ -222,7 +222,7 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.alarms.buildingUpgrades;
     str<<data.alarms.missionEnds;
     str<<data.alarms.missionAlarms;
-    str<<data.heroes.hiredHeroes;
+    str<<data.mercenaries.hiredMercenaries;
     str<<data.equipments.freeArmor;
     str<<data.equipments.freeWeaponsTools;
     str<<data.database.unlocks;

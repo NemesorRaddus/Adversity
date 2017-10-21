@@ -15,7 +15,7 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     height = heightInPx;
     for (var i=0;i<itemsArray.length;++i)
         itemsArray[i].destroy();
-    listDelegate = Qt.createComponent("qrc:/qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/RecruitmentHeroesListDelegate.qml");
+    listDelegate = Qt.createComponent("qrc:/qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
     }
@@ -106,7 +106,7 @@ function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, s
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootHeroesList,
+        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootMercenariesList,
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
@@ -115,19 +115,33 @@ function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, s
     }
 }
 
-function getClickedItemName(x,y) {
+function getClickedItemName(y) {
     var h = heightOfElement;
-    var y0 = 4;
-    var y1 = y0 + 79;
+    var y0 = 0;
+    var y1 = h - 1;
     y -= yAtTop;
     for (var i=0;i<actualAmountOfItems;++i)
     {
-        if (y >= y0 && y <= y1 && x >= 920 && x <= 1049)
+        if (y >= y0 && y <= y1)
             return itemsArray[i].getName();
         y0 += h;
         y1 += h;
     }
     return "";
+}
+
+function getClickedItemName2(y) {
+    var h = heightOfElement;
+    var y0 = 0;
+    var y1 = h - 1;
+    y -= yAtTop;
+    for (var i=0;i<actualAmountOfItems;++i)
+    {
+        if (y >= y0 && y <= y1)
+            return itemsArray[i].getProfession();
+        y0 += h;
+        y1 += h;
+    }
 }
 
 function scrollList(y) {

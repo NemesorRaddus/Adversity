@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="ZofiaWysocka">
+<mercenary name="ZofiaWysocka">
     <attributes combatEffectiveness="5" proficiency="7" cleverness="6" luck="1.2" health="11" healthLimit="11" dailyHealthRecovery="1" stress="0" stressResistance="0.85" stressLimit="130" stressBorder="35" dailyStressRecovery="0" salary="15" dailyFoodConsumption="3" nature="Convivial" profession="Criminal"></attributes>
     <sbeList>
         <sbe>Desertion</sbe>
@@ -21,4 +21,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

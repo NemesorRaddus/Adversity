@@ -13,7 +13,7 @@ Item {
     signal backClicked()
     signal upgradeRequested()
     signal resourcesUpdateRequested()
-    signal heroesModeUpdateRequested()
+    signal mercenariesModeUpdateRequested()
 
     function updateEverything()
     {
@@ -716,18 +716,18 @@ Item {
 
         function update()
         {
-            heroesTab.update();
+            mercenariesTab.update();
             resourcesTab.update();
             equipmentsTab.update();
         }
 
         function returnToDefault()
         {
-            heroesTab.returnToDefault();
+            mercenariesTab.returnToDefault();
             resourcesTab.returnToDefault();
             equipmentsTab.returnToDefault();
 
-            heroesTab.state = "";
+            mercenariesTab.state = "";
             resourcesTab.state = "hiddenRight";
             equipmentsTab.state = "hiddenRight2";
 
@@ -737,8 +737,8 @@ Item {
             maxTier.visible = false;
         }
 
-        HeroesTab {
-            id: heroesTab
+        MercenariesTab {
+            id: mercenariesTab
 
             x: 0
             y: 0
@@ -753,7 +753,7 @@ Item {
                 equipment.state = "hiddenRight";
             }
 
-            onRequestUpdate: heroesModeUpdateRequested()
+            onRequestUpdate: mercenariesModeUpdateRequested()
         }
         ResourcesTab {
             id: resourcesTab
@@ -763,13 +763,13 @@ Item {
             width: parent.width
             height: parent.height
 
-            onRequestSwitchingToHeroesTab: {
+            onRequestSwitchingToMercenariesTab: {
                 recruits.visible = true;
                 profitability.visible = false;
                 equipment.visible = false;
                 maxTier.visible = false;
                 state = "hiddenRight";
-                heroesTab.state = "";
+                mercenariesTab.state = "";
                 equipmentsTab.state = "hiddenRight2";
             }
 
@@ -780,7 +780,7 @@ Item {
                 maxTier.visible = true;
                 state = "hiddenLeft";
                 equipmentsTab.state = "";
-                heroesTab.state = "hiddenLeft2";
+                mercenariesTab.state = "hiddenLeft2";
             }
 
             onRequestResourcesUpdate: root.resourcesUpdateRequested()
@@ -799,7 +799,7 @@ Item {
                 maxTier.visible = false;
                 state = "hiddenRight";
                 resourcesTab.state = "";
-                heroesTab.state = "hiddenLeft";
+                mercenariesTab.state = "hiddenLeft";
             }
 
             onRequestResourcesUpdate: root.resourcesUpdateRequested()
@@ -810,7 +810,7 @@ Item {
             equipment.visible = false;
             maxTier.visible = false;
             resourcesTab.state = "hiddenRight";
-            heroesTab.state = "";
+            mercenariesTab.state = "";
             equipmentsTab.state = "hiddenRight2";
         }
     }

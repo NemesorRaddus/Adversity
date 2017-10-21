@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="AlanClark">
+<mercenary name="AlanClark">
     <attributes combatEffectiveness="2" proficiency="7" cleverness="8" luck="0.8" health="11" healthLimit="11" dailyHealthRecovery="1" stress="0" stressResistance="0.85" stressLimit="180" stressBorder="40" dailyStressRecovery="0" salary="10" dailyFoodConsumption="4" nature="Active" profession="Criminal"></attributes>
     <sbeList>
         <sbe>Desertion</sbe>
@@ -18,4 +18,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

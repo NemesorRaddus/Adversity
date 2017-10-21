@@ -183,107 +183,107 @@ unsigned CentralUnit::upgradeTimeRemaining() noexcept
 Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Hospital, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingHealed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingHealed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
-QString Hospital::heroNameInSlot(unsigned index) const noexcept
+QString Hospital::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingHealed.size() && m_heroesBeingHealed[index]!=nullptr)
-        return m_heroesBeingHealed[index]->name();
+    if (index < m_mercenariesBeingHealed.size() && m_mercenariesBeingHealed[index]!=nullptr)
+        return m_mercenariesBeingHealed[index]->name();
     return "";
 }
 
-QString Hospital::heroProfessionInSlot(unsigned index) const noexcept
+QString Hospital::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingHealed.size() && m_heroesBeingHealed[index]!=nullptr)
-        return m_heroesBeingHealed[index]->professionString();
+    if (index < m_mercenariesBeingHealed.size() && m_mercenariesBeingHealed[index]!=nullptr)
+        return m_mercenariesBeingHealed[index]->professionString();
     return "";
 }
 
-void Hospital::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void Hospital::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingHealed.size())
+    if (slotIndex>=m_mercenariesBeingHealed.size())
         return;
 
-    if (m_heroesBeingHealed[slotIndex]!=nullptr)
+    if (m_mercenariesBeingHealed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingHealed[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingHealed[slotIndex]->setCurrentActivity(HeroEnums::CA_InHospital);
-    setRecoveryValuesForHero(slotIndex);
+    m_mercenariesBeingHealed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingHealed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InHospital);
+    setRecoveryValuesForMercenary(slotIndex);
 }
 
 void Hospital::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingHealed.size())
+    if (slotIndex>=m_mercenariesBeingHealed.size())
         return;
 
-    if (m_heroesBeingHealed[slotIndex]==nullptr)
+    if (m_mercenariesBeingHealed[slotIndex]==nullptr)
         return;
 
-    m_heroesBeingHealed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingHealed[slotIndex]->setDailyHealthRecoveryBuildingBonus(0);
-    m_heroesBeingHealed[slotIndex]=nullptr;
+    m_mercenariesBeingHealed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingHealed[slotIndex]->setDailyHealthRecoveryBuildingBonus(0);
+    m_mercenariesBeingHealed[slotIndex]=nullptr;
 }
 
-void Hospital::removeHero(const QString &name) noexcept
+void Hospital::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingHealed.size();++i)
-        if (m_heroesBeingHealed[i]!=nullptr && m_heroesBeingHealed[i]->name() == name)
+    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+        if (m_mercenariesBeingHealed[i]!=nullptr && m_mercenariesBeingHealed[i]->name() == name)
         {
-            m_heroesBeingHealed[i]->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingHealed[i]=nullptr;
+            m_mercenariesBeingHealed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingHealed[i]=nullptr;
             break;
         }
 }
 
 int Hospital::daysToFullRecovery(const QString &name) const noexcept
 {
-    for (int i=0;i<m_heroesBeingHealed.size();++i)
-        if (m_heroesBeingHealed[i]!=nullptr && m_heroesBeingHealed[i]->name()==name)
+    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+        if (m_mercenariesBeingHealed[i]!=nullptr && m_mercenariesBeingHealed[i]->name()==name)
             return daysToFullRecovery(i);
 }
 
 int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
 {
-    if (slotIndex<m_heroesBeingHealed.size())
+    if (slotIndex<m_mercenariesBeingHealed.size())
     {
-        if (m_heroesBeingHealed[slotIndex]==nullptr)
+        if (m_mercenariesBeingHealed[slotIndex]==nullptr)
             return -1;
 
-        return ceil(static_cast<float>(m_heroesBeingHealed[slotIndex]->healthLimit()-m_heroesBeingHealed[slotIndex]->health())/static_cast<float>(hpRestoredPerDay()));
+        return ceil(static_cast<float>(m_mercenariesBeingHealed[slotIndex]->healthLimit()-m_mercenariesBeingHealed[slotIndex]->health())/static_cast<float>(hpRestoredPerDay()));
     }
 }
 
-void Hospital::healHeroes() noexcept
+void Hospital::healMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingHealed.size();++i)
-        if (m_heroesBeingHealed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy) && base()->canDecreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies))
+    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+        if (m_mercenariesBeingHealed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy) && base()->canDecreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies))
         {
             base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
             base()->decreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies);
 
-            m_heroesBeingHealed[i]->changeHealth(m_levelsInfo.value(currentLevel()).hpRestored);
+            m_mercenariesBeingHealed[i]->changeHealth(m_levelsInfo.value(currentLevel()).hpRestored);
         }
 }
 
-void Hospital::setRecoveryValuesForHero(unsigned index) noexcept
+void Hospital::setRecoveryValuesForMercenary(unsigned index) noexcept
 {
-    m_heroesBeingHealed[index]->setDailyHealthRecoveryBuildingBonus(hpRestoredPerDay());
+    m_mercenariesBeingHealed[index]->setDailyHealthRecoveryBuildingBonus(hpRestoredPerDay());
 }
 
-void Hospital::setRecoveryValuesForHeroes() noexcept
+void Hospital::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingHealed.size();++i)
-        if (m_heroesBeingHealed[i]!=nullptr)
-            setRecoveryValuesForHero(i);
+    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+        if (m_mercenariesBeingHealed[i]!=nullptr)
+            setRecoveryValuesForMercenary(i);
 }
 
 void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
@@ -301,95 +301,95 @@ unsigned Hospital::upgradeTimeRemaining() noexcept
 
 void Hospital::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_heroesBeingHealed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-        m_heroesBeingHealed.push_back(nullptr);
-    m_heroesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    setRecoveryValuesForHeroes();
+    while (m_mercenariesBeingHealed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_mercenariesBeingHealed.push_back(nullptr);
+    m_mercenariesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForMercenaries();
 }
 
 TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<TrainingGroundLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
 }
 
-QString TrainingGround::heroNameInSlot(unsigned index) const noexcept
+QString TrainingGround::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
-        return m_heroesBeingTrained[index].first->name();
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+        return m_mercenariesBeingTrained[index].first->name();
     return "";
 }
 
-QString TrainingGround::heroProfessionInSlot(unsigned index) const noexcept
+QString TrainingGround::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
-        return m_heroesBeingTrained[index].first->professionString();
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+        return m_mercenariesBeingTrained[index].first->professionString();
     return "";
 }
 
-void TrainingGround::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void TrainingGround::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingTrained.size())
+    if (slotIndex>=m_mercenariesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex].first!=nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingTrained[slotIndex].first=base()->heroes()->getHero(pos);
-    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_OnTrainingGround);
-    m_heroesBeingTrained[slotIndex].second=duration();
+    m_mercenariesBeingTrained[slotIndex].first=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_OnTrainingGround);
+    m_mercenariesBeingTrained[slotIndex].second=duration();
 }
 
 void TrainingGround::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingTrained.size())
+    if (slotIndex>=m_mercenariesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex].first==nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first==nullptr)
         return;
 
-    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingTrained[slotIndex].first=nullptr;
-    m_heroesBeingTrained[slotIndex].second=0;
+    m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingTrained[slotIndex].first=nullptr;
+    m_mercenariesBeingTrained[slotIndex].second=0;
 }
 
-void TrainingGround::removeHero(const QString &name) noexcept
+void TrainingGround::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name() == name)
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name() == name)
         {
-            m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingTrained[i].first=nullptr;
-            m_heroesBeingTrained[i].second=0;
+            m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingTrained[i].first=nullptr;
+            m_mercenariesBeingTrained[i].second=0;
             break;
         }
 }
 
-void TrainingGround::trainHeroes() noexcept
+void TrainingGround::trainMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr)
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_heroesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
             {
                 base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-                --m_heroesBeingTrained[i].second;
+                --m_mercenariesBeingTrained[i].second;
             }
-            else if (m_heroesBeingTrained[i].second==0)
+            else if (m_mercenariesBeingTrained[i].second==0)
             {
-                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_TrainingGround, base()->gameClock()->currentTime())));
-                m_heroesBeingTrained[i].first->trainCombatEffectiveness();
-                m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-                m_heroesBeingTrained[i].first=nullptr;
-                m_heroesBeingTrained[i].second=0;
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_mercenariesBeingTrained[i].first->pathToArt(), m_mercenariesBeingTrained[i].first->name(), BaseEnums::B_TrainingGround, base()->gameClock()->currentTime())));
+                m_mercenariesBeingTrained[i].first->trainCombatEffectiveness();
+                m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+                m_mercenariesBeingTrained[i].first=nullptr;
+                m_mercenariesBeingTrained[i].second=0;
             }
         }
 }
@@ -407,102 +407,102 @@ unsigned TrainingGround::upgradeTimeRemaining() noexcept
     return r;
 }
 
-int TrainingGround::remainingDaysOfTraining(const QString &heroName) const noexcept
+int TrainingGround::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name()==heroName)
-            return m_heroesBeingTrained[i].second;
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
+            return m_mercenariesBeingTrained[i].second;
     return -1;
 }
 
 Gym::Gym(Base *base, unsigned level, const QVector<GymLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Gym, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
 }
 
 int Gym::amountOfSlots() const noexcept
 {
-    return m_heroesBeingTrained.size();
+    return m_mercenariesBeingTrained.size();
 }
 
-QString Gym::heroNameInSlot(unsigned index) const noexcept
+QString Gym::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
-        return m_heroesBeingTrained[index].first->name();
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+        return m_mercenariesBeingTrained[index].first->name();
     return "";
 }
 
-QString Gym::heroProfessionInSlot(unsigned index) const noexcept
+QString Gym::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
-        return m_heroesBeingTrained[index].first->professionString();
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+        return m_mercenariesBeingTrained[index].first->professionString();
     return "";
 }
 
-void Gym::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void Gym::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingTrained.size())
+    if (slotIndex>=m_mercenariesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex].first!=nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingTrained[slotIndex].first=base()->heroes()->getHero(pos);
-    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_InGym);
-    m_heroesBeingTrained[slotIndex].second=duration();
+    m_mercenariesBeingTrained[slotIndex].first=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_InGym);
+    m_mercenariesBeingTrained[slotIndex].second=duration();
 }
 
 void Gym::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingTrained.size())
+    if (slotIndex>=m_mercenariesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex].first==nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first==nullptr)
         return;
 
-    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingTrained[slotIndex].first=nullptr;
-    m_heroesBeingTrained[slotIndex].second=0;
+    m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingTrained[slotIndex].first=nullptr;
+    m_mercenariesBeingTrained[slotIndex].second=0;
 }
 
-void Gym::removeHero(const QString &name) noexcept
+void Gym::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name() == name)
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name() == name)
         {
-            m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingTrained[i].first=nullptr;
-            m_heroesBeingTrained[i].second=0;
+            m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingTrained[i].first=nullptr;
+            m_mercenariesBeingTrained[i].second=0;
             break;
         }
 }
 
-void Gym::trainHeroes() noexcept
+void Gym::trainMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr)
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_heroesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
             {
                 base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-                --m_heroesBeingTrained[i].second;
+                --m_mercenariesBeingTrained[i].second;
             }
-            else if (m_heroesBeingTrained[i].second==0)
+            else if (m_mercenariesBeingTrained[i].second==0)
             {
-                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_Gym, base()->gameClock()->currentTime())));
-                m_heroesBeingTrained[i].first->trainProficiency();
-                m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-                m_heroesBeingTrained[i].first=nullptr;
-                m_heroesBeingTrained[i].second=0;
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_mercenariesBeingTrained[i].first->pathToArt(), m_mercenariesBeingTrained[i].first->name(), BaseEnums::B_Gym, base()->gameClock()->currentTime())));
+                m_mercenariesBeingTrained[i].first->trainProficiency();
+                m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+                m_mercenariesBeingTrained[i].first=nullptr;
+                m_mercenariesBeingTrained[i].second=0;
             }
         }
 }
@@ -520,102 +520,102 @@ unsigned Gym::upgradeTimeRemaining() noexcept
     return r;
 }
 
-int Gym::remainingDaysOfTraining(const QString &heroName) const noexcept
+int Gym::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name()==heroName)
-            return m_heroesBeingTrained[i].second;
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
+            return m_mercenariesBeingTrained[i].second;
     return -1;
 }
 
 Laboratory::Laboratory(Base *base, unsigned level, const QVector<LaboratoryLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Laboratory, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
 }
 
 int Laboratory::amountOfSlots() const noexcept
 {
-    return m_heroesBeingTrained.size();
+    return m_mercenariesBeingTrained.size();
 }
 
-QString Laboratory::heroNameInSlot(unsigned index) const noexcept
+QString Laboratory::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
-        return m_heroesBeingTrained[index].first->name();
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+        return m_mercenariesBeingTrained[index].first->name();
     return "";
 }
 
-QString Laboratory::heroProfessionInSlot(unsigned index) const noexcept
+QString Laboratory::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingTrained.size() && m_heroesBeingTrained[index].first!=nullptr)
-        return m_heroesBeingTrained[index].first->professionString();
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+        return m_mercenariesBeingTrained[index].first->professionString();
     return "";
 }
 
-void Laboratory::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void Laboratory::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingTrained.size())
+    if (slotIndex>=m_mercenariesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex].first!=nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingTrained[slotIndex].first=base()->heroes()->getHero(pos);
-    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_InLaboratory);
-    m_heroesBeingTrained[slotIndex].second=duration();
+    m_mercenariesBeingTrained[slotIndex].first=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_InLaboratory);
+    m_mercenariesBeingTrained[slotIndex].second=duration();
 }
 
 void Laboratory::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingTrained.size())
+    if (slotIndex>=m_mercenariesBeingTrained.size())
         return;
 
-    if (m_heroesBeingTrained[slotIndex].first==nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first==nullptr)
         return;
 
-    m_heroesBeingTrained[slotIndex].first->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingTrained[slotIndex].first=nullptr;
-    m_heroesBeingTrained[slotIndex].second=0;
+    m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingTrained[slotIndex].first=nullptr;
+    m_mercenariesBeingTrained[slotIndex].second=0;
 }
 
-void Laboratory::removeHero(const QString &name) noexcept
+void Laboratory::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name() == name)
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name() == name)
         {
-            m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingTrained[i].first=nullptr;
-            m_heroesBeingTrained[i].second=0;
+            m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingTrained[i].first=nullptr;
+            m_mercenariesBeingTrained[i].second=0;
             break;
         }
 }
 
-void Laboratory::trainHeroes() noexcept
+void Laboratory::trainMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr)
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_heroesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
             {
                 base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-                --m_heroesBeingTrained[i].second;
+                --m_mercenariesBeingTrained[i].second;
             }
-            else if (m_heroesBeingTrained[i].second==0)
+            else if (m_mercenariesBeingTrained[i].second==0)
             {
-                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_heroesBeingTrained[i].first->pathToArt(), m_heroesBeingTrained[i].first->name(), BaseEnums::B_Laboratory, base()->gameClock()->currentTime())));
-                m_heroesBeingTrained[i].first->trainCleverness();
-                m_heroesBeingTrained[i].first->setCurrentActivity(HeroEnums::CA_Idle);
-                m_heroesBeingTrained[i].first=nullptr;
-                m_heroesBeingTrained[i].second=0;
+                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_mercenariesBeingTrained[i].first->pathToArt(), m_mercenariesBeingTrained[i].first->name(), BaseEnums::B_Laboratory, base()->gameClock()->currentTime())));
+                m_mercenariesBeingTrained[i].first->trainCleverness();
+                m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
+                m_mercenariesBeingTrained[i].first=nullptr;
+                m_mercenariesBeingTrained[i].second=0;
             }
         }
 }
@@ -633,120 +633,120 @@ unsigned Laboratory::upgradeTimeRemaining() noexcept
     return r;
 }
 
-int Laboratory::remainingDaysOfTraining(const QString &heroName) const noexcept
+int Laboratory::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
-    for (int i=0;i<m_heroesBeingTrained.size();++i)
-        if (m_heroesBeingTrained[i].first!=nullptr && m_heroesBeingTrained[i].first->name()==heroName)
-            return m_heroesBeingTrained[i].second;
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
+            return m_mercenariesBeingTrained[i].second;
     return -1;
 }
 
 PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFieldLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_PlayingField, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
-QString PlayingField::heroNameInSlot(unsigned index) const noexcept
+QString PlayingField::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->name();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->name();
     return "";
 }
 
-QString PlayingField::heroProfessionInSlot(unsigned index) const noexcept
+QString PlayingField::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->professionString();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->professionString();
     return "";
 }
 
-void PlayingField::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void PlayingField::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InPlayingField);
-    setRecoveryValuesForHero(slotIndex);
+    m_mercenariesBeingDestressed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InPlayingField);
+    setRecoveryValuesForMercenary(slotIndex);
 }
 
 void PlayingField::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]==nullptr)
         return;
 
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
-    m_heroesBeingDestressed[slotIndex]=nullptr;
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
+    m_mercenariesBeingDestressed[slotIndex]=nullptr;
 }
 
-void PlayingField::removeHero(const QString &name) noexcept
+void PlayingField::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && m_mercenariesBeingDestressed[i]->name() == name)
         {
-            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingDestressed[i]=nullptr;
+            m_mercenariesBeingDestressed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingDestressed[i]=nullptr;
             break;
         }
 }
 
-void PlayingField::destressHeroes() noexcept
+void PlayingField::destressMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
             base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-            if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+            if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
-void PlayingField::setRecoveryValuesForHero(unsigned index) noexcept
+void PlayingField::setRecoveryValuesForMercenary(unsigned index) noexcept
 {
-    switch (m_heroesBeingDestressed[index]->nature())
+    switch (m_mercenariesBeingDestressed[index]->nature())
     {
-    case HeroEnums::N_Active:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+    case MercenaryEnums::N_Active:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
         break;
-    case HeroEnums::N_Convivial:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+    case MercenaryEnums::N_Convivial:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
         break;
-    case HeroEnums::N_Recluse:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+    case MercenaryEnums::N_Recluse:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
         break;
-    case HeroEnums::N_Religious:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+    case MercenaryEnums::N_Religious:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
         break;
     }
 }
 
-void PlayingField::setRecoveryValuesForHeroes() noexcept
+void PlayingField::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
-            setRecoveryValuesForHero(i);
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForMercenary(i);
 }
 
 void PlayingField::setLevelsInfo(const QVector<PlayingFieldLevelInfo> &info) noexcept
@@ -764,118 +764,118 @@ unsigned PlayingField::upgradeTimeRemaining() noexcept
 
 void PlayingField::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-        m_heroesBeingDestressed.push_back(nullptr);
-    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    setRecoveryValuesForHeroes();
+    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_mercenariesBeingDestressed.push_back(nullptr);
+    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForMercenaries();
 }
 
 Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Bar, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
-QString Bar::heroNameInSlot(unsigned index) const noexcept
+QString Bar::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->name();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->name();
     return "";
 }
 
-QString Bar::heroProfessionInSlot(unsigned index) const noexcept
+QString Bar::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->professionString();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->professionString();
     return "";
 }
 
-void Bar::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void Bar::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InBar);
-    setRecoveryValuesForHero(slotIndex);
+    m_mercenariesBeingDestressed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InBar);
+    setRecoveryValuesForMercenary(slotIndex);
 }
 
 void Bar::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]==nullptr)
         return;
 
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
-    m_heroesBeingDestressed[slotIndex]=nullptr;
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
+    m_mercenariesBeingDestressed[slotIndex]=nullptr;
 }
 
-void Bar::removeHero(const QString &name) noexcept
+void Bar::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && m_mercenariesBeingDestressed[i]->name() == name)
         {
-            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingDestressed[i]=nullptr;
+            m_mercenariesBeingDestressed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingDestressed[i]=nullptr;
             break;
         }
 }
 
-void Bar::destressHeroes() noexcept
+void Bar::destressMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
             base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-            if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+            if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
-void Bar::setRecoveryValuesForHero(unsigned index) noexcept
+void Bar::setRecoveryValuesForMercenary(unsigned index) noexcept
 {
-    switch (m_heroesBeingDestressed[index]->nature())
+    switch (m_mercenariesBeingDestressed[index]->nature())
     {
-    case HeroEnums::N_Active:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+    case MercenaryEnums::N_Active:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
         break;
-    case HeroEnums::N_Convivial:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+    case MercenaryEnums::N_Convivial:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
         break;
-    case HeroEnums::N_Recluse:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+    case MercenaryEnums::N_Recluse:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
         break;
-    case HeroEnums::N_Religious:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+    case MercenaryEnums::N_Religious:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
         break;
     }
 }
 
-void Bar::setRecoveryValuesForHeroes() noexcept
+void Bar::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
-            setRecoveryValuesForHero(i);
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForMercenary(i);
 }
 
 void Bar::setLevelsInfo(const QVector<BarLevelInfo> &info) noexcept
@@ -893,118 +893,118 @@ unsigned Bar::upgradeTimeRemaining() noexcept
 
 void Bar::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-        m_heroesBeingDestressed.push_back(nullptr);
-    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    setRecoveryValuesForHeroes();
+    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_mercenariesBeingDestressed.push_back(nullptr);
+    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForMercenaries();
 }
 
 Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Shrine, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
-QString Shrine::heroNameInSlot(unsigned index) const noexcept
+QString Shrine::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->name();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->name();
     return "";
 }
 
-QString Shrine::heroProfessionInSlot(unsigned index) const noexcept
+QString Shrine::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->professionString();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->professionString();
     return "";
 }
 
-void Shrine::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void Shrine::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InShrine);
-    setRecoveryValuesForHero(slotIndex);
+    m_mercenariesBeingDestressed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InShrine);
+    setRecoveryValuesForMercenary(slotIndex);
 }
 
 void Shrine::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]==nullptr)
         return;
 
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
-    m_heroesBeingDestressed[slotIndex]=nullptr;
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
+    m_mercenariesBeingDestressed[slotIndex]=nullptr;
 }
 
-void Shrine::removeHero(const QString &name) noexcept
+void Shrine::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && m_mercenariesBeingDestressed[i]->name() == name)
         {
-            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingDestressed[i]=nullptr;
+            m_mercenariesBeingDestressed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingDestressed[i]=nullptr;
             break;
         }
 }
 
-void Shrine::destressHeroes() noexcept
+void Shrine::destressMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
             base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-            if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+            if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
-void Shrine::setRecoveryValuesForHero(unsigned index) noexcept
+void Shrine::setRecoveryValuesForMercenary(unsigned index) noexcept
 {
-    switch (m_heroesBeingDestressed[index]->nature())
+    switch (m_mercenariesBeingDestressed[index]->nature())
     {
-    case HeroEnums::N_Active:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+    case MercenaryEnums::N_Active:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
         break;
-    case HeroEnums::N_Convivial:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+    case MercenaryEnums::N_Convivial:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
         break;
-    case HeroEnums::N_Recluse:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+    case MercenaryEnums::N_Recluse:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
         break;
-    case HeroEnums::N_Religious:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+    case MercenaryEnums::N_Religious:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
         break;
     }
 }
 
-void Shrine::setRecoveryValuesForHeroes() noexcept
+void Shrine::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
-            setRecoveryValuesForHero(i);
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForMercenary(i);
 }
 
 void Shrine::setLevelsInfo(const QVector<ShrineLevelInfo> &info) noexcept
@@ -1022,118 +1022,118 @@ unsigned Shrine::upgradeTimeRemaining() noexcept
 
 void Shrine::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-        m_heroesBeingDestressed.push_back(nullptr);
-    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    setRecoveryValuesForHeroes();
+    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_mercenariesBeingDestressed.push_back(nullptr);
+    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForMercenaries();
 }
 
 Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInfo> &levelsInfo) noexcept
     : Building(BaseEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)
 {
-    m_heroesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
 }
 
-QString Seclusion::heroNameInSlot(unsigned index) const noexcept
+QString Seclusion::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->name();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->name();
     return "";
 }
 
-QString Seclusion::heroProfessionInSlot(unsigned index) const noexcept
+QString Seclusion::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_heroesBeingDestressed.size() && m_heroesBeingDestressed[index]!=nullptr)
-        return m_heroesBeingDestressed[index]->professionString();
+    if (index < m_mercenariesBeingDestressed.size() && m_mercenariesBeingDestressed[index]!=nullptr)
+        return m_mercenariesBeingDestressed[index]->professionString();
     return "";
 }
 
-void Seclusion::placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept
+void Seclusion::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]!=nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->heroes()->findHero(heroName);
+    int pos = base()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->heroes()->getHero(pos)->currentActivity() != HeroEnums::CA_Idle)
+    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_heroesBeingDestressed[slotIndex]=base()->heroes()->getHero(pos);
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_InSeclusion);
-    setRecoveryValuesForHero(slotIndex);
+    m_mercenariesBeingDestressed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InSeclusion);
+    setRecoveryValuesForMercenary(slotIndex);
 }
 
 void Seclusion::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_heroesBeingDestressed.size())
+    if (slotIndex>=m_mercenariesBeingDestressed.size())
         return;
 
-    if (m_heroesBeingDestressed[slotIndex]==nullptr)
+    if (m_mercenariesBeingDestressed[slotIndex]==nullptr)
         return;
 
-    m_heroesBeingDestressed[slotIndex]->setCurrentActivity(HeroEnums::CA_Idle);
-    m_heroesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
-    m_heroesBeingDestressed[slotIndex]=nullptr;
+    m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_Idle);
+    m_mercenariesBeingDestressed[slotIndex]->setDailyStressRecoveryBuildingBonus(0);
+    m_mercenariesBeingDestressed[slotIndex]=nullptr;
 }
 
-void Seclusion::removeHero(const QString &name) noexcept
+void Seclusion::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && m_heroesBeingDestressed[i]->name() == name)
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && m_mercenariesBeingDestressed[i]->name() == name)
         {
-            m_heroesBeingDestressed[i]->setCurrentActivity(HeroEnums::CA_Idle);
-            m_heroesBeingDestressed[i]=nullptr;
+            m_mercenariesBeingDestressed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_mercenariesBeingDestressed[i]=nullptr;
             break;
         }
 }
 
-void Seclusion::destressHeroes() noexcept
+void Seclusion::destressMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
         {
             base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
 
-            if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Active)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Convivial)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Recluse)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
-            else if (m_heroesBeingDestressed[i]->nature() == HeroEnums::N_Religious)
-                m_heroesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+            if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+            else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
+                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
         }
 }
 
-void Seclusion::setRecoveryValuesForHero(unsigned index) noexcept
+void Seclusion::setRecoveryValuesForMercenary(unsigned index) noexcept
 {
-    switch (m_heroesBeingDestressed[index]->nature())
+    switch (m_mercenariesBeingDestressed[index]->nature())
     {
-    case HeroEnums::N_Active:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
+    case MercenaryEnums::N_Active:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(activeStressRelief());
         break;
-    case HeroEnums::N_Convivial:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
+    case MercenaryEnums::N_Convivial:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(convivialStressRelief());
         break;
-    case HeroEnums::N_Recluse:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
+    case MercenaryEnums::N_Recluse:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(recluseStressRelief());
         break;
-    case HeroEnums::N_Religious:
-        m_heroesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
+    case MercenaryEnums::N_Religious:
+        m_mercenariesBeingDestressed[index]->setDailyStressRecoveryBuildingBonus(religiousStressRelief());
         break;
     }
 }
 
-void Seclusion::setRecoveryValuesForHeroes() noexcept
+void Seclusion::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_heroesBeingDestressed.size();++i)
-        if (m_heroesBeingDestressed[i]!=nullptr)
-            setRecoveryValuesForHero(i);
+    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+        if (m_mercenariesBeingDestressed[i]!=nullptr)
+            setRecoveryValuesForMercenary(i);
 }
 
 void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo> &info) noexcept
@@ -1151,10 +1151,10 @@ unsigned Seclusion::upgradeTimeRemaining() noexcept
 
 void Seclusion::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_heroesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-        m_heroesBeingDestressed.push_back(nullptr);
-    m_heroesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
-    setRecoveryValuesForHeroes();
+    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+        m_mercenariesBeingDestressed.push_back(nullptr);
+    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    setRecoveryValuesForMercenaries();
 }
 
 Powerplant::Powerplant(Base *base, unsigned level, const QVector<PowerplantLevelInfo> &levelsInfo) noexcept
@@ -1360,16 +1360,16 @@ void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
 
 void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
 {
-    if (base()->heroes()->canAddHero())
+    if (base()->mercenaries()->canAddMercenary())
     {
         for (int i=0;i<m_recruits.size();++i)
             if (m_recruits[i]->name() == name)
             {
                 if (eta>0)
                 {
-                    m_recruits[i]->setCurrentActivity(HeroEnums::CA_Arriving);
-                    base()->heroes()->addHero(m_recruits[i]);
-                    m_arrivingHeroes.push_back({m_recruits[i],eta});
+                    m_recruits[i]->setCurrentActivity(MercenaryEnums::CA_Arriving);
+                    base()->mercenaries()->addMercenary(m_recruits[i]);
+                    m_arrivingMercenaries.push_back({m_recruits[i],eta});
                     if (m_recruitPreparedForQML==m_recruits[i])
                     {
                         if (m_recruits.size()>i+1)
@@ -1384,7 +1384,7 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
                 }
                 else//instant
                 {
-                    base()->heroes()->addHero(m_recruits[i]);
+                    base()->mercenaries()->addMercenary(m_recruits[i]);
                     if (m_recruitPreparedForQML==m_recruits[i])
                     {
                         if (m_recruits.size()>i+1)
@@ -1403,17 +1403,17 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
 
 void DockingStation::doRecrutationStuff() noexcept
 {
-    for (int i=0;i<m_arrivingHeroes.size();++i)
+    for (int i=0;i<m_arrivingMercenaries.size();++i)
     {
-        if (m_arrivingHeroes[i].second == 0)
+        if (m_arrivingMercenaries[i].second == 0)
         {
-            Hero *h=m_arrivingHeroes[i].first;//antibug thing, leave it as it is
-            base()->addReport(new UnifiedReport(new HeroArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
-            h->setCurrentActivity(HeroEnums::CA_Idle);
-            m_arrivingHeroes.remove(i);
+            Mercenary *h=m_arrivingMercenaries[i].first;//antibug thing, leave it as it is
+            base()->addReport(new UnifiedReport(new MercenaryArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
+            h->setCurrentActivity(MercenaryEnums::CA_Idle);
+            m_arrivingMercenaries.remove(i);
         }
         else
-            --m_arrivingHeroes[i].second;
+            --m_arrivingMercenaries[i].second;
     }
 }
 
@@ -1425,12 +1425,12 @@ QStringList DockingStation::getRecruitsNames() const noexcept
     return r;
 }
 
-void DockingStation::cancelHeroArrival(const QString &name) noexcept
+void DockingStation::cancelMercenaryArrival(const QString &name) noexcept
 {
-    for (int i=0;i<m_arrivingHeroes.size();++i)
-        if (m_arrivingHeroes[i].first->name() == name)
+    for (int i=0;i<m_arrivingMercenaries.size();++i)
+        if (m_arrivingMercenaries[i].first->name() == name)
         {
-            m_arrivingHeroes.remove(i);
+            m_arrivingMercenaries.remove(i);
             break;
         }
 }
@@ -1564,23 +1564,23 @@ void DockingStation::doBuyingEquipmentStuff() noexcept
     }
 }
 
-int DockingStation::remainingDaysUntilHeroArrival(const QString &heroName) const noexcept
+int DockingStation::remainingDaysUntilMercenaryArrival(const QString &mercenaryName) const noexcept
 {
-    for (int i=0;i<m_arrivingHeroes.size();++i)
-        if (m_arrivingHeroes[i].first->name() == heroName)
-            return m_arrivingHeroes[i].second;
+    for (int i=0;i<m_arrivingMercenaries.size();++i)
+        if (m_arrivingMercenaries[i].first->name() == mercenaryName)
+            return m_arrivingMercenaries[i].second;
 
     return -1;
 }
 
 void DockingStation::loadRecruits() noexcept
 {
-    QStringList names{base()->gameObject()->assetsPool().allHeroes()};//load all mercs names
-    for (int i=0;i<base()->heroes()->heroes().size();++i)//remove mercs that are already hired
-        names.removeAt(names.indexOf(base()->heroes()->heroes()[i]->name()));
+    QStringList names{base()->gameObject()->assetsPool().allMercenaries()};//load all mercs names
+    for (int i=0;i<base()->mercenaries()->mercenaries().size();++i)//remove mercs that are already hired
+        names.removeAt(names.indexOf(base()->mercenaries()->mercenaries()[i]->name()));
     for (int i=0;i<names.size();)//remove mercs banned in DoSt
     {
-        if (base()->heroDockingStationBans().contains(names[i]))
+        if (base()->mercenaryDockingStationBans().contains(names[i]))
             names.removeAt(i);
         else
             ++i;
@@ -1588,11 +1588,11 @@ void DockingStation::loadRecruits() noexcept
     for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)//add random recruits
     {
         unsigned indexOfRecruit = Randomizer::randomBetweenAAndB(0,names.size()-1);
-        base()->gameObject()->assetsPool().loadHeroNamedFromList(names[indexOfRecruit]);
-        for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
-            if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name()==names[indexOfRecruit])
+        base()->gameObject()->assetsPool().loadMercenaryNamedFromList(names[indexOfRecruit]);
+        for (int j=0;j<base()->gameObject()->assetsPool().loadedMercenaries().size();++j)
+            if (base()->gameObject()->assetsPool().loadedMercenaries()[j]->name()==names[indexOfRecruit])
             {
-                m_recruits.push_back(base()->gameObject()->assetsPool().loadedHeroes()[j]);
+                m_recruits.push_back(base()->gameObject()->assetsPool().loadedMercenaries()[j]);
                 break;
             }
         names.removeAt(indexOfRecruit);
@@ -1603,10 +1603,10 @@ void DockingStation::clearRecruits() noexcept
 {
     for (int i=0;i<m_recruits.size();++i)
         if (m_recruits[i] != nullptr)//TODO possibly remove that if
-            for (int j=0;j<base()->gameObject()->assetsPool().loadedHeroes().size();++j)
-                if (base()->gameObject()->assetsPool().loadedHeroes()[j]->name() == m_recruits[i]->name())
+            for (int j=0;j<base()->gameObject()->assetsPool().loadedMercenaries().size();++j)
+                if (base()->gameObject()->assetsPool().loadedMercenaries()[j]->name() == m_recruits[i]->name())
                 {
-                    base()->gameObject()->assetsPool().unloadHero(j);
+                    base()->gameObject()->assetsPool().unloadMercenary(j);
                     break;
                 }
     m_recruits.clear();
@@ -1649,7 +1649,7 @@ void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
 Base::Base(Game *gameObject) noexcept
     : QObject(nullptr), m_gameObject(gameObject), m_database(nullptr)
 {
-    HeroBuilder::init(this);
+    MercenaryBuilder::init(this);
 
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
@@ -1688,7 +1688,7 @@ Base::Base(Game *gameObject) noexcept
     m_buildings.insert(BaseEnums::B_Barracks,m_barracks);
     m_buildings.insert(BaseEnums::B_DockingStation,m_dockingStation);
 
-    m_heroes=new HeroesContainer(this);
+    m_mercenaries=new MercenariesContainer(this);
 
     m_missionInitializer=new MissionInitializer(this);
 }
@@ -1703,13 +1703,13 @@ void Base::setupNewBase() noexcept
     m_dockingStation->prepareRecruits();
     m_dockingStation->prepareEquipments();
 
-    m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
-    m_gameObject->assetsPool().loadHeroNamedFromList("HeinzWitt");
-    auto loadedH = m_gameObject->assetsPool().loadedHeroes();
+    m_mercenaries->setAmountOfSlots(m_barracks->mercenariesLimit());//setting mercenaries limit
+    m_gameObject->assetsPool().loadMercenaryNamedFromList("HeinzWitt");
+    auto loadedH = m_gameObject->assetsPool().loadedMercenaries();
     for (auto e : loadedH)
         if (e->name() == "HeinzWitt")
         {
-            m_heroes->addHero(e);
+            m_mercenaries->addMercenary(e);
             break;
         }
 
@@ -1738,7 +1738,7 @@ Base::~Base() noexcept
 
     delete m_gameClock;
 
-    delete m_heroes;
+    delete m_mercenaries;
 
     if (m_database!=nullptr)
         delete m_database;
@@ -1782,11 +1782,11 @@ void Base::loadSaveData(const SaveData &data) noexcept
     m_seclusion->resizeSlotsAfterUpgrade();
 
     for (int i=0;i<data.buildings.dockingStationThings.recruits.size();++i)//loading needed mercenaries in AssetsPool
-        m_gameObject->assetsPool().loadHeroNamedFromList(data.buildings.dockingStationThings.recruits[i]);
-    for (int i=0;i<data.heroes.hiredHeroes.size();++i)
-        m_gameObject->assetsPool().loadHeroNamedFromList(data.heroes.hiredHeroes[i].name);
+        m_gameObject->assetsPool().loadMercenaryNamedFromList(data.buildings.dockingStationThings.recruits[i]);
+    for (int i=0;i<data.mercenaries.hiredMercenaries.size();++i)
+        m_gameObject->assetsPool().loadMercenaryNamedFromList(data.mercenaries.hiredMercenaries[i].name);
 
-    m_heroes->setAmountOfSlots(m_barracks->heroesLimit());//setting heroes limit
+    m_mercenaries->setAmountOfSlots(m_barracks->mercenariesLimit());//setting mercenaries limit
 
     m_powerplant->setCurrentCycles(data.buildings.cyclesSet.powerplant);//setting cycles
     m_factory->setCurrentCycles(data.buildings.cyclesSet.factory);
@@ -1813,25 +1813,25 @@ void Base::loadSaveData(const SaveData &data) noexcept
     for (int i=0;i<data.equipments.freeWeaponsTools.size();++i)
         m_availableEquipment.push_back(Game::gameInstance()->assetsPool().makeEquipmentNamed(data.equipments.freeWeaponsTools[i]));
 
-    for (int i=0;i<data.heroes.hiredHeroes.size();++i)//adding mercenaries
-        m_heroes->addHero(HeroBuilder::qobjectifyHeroData(data.heroes.hiredHeroes[i]));
+    for (int i=0;i<data.mercenaries.hiredMercenaries.size();++i)//adding mercenaries
+        m_mercenaries->addMercenary(MercenaryBuilder::qobjectifyMercenaryData(data.mercenaries.hiredMercenaries[i]));
 
     for (int i=0;i<data.buildings.dockingStationThings.recruits.size();++i)//adding possible recruits
-        for (int j=0;j<m_gameObject->assetsPool().loadedHeroes().size();++j)
-            if (m_gameObject->assetsPool().loadedHeroes()[j]->name() == data.buildings.dockingStationThings.recruits[i])
+        for (int j=0;j<m_gameObject->assetsPool().loadedMercenaries().size();++j)
+            if (m_gameObject->assetsPool().loadedMercenaries()[j]->name() == data.buildings.dockingStationThings.recruits[i])
             {
-                m_dockingStation->addRecruitFromSave(m_gameObject->assetsPool().loadedHeroes()[j]);
+                m_dockingStation->addRecruitFromSave(m_gameObject->assetsPool().loadedMercenaries()[j]);
                 break;
             }
 
     for (int i=0;i<data.buildings.dockingStationThings.equipments.size();++i)//adding buyable equipments
         m_dockingStation->addEquipmentFromSave(m_gameObject->assetsPool().makeEquipmentNamed(data.buildings.dockingStationThings.equipments[i]));
 
-    for (int i=0;i<data.buildings.dockingStationThings.arrivingHeroes.size();++i)//adding arriving mercenaries
-        for (int j=0;j<m_heroes->amountOfHeroes();++j)
-            if (m_heroes->getHero(j)->name() == data.buildings.dockingStationThings.arrivingHeroes[i].first)
+    for (int i=0;i<data.buildings.dockingStationThings.arrivingMercenaries.size();++i)//adding arriving mercenaries
+        for (int j=0;j<m_mercenaries->amountOfMercenaries();++j)
+            if (m_mercenaries->getMercenary(j)->name() == data.buildings.dockingStationThings.arrivingMercenaries[i].first)
             {
-                m_dockingStation->addArrivingHeroFromSave({m_heroes->getHero(j),static_cast<unsigned>(data.buildings.dockingStationThings.arrivingHeroes[i].second)});
+                m_dockingStation->addArrivingMercenaryFromSave({m_mercenaries->getMercenary(j),static_cast<unsigned>(data.buildings.dockingStationThings.arrivingMercenaries[i].second)});
                 break;
             }
 
@@ -1848,22 +1848,22 @@ void Base::loadSaveData(const SaveData &data) noexcept
         actTr+={data.buildings.dockingStationThings.activeResourceTransactions[i].first, static_cast<unsigned>(data.buildings.dockingStationThings.activeResourceTransactions[i].second)};
     m_dockingStation->setActiveTransactionsFromSave(actTr);
 
-    for (int i=0;i<data.buildings.heroSlots.hospital.size();++i)//setting slots in buildings
-        m_hospital->setSlot(i,!data.buildings.heroSlots.hospital[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.hospital[i])) : nullptr);
-    for (int i=0;i<data.buildings.heroSlots.trainingGround.size();++i)
-        m_trainingGround->setSlot(i,!data.buildings.heroSlots.trainingGround[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.trainingGround[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.trainingGround[i].second));
-    for (int i=0;i<data.buildings.heroSlots.gym.size();++i)
-        m_gym->setSlot(i,!data.buildings.heroSlots.gym[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.gym[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.gym[i].second));
-    for (int i=0;i<data.buildings.heroSlots.laboratory.size();++i)
-        m_laboratory->setSlot(i,!data.buildings.heroSlots.laboratory[i].first.isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.laboratory[i].first)) : nullptr, static_cast<unsigned>(data.buildings.heroSlots.laboratory[i].second));
-    for (int i=0;i<data.buildings.heroSlots.playingField.size();++i)
-        m_playingField->setSlot(i,!data.buildings.heroSlots.playingField[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.playingField[i])) : nullptr);
-    for (int i=0;i<data.buildings.heroSlots.bar.size();++i)
-        m_bar->setSlot(i,!data.buildings.heroSlots.bar[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.bar[i])) : nullptr);
-    for (int i=0;i<data.buildings.heroSlots.shrine.size();++i)
-        m_shrine->setSlot(i,!data.buildings.heroSlots.shrine[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.shrine[i])) : nullptr);
-    for (int i=0;i<data.buildings.heroSlots.seclusion.size();++i)
-        m_seclusion->setSlot(i,!data.buildings.heroSlots.seclusion[i].isEmpty() ? m_heroes->getHero(m_heroes->findHero(data.buildings.heroSlots.seclusion[i])) : nullptr);
+    for (int i=0;i<data.buildings.mercenarySlots.hospital.size();++i)//setting slots in buildings
+        m_hospital->setSlot(i,!data.buildings.mercenarySlots.hospital[i].isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.hospital[i])) : nullptr);
+    for (int i=0;i<data.buildings.mercenarySlots.trainingGround.size();++i)
+        m_trainingGround->setSlot(i,!data.buildings.mercenarySlots.trainingGround[i].first.isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.trainingGround[i].first)) : nullptr, static_cast<unsigned>(data.buildings.mercenarySlots.trainingGround[i].second));
+    for (int i=0;i<data.buildings.mercenarySlots.gym.size();++i)
+        m_gym->setSlot(i,!data.buildings.mercenarySlots.gym[i].first.isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.gym[i].first)) : nullptr, static_cast<unsigned>(data.buildings.mercenarySlots.gym[i].second));
+    for (int i=0;i<data.buildings.mercenarySlots.laboratory.size();++i)
+        m_laboratory->setSlot(i,!data.buildings.mercenarySlots.laboratory[i].first.isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.laboratory[i].first)) : nullptr, static_cast<unsigned>(data.buildings.mercenarySlots.laboratory[i].second));
+    for (int i=0;i<data.buildings.mercenarySlots.playingField.size();++i)
+        m_playingField->setSlot(i,!data.buildings.mercenarySlots.playingField[i].isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.playingField[i])) : nullptr);
+    for (int i=0;i<data.buildings.mercenarySlots.bar.size();++i)
+        m_bar->setSlot(i,!data.buildings.mercenarySlots.bar[i].isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.bar[i])) : nullptr);
+    for (int i=0;i<data.buildings.mercenarySlots.shrine.size();++i)
+        m_shrine->setSlot(i,!data.buildings.mercenarySlots.shrine[i].isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.shrine[i])) : nullptr);
+    for (int i=0;i<data.buildings.mercenarySlots.seclusion.size();++i)
+        m_seclusion->setSlot(i,!data.buildings.mercenarySlots.seclusion[i].isEmpty() ? m_mercenaries->getMercenary(m_mercenaries->findMercenary(data.buildings.mercenarySlots.seclusion[i])) : nullptr);
 
     m_energy=data.resources.energy;//setting resources
     m_foodSupplies=data.resources.foodSupplies;
@@ -1898,7 +1898,7 @@ void Base::loadSaveData(const SaveData &data) noexcept
         QPair <Time, Mission *> ma;
         ma.first=data.alarms.missionAlarms[i].first;
         for (auto e : m_missions)
-            if (e->assignedHero()->name() == data.alarms.missionAlarms[i].second)
+            if (e->assignedMercenary()->name() == data.alarms.missionAlarms[i].second)
             {
                 ma.second=e;
                 break;
@@ -1961,15 +1961,15 @@ SaveData Base::getSaveData() noexcept
             data.equipments.freeWeaponsTools.push_back(m_availableEquipment[i]->name());
     }
 
-    for (int i=0;i<m_heroes->amountOfHeroes();++i)
-        data.heroes.hiredHeroes.push_back(HeroBuilder::deqobjectifyHero(m_heroes->heroes()[i]));
+    for (int i=0;i<m_mercenaries->amountOfMercenaries();++i)
+        data.mercenaries.hiredMercenaries.push_back(MercenaryBuilder::deqobjectifyMercenary(m_mercenaries->mercenaries()[i]));
 
     data.buildings.dockingStationThings.recruits=m_dockingStation->getRecruitsNames().toVector();
 
     data.buildings.dockingStationThings.equipments=m_dockingStation->availableEquipmentsNames();
 
-    for (int i=0;i<m_dockingStation->arrivingHeroes().size();++i)
-        data.buildings.dockingStationThings.arrivingHeroes.push_back({m_dockingStation->arrivingHeroes()[i].first->name(), static_cast<quint8>(m_dockingStation->arrivingHeroes()[i].second)});
+    for (int i=0;i<m_dockingStation->arrivingMercenaries().size();++i)
+        data.buildings.dockingStationThings.arrivingMercenaries.push_back({m_dockingStation->arrivingMercenaries()[i].first->name(), static_cast<quint8>(m_dockingStation->arrivingMercenaries()[i].second)});
 
     for (int i=0;i<m_dockingStation->arrivingEquipments().size();++i)
         data.buildings.dockingStationThings.arrivingEquipments.push_back({m_dockingStation->arrivingEquipments()[i].first->name(), static_cast<quint8>(m_dockingStation->arrivingEquipments()[i].second)});
@@ -1979,39 +1979,39 @@ SaveData Base::getSaveData() noexcept
         data.buildings.dockingStationThings.activeResourceTransactions+={actTr[i].first,static_cast<quint8>(actTr[i].second)};
 
     for (int i=0;i<m_hospital->amountOfSlots();++i)
-        data.buildings.heroSlots.hospital.push_back(m_hospital->slot(i)!=nullptr ? m_hospital->slot(i)->name() : "");
+        data.buildings.mercenarySlots.hospital.push_back(m_hospital->slot(i)!=nullptr ? m_hospital->slot(i)->name() : "");
     for (int i=0;i<m_trainingGround->amountOfSlots();++i)
     {
         auto p=m_trainingGround->slot(i);
         if (p.first!=nullptr)
-            data.buildings.heroSlots.trainingGround.push_back({p.first->name(), static_cast<quint8>(p.second)});
+            data.buildings.mercenarySlots.trainingGround.push_back({p.first->name(), static_cast<quint8>(p.second)});
         else
-            data.buildings.heroSlots.trainingGround.push_back({"",0});
+            data.buildings.mercenarySlots.trainingGround.push_back({"",0});
     }
     for (int i=0;i<m_gym->amountOfSlots();++i)
     {
         auto p=m_gym->slot(i);
         if (p.first!=nullptr)
-            data.buildings.heroSlots.gym.push_back({p.first->name(), static_cast<quint8>(p.second)});
+            data.buildings.mercenarySlots.gym.push_back({p.first->name(), static_cast<quint8>(p.second)});
         else
-            data.buildings.heroSlots.gym.push_back({"",0});
+            data.buildings.mercenarySlots.gym.push_back({"",0});
     }
     for (int i=0;i<m_laboratory->amountOfSlots();++i)
     {
         auto p=m_laboratory->slot(i);
         if (p.first!=nullptr)
-            data.buildings.heroSlots.laboratory.push_back({p.first->name(), static_cast<quint8>(p.second)});
+            data.buildings.mercenarySlots.laboratory.push_back({p.first->name(), static_cast<quint8>(p.second)});
         else
-            data.buildings.heroSlots.laboratory.push_back({"",0});
+            data.buildings.mercenarySlots.laboratory.push_back({"",0});
     }
     for (int i=0;i<m_playingField->amountOfSlots();++i)
-        data.buildings.heroSlots.playingField.push_back(m_playingField->slot(i)!=nullptr ? m_playingField->slot(i)->name() : "");
+        data.buildings.mercenarySlots.playingField.push_back(m_playingField->slot(i)!=nullptr ? m_playingField->slot(i)->name() : "");
     for (int i=0;i<m_bar->amountOfSlots();++i)
-        data.buildings.heroSlots.bar.push_back(m_bar->slot(i)!=nullptr ? m_bar->slot(i)->name() : "");
+        data.buildings.mercenarySlots.bar.push_back(m_bar->slot(i)!=nullptr ? m_bar->slot(i)->name() : "");
     for (int i=0;i<m_shrine->amountOfSlots();++i)
-        data.buildings.heroSlots.shrine.push_back(m_shrine->slot(i)!=nullptr ? m_shrine->slot(i)->name() : "");
+        data.buildings.mercenarySlots.shrine.push_back(m_shrine->slot(i)!=nullptr ? m_shrine->slot(i)->name() : "");
     for (int i=0;i<m_seclusion->amountOfSlots();++i)
-        data.buildings.heroSlots.seclusion.push_back(m_seclusion->slot(i)!=nullptr ? m_seclusion->slot(i)->name() : "");
+        data.buildings.mercenarySlots.seclusion.push_back(m_seclusion->slot(i)!=nullptr ? m_seclusion->slot(i)->name() : "");
 
     data.resources.energy=m_energy;
     data.resources.foodSupplies=m_foodSupplies;
@@ -2039,7 +2039,7 @@ SaveData Base::getSaveData() noexcept
 
     QVector <QPair <Time, QString> > mals;
     for (auto e : m_gameClock->missionAlarms())
-        mals+={e.first,e.second->assignedHero()->name()};
+        mals+={e.first,e.second->assignedMercenary()->name()};
     data.alarms.missionAlarms=mals;
 
     data.database.unlocks=m_database->unlockedEntries();
@@ -2062,7 +2062,7 @@ void Base::startNewDay() noexcept
     if (m_gameClock->currentDay() % 7 == 1)
         startNewWeek();
 
-    handleHeroesAtDayEnd();
+    handleMercenariesAtDayEnd();
 
     activateBuildingsAtDayEnd();
 
@@ -2080,12 +2080,12 @@ void Base::startNewDay() noexcept
         else if (timeoutedAlarms[i]->type() == TimerAlarmEnums::AT_MissionEnd)
         {
             auto meta = static_cast<MissionEndTimerAlarm*>(timeoutedAlarms[i]);
-            if (!meta->mission()->assignedHero()->isDead())
+            if (!meta->mission()->assignedMercenary()->isDead())
                 meta->mission()->end();
-            auto hero = meta->mission()->assignedHero();
+            auto mercenary = meta->mission()->assignedMercenary();
             removeMission(meta->mission());
-            if (!hero->isDead())
-                addReport(new UnifiedReport(new MissionEndReport(hero->pathToArt(), hero->name(), m_gameClock->currentTime())));
+            if (!mercenary->isDead())
+                addReport(new UnifiedReport(new MissionEndReport(mercenary->pathToArt(), mercenary->name(), m_gameClock->currentTime())));
         }
     }
 
@@ -2095,16 +2095,16 @@ void Base::startNewDay() noexcept
     for (auto &e : m_missions)
         e->handleNewDay();
 
-    m_heroes->setAmountOfSlots(m_barracks->heroesLimit());
+    m_mercenaries->setAmountOfSlots(m_barracks->mercenariesLimit());
 
-    for (auto heroName : m_heroDockingStationBans.keys())
+    for (auto mercenaryName : m_mercenaryDockingStationBans.keys())
     {
-        if (m_heroDockingStationBans.value(heroName)==1)
+        if (m_mercenaryDockingStationBans.value(mercenaryName)==1)
         {
-            m_heroDockingStationBans.erase(m_heroDockingStationBans.find(heroName));
+            m_mercenaryDockingStationBans.erase(m_mercenaryDockingStationBans.find(mercenaryName));
             continue;
         }
-        m_heroDockingStationBans.insert(heroName,m_heroDockingStationBans.value(heroName)-1);
+        m_mercenaryDockingStationBans.insert(mercenaryName,m_mercenaryDockingStationBans.value(mercenaryName)-1);
     }
     m_dockingStation->doRecrutationStuff();
     m_dockingStation->doBuyingEquipmentStuff();
@@ -2123,7 +2123,7 @@ void Base::startNewWeek() noexcept
     m_dockingStation->prepareRecruits();
     m_dockingStation->prepareEquipments();
 
-    handleHeroesAtWeekEnd();
+    handleMercenariesAtWeekEnd();
 }
 
 BuildingUpgradeRequirements Base::buildingRequirements(BaseEnums::Building buildingName, unsigned level) const noexcept
@@ -2134,8 +2134,8 @@ BuildingUpgradeRequirements Base::buildingRequirements(BaseEnums::Building build
 int Base::currentTotalSalary() const noexcept
 {
     int r=0;
-    for (auto e : m_heroes->heroes())
-        if (e->currentActivity() != HeroEnums::CA_Arriving)
+    for (auto e : m_mercenaries->mercenaries())
+        if (e->currentActivity() != MercenaryEnums::CA_Arriving)
             r+=e->salary();
     return r;
 }
@@ -2217,7 +2217,7 @@ int Base::currentFoodSuppliesIncome() const noexcept
     int r=0;
     for (int i=0;i<static_cast<int>(BaseEnums::B_END);++i)
         r-=m_buildings.value(static_cast<BaseEnums::Building>(i))->currentCostInFoodSupplies();
-    for (auto e : m_heroes->heroes())
+    for (auto e : m_mercenaries->mercenaries())
         r-=e->dailyFoodConsumption();
     return r;
 }
@@ -2404,12 +2404,12 @@ void Base::clearReports() noexcept
     m_reports.clear();
 }
 
-int Base::remainingMissionDaysForHero(const QString &heroName)
+int Base::remainingMissionDaysForMercenary(const QString &mercenaryName)
 {
-    for (const auto &e : m_heroes->heroes())
-        if (e->name() == heroName)
+    for (const auto &e : m_mercenaries->mercenaries())
+        if (e->name() == mercenaryName)
         {
-            if (e->currentActivity() != HeroEnums::CA_OnMission)
+            if (e->currentActivity() != MercenaryEnums::CA_OnMission)
                 return -2;
             if (e->isCommunicationAvailable())
                 return e->assignedMission()->remainingDays();
@@ -2429,24 +2429,24 @@ void Base::activateBuildingsAtDayEnd() noexcept
     else
         m_energy=0;
 
-    bar()->destressHeroes();
+    bar()->destressMercenaries();
     factory()->exchangeResources();
-    gym()->trainHeroes();
-    hospital()->healHeroes();
-    laboratory()->trainHeroes();
-    playingField()->destressHeroes();
+    gym()->trainMercenaries();
+    hospital()->healMercenaries();
+    laboratory()->trainMercenaries();
+    playingField()->destressMercenaries();
     powerplant()->exchangeResources();
-    seclusion()->destressHeroes();
-    shrine()->destressHeroes();
-    trainingGround()->trainHeroes();
+    seclusion()->destressMercenaries();
+    shrine()->destressMercenaries();
+    trainingGround()->trainMercenaries();
 }
 
-void Base::handleHeroesAtDayEnd() noexcept
+void Base::handleMercenariesAtDayEnd() noexcept
 {
-    m_heroes->handleNewDay();
+    m_mercenaries->handleNewDay();
 }
 
-void Base::handleHeroesAtWeekEnd() noexcept
+void Base::handleMercenariesAtWeekEnd() noexcept
 {
-    m_heroes->handleNewWeek();
+    m_mercenaries->handleNewWeek();
 }

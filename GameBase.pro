@@ -10,7 +10,7 @@ android {
 }
 
 SOURCES += main.cpp \
-    hero.cpp \
+    mercenary.cpp \
     base.cpp \
     equipment.cpp \
     event.cpp \
@@ -46,7 +46,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    hero.h \
+    mercenary.h \
     base.h \
     equipment.h \
     event.h \

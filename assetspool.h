@@ -3,7 +3,7 @@
 
 #include <QVector>
 
-#include "hero.h"
+#include "mercenary.h"
 #include "filereaderwriter.h"
 #include "database.h"
 
@@ -19,18 +19,18 @@ public:
     bool isReady() const noexcept;
     void clear() noexcept;
 
-    inline QStringList allHeroes() const noexcept
+    inline QStringList allMercenaries() const noexcept
     {
-        return m_heroesAll;
+        return m_mercenariesAll;
     }
-    inline const QVector <Hero *> &loadedHeroes() const noexcept
+    inline const QVector <Mercenary *> &loadedMercenaries() const noexcept
     {
-        return m_heroesLoaded;
+        return m_mercenariesLoaded;
     }
-    void loadHeroAtPosFromList(unsigned index) noexcept;
-    void loadHeroNamedFromList(const QString &name) noexcept;
-    void unloadHero(unsigned index) noexcept;
-    void unloadHero(const QString &name) noexcept;
+    void loadMercenaryAtPosFromList(unsigned index) noexcept;
+    void loadMercenaryNamedFromList(const QString &name) noexcept;
+    void unloadMercenary(unsigned index) noexcept;
+    void unloadMercenary(const QString &name) noexcept;
 
     inline const QVector <Equipment *> &equipment() const noexcept
     {
@@ -47,8 +47,8 @@ public:
     }
 
 private:
-    void loadHeroesList(const QString &pathToDir) noexcept;
-    void loadHero(const QString &path) noexcept;
+    void loadMercenariesList(const QString &pathToDir) noexcept;
+    void loadMercenary(const QString &path) noexcept;
     void loadEquipment(const QString &path) noexcept;
     void loadDatabase(const QString &pathToDir) noexcept;
     void loadLands(const QString &pathToDir) noexcept;
@@ -56,8 +56,8 @@ private:
     bool m_isReady;
     QString m_pathToAssets;
 
-    QVector <Hero *> m_heroesLoaded;
-    QList <QString> m_heroesAll;
+    QVector <Mercenary *> m_mercenariesLoaded;
+    QList <QString> m_mercenariesAll;
 
     QVector <Equipment *> m_equipment;
 

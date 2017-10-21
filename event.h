@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QJSEngine>
 
-#include "hero.h"
+#include "mercenary.h"
 #include "equipment.h"
 #include "base.h"
 #include "timer.h"
@@ -20,7 +20,7 @@ struct EventEnums
         A_GiveHealth,
         A_GiveStress,
         A_ModifyAttribute,
-        A_KillHero,
+        A_KillMercenary,
         A_AddEquipment,
         A_RemoveEquipment,
         A_GiveResource,
@@ -41,23 +41,23 @@ struct EventEnums
         T_Possibility,
         T_END
     };
-    enum MissionDifficulty
+    enum MissionLength
     {
-        MD_Short,
-        MD_Medium,
-        MD_Long,
-        MD_Extreme,
-        MD_Veteran,
-        MD_Master,
-        MD_Heroic,
-        MD_END
+        ML_Short,
+        ML_Medium,
+        ML_Long,
+        ML_Extreme,
+        ML_Veteran,
+        ML_Master,
+        ML_Heroic,
+        ML_END
     };
     enum ReportType
     {
         RT_Null,
         RT_Encounter,
         RT_BuildingUpgrade,
-        RT_HeroArrival,
+        RT_MercenaryArrival,
         RT_TradeCompletion,
         RT_EquipmentArrival,
         RT_Desertion,
@@ -68,13 +68,13 @@ struct EventEnums
         RT_SignalLost,
         RT_SignalRetrieved,
         RT_MissionStart,
-        RT_HeroDeath,
+        RT_MercenaryDeath,
         RT_NewDBEntry,
         RT_END
     };
 
-    static MissionDifficulty fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept;
-    static QString fromMissionDifficultyEnumToQString(MissionDifficulty missionDifficulty) noexcept;
+    static MissionLength fromQStringToMissionLengthEnum(const QString &missionLength) noexcept;
+    static QString fromMissionLengthEnumToQString(MissionLength missionLength) noexcept;
 };
 
 class Expression
@@ -93,7 +93,7 @@ public:
 
     bool isValid() const noexcept;
 
-    QVariant evaluate(const Hero *context) const noexcept;
+    QVariant evaluate(const Mercenary *context) const noexcept;
 
 private:
     void validateExpr() noexcept;
@@ -151,7 +151,7 @@ public:
         return m_unlockedDatabaseEntries;
     }
 
-    QVector <EventReport> execute(Hero *context) noexcept;
+    QVector <EventReport> execute(Mercenary *context) noexcept;
 
 protected:
     explicit Event(EventEnums::Type eventType, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
@@ -160,8 +160,8 @@ protected:
     void setEventText(const QString &text) noexcept;
 
 private:
-    void unlockDatabaseEntries(Hero *context) noexcept;
-    virtual QVector <EventReport> executeSpecificOps(Hero *context) noexcept = 0;
+    void unlockDatabaseEntries(Mercenary *context) noexcept;
+    virtual QVector <EventReport> executeSpecificOps(Mercenary *context) noexcept = 0;
 
     EventEnums::Type m_eventType;
     QString m_eventText;
@@ -175,7 +175,7 @@ public:
         : Event(EventEnums::T_Multi,text,dbEntries), m_eventsToExecute(events) {}
     ~MultiEvent() noexcept;
 
-    QVector <EventReport> executeSpecificOps(Hero *context) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *context) noexcept final;
 
 private:
     QVector <Event *> m_eventsToExecute;
@@ -186,7 +186,7 @@ class ActionEvent : public Event
 public:
     virtual ~ActionEvent() noexcept = default;
 
-    virtual QVector <EventReport> executeSpecificOps(Hero *hero) noexcept override = 0;
+    virtual QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept override = 0;
     EventEnums::Action eventSubtype() const noexcept
     {
         return m_eventSubtype;
@@ -207,7 +207,7 @@ public:
         : ActionEvent(EventEnums::A_Null,text,dbEntries) {}
     ~NullEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *) noexcept;
+    QVector <EventReport> executeSpecificOps(Mercenary *) noexcept;
 };
 
 class GiveHealthEventResult final : public ActionEvent
@@ -216,7 +216,7 @@ public:
     explicit GiveHealthEventResult(const ValueRange &addedValue, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~GiveHealthEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     ValueRange m_value;
@@ -228,7 +228,7 @@ public:
     explicit GiveStressEventResult(const ValueRange &addedValue, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~GiveStressEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     ValueRange m_value;
@@ -246,7 +246,7 @@ struct AttributeModification
         T_END
     };
 
-    HeroEnums::Attribute attribute;
+    MercenaryEnums::Attribute attribute;
     Type type;
     QVariant value;
     int duration;
@@ -254,7 +254,7 @@ struct AttributeModification
 
 struct AttributeModificationHelper
 {
-    HeroEnums::Attribute attribute;
+    MercenaryEnums::Attribute attribute;
     AttributeModification::Type type;
     ValueRange expressionRange;
     ValueRange durationRange;
@@ -266,20 +266,20 @@ public:
     explicit ModifyAttributeEventResult(const AttributeModificationHelper &modification, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~ModifyAttributeEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     AttributeModificationHelper m_modification;
 };
 
-class KillHeroEventResult final : public ActionEvent
+class KillMercenaryEventResult final : public ActionEvent
 {
 public:
-    KillHeroEventResult(QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
-        : ActionEvent(EventEnums::A_KillHero,text,dbEntries) {}
-    ~KillHeroEventResult() noexcept = default;
+    KillMercenaryEventResult(QString text = {}, const QVector <QString> &dbEntries = {}) noexcept
+        : ActionEvent(EventEnums::A_KillMercenary,text,dbEntries) {}
+    ~KillMercenaryEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 };
 
 class AddEquipmentEventResult : public ActionEvent
@@ -289,7 +289,7 @@ public:
         : ActionEvent(EventEnums::A_AddEquipment,text,dbEntries), m_equipmentToAdd(equipment) {}
     virtual ~AddEquipmentEventResult() noexcept = default;
 
-    virtual QVector <EventReport> executeSpecificOps(Hero *hero) noexcept override;
+    virtual QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept override;
 
     Equipment *equipmentToAdd() const noexcept
     {
@@ -306,7 +306,7 @@ public:
     AddEquipmentRandomEventResult(ValueRange tier, int equipmentTypeFlags, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~AddEquipmentRandomEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     ValueRange m_tier;
@@ -320,7 +320,7 @@ public:
         : ActionEvent(EventEnums::A_RemoveEquipment,text,dbEntries), m_equipmentType(type), m_equipmentSlot(slot) {}
     ~RemoveEquipmentEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
     auto equipmentType() const noexcept
     {
@@ -342,7 +342,7 @@ public:
     explicit GiveResourceEventResult(BaseEnums::Resource resource, const ValueRange &amount, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     virtual ~GiveResourceEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
     inline BaseEnums::Resource resource() const noexcept
     {
@@ -371,7 +371,7 @@ public:
     explicit NoSignalEventResult(const ValueRange &durationInDays, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~NoSignalEventResult() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
     inline ValueRange durationInDays() const noexcept
     {
@@ -431,7 +431,7 @@ public:
     {
         return m_eventSubtype;
     }
-    virtual QVector <EventReport> executeSpecificOps(Hero *hero) noexcept override = 0;
+    virtual QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept override = 0;
 
 protected:
     explicit CheckEvent(EventEnums::Check eventSubtype, CheckEventResults *results, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
@@ -448,7 +448,7 @@ public:
     explicit ValueCheckEvent(const Expression &condition, CheckEventResults *results, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~ValueCheckEvent() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     Expression m_condition;
@@ -460,7 +460,7 @@ public:
     explicit EquipmentCheckEvent(EquipmentEnums::Category neededEq, CheckEventResults *results, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~EquipmentCheckEvent() noexcept = default;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     EquipmentEnums::Category m_neededEquipment;
@@ -472,7 +472,7 @@ public:
     explicit PossibilityEvent(Chance chance, Event *event, QString text = {}, const QVector <QString> &dbEntries = {}) noexcept;
     ~PossibilityEvent() noexcept;
 
-    QVector <EventReport> executeSpecificOps(Hero *hero) noexcept final;
+    QVector <EventReport> executeSpecificOps(Mercenary *mercenary) noexcept final;
 
 private:
     Chance m_chance;
@@ -523,16 +523,16 @@ public:
 class EncounterReport final : public Report
 {
 public:
-    EncounterReport(const QString &heroArt, const QVector <EventReport> &events, const Time &time) noexcept;
+    EncounterReport(const QString &mercenaryArt, const QVector <EventReport> &events, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QVector <EventReport> m_events;
 };
 
@@ -553,19 +553,19 @@ private:
     unsigned m_level;
 };
 
-class HeroArrivalReport final : public Report
+class MercenaryArrivalReport final : public Report
 {
 public:
-    HeroArrivalReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept;
+    MercenaryArrivalReport(const QString &mercenaryArt, const QString &mercenaryName, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QString m_name;
 };
 
@@ -603,147 +603,147 @@ private:
 class DesertionReport final : public Report
 {
 public:
-    DesertionReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+    DesertionReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QString m_name;
 };
 
 class HungerReport final : public Report
 {
 public:
-    HungerReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+    HungerReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QString m_name;
 };
 
 class NoSalaryReport final : public Report
 {
 public:
-    NoSalaryReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+    NoSalaryReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QString m_name;
 };
 
 class MissionEndReport final : public Report
 {
 public:
-    MissionEndReport(const QString &heroArt, const QString &name, const Time &time) noexcept;
+    MissionEndReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QString m_name;
 };
 
 class TrainingCompletionReport final : public Report
 {
 public:
-    TrainingCompletionReport(const QString &heroArt, const QString &heroName, BaseEnums::Building building, const Time &time) noexcept;
+    TrainingCompletionReport(const QString &mercenaryArt, const QString &mercenaryName, BaseEnums::Building building, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
-    QString m_heroName;
+    QString m_mercenaryArt;
+    QString m_mercenaryName;
     BaseEnums::Building m_building;
 };
 
 class SignalLostReport final : public Report
 {
 public:
-    SignalLostReport(const QString &heroArt, const QString &heroName, const QString &landName, const Time &time) noexcept;
+    SignalLostReport(const QString &mercenaryArt, const QString &mercenaryName, const QString &landName, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
-    QString m_heroName;
+    QString m_mercenaryArt;
+    QString m_mercenaryName;
     QString m_landName;
 };
 
 class SignalRetrievedReport final : public Report
 {
 public:
-    SignalRetrievedReport(const QString &heroArt, const QString &landName, const Time &time) noexcept;
+    SignalRetrievedReport(const QString &mercenaryArt, const QString &landName, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     QString m_landName;
 };
 
 class MissionStartReport final : public Report
 {
 public:
-    MissionStartReport(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept;
+    MissionStartReport(const QString &mercenaryArt, int stress, int stressLimit, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
+    QString m_mercenaryArt;
     int m_stress, m_stressLimit;
 };
 
-class HeroDeathReport final : public Report
+class MercenaryDeathReport final : public Report
 {
 public:
-    HeroDeathReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept;
+    MercenaryDeathReport(const QString &mercenaryArt, const QString &mercenaryName, const Time &time) noexcept;
 
     inline QString art() const noexcept final
     {
-        return m_heroArt;
+        return m_mercenaryArt;
     }
     QString text() const noexcept final;
 
 private:
-    QString m_heroArt;
-    QString m_heroName;
+    QString m_mercenaryArt;
+    QString m_mercenaryName;
 };
 
 struct UnifiedReportDataHelper
@@ -800,7 +800,7 @@ class Encounter
 public:
     explicit Encounter(const QString &name, Event *rootEvent, unsigned probability) noexcept;
 
-    EncounterReport *execute(Hero *hero, const Time &currentTime) const noexcept;
+    EncounterReport *execute(Mercenary *mercenary, const Time &currentTime) const noexcept;
 
     inline QString name() const noexcept
     {
@@ -906,7 +906,7 @@ class Mission : public QObject
 
     Q_OBJECT
 
-    Q_PROPERTY(Hero* hero MEMBER m_assignedHero)
+    Q_PROPERTY(Mercenary* mercenary MEMBER m_assignedMercenary)
     Q_PROPERTY(Land* land MEMBER m_land)
     Q_PROPERTY(UnifiedReport* preparedReport MEMBER m_preparedRelatedReport)
 
@@ -917,13 +917,13 @@ public:
     {
         return m_land;
     }
-    inline EventEnums::MissionDifficulty difficulty() const noexcept
+    inline EventEnums::MissionLength length() const noexcept
     {
-        return m_difficulty;
+        return m_length;
     }
-    Q_INVOKABLE inline QString difficultyString() const noexcept
+    Q_INVOKABLE inline QString lengthString() const noexcept
     {
-        return EventEnums::fromMissionDifficultyEnumToQString(difficulty());
+        return EventEnums::fromMissionLengthEnumToQString(length());
     }
     Q_INVOKABLE inline unsigned fullDuration() const noexcept
     {
@@ -939,14 +939,14 @@ public:
     }
     void handleNewDay() noexcept;
 
-    void assignHero(Hero *hero) noexcept;
-    inline const Hero *assignedHero() const noexcept
+    void assignMercenary(Mercenary *mercenary) noexcept;
+    inline const Mercenary *assignedMercenary() const noexcept
     {
-        return m_assignedHero;
+        return m_assignedMercenary;
     }
-    inline Hero *assignedHero() noexcept
+    inline Mercenary *assignedMercenary() noexcept
     {
-        return m_assignedHero;
+        return m_assignedMercenary;
     }
 
     void start() noexcept;
@@ -981,19 +981,19 @@ private:
     void planEnd() noexcept;
 
     void setLand(Land *land) noexcept;
-    void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
+    void setLength(EventEnums::MissionLength length) noexcept;
     void setDuration(unsigned days) noexcept;
     void addEncounter(MissionDay day, Encounter *encounter) noexcept;
 
     Land *m_land;
-    EventEnums::MissionDifficulty m_difficulty;
+    EventEnums::MissionLength m_length;
     unsigned m_duration;
     unsigned m_daysSpent;
     QVector <QPair <MissionDay, Encounter *> > m_encounters;
     unsigned m_nextEncounter;
     Time m_timeOfCurrentEncounter;
     int m_minutesSinceMidnightOfLastEncounter;
-    Hero *m_assignedHero;
+    Mercenary *m_assignedMercenary;
     QVector <UnifiedReport *> m_relatedReports;
     UnifiedReport *m_preparedRelatedReport;
 };
@@ -1001,12 +1001,12 @@ private:
 struct MissionDataHelper
 {
     QString land;
-    EventEnums::MissionDifficulty difficulty;
+    EventEnums::MissionLength length;
     unsigned duration, daysSpent;
     QVector <QPair <unsigned, QString> > encounters;
     unsigned nextEncounter;
     int minutesSinceMidnightOfLastEncounter;
-    QString hero;
+    QString mercenary;
     QVector <unsigned> relatedReportsIDs;
 };
 
@@ -1020,22 +1020,22 @@ public:
     ~MissionBuilder() noexcept;
 
     Mission *getMission() noexcept; // resets
-    Mission *generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept; // resets
+    Mission *generateMission(Land *land, EventEnums::MissionLength length) noexcept; // resets
     void resetMission() noexcept; 
 
     static Mission *qobjectifyMissionData(const MissionDataHelper &mission, Base *base) noexcept;
     static MissionDataHelper deqobjectifyMission(Mission *mission) noexcept;
 
     void setLand(Land *land) noexcept;
-    void setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept;
+    void setLength(EventEnums::MissionLength length) noexcept;
     void setDuration(unsigned duration) noexcept;
     void addRandomEncounter() noexcept;
     void addEncounter(Mission::MissionDay day, Encounter *encounter) noexcept;
 
 private:
-    unsigned generateDuration(EventEnums::MissionDifficulty difficulty) const noexcept;
-    unsigned generateAmountOfEncountersPerDay(EventEnums::MissionDifficulty difficulty) const noexcept;
-    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept;
+    unsigned generateDuration(EventEnums::MissionLength length) const noexcept;
+    unsigned generateAmountOfEncountersPerDay(EventEnums::MissionLength length) const noexcept;
+    QVector <QPair <Mission::MissionDay, Encounter *> > generateEncounters(Land *land, EventEnums::MissionLength length, unsigned duration) const noexcept;
 
     static bool lessThanEncounterSorting(const QPair <Mission::MissionDay, Encounter *> &first, const QPair <Mission::MissionDay, Encounter *> &second) noexcept;
 
@@ -1047,7 +1047,7 @@ class MissionInitializer : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(Hero* selectedHero MEMBER m_hero)
+    Q_PROPERTY(Mercenary* selectedMercenary MEMBER m_mercenary)
 
 public:
     explicit MissionInitializer(Base *base) noexcept;
@@ -1056,13 +1056,13 @@ public:
     Q_INVOKABLE bool start() noexcept;
 
     Q_INVOKABLE void setLand(const QString &name) noexcept;
-    Q_INVOKABLE void setDifficulty(const QString &difficulty) noexcept;
-    Q_INVOKABLE QString difficulty() const noexcept;
+    Q_INVOKABLE void setLength(const QString &length) noexcept;
+    Q_INVOKABLE QString length() const noexcept;
 
-    Q_INVOKABLE void setHero(const QString &name) noexcept;
-    Q_INVOKABLE inline bool isHeroSelected() const noexcept
+    Q_INVOKABLE void setMercenary(const QString &name) noexcept;
+    Q_INVOKABLE inline bool isMercenarySelected() const noexcept
     {
-        return m_hero!=nullptr;
+        return m_mercenary!=nullptr;
     }
 
     Q_INVOKABLE void setArmor(const QString &name) noexcept;
@@ -1074,14 +1074,14 @@ public:
     Q_INVOKABLE void setFoodSupplies(unsigned amount) noexcept;
 
 private:
-    void prepareHero() noexcept;
-    void unprepareHero() noexcept;
+    void prepareMercenary() noexcept;
+    void unprepareMercenary() noexcept;
 
     Base *m_basePtr;
     MissionBuilder m_missionBuilder;
     Land *m_land;
-    EventEnums::MissionDifficulty m_difficulty;
-    Hero *m_hero;
+    EventEnums::MissionLength m_length;
+    Mercenary *m_mercenary;
     Equipment *m_armor;
     Equipment *m_weaponTool[2];
     unsigned m_aetherite, m_energy, m_bm, m_food;

@@ -15,12 +15,12 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        heroesList.update();
+        mercenariesList.update();
     }
 
     function returnToDefault()
     {
-        heroesList.returnToDefault();
+        mercenariesList.returnToDefault();
     }
 
     signal requestSwitchingToResourcesTab()
@@ -87,16 +87,16 @@ Item {
         }
     }
 
-    HeroesList {
-        id: heroesList
+    MercenariesList {
+        id: mercenariesList
 
         x: 0
         y: modeNameBar.height
         width: parent.theoreticalWidth
         height: parent.theoreticalHeight - y
 
-        onHeroClicked: {
-            GameApi.base.dockingStation.hireMercenary(heroName,GameApi.base.dockingStation.waitingTime());
+        onMercenaryClicked: {
+            GameApi.base.dockingStation.hireMercenary(mercenaryName,GameApi.base.dockingStation.waitingTime());
             update();
             root.requestUpdate();
         }

@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
     qmlRegisterInterface<GameClock>("GameClock");
-    qmlRegisterInterface<HeroesContainer>("HeroesContainer");
+    qmlRegisterInterface<MercenariesContainer>("MercenariesContainer");
     qmlRegisterInterface<Equipment>("Equipment");
     qmlRegisterInterface<Mission>("Mission");
     qmlRegisterInterface<MissionInitializer>("MissionInitializer");

@@ -95,7 +95,7 @@ Mission *MissionEndTimerAlarm::mission() noexcept
     if (m_mission!=nullptr)
         return m_mission;
     for (const auto &e : m_base->missions())
-        if (m_missionHeroName==e->assignedHero()->name())
+        if (m_missionMercenaryName==e->assignedMercenary()->name())
         {
             m_mission=e;
             return e;
@@ -105,14 +105,14 @@ Mission *MissionEndTimerAlarm::mission() noexcept
 
 QDataStream &MissionEndTimerAlarm::read(QDataStream &stream) noexcept
 {
-    stream>>m_missionHeroName;
+    stream>>m_missionMercenaryName;
 
     return stream;
 }
 
 QDataStream &MissionEndTimerAlarm::write(QDataStream &stream) const noexcept
 {
-    stream<<(m_mission!=nullptr ? m_mission->assignedHero()->name() : m_missionHeroName);
+    stream<<(m_mission!=nullptr ? m_mission->assignedMercenary()->name() : m_missionMercenaryName);
 
     return stream;
 }
@@ -185,7 +185,7 @@ void TimerAlarmsContainer::addMissionAlarm(const Time &time, Mission *mission) n
 {
     m_missionAlarms+={time, mission};
 
-    Game::gameInstance()->loggers()->missionsLogger()->trace("Adding mission alarm (time: {}, mercenary: {})",time.toQString().toStdString(), mission->assignedHero()->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("Adding mission alarm (time: {}, mercenary: {})",time.toQString().toStdString(), mission->assignedMercenary()->name().toStdString());
 }
 
 void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
@@ -197,8 +197,8 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
             m_missionAlarms.remove(i);
             --i;
             auto er=temp.second->doEncounter(temp.first);
-            if (m_base->missions().contains(temp.second) && !temp.second->assignedHero()->isDead())
-                temp.second->assignedHero()->trySendingReport(new UnifiedReport(er), temp.second);
+            if (m_base->missions().contains(temp.second) && !temp.second->assignedMercenary()->isDead())
+                temp.second->assignedMercenary()->trySendingReport(new UnifiedReport(er), temp.second);
         }
 }
 
@@ -240,7 +240,7 @@ void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
     {
         if (m_missionAlarms[i].second == mission)
         {
-            Game::gameInstance()->loggers()->missionsLogger()->trace("Removing mission alarm (mercenary: {})", mission->assignedHero()->name().toStdString());
+            Game::gameInstance()->loggers()->missionsLogger()->trace("Removing mission alarm (mercenary: {})", mission->assignedMercenary()->name().toStdString());
 
             m_missionAlarms.remove(i);
         }

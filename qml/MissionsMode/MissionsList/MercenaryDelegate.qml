@@ -12,8 +12,6 @@ Item {
     property string name_
     property string profession_
 
-    signal openListRequested()
-
     function setArtSource(source)
     {
         art.source = source;
@@ -36,14 +34,28 @@ Item {
         if (isEmpty)
         {
             textSegment.visible = false;
-            art.source = "qrc:/graphics/GUI/Slots/HeroSlot.png";
-            statusHPFrame.source = "";
-            statusSTFrame.source = "";
+            art.source = "qrc:/graphics/GUI/Slots/MercenarySlot.png";
         }
         else
         {
             textSegment.visible = true;
         }
+    }
+
+    function setMIA()
+    {
+        attrCEValue.text = "?";
+        attrPRValue.text = "?";
+        attrCLValue.text = "?";
+        attrHPValue.text = "?/?";
+        attrSTValue.text = "?";
+        attrSLValue.text = "?";
+        attrSRValue.text = "?";
+        attrSAValue.text = "?";
+        attrFCValue.text = "?";
+
+        statusHPFrame.source = "";
+        statusSTFrame.source = "";
     }
 
     function setCE(amount)
@@ -189,7 +201,7 @@ Item {
             width: 256
             height: 256
 
-            source: "qrc:/graphics/GUI/Slots/HeroSlot.png"
+            source: "qrc:/graphics/GUI/Slots/MercenarySlot.png"
         }
 
         Image {
@@ -300,16 +312,6 @@ Item {
                 target: statusSTFrame
                 property: "opacity"
                 running: true
-            }
-        }
-
-        MouseArea {
-            id: listOpener
-
-            anchors.fill: parent
-
-            onClicked: {
-                openListRequested();
             }
         }
     }

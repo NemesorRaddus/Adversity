@@ -15,7 +15,7 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     height = heightInPx;
     for (var i=0;i<itemsArray.length;++i)
         itemsArray[i].destroy();
-    listDelegate = Qt.createComponent("qrc:/qml/MissionsMode/HeroesListDelegate.qml");
+    listDelegate = Qt.createComponent("qrc:/qml/MissionsMode/MercenariesListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
     }
@@ -112,7 +112,7 @@ function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, s
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootHeroesList,
+        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootMercenariesList,
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});

@@ -1,12 +1,12 @@
 import QtQuick 2.9
 
-import "qrc:/qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesListScripts.js" as Scripts
+import "qrc:/qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/MercenariesListScripts.js" as Scripts
 import "../../.."
 import "../.."
 import Game 1.0
 
 Item {
-    id: rootHeroesList
+    id: rootMercenariesList
 
     function update()
     {
@@ -32,7 +32,7 @@ Item {
 
     clip: true
 
-    signal heroClicked(string heroName)
+    signal mercenaryClicked(string mercenaryName)
 
     Image {
         id: additionalBackground
@@ -67,7 +67,7 @@ Item {
             {
                 var hN = Scripts.getClickedItemName(mouseX,y0);
                 if (hN != "")
-                    heroClicked(hN);
+                    mercenaryClicked(hN);
             }
             y0 = -1;
             movementCheckTimer.stop();

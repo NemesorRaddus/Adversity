@@ -926,7 +926,7 @@ QPair<QVector<BarracksLevelInfo>, QVector<BuildingUpgradeRequirements> > XmlFile
                     QXmlStreamAttributes attrs = m_xmlReader->attributes();
                     level=attrs.value("level").toUInt();
                     info.basicCostInEnergy=attrs.value("basicCostEnergy").toUInt();
-                    info.heroesLimit=attrs.value("heroesLimit").toUInt();
+                    info.mercenariesLimit=attrs.value("mercenariesLimit").toUInt();
 
                     BuildingUpgradeRequirements reqs;
 
@@ -1119,20 +1119,20 @@ QVector<QPair <BaseEnums::Building, QString> > XmlFileReader::getBuildingDescrip
     return r;
 }
 
-QList<QString> XmlFileReader::getHeroesNamesList(const QString &pathToHeroesDir) noexcept
+QList<QString> XmlFileReader::getMercenariesNamesList(const QString &pathToMercenariesDir) noexcept
 {
-    if (!QDir(pathToHeroesDir).exists())
-        qCritical()<<"Directory "+pathToHeroesDir+" doesn't exist.";
+    if (!QDir(pathToMercenariesDir).exists())
+        qCritical()<<"Directory "+pathToMercenariesDir+" doesn't exist.";
 
-    auto r = QDir(pathToHeroesDir).entryList({"*.xml"});
+    auto r = QDir(pathToMercenariesDir).entryList({"*.xml"});
     for (int i=0;i<r.size();++i)
         r[i].remove(r[i].size()-4,4);
     if (r.isEmpty())
-        qCritical("No heroes detected.");
+        qCritical("No mercenaries detected.");
     return r;
 }
 
-Hero *XmlFileReader::getHero(const QString &path) noexcept
+Mercenary *XmlFileReader::getMercenary(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -1140,11 +1140,11 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
         return {};
     }
 
-    HeroBuilder hB;
+    MercenaryBuilder hB;
 
     if (m_xmlReader->readNextStartElement())
     {
-        if (m_xmlReader->name()=="hero")
+        if (m_xmlReader->name()=="mercenary")
         {
             QXmlStreamAttributes attrs = m_xmlReader->attributes();
             hB.setName(attrs.value("name").toString());
@@ -1168,18 +1168,18 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
                     hB.setDailyStressRecovery(attrs.value("dailyStressRecovery").toInt());
                     hB.setSalary(attrs.value("salary").toInt());
                     hB.setDailyFoodConsumption(attrs.value("dailyFoodConsumption").toInt());
-                    hB.setNature(HeroEnums::fromQStringToNatureEnum(attrs.value("nature").toString()));
-                    hB.setProfession(HeroEnums::fromQStringToProfessionEnum(attrs.value("profession").toString()));
+                    hB.setNature(MercenaryEnums::fromQStringToNatureEnum(attrs.value("nature").toString()));
+                    hB.setProfession(MercenaryEnums::fromQStringToProfessionEnum(attrs.value("profession").toString()));
 
                     m_xmlReader->skipCurrentElement();
                 }
                 else if (m_xmlReader->name()=="sbeList")
                 {
-                    QVector <HeroStressBorderEffect> sbes;
+                    QVector <MercenaryStressBorderEffect> sbes;
                     while (m_xmlReader->readNextStartElement())
                     {
                         if (m_xmlReader->name()=="sbe")
-                            sbes.push_back({HeroEnums::fromQStringToStressBorderEffectEnum(m_xmlReader->readElementText())});
+                            sbes.push_back({MercenaryEnums::fromQStringToStressBorderEffectEnum(m_xmlReader->readElementText())});
                         else
                             m_xmlReader->skipCurrentElement();
                     }
@@ -1236,7 +1236,7 @@ Hero *XmlFileReader::getHero(const QString &path) noexcept
         qCritical()<<"Couldn't read "+path+" properly.";
         return nullptr;
     }
-    return hB.getHero();
+    return hB.getMercenary();
 }
 
 QVector<Equipment *> XmlFileReader::getEquipment(const QString &path) noexcept
@@ -1694,7 +1694,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                         AttributeModificationHelper mod;
                         attrs=m_xmlReader->attributes();
 
-                        mod.attribute=HeroEnums::fromQStringToAttributeEnum(attrs.value("attribute").toString());
+                        mod.attribute=MercenaryEnums::fromQStringToAttributeEnum(attrs.value("attribute").toString());
                         if (attrs.value("type").toString()=="+")
                             mod.type=AttributeModification::T_Add;
                         else if (attrs.value("type").toString()=="-")
@@ -1716,7 +1716,7 @@ Event *XmlFileReader::getEvent(bool alreadyRead) noexcept
                 }
                 else if (subtype=="Kill")
                 {
-                    r=new KillHeroEventResult(text,ude);
+                    r=new KillMercenaryEventResult(text,ude);
                 }
                 else if (subtype=="AddEquipment")
                 {

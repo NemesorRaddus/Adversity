@@ -17,7 +17,7 @@ AssetsPool::~AssetsPool() noexcept
 void AssetsPool::load(const QString &pathToAssets) noexcept
 {
     clear();
-    loadHeroesList(pathToAssets+"mercenaries/mercenaries/");
+    loadMercenariesList(pathToAssets+"mercenaries/mercenaries/");
     loadEquipment(pathToAssets+"mercenaries/equipment.xml");
     loadLands(pathToAssets+"lands/");
     loadDatabase(pathToAssets+"database/");
@@ -32,11 +32,11 @@ bool AssetsPool::isReady() const noexcept
 
 void AssetsPool::clear() noexcept
 {
-    for (int i=0;i<m_heroesLoaded.size();++i)
-        delete m_heroesLoaded[i];
-    m_heroesLoaded.clear();
+    for (int i=0;i<m_mercenariesLoaded.size();++i)
+        delete m_mercenariesLoaded[i];
+    m_mercenariesLoaded.clear();
 
-    m_heroesAll.clear();
+    m_mercenariesAll.clear();
 
     for (int i=0;i<m_equipment.size();++i)
         delete m_equipment[i];
@@ -46,40 +46,40 @@ void AssetsPool::clear() noexcept
     m_pathToAssets.clear();
 }
 
-void AssetsPool::loadHeroAtPosFromList(unsigned index) noexcept
+void AssetsPool::loadMercenaryAtPosFromList(unsigned index) noexcept
 {
-    for (int i=0;i<m_heroesLoaded.size();++i)
-        if (m_heroesLoaded[i]->name()==m_heroesAll[index])
+    for (int i=0;i<m_mercenariesLoaded.size();++i)
+        if (m_mercenariesLoaded[i]->name()==m_mercenariesAll[index])
             return;
 
-    loadHero(m_pathToAssets+"mercenaries/mercenaries/"+m_heroesAll[index]+".xml");
+    loadMercenary(m_pathToAssets+"mercenaries/mercenaries/"+m_mercenariesAll[index]+".xml");
 }
 
-void AssetsPool::loadHeroNamedFromList(const QString &name) noexcept
+void AssetsPool::loadMercenaryNamedFromList(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesAll.size();++i)
-        if (m_heroesAll[i] == name)
+    for (int i=0;i<m_mercenariesAll.size();++i)
+        if (m_mercenariesAll[i] == name)
         {
-            loadHeroAtPosFromList(i);
+            loadMercenaryAtPosFromList(i);
             break;
         }
 }
 
-void AssetsPool::unloadHero(unsigned index) noexcept
+void AssetsPool::unloadMercenary(unsigned index) noexcept
 {
-    if (index<m_heroesLoaded.size())
+    if (index<m_mercenariesLoaded.size())
     {
-        delete m_heroesLoaded[index];
-        m_heroesLoaded.remove(index);
+        delete m_mercenariesLoaded[index];
+        m_mercenariesLoaded.remove(index);
     }
 }
 
-void AssetsPool::unloadHero(const QString &name) noexcept
+void AssetsPool::unloadMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_heroesLoaded.size();++i)
-        if (m_heroesLoaded[i]->name() == name)
+    for (int i=0;i<m_mercenariesLoaded.size();++i)
+        if (m_mercenariesLoaded[i]->name() == name)
         {
-            unloadHero(i);
+            unloadMercenary(i);
             break;
         }
 }
@@ -110,14 +110,14 @@ Database *AssetsPool::makeStockDatabase() const noexcept
     return r;
 }
 
-void AssetsPool::loadHeroesList(const QString &pathToDir) noexcept
+void AssetsPool::loadMercenariesList(const QString &pathToDir) noexcept
 {
-    m_heroesAll=m_reader.getHeroesNamesList(pathToDir);
+    m_mercenariesAll=m_reader.getMercenariesNamesList(pathToDir);
 }
 
-void AssetsPool::loadHero(const QString &path) noexcept
+void AssetsPool::loadMercenary(const QString &path) noexcept
 {
-    m_heroesLoaded.push_back(m_reader.getHero(path));
+    m_mercenariesLoaded.push_back(m_reader.getMercenary(path));
 }
 
 void AssetsPool::loadEquipment(const QString &path) noexcept

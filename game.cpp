@@ -537,7 +537,7 @@ void Game::saveBase_slot() noexcept
 
 void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
 {
-    m_base->heroDockingStationBans().insert(name,daysAmount);
+    m_base->mercenaryDockingStationBans().insert(name,daysAmount);
 }
 
 void Game::connectAutosave() noexcept

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="MarekJakubowski">
+<mercenary name="MarekJakubowski">
     <attributes combatEffectiveness="3" proficiency="6" cleverness="6" luck="0.9" health="15" healthLimit="15" dailyHealthRecovery="0" stress="0" stressResistance="1.1" stressLimit="150" stressBorder="100" dailyStressRecovery="4" salary="12" dailyFoodConsumption="3" nature="Convivial" profession="Space Nomad"></attributes>
     <sbeList>
         <sbe>Restive</sbe>
@@ -16,4 +16,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

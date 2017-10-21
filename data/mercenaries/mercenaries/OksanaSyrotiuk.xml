@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="OksanaSyrotiuk">
+<mercenary name="OksanaSyrotiuk">
     <attributes combatEffectiveness="5" proficiency="4" cleverness="5" luck="1.05" health="9" healthLimit="9" dailyHealthRecovery="0" stress="0" stressResistance="0.9" stressLimit="200" stressBorder="130" dailyStressRecovery="3" salary="12" dailyFoodConsumption="2" nature="Convivial" profession="Specialist"></attributes>
     <sbeList>
         <sbe>Fear</sbe>
@@ -19,4 +19,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

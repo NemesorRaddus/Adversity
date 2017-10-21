@@ -14,7 +14,7 @@ Item {
     width: theoreticalWidth
     height: theoreticalHeight
 
-    function setHeroOneVal(pathToArt, val1)
+    function setMercenaryOneVal(pathToArt, val1)
     {
         artImage.source = pathToArt;
         artImage.visible = true;
@@ -31,7 +31,7 @@ Item {
         isVacant = false;
     }
 
-    function setHeroTwoVals(pathToArt, val1, val2)
+    function setMercenaryTwoVals(pathToArt, val1, val2)
     {
         artImage.source = pathToArt;
         artImage.visible = true;
@@ -49,7 +49,7 @@ Item {
         isVacant = false;
     }
 
-    function removeHero()
+    function removeMercenary()
     {
         artImage.visible = false;
         artMA.enabled = true;
@@ -251,7 +251,7 @@ Item {
             onClicked: {
                 if (isConfirmed)
                 {
-                    removeHero();
+                    removeMercenary();
                     abortClicked();
                 }
                 else

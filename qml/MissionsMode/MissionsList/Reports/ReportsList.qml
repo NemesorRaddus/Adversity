@@ -17,19 +17,19 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am=GameApi.base.heroes.amountOfHeroes();
+        var am=GameApi.base.mercenaries.amountOfMercenaries();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
-            if (GameApi.base.heroes.preparedHero.name() == intName)
+            GameApi.base.mercenaries.prepareMercenaryAt(i);
+            if (GameApi.base.mercenaries.preparedMercenary.name() == intName)
             {
-                var am2=GameApi.base.heroes.preparedHero.assignedMission.amountOfReports();
+                var am2=GameApi.base.mercenaries.preparedMercenary.assignedMission.amountOfReports();
                 Scripts.setupList(am2, width, height);
                 for (var j=am2-1;j>=0;--j)
                 {
-                    GameApi.base.heroes.preparedHero.assignedMission.prepareReport(j);
-                    Scripts.createItem(GameApi.base.heroes.preparedHero.assignedMission.preparedReport.timestamp(), GameApi.base.heroes.preparedHero.assignedMission.preparedReport.msg(), GameApi.base.heroes.preparedHero.assignedMission.preparedReport.artSource());
+                    GameApi.base.mercenaries.preparedMercenary.assignedMission.prepareReport(j);
+                    Scripts.createItem(GameApi.base.mercenaries.preparedMercenary.assignedMission.preparedReport.timestamp(), GameApi.base.mercenaries.preparedMercenary.assignedMission.preparedReport.msg(), GameApi.base.mercenaries.preparedMercenary.assignedMission.preparedReport.artSource());
                 }
             }
         }
@@ -40,7 +40,7 @@ Item {
         Scripts.scrollList(999999);
     }
 
-    function setHero(name)
+    function setMercenary(name)
     {
         name_=name;
         updateEverything();

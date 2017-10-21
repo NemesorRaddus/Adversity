@@ -2,7 +2,7 @@ import QtQuick 2.9
 
 import Game 1.0
 import ".."
-import "./HeroesList"
+import "./MercenariesList"
 
 Item {
     id: root
@@ -12,7 +12,7 @@ Item {
 
     signal backClicked()
     signal upgradeRequested()
-    signal heroesModeUpdateRequested()
+    signal mercenariesModeUpdateRequested()
 
     function updateEverything()
     {
@@ -20,40 +20,40 @@ Item {
         topBar.setLevel("Level: "+GameApi.base.hospital.currentLevel());
         table.update();
         upgradeInfo.update();
-        heroSelectionList.updateEverything("");
+        mercenarySelectionList.updateEverything("");
         var amountOfSlotsAvailable = GameApi.base.hospital.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
-            if (GameApi.base.hospital.heroNameInSlot(0)!="")
+            if (GameApi.base.hospital.mercenaryNameInSlot(0)!="")
             {
-                slotView1.heroName=GameApi.base.hospital.heroNameInSlot(0);
-                slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.heroProfessionInSlot(0))+"/"+GameApi.base.hospital.heroNameInSlot(0)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
+                slotView1.mercenaryName=GameApi.base.hospital.mercenaryNameInSlot(0);
+                slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.mercenaryProfessionInSlot(0))+"/"+GameApi.base.hospital.mercenaryNameInSlot(0)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                 slotView1.forceAbortIcon();
             }
             else
-                slotView1.removeHero();
+                slotView1.removeMercenary();
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
-                if (GameApi.base.hospital.heroNameInSlot(1)!="")
+                if (GameApi.base.hospital.mercenaryNameInSlot(1)!="")
                 {
-                    slotView2.heroName=GameApi.base.hospital.heroNameInSlot(1);
-                    slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.heroProfessionInSlot(1))+"/"+GameApi.base.hospital.heroNameInSlot(1)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
+                    slotView2.mercenaryName=GameApi.base.hospital.mercenaryNameInSlot(1);
+                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.mercenaryProfessionInSlot(1))+"/"+GameApi.base.hospital.mercenaryNameInSlot(1)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                     slotView2.forceAbortIcon();
                 }
                 else
-                    slotView2.removeHero();
+                    slotView2.removeMercenary();
                 slotView2.visible=true;
                 if (amountOfSlotsAvailable>=3)
                 {
-                    if (GameApi.base.hospital.heroNameInSlot(2)!="")
+                    if (GameApi.base.hospital.mercenaryNameInSlot(2)!="")
                     {
-                        slotView3.heroName=GameApi.base.hospital.heroNameInSlot(2);
-                        slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.heroProfessionInSlot(2))+"/"+GameApi.base.hospital.heroNameInSlot(2)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
+                        slotView3.mercenaryName=GameApi.base.hospital.mercenaryNameInSlot(2);
+                        slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.hospital.mercenaryProfessionInSlot(2))+"/"+GameApi.base.hospital.mercenaryNameInSlot(2)+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                         slotView3.forceAbortIcon();
                     }
                     else
-                        slotView3.removeHero();
+                        slotView3.removeMercenary();
                     slotView3.visible=true;
                 }
                 else
@@ -75,27 +75,27 @@ Item {
 
     function reactToBackOnToolbar()
     {
-        if (heroSelectionList.state == "")
+        if (mercenarySelectionList.state == "")
         {
-            heroSelectionList.state = "hidden";
+            mercenarySelectionList.state = "hidden";
             return true;
         }
         else
         {
             if (!slotView1.isConfirmed)
             {
-                heroSelectionList.unbanHero(slotView1.heroName);
-                slotView1.removeHero();
+                mercenarySelectionList.unbanMercenary(slotView1.mercenaryName);
+                slotView1.removeMercenary();
             }
             if (!slotView2.isConfirmed)
             {
-                heroSelectionList.unbanHero(slotView2.heroName);
-                slotView2.removeHero();
+                mercenarySelectionList.unbanMercenary(slotView2.mercenaryName);
+                slotView2.removeMercenary();
             }
             if (!slotView3.isConfirmed)
             {
-                heroSelectionList.unbanHero(slotView3.heroName);
-                slotView3.removeHero();
+                mercenarySelectionList.unbanMercenary(slotView3.mercenaryName);
+                slotView3.removeMercenary();
             }
             return false;
         }
@@ -105,25 +105,25 @@ Item {
     {
         if (!slotView1.isConfirmed)
         {
-            heroSelectionList.unbanHero(slotView1.heroName);
-            slotView1.removeHero();
+            mercenarySelectionList.unbanMercenary(slotView1.mercenaryName);
+            slotView1.removeMercenary();
         }
         if (!slotView2.isConfirmed)
         {
-            heroSelectionList.unbanHero(slotView2.heroName);
-            slotView2.removeHero();
+            mercenarySelectionList.unbanMercenary(slotView2.mercenaryName);
+            slotView2.removeMercenary();
         }
         if (!slotView3.isConfirmed)
         {
-            heroSelectionList.unbanHero(slotView3.heroName);
-            slotView3.removeHero();
+            mercenarySelectionList.unbanMercenary(slotView3.mercenaryName);
+            slotView3.removeMercenary();
         }
-        heroSelectionList.state = "hidden";
+        mercenarySelectionList.state = "hidden";
     }
 
-    function requestUnban(heroName)
+    function requestUnban(mercenaryName)
     {
-        heroSelectionList.unbanHero(heroName);
+        mercenarySelectionList.unbanMercenary(mercenaryName);
     }
 
     width: 1080
@@ -719,29 +719,29 @@ Item {
             x: 90
             y: upgradeInfo.y + upgradeInfo.height + 2
 
-            property string heroName
+            property string mercenaryName
 
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything("");
+                mercenarySelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 0;
-                heroSelectionList.state = "";
+                mercenarySelectionList.state = "";
             }
 
             onStartClicked: {
-                GameApi.base.hospital.placeHeroInSlot(0,heroName);
-                heroesModeUpdateRequested();
+                GameApi.base.hospital.placeMercenaryInSlot(0,mercenaryName);
+                mercenariesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.hospital.emptySlot(0);
-                heroSelectionList.unbanHero(heroName);
-                heroesModeUpdateRequested();
+                mercenarySelectionList.unbanMercenary(mercenaryName);
+                mercenariesModeUpdateRequested();
             }
 
             onRequestUnban: {
-                heroSelectionList.unbanHero(heroName);
+                mercenarySelectionList.unbanMercenary(mercenaryName);
             }
         }
         BuildingSlotView {
@@ -750,29 +750,29 @@ Item {
             x: 450
             y: slotView1.y
 
-            property string heroName
+            property string mercenaryName
 
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything("");
+                mercenarySelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 1;
-                heroSelectionList.state = "";
+                mercenarySelectionList.state = "";
             }
 
             onStartClicked: {
-                GameApi.base.hospital.placeHeroInSlot(1,heroName);
-                heroesModeUpdateRequested();
+                GameApi.base.hospital.placeMercenaryInSlot(1,mercenaryName);
+                mercenariesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.hospital.emptySlot(1);
-                heroSelectionList.unbanHero(heroName);
-                heroesModeUpdateRequested();
+                mercenarySelectionList.unbanMercenary(mercenaryName);
+                mercenariesModeUpdateRequested();
             }
 
             onRequestUnban: {
-                heroSelectionList.unbanHero(heroName);
+                mercenarySelectionList.unbanMercenary(mercenaryName);
             }
         }
         BuildingSlotView {
@@ -781,34 +781,34 @@ Item {
             x: 810
             y: slotView1.y
 
-            property string heroName
+            property string mercenaryName
 
             mode: 2
 
             onArtClicked: {
-                heroSelectionList.updateEverything("");
+                mercenarySelectionList.updateEverything("");
                 parent.indexOfChangingSlot = 2;
-                heroSelectionList.state = "";
+                mercenarySelectionList.state = "";
             }
 
             onStartClicked: {
-                GameApi.base.hospital.placeHeroInSlot(2,heroName);
-                heroesModeUpdateRequested();
+                GameApi.base.hospital.placeMercenaryInSlot(2,mercenaryName);
+                mercenariesModeUpdateRequested();
             }
 
             onAbortClicked: {
                 GameApi.base.hospital.emptySlot(2);
-                heroSelectionList.unbanHero(heroName);
-                heroesModeUpdateRequested();
+                mercenarySelectionList.unbanMercenary(mercenaryName);
+                mercenariesModeUpdateRequested();
             }
 
             onRequestUnban: {
-                heroSelectionList.unbanHero(heroName);
+                mercenarySelectionList.unbanMercenary(mercenaryName);
             }
         }
 
-        HeroesList {
-            id: heroSelectionList
+        MercenariesList {
+            id: mercenarySelectionList
 
             x: 0
             y: 0
@@ -817,26 +817,26 @@ Item {
 
             state: "hidden"
 
-            onHeroClicked: {
+            onMercenaryClicked: {
                 switch (parent.indexOfChangingSlot)
                 {
                 case 0:
-                    slotView1.heroName=heroName;
-                    slotView1.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
+                    slotView1.mercenaryName=mercenaryName;
+                    slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                     state = "hidden";
                     break;
                 case 1:
-                    slotView2.heroName=heroName;
-                    slotView2.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
+                    slotView2.mercenaryName=mercenaryName;
+                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                     state = "hidden";
                     break;
                 case 2:
-                    slotView3.heroName=heroName;
-                    slotView3.setHeroTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(heroProfession)+"/"+heroName+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
+                    slotView3.mercenaryName=mercenaryName;
+                    slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.hospital.useCostInEnergySingle(),GameApi.base.hospital.useCostInFoodSuppliesSingle());
                     state = "hidden";
                     break;
                 }
-                heroSelectionList.banHero(heroName);
+                mercenarySelectionList.banMercenary(mercenaryName);
             }
         }
     }
@@ -865,34 +865,34 @@ Item {
             anchors.fill: parent
 
             onClicked: {
-                if (heroSelectionList.state == "hidden")
+                if (mercenarySelectionList.state == "hidden")
                 {
                     if (!slotView1.isConfirmed)
                     {
-                        heroSelectionList.unbanHero(slotView1.heroName);
-                        slotView1.removeHero();
+                        mercenarySelectionList.unbanMercenary(slotView1.mercenaryName);
+                        slotView1.removeMercenary();
                     }
                     if (!slotView2.isConfirmed)
                     {
-                        heroSelectionList.unbanHero(slotView2.heroName);
-                        slotView2.removeHero();
+                        mercenarySelectionList.unbanMercenary(slotView2.mercenaryName);
+                        slotView2.removeMercenary();
                     }
                     if (!slotView3.isConfirmed)
                     {
-                        heroSelectionList.unbanHero(slotView3.heroName);
-                        slotView3.removeHero();
+                        mercenarySelectionList.unbanMercenary(slotView3.mercenaryName);
+                        slotView3.removeMercenary();
                     }
                     backClicked();
                 }
                 else
                 {
                     if (slotsView.indexOfChangingSlot==0)
-                        heroSelectionList.banHero(slotView1.heroName);
+                        mercenarySelectionList.banMercenary(slotView1.mercenaryName);
                     else if (slotsView.indexOfChangingSlot==1)
-                        heroSelectionList.banHero(slotView2.heroName);
+                        mercenarySelectionList.banMercenary(slotView2.mercenaryName);
                     else if (slotsView.indexOfChangingSlot==2)
-                        heroSelectionList.banHero(slotView3.heroName);
-                    heroSelectionList.state = "hidden";
+                        mercenarySelectionList.banMercenary(slotView3.mercenaryName);
+                    mercenarySelectionList.state = "hidden";
                 }
             }
         }

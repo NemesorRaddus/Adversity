@@ -4,42 +4,42 @@
 
 #include <QDebug>
 
-EventEnums::MissionDifficulty EventEnums::fromQStringToMissionDifficultyEnum(const QString &missionDifficulty) noexcept
+EventEnums::MissionLength EventEnums::fromQStringToMissionLengthEnum(const QString &missionLength) noexcept
 {
-    if (missionDifficulty == "Short")
-        return MD_Short;
-    if (missionDifficulty == "Medium")
-        return MD_Medium;
-    if (missionDifficulty == "Long")
-        return MD_Long;
-    if (missionDifficulty == "Extreme")
-        return MD_Extreme;
-    if (missionDifficulty == "Veteran")
-        return MD_Veteran;
-    if (missionDifficulty == "Master")
-        return MD_Master;
-    if (missionDifficulty == "Heroic")
-        return MD_Heroic;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->MissionDifficulty enum conversion failed for {}",missionDifficulty.toStdString());
+    if (missionLength == "Short")
+        return ML_Short;
+    if (missionLength == "Medium")
+        return ML_Medium;
+    if (missionLength == "Long")
+        return ML_Long;
+    if (missionLength == "Extreme")
+        return ML_Extreme;
+    if (missionLength == "Veteran")
+        return ML_Veteran;
+    if (missionLength == "Master")
+        return ML_Master;
+    if (missionLength == "Heroic")
+        return ML_Heroic;
+    Game::gameInstance()->loggers()->mainLogger()->warn("QString->MissionLength enum conversion failed for {}",missionLength.toStdString());
 }
 
-QString EventEnums::fromMissionDifficultyEnumToQString(EventEnums::MissionDifficulty missionDifficulty) noexcept
+QString EventEnums::fromMissionLengthEnumToQString(EventEnums::MissionLength missionLength) noexcept
 {
-    if (missionDifficulty == MD_Short)
+    if (missionLength == ML_Short)
         return "Short";
-    if (missionDifficulty == MD_Medium)
+    if (missionLength == ML_Medium)
         return "Medium";
-    if (missionDifficulty == MD_Long)
+    if (missionLength == ML_Long)
         return "Long";
-    if (missionDifficulty == MD_Extreme)
+    if (missionLength == ML_Extreme)
         return "Extreme";
-    if (missionDifficulty == MD_Veteran)
+    if (missionLength == ML_Veteran)
         return "Veteran";
-    if (missionDifficulty == MD_Master)
+    if (missionLength == ML_Master)
         return "Master";
-    if (missionDifficulty == MD_Heroic)
+    if (missionLength == ML_Heroic)
         return "Heroic";
-    Game::gameInstance()->loggers()->mainLogger()->warn("MissionDifficulty enum->QString conversion failed for {}",static_cast<unsigned>(missionDifficulty));
+    Game::gameInstance()->loggers()->mainLogger()->warn("MissionLength enum->QString conversion failed for {}",static_cast<unsigned>(missionLength));
 }
 
 Expression::Expression() noexcept
@@ -73,7 +73,7 @@ bool Expression::isValid() const noexcept
     return m_isExprValid;
 }
 
-QVariant Expression::evaluate(const Hero *context) const noexcept
+QVariant Expression::evaluate(const Mercenary *context) const noexcept
 {
     if (context==nullptr)
         return {};
@@ -156,7 +156,7 @@ ValueRange::ValueRange(const Expression &min, const Expression &max) noexcept
 ValueRange::ValueRange(const Expression &value) noexcept
     : m_min(value), m_max(value) {}
 
-QVector<EventReport> Event::execute(Hero *context) noexcept
+QVector<EventReport> Event::execute(Mercenary *context) noexcept
 {
     auto r = executeSpecificOps(context);
     if (!context->isDead())
@@ -177,7 +177,7 @@ void Event::setEventText(const QString &text) noexcept
     m_eventText=text;
 }
 
-void Event::unlockDatabaseEntries(Hero *context) noexcept
+void Event::unlockDatabaseEntries(Mercenary *context) noexcept
 {
     for (auto e : m_unlockedDatabaseEntries)
         if (!context->base()->database()->isEntryUnlocked(e, context->assignedMission()->land()->name()))
@@ -190,7 +190,7 @@ MultiEvent::~MultiEvent() noexcept
         delete e;
 }
 
-QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
+QVector<EventReport> MultiEvent::executeSpecificOps(Mercenary *context) noexcept
 {
     QVector <EventReport> r={eventText()};
     for (auto e : m_eventsToExecute)
@@ -203,7 +203,7 @@ QVector<EventReport> MultiEvent::executeSpecificOps(Hero *context) noexcept
     return r;
 }
 
-QVector<EventReport> NullEventResult::executeSpecificOps(Hero *) noexcept
+QVector<EventReport> NullEventResult::executeSpecificOps(Mercenary *) noexcept
 {
     return {eventText()};
 }
@@ -211,23 +211,23 @@ QVector<EventReport> NullEventResult::executeSpecificOps(Hero *) noexcept
 GiveHealthEventResult::GiveHealthEventResult(const ValueRange &addedValue, QString text, const QVector<QString> &dbEntries) noexcept
     : ActionEvent(EventEnums::A_GiveHealth, text, dbEntries), m_value(addedValue) {}
 
-QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     int am;
     if (m_value.singleValue())
-        am=m_value.max().evaluate(hero).toInt();
+        am=m_value.max().evaluate(mercenary).toInt();
     else
     {
-        auto max=m_value.max().evaluate(hero).toInt(), min=m_value.min().evaluate(hero).toInt();
+        auto max=m_value.max().evaluate(mercenary).toInt(), min=m_value.min().evaluate(mercenary).toInt();
         am=Randomizer::randomBetweenAAndB(min, max);
     }
 
     if (am >= 0)
-        am *= hero->luck();
+        am *= mercenary->luck();
     else
-        am /= hero->luck();
+        am /= mercenary->luck();
 
-    hero->changeHealth(am);
+    mercenary->changeHealth(am);
 
     return {eventText()};
 }
@@ -235,26 +235,26 @@ QVector<EventReport> GiveHealthEventResult::executeSpecificOps(Hero *hero) noexc
 GiveStressEventResult::GiveStressEventResult(const ValueRange &addedValue, QString text, const QVector<QString> &dbEntries) noexcept
     : ActionEvent(EventEnums::A_GiveStress, text, dbEntries), m_value(addedValue) {}
 
-QVector<EventReport> GiveStressEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> GiveStressEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     int v;
     if (m_value.singleValue())
-        v=m_value.max().evaluate(hero).toInt();
+        v=m_value.max().evaluate(mercenary).toInt();
     else
     {
-        int max=m_value.max().evaluate(hero).toInt(), min=m_value.min().evaluate(hero).toInt();
+        int max=m_value.max().evaluate(mercenary).toInt(), min=m_value.min().evaluate(mercenary).toInt();
         v=Randomizer::randomBetweenAAndB(min,max);
     }
 
     if (v >= 0)
     {
-        v /= hero->luck();
-        hero->increaseStress(v);
+        v /= mercenary->luck();
+        mercenary->increaseStress(v);
     }
     else
     {
-        v *= hero->luck();
-        hero->decreaseStress(-v);
+        v *= mercenary->luck();
+        mercenary->decreaseStress(-v);
     }
 
     return {eventText()};
@@ -263,15 +263,15 @@ QVector<EventReport> GiveStressEventResult::executeSpecificOps(Hero *hero) noexc
 ModifyAttributeEventResult::ModifyAttributeEventResult(const AttributeModificationHelper &modification, QString text, const QVector<QString> &dbEntries) noexcept
     : ActionEvent(EventEnums::A_ModifyAttribute, text, dbEntries), m_modification(modification) {}
 
-QVector<EventReport> ModifyAttributeEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> ModifyAttributeEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     QVariant val;
     if (m_modification.expressionRange.singleValue())
-        val=m_modification.expressionRange.max().evaluate(hero);
+        val=m_modification.expressionRange.max().evaluate(mercenary);
     else
     {
-        QVariant min=m_modification.expressionRange.min().evaluate(hero);
-        QVariant max=m_modification.expressionRange.max().evaluate(hero);
+        QVariant min=m_modification.expressionRange.min().evaluate(mercenary);
+        QVariant max=m_modification.expressionRange.max().evaluate(mercenary);
 
         if (min.type() == QVariant::Double || max.type() == QVariant::Double)
         {
@@ -313,11 +313,11 @@ QVector<EventReport> ModifyAttributeEventResult::executeSpecificOps(Hero *hero) 
 
     int durr;
     if (m_modification.durationRange.singleValue())
-        durr=m_modification.durationRange.max().evaluate(hero).toInt();
+        durr=m_modification.durationRange.max().evaluate(mercenary).toInt();
     else
     {
-        int durMin=m_modification.durationRange.min().evaluate(hero).toInt();
-        int durMax=m_modification.durationRange.max().evaluate(hero).toInt();
+        int durMin=m_modification.durationRange.min().evaluate(mercenary).toInt();
+        int durMax=m_modification.durationRange.max().evaluate(mercenary).toInt();
 
         int durDiff=0;
         if (durMin<0)/*durMin==-1*/
@@ -332,39 +332,39 @@ QVector<EventReport> ModifyAttributeEventResult::executeSpecificOps(Hero *hero) 
         durr-=durDiff;
     }
 
-    hero->addAttributeModification(new AttributeModification({m_modification.attribute,m_modification.type,val,durr}));
+    mercenary->addAttributeModification(new AttributeModification({m_modification.attribute,m_modification.type,val,durr}));
 
     return {eventText()};
 }
 
-QVector<EventReport> KillHeroEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> KillMercenaryEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
-    hero->die();
+    mercenary->die();
 
     return {eventText()};
 }
 
-QVector<EventReport> AddEquipmentEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> AddEquipmentEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     if (m_equipmentToAdd->type()==EquipmentEnums::T_Armor)
     {
-        if (hero->armor()==nullptr)
-            hero->equipArmor(m_equipmentToAdd);
+        if (mercenary->armor()==nullptr)
+            mercenary->equipArmor(m_equipmentToAdd);
         else
-            hero->addCarriedEquipment(m_equipmentToAdd);
+            mercenary->addCarriedEquipment(m_equipmentToAdd);
     }
     else
     {
         bool ok=0;
-        for (int i=0;i<hero->amountOfWeaponToolSlots();++i)
-            if (hero->weaponTool(i)==nullptr)
+        for (int i=0;i<mercenary->amountOfWeaponToolSlots();++i)
+            if (mercenary->weaponTool(i)==nullptr)
             {
-                hero->equipWeaponTool(m_equipmentToAdd,i);
+                mercenary->equipWeaponTool(m_equipmentToAdd,i);
                 ok=1;
                 break;
             }
         if (!ok)
-            hero->addCarriedEquipment(m_equipmentToAdd);
+            mercenary->addCarriedEquipment(m_equipmentToAdd);
     }
 
     return {eventText()};
@@ -373,9 +373,9 @@ QVector<EventReport> AddEquipmentEventResult::executeSpecificOps(Hero *hero) noe
 AddEquipmentRandomEventResult::AddEquipmentRandomEventResult(ValueRange tier, int equipmentTypeFlags, QString text, const QVector<QString> &dbEntries) noexcept
     : AddEquipmentEventResult(nullptr, text, dbEntries), m_tier(tier), m_eqTypes(equipmentTypeFlags) {}
 
-QVector<EventReport> AddEquipmentRandomEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> AddEquipmentRandomEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
-    unsigned min=m_tier.min().evaluate(hero).toUInt(), max=m_tier.max().evaluate(hero).toUInt();
+    unsigned min=m_tier.min().evaluate(mercenary).toUInt(), max=m_tier.max().evaluate(mercenary).toUInt();
     if (min>max)
         return {};
 
@@ -390,15 +390,15 @@ QVector<EventReport> AddEquipmentRandomEventResult::executeSpecificOps(Hero *her
         }
     }
 
-    return AddEquipmentEventResult::executeSpecificOps(hero);
+    return AddEquipmentEventResult::executeSpecificOps(mercenary);
 }
 
-QVector<EventReport> RemoveEquipmentEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> RemoveEquipmentEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     if (m_equipmentType==EquipmentEnums::T_Armor)
-        hero->unequipArmor();
+        mercenary->unequipArmor();
     else
-        hero->unequipWeaponTool(m_equipmentSlot);
+        mercenary->unequipWeaponTool(m_equipmentSlot);
 
     return {eventText()};
 }
@@ -406,51 +406,51 @@ QVector<EventReport> RemoveEquipmentEventResult::executeSpecificOps(Hero *hero) 
 GiveResourceEventResult::GiveResourceEventResult(BaseEnums::Resource resource, const ValueRange &amount, QString text, const QVector<QString> &dbEntries) noexcept
     : ActionEvent(EventEnums::A_GiveResource, text, dbEntries), m_resource(resource), m_amount(amount) {}
 
-QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> GiveResourceEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     int am;
     if (m_amount.singleValue())
-        am=m_amount.max().evaluate(hero).toInt();
+        am=m_amount.max().evaluate(mercenary).toInt();
     else
     {
-        int max=m_amount.max().evaluate(hero).toInt(), min=m_amount.min().evaluate(hero).toInt();
+        int max=m_amount.max().evaluate(mercenary).toInt(), min=m_amount.min().evaluate(mercenary).toInt();
         am=Randomizer::randomBetweenAAndB(min,max);
     }
     if (am >= 0)
-        am *= hero->luck();
+        am *= mercenary->luck();
     else
-        am /= hero->luck();
+        am /= mercenary->luck();
     int cam;
 
     switch (m_resource)
     {
     case BaseEnums::R_AetheriteOre:
-        cam=hero->carriedAetheriteOre();
+        cam=mercenary->carriedAetheriteOre();
         if (cam > -am)
-            hero->setCarriedAetheriteOre(cam+am);
+            mercenary->setCarriedAetheriteOre(cam+am);
         else
-            hero->setCarriedAetheriteOre(0);
+            mercenary->setCarriedAetheriteOre(0);
         break;
     case BaseEnums::R_BuildingMaterials:
-        cam=hero->carriedBuildingMaterials();
+        cam=mercenary->carriedBuildingMaterials();
         if (cam > -am)
-            hero->setCarriedBuildingMaterials(cam+am);
+            mercenary->setCarriedBuildingMaterials(cam+am);
         else
-            hero->setCarriedBuildingMaterials(0);
+            mercenary->setCarriedBuildingMaterials(0);
         break;
     case BaseEnums::R_Energy:
-        cam=hero->carriedEnergy();
+        cam=mercenary->carriedEnergy();
         if (cam > -am)
-            hero->setCarriedEnergy(cam+am);
+            mercenary->setCarriedEnergy(cam+am);
         else
-            hero->setCarriedEnergy(0);
+            mercenary->setCarriedEnergy(0);
         break;
     case BaseEnums::R_FoodSupplies:
-        cam=hero->carriedFoodSupplies();
+        cam=mercenary->carriedFoodSupplies();
         if (cam > -am)
-            hero->setCarriedFoodSupplies(cam+am);
+            mercenary->setCarriedFoodSupplies(cam+am);
         else
-            hero->setCarriedFoodSupplies(0);
+            mercenary->setCarriedFoodSupplies(0);
         break;
     default:
         break;
@@ -469,14 +469,14 @@ GiveResourceRandomEventResult::GiveResourceRandomEventResult(const ValueRange &a
 NoSignalEventResult::NoSignalEventResult(const ValueRange &durationInDays, QString text, const QVector<QString> &dbEntries) noexcept
     : ActionEvent(EventEnums::A_NoSignal, text, dbEntries), m_durationInDays(durationInDays) {}
 
-QVector<EventReport> NoSignalEventResult::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> NoSignalEventResult::executeSpecificOps(Mercenary *mercenary) noexcept
 {
     if (m_durationInDays.singleValue())
-        hero->setNoSignalDaysRemaining(m_durationInDays.max().evaluate(hero).toInt());
+        mercenary->setNoSignalDaysRemaining(m_durationInDays.max().evaluate(mercenary).toInt());
     else
     {
-        int max=m_durationInDays.max().evaluate(hero).toInt(), min=m_durationInDays.min().evaluate(hero).toInt();
-        hero->setNoSignalDaysRemaining(Randomizer::randomBetweenAAndB(min,max));
+        int max=m_durationInDays.max().evaluate(mercenary).toInt(), min=m_durationInDays.min().evaluate(mercenary).toInt();
+        mercenary->setNoSignalDaysRemaining(Randomizer::randomBetweenAAndB(min,max));
     }
 
     return {eventText()};
@@ -567,14 +567,14 @@ CheckEvent::CheckEvent(EventEnums::Check eventSubtype, CheckEventResults *result
 ValueCheckEvent::ValueCheckEvent(const Expression &condition, CheckEventResults *results, QString text, const QVector<QString> &dbEntries) noexcept
     : CheckEvent(EventEnums::C_ValueCheck, results, text, dbEntries), m_condition(condition) {}
 
-QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> ValueCheckEvent::executeSpecificOps(Mercenary *mercenary) noexcept
 {
-    if (hero==nullptr)
+    if (mercenary==nullptr)
         return {};
 
     Event *result=nullptr;
 
-    QVariant var=m_condition.evaluate(hero);
+    QVariant var=m_condition.evaluate(mercenary);
     if (!var.canConvert(QVariant::Bool))
         return {};
 
@@ -583,7 +583,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->positive())
         {
-            if (e.second * hero->luck() >= x)
+            if (e.second * mercenary->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -597,7 +597,7 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->negative())
         {
-            if (e.second * hero->luck() >= x)
+            if (e.second * mercenary->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -610,27 +610,27 @@ QVector<EventReport> ValueCheckEvent::executeSpecificOps(Hero *hero) noexcept
     if (result==nullptr)
         return {};
 
-    return QVector<EventReport>{eventText()} + result->execute(hero);
+    return QVector<EventReport>{eventText()} + result->execute(mercenary);
 }
 
 EquipmentCheckEvent::EquipmentCheckEvent(EquipmentEnums::Category neededEq, CheckEventResults *results, QString text, const QVector<QString> &dbEntries) noexcept
     : CheckEvent(EventEnums::C_EquipmentCheck,results, text, dbEntries), m_neededEquipment(neededEq) {}
 
-QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Mercenary *mercenary) noexcept
 {
-    if (hero==nullptr)
+    if (mercenary==nullptr)
         return {};
 
     Event *result=nullptr;
 
-    bool has=hero->hasEquipmentFromCategory(m_neededEquipment);
+    bool has=mercenary->hasEquipmentFromCategory(m_neededEquipment);
 
     if (has)
     {
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->positive())
         {
-            if (e.second * hero->luck() >= x)
+            if (e.second * mercenary->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -644,7 +644,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
         int x=Randomizer::randomBetweenAAndB(1,100);
         for (auto e : m_results->negative())
         {
-            if (e.second * hero->luck() >= x)
+            if (e.second * mercenary->luck() >= x)
             {
                 result=e.first;
                 break;
@@ -657,7 +657,7 @@ QVector<EventReport> EquipmentCheckEvent::executeSpecificOps(Hero *hero) noexcep
     if (result==nullptr)
         return {};
 
-    return QVector<EventReport>{eventText()} + result->execute(hero);
+    return QVector<EventReport>{eventText()} + result->execute(mercenary);
 }
 
 PossibilityEvent::PossibilityEvent(Chance chance, Event *event, QString text, const QVector<QString> &dbEntries) noexcept
@@ -668,21 +668,21 @@ PossibilityEvent::~PossibilityEvent() noexcept
     delete m_event;
 }
 
-QVector<EventReport> PossibilityEvent::executeSpecificOps(Hero *hero) noexcept
+QVector<EventReport> PossibilityEvent::executeSpecificOps(Mercenary *mercenary) noexcept
 {
-    if (hero==nullptr || m_event==nullptr)
+    if (mercenary==nullptr || m_event==nullptr)
         return {};
 
     if (static_cast<unsigned>(m_chance)>=Randomizer::randomBetweenAAndB(1,100))
-        return QVector<EventReport>{eventText()} + m_event->execute(hero);
+        return QVector<EventReport>{eventText()} + m_event->execute(mercenary);
     return {eventText()};
 }
 
 Report::Report(EventEnums::ReportType type, const Time &time) noexcept
     : m_reportType(type), m_time(time) {}
 
-EncounterReport::EncounterReport(const QString &heroArt, const QVector<EventReport> &events, const Time &time) noexcept
-    : Report(EventEnums::RT_Encounter, time), m_heroArt(heroArt), m_events(events) {}
+EncounterReport::EncounterReport(const QString &mercenaryArt, const QVector<EventReport> &events, const Time &time) noexcept
+    : Report(EventEnums::RT_Encounter, time), m_mercenaryArt(mercenaryArt), m_events(events) {}
 
 QString EncounterReport::text() const noexcept
 {
@@ -702,10 +702,10 @@ QString BuildingUpgradeReport::text() const noexcept
     return BaseEnums::fromBuildingEnumToQString(m_building)+" has been upgraded to level "+QString::number(m_level)+".";
 }
 
-HeroArrivalReport::HeroArrivalReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept
-    : Report(EventEnums::RT_HeroArrival, time), m_heroArt(heroArt), m_name(heroName) {}
+MercenaryArrivalReport::MercenaryArrivalReport(const QString &mercenaryArt, const QString &mercenaryName, const Time &time) noexcept
+    : Report(EventEnums::RT_MercenaryArrival, time), m_mercenaryArt(mercenaryArt), m_name(mercenaryName) {}
 
-QString HeroArrivalReport::text() const noexcept
+QString MercenaryArrivalReport::text() const noexcept
 {
     return "Recently hired mercenary, "+Game::gameInstance()->tr(m_name)+" has arrived.";
 }
@@ -726,64 +726,64 @@ QString EquipmentArrivalReport::text() const noexcept
     return Game::gameInstance()->tr(m_name)+" has been delivered and is now stored in storage room.";
 }
 
-DesertionReport::DesertionReport(const QString &heroArt, const QString &name, const Time &time) noexcept
-    : Report(EventEnums::RT_Desertion, time), m_heroArt(heroArt), m_name(name) {}
+DesertionReport::DesertionReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_Desertion, time), m_mercenaryArt(mercenaryArt), m_name(name) {}
 
 QString DesertionReport::text() const noexcept
 {
     return Game::gameInstance()->tr(m_name)+" is missing! The room in barracks is empty and one of the shuttles in the docking station disappeared!";
 }
 
-HungerReport::HungerReport(const QString &heroArt, const QString &name, const Time &time) noexcept
-    : Report(EventEnums::RT_Hunger, time), m_heroArt(heroArt), m_name(name) {}
+HungerReport::HungerReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_Hunger, time), m_mercenaryArt(mercenaryArt), m_name(name) {}
 
 QString HungerReport::text() const noexcept
 {
     return Game::gameInstance()->tr(m_name)+" hasn't got daily food ration!";
 }
 
-NoSalaryReport::NoSalaryReport(const QString &heroArt, const QString &name, const Time &time) noexcept
-    : Report(EventEnums::RT_NoSalary, time), m_heroArt(heroArt), m_name(name) {}
+NoSalaryReport::NoSalaryReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_NoSalary, time), m_mercenaryArt(mercenaryArt), m_name(name) {}
 
 QString NoSalaryReport::text() const noexcept
 {
     return Game::gameInstance()->tr(m_name)+" hadn't been paid this week.";
 }
 
-MissionEndReport::MissionEndReport(const QString &heroArt, const QString &name, const Time &time) noexcept
-    : Report(EventEnums::RT_MissionEnd, time), m_heroArt(heroArt), m_name(name) {}
+MissionEndReport::MissionEndReport(const QString &mercenaryArt, const QString &name, const Time &time) noexcept
+    : Report(EventEnums::RT_MissionEnd, time), m_mercenaryArt(mercenaryArt), m_name(name) {}
 
 QString MissionEndReport::text() const noexcept
 {
     return Game::gameInstance()->tr(m_name)+" has successfully returned to the base.";
 }
 
-TrainingCompletionReport::TrainingCompletionReport(const QString &heroArt, const QString &heroName, BaseEnums::Building building, const Time &time) noexcept
-    : Report(EventEnums::RT_MissionEnd, time), m_heroArt(heroArt), m_heroName(heroName), m_building(building) {}
+TrainingCompletionReport::TrainingCompletionReport(const QString &mercenaryArt, const QString &mercenaryName, BaseEnums::Building building, const Time &time) noexcept
+    : Report(EventEnums::RT_MissionEnd, time), m_mercenaryArt(mercenaryArt), m_mercenaryName(mercenaryName), m_building(building) {}
 
 QString TrainingCompletionReport::text() const noexcept
 {
-    return Game::gameInstance()->tr(m_heroName)+" has finished training in "+BaseEnums::fromBuildingEnumToQString(m_building)+".";
+    return Game::gameInstance()->tr(m_mercenaryName)+" has finished training in "+BaseEnums::fromBuildingEnumToQString(m_building)+".";
 }
 
-SignalLostReport::SignalLostReport(const QString &heroArt, const QString &heroName, const QString &landName, const Time &time) noexcept
-    : Report(EventEnums::RT_SignalLost, time), m_heroArt(heroArt), m_heroName(heroName), m_landName(landName) {}
+SignalLostReport::SignalLostReport(const QString &mercenaryArt, const QString &mercenaryName, const QString &landName, const Time &time) noexcept
+    : Report(EventEnums::RT_SignalLost, time), m_mercenaryArt(mercenaryArt), m_mercenaryName(mercenaryName), m_landName(landName) {}
 
 QString SignalLostReport::text() const noexcept
 {
-    return "We've lost connection with "+Game::gameInstance()->tr(m_heroName)+", who is exploring "+m_landName+".";
+    return "We've lost connection with "+Game::gameInstance()->tr(m_mercenaryName)+", who is exploring "+m_landName+".";
 }
 
-SignalRetrievedReport::SignalRetrievedReport(const QString &heroArt, const QString &landName, const Time &time) noexcept
-    : Report(EventEnums::RT_SignalRetrieved, time), m_heroArt(heroArt), m_landName(landName) {}
+SignalRetrievedReport::SignalRetrievedReport(const QString &mercenaryArt, const QString &landName, const Time &time) noexcept
+    : Report(EventEnums::RT_SignalRetrieved, time), m_mercenaryArt(mercenaryArt), m_landName(landName) {}
 
 QString SignalRetrievedReport::text() const noexcept
 {
     return "Finally I can hear you clearly.";
 }
 
-MissionStartReport::MissionStartReport(const QString &heroArt, int stress, int stressLimit, const Time &time) noexcept
-    : Report(EventEnums::RT_MissionStart, time), m_heroArt(heroArt), m_stress(stress), m_stressLimit(stressLimit) {}
+MissionStartReport::MissionStartReport(const QString &mercenaryArt, int stress, int stressLimit, const Time &time) noexcept
+    : Report(EventEnums::RT_MissionStart, time), m_mercenaryArt(mercenaryArt), m_stress(stress), m_stressLimit(stressLimit) {}
 
 QString MissionStartReport::text() const noexcept
 {
@@ -814,12 +814,12 @@ QString MissionStartReport::text() const noexcept
     }
 }
 
-HeroDeathReport::HeroDeathReport(const QString &heroArt, const QString &heroName, const Time &time) noexcept
-    : Report(EventEnums::RT_HeroDeath, time), m_heroArt(heroArt), m_heroName(heroName) {}
+MercenaryDeathReport::MercenaryDeathReport(const QString &mercenaryArt, const QString &mercenaryName, const Time &time) noexcept
+    : Report(EventEnums::RT_MercenaryDeath, time), m_mercenaryArt(mercenaryArt), m_mercenaryName(mercenaryName) {}
 
-QString HeroDeathReport::text() const noexcept
+QString MercenaryDeathReport::text() const noexcept
 {
-    return Game::gameInstance()->tr(m_heroName)+" has passed away.";
+    return Game::gameInstance()->tr(m_mercenaryName)+" has passed away.";
 }
 
 unsigned UnifiedReport::m_currentID = 0;
@@ -881,10 +881,10 @@ QDataStream &operator>>(QDataStream &stream, UnifiedReportDataHelper &report) no
 Encounter::Encounter(const QString &name, Event *rootEvent, unsigned probability) noexcept
     : m_name(name), m_rootEvent(rootEvent), m_probability(probability) {}
 
-EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const noexcept
+EncounterReport *Encounter::execute(Mercenary *mercenary, const Time &currentTime) const noexcept
 {
-    auto b = hero->base();
-    auto reps = m_rootEvent->execute(hero);
+    auto b = mercenary->base();
+    auto reps = m_rootEvent->execute(mercenary);
     for (int i=0;i<reps.size();)
     {
         if (reps[i].isEmpty())
@@ -892,9 +892,9 @@ EncounterReport *Encounter::execute(Hero *hero, const Time &currentTime) const n
         else
             ++i;
     }
-    if (!b->heroes()->heroes().contains(hero))//TODO probably remove
-        return static_cast<EncounterReport *>(static_cast<Report *>(new NullReport));//hero died during encounter
-    return new EncounterReport{hero->pathToArt(), reps, currentTime};
+    if (!b->mercenaries()->mercenaries().contains(mercenary))//TODO probably remove
+        return static_cast<EncounterReport *>(static_cast<Report *>(new NullReport));//mercenary died during encounter
+    return new EncounterReport{mercenary->pathToArt(), reps, currentTime};
 }
 
 EncountersContainer::~EncountersContainer() noexcept
@@ -1002,18 +1002,18 @@ void Mission::handleNewDay() noexcept
     ++m_daysSpent;
 }
 
-void Mission::assignHero(Hero *hero) noexcept
+void Mission::assignMercenary(Mercenary *mercenary) noexcept
 {
-    m_assignedHero=hero;
+    m_assignedMercenary=mercenary;
 }
 
 void Mission::start() noexcept
 {
-    m_assignedHero->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedHero->pathToArt(), m_assignedHero->stress(), m_assignedHero->stressLimit(), m_assignedHero->base()->gameClock()->currentTime())));
-    m_assignedHero->base()->registerLatestReportInMission(this);
+    m_assignedMercenary->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedMercenary->pathToArt(), m_assignedMercenary->stress(), m_assignedMercenary->stressLimit(), m_assignedMercenary->base()->gameClock()->currentTime())));
+    m_assignedMercenary->base()->registerLatestReportInMission(this);
     planEverything();
 
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started: (mercenary: {}, difficulty: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString(), EventEnums::fromMissionDifficultyEnumToQString(m_difficulty).toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started: (mercenary: {}, length: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString(), EventEnums::fromMissionLengthEnumToQString(m_length).toStdString());
     for (const auto &e : m_encounters)
         Game::gameInstance()->loggers()->missionsLogger()->trace("Day {}: {}",e.first,e.second->name().toStdString());
     Game::gameInstance()->loggers()->missionsLogger()->trace("Mission ends in {}",remainingDays());
@@ -1023,52 +1023,52 @@ EncounterReport *Mission::doEncounter(const Time &now) noexcept
 {
     m_timeOfCurrentEncounter = now;
 
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Doing encounter: {} (mercenary: {})",now.toQString().toStdString(),m_encounters[m_nextEncounter].second->name().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Doing encounter: {} (mercenary: {})",now.toQString().toStdString(),m_encounters[m_nextEncounter].second->name().toStdString(), m_assignedMercenary->name().toStdString());
 
-    return m_encounters[m_nextEncounter++].second->execute(m_assignedHero, now);
+    return m_encounters[m_nextEncounter++].second->execute(m_assignedMercenary, now);
 }
 
 void Mission::end() noexcept
 {
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Ending mission (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Ending mission (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
-    m_assignedHero->returnToBase();
+    m_assignedMercenary->returnToBase();
 }
 
 void Mission::forceEndSuccessfully() noexcept
 {
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
-    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
-    auto b=m_assignedHero->base();
+    m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    auto b=m_assignedMercenary->base();
     end();
     b->removeMission(this);
 }
 
 void Mission::forceEndSilently() noexcept
 {
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end silently (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end silently (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
-    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
 }
 
 void Mission::forceEndBecauseOfDeath() noexcept
 {
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end because of death or sth like that (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end because of death or sth like that (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
-    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
-    m_assignedHero->assignMission(nullptr);
-    m_assignedHero->base()->removeMission(this);
+    m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    m_assignedMercenary->assignMission(nullptr);
+    m_assignedMercenary->base()->removeMission(this);
 }
 
 void Mission::abort() noexcept
 {
-    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Aborting mission (mercenary: {})",m_assignedHero->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedHero->name().toStdString());
+    Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Aborting mission (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
-    m_assignedHero->base()->gameClock()->removeAlarmsConnectedWithMission(this);
-    m_assignedHero->assignMission(nullptr);
-    auto b=m_assignedHero->base();
-    m_assignedHero->die(1,0);
+    m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
+    m_assignedMercenary->assignMission(nullptr);
+    auto b=m_assignedMercenary->base();
+    m_assignedMercenary->die(1,0);
     b->removeMission(this);
 }
 
@@ -1084,7 +1084,7 @@ void Mission::prepareReport(unsigned index) noexcept
 }
 
 Mission::Mission() noexcept
-    : m_land(nullptr), m_difficulty(EventEnums::MD_END), m_duration(1), m_daysSpent(0), m_nextEncounter(0), m_minutesSinceMidnightOfLastEncounter(-1), m_assignedHero(nullptr), m_preparedRelatedReport(nullptr) {}
+    : m_land(nullptr), m_length(EventEnums::ML_END), m_duration(1), m_daysSpent(0), m_nextEncounter(0), m_minutesSinceMidnightOfLastEncounter(-1), m_assignedMercenary(nullptr), m_preparedRelatedReport(nullptr) {}
 
 void Mission::planEverything() noexcept
 {
@@ -1094,7 +1094,7 @@ void Mission::planEverything() noexcept
 
 void Mission::planAllEncounters() noexcept
 {
-    auto clock=m_assignedHero->base()->gameClock();
+    auto clock=m_assignedMercenary->base()->gameClock();
     for (int i=0;i<m_encounters.size();++i)
     {
         unsigned missionDayOfPlannedEncounter = m_encounters[i].first;
@@ -1123,7 +1123,7 @@ void Mission::planAllEncounters() noexcept
 
 void Mission::planEnd() noexcept
 {
-    m_assignedHero->base()->gameClock()->addAlarm(m_duration, new MissionEndTimerAlarm(m_assignedHero->base(),this));
+    m_assignedMercenary->base()->gameClock()->addAlarm(m_duration, new MissionEndTimerAlarm(m_assignedMercenary->base(),this));
 }
 
 void Mission::setLand(Land *land) noexcept
@@ -1131,9 +1131,9 @@ void Mission::setLand(Land *land) noexcept
     m_land = land;
 }
 
-void Mission::setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept
+void Mission::setLength(EventEnums::MissionLength length) noexcept
 {
-    m_difficulty=difficulty;
+    m_length=length;
 }
 
 void Mission::setDuration(unsigned days) noexcept
@@ -1152,7 +1152,7 @@ void Mission::addEncounter(MissionDay day, Encounter *encounter) noexcept
 QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) noexcept
 {
     stream<<mission.land;
-    stream<<static_cast<quint8>(mission.difficulty);
+    stream<<static_cast<quint8>(mission.length);
     stream<<static_cast<qint16>(mission.duration);
     stream<<static_cast<qint16>(mission.daysSpent);
     QVector <QPair <qint16, QString> > encounters;
@@ -1161,7 +1161,7 @@ QDataStream &operator<<(QDataStream &stream, const MissionDataHelper &mission) n
     stream<<encounters;
     stream<<static_cast<qint16>(mission.nextEncounter);
     stream<<static_cast<qint16>(mission.minutesSinceMidnightOfLastEncounter);
-    stream<<mission.hero;
+    stream<<mission.mercenary;
     stream<<mission.relatedReportsIDs;
 
     return stream;
@@ -1175,7 +1175,7 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
     stream>>mission.land;
 
     stream>>n;
-    mission.difficulty=static_cast<EventEnums::MissionDifficulty>(n);
+    mission.length=static_cast<EventEnums::MissionLength>(n);
 
     stream>>ii;
     mission.duration=ii;
@@ -1194,7 +1194,7 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
     stream>>ii;
     mission.minutesSinceMidnightOfLastEncounter=ii;
 
-    stream>>mission.hero;
+    stream>>mission.mercenary;
 
     stream>>mission.relatedReportsIDs;
 
@@ -1220,14 +1220,14 @@ Mission *MissionBuilder::getMission() noexcept
     return ret;
 }
 
-Mission *MissionBuilder::generateMission(Land *land, EventEnums::MissionDifficulty difficulty) noexcept
+Mission *MissionBuilder::generateMission(Land *land, EventEnums::MissionLength length) noexcept
 {
     resetMission();
     setLand(land);
-    setDifficulty(difficulty);
-    unsigned duration=generateDuration(difficulty);
+    setLength(length);
+    unsigned duration=generateDuration(length);
     setDuration(duration);
-    m_mission->m_encounters=generateEncounters(land, difficulty, duration);
+    m_mission->m_encounters=generateEncounters(land, length, duration);
     Mission *ret=m_mission;
     m_mission=new Mission();
     return ret;
@@ -1251,7 +1251,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
         }
     if (r->m_land == nullptr)
         return r;
-    r->m_difficulty = mission.difficulty;
+    r->m_length = mission.length;
     r->m_duration = mission.duration;
     r->m_daysSpent = mission.daysSpent;
     for (int i=0;i<mission.encounters.size();++i)
@@ -1263,10 +1263,10 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
             }
     r->m_nextEncounter = mission.nextEncounter;
     r->m_minutesSinceMidnightOfLastEncounter = mission.minutesSinceMidnightOfLastEncounter;
-    for (auto e : base->heroes()->heroes())
-        if (e->name() == mission.hero)
+    for (auto e : base->mercenaries()->mercenaries())
+        if (e->name() == mission.mercenary)
         {
-            r->assignHero(e);
+            r->assignMercenary(e);
             e->assignMission(r);
             break;
         }
@@ -1290,7 +1290,7 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     MissionDataHelper r;
 
     r.land = mission->land()->name();
-    r.difficulty = mission->difficulty();
+    r.length = mission->length();
     r.duration = mission->fullDuration();
     r.daysSpent = mission->daysSpent();
     QVector <QPair <unsigned, QString> > encs;
@@ -1299,7 +1299,7 @@ MissionDataHelper MissionBuilder::deqobjectifyMission(Mission *mission) noexcept
     r.encounters = encs;
     r.nextEncounter = mission->m_nextEncounter;
     r.minutesSinceMidnightOfLastEncounter = mission->m_minutesSinceMidnightOfLastEncounter;
-    r.hero = mission->assignedHero()->name();
+    r.mercenary = mission->assignedMercenary()->name();
     for (const auto &e : mission->reports())
         r.relatedReportsIDs+=e->id();
 
@@ -1311,9 +1311,9 @@ void MissionBuilder::setLand(Land *land) noexcept
     m_mission->setLand(land);
 }
 
-void MissionBuilder::setDifficulty(EventEnums::MissionDifficulty difficulty) noexcept
+void MissionBuilder::setLength(EventEnums::MissionLength length) noexcept
 {
-    m_mission->setDifficulty(difficulty);
+    m_mission->setLength(length);
 }
 
 void MissionBuilder::setDuration(unsigned duration) noexcept
@@ -1331,58 +1331,58 @@ void MissionBuilder::addEncounter(Mission::MissionDay day, Encounter *encounter)
     m_mission->addEncounter(day,encounter);
 }
 
-unsigned MissionBuilder::generateDuration(EventEnums::MissionDifficulty difficulty) const noexcept
+unsigned MissionBuilder::generateDuration(EventEnums::MissionLength length) const noexcept
 {
-    switch (difficulty)
+    switch (length)
     {
-    case EventEnums::MD_Short:
+    case EventEnums::ML_Short:
         [[fallthrough]];
-    case EventEnums::MD_Veteran:
+    case EventEnums::ML_Veteran:
         return Randomizer::randomBetweenAAndB(2,4);
-    case EventEnums::MD_Medium:
+    case EventEnums::ML_Medium:
         [[fallthrough]];
-    case EventEnums::MD_Master:
+    case EventEnums::ML_Master:
         return Randomizer::randomBetweenAAndB(6,8);
-    case EventEnums::MD_Long:
+    case EventEnums::ML_Long:
         [[fallthrough]];
-    case EventEnums::MD_Heroic:
+    case EventEnums::ML_Heroic:
         return Randomizer::randomBetweenAAndB(11,17);
-    case EventEnums::MD_Extreme:
+    case EventEnums::ML_Extreme:
         return Randomizer::randomBetweenAAndB(28,34);
     default:
         return 0;
     }
 }
 
-unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionDifficulty difficulty) const noexcept
+unsigned MissionBuilder::generateAmountOfEncountersPerDay(EventEnums::MissionLength length) const noexcept
 {
-    switch (difficulty)
+    switch (length)
     {
-    case EventEnums::MD_Short:
+    case EventEnums::ML_Short:
         return Randomizer::randomBetweenAAndB(0,3,Randomizer::RandomizationMethods::bentRand);
-    case EventEnums::MD_Medium:
+    case EventEnums::ML_Medium:
         [[fallthrough]];
-    case EventEnums::MD_Long:
+    case EventEnums::ML_Long:
         [[fallthrough]];
-    case EventEnums::MD_Extreme:
+    case EventEnums::ML_Extreme:
         return Randomizer::randomBetweenAAndB(0,4,Randomizer::RandomizationMethods::bentRand);
-    case EventEnums::MD_Veteran:
+    case EventEnums::ML_Veteran:
         [[fallthrough]];
-    case EventEnums::MD_Master:
+    case EventEnums::ML_Master:
         return Randomizer::randomBetweenAAndB(2,5,Randomizer::RandomizationMethods::bentRand);
-    case EventEnums::MD_Heroic:
+    case EventEnums::ML_Heroic:
         return Randomizer::randomBetweenAAndB(2,6,Randomizer::RandomizationMethods::bentRand);
     default:
         return 0;
     }
 }
 
-QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, EventEnums::MissionDifficulty difficulty, unsigned duration) const noexcept
+QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, EventEnums::MissionLength length, unsigned duration) const noexcept
 {
     QVector <QPair <Mission::MissionDay, Encounter *> > r;
     for (int i=0;i<duration;++i)
     {
-        unsigned am=generateAmountOfEncountersPerDay(difficulty);
+        unsigned am=generateAmountOfEncountersPerDay(length);
         while (am--)
             r+={i,land->makeRandomEncounter()};
     }
@@ -1395,17 +1395,17 @@ bool MissionBuilder::lessThanEncounterSorting(const QPair<Mission::MissionDay, E
 }
 
 MissionInitializer::MissionInitializer(Base *base) noexcept
-    : m_basePtr(base), m_missionBuilder(base), m_land(nullptr), m_difficulty(EventEnums::MD_END), m_hero(nullptr), m_armor(nullptr), m_weaponTool({nullptr,nullptr}), m_aetherite(0), m_energy(0), m_bm(0), m_food(0) {}
+    : m_basePtr(base), m_missionBuilder(base), m_land(nullptr), m_length(EventEnums::ML_END), m_mercenary(nullptr), m_armor(nullptr), m_weaponTool({nullptr,nullptr}), m_aetherite(0), m_energy(0), m_bm(0), m_food(0) {}
 
 void MissionInitializer::reset() noexcept
 {
-    if (m_hero != nullptr)
-        unprepareHero();
+    if (m_mercenary != nullptr)
+        unprepareMercenary();
     m_land=nullptr;
-    m_difficulty=EventEnums::MD_END;
-    m_hero=nullptr;
+    m_length=EventEnums::ML_END;
+    m_mercenary=nullptr;
     m_armor=nullptr;
-    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
         m_weaponTool[i]=nullptr;
     m_aetherite=0;
     m_energy=0;
@@ -1415,13 +1415,13 @@ void MissionInitializer::reset() noexcept
 
 bool MissionInitializer::start() noexcept
 {
-    if (!(m_basePtr->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->canDecreaseEnergyAmount(m_energy) && m_basePtr->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_difficulty != EventEnums::MD_END)
+    if (!(m_basePtr->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->canDecreaseEnergyAmount(m_energy) && m_basePtr->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_length != EventEnums::ML_END)
         return 0;
 
     auto &eqs=m_basePtr->availableEquipment();
     if (m_armor != nullptr)
         eqs.remove(eqs.indexOf(m_armor));
-    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
         if (m_weaponTool[i] != nullptr)
             eqs.remove(eqs.indexOf(m_weaponTool[i]));
 
@@ -1430,17 +1430,17 @@ bool MissionInitializer::start() noexcept
     m_basePtr->decreaseBuildingMaterialsAmount(m_bm);
     m_basePtr->decreaseFoodSuppliesAmount(m_food);
 
-    m_hero->setCarriedAetheriteOre(m_aetherite);
-    m_hero->setCarriedEnergy(m_energy);
-    m_hero->setCarriedBuildingMaterials(m_bm);
-    m_hero->setCarriedFoodSupplies(m_food);
+    m_mercenary->setCarriedAetheriteOre(m_aetherite);
+    m_mercenary->setCarriedEnergy(m_energy);
+    m_mercenary->setCarriedBuildingMaterials(m_bm);
+    m_mercenary->setCarriedFoodSupplies(m_food);
 
-    m_hero->setCurrentActivity(HeroEnums::CA_OnMission);
+    m_mercenary->setCurrentActivity(MercenaryEnums::CA_OnMission);
 
-    Mission *m=m_missionBuilder.generateMission(m_land, m_difficulty);
+    Mission *m=m_missionBuilder.generateMission(m_land, m_length);
 
-    m_hero->assignMission(m);
-    m->assignHero(m_hero);
+    m_mercenary->assignMission(m);
+    m->assignMercenary(m_mercenary);
 
     m_basePtr->startMission(m);
 
@@ -1465,34 +1465,34 @@ void MissionInitializer::setLand(const QString &name) noexcept
     m_land=nullptr;
 }
 
-void MissionInitializer::setDifficulty(const QString & difficulty) noexcept
+void MissionInitializer::setLength(const QString & length) noexcept
 {
-    m_difficulty=EventEnums::fromQStringToMissionDifficultyEnum(difficulty);
+    m_length=EventEnums::fromQStringToMissionLengthEnum(length);
 }
 
-QString MissionInitializer::difficulty() const noexcept
+QString MissionInitializer::length() const noexcept
 {
-    return EventEnums::fromMissionDifficultyEnumToQString(m_difficulty);
+    return EventEnums::fromMissionLengthEnumToQString(m_length);
 }
 
-void MissionInitializer::setHero(const QString &name) noexcept
+void MissionInitializer::setMercenary(const QString &name) noexcept
 {
-    if (m_hero != nullptr)
-        unprepareHero();
+    if (m_mercenary != nullptr)
+        unprepareMercenary();
     if (name.isEmpty())
     {
-        m_hero=nullptr;
+        m_mercenary=nullptr;
         return;
     }
-    auto hs=m_basePtr->heroes()->heroes();
+    auto hs=m_basePtr->mercenaries()->mercenaries();
     for (int i=0;i<hs.size();++i)
         if (hs[i]->name() == name)
         {
-            m_hero=m_basePtr->heroes()->getHero(i);
-            prepareHero();
+            m_mercenary=m_basePtr->mercenaries()->getMercenary(i);
+            prepareMercenary();
             return;
         }
-    m_hero=nullptr;
+    m_mercenary=nullptr;
 }
 
 void MissionInitializer::setArmor(const QString &name) noexcept
@@ -1502,8 +1502,8 @@ void MissionInitializer::setArmor(const QString &name) noexcept
         if (m_armor != nullptr)
         {
             m_armor=nullptr;
-            if (m_hero != nullptr)
-                prepareHero();
+            if (m_mercenary != nullptr)
+                prepareMercenary();
         }
         return;
     }
@@ -1512,27 +1512,27 @@ void MissionInitializer::setArmor(const QString &name) noexcept
         if (eqs[i]->name() == name)
         {
             m_armor=eqs[i];
-            if (m_hero != nullptr)
-                prepareHero();
+            if (m_mercenary != nullptr)
+                prepareMercenary();
             return;
         }
     if (m_armor != nullptr)
     {
         m_armor=nullptr;
-        if (m_hero != nullptr)
-            prepareHero();
+        if (m_mercenary != nullptr)
+            prepareMercenary();
     }
 }
 
 void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexcept
 {
-    if (name.isEmpty() || slot>=Hero::amountOfWeaponToolSlots())
+    if (name.isEmpty() || slot>=Mercenary::amountOfWeaponToolSlots())
     {
         if (m_weaponTool[slot] != nullptr)
         {
             m_weaponTool[slot]=nullptr;
-            if (m_hero != nullptr)
-                prepareHero();
+            if (m_mercenary != nullptr)
+                prepareMercenary();
         }
         return;
     }
@@ -1541,15 +1541,15 @@ void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexc
         if (eqs[i]->name() == name)
         {
             m_weaponTool[slot]=eqs[i];
-            if (m_hero != nullptr)
-                prepareHero();
+            if (m_mercenary != nullptr)
+                prepareMercenary();
             return;
         }
     if (m_weaponTool[slot] != nullptr)
     {
         m_weaponTool[slot]=nullptr;
-        if (m_hero != nullptr)
-            prepareHero();
+        if (m_mercenary != nullptr)
+            prepareMercenary();
     }
 }
 
@@ -1573,20 +1573,20 @@ void MissionInitializer::setFoodSupplies(unsigned amount) noexcept
     m_food = amount;
 }
 
-void MissionInitializer::prepareHero() noexcept
+void MissionInitializer::prepareMercenary() noexcept
 {
-    m_hero->removeArmor();
-    m_hero->equipArmor(m_armor);
-    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
+    m_mercenary->removeArmor();
+    m_mercenary->equipArmor(m_armor);
+    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
     {
-        m_hero->removeWeaponTool(i);
-        m_hero->equipWeaponTool(m_weaponTool[i],i);
+        m_mercenary->removeWeaponTool(i);
+        m_mercenary->equipWeaponTool(m_weaponTool[i],i);
     }
 }
 
-void MissionInitializer::unprepareHero() noexcept
+void MissionInitializer::unprepareMercenary() noexcept
 {
-    m_hero->removeArmor();
-    for (int i=0;i<Hero::amountOfWeaponToolSlots();++i)
-        m_hero->removeWeaponTool(i);
+    m_mercenary->removeArmor();
+    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
+        m_mercenary->removeWeaponTool(i);
 }

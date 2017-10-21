@@ -6,7 +6,7 @@
 #include <QObject>
 
 #include "equipment.h"
-#include "hero.h"
+#include "mercenary.h"
 #include "saveparser.h"
 #include "database.h"
 
@@ -249,7 +249,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(nullptr));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingHealed.size() - m_mercenariesBeingHealed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -266,7 +266,7 @@ public:
     }
     Q_INVOKABLE int useCostInFoodSupplies() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies * (m_heroesBeingHealed.size() - m_heroesBeingHealed.count(nullptr));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies * (m_mercenariesBeingHealed.size() - m_mercenariesBeingHealed.count(nullptr));
     }
     Q_INVOKABLE int useCostInFoodSuppliesSingle() const noexcept
     {
@@ -297,21 +297,21 @@ public:
 
     Q_INVOKABLE int amountOfSlots() const noexcept
     {
-        return m_heroesBeingHealed.size();
+        return m_mercenariesBeingHealed.size();
     }
     Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Hero *slot(int index) noexcept
+    Mercenary *slot(int index) noexcept
     {
-        return m_heroesBeingHealed.value(index,nullptr);
+        return m_mercenariesBeingHealed.value(index,nullptr);
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int hpRestoredPerDay() const noexcept
     {
@@ -324,10 +324,10 @@ public:
     Q_INVOKABLE int daysToFullRecovery(const QString &name) const noexcept;
     int daysToFullRecovery(unsigned slotIndex) const noexcept;
 
-    void healHeroes() noexcept;
+    void healMercenaries() noexcept;
 
-    void setRecoveryValuesForHero(unsigned index) noexcept; // hero pointed-to by index in those fncs must be valid!
-    void setRecoveryValuesForHeroes() noexcept;
+    void setRecoveryValuesForMercenary(unsigned index) noexcept; // mercenary pointed-to by index in those fncs must be valid!
+    void setRecoveryValuesForMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <HospitalLevelInfo> &info) noexcept;
 
@@ -342,15 +342,15 @@ public:
     void resizeSlotsAfterUpgrade() noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary) noexcept
     {
-        if (index<m_heroesBeingHealed.size())
-            m_heroesBeingHealed[index]=hero;
+        if (index<m_mercenariesBeingHealed.size())
+            m_mercenariesBeingHealed[index]=mercenary;
     }
 
     QVector <HospitalLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingHealed;
+    QVector <Mercenary *> m_mercenariesBeingHealed;
 };
 
 struct TrainingGroundLevelInfo
@@ -388,10 +388,10 @@ public:
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         int cnt=0;
-        for (int i=0;i<m_heroesBeingTrained.size();++i)
-            if (m_heroesBeingTrained[i].first==nullptr)
+        for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+            if (m_mercenariesBeingTrained[i].first==nullptr)
                 ++cnt;
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - cnt);
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -431,21 +431,21 @@ public:
 
     Q_INVOKABLE int amountOfSlots() const noexcept
     {
-        return m_heroesBeingTrained.size();
+        return m_mercenariesBeingTrained.size();
     }
     Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    QPair <Hero *, unsigned> slot(int index) noexcept
+    QPair <Mercenary *, unsigned> slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,{nullptr,0});
+        return m_mercenariesBeingTrained.value(index,{nullptr,0});
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int combatEffectivenessBonus() const noexcept
     {
@@ -465,7 +465,7 @@ public:
         return m_levelsInfo.value(currentLevel()+1).duration;
     }
 
-    void trainHeroes() noexcept;
+    void trainMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <TrainingGroundLevelInfo> &info) noexcept;
 
@@ -479,26 +479,26 @@ public:
 
     void resizeSlotsAfterUpgrade() noexcept
     {
-        while (m_heroesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingTrained+={nullptr,0};
-        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+        while (m_mercenariesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_mercenariesBeingTrained+={nullptr,0};
+        m_mercenariesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
-    Q_INVOKABLE int remainingDaysOfTraining(const QString &heroName) const noexcept;
+    Q_INVOKABLE int remainingDaysOfTraining(const QString &mercenaryName) const noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
     {
-        if (index<m_heroesBeingTrained.size())
+        if (index<m_mercenariesBeingTrained.size())
         {
-            m_heroesBeingTrained[index].first=hero;
-            m_heroesBeingTrained[index].second=duration;
+            m_mercenariesBeingTrained[index].first=mercenary;
+            m_mercenariesBeingTrained[index].second=duration;
         }
     }
 
     QVector <TrainingGroundLevelInfo> m_levelsInfo;
 
-    QVector <QPair <Hero *, unsigned>> m_heroesBeingTrained;
+    QVector <QPair <Mercenary *, unsigned>> m_mercenariesBeingTrained;
 };
 
 struct GymLevelInfo
@@ -536,10 +536,10 @@ public:
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         int cnt=0;
-        for (int i=0;i<m_heroesBeingTrained.size();++i)
-            if (m_heroesBeingTrained[i].first==nullptr)
+        for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+            if (m_mercenariesBeingTrained[i].first==nullptr)
                 ++cnt;
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - cnt);
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -582,15 +582,15 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    QPair <Hero *, unsigned> slot(int index) noexcept
+    QPair <Mercenary *, unsigned> slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,{nullptr,0});
+        return m_mercenariesBeingTrained.value(index,{nullptr,0});
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int proficiencyBonus() const noexcept
     {
@@ -610,7 +610,7 @@ public:
         return m_levelsInfo.value(currentLevel()+1).duration;
     }
 
-    void trainHeroes() noexcept;
+    void trainMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <GymLevelInfo> &info) noexcept;
 
@@ -624,26 +624,26 @@ public:
 
     void resizeSlotsAfterUpgrade() noexcept
     {
-        while (m_heroesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingTrained+={nullptr,0};
-        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+        while (m_mercenariesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_mercenariesBeingTrained+={nullptr,0};
+        m_mercenariesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
-    Q_INVOKABLE int remainingDaysOfTraining(const QString &heroName) const noexcept;
+    Q_INVOKABLE int remainingDaysOfTraining(const QString &mercenaryName) const noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
     {
-        if (index<m_heroesBeingTrained.size())
+        if (index<m_mercenariesBeingTrained.size())
         {
-            m_heroesBeingTrained[index].first=hero;
-            m_heroesBeingTrained[index].second=duration;
+            m_mercenariesBeingTrained[index].first=mercenary;
+            m_mercenariesBeingTrained[index].second=duration;
         }
     }
 
     QVector <GymLevelInfo> m_levelsInfo;
 
-    QVector <QPair <Hero *, unsigned>> m_heroesBeingTrained;
+    QVector <QPair <Mercenary *, unsigned>> m_mercenariesBeingTrained;
 };
 
 struct LaboratoryLevelInfo
@@ -681,10 +681,10 @@ public:
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
         int cnt=0;
-        for (int i=0;i<m_heroesBeingTrained.size();++i)
-            if (m_heroesBeingTrained[i].first==nullptr)
+        for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+            if (m_mercenariesBeingTrained[i].first==nullptr)
                 ++cnt;
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingTrained.size() - cnt);
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -727,15 +727,15 @@ public:
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    QPair <Hero *, unsigned> slot(int index) noexcept
+    QPair <Mercenary *, unsigned> slot(int index) noexcept
     {
-        return m_heroesBeingTrained.value(index,{nullptr,0});
+        return m_mercenariesBeingTrained.value(index,{nullptr,0});
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int clevernessBonus() const noexcept
     {
@@ -755,7 +755,7 @@ public:
         return m_levelsInfo.value(currentLevel()+1).duration;
     }
 
-    void trainHeroes() noexcept;
+    void trainMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <LaboratoryLevelInfo> &info) noexcept;
 
@@ -769,26 +769,26 @@ public:
 
     void resizeSlotsAfterUpgrade() noexcept
     {
-        while (m_heroesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
-            m_heroesBeingTrained+={nullptr,0};
-        m_heroesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+        while (m_mercenariesBeingTrained.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+            m_mercenariesBeingTrained+={nullptr,0};
+        m_mercenariesBeingTrained.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
     }
 
-    Q_INVOKABLE int remainingDaysOfTraining(const QString &heroName) const noexcept;
+    Q_INVOKABLE int remainingDaysOfTraining(const QString &mercenaryName) const noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero, unsigned duration) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
     {
-        if (index<m_heroesBeingTrained.size())
+        if (index<m_mercenariesBeingTrained.size())
         {
-            m_heroesBeingTrained[index].first=hero;
-            m_heroesBeingTrained[index].second=duration;
+            m_mercenariesBeingTrained[index].first=mercenary;
+            m_mercenariesBeingTrained[index].second=duration;
         }
     }
 
     QVector <LaboratoryLevelInfo> m_levelsInfo;
 
-    QVector <QPair <Hero *, unsigned>> m_heroesBeingTrained;
+    QVector <QPair <Mercenary *, unsigned>> m_mercenariesBeingTrained;
 };
 
 struct PlayingFieldLevelInfo
@@ -827,7 +827,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -867,21 +867,21 @@ public:
 
     Q_INVOKABLE int amountOfSlots() const noexcept
     {
-        return m_heroesBeingDestressed.size();
+        return m_mercenariesBeingDestressed.size();
     }
     Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Hero *slot(int index) noexcept
+    Mercenary *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,nullptr);
+        return m_mercenariesBeingDestressed.value(index,nullptr);
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -916,10 +916,10 @@ public:
         return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
-    void destressHeroes() noexcept;
+    void destressMercenaries() noexcept;
 
-    void setRecoveryValuesForHero(unsigned index) noexcept;
-    void setRecoveryValuesForHeroes() noexcept;
+    void setRecoveryValuesForMercenary(unsigned index) noexcept;
+    void setRecoveryValuesForMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <PlayingFieldLevelInfo> &info) noexcept;
 
@@ -934,15 +934,15 @@ public:
     void resizeSlotsAfterUpgrade() noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary) noexcept
     {
-        if (index<m_heroesBeingDestressed.size())
-            m_heroesBeingDestressed[index]=hero;
+        if (index<m_mercenariesBeingDestressed.size())
+            m_mercenariesBeingDestressed[index]=mercenary;
     }
 
     QVector <PlayingFieldLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingDestressed;
+    QVector <Mercenary *> m_mercenariesBeingDestressed;
 };
 
 struct BarLevelInfo
@@ -981,7 +981,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -1021,21 +1021,21 @@ public:
 
     Q_INVOKABLE int amountOfSlots() const noexcept
     {
-        return m_heroesBeingDestressed.size();
+        return m_mercenariesBeingDestressed.size();
     }
     Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Hero *slot(int index) noexcept
+    Mercenary *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,nullptr);
+        return m_mercenariesBeingDestressed.value(index,nullptr);
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1070,10 +1070,10 @@ public:
         return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
-    void destressHeroes() noexcept;
+    void destressMercenaries() noexcept;
 
-    void setRecoveryValuesForHero(unsigned index) noexcept;
-    void setRecoveryValuesForHeroes() noexcept;
+    void setRecoveryValuesForMercenary(unsigned index) noexcept;
+    void setRecoveryValuesForMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <BarLevelInfo> &info) noexcept;
 
@@ -1088,15 +1088,15 @@ public:
     void resizeSlotsAfterUpgrade() noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary) noexcept
     {
-        if (index<m_heroesBeingDestressed.size())
-            m_heroesBeingDestressed[index]=hero;
+        if (index<m_mercenariesBeingDestressed.size())
+            m_mercenariesBeingDestressed[index]=mercenary;
     }
 
     QVector <BarLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingDestressed;
+    QVector <Mercenary *> m_mercenariesBeingDestressed;
 };
 
 struct ShrineLevelInfo
@@ -1135,7 +1135,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -1175,21 +1175,21 @@ public:
 
     Q_INVOKABLE int amountOfSlots() const noexcept
     {
-        return m_heroesBeingDestressed.size();
+        return m_mercenariesBeingDestressed.size();
     }
     Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Hero *slot(int index) noexcept
+    Mercenary *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,nullptr);
+        return m_mercenariesBeingDestressed.value(index,nullptr);
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1224,10 +1224,10 @@ public:
         return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
-    void destressHeroes() noexcept;
+    void destressMercenaries() noexcept;
 
-    void setRecoveryValuesForHero(unsigned index) noexcept;
-    void setRecoveryValuesForHeroes() noexcept;
+    void setRecoveryValuesForMercenary(unsigned index) noexcept;
+    void setRecoveryValuesForMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <ShrineLevelInfo> &info) noexcept;
 
@@ -1242,15 +1242,15 @@ public:
     void resizeSlotsAfterUpgrade() noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary) noexcept
     {
-        if (index<m_heroesBeingDestressed.size())
-            m_heroesBeingDestressed[index]=hero;
+        if (index<m_mercenariesBeingDestressed.size())
+            m_mercenariesBeingDestressed[index]=mercenary;
     }
 
     QVector <ShrineLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingDestressed;
+    QVector <Mercenary *> m_mercenariesBeingDestressed;
 };
 
 struct SeclusionLevelInfo
@@ -1289,7 +1289,7 @@ public:
     }
     Q_INVOKABLE int useCostInEnergy() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_heroesBeingDestressed.size() - m_heroesBeingDestressed.count(nullptr));
+        return m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
     }
     Q_INVOKABLE int useCostInEnergySingle() const noexcept
     {
@@ -1329,21 +1329,21 @@ public:
 
     Q_INVOKABLE int amountOfSlots() const noexcept
     {
-        return m_heroesBeingDestressed.size();
+        return m_mercenariesBeingDestressed.size();
     }
     Q_INVOKABLE int amountOfSlotsAfterUpgrade() const noexcept
     {
         return m_levelsInfo.value(currentLevel()+1).amountOfSlots;
     }
-    Hero *slot(int index) noexcept
+    Mercenary *slot(int index) noexcept
     {
-        return m_heroesBeingDestressed.value(index,nullptr);
+        return m_mercenariesBeingDestressed.value(index,nullptr);
     }
-    Q_INVOKABLE QString heroNameInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE QString heroProfessionInSlot(unsigned index) const noexcept;
-    Q_INVOKABLE void placeHeroInSlot(unsigned slotIndex, const QString &heroName) noexcept;
+    Q_INVOKABLE QString mercenaryNameInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE QString mercenaryProfessionInSlot(unsigned index) const noexcept;
+    Q_INVOKABLE void placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept;
     Q_INVOKABLE void emptySlot(unsigned slotIndex) noexcept;
-    void removeHero(const QString &name) noexcept;
+    void removeMercenary(const QString &name) noexcept;
 
     Q_INVOKABLE int activeStressRelief() const noexcept
     {
@@ -1378,10 +1378,10 @@ public:
         return m_levelsInfo.value(currentLevel()+1).stressReductionForReligious;
     }
 
-    void destressHeroes() noexcept;
+    void destressMercenaries() noexcept;
 
-    void setRecoveryValuesForHero(unsigned index) noexcept;
-    void setRecoveryValuesForHeroes() noexcept;
+    void setRecoveryValuesForMercenary(unsigned index) noexcept;
+    void setRecoveryValuesForMercenaries() noexcept;
 
     void setLevelsInfo(const QVector <SeclusionLevelInfo> &info) noexcept;
 
@@ -1396,15 +1396,15 @@ public:
     void resizeSlotsAfterUpgrade() noexcept;
 
 private:
-    void setSlot(unsigned index, Hero *hero) noexcept
+    void setSlot(unsigned index, Mercenary *mercenary) noexcept
     {
-        if (index<m_heroesBeingDestressed.size())
-            m_heroesBeingDestressed[index]=hero;
+        if (index<m_mercenariesBeingDestressed.size())
+            m_mercenariesBeingDestressed[index]=mercenary;
     }
 
     QVector <SeclusionLevelInfo> m_levelsInfo;
 
-    QVector <Hero *> m_heroesBeingDestressed;
+    QVector <Mercenary *> m_mercenariesBeingDestressed;
 };
 
 struct PowerplantLevelInfo
@@ -1857,9 +1857,9 @@ private:
 struct BarracksLevelInfo
 {
     BarracksLevelInfo()
-        : heroesLimit(0), basicCostInEnergy(0){}
+        : mercenariesLimit(0), basicCostInEnergy(0){}
 
-    unsigned heroesLimit;
+    unsigned mercenariesLimit;
     unsigned basicCostInEnergy;
 };
 
@@ -1914,13 +1914,13 @@ public:
         return 0;
     }
 
-    Q_INVOKABLE int heroesLimit() const noexcept
+    Q_INVOKABLE int mercenariesLimit() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).heroesLimit;
+        return m_levelsInfo.value(currentLevel()).mercenariesLimit;
     }
-    Q_INVOKABLE int heroesLimitAfterUpgrade() const noexcept
+    Q_INVOKABLE int mercenariesLimitAfterUpgrade() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()+1).heroesLimit;
+        return m_levelsInfo.value(currentLevel()+1).mercenariesLimit;
     }
 
     void setLevelsInfo(const QVector <BarracksLevelInfo> &info) noexcept;
@@ -1962,7 +1962,7 @@ class DockingStation : public Building
 {
     Q_OBJECT
 
-    Q_PROPERTY(Hero* recruitPreparedForQML MEMBER m_recruitPreparedForQML)
+    Q_PROPERTY(Mercenary* recruitPreparedForQML MEMBER m_recruitPreparedForQML)
     Q_PROPERTY(Equipment* equipmentPreparedForQML MEMBER m_equipmentPreparedForQML)
 
     friend class Base;
@@ -2032,11 +2032,11 @@ public:
     Q_INVOKABLE void hireMercenary(const QString &name, unsigned eta) noexcept;
     void doRecrutationStuff() noexcept;
     QStringList getRecruitsNames() const noexcept;
-    QVector <QPair <Hero *, unsigned> > arrivingHeroes() noexcept
+    QVector <QPair <Mercenary *, unsigned> > arrivingMercenaries() noexcept
     {
-        return m_arrivingHeroes;
+        return m_arrivingMercenaries;
     }
-    void cancelHeroArrival(const QString &name) noexcept;
+    void cancelMercenaryArrival(const QString &name) noexcept;
     Q_INVOKABLE int waitingTime() const noexcept
     {
         return m_levelsInfo.value(currentLevel()).waitingTime;
@@ -2114,22 +2114,22 @@ public:
         return m_arrivingEquipments;
     }
 
-    Q_INVOKABLE int remainingDaysUntilHeroArrival(const QString &heroName) const noexcept;
+    Q_INVOKABLE int remainingDaysUntilMercenaryArrival(const QString &mercenaryName) const noexcept;
 
 private:
     void loadRecruits() noexcept;
     void clearRecruits() noexcept;
-    void addRecruitFromSave(Hero *hero) noexcept
+    void addRecruitFromSave(Mercenary *mercenary) noexcept
     {
-        m_recruits.push_back(hero);
+        m_recruits.push_back(mercenary);
     }
     void setActiveTransactionsFromSave(const QVector <QPair <ActiveTransaction, unsigned> > &transactions) noexcept
     {
         m_activeTransactions=transactions;
     }
-    void addArrivingHeroFromSave(const QPair <Hero *, unsigned> &arrHero) noexcept
+    void addArrivingMercenaryFromSave(const QPair <Mercenary *, unsigned> &arrMercenary) noexcept
     {
-        m_arrivingHeroes+=arrHero;
+        m_arrivingMercenaries+=arrMercenary;
     }
     void loadEquipments() noexcept;
     void clearEquipments() noexcept;
@@ -2141,9 +2141,9 @@ private:
 
     QVector <DockingStationLevelInfo> m_levelsInfo;
     QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > m_tradingTables;
-    QVector <Hero *> m_recruits;
-    Hero *m_recruitPreparedForQML;
-    QVector <QPair <Hero *, unsigned> > m_arrivingHeroes;//hero, ETA
+    QVector <Mercenary *> m_recruits;
+    Mercenary *m_recruitPreparedForQML;
+    QVector <QPair <Mercenary *, unsigned> > m_arrivingMercenaries;//mercenary, ETA
     QVector <QPair <ActiveTransaction, unsigned> > m_activeTransactions;
     QVector <Equipment *> m_equipments;
     Equipment *m_equipmentPreparedForQML;
@@ -2178,7 +2178,7 @@ class Base : public QObject
 
     Q_PROPERTY(GameClock* gameClock MEMBER m_gameClock)
 
-    Q_PROPERTY(HeroesContainer* heroes MEMBER m_heroes)
+    Q_PROPERTY(MercenariesContainer* mercenaries MEMBER m_mercenaries)
 
     Q_PROPERTY(Equipment* preparedAvailableEquipment MEMBER m_preparedAvailableEquipment)
 
@@ -2362,18 +2362,18 @@ public:
 
     Building *getBuilding(BaseEnums::Building buildingName) noexcept;
 
-    //heroes
-    inline HeroesContainer *heroes() noexcept
+    //mercenaries
+    inline MercenariesContainer *mercenaries() noexcept
     {
-        return m_heroes;
+        return m_mercenaries;
     }
-    inline QMap <QString, unsigned> &heroDockingStationBans() noexcept
+    inline QMap <QString, unsigned> &mercenaryDockingStationBans() noexcept
     {
-        return m_heroDockingStationBans;
+        return m_mercenaryDockingStationBans;
     }
-    void recalculateAmountOfHeroSlots() const noexcept
+    void recalculateAmountOfMercenarySlots() const noexcept
     {
-        m_heroes->setAmountOfSlots(m_barracks->heroesLimit());;
+        m_mercenaries->setAmountOfSlots(m_barracks->mercenariesLimit());;
     }
 
     //equipment
@@ -2434,7 +2434,7 @@ public:
     Q_INVOKABLE void removeReport(unsigned index) noexcept;
     Q_INVOKABLE void clearReports() noexcept;
 
-    Q_INVOKABLE int remainingMissionDaysForHero(const QString &heroName);
+    Q_INVOKABLE int remainingMissionDaysForMercenary(const QString &mercenaryName);
 
     //game
     inline Game *gameObject() noexcept
@@ -2473,9 +2473,9 @@ private:
     unsigned m_buildingMaterials;
     unsigned m_aetherite;
 
-    //heroes
-    HeroesContainer *m_heroes;
-    QMap <QString, unsigned> m_heroDockingStationBans;//in days; when banned, hero won't appear in docking station menu
+    //mercenaries
+    MercenariesContainer *m_mercenaries;
+    QMap <QString, unsigned> m_mercenaryDockingStationBans;//in days; when banned, mercenary won't appear in docking station menu
 
     //equipment
     QVector <Equipment *> m_availableEquipment;
@@ -2483,8 +2483,8 @@ private:
 
     //game clock/timer
     void activateBuildingsAtDayEnd() noexcept;
-    void handleHeroesAtDayEnd() noexcept;
-    void handleHeroesAtWeekEnd() noexcept;
+    void handleMercenariesAtDayEnd() noexcept;
+    void handleMercenariesAtWeekEnd() noexcept;
 
     GameClock *m_gameClock;
 

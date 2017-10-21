@@ -13,16 +13,25 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
     heightOfElement = heightOfElementInPx;
     width = widthInPx;
     height = heightInPx;
-    listDelegate = Qt.createComponent("qrc:/qml/MercenariesMode/HeroesListDelegate.qml");
+    for (var i=0;i<itemsArray.length;++i)
+        itemsArray[i].destroy();
+    listDelegate = Qt.createComponent("qrc:/qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/RecruitmentMercenariesListDelegate.qml");
     if (listDelegate == null) {
         console.log("Error creating object");
     }
-    for (var i=0;i<itemsArray.length;++i)
-        itemsArray[i].destroy();
     itemsArray = new Array(amountOfItems);
 }
 
-function setHero(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
+function clearList()
+{
+    yAtTop = 0;
+    actualAmountOfItems = 0;
+    for (var i=0;i<itemsArray.length;++i)
+        itemsArray[i].destroy();
+    itemsArray = [];
+}
+
+function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
     itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setProfession(profession);
@@ -91,81 +100,33 @@ function setHero(index, name, internalName, profession, ce, pr, cl, hp, hpMax, s
         itemsArray[index].setColorSA("#bf0000");
     else
         itemsArray[index].setColorSA("#439b20");
-
-    itemsArray[index].setCurrentActivity(ca);
 }
 
-function setMIAHero(index, name, internalName, profession) {
-    itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
-    itemsArray[index].setName(name);
-    itemsArray[index].setProfession(profession);
-    itemsArray[index].setMIA();
-
-    itemsArray[index].setColorHL("#568b56");
-    itemsArray[index].setColorSL("#568b56");
-    itemsArray[index].setColorCE("#568b56");
-    itemsArray[index].setColorPR("#568b56");
-    itemsArray[index].setColorCL("#568b56");
-    itemsArray[index].setColorSR("#568b56");
-    itemsArray[index].setColorFC("#568b56");
-    itemsArray[index].setColorSA("#568b56");
-}
-
-function createHero(name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
+function createItem(name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
     if (actualAmountOfItems < itemsArray.length)
     {
         var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootHeroesList,
+        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootMercenariesList,
                                                 {"x": 0,
                                                 "y": actualAmountOfItems * heightOfElement + y00,
                                                 "width": width, "height": heightOfElement});
-        setHero(actualAmountOfItems, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc);
+        setItem(actualAmountOfItems, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc);
         ++actualAmountOfItems;
     }
 }
 
-function createMIAHero(name, internalName, profession) {
-    if (actualAmountOfItems < itemsArray.length)
-    {
-        var y00 = yAtTop;//not binded for sure
-        itemsArray[actualAmountOfItems] = listDelegate.createObject(rootHeroesList,
-                                                {"x": 0,
-                                                "y": actualAmountOfItems * heightOfElement + y00,
-                                                "width": width, "height": heightOfElement});
-        setMIAHero(actualAmountOfItems, name, internalName, profession);
-        ++actualAmountOfItems;
-    }
-}
-
-function getClickedHeroName(y) {
+function getClickedItemName(x,y) {
     var h = heightOfElement;
-    var y0 = 0;
-    var y1 = h - 1;
+    var y0 = 4;
+    var y1 = y0 + 79;
     y -= yAtTop;
     for (var i=0;i<actualAmountOfItems;++i)
     {
-        if (y >= y0 && y <= y1)
-            return itemsArray[i].getName().text;
+        if (y >= y0 && y <= y1 && x >= 920 && x <= 1049)
+            return itemsArray[i].getName();
         y0 += h;
         y1 += h;
     }
-
-    return "";
-}
-
-function getClickedHeroName2(y) {
-    var h = heightOfElement;
-    var y0 = 0;
-    var y1 = h - 1;
-    y -= yAtTop;
-    for (var i=0;i<actualAmountOfItems;++i)
-    {
-        if (y >= y0 && y <= y1)
-            return itemsArray[i].getProfession().text;
-        y0 += h;
-        y1 += h;
-    }
-
     return "";
 }
 

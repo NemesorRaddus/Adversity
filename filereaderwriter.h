@@ -9,7 +9,7 @@
 #include "base.h"
 #include "equipment.h"
 #include "event.h"
-#include "hero.h"
+#include "mercenary.h"
 
 #include <QDebug>
 
@@ -41,8 +41,8 @@ public:
 
     QVector <QPair <BaseEnums::Building, QString> > getBuildingDescriptions(const QString &path) noexcept;
 
-    QList <QString> getHeroesNamesList(const QString &pathToHeroesDir) noexcept;
-    Hero *getHero(const QString &path) noexcept;
+    QList <QString> getMercenariesNamesList(const QString &pathToMercenariesDir) noexcept;
+    Mercenary *getMercenary(const QString &path) noexcept;
 
     QVector <Equipment *> getEquipment(const QString &path) noexcept;
 

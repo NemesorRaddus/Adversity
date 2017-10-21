@@ -99,7 +99,7 @@ public:
     QDataStream &write(QDataStream &stream) const noexcept;
 
 private:
-    QString m_missionHeroName;
+    QString m_missionMercenaryName;
     Mission *m_mission;
 };
 

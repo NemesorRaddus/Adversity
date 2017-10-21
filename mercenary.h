@@ -10,7 +10,7 @@
 
 class Mission;
 
-struct HeroEnums
+struct MercenaryEnums
 {
     enum Nature
     {
@@ -116,25 +116,25 @@ struct HeroEnums
     static QString fromProfessionEnumToQString(Profession profession) noexcept;
 };
 
-struct HeroStressBorderEffect
+struct MercenaryStressBorderEffect
 {
-    HeroStressBorderEffect() noexcept
-        : effectName(HeroEnums::SBE_None) {}
-    HeroStressBorderEffect(HeroEnums::StressBorderEffect effectName_) noexcept
+    MercenaryStressBorderEffect() noexcept
+        : effectName(MercenaryEnums::SBE_None) {}
+    MercenaryStressBorderEffect(MercenaryEnums::StressBorderEffect effectName_) noexcept
         : effectName(effectName_) {}
 
-    HeroEnums::StressBorderEffect effectName;
+    MercenaryEnums::StressBorderEffect effectName;
 
     QDataStream &read(QDataStream &stream) noexcept;
     QDataStream &write(QDataStream &stream) const noexcept;
 };
 
-QDataStream &operator<<(QDataStream &stream, const HeroStressBorderEffect &effect) noexcept;
-QDataStream &operator>>(QDataStream &stream, HeroStressBorderEffect &effect) noexcept;
+QDataStream &operator<<(QDataStream &stream, const MercenaryStressBorderEffect &effect) noexcept;
+QDataStream &operator>>(QDataStream &stream, MercenaryStressBorderEffect &effect) noexcept;
 
-struct HeroAttributesSet
+struct MercenaryAttributesSet
 {
-    HeroAttributesSet() noexcept
+    MercenaryAttributesSet() noexcept
         : combatEffectiveness(0), proficiency(0), cleverness(0), luck(0), health(1), healthLimit(1), dailyHealthRecovery(0), stress(0), stressResistance(0), stressLimit(1), stressBorder(1), dailyStressRecovery(0), salary(0), dailyFoodConsumption(0) {}
 
     int combatEffectiveness;
@@ -157,19 +157,19 @@ struct HeroAttributesSet
     int dailyFoodConsumption;
 };
 
-QDataStream &operator<<(QDataStream &stream, const HeroAttributesSet &attrs) noexcept;
-QDataStream &operator>>(QDataStream &stream, HeroAttributesSet &attrs) noexcept;
+QDataStream &operator<<(QDataStream &stream, const MercenaryAttributesSet &attrs) noexcept;
+QDataStream &operator>>(QDataStream &stream, MercenaryAttributesSet &attrs) noexcept;
 
 struct AttributeModification;
 
 class Base;
 class UnifiedReport;
 
-class Hero : public QObject
+class Mercenary : public QObject
 {
     Q_OBJECT
 
-    friend class HeroBuilder;
+    friend class MercenaryBuilder;
     friend class H4X;
 
     Q_PROPERTY(Mission* assignedMission MEMBER m_assignedMission)
@@ -231,11 +231,11 @@ public:
         return m_currentAttributesValues.stressBorder;
     }
 
-    inline const QVector <HeroStressBorderEffect> &stressBorderEffects() const noexcept
+    inline const QVector <MercenaryStressBorderEffect> &stressBorderEffects() const noexcept
     {
         return m_stressBorderEffects;
     }
-    const HeroStressBorderEffect *currentSBE() const noexcept;
+    const MercenaryStressBorderEffect *currentSBE() const noexcept;
     Q_INVOKABLE int amountOfSBEs() const noexcept
     {
         return m_stressBorderEffects.size();
@@ -254,7 +254,7 @@ public:
         return m_currentAttributesValues.dailyStressRecovery;
     }
 
-    QVector <QPair <HeroStressBorderEffect, unsigned> > diverseSBEs() const noexcept;//with amount of copies
+    QVector <QPair <MercenaryStressBorderEffect, unsigned> > diverseSBEs() const noexcept;//with amount of copies
     Q_INVOKABLE int amountOfDiverseSBEs() const noexcept;
     Q_INVOKABLE QString nameOfSBESummed(unsigned index) const noexcept;
     Q_INVOKABLE float chanceOfSBESummed(unsigned index) const noexcept;
@@ -269,13 +269,13 @@ public:
         return m_currentAttributesValues.dailyFoodConsumption;
     }
 
-    HeroEnums::Nature inline nature() const noexcept
+    MercenaryEnums::Nature inline nature() const noexcept
     {
         return m_nature;
     }
     Q_INVOKABLE QString natureString() const noexcept;
 
-    HeroEnums::Profession inline profession() const noexcept
+    MercenaryEnums::Profession inline profession() const noexcept
     {
         return m_profession;
     }
@@ -464,12 +464,12 @@ public:
     void addWaitingDBEntry(const QString &entryName) noexcept;
     void sendWaitingDBEntries() noexcept;
 
-    inline HeroEnums::CurrentActivity currentActivity() const noexcept
+    inline MercenaryEnums::CurrentActivity currentActivity() const noexcept
     {
         return m_currentActivity;
     }
     Q_INVOKABLE QString currentActivityString() const noexcept;
-    void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept;
+    void setCurrentActivity(MercenaryEnums::CurrentActivity activity) noexcept;
 
     Q_INVOKABLE QString pathToArt() const noexcept;
 
@@ -493,21 +493,21 @@ signals:
     void ranAway(QString name, unsigned daysOfDoStBan);
 
 private:
-    Hero(Base *base) noexcept;
+    Mercenary(Base *base) noexcept;
 
     void setName(const QString &name) noexcept
     {
         m_name=name;
     }
-    void setStressBorderEffects(const QVector <HeroStressBorderEffect> &stressBorderEffects) noexcept
+    void setStressBorderEffects(const QVector <MercenaryStressBorderEffect> &stressBorderEffects) noexcept
     {
         m_stressBorderEffects=stressBorderEffects;
     }
-    void setNature(HeroEnums::Nature nature) noexcept
+    void setNature(MercenaryEnums::Nature nature) noexcept
     {
         m_nature=nature;
     }
-    void setProfession(HeroEnums::Profession profession) noexcept
+    void setProfession(MercenaryEnums::Profession profession) noexcept
     {
         m_profession=profession;
     }
@@ -524,12 +524,12 @@ private:
         applyEquipmentEffect();
     }
 
-    void calculateCurrentAttributeValue(HeroEnums::Attribute attributeName) noexcept;//shouldn't be used in most situations (big NO when calc. CE, PR or CL)
+    void calculateCurrentAttributeValue(MercenaryEnums::Attribute attributeName) noexcept;//shouldn't be used in most situations (big NO when calc. CE, PR or CL)
     void calculateCurrentAttributeValues() noexcept;//use this instead
 
     void sumEquipmentCategories() noexcept;
 
-    void setAttributeValue(HeroEnums::Attribute attrName, QVariant val) noexcept;//only for H4X
+    void setAttributeValue(MercenaryEnums::Attribute attrName, QVariant val) noexcept;//only for H4X
 
     void activateEquipment() noexcept;
     void deactivateEquipment() noexcept;
@@ -543,16 +543,16 @@ private:
 
     QString m_name;
 
-    HeroAttributesSet m_baseAttributesValues;
-    HeroAttributesSet m_currentAttributesValues;//including eq bonuses, SBE impact
+    MercenaryAttributesSet m_baseAttributesValues;
+    MercenaryAttributesSet m_currentAttributesValues;//including eq bonuses, SBE impact
 
     int m_stockCE;
     int m_stockPR;
     int m_stockCL;
 
-    QVector <HeroStressBorderEffect> m_stressBorderEffects;
-    HeroEnums::Nature m_nature;
-    HeroEnums::Profession m_profession;
+    QVector <MercenaryStressBorderEffect> m_stressBorderEffects;
+    MercenaryEnums::Nature m_nature;
+    MercenaryEnums::Profession m_profession;
 
     Equipment *m_armor;
     QVector <Equipment *> m_weaponsTools;
@@ -581,7 +581,7 @@ private:
     int m_noSalaryWeeks;
 
     Mission *m_assignedMission;
-    HeroEnums::CurrentActivity m_currentActivity;
+    MercenaryEnums::CurrentActivity m_currentActivity;
     QString m_lastKnownLandName;
 
     QVector <UnifiedReport *> m_waitingReports;
@@ -590,23 +590,23 @@ private:
     Base *m_base;
 };
 
-struct HeroDataHelper
+struct MercenaryDataHelper
 {
-    HeroDataHelper()
-        : stockCE(0), stockPR(0), stockCL(0), nature(HeroEnums::N_Active), profession(HeroEnums::P_Archeologist), isEquipmentActive(true), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(HeroEnums::CA_Idle) {}
+    MercenaryDataHelper()
+        : stockCE(0), stockPR(0), stockCL(0), nature(MercenaryEnums::N_Active), profession(MercenaryEnums::P_Archeologist), isEquipmentActive(true), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(MercenaryEnums::CA_Idle) {}
 
     QString name;
 
-    HeroAttributesSet baseAttributesValues;
-    HeroAttributesSet currentAttributesValues;
+    MercenaryAttributesSet baseAttributesValues;
+    MercenaryAttributesSet currentAttributesValues;
 
     int stockCE;
     int stockPR;
     int stockCL;
 
-    QVector <HeroStressBorderEffect> stressBorderEffects;
-    HeroEnums::Nature nature;
-    HeroEnums::Profession profession;
+    QVector <MercenaryStressBorderEffect> stressBorderEffects;
+    MercenaryEnums::Nature nature;
+    MercenaryEnums::Profession profession;
 
     QString armor;
     QVector <QString> weaponsTools;
@@ -633,30 +633,30 @@ struct HeroDataHelper
     QString lastKnownLandName;
     QVector <UnifiedReport *> waitingReports;
     QVector <QString> waitingDBEntries;
-    HeroEnums::CurrentActivity currentActivity;
+    MercenaryEnums::CurrentActivity currentActivity;
 };
 
-QDataStream &operator<<(QDataStream &stream, const HeroDataHelper &hero) noexcept;
-QDataStream &operator>>(QDataStream &stream, HeroDataHelper &hero) noexcept;
+QDataStream &operator<<(QDataStream &stream, const MercenaryDataHelper &mercenary) noexcept;
+QDataStream &operator>>(QDataStream &stream, MercenaryDataHelper &mercenary) noexcept;
 
-class HeroBuilder
+class MercenaryBuilder
 {
 public:
-    HeroBuilder() noexcept;
-    ~HeroBuilder() noexcept;
+    MercenaryBuilder() noexcept;
+    ~MercenaryBuilder() noexcept;
 
     static void init(Base *base) noexcept;
 
-    Hero *getHero() noexcept;
+    Mercenary *getMercenary() noexcept;
 
-    static Hero *qobjectifyHeroData(const HeroDataHelper &hero) noexcept;
-    static HeroDataHelper deqobjectifyHero(Hero *hero) noexcept;
+    static Mercenary *qobjectifyMercenaryData(const MercenaryDataHelper &mercenary) noexcept;
+    static MercenaryDataHelper deqobjectifyMercenary(Mercenary *mercenary) noexcept;
 
-    void resetHero() noexcept;
+    void resetMercenary() noexcept;
 
     void setName(const QString &name) noexcept
     {
-        m_hero->setName(name);
+        m_mercenary->setName(name);
     }
 
     void setCombatEffectiveness(int combatEffectiveness) noexcept;
@@ -673,9 +673,9 @@ public:
     void setStressResistance(float stressResistance) noexcept;
     void setStressLimit(int stressLimit) noexcept;
     void setStressBorder(int stressBorder) noexcept;
-    void setStressBorderEffects(const QVector <HeroStressBorderEffect> &stressBorderEffects) noexcept
+    void setStressBorderEffects(const QVector <MercenaryStressBorderEffect> &stressBorderEffects) noexcept
     {
-        m_hero->setStressBorderEffects(stressBorderEffects);
+        m_mercenary->setStressBorderEffects(stressBorderEffects);
     }
     void setDailyStressRecovery(int dailyStressRecovery) noexcept;
 
@@ -683,38 +683,38 @@ public:
 
     void setDailyFoodConsumption(int dailyFoodConsumption) noexcept;
 
-    void setNature(HeroEnums::Nature nature) noexcept
+    void setNature(MercenaryEnums::Nature nature) noexcept
     {
-        m_hero->m_nature=nature;
+        m_mercenary->m_nature=nature;
     }
 
-    void setProfession(HeroEnums::Profession profession) noexcept
+    void setProfession(MercenaryEnums::Profession profession) noexcept
     {
-        m_hero->m_profession=profession;
+        m_mercenary->m_profession=profession;
     }
 
     void setAndEquipArmor(Equipment *armor) noexcept
     {
-        m_hero->equipArmor(armor);
+        m_mercenary->equipArmor(armor);
     }
     void setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept;
     void setCarriedEquipment(const QVector <Equipment *> &eqs) noexcept
     {
-        m_hero->m_carriedEquipment=eqs;
+        m_mercenary->m_carriedEquipment=eqs;
     }
 
     void setIsDead(bool dead) noexcept
     {
-        m_hero->m_isDead=dead;
+        m_mercenary->m_isDead=dead;
     }
     void setIndexOfCurrentSBE(int index) noexcept
     {
-        m_hero->m_indexOfCurrentSBE=index;
+        m_mercenary->m_indexOfCurrentSBE=index;
     }
 
     void setNoSignalDaysRemaining(int amount) noexcept
     {
-        m_hero->m_noSignalDaysRemaining=amount;
+        m_mercenary->m_noSignalDaysRemaining=amount;
     }
 
     void setCarriedEnergy(int amount) noexcept;
@@ -726,43 +726,43 @@ public:
 
     void setAssignedMission(Mission *mission) noexcept
     {
-        m_hero->m_assignedMission=mission;
+        m_mercenary->m_assignedMission=mission;
     }
-    void setCurrentActivity(HeroEnums::CurrentActivity activity) noexcept
+    void setCurrentActivity(MercenaryEnums::CurrentActivity activity) noexcept
     {
-        m_hero->m_currentActivity=activity;
+        m_mercenary->m_currentActivity=activity;
     }
 
 private:
-    Hero *m_hero;
+    Mercenary *m_mercenary;
     static Base *m_base;
 };
 
-class HeroesContainer : public QObject
+class MercenariesContainer : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(Hero* preparedHero MEMBER m_preparedHero)
+    Q_PROPERTY(Mercenary* preparedMercenary MEMBER m_preparedMercenary)
 
 public:
-    HeroesContainer(Base *base) noexcept;
-    ~HeroesContainer() noexcept = default;
+    MercenariesContainer(Base *base) noexcept;
+    ~MercenariesContainer() noexcept = default;
 
-    Q_INVOKABLE bool prepareHeroAt(unsigned index) noexcept;
-    void addHero(Hero *hero) noexcept;
-    void removeHero(unsigned index) noexcept;
-    inline const QVector <Hero *> &heroes() const noexcept
+    Q_INVOKABLE bool prepareMercenaryAt(unsigned index) noexcept;
+    void addMercenary(Mercenary *mercenary) noexcept;
+    void removeMercenary(unsigned index) noexcept;
+    inline const QVector <Mercenary *> &mercenaries() const noexcept
     {
-        return m_heroes;
+        return m_mercenaries;
     }
-    Q_INVOKABLE int amountOfHeroes() const noexcept
+    Q_INVOKABLE int amountOfMercenaries() const noexcept
     {
-        return m_heroes.size();
+        return m_mercenaries.size();
     }
-    Q_INVOKABLE int findHero(const QString &name) const noexcept;
-    Hero *getHero(unsigned index) noexcept
+    Q_INVOKABLE int findMercenary(const QString &name) const noexcept;
+    Mercenary *getMercenary(unsigned index) noexcept
     {
-        return m_heroes.value(index,nullptr);
+        return m_mercenaries.value(index,nullptr);
     }
     void setAmountOfSlots(unsigned amount) noexcept
     {
@@ -772,11 +772,11 @@ public:
     {
         return m_amountOfSlots;
     }
-    bool canAddHero() const noexcept
+    bool canAddMercenary() const noexcept
     {
-        return m_heroes.size() < m_amountOfSlots;
+        return m_mercenaries.size() < m_amountOfSlots;
     }
-    Q_INVOKABLE void dismissHero(const QString &name) noexcept
+    Q_INVOKABLE void dismissMercenary(const QString &name) noexcept
     {
         addDoStBan(name,m_durationOfBanAfterDismiss);
     }
@@ -789,11 +789,11 @@ public slots:
     void addDoStBan(QString name) noexcept;//permanent :c
 
 private:
-    void connectHeroToBanSystem(const QString &name) noexcept;
-    void disconnectHeroFromBanSystem(const QString &name) noexcept;
+    void connectMercenaryToBanSystem(const QString &name) noexcept;
+    void disconnectMercenaryFromBanSystem(const QString &name) noexcept;
 
-    QVector <Hero *> m_heroes;
-    Hero *m_preparedHero;
+    QVector <Mercenary *> m_mercenaries;
+    Mercenary *m_preparedMercenary;
     unsigned m_amountOfSlots;
     const unsigned m_durationOfBanAfterDismiss = 21;
     Base *m_basePtr;
