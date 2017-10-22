@@ -9,7 +9,7 @@
 
 class Mission;
 
-struct MercenaryEnums
+namespace MercenaryEnums
 {
     enum Nature
     {
@@ -99,21 +99,21 @@ struct MercenaryEnums
         P_END
     };
 
-    static Nature fromQStringToNatureEnum(const QString &nature) noexcept;
-    static QString fromNatureEnumToQString(Nature nature) noexcept;
+    Nature fromQStringToNatureEnum(const QString &nature) noexcept;
+    QString fromNatureEnumToQString(Nature nature) noexcept;
 
-    static StressBorderEffect fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept;
-    static QString fromStressBorderEffectEnumToQString(StressBorderEffect stressBorderEffect) noexcept;
+    StressBorderEffect fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept;
+    QString fromStressBorderEffectEnumToQString(StressBorderEffect stressBorderEffect) noexcept;
 
-    static Attribute fromQStringToAttributeEnum(const QString &attribute) noexcept;
-    static QString fromAttributeEnumToQString(Attribute attribute) noexcept;
+    Attribute fromQStringToAttributeEnum(const QString &attribute) noexcept;
+    QString fromAttributeEnumToQString(Attribute attribute) noexcept;
 
-    static CurrentActivity fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept;
-    static QString fromCurrentActivityEnumToQString(CurrentActivity currentActivity) noexcept;
+    CurrentActivity fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept;
+    QString fromCurrentActivityEnumToQString(CurrentActivity currentActivity) noexcept;
 
-    static Profession fromQStringToProfessionEnum(const QString &profession) noexcept;
-    static QString fromProfessionEnumToQString(Profession profession) noexcept;
-};
+    Profession fromQStringToProfessionEnum(const QString &profession) noexcept;
+    QString fromProfessionEnumToQString(Profession profession) noexcept;
+}
 
 struct MercenaryStressBorderEffect
 {

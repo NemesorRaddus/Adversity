@@ -11,7 +11,7 @@
 
 #include <QDebug>
 
-struct EventEnums
+namespace EventEnums
 {
     enum Action
     {
@@ -72,9 +72,9 @@ struct EventEnums
         RT_END
     };
 
-    static MissionLength fromQStringToMissionLengthEnum(const QString &missionLength) noexcept;
-    static QString fromMissionLengthEnumToQString(MissionLength missionLength) noexcept;
-};
+    MissionLength fromQStringToMissionLengthEnum(const QString &missionLength) noexcept;
+    QString fromMissionLengthEnumToQString(MissionLength missionLength) noexcept;
+}
 
 class Expression
 {

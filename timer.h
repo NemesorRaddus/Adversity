@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-struct TimerAlarmEnums
+namespace TimerAlarmEnums
 {
     enum AlarmType
     {
@@ -18,7 +18,7 @@ struct TimerAlarmEnums
         AT_Information,
         AT_END
     };
-};
+}
 
 class TimerAlarm
 {

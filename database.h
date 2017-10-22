@@ -6,7 +6,7 @@
 
 #include <QDebug>
 
-struct DatabaseEnums
+namespace DatabaseEnums
 {
     enum EntryType
     {
@@ -17,9 +17,9 @@ struct DatabaseEnums
         ET_END
     };
 
-    static EntryType fromQStringToEntryTypeEnum(const QString &entryType) noexcept;
-    static QString fromEntryTypeEnumToQString(EntryType entryType) noexcept;
-};
+    EntryType fromQStringToEntryTypeEnum(const QString &entryType) noexcept;
+    QString fromEntryTypeEnumToQString(EntryType entryType) noexcept;
+}
 
 struct DatabaseEntryDetails
 {

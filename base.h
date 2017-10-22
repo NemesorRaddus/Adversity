@@ -11,7 +11,7 @@
 
 #include <QDebug>
 
-struct BaseEnums
+namespace BaseEnums
 {
     enum Resource
     {
@@ -42,12 +42,12 @@ struct BaseEnums
         B_END
     };
 
-    static Resource fromQStringToResourceEnum(const QString &resource) noexcept;
-    static QString fromResourceEnumToQString(Resource resource) noexcept;
+    Resource fromQStringToResourceEnum(const QString &resource) noexcept;
+    QString fromResourceEnumToQString(Resource resource) noexcept;
 
-    static Building fromQStringToBuildingEnum(const QString &building) noexcept;
-    static QString fromBuildingEnumToQString(Building building) noexcept;
-};
+    Building fromQStringToBuildingEnum(const QString &building) noexcept;
+    QString fromBuildingEnumToQString(Building building) noexcept;
+}
 
 struct BuildingUpgradeRequirements
 {

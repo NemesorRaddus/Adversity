@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-struct EquipmentEnums
+namespace EquipmentEnums
 {
     enum Type
     {
@@ -35,15 +35,15 @@ struct EquipmentEnums
         B_END
     };
 
-    static Type fromQStringToTypeEnum(const QString &type) noexcept;
-    static QString fromTypeEnumToQString(Type type) noexcept;
+    Type fromQStringToTypeEnum(const QString &type) noexcept;
+    QString fromTypeEnumToQString(Type type) noexcept;
 
-    static Category fromQStringToCategoryEnum(const QString &category) noexcept;
-    static QString fromCategoryEnumToQString(Category category) noexcept;
+    Category fromQStringToCategoryEnum(const QString &category) noexcept;
+    QString fromCategoryEnumToQString(Category category) noexcept;
 
-    static Bonus fromQStringToBonusEnum(const QString &bonus) noexcept;
-    static QString fromBonusEnumToQString(Bonus bonus) noexcept;
-};
+    Bonus fromQStringToBonusEnum(const QString &bonus) noexcept;
+    QString fromBonusEnumToQString(Bonus bonus) noexcept;
+}
 
 class Equipment : public QObject
 {
