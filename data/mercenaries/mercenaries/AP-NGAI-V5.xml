@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="AP-NGAI-V5">
+<mercenary name="AP-NGAI-V5">
     <attributes combatEffectiveness="7" proficiency="3" cleverness="4" luck="1.00" health="16" healthLimit="16" dailyHealthRecovery="2" stressLimit="-1" salary="34" dailyFoodConsumption="0" nature="Recluse" profession="Battle Droid"></attributes>
     <sbeList>
         <sbe>None</sbe>
@@ -10,4 +10,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

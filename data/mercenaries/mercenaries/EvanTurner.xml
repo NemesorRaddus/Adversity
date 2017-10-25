@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="EvanTurner">
+<mercenary name="EvanTurner">
     <attributes combatEffectiveness="3" proficiency="6" cleverness="5" luck="1.05" health="13" healthLimit="13" dailyHealthRecovery="0" stress="0" stressResistance="1" stressLimit="140" stressBorder="100" dailyStressRecovery="5" salary="10" dailyFoodConsumption="2" nature="Recluse" profession="Space Nomad"></attributes>
     <sbeList>
         <sbe>Faint</sbe>
@@ -17,4 +17,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

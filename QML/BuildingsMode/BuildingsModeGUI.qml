@@ -8,7 +8,7 @@ Item {
     clip: true
 
     signal updateRequestedFromBuildingsModeGUI()
-    signal heroesModeUpdateRequested()
+    signal mercenariesModeUpdateRequested()
     signal showSpecial()
 
     function returnToDefault()
@@ -83,9 +83,9 @@ Item {
         menu.state = "";
     }
 
-    function requestUnban(heroName, buildingName)
+    function requestUnban(mercenaryName, buildingName)
     {
-        menu.requestUnban(heroName, buildingName);
+        menu.requestUnban(mercenaryName, buildingName);
     }
 
     function acknowledgeConsoleHiding()
@@ -122,7 +122,7 @@ Item {
         onUpdateRequestedFromBuildingMenu: {
             updateRequestedFromBuildingsModeGUI();
         }
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
         onMarkAsUpgradedSignal: list.markAsUpgraded(buildingName,true);
 
         onShowSpecial: parent.showSpecial()

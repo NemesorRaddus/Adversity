@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="AgdaSolberg">
+<mercenary name="AgdaSolberg">
     <attributes combatEffectiveness="2" proficiency="7" cleverness="5" luck="0.95" health="11" healthLimit="11" dailyHealthRecovery="0" stress="0" stressResistance="1.1" stressLimit="110" stressBorder="80" dailyStressRecovery="7" salary="10" dailyFoodConsumption="1" nature="Active" profession="Space Nomad"></attributes>
     <sbeList>
         <sbe>Fear</sbe>
@@ -18,4 +18,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

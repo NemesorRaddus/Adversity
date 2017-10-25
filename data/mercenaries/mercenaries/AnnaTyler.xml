@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="AnnaTyler">
+<mercenary name="AnnaTyler">
     <attributes combatEffectiveness="4" proficiency="5" cleverness="4" luck="1.1" health="10" healthLimit="10" dailyHealthRecovery="1" stress="0" stressResistance="0.95" stressLimit="100" stressBorder="50" dailyStressRecovery="10" salary="8" dailyFoodConsumption="2" nature="Religious" profession="Priestess Of The Universe"></attributes>
     <sbeList>
         <sbe>Faint</sbe>
@@ -20,4 +20,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>

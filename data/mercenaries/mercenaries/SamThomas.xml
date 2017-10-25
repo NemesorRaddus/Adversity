@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hero name="SamThomas">
+<mercenary name="SamThomas">
     <attributes combatEffectiveness="5" proficiency="4" cleverness="6" luck="1" health="9" healthLimit="9" dailyHealthRecovery="0" stress="0" stressResistance="0.9" stressLimit="170" stressBorder="100" dailyStressRecovery="0" salary="10" dailyFoodConsumption="2" nature="Convivial" profession="Specialist"></attributes>
     <sbeList>
         <sbe>Faint</sbe>
@@ -19,4 +19,4 @@
         <weaponTool name="" slot=""></weaponTool>
     </equipment>
     <additionalData dead="" stressBorderEffectActive="" noSigDaysRem=""></additionalData>
-</hero>
+</mercenary>
