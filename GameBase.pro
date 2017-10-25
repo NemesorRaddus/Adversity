@@ -78,6 +78,7 @@ SOURCES += cpp/main.cpp \
     cpp/reports/report.cpp \
     cpp/reports/unifiedreport.cpp \
     cpp/translations/translations.cpp \
+    cpp/general/savesmanager.cpp \
     cpp/file_io/saves/savedata.cpp
 
 RESOURCES += \
@@ -168,6 +169,7 @@ HEADERS += \
     cpp/reports/unifiedreport.h \
     cpp/stable.h \
     cpp/translations/translations.h \
+    cpp/general/savesmanager.h \
     cpp/file_io/saves/savedata.h
 
 PRECOMPILED_HEADER = cpp/stable.h
