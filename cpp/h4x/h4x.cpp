@@ -11,6 +11,7 @@
 #include "clock/timer_alarms/timeralarm.h"
 #include "database/database.h"
 #include "general/game.h"
+#include "mercenaries/mercenariescontainer.h"
 #include "missions/mission.h"
 #include "reports/missionreports.h"
 #include "reports/unifiedreport.h"

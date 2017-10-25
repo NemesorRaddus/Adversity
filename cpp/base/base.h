@@ -167,10 +167,10 @@ public:
     Q_INVOKABLE int currentBuildingMaterialsIncome() const noexcept;
     Q_INVOKABLE int currentAetheriteIncome() const noexcept;
 
-    Q_INVOKABLE inline int currentEnergyLimit() noexcept;
-    Q_INVOKABLE inline int currentFoodSuppliesLimit() noexcept;
-    Q_INVOKABLE inline int currentBuildingMaterialsLimit() noexcept;
-    Q_INVOKABLE inline int currentAetheriteLimit() noexcept;
+    Q_INVOKABLE int currentEnergyLimit() noexcept;
+    Q_INVOKABLE int currentFoodSuppliesLimit() noexcept;
+    Q_INVOKABLE int currentBuildingMaterialsLimit() noexcept;
+    Q_INVOKABLE int currentAetheriteLimit() noexcept;
 
     void setBuildingLevel(BuildingEnums::Building buildingName, unsigned level) noexcept;
     void setBuildingDescription(BuildingEnums::Building buildingName, const QString &desc) noexcept;

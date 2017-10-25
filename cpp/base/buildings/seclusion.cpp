@@ -3,6 +3,7 @@
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
+#include "mercenaries/mercenariescontainer.h"
 
 Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInfo> &levelsInfo) noexcept
     : Building(BuildingEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)

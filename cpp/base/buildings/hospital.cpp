@@ -3,6 +3,7 @@
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
+#include "mercenaries/mercenariescontainer.h"
 
 Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> &levelsInfo) noexcept
     : Building(BuildingEnums::B_Hospital, base, level), m_levelsInfo(levelsInfo)

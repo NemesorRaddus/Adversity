@@ -24,6 +24,7 @@
 #include "general/appbuildinfo.h"
 #include "general/game.h"
 #include "logging/loggershandler.h"
+#include "mercenaries/mercenariescontainer.h"
 #include "missions/mission.h"
 #include "reports/basereports.h"
 #include "reports/missionreports.h"

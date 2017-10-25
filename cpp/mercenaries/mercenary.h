@@ -1,62 +1,20 @@
 #pragma once
 
+#include <QObject>
 #include <QString>
 #include <QVector>
 
+#include "attributesset.h"
 #include "enums.h"
+#include "stressbordereffect.h"
 #include "equipment/enums.h"
 
+class Base;
 class Equipment;
 class Mission;
-
-struct MercenaryStressBorderEffect
-{
-    MercenaryStressBorderEffect() noexcept
-        : effectName(MercenaryEnums::SBE_None) {}
-    MercenaryStressBorderEffect(MercenaryEnums::StressBorderEffect effectName_) noexcept
-        : effectName(effectName_) {}
-
-    MercenaryEnums::StressBorderEffect effectName;
-
-    QDataStream &read(QDataStream &stream) noexcept;
-    QDataStream &write(QDataStream &stream) const noexcept;
-};
-
-QDataStream &operator<<(QDataStream &stream, const MercenaryStressBorderEffect &effect) noexcept;
-QDataStream &operator>>(QDataStream &stream, MercenaryStressBorderEffect &effect) noexcept;
-
-struct MercenaryAttributesSet
-{
-    MercenaryAttributesSet() noexcept
-        : combatEffectiveness(0), proficiency(0), cleverness(0), luck(0), health(1), healthLimit(1), dailyHealthRecovery(0), stress(0), stressResistance(0), stressLimit(1), stressBorder(1), dailyStressRecovery(0), salary(0), dailyFoodConsumption(0) {}
-
-    int combatEffectiveness;
-    int proficiency;
-    int cleverness;
-
-    float luck;
-
-    int health;
-    int healthLimit;
-    int dailyHealthRecovery;
-
-    int stress;
-    float stressResistance;
-    int stressLimit;
-    int stressBorder;
-    int dailyStressRecovery;
-
-    int salary;
-    int dailyFoodConsumption;
-};
-
-QDataStream &operator<<(QDataStream &stream, const MercenaryAttributesSet &attrs) noexcept;
-QDataStream &operator>>(QDataStream &stream, MercenaryAttributesSet &attrs) noexcept;
-
-struct AttributeModification;
-
-class Base;
+class MercenaryStressBorderEffect;
 class UnifiedReport;
+struct AttributeModification;
 
 class Mercenary : public QObject
 {
@@ -629,65 +587,4 @@ public:
 private:
     Mercenary *m_mercenary;
     static Base *m_base;
-};
-
-class MercenariesContainer : public QObject
-{
-    Q_OBJECT
-
-    Q_PROPERTY(Mercenary* preparedMercenary MEMBER m_preparedMercenary)
-
-public:
-    MercenariesContainer(Base *base) noexcept;
-    ~MercenariesContainer() noexcept = default;
-
-    Q_INVOKABLE bool prepareMercenaryAt(unsigned index) noexcept;
-    void addMercenary(Mercenary *mercenary) noexcept;
-    void removeMercenary(unsigned index) noexcept;
-    inline const QVector <Mercenary *> &mercenaries() const noexcept
-    {
-        return m_mercenaries;
-    }
-    Q_INVOKABLE int amountOfMercenaries() const noexcept
-    {
-        return m_mercenaries.size();
-    }
-    Q_INVOKABLE int findMercenary(const QString &name) const noexcept;
-    Mercenary *getMercenary(unsigned index) noexcept
-    {
-        return m_mercenaries.value(index,nullptr);
-    }
-    void setAmountOfSlots(unsigned amount) noexcept
-    {
-        m_amountOfSlots=amount;
-    }
-    Q_INVOKABLE inline unsigned amountOfSlots() const noexcept
-    {
-        return m_amountOfSlots;
-    }
-    bool canAddMercenary() const noexcept
-    {
-        return m_mercenaries.size() < m_amountOfSlots;
-    }
-    Q_INVOKABLE void dismissMercenary(const QString &name) noexcept
-    {
-        addDoStBan(name,m_durationOfBanAfterDismiss);
-    }
-
-    void handleNewDay() noexcept;
-    void handleNewWeek() noexcept;
-
-public slots:
-    void addDoStBan(QString name, unsigned daysAmount) noexcept;
-    void addDoStBan(QString name) noexcept;//permanent :c
-
-private:
-    void connectMercenaryToBanSystem(const QString &name) noexcept;
-    void disconnectMercenaryFromBanSystem(const QString &name) noexcept;
-
-    QVector <Mercenary *> m_mercenaries;
-    Mercenary *m_preparedMercenary;
-    unsigned m_amountOfSlots;
-    const unsigned m_durationOfBanAfterDismiss = 21;
-    Base *m_basePtr;
 };

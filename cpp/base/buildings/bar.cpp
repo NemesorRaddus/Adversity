@@ -3,6 +3,7 @@
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
+#include "mercenaries/mercenariescontainer.h"
 
 Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) noexcept
     : Building(BuildingEnums::B_Bar, base, level), m_levelsInfo(levelsInfo)

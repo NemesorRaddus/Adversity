@@ -3,6 +3,7 @@
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
+#include "mercenaries/mercenariescontainer.h"
 
 PlayingField::PlayingField(Base *base, unsigned level, const QVector<PlayingFieldLevelInfo> &levelsInfo) noexcept
     : Building(BuildingEnums::B_PlayingField, base, level), m_levelsInfo(levelsInfo)

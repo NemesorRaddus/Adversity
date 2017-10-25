@@ -54,8 +54,11 @@ SOURCES += cpp/main.cpp \
     cpp/general/settings.cpp \
     cpp/h4x/h4x.cpp \
     cpp/logging/loggershandler.cpp \
+    cpp/mercenaries/attributesset.cpp \
     cpp/mercenaries/enums.cpp \
+    cpp/mercenaries/mercenariescontainer.cpp \
     cpp/mercenaries/mercenary.cpp \
+    cpp/mercenaries/stressbordereffect.cpp \
     cpp/missions/encounter.cpp \
     cpp/missions/enums.cpp \
     cpp/missions/events/actionevents.cpp \
@@ -139,8 +142,11 @@ HEADERS += \
     cpp/general/settings.h \
     cpp/h4x/h4x.h \
     cpp/logging/loggershandler.h \
+    cpp/mercenaries/attributesset.h \
     cpp/mercenaries/enums.h \
+    cpp/mercenaries/mercenariescontainer.h \
     cpp/mercenaries/mercenary.h \
+    cpp/mercenaries/stressbordereffect.h \
     cpp/missions/encounter.h \
     cpp/missions/enums.h \
     cpp/missions/events/actionevents.h \

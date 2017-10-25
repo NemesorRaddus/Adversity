@@ -2,6 +2,7 @@
 
 #include "base/base.h"
 #include "clock/time.h"
+#include "mercenaries/mercenariescontainer.h"
 #include "mercenaries/mercenary.h"
 #include "missions/events/event.h"
 #include "reports/missionreports.h"

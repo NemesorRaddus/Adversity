@@ -3,6 +3,7 @@
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
+#include "mercenaries/mercenariescontainer.h"
 #include "mercenaries/mercenary.h"
 #include "missions/events/event.h"
 #include "reports/basereports.h"

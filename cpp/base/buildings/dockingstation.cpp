@@ -1,11 +1,14 @@
 #include "dockingstation.h"
 
+#include <QDataStream>
+
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "general/game.h"
 #include "general/randomizer.h"
 #include "logging/loggershandler.h"
+#include "mercenaries/mercenariescontainer.h"
 #include "missions/events/event.h"
 #include "reports/basereports.h"
 #include "reports/unifiedreport.h"

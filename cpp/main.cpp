@@ -27,6 +27,7 @@
 #include "general/randomizer.h"
 #include "h4x/h4x.h"
 #include "logging/loggershandler.h"
+#include "mercenaries/mercenariescontainer.h"
 #include "missions/land.h"
 #include "missions/mission.h"
 #include "qml_components/fpscounter.h"
