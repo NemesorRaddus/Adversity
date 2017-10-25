@@ -20,6 +20,7 @@
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "clock/timer_alarms/missionend.h"
 #include "equipment/equipment.h"
+#include "file_io/saves/savedata.h"
 #include "file_io/saves/saveparser.h"
 #include "general/appbuildinfo.h"
 #include "general/game.h"
@@ -98,7 +99,7 @@ void Base::setupNewBase() noexcept
         }
 
     m_database=m_gameObject->assetsPool().makeStockDatabase();
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}]Base has been set up",gameClock()->currentTime().toQString().toStdString());
+    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Base has been set up",gameClock()->currentTime().toQString().toStdString());
 }
 
 Base::~Base() noexcept

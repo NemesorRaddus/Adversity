@@ -77,7 +77,8 @@ SOURCES += cpp/main.cpp \
     cpp/reports/missionreports.cpp \
     cpp/reports/report.cpp \
     cpp/reports/unifiedreport.cpp \
-    cpp/translations/translations.cpp
+    cpp/translations/translations.cpp \
+    cpp/file_io/saves/savedata.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -166,7 +167,8 @@ HEADERS += \
     cpp/reports/report.h \
     cpp/reports/unifiedreport.h \
     cpp/stable.h \
-    cpp/translations/translations.h
+    cpp/translations/translations.h \
+    cpp/file_io/saves/savedata.h
 
 PRECOMPILED_HEADER = cpp/stable.h
 

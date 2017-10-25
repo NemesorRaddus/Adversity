@@ -28,6 +28,7 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "clock/timer_alarms/missionend.h"
+#include "file_io/saves/savedata.h"
 #include "file_io/saves/saveparser.h"
 #include "file_io/xml_files/xmlreader.h"
 #include "general/appbuildinfo.h"
