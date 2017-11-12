@@ -113,6 +113,11 @@ void SavesManager::deleteSave(unsigned index) noexcept
     }
 }
 
+unsigned SavesManager::amountOfSaves() const noexcept
+{
+    return m_saves.size();
+}
+
 void SavesManager::loadSavesList() noexcept
 {
     m_saves.clear();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QObject>
 #include <QString>
 #include <QVector>
 #include <QDateTime>
@@ -16,8 +17,10 @@ struct SaveInfo
     SaveData data;
 };
 
-class SavesManager
+class SavesManager : public QObject
 {
+    Q_OBJECT
+
 public:
     SavesManager() noexcept;
 
@@ -31,15 +34,15 @@ public:
     QString getSaveIconPath(unsigned index) const noexcept;
     void setSaveIcon(unsigned index, const QString &pathToIcon) noexcept;
     void updateSave(unsigned index, const SaveData &data) noexcept;
-    void duplicateSave(unsigned index, const QString &duplicateName) noexcept;
-    void renameSave(unsigned index, const QString &newName) noexcept;
-    void deleteSave(unsigned index) noexcept;
-    unsigned amountOfSaves() const noexcept;
+    Q_INVOKABLE void duplicateSave(unsigned index, const QString &duplicateName) noexcept;
+    Q_INVOKABLE void renameSave(unsigned index, const QString &newName) noexcept;
+    Q_INVOKABLE void deleteSave(unsigned index) noexcept;
+    Q_INVOKABLE unsigned amountOfSaves() const noexcept;
 
 private:
     void loadSavesList() noexcept;
     static SaveInfo readSaveInfo(const QByteArray &data) noexcept;
 
     QVector <SaveInfo> m_saves;
-    const unsigned m_maxAmountOfSaves = 10;
+    const unsigned m_maxAmountOfSaves = 20;
 };
