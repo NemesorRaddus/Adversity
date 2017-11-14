@@ -7,17 +7,16 @@
 #include "equipment/equipment.h"
 #include "base/enums.h"
 
-struct DockingStationLevelInfo
+struct DockingStationLevelInfo : public BuildingLevelInfo
 {
     DockingStationLevelInfo()
-        : recruitsAmount(0), waitingTime(0), profitability(0), equipmentsAmount(0), maxTier(0), basicCostInEnergy(0){}
+        : recruitsAmount(0), waitingTime(0), profitability(0), equipmentsAmount(0), maxTier(0) {}
 
     unsigned recruitsAmount;
     unsigned waitingTime;
     unsigned profitability;
     unsigned equipmentsAmount;
     unsigned maxTier;
-    unsigned basicCostInEnergy;
 };
 
 struct ActiveTransaction

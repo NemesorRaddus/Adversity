@@ -4,15 +4,14 @@
 
 #include "building.h"
 
-struct FactoryLevelInfo
+struct FactoryLevelInfo : public BuildingLevelInfo
 {
     FactoryLevelInfo()
-        : aetheriteOreTaken(0), buildingMaterialsGiven(0), basicCostInEnergy(0),maxCycles(0){}
+        : aetheriteOreTaken(0), buildingMaterialsGiven(0), maxCycles(0) {}
 
     unsigned aetheriteOreTaken;
     unsigned buildingMaterialsGiven;
     unsigned maxCycles;
-    unsigned basicCostInEnergy;
 };
 
 class Factory : public Building

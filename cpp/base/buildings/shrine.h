@@ -5,13 +5,12 @@
 #include "building.h"
 #include "mercenaries/mercenary.h"
 
-struct ShrineLevelInfo
+struct ShrineLevelInfo : public BuildingLevelInfo
 {
     ShrineLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), stressReductionForActive(0), stressReductionForConvivial(0), stressReductionForRecluse(0), stressReductionForReligious(0){}
+        : amountOfSlots(0), perCapitaCostInEnergy(0), stressReductionForActive(0), stressReductionForConvivial(0), stressReductionForRecluse(0), stressReductionForReligious(0) {}
 
     unsigned amountOfSlots;
-    unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
     int stressReductionForActive;
     int stressReductionForConvivial;

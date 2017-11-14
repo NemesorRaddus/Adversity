@@ -4,13 +4,12 @@
 
 #include "building.h"
 
-struct StorageRoomLevelInfo
+struct StorageRoomLevelInfo : public BuildingLevelInfo
 {
     StorageRoomLevelInfo()
-        : buildingMaterialsLimit(0), basicCostInEnergy(0){}
+        : buildingMaterialsLimit(0) {}
 
     unsigned buildingMaterialsLimit;
-    unsigned basicCostInEnergy;
 };
 
 class StorageRoom : public Building

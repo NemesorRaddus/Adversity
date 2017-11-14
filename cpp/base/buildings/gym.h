@@ -5,13 +5,12 @@
 #include "building.h"
 #include "mercenaries/mercenary.h"
 
-struct GymLevelInfo
+struct GymLevelInfo : public BuildingLevelInfo
 {
     GymLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), proficiencyBonus(0), duration(0){}
+        : amountOfSlots(0), perCapitaCostInEnergy(0), proficiencyBonus(0), duration(0) {}
 
     unsigned amountOfSlots;
-    unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
     int proficiencyBonus;
     unsigned duration;

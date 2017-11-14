@@ -5,13 +5,12 @@
 #include "building.h"
 #include "mercenaries/mercenary.h"
 
-struct HospitalLevelInfo
+struct HospitalLevelInfo : public BuildingLevelInfo
 {
     HospitalLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), basicCostInFoodSupplies(0), perCapitaCostInFoodSupplies(0), hpRestored(0){}
+        : amountOfSlots(0), perCapitaCostInEnergy(0), basicCostInFoodSupplies(0), perCapitaCostInFoodSupplies(0), hpRestored(0) {}
 
     unsigned amountOfSlots;
-    unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
     unsigned basicCostInFoodSupplies;
     unsigned perCapitaCostInFoodSupplies;

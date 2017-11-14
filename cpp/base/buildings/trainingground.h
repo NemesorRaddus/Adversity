@@ -6,13 +6,12 @@
 
 class Mercenary;
 
-struct TrainingGroundLevelInfo
+struct TrainingGroundLevelInfo : public BuildingLevelInfo
 {
     TrainingGroundLevelInfo()
-        : amountOfSlots(0), basicCostInEnergy(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), duration(0){}
+        : amountOfSlots(0), perCapitaCostInEnergy(0), combatEffectivenessBonus(0), duration(0){}
 
     unsigned amountOfSlots;
-    unsigned basicCostInEnergy;
     unsigned perCapitaCostInEnergy;
     int combatEffectivenessBonus;
     unsigned duration;

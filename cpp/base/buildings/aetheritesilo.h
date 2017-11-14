@@ -4,13 +4,12 @@
 
 #include "building.h"
 
-struct AetheriteSiloLevelInfo
+struct AetheriteSiloLevelInfo : public BuildingLevelInfo
 {
     AetheriteSiloLevelInfo()
-        : aetheriteOreLimit(0), basicCostInEnergy(0){}
+        : aetheriteOreLimit(0) {}
 
     unsigned aetheriteOreLimit;
-    unsigned basicCostInEnergy;
 };
 
 class AetheriteSilo : public Building

@@ -4,16 +4,15 @@
 
 #include "building.h"
 
-struct PowerplantLevelInfo
+struct PowerplantLevelInfo : public BuildingLevelInfo
 {
     PowerplantLevelInfo()
-        : aetheriteOreTaken(0), energyLimit(0), energyGiven(0), maxCycles(0), basicCostInEnergy(0){}
+        : aetheriteOreTaken(0), energyLimit(0), energyGiven(0), maxCycles(0) {}
 
     unsigned aetheriteOreTaken;
     unsigned energyLimit;
     unsigned energyGiven;
     unsigned maxCycles;
-    unsigned basicCostInEnergy;
 };
 
 class Powerplant : public Building

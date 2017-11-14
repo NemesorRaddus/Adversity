@@ -17,6 +17,16 @@ struct BuildingUpgradeRequirements
     unsigned requiredTime;
 };
 
+struct BuildingLevelInfo
+{
+public:
+    unsigned basicCostInEnergy;
+
+protected:
+    BuildingLevelInfo()
+        : basicCostInEnergy(0) {}
+};
+
 class Base;
 
 class Building : public QObject

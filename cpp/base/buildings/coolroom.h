@@ -4,13 +4,12 @@
 
 #include "building.h"
 
-struct CoolRoomLevelInfo
+struct CoolRoomLevelInfo : public BuildingLevelInfo
 {
     CoolRoomLevelInfo()
-        : foodSuppliesLimit(0), basicCostInEnergy(0){}
+        : foodSuppliesLimit(0) {}
 
     unsigned foodSuppliesLimit;
-    unsigned basicCostInEnergy;
 };
 
 class CoolRoom : public Building

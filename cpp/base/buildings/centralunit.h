@@ -4,13 +4,7 @@
 
 #include "building.h"
 
-struct CentralUnitLevelInfo
-{
-    CentralUnitLevelInfo()
-        : basicCostInEnergy(0){}
-
-    unsigned basicCostInEnergy;
-};
+struct CentralUnitLevelInfo : public BuildingLevelInfo {};
 
 class CentralUnit : public Building
 {

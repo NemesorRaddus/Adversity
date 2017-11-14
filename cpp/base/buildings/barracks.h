@@ -4,10 +4,10 @@
 
 #include "building.h"
 
-struct BarracksLevelInfo
+struct BarracksLevelInfo : public BuildingLevelInfo
 {
     BarracksLevelInfo()
-        : mercenariesLimit(0), basicCostInEnergy(0){}
+        : mercenariesLimit(0) {}
 
     unsigned mercenariesLimit;
     unsigned basicCostInEnergy;
