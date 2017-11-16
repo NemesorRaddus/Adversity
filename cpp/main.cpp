@@ -21,6 +21,7 @@
 #include "base/buildings/storageroom.h"
 #include "base/buildings/trainingground.h"
 #include "clock/gameclock.h"
+#include "database/database.h"
 #include "general/appbuildinfo.h"
 #include "general/game.h"
 #include "general/globalutilities.h"
@@ -63,12 +64,14 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
     qmlRegisterInterface<GameClock>("GameClock");
+    qmlRegisterInterface<Mercenary>("Mercenary");
     qmlRegisterInterface<MercenariesContainer>("MercenariesContainer");
     qmlRegisterInterface<Equipment>("Equipment");
     qmlRegisterInterface<Mission>("Mission");
     qmlRegisterInterface<MissionInitializer>("MissionInitializer");
     qmlRegisterInterface<Land>("Land");
     qmlRegisterInterface<LandsInfo>("LandsInfo");
+    qmlRegisterInterface<Database>("Database");
     qmlRegisterInterface<AppBuildInfo>("AppBuildInfo");
     qmlRegisterInterface<GlobalUtilities>("GlobalUtilities");
     qmlRegisterInterface<UnifiedReport>("UnifiedReport");
