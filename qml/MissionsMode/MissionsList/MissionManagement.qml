@@ -22,14 +22,14 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am=GameApi.base.heroes.amountOfHeroes();
+        var am=GameApi.base.mercenaries.amountOfMercenaries();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
-            if (GameApi.base.heroes.preparedHero.name() == intName)
+            GameApi.base.mercenaries.prepareMercenaryAt(i);
+            if (GameApi.base.mercenaries.preparedMercenary.name() == intName)
             {
-                if (GameApi.base.heroes.preparedHero.isCommunicationAvailable())
+                if (GameApi.base.mercenaries.preparedMercenary.isCommunicationAvailable())
                 {
                     connectionBackground.source = "qrc:/graphics/GUI/Connected.png";
                     connectionLostText.stopShowing();
@@ -47,9 +47,9 @@ Item {
         }
     }
 
-    function setHero(heroName)
+    function setMercenary(mercenaryName)
     {
-        name_=heroName;
+        name_=mercenaryName;
         updateEverything();
     }
 
@@ -115,14 +115,14 @@ Item {
 
             onClicked: {
                 GameApi.logger.trace("Abort clicked");
-                var am=GameApi.base.heroes.amountOfHeroes();
+                var am=GameApi.base.mercenaries.amountOfMercenaries();
                 var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
                 for (var i=0;i<am;++i)
                 {
-                    GameApi.base.heroes.prepareHeroAt(i);
-                    if (GameApi.base.heroes.preparedHero.name() == intName)
+                    GameApi.base.mercenaries.prepareMercenaryAt(i);
+                    if (GameApi.base.mercenaries.preparedMercenary.name() == intName)
                     {
-                        GameApi.base.heroes.preparedHero.assignedMission.abort();
+                        GameApi.base.mercenaries.preparedMercenary.assignedMission.abort();
                         root.abortClicked();
                         break;
                     }

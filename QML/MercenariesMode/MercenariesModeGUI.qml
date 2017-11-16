@@ -30,14 +30,14 @@ Item {
     signal buildingMenuRequested(string buildingName)
     signal dismissClickedFwd()
     signal dismissDialogHidingRequested()
-    signal unbanRequested(string heroName, string buildingName)
+    signal unbanRequested(string mercenaryName, string buildingName)
     signal artPreviewRequested(string artSource)
     signal artPreviewHidingRequested()
 
     function returnToDefault()
     {
         list.state = "";
-        heroesAmountItem.state = "";
+        mercenariesAmountItem.state = "";
         view.state = "hidden";
         list.returnToDefault();
     }
@@ -45,12 +45,12 @@ Item {
     function updateEverything()
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
-        transitionHeroesAmountItem.duration = transitionHeroesAmountItem.baseDuration * GameApi.animMultiplier();
+        transitionMercenariesAmountItem.duration = transitionMercenariesAmountItem.baseDuration * GameApi.animMultiplier();
 
         list.returnToDefault();
         list.updateEverything();
         view.updateEverything();
-        heroesAmountItem.update();
+        mercenariesAmountItem.update();
     }
 
     function reactToBackOnToolbar()//returns true if intervention was successful and nothing else is needed to be done
@@ -99,21 +99,21 @@ Item {
     }
 
     Item {
-        id: heroesAmountItem
+        id: mercenariesAmountItem
 
         x: 0
         y: 12
         width: parent.theoreticalWidth
-        height: heroesAmountTaskBorder.y + heroesAmountTaskBorder.height - 4
+        height: mercenariesAmountTaskBorder.y + mercenariesAmountTaskBorder.height - 4
 
         function update()
         {
-            heroesAmountAmount.text = GameApi.base.heroes.amountOfHeroes() + '/' + GameApi.base.heroes.amountOfSlots();
+            mercenariesAmountAmount.text = GameApi.base.mercenaries.amountOfMercenaries() + '/' + GameApi.base.mercenaries.amountOfSlots();
             totalSalary.text = "Total salary: "+GameApi.base.currentTotalSalary();
         }
 
         Text {
-            id: heroesAmountText
+            id: mercenariesAmountText
 
             x: 240
             y: -6
@@ -124,10 +124,10 @@ Item {
             font.family: fontStencil.name
         }
         Text {
-            id: heroesAmountAmount
+            id: mercenariesAmountAmount
 
             x: 740
-            y: heroesAmountText.y
+            y: mercenariesAmountText.y
 
             color: "#94ef94"
             font.pixelSize: 70
@@ -138,7 +138,7 @@ Item {
             id: totalSalary
 
             x: 0
-            y: heroesAmountAmount.y + heroesAmountAmount.height
+            y: mercenariesAmountAmount.y + mercenariesAmountAmount.height
             width: parent.width
             height: font.pixelSize + 4
 
@@ -150,7 +150,7 @@ Item {
         }
 
         Image {
-            id: heroesAmountTaskBorder
+            id: mercenariesAmountTaskBorder
 
             x: 17
             y: totalSalary.y + totalSalary.height + 4
@@ -163,33 +163,33 @@ Item {
         states: [
             State {
                 name: "hidden"
-                PropertyChanges { target: heroesAmountItem; y: -height-10 }
+                PropertyChanges { target: mercenariesAmountItem; y: -height-10 }
             }
         ]
 
         transitions: Transition {
-            NumberAnimation { id: transitionHeroesAmountItem; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
+            NumberAnimation { id: transitionMercenariesAmountItem; properties: "y"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 
-    HeroesList {
+    MercenariesList {
         id: list
 
         x: 0
-        y: heroesAmountItem.y+heroesAmountItem.height
+        y: mercenariesAmountItem.y+mercenariesAmountItem.height
         width: root.theoreticalWidth
-        height: root.theoreticalHeight - heroesAmountItem.height
+        height: root.theoreticalHeight - mercenariesAmountItem.height
 
-        onHeroClicked: {
-            view.setMercenary(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+        onMercenaryClicked: {
+            view.setMercenary(GameApi.globalsCpp.alterNormalTextToInternal(mercenaryName));
 
             state = "hidden";
-            heroesAmountItem.state = "hidden";
+            mercenariesAmountItem.state = "hidden";
             view.state = "";
         }
     }
 
-    HeroView {
+    MercenaryView {
         id: view
 
         x: 0
@@ -200,14 +200,14 @@ Item {
         onBackClicked: {
             state = "hidden";
             list.state = "";
-            heroesAmountItem.state = "";
+            mercenariesAmountItem.state = "";
         }
 
         onBuildingMenuRequested: root.buildingMenuRequested(buildingName);
 
         onDismissClicked: root.dismissClickedFwd();
 
-        onUnbanRequested: root.unbanRequested(heroName_, buildingName);
+        onUnbanRequested: root.unbanRequested(mercenaryName_, buildingName);
 
         onGuiUpdateRequested: {
             root.returnToDefault();

@@ -383,13 +383,13 @@ Item {
             onClicked: {
                 GameApi.base.missionInitializer.setLand(name.text);
                 if (lengthShort.state == "")
-                    GameApi.base.missionInitializer.setDifficulty("Short");
+                    GameApi.base.missionInitializer.setLength("Short");
                 else if (lengthMedium.state == "")
-                    GameApi.base.missionInitializer.setDifficulty("Medium");
+                    GameApi.base.missionInitializer.setLength("Medium");
                 else if (lengthLong.state == "")
-                    GameApi.base.missionInitializer.setDifficulty("Long");
+                    GameApi.base.missionInitializer.setLength("Long");
                 else if (lengthExtreme.state == "")
-                    GameApi.base.missionInitializer.setDifficulty("Extreme");
+                    GameApi.base.missionInitializer.setLength("Extreme");
                 root.nextClicked(root.intLandName, name.text);
             }
         }

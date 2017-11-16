@@ -27,28 +27,28 @@
         <file>qml/BuildingsMode/BuildingsMenus/StorageRoomMenu.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/TrainingGroundMenu.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/BuildingSlotView.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesList.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListDelegate.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/HeroesList/HeroesListScripts.js</file>
+        <file>qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesListScripts.js</file>
         <file>qml/MercenariesMode/MercenariesModeGUI.qml</file>
-        <file>qml/MercenariesMode/HeroesList.qml</file>
-        <file>qml/MercenariesMode/HeroesListDelegate.qml</file>
-        <file>qml/MercenariesMode/HeroesListScripts.js</file>
+        <file>qml/MercenariesMode/MercenariesList.qml</file>
+        <file>qml/MercenariesMode/MercenariesListDelegate.qml</file>
+        <file>qml/MercenariesMode/MercenariesListScripts.js</file>
         <file>qml/ModeButtonLight.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/ResourcesTab.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesTab.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/MercenariesTab.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsTab.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/RecruitmentHeroesListDelegate.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesList.qml</file>
-        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/HeroesListScripts.js</file>
-        <file>qml/MercenariesMode/HeroView.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/RecruitmentMercenariesListDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/MercenariesList.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/MercenariesListScripts.js</file>
+        <file>qml/MercenariesMode/MercenaryView.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/TradingTable.qml</file>
         <file>qml/H4XScreen.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsList.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsListDelegate.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/DockingStationSubmenus/EquipmentsListScripts.js</file>
         <file>qml/ConfirmDialog.qml</file>
-        <file>qml/HeroArtPreview.qml</file>
+        <file>qml/MercenaryArtPreview.qml</file>
         <file>qml/MarqueeText.qml</file>
         <file>qml/MissionsMode/MissionsModeGUI.qml</file>
         <file>qml/MissionsMode/Map.qml</file>
@@ -56,13 +56,13 @@
         <file>qml/MissionsMode/Landmark.qml</file>
         <file>qml/MissionsMode/MissionStartMenu.qml</file>
         <file>qml/MissionsMode/MissionSelectionMenu.qml</file>
-        <file>qml/MissionsMode/HeroDelegate.qml</file>
+        <file>qml/MissionsMode/MercenaryDelegate.qml</file>
         <file>qml/MissionsMode/EquipmentsList.qml</file>
         <file>qml/MissionsMode/EquipmentsListDelegate.qml</file>
         <file>qml/MissionsMode/EquipmentsListScripts.js</file>
-        <file>qml/MissionsMode/HeroesList.qml</file>
-        <file>qml/MissionsMode/HeroesListScripts.js</file>
-        <file>qml/MissionsMode/HeroesListDelegate.qml</file>
+        <file>qml/MissionsMode/MercenariesList.qml</file>
+        <file>qml/MissionsMode/MercenariesListScripts.js</file>
+        <file>qml/MissionsMode/MercenariesListDelegate.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsList.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/EquipmentsList/EquipmentsListDelegate.qml</file>
         <file>qml/MissionsMode/Database/Database.qml</file>
@@ -78,8 +78,8 @@
         <file>qml/Reports/ReportsListDelegate.qml</file>
         <file>qml/Reports/ReportsListScripts.js</file>
         <file>qml/Reports/ReportsNotification.qml</file>
-        <file>qml/MissionsMode/MissionsList/HeroView.qml</file>
-        <file>qml/MissionsMode/MissionsList/HeroDelegate.qml</file>
+        <file>qml/MissionsMode/MissionsList/MercenaryView.qml</file>
+        <file>qml/MissionsMode/MissionsList/MercenaryDelegate.qml</file>
         <file>qml/MissionsMode/MissionsList/MissionManagement.qml</file>
         <file>qml/Settings/Settings.qml</file>
         <file>qml/MissionsMode/MissionsList/MissionViewMenu.qml</file>

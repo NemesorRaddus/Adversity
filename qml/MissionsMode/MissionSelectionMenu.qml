@@ -9,10 +9,10 @@ Item {
 
     function returnToDefault()
     {
-        heroesList.state = "hidden";
+        mercenariesList.state = "hidden";
         equipmentsList.state = "hidden";
 
-        GameApi.base.missionInitializer.setHero("");
+        GameApi.base.missionInitializer.setMercenary("");
         GameApi.base.missionInitializer.setArmor("");
         GameApi.base.missionInitializer.setWeaponTool("", 0);
         GameApi.base.missionInitializer.setWeaponTool("", 1);
@@ -44,9 +44,9 @@ Item {
 
     function reactToBackOnToolbar()
     {
-        if (heroesList.state == "")
+        if (mercenariesList.state == "")
         {
-            heroesList.state = "hidden";
+            mercenariesList.state = "hidden";
             return true;
         }
         else if (equipmentsList.state == "")
@@ -61,34 +61,34 @@ Item {
     function updateDelegate()
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
-        transitionHeroesList.duration = transitionHeroesList.baseDuration * GameApi.animMultiplier();
+        transitionMercenariesList.duration = transitionMercenariesList.baseDuration * GameApi.animMultiplier();
         transitionEquipmentsList.duration = transitionEquipmentsList.baseDuration * GameApi.animMultiplier();
 
-        if (GameApi.base.missionInitializer.isHeroSelected())
+        if (GameApi.base.missionInitializer.isMercenarySelected())
         {
             delegate.setEmpty(false);
 
-            delegate.setProfession(GameApi.base.missionInitializer.selectedHero.professionString());
+            delegate.setProfession(GameApi.base.missionInitializer.selectedMercenary.professionString());
 
-            var ce=GameApi.base.missionInitializer.selectedHero.combatEffectiveness();
-            var pr=GameApi.base.missionInitializer.selectedHero.proficiency();
-            var cl=GameApi.base.missionInitializer.selectedHero.cleverness();
-            var hp=GameApi.base.missionInitializer.selectedHero.health();
-            var hpMax=GameApi.base.missionInitializer.selectedHero.healthLimit();
-            var st=GameApi.base.missionInitializer.selectedHero.stress();
-            var sr=GameApi.base.missionInitializer.selectedHero.stressResistance();
-            var sl=GameApi.base.missionInitializer.selectedHero.stressLimit();
-            var sa=GameApi.base.missionInitializer.selectedHero.salary();
-            var fc=GameApi.base.missionInitializer.selectedHero.dailyFoodConsumption();
+            var ce=GameApi.base.missionInitializer.selectedMercenary.combatEffectiveness();
+            var pr=GameApi.base.missionInitializer.selectedMercenary.proficiency();
+            var cl=GameApi.base.missionInitializer.selectedMercenary.cleverness();
+            var hp=GameApi.base.missionInitializer.selectedMercenary.health();
+            var hpMax=GameApi.base.missionInitializer.selectedMercenary.healthLimit();
+            var st=GameApi.base.missionInitializer.selectedMercenary.stress();
+            var sr=GameApi.base.missionInitializer.selectedMercenary.stressResistance();
+            var sl=GameApi.base.missionInitializer.selectedMercenary.stressLimit();
+            var sa=GameApi.base.missionInitializer.selectedMercenary.salary();
+            var fc=GameApi.base.missionInitializer.selectedMercenary.dailyFoodConsumption();
 
-            var bce=GameApi.base.missionInitializer.selectedHero.baseCombatEffectiveness();
-            var bpr=GameApi.base.missionInitializer.selectedHero.baseProficiency();
-            var bcl=GameApi.base.missionInitializer.selectedHero.baseCleverness();
-            var bhpMax=GameApi.base.missionInitializer.selectedHero.baseHealthLimit();
-            var bsr=GameApi.base.missionInitializer.selectedHero.baseStressResistance();
-            var bsl=GameApi.base.missionInitializer.selectedHero.baseStressLimit();
-            var bsa=GameApi.base.missionInitializer.selectedHero.baseSalary();
-            var bfc=GameApi.base.missionInitializer.selectedHero.baseDailyFoodConsumption();
+            var bce=GameApi.base.missionInitializer.selectedMercenary.baseCombatEffectiveness();
+            var bpr=GameApi.base.missionInitializer.selectedMercenary.baseProficiency();
+            var bcl=GameApi.base.missionInitializer.selectedMercenary.baseCleverness();
+            var bhpMax=GameApi.base.missionInitializer.selectedMercenary.baseHealthLimit();
+            var bsr=GameApi.base.missionInitializer.selectedMercenary.baseStressResistance();
+            var bsl=GameApi.base.missionInitializer.selectedMercenary.baseStressLimit();
+            var bsa=GameApi.base.missionInitializer.selectedMercenary.baseSalary();
+            var bfc=GameApi.base.missionInitializer.selectedMercenary.baseDailyFoodConsumption();
 
             delegate.setCE(ce);
             delegate.setPR(pr);
@@ -186,7 +186,7 @@ Item {
         onClicked: root.forceActiveFocus();
     }
 
-    HeroDelegate {
+    MercenaryDelegate {
         id: delegate
 
         x: 0
@@ -195,8 +195,8 @@ Item {
         height: 271
 
         onOpenListRequested: {
-            heroesList.update();
-            heroesList.state = "";
+            mercenariesList.update();
+            mercenariesList.state = "";
         }
     }
 
@@ -444,19 +444,19 @@ Item {
 
             function checkAmount()
             {
-                if (GameApi.base.missionInitializer.isHeroSelected())
+                if (GameApi.base.missionInitializer.isMercenarySelected())
                 {
                     var mindays = 0;
-                    if (GameApi.base.missionInitializer.difficulty() == "Short")
+                    if (GameApi.base.missionInitializer.length() == "Short")
                         mindays = 2;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Medium")
+                    else if (GameApi.base.missionInitializer.length() == "Medium")
                         mindays = 6;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Long")
+                    else if (GameApi.base.missionInitializer.length() == "Long")
                         mindays = 11;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Extreme")
+                    else if (GameApi.base.missionInitializer.length() == "Extreme")
                         mindays = 28;
 
-                    var needam = GameApi.base.missionInitializer.selectedHero.dailyEquipmentCostEnergy() * mindays;
+                    var needam = GameApi.base.missionInitializer.selectedMercenary.dailyEquipmentCostEnergy() * mindays;
                     var curam = text*1;
                     if (needam > curam)
                     {
@@ -616,19 +616,19 @@ Item {
 
             function checkAmount()
             {
-                if (GameApi.base.missionInitializer.isHeroSelected())
+                if (GameApi.base.missionInitializer.isMercenarySelected())
                 {
                     var mindays = 0;
-                    if (GameApi.base.missionInitializer.difficulty() == "Short")
+                    if (GameApi.base.missionInitializer.length() == "Short")
                         mindays = 2;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Medium")
+                    else if (GameApi.base.missionInitializer.length() == "Medium")
                         mindays = 6;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Long")
+                    else if (GameApi.base.missionInitializer.length() == "Long")
                         mindays = 11;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Extreme")
+                    else if (GameApi.base.missionInitializer.length() == "Extreme")
                         mindays = 28;
 
-                    var needam = GameApi.base.missionInitializer.selectedHero.dailyEquipmentCostBM() * mindays;
+                    var needam = GameApi.base.missionInitializer.selectedMercenary.dailyEquipmentCostBM() * mindays;
                     var curam = text*1;
                     if (needam > curam)
                     {
@@ -788,19 +788,19 @@ Item {
 
             function checkAmount()
             {
-                if (GameApi.base.missionInitializer.isHeroSelected())
+                if (GameApi.base.missionInitializer.isMercenarySelected())
                 {
                     var mindays = 0;
-                    if (GameApi.base.missionInitializer.difficulty() == "Short")
+                    if (GameApi.base.missionInitializer.length() == "Short")
                         mindays = 2;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Medium")
+                    else if (GameApi.base.missionInitializer.length() == "Medium")
                         mindays = 6;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Long")
+                    else if (GameApi.base.missionInitializer.length() == "Long")
                         mindays = 11;
-                    else if (GameApi.base.missionInitializer.difficulty() == "Extreme")
+                    else if (GameApi.base.missionInitializer.length() == "Extreme")
                         mindays = 28;
 
-                    var needam = GameApi.base.missionInitializer.selectedHero.dailyFoodConsumption() * mindays;
+                    var needam = GameApi.base.missionInitializer.selectedMercenary.dailyFoodConsumption() * mindays;
                     var curam = text*1;
                     if (needam > curam)
                     {
@@ -1000,7 +1000,7 @@ Item {
             onClicked: {
                 GameApi.logger.trace("Explore clicked");
                 warningNotEnoughResourcesText.checkResources();
-                if (!warningNotEnoughResourcesText.isShowing && GameApi.base.missionInitializer.isHeroSelected())
+                if (!warningNotEnoughResourcesText.isShowing && GameApi.base.missionInitializer.isMercenarySelected())
                 {
                     GameApi.base.missionInitializer.setEnergy(energySetter.text);
                     GameApi.base.missionInitializer.setBuildingMaterials(buildingMaterialsSetter.text);
@@ -1013,8 +1013,8 @@ Item {
         }
     }
 
-    HeroesList {
-        id: heroesList
+    MercenariesList {
+        id: mercenariesList
 
         x: 0
         y: 0
@@ -1023,18 +1023,18 @@ Item {
 
         state: "hidden"
 
-        onHeroClicked: {
-            GameApi.base.missionInitializer.setHero(GameApi.globalsCpp.alterNormalTextToInternal(heroName));
+        onMercenaryClicked: {
+            GameApi.base.missionInitializer.setMercenary(GameApi.globalsCpp.alterNormalTextToInternal(mercenaryName));
 
-            if (heroName == "")
+            if (mercenaryName == "")
             {
                 delegate.setName("");
-                delegate.setArtSource("qrc:/graphics/GUI/Slots/HeroSlot.png");
+                delegate.setArtSource("qrc:/graphics/GUI/Slots/MercenarySlot.png");
                 updateDelegate();
             }
             else
             {
-                delegate.setName(heroName);
+                delegate.setName(mercenaryName);
                 delegate.setArtSource(artSource);
                 updateDelegate();
             }
@@ -1049,12 +1049,12 @@ Item {
         states: [
             State {
                 name: "hidden"
-                PropertyChanges { target: heroesList; x: width }
+                PropertyChanges { target: mercenariesList; x: width }
             }
         ]
 
         transitions: Transition {
-            NumberAnimation { id: transitionHeroesList; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
+            NumberAnimation { id: transitionMercenariesList; properties: "x"; easing.type: Easing.InQuad; duration: baseDuration; property int baseDuration: 500 }
         }
     }
 

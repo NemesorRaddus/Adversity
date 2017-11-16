@@ -40,7 +40,7 @@
         <file>graphics/GUI/Resources/Energy.png</file>
         <file>graphics/GUI/Resources/Foodsupplies.png</file>
         <file>graphics/GUI/Slots/ArmourSlot.png</file>
-        <file>graphics/GUI/Slots/HeroSlot.png</file>
+        <file>graphics/GUI/Slots/MercenarySlot.png</file>
         <file>graphics/GUI/Slots/Nothing.png</file>
         <file>graphics/GUI/Slots/ToolSlot.png</file>
         <file>graphics/GUI/Status frames/HighStress20.png</file>

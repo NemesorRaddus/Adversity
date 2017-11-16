@@ -3,49 +3,49 @@
 <factoryLevelsInfo>
     <levelInfo level="0" basicCostEnergy="0" aetheriteTaken="0" buildingMaterialsGiven="0" maxCycles="0"></levelInfo>
     <levelInfo level="1" basicCostEnergy="1" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="1"></levelInfo>
-    <levelInfo level="2" basicCostEnergy="1" aetheriteTaken="2" buildingMaterialsGiven="2" maxCycles="1">
-        <requirements energy="5" buildingMaterials="4" time="1"></requirements>
+    <levelInfo level="2" basicCostEnergy="1" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="2">
+        <requirements energy="5" buildingMaterials="2" time="1"></requirements>
     </levelInfo>
-    <levelInfo level="3" basicCostEnergy="2" aetheriteTaken="3" buildingMaterialsGiven="3" maxCycles="1">
-        <requirements energy="10" buildingMaterials="4" time="2"></requirements>
+    <levelInfo level="3" basicCostEnergy="2" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="3">
+        <requirements energy="10" buildingMaterials="2" time="2"></requirements>
     </levelInfo>
-    <levelInfo level="4" basicCostEnergy="2" aetheriteTaken="3" buildingMaterialsGiven="4" maxCycles="1">
-        <requirements energy="10" buildingMaterials="4" time="3"></requirements>
+    <levelInfo level="4" basicCostEnergy="2" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="4">
+        <requirements energy="10" buildingMaterials="2" time="3"></requirements>
     </levelInfo>
-    <levelInfo level="5" basicCostEnergy="3" aetheriteTaken="2" buildingMaterialsGiven="3" maxCycles="2">
-        <requirements energy="15" buildingMaterials="8" time="8"></requirements>
+    <levelInfo level="5" basicCostEnergy="3" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="5">
+        <requirements energy="15" buildingMaterials="4" time="8"></requirements>
     </levelInfo>
-    <levelInfo level="6" basicCostEnergy="3" aetheriteTaken="3" buildingMaterialsGiven="5" maxCycles="2">
-        <requirements energy="15" buildingMaterials="8" time="10"></requirements>
+    <levelInfo level="6" basicCostEnergy="3" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="6">
+        <requirements energy="15" buildingMaterials="4" time="10"></requirements>
     </levelInfo>
-    <levelInfo level="7" basicCostEnergy="4" aetheriteTaken="3" buildingMaterialsGiven="5" maxCycles="3">
-        <requirements energy="20" buildingMaterials="12" time="18"></requirements>
+    <levelInfo level="7" basicCostEnergy="4" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="7">
+        <requirements energy="20" buildingMaterials="6" time="18"></requirements>
     </levelInfo>
-    <levelInfo level="8" basicCostEnergy="4" aetheriteTaken="3" buildingMaterialsGiven="6" maxCycles="3">
-        <requirements energy="20" buildingMaterials="12" time="21"></requirements>
+    <levelInfo level="8" basicCostEnergy="4" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="8">
+        <requirements energy="20" buildingMaterials="6" time="21"></requirements>
     </levelInfo>
-    <levelInfo level="9" basicCostEnergy="4" aetheriteTaken="4" buildingMaterialsGiven="8" maxCycles="3">
-        <requirements energy="20" buildingMaterials="12" time="24"></requirements>
+    <levelInfo level="9" basicCostEnergy="4" aetheriteTaken="1" buildingMaterialsGiven="1" maxCycles="9">
+        <requirements energy="20" buildingMaterials="6" time="24"></requirements>
     </levelInfo>
-    <levelInfo level="10" basicCostEnergy="4" aetheriteTaken="4" buildingMaterialsGiven="9" maxCycles="3">
-        <requirements energy="20" buildingMaterials="12" time="27"></requirements>
+    <levelInfo level="10" basicCostEnergy="4" aetheriteTaken="1" buildingMaterialsGiven="2" maxCycles="5">
+        <requirements energy="20" buildingMaterials="6" time="27"></requirements>
     </levelInfo>
-    <levelInfo level="11" basicCostEnergy="5" aetheriteTaken="4" buildingMaterialsGiven="10" maxCycles="3">
-        <requirements energy="25" buildingMaterials="12" time="30"></requirements>
+    <levelInfo level="11" basicCostEnergy="5" aetheriteTaken="1" buildingMaterialsGiven="2" maxCycles="6">
+        <requirements energy="25" buildingMaterials="6" time="30"></requirements>
     </levelInfo>
-    <levelInfo level="12" basicCostEnergy="6" aetheriteTaken="3" buildingMaterialsGiven="8" maxCycles="4">
-        <requirements energy="30" buildingMaterials="16" time="40"></requirements>
+    <levelInfo level="12" basicCostEnergy="6" aetheriteTaken="1" buildingMaterialsGiven="2" maxCycles="7">
+        <requirements energy="30" buildingMaterials="8" time="40"></requirements>
     </levelInfo>
-    <levelInfo level="13" basicCostEnergy="6" aetheriteTaken="4" buildingMaterialsGiven="13" maxCycles="4">
-        <requirements energy="30" buildingMaterials="16" time="44"></requirements>
+    <levelInfo level="13" basicCostEnergy="6" aetheriteTaken="1" buildingMaterialsGiven="2" maxCycles="8">
+        <requirements energy="30" buildingMaterials="8" time="44"></requirements>
     </levelInfo>
-    <levelInfo level="14" basicCostEnergy="8" aetheriteTaken="4" buildingMaterialsGiven="14" maxCycles="4">
-        <requirements energy="40" buildingMaterials="16" time="48"></requirements>
+    <levelInfo level="14" basicCostEnergy="8" aetheriteTaken="1" buildingMaterialsGiven="3" maxCycles="6">
+        <requirements energy="40" buildingMaterials="8" time="48"></requirements>
     </levelInfo>
-    <levelInfo level="15" basicCostEnergy="8" aetheriteTaken="3" buildingMaterialsGiven="12" maxCycles="5">
-        <requirements energy="40" buildingMaterials="20" time="65"></requirements>
+    <levelInfo level="15" basicCostEnergy="8" aetheriteTaken="1" buildingMaterialsGiven="3" maxCycles="7">
+        <requirements energy="40" buildingMaterials="10" time="65"></requirements>
     </levelInfo>
-    <levelInfo level="16" basicCostEnergy="10" aetheriteTaken="3" buildingMaterialsGiven="14" maxCycles="5">
-        <requirements energy="50" buildingMaterials="20" time="70"></requirements>
+    <levelInfo level="16" basicCostEnergy="10" aetheriteTaken="1" buildingMaterialsGiven="3" maxCycles="8">
+        <requirements energy="50" buildingMaterials="12" time="70"></requirements>
     </levelInfo>
 </factoryLevelsInfo>

@@ -71,7 +71,7 @@ Item {
         function update()
         {
             energyDrainAmount1.text = GameApi.base.barracks.basicCostInEnergy()+"/Day";
-            slotsAmount1.text = GameApi.base.barracks.heroesLimit();
+            slotsAmount1.text = GameApi.base.barracks.mercenariesLimit();
 
             if (GameApi.base.barracks.maxLevelReached())
             {
@@ -82,7 +82,7 @@ Item {
             else
             {
                 energyDrainAmount2.text = GameApi.base.barracks.basicCostInEnergyAfterUpgrade()+"/Day";
-                slotsAmount2.text = GameApi.base.barracks.heroesLimitAfterUpgrade();
+                slotsAmount2.text = GameApi.base.barracks.mercenariesLimitAfterUpgrade();
             }
         }
 

@@ -11,7 +11,7 @@ Item {
     property string name_
 
     signal backClicked()
-    signal heroesModeUpdateRequested()
+    signal mercenariesModeUpdateRequested()
     signal missionsListUpdateRequested()
 
     function returnToDefault()
@@ -20,7 +20,7 @@ Item {
 
         reportsList.state = "hiddenLeft";
         missionView.state = "";
-        heroView.state = "hiddenRight";
+        mercenaryView.state = "hiddenRight";
         missionManagement.hide();
     }
 
@@ -32,7 +32,7 @@ Item {
                 missionManagement.hide();
             return true;
         }
-        if (reportsList.state == "" || heroView.state == "")
+        if (reportsList.state == "" || mercenaryView.state == "")
         {
             returnToDefault();
             return true;
@@ -46,18 +46,18 @@ Item {
 
         reportsList.updateEverything();
         missionView.update();
-        heroView.updateEverything();
+        mercenaryView.updateEverything();
         missionManagement.updateEverything();
     }
 
-    function setHero(heroName)
+    function setMercenary(mercenaryName)
     {
         returnToDefault();
 
-        reportsList.setHero(heroName);
-        missionView.setHero(heroName);
-        heroView.setHero(heroName);
-        missionManagement.setHero(heroName);
+        reportsList.setMercenary(mercenaryName);
+        missionView.setMercenary(mercenaryName);
+        mercenaryView.setMercenary(mercenaryName);
+        missionManagement.setMercenary(mercenaryName);
     }
 
     Rectangle {
@@ -100,14 +100,14 @@ Item {
 
                 state = "hiddenRight";
                 reportsList.state = "";
-                heroView.state = "hiddenRight2";
+                mercenaryView.state = "hiddenRight2";
             }
             onMercenaryClicked: {
-                heroView.updateEverything();
+                mercenaryView.updateEverything();
 
                 state = "hiddenLeft";
                 reportsList.state = "hiddenLeft2";
-                heroView.state = "";
+                mercenaryView.state = "";
             }
             onMissionManagementClicked: {
                 missionManagement.updateEverything();
@@ -116,8 +116,8 @@ Item {
             }
         }
 
-        HeroView {
-            id: heroView
+        MercenaryView {
+            id: mercenaryView
 
             x: 0
             y: 0
@@ -141,7 +141,7 @@ Item {
                 hide();
                 root.returnToDefault();
                 root.backClicked();
-                root.heroesModeUpdateRequested();
+                root.mercenariesModeUpdateRequested();
                 root.missionsListUpdateRequested();
             }
         }

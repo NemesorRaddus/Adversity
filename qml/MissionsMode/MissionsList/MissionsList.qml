@@ -18,20 +18,20 @@ Item {
         for (var i=0;i<am;++i)
         {
             GameApi.base.prepareMission(i);
-            var n=GameApi.base.preparedMission.hero.name();
-            var p=GameApi.base.preparedMission.hero.professionString();
+            var n=GameApi.base.preparedMission.mercenary.name();
+            var p=GameApi.base.preparedMission.mercenary.professionString();
 
             Scripts.createItem(GameApi.tr(n),p,
                                "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
                                GameApi.base.preparedMission.land.name(),
-                               GameApi.base.preparedMission.difficultyString(),
+                               GameApi.base.preparedMission.lengthString(),
                                GameApi.base.preparedMission.daysSpent(),
-                               GameApi.base.preparedMission.hero.isCommunicationAvailable(),
-                               GameApi.base.preparedMission.hero.isStressBorderEffectActive(),
-                               GameApi.base.preparedMission.hero.health(),
-                               GameApi.base.preparedMission.hero.healthLimit(),
-                               GameApi.base.preparedMission.hero.stress(),
-                               GameApi.base.preparedMission.hero.stressLimit());
+                               GameApi.base.preparedMission.mercenary.isCommunicationAvailable(),
+                               GameApi.base.preparedMission.mercenary.isStressBorderEffectActive(),
+                               GameApi.base.preparedMission.mercenary.health(),
+                               GameApi.base.preparedMission.mercenary.healthLimit(),
+                               GameApi.base.preparedMission.mercenary.stress(),
+                               GameApi.base.preparedMission.mercenary.stressLimit());
         }
     }
 

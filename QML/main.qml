@@ -167,13 +167,13 @@ Window {
 
         missionsButton.onClicked: changeMode(0);
         baseButton.onClicked: changeMode(1);
-        heroesButton.onClicked: changeMode(2);
+        mercenariesButton.onClicked: changeMode(2);
 
         buildingsGUI.onUpdateRequestedFromBuildingsModeGUI: updateEverything();
         mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
 
-        buildingsGUI.onHeroesModeUpdateRequested: mercenariesGUI.updateEverything();
-        missionsGUI.onHeroesModeUpdateRequested: mercenariesGUI.updateEverything();
+        buildingsGUI.onMercenariesModeUpdateRequested: mercenariesGUI.updateEverything();
+        missionsGUI.onMercenariesModeUpdateRequested: mercenariesGUI.updateEverything();
 
         missionsGUI.onResourcesUpdateRequested: updateResources();
 
@@ -189,11 +189,11 @@ Window {
         mercenariesGUI.onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide()
         mercenaryDismissConfirmDialog.onAccepted: mercenariesGUI.dismissMercenaryFwd()
         mercenaryDismissConfirmDialog.onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing()
-        mercenariesGUI.onUnbanRequested: buildingsGUI.requestUnban(heroName, buildingName)
+        mercenariesGUI.onUnbanRequested: buildingsGUI.requestUnban(mercenaryName, buildingName)
 
-        mercenariesGUI.onArtPreviewRequested: heroArtPreview.show(artSource)
-        mercenariesGUI.onArtPreviewHidingRequested: heroArtPreview.hide()
-        heroArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
+        mercenariesGUI.onArtPreviewRequested: mercenaryArtPreview.show(artSource)
+        mercenariesGUI.onArtPreviewHidingRequested: mercenaryArtPreview.hide()
+        mercenaryArtPreview.onClosing: mercenariesGUI.acknowledgeArtPreviewClosing()
 
         settingsButton.onClicked: settings.show();
         settings.onBackClicked: settings.hide();

@@ -22,25 +22,25 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am = GameApi.base.heroes.amountOfHeroes();
+        var am = GameApi.base.mercenaries.amountOfMercenaries();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.heroes.prepareHeroAt(i);
-            if (intName == GameApi.base.heroes.preparedHero.name())
+            GameApi.base.mercenaries.prepareMercenaryAt(i);
+            if (intName == GameApi.base.mercenaries.preparedMercenary.name())
             {
-                var normalLandName = GameApi.base.heroes.preparedHero.assignedMission.land.name();
+                var normalLandName = GameApi.base.mercenaries.preparedMercenary.assignedMission.land.name();
                 landArt.source = "qrc:/graphics/Missions/Lands/" + GameApi.globalsCpp.alterNormalTextToInternal(normalLandName) + ".png";
-                infoText.set(name_,normalLandName,GameApi.base.heroes.preparedHero.assignedMission.daysSpent());
-                signalIcon.set(GameApi.base.heroes.preparedHero.isCommunicationAvailable());
-                missionLengthIcon.set(normalLandName,GameApi.base.heroes.preparedHero.assignedMission.difficultyString());
-                sbeActivationIcon.set(GameApi.base.heroes.preparedHero.isStressBorderEffectActive());
+                infoText.set(name_,normalLandName,GameApi.base.mercenaries.preparedMercenary.assignedMission.daysSpent());
+                signalIcon.set(GameApi.base.mercenaries.preparedMercenary.isCommunicationAvailable());
+                missionLengthIcon.set(normalLandName,GameApi.base.mercenaries.preparedMercenary.assignedMission.lengthString());
+                sbeActivationIcon.set(GameApi.base.mercenaries.preparedMercenary.isStressBorderEffectActive());
                 break;
             }
         }
     }
 
-    function setHero(name)
+    function setMercenary(name)
     {
         name_ = name;
         update();

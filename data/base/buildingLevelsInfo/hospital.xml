@@ -2,28 +2,28 @@
 
 <hospitalLevelsInfo>
     <levelInfo level="0" slots="0" basicCostEnergy="0" perCapitaCostEnergy="0" basicCostFood="0" perCapitaCostFood="0" hpRestored="0"></levelInfo>
-    <levelInfo level="1" slots="1" basicCostEnergy="1" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="1" hpRestored="1">
-        <requirements energy="3" buildingMaterials="10" time="1"></requirements>
+    <levelInfo level="1" slots="1" basicCostEnergy="1" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="1" hpRestored="3">
+        <requirements energy="3" buildingMaterials="2" time="1"></requirements>
     </levelInfo>
-    <levelInfo level="2" slots="1" basicCostEnergy="1" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="2" hpRestored="2">
-        <requirements energy="6" buildingMaterials="11" time="2"></requirements>
+    <levelInfo level="2" slots="1" basicCostEnergy="1" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="2" hpRestored="4">
+        <requirements energy="6" buildingMaterials="4" time="2"></requirements>
     </levelInfo>
-    <levelInfo level="3" slots="1" basicCostEnergy="1" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="3">
-        <requirements energy="9" buildingMaterials="12" time="4"></requirements>
+    <levelInfo level="3" slots="1" basicCostEnergy="1" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="4">
+        <requirements energy="9" buildingMaterials="6" time="4"></requirements>
     </levelInfo>
-    <levelInfo level="4" slots="2" basicCostEnergy="2" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="2" hpRestored="3">
-        <requirements energy="9" buildingMaterials="23" time="8"></requirements>
+    <levelInfo level="4" slots="2" basicCostEnergy="2" perCapitaCostEnergy="4" basicCostFood="0" perCapitaCostFood="2" hpRestored="4">
+        <requirements energy="9" buildingMaterials="8" time="8"></requirements>
     </levelInfo>
-    <levelInfo level="5" slots="2" basicCostEnergy="2" perCapitaCostEnergy="6" basicCostFood="0" perCapitaCostFood="2" hpRestored="4">
-        <requirements energy="12" buildingMaterials="24" time="12"></requirements>
+    <levelInfo level="5" slots="2" basicCostEnergy="2" perCapitaCostEnergy="6" basicCostFood="0" perCapitaCostFood="2" hpRestored="5">
+        <requirements energy="12" buildingMaterials="10" time="12"></requirements>
     </levelInfo>
-    <levelInfo level="6" slots="2" basicCostEnergy="2" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="4">
-        <requirements energy="12" buildingMaterials="25" time="16"></requirements>
+    <levelInfo level="6" slots="2" basicCostEnergy="2" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="5">
+        <requirements energy="12" buildingMaterials="12" time="16"></requirements>
     </levelInfo>
-    <levelInfo level="7" slots="3" basicCostEnergy="3" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="4">
-        <requirements energy="12" buildingMaterials="36" time="20"></requirements>
+    <levelInfo level="7" slots="3" basicCostEnergy="3" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="6">
+        <requirements energy="12" buildingMaterials="14" time="20"></requirements>
     </levelInfo>
-    <levelInfo level="8" slots="3" basicCostEnergy="3" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="5">
-        <requirements energy="15" buildingMaterials="37" time="24"></requirements>
+    <levelInfo level="8" slots="3" basicCostEnergy="3" perCapitaCostEnergy="5" basicCostFood="0" perCapitaCostFood="2" hpRestored="7">
+        <requirements energy="15" buildingMaterials="16" time="24"></requirements>
     </levelInfo>
 </hospitalLevelsInfo>

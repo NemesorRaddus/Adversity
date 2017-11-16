@@ -4,15 +4,15 @@
     <levelInfo level="0" basicCostEnergy="0" recruitsAmount="0" waitingTime="0" profitability="0" equipmentsAmount="0" maxTier="0"></levelInfo>
     <levelInfo level="1" basicCostEnergy="1" recruitsAmount="1" waitingTime="7" profitability="1" equipmentsAmount="1" maxTier="1"></levelInfo>
     <levelInfo level="2" basicCostEnergy="3" recruitsAmount="2" waitingTime="7" profitability="2" equipmentsAmount="2" maxTier="1">
-        <requirements energy="12" buildingMaterials="4" time="1"></requirements>
+        <requirements energy="12" buildingMaterials="2" time="1"></requirements>
     </levelInfo>
     <levelInfo level="3" basicCostEnergy="5" recruitsAmount="3" waitingTime="6" profitability="3" equipmentsAmount="4" maxTier="2">
-        <requirements energy="40" buildingMaterials="8" time="5"></requirements>
+        <requirements energy="40" buildingMaterials="6" time="5"></requirements>
     </levelInfo>
     <levelInfo level="4" basicCostEnergy="7" recruitsAmount="4" waitingTime="5" profitability="4" equipmentsAmount="6" maxTier="2">
-        <requirements energy="84" buildingMaterials="20" time="25"></requirements>
+        <requirements energy="84" buildingMaterials="16" time="25"></requirements>
     </levelInfo>
     <levelInfo level="5" basicCostEnergy="10" recruitsAmount="5" waitingTime="4" profitability="5" equipmentsAmount="8" maxTier="3">
-        <requirements energy="200" buildingMaterials="40" time="125"></requirements>
+        <requirements energy="200" buildingMaterials="30" time="125"></requirements>
     </levelInfo>
 </dockingStationLevelsInfo>

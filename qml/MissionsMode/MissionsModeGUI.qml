@@ -11,7 +11,7 @@ Item {
     clip: true
 
     signal updateRequestedFromBuildingsModeGUI()
-    signal heroesModeUpdateRequested()
+    signal mercenariesModeUpdateRequested()
     signal resourcesUpdateRequested()
     signal showSpecial()
 
@@ -187,7 +187,7 @@ Item {
         height: root.height
 
         onSelected: {
-            missionViewMenu.setHero(name);
+            missionViewMenu.setMercenary(name);
             state = "hiddenUp";
             missionViewMenu.state = "";
         }
@@ -209,8 +209,8 @@ Item {
             missionsList.state = "";
         }
 
-        onHeroesModeUpdateRequested: {
-            root.heroesModeUpdateRequested();
+        onMercenariesModeUpdateRequested: {
+            root.mercenariesModeUpdateRequested();
         }
 
         onMissionsListUpdateRequested: {
@@ -259,7 +259,7 @@ Item {
 
         onExploreClicked: {
             root.returnToDefault();
-            heroesModeUpdateRequested();
+            mercenariesModeUpdateRequested();
             resourcesUpdateRequested();
         }
     }

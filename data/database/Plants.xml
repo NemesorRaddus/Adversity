@@ -3,7 +3,11 @@
 <dbEntries type="Plants">
     <entry>
         <name>Acidberry Bush</name>
-        <description></description>
+        <description>Acidberry bushes are very undemanding. They can accustom to almost any conditions. That ability makes them prevalent in many lands.
+
+Darkgreen leaves fully cover bushes that grow up to 2 meters high and 4 meters in diameter. During vegetation period unfamous fruits appear. They grow in bunches of 2 to 5. The fruits are medium in terms of size. Thier colours are rather exotic. The purple plain tinge is disturbed by green veinlike stains.
+
+Fruits despite thier tasty look, are toxic and can cause irreversible damage to digestive system. In most cases animals vomit after eating Acidberries to prevent that damage. Surprisingly, that's the Acidberries' plan to spread seeds that are inside fruits.</description>
 		<inhabitancies>
 			<inhabitancy>Hegos Plains</inhabitancy>
             <inhabitancy>Aurora Forest</inhabitancy>
@@ -11,7 +15,9 @@
 	</entry>
     <entry>
         <name>Blueherb Lichen</name>
-        <description></description>
+        <description>Blueherb is a plant that can be clasified as "weird" even in comparison to other beings. They have various shapes and sizes. However, there's nothing to be afraid of. Eating a part of this lichen isn't the most pleasant thing to do, but it surely pay of. Blueherbs contain tons fo calories and can get rid of hunger for hours.
+
+They can grow up to 2,7 meters high and have irreagular shapes. Some superstitious people think that finding a symmetric Blueherb is a sing of great luck.</description>
 		<inhabitancies>
 			<inhabitancy>Hegos Plains</inhabitancy>
 			<inhabitancy>Aurora Forest</inhabitancy>

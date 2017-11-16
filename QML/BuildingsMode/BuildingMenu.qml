@@ -9,7 +9,7 @@ Item {
 
     signal backClickedFwd()
     signal updateRequestedFromBuildingMenu()
-    signal heroesModeUpdateRequested()
+    signal mercenariesModeUpdateRequested()
     signal markAsUpgradedSignal(var buildingName)
     signal showSpecial()
 
@@ -559,24 +559,24 @@ Item {
             dockingStation.returnToDefault();
     }
 
-    function requestUnban(heroName, buildingName)
+    function requestUnban(mercenaryName, buildingName)
     {
         if (buildingName == "Hospital")
-            hospital.requestUnban(heroName);
+            hospital.requestUnban(mercenaryName);
         else if (buildingName == "Training Ground")
-            trainingGround.requestUnban(heroName);
+            trainingGround.requestUnban(mercenaryName);
         else if (buildingName == "Gym")
-            gym.requestUnban(heroName);
+            gym.requestUnban(mercenaryName);
         else if (buildingName == "Laboratory")
-            laboratory.requestUnban(heroName);
+            laboratory.requestUnban(mercenaryName);
         else if (buildingName == "Playing Field")
-            playingField.requestUnban(heroName);
+            playingField.requestUnban(mercenaryName);
         else if (buildingName == "Bar")
-            bar.requestUnban(heroName);
+            bar.requestUnban(mercenaryName);
         else if (buildingName == "Shrine")
-            shrine.requestUnban(heroName);
+            shrine.requestUnban(mercenaryName);
         else if (buildingName == "Seclusion")
-            seclusion.requestUnban(heroName);
+            seclusion.requestUnban(mercenaryName);
     }
 
     function acknowledgeConsoleHiding()
@@ -599,7 +599,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Hospital")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     TrainingGroundMenu {
         id: trainingGround
@@ -608,7 +608,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Training Ground")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     GymMenu {
         id: gym
@@ -617,7 +617,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Gym")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     LaboratoryMenu {
         id: laboratory
@@ -626,7 +626,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Laboratory")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
         onShowSpecial: parent.showSpecial()
     }
     PlayingFieldMenu {
@@ -636,7 +636,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Playing Field")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     BarMenu {
         id: bar
@@ -645,7 +645,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Bar")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     ShrineMenu {
         id: shrine
@@ -654,7 +654,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Shrine")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     SeclusionMenu {
         id: seclusion
@@ -663,7 +663,7 @@ Item {
 
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Seclusion")
-        onHeroesModeUpdateRequested: root.heroesModeUpdateRequested()
+        onMercenariesModeUpdateRequested: root.mercenariesModeUpdateRequested()
     }
     PowerplantMenu {
         id: powerplant
@@ -723,7 +723,7 @@ Item {
         onBackClicked: backClickedFwd()
         onUpgradeRequested: requestUpgrade("Docking Station")
         onResourcesUpdateRequested: updateRequestedFromBuildingMenu()
-        onHeroesModeUpdateRequested: updateRequestedFromBuildingMenu()
+        onMercenariesModeUpdateRequested: updateRequestedFromBuildingMenu()
     }
 
     states: [

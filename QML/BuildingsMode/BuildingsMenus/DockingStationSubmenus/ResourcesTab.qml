@@ -11,7 +11,7 @@ Item {
     width: 1080
     height: 566
 
-    signal requestSwitchingToHeroesTab()
+    signal requestSwitchingToMercenariesTab()
     signal requestSwitchingToEquipmentTab()
     signal requestResourcesUpdate()
 
@@ -73,7 +73,7 @@ Item {
             width: modeName.width / 2
             height: modeName.height
 
-            onClicked: requestSwitchingToHeroesTab()
+            onClicked: requestSwitchingToMercenariesTab()
         }
         MouseArea {
             id: modeChangerRight
