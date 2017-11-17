@@ -5,7 +5,7 @@
 #include "base/enums.h"
 #include "base/buildings/enums.h"
 #include "base/buildings/building.h"
-#include "base/buildings/dockingstation.h"
+#include "base/buildings/specific/other/dockingstation.h"
 #include "base/buildings/upgraderequirements.h"
 
 class Equipment;

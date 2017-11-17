@@ -5,7 +5,7 @@
 #include <QSettings>
 
 #include "base/base.h"
-#include "base/buildings/dockingstation.h"
+#include "base/buildings/specific/other/dockingstation.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "clock/timer_alarms/timeralarm.h"
