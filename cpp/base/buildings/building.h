@@ -5,18 +5,6 @@
 
 #include "enums.h"
 
-struct BuildingUpgradeRequirements
-{
-    BuildingUpgradeRequirements() noexcept
-        : requiredBuildingMaterials(0), requiredEnergy(0), requiredTime(0) {}
-    explicit BuildingUpgradeRequirements(unsigned reqBuildingMat, unsigned reqEnergy, unsigned reqTime) noexcept
-        : requiredBuildingMaterials(reqBuildingMat), requiredEnergy(reqEnergy), requiredTime(reqTime) {}
-
-    unsigned requiredBuildingMaterials;
-    unsigned requiredEnergy;
-    unsigned requiredTime;
-};
-
 struct BuildingLevelInfo
 {
 public:
@@ -28,6 +16,7 @@ protected:
 };
 
 class Base;
+struct BuildingUpgradeRequirements;
 
 class Building : public QObject
 {

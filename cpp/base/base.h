@@ -23,6 +23,8 @@ class Seclusion;
 class Shrine;
 class StorageRoom;
 class TrainingGround;
+class BuildingsRequirementsHandler;
+typedef QMap <QPair <BuildingEnums::Building, unsigned>, BuildingUpgradeRequirements> BuildingsRequirementsMap;
 class Database;
 class Equipment;
 class GameClock;
@@ -174,9 +176,9 @@ public:
 
     void setBuildingLevel(BuildingEnums::Building buildingName, unsigned level) noexcept;
     void setBuildingDescription(BuildingEnums::Building buildingName, const QString &desc) noexcept;
-    void setBuildingDescriptions(const QVector <QPair <BuildingEnums::Building, QString> > &desc) noexcept;
+    void setBuildingDescriptions(const QMap <BuildingEnums::Building, QString> &desc) noexcept;
 
-    void setBuildingRequirements(const QMap <QPair <BuildingEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept;
+    void setBuildingRequirements(const BuildingsRequirementsMap &reqs) noexcept;
 
     Building *getBuilding(BuildingEnums::Building buildingName) noexcept;
 
@@ -260,7 +262,7 @@ public:
 private:
     //maps for buildings
     QMap <BuildingEnums::Building, unsigned> m_buildingLevels;
-    QMap <QPair <BuildingEnums::Building, unsigned>, BuildingUpgradeRequirements> m_buildingRequirements;
+    BuildingsRequirementsHandler *m_buildingRequirements;
     QMap <BuildingEnums::Building, QString> m_buildingDescriptions;
     QMap <BuildingEnums::Building, Building *> m_buildings;
 

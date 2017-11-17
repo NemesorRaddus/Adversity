@@ -2,6 +2,12 @@
 
 #include <QVector>
 
+#include "base/enums.h"
+#include "base/buildings/enums.h"
+#include "base/buildings/building.h"
+#include "base/buildings/dockingstation.h"
+#include "base/buildings/upgraderequirements.h"
+
 class Equipment;
 class Database;
 class Mercenary;
@@ -17,6 +23,22 @@ public:
     void load(const QString &pathToAssets) noexcept;
     bool isReady() const noexcept;
     void clear() noexcept;
+
+    inline BuildingsRequirementsMap buildingUpgradeRequirements() const noexcept
+    {
+        return m_buildingUpgradeRequirements;
+    }
+
+    QString buildingDescription(BuildingEnums::Building building) const noexcept;
+    inline QMap <BuildingEnums::Building, QString> buildingDescriptions() const noexcept
+    {
+        return m_buildingDescriptions;
+    }
+
+    inline DockingStationTradingTables dockingStationTradingTables() const noexcept
+    {
+        return m_dockingStationTradingTables;
+    }
 
     inline QStringList allMercenaries() const noexcept
     {
@@ -46,6 +68,9 @@ public:
     }
 
 private:
+    void loadBuildingsInfo(const QString &pathToDir) noexcept;
+    void loadDockingStationTradingTables(const QString &pathToDir) noexcept;
+    void loadBuildingsDescriptions(const QString &pathToDir) noexcept;
     void loadMercenariesList(const QString &pathToDir) noexcept;
     void loadMercenary(const QString &path) noexcept;
     void loadEquipment(const QString &path) noexcept;
@@ -54,6 +79,10 @@ private:
 
     bool m_isReady;
     QString m_pathToAssets;
+
+    BuildingsRequirementsMap m_buildingUpgradeRequirements;
+    QMap <BuildingEnums::Building, QString> m_buildingDescriptions;
+    DockingStationTradingTables m_dockingStationTradingTables;
 
     QVector <Mercenary *> m_mercenariesLoaded;
     QList <QString> m_mercenariesAll;

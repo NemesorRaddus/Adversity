@@ -32,6 +32,7 @@ struct StorageRoomLevelInfo;
 struct TrainingGroundLevelInfo;
 struct DatabaseEntryDetails;
 typedef QPair <QString, DatabaseEntryDetails> DatabaseEntry;
+typedef QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > DockingStationTradingTables;
 class EncountersContainer;
 class Equipment;
 class Event;
@@ -63,9 +64,9 @@ public:
     QPair <QVector <AetheriteSiloLevelInfo>, QVector <BuildingUpgradeRequirements> > getAetheriteSiloLevelsInfo(const QString &path) noexcept;
     QPair <QVector <BarracksLevelInfo>, QVector <BuildingUpgradeRequirements> > getBarracksLevelsInfo(const QString &path) noexcept;
     QPair <QVector <DockingStationLevelInfo>, QVector <BuildingUpgradeRequirements> > getDockingStationLevelsInfo(const QString &path) noexcept;
-    QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > getDockingStationTradingTable(const QString &path) noexcept;
+    DockingStationTradingTables getDockingStationTradingTables(const QString &path) noexcept;
 
-    QVector <QPair <BuildingEnums::Building, QString> > getBuildingDescriptions(const QString &path) noexcept;
+    QMap <BuildingEnums::Building, QString> getBuildingDescriptions(const QString &path) noexcept;
 
     QList <QString> getMercenariesNamesList(const QString &pathToMercenariesDir) noexcept;
     Mercenary *getMercenary(const QString &path) noexcept;

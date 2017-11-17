@@ -33,6 +33,7 @@ SOURCES += cpp/main.cpp \
     cpp/base/buildings/shrine.cpp \
     cpp/base/buildings/storageroom.cpp \
     cpp/base/buildings/trainingground.cpp \
+    cpp/base/buildings/upgraderequirements.cpp \
     cpp/base/enums.cpp \
     cpp/clock/gameclock.cpp \
     cpp/clock/time.cpp \
@@ -123,6 +124,7 @@ HEADERS += \
     cpp/base/buildings/shrine.h \
     cpp/base/buildings/storageroom.h \
     cpp/base/buildings/trainingground.h \
+    cpp/base/buildings/upgraderequirements.h \
     cpp/base/enums.h \
     cpp/clock/gameclock.h \
     cpp/clock/time.h \

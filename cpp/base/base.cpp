@@ -32,7 +32,7 @@
 #include "reports/unifiedreport.h"
 
 Base::Base(Game *gameObject) noexcept
-    : QObject(nullptr), m_gameObject(gameObject), m_database(nullptr)
+    : QObject(nullptr), m_gameObject(gameObject), m_database(nullptr), m_buildingRequirements(nullptr)
 {
     MercenaryBuilder::init(this);
 
@@ -593,7 +593,9 @@ void Base::startNewWeek() noexcept
 
 BuildingUpgradeRequirements Base::buildingRequirements(BuildingEnums::Building buildingName, unsigned level) const noexcept
 {
-    return m_buildingRequirements.value({buildingName,level});
+    if (m_buildingRequirements == nullptr)
+        return {};
+    return m_buildingRequirements->requirements(buildingName, level);
 }
 
 int Base::currentTotalSalary() const noexcept
@@ -733,15 +735,16 @@ void Base::setBuildingDescription(BuildingEnums::Building buildingName, const QS
     m_buildingDescriptions.insert(buildingName,desc);
 }
 
-void Base::setBuildingDescriptions(const QVector<QPair<BuildingEnums::Building, QString> > &descs) noexcept
+void Base::setBuildingDescriptions(const QMap<BuildingEnums::Building, QString> &descs) noexcept
 {
-    for (int i=0;i<descs.size();++i)
-        m_buildingDescriptions.insert(descs[i].first,descs[i].second);
+    m_buildingDescriptions = descs;
 }
 
-void Base::setBuildingRequirements(const QMap<QPair<BuildingEnums::Building, unsigned>, BuildingUpgradeRequirements> &reqs) noexcept
+void Base::setBuildingRequirements(const BuildingsRequirementsMap &reqs) noexcept
 {
-    m_buildingRequirements=reqs;
+    if (m_buildingRequirements != nullptr)
+        delete m_buildingRequirements;
+    m_buildingRequirements = new BuildingsRequirementsHandler(reqs);
 }
 
 Building *Base::getBuilding(BuildingEnums::Building buildingName) noexcept

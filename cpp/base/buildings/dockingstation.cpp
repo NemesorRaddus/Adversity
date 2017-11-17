@@ -141,6 +141,11 @@ void DockingStation::cancelMercenaryArrival(const QString &name) noexcept
         }
 }
 
+void DockingStation::setTradingTables(const QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > &tradingTables) noexcept
+{
+    m_tradingTables=tradingTables;
+}
+
 unsigned DockingStation::upgradeTimeRemaining() noexcept
 {
     BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BuildingEnums::B_DockingStation,currentLevel()+1);

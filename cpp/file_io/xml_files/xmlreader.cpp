@@ -1059,7 +1059,7 @@ QPair<QVector<DockingStationLevelInfo>, QVector<BuildingUpgradeRequirements> > X
     return r;
 }
 
-QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > XmlFileReader::getDockingStationTradingTable(const QString &path) noexcept
+DockingStationTradingTables XmlFileReader::getDockingStationTradingTables(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -1114,7 +1114,7 @@ QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > XmlFileRe
     return r;
 }
 
-QVector<QPair <BuildingEnums::Building, QString> > XmlFileReader::getBuildingDescriptions(const QString &path) noexcept
+QMap<BuildingEnums::Building, QString> XmlFileReader::getBuildingDescriptions(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -1122,7 +1122,7 @@ QVector<QPair <BuildingEnums::Building, QString> > XmlFileReader::getBuildingDes
         return {};
     }
 
-    QVector <QPair <BuildingEnums::Building, QString> > r;
+    QMap <BuildingEnums::Building, QString> r;
 
     if (m_xmlReader->readNextStartElement())
     {
@@ -1133,7 +1133,7 @@ QVector<QPair <BuildingEnums::Building, QString> > XmlFileReader::getBuildingDes
                 if (m_xmlReader->name()=="buildingDescription")
                 {
                     QXmlStreamAttributes attrs = m_xmlReader->attributes();
-                    r.push_back({BuildingEnums::fromQStringToBuildingEnum(attrs.value("name").toString()),attrs.value("description").toString()});
+                    r.insert(BuildingEnums::fromQStringToBuildingEnum(attrs.value("name").toString()),attrs.value("description").toString());
                     m_xmlReader->skipCurrentElement();
                 }
                 else

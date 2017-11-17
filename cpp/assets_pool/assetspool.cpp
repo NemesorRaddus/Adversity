@@ -1,5 +1,6 @@
 #include "assetspool.h"
 
+#include "base/buildings/building.h"
 #include "database/database.h"
 #include "equipment/equipment.h"
 #include "file_io/xml_files/xmlreader.h"
@@ -23,6 +24,7 @@ AssetsPool::~AssetsPool() noexcept
 void AssetsPool::load(const QString &pathToAssets) noexcept
 {
     clear();
+    loadBuildingsInfo(pathToAssets+"base/");
     loadMercenariesList(pathToAssets+"mercenaries/mercenaries/");
     loadEquipment(pathToAssets+"mercenaries/equipment.xml");
     loadLands(pathToAssets+"lands/");
@@ -38,6 +40,11 @@ bool AssetsPool::isReady() const noexcept
 
 void AssetsPool::clear() noexcept
 {
+    m_buildingUpgradeRequirements.clear();
+
+    m_buildingDescriptions.clear();
+    m_dockingStationTradingTables.clear();
+
     for (int i=0;i<m_mercenariesLoaded.size();++i)
         delete m_mercenariesLoaded[i];
     m_mercenariesLoaded.clear();
@@ -50,6 +57,11 @@ void AssetsPool::clear() noexcept
 
     m_isReady=0;
     m_pathToAssets.clear();
+}
+
+QString AssetsPool::buildingDescription(BuildingEnums::Building building) const noexcept
+{
+    return m_buildingDescriptions.value(building);
 }
 
 void AssetsPool::loadMercenaryAtPosFromList(unsigned index) noexcept
@@ -114,6 +126,22 @@ Database *AssetsPool::makeStockDatabase() const noexcept
     r->unlockEntry("Gedo Desert");
     r->unlockEntry("Aurora Forest");
     return r;
+}
+
+void AssetsPool::loadBuildingsInfo(const QString &pathToDir) noexcept
+{
+    loadDockingStationTradingTables(pathToDir);
+    loadBuildingsDescriptions(pathToDir);
+}
+
+void AssetsPool::loadDockingStationTradingTables(const QString &pathToDir) noexcept
+{
+    m_dockingStationTradingTables = m_reader->getDockingStationTradingTables(pathToDir+"dockingStationTradingTables.xml");
+}
+
+void AssetsPool::loadBuildingsDescriptions(const QString &pathToDir) noexcept
+{
+    m_buildingDescriptions = m_reader->getBuildingDescriptions(pathToDir+"descriptions.xml");
 }
 
 void AssetsPool::loadMercenariesList(const QString &pathToDir) noexcept

@@ -19,6 +19,8 @@ struct DockingStationLevelInfo : public BuildingLevelInfo
     unsigned maxTier;
 };
 
+typedef QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > DockingStationTradingTables;
+
 struct ActiveTransaction
 {
     ActiveTransaction()
@@ -152,10 +154,7 @@ public:
     {
         m_levelsInfo=info;
     }
-    void setTradingTables(const QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > &tradingTables) noexcept
-    {
-        m_tradingTables=tradingTables;
-    }
+    void setTradingTables(const DockingStationTradingTables &tradingTables) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
 
@@ -215,7 +214,7 @@ private:
     }
 
     QVector <DockingStationLevelInfo> m_levelsInfo;
-    QVector <QMap <QPair <BaseEnums::Resource, BaseEnums::Resource>, float> > m_tradingTables;
+    DockingStationTradingTables m_tradingTables;
     QVector <Mercenary *> m_recruits;
     Mercenary *m_recruitPreparedForQML;
     QVector <QPair <Mercenary *, unsigned> > m_arrivingMercenaries;//mercenary, ETA
