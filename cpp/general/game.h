@@ -22,6 +22,7 @@ class GlobalUtilities;
 class LoggersHandler;
 class LandsInfo;
 class H4X;
+class SavesManager;
 class TranslationsDB;
 
 class Game : public QObject
@@ -35,6 +36,7 @@ class Game : public QObject
     Q_PROPERTY(H4X* h4xLogic MEMBER m_h4xLogic)
     Q_PROPERTY(GlobalUtilities* globalsCpp MEMBER m_globalsExportToQML)
     Q_PROPERTY(LoggersHandler* logger MEMBER m_loggersHandler)
+    Q_PROPERTY(SavesManager* savesManager MEMBER m_savesManager)
 
     friend class H4X;
 
@@ -132,6 +134,7 @@ private:
 
     const QString m_pathToAssetsDir = ":/data/";
     Base *m_base;
+    SavesManager *m_savesManager;
     LandsInfo *m_lands;
     AppBuildInfo *m_buildInfo;
     AssetsPool m_assetsPool;

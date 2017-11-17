@@ -79,6 +79,8 @@ void AssetsPool::clear() noexcept
         delete m_equipment[i];
     m_equipment.clear();
 
+    m_stockDatabase->loadEntries({});
+
     m_isReady=0;
     m_pathToAssets.clear();
 }

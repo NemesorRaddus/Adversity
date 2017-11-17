@@ -751,40 +751,10 @@ void Base::setBuildingRequirements(const BuildingsRequirementsMap &reqs) noexcep
 
 Building *Base::getBuilding(BuildingEnums::Building buildingName) noexcept
 {
-    switch (buildingName) {
-    case BuildingEnums::B_AetheriteSilo:
-        return m_aetheriteSilo;
-    case BuildingEnums::B_Bar:
-        return m_bar;
-    case BuildingEnums::B_Barracks:
-        return m_barracks;
-    case BuildingEnums::B_CentralUnit:
-        return m_centralUnit;
-    case BuildingEnums::B_CoolRoom:
-        return m_coolRoom;
-    case BuildingEnums::B_DockingStation:
-        return m_dockingStation;
-    case BuildingEnums::B_Factory:
-        return m_factory;
-    case BuildingEnums::B_Gym:
-        return m_gym;
-    case BuildingEnums::B_Hospital:
-        return m_hospital;
-    case BuildingEnums::B_Laboratory:
-        return m_laboratory;
-    case BuildingEnums::B_PlayingField:
-        return m_playingField;
-    case BuildingEnums::B_Powerplant:
-        return m_powerplant;
-    case BuildingEnums::B_Seclusion:
-        return m_seclusion;
-    case BuildingEnums::B_Shrine:
-        return m_shrine;
-    case BuildingEnums::B_StorageRoom:
-        return m_storageRoom;
-    case BuildingEnums::B_TrainingGround:
-        return m_trainingGround;
-    default:
+    if (m_buildings.contains(buildingName))
+        return m_buildings.value(buildingName);
+    else
+    {
         Game::gameInstance()->loggers()->buildingsLogger()->warn("BuildingEnums::Building enum->Building * conversion failed for {}", static_cast<unsigned>(buildingName));
         return nullptr;
     }

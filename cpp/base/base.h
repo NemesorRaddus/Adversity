@@ -311,7 +311,7 @@ private:
     QVector <Mission *> m_missions;
     Mission *m_preparedMission;
     QVector <UnifiedReport *> m_reports;
-    const unsigned m_maxReportsAmount=50;
+    const unsigned m_maxReportsAmount = 50;
     QVector <UnifiedReport *> m_newReports;
     UnifiedReport *m_preparedReport;
 

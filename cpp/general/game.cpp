@@ -34,6 +34,7 @@
 #include "general/appbuildinfo.h"
 #include "general/globalutilities.h"
 #include "general/randomizer.h"
+#include "general/savesmanager.h"
 #include "h4x/h4x.h"
 #include "logging/loggershandler.h"
 #include "missions/land.h"
@@ -72,6 +73,7 @@ Game::Game(QObject *parent) noexcept
     }
     setLocale(QSettings().value("lang").toString());
 
+    m_savesManager=new SavesManager;
 
     loadAssets(m_pathToAssetsDir);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
@@ -98,6 +100,8 @@ Game::~Game() noexcept
     delete m_h4xLogic;
 
     delete m_base;
+
+    delete m_savesManager;
 
     delete m_translations;
 
