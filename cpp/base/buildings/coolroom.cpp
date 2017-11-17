@@ -4,12 +4,22 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 
-CoolRoom::CoolRoom(Base *base, unsigned level, const QVector<CoolRoomLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_CoolRoom, base, level), m_levelsInfo(levelsInfo){}
+CoolRoom::CoolRoom(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_CoolRoom, base, level, levelsInfo) {}
 
-void CoolRoom::setLevelsInfo(const QVector<CoolRoomLevelInfo> &info) noexcept
+int CoolRoom::foodSuppliesLimit() const noexcept
 {
-    m_levelsInfo=info;
+    return currentLevelInfo()->foodSuppliesLimit;
+}
+
+int CoolRoom::foodSuppliesLimitAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->foodSuppliesLimit;
+}
+
+void CoolRoom::setLevelsInfo(const QVector<CoolRoomLevelInfo *> &info) noexcept
+{
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned CoolRoom::upgradeTimeRemaining() noexcept
@@ -18,4 +28,14 @@ unsigned CoolRoom::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+CoolRoomLevelInfo *CoolRoom::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<CoolRoomLevelInfo>();
+}
+
+CoolRoomLevelInfo *CoolRoom::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<CoolRoomLevelInfo>();
 }

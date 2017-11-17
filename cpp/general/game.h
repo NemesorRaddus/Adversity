@@ -44,8 +44,8 @@ public:
 
     static void setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept;
 
-    Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
-    Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
+    Q_INVOKABLE void createNewBase() noexcept;//WARNING NEVER USED
+    Q_INVOKABLE void loadExistingBase() noexcept;
     Q_INVOKABLE void saveBase() noexcept;
 
     inline const AppBuildInfo *currentVersion() const noexcept
@@ -130,8 +130,8 @@ private:
 
     static Game *m_ptrToGameObject;
 
+    const QString m_pathToAssetsDir = ":/data/";
     Base *m_base;
-    QString m_currentPathToAssets;
     LandsInfo *m_lands;
     AppBuildInfo *m_buildInfo;
     AssetsPool m_assetsPool;

@@ -4,12 +4,22 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 
-Barracks::Barracks(Base *base, unsigned level, const QVector<BarracksLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Barracks, base, level), m_levelsInfo(levelsInfo) {}
+Barracks::Barracks(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Barracks, base, level, levelsInfo) {}
 
-void Barracks::setLevelsInfo(const QVector<BarracksLevelInfo> &info) noexcept
+int Barracks::mercenariesLimit() const noexcept
 {
-    m_levelsInfo=info;
+    return currentLevelInfo()->mercenariesLimit;
+}
+
+int Barracks::mercenariesLimitAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->mercenariesLimit;
+}
+
+void Barracks::setLevelsInfo(const QVector<BarracksLevelInfo *> &info) noexcept
+{
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Barracks::upgradeTimeRemaining() noexcept
@@ -18,4 +28,14 @@ unsigned Barracks::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+BarracksLevelInfo *Barracks::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<BarracksLevelInfo>();
+}
+
+BarracksLevelInfo *Barracks::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<BarracksLevelInfo>();
 }

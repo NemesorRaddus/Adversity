@@ -29,6 +29,8 @@ public:
         return m_buildingUpgradeRequirements;
     }
 
+    AnyBuildingLevelsInfo *buildingLevelInfo(BuildingEnums::Building building) const noexcept;
+
     QString buildingDescription(BuildingEnums::Building building) const noexcept;
     inline QMap <BuildingEnums::Building, QString> buildingDescriptions() const noexcept
     {
@@ -69,6 +71,7 @@ public:
 
 private:
     void loadBuildingsInfo(const QString &pathToDir) noexcept;
+    void loadBuildingsLevelsInfo(const QString &pathToDir) noexcept;
     void loadDockingStationTradingTables(const QString &pathToDir) noexcept;
     void loadBuildingsDescriptions(const QString &pathToDir) noexcept;
     void loadMercenariesList(const QString &pathToDir) noexcept;
@@ -81,6 +84,7 @@ private:
     QString m_pathToAssets;
 
     BuildingsRequirementsMap m_buildingUpgradeRequirements;
+    QMap <BuildingEnums::Building, AnyBuildingLevelsInfo *> m_buildingLevelsInfo;
     QMap <BuildingEnums::Building, QString> m_buildingDescriptions;
     DockingStationTradingTables m_dockingStationTradingTables;
 

@@ -6,13 +6,53 @@
 #include "general/game.h"
 #include "logging/loggershandler.h"
 
-Powerplant::Powerplant(Base *base, unsigned level, const QVector<PowerplantLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Powerplant, base, level), m_levelsInfo(levelsInfo), m_currentCycles(0) {}
+Powerplant::Powerplant(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Powerplant, base, level, levelsInfo), m_currentCycles(0) {}
+
+int Powerplant::useCostInEnergy() const noexcept
+{
+    return -(currentLevelInfo()->energyGiven * m_currentCycles);
+}
+
+int Powerplant::productionInEnergySingle() const noexcept
+{
+    return -(currentLevelInfo())->energyGiven;
+}
+
+int Powerplant::productionInEnergySingleAfterUpgrade() const noexcept
+{
+    return -(nextLevelInfo())->energyGiven;
+}
+
+int Powerplant::useCostInAetherite() const noexcept
+{
+    return currentLevelInfo()->aetheriteOreTaken * m_currentCycles;
+}
+
+int Powerplant::useCostInAetheriteSingle() const noexcept
+{
+    return currentLevelInfo()->aetheriteOreTaken;
+}
+
+int Powerplant::useCostInAetheriteSingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->aetheriteOreTaken;
+}
+
+int Powerplant::energyLimit() const noexcept
+{
+    return currentLevelInfo()->energyLimit;
+}
+
+int Powerplant::energyLimitAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->energyLimit;
+}
 
 void Powerplant::exchangeResources() noexcept
 {
-    unsigned cyclesToDo = base()->currentAetheriteAmount() / m_levelsInfo.value(currentLevel()).aetheriteOreTaken;
-    unsigned uselessnessLimit = m_levelsInfo.value(currentLevel()).energyGiven != 0 ? (((m_levelsInfo.value(currentLevel()).energyLimit - base()->currentEnergyAmount()) / m_levelsInfo.value(currentLevel()).energyGiven) + ((m_levelsInfo.value(currentLevel()).energyLimit - base()->currentEnergyAmount()) % m_levelsInfo.value(currentLevel()).energyGiven == 0 ? 0 : 1)) : 0;//that way it doesn't do additional cycles if resource limit is reached earlier
+    unsigned cyclesToDo = base()->currentAetheriteAmount() / currentLevelInfo()->aetheriteOreTaken;
+    unsigned uselessnessLimit = currentLevelInfo()->energyGiven != 0 ? (((currentLevelInfo()->energyLimit - base()->currentEnergyAmount()) / currentLevelInfo()->energyGiven) + ((currentLevelInfo()->energyLimit - base()->currentEnergyAmount()) % currentLevelInfo()->energyGiven == 0 ? 0 : 1)) : 0;//that way it doesn't do additional cycles if resource limit is reached earlier
 
     if (cyclesToDo > uselessnessLimit)
         cyclesToDo = uselessnessLimit;
@@ -20,8 +60,8 @@ void Powerplant::exchangeResources() noexcept
         cyclesToDo = m_currentCycles;
 
     Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Powerplant: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
-    base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - (cyclesToDo * m_levelsInfo.value(currentLevel()).aetheriteOreTaken));
-    base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + (cyclesToDo * m_levelsInfo.value(currentLevel()).energyGiven));
+    base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
+    base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + (cyclesToDo * currentLevelInfo()->energyGiven));
 }
 
 void Powerplant::setCurrentCycles(unsigned amount) noexcept
@@ -33,9 +73,19 @@ void Powerplant::setCurrentCycles(unsigned amount) noexcept
     }
 }
 
-void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo> &info) noexcept
+unsigned Powerplant::maxCycles() const noexcept
 {
-    m_levelsInfo=info;
+    return currentLevelInfo()->maxCycles;
+}
+
+unsigned Powerplant::maxCyclesAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->maxCycles;
+}
+
+void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo *> &info) noexcept
+{
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Powerplant::upgradeTimeRemaining() noexcept
@@ -44,4 +94,14 @@ unsigned Powerplant::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+PowerplantLevelInfo *Powerplant::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<PowerplantLevelInfo>();
+}
+
+PowerplantLevelInfo *Powerplant::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<PowerplantLevelInfo>();
 }

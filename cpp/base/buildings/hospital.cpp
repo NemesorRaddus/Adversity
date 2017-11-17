@@ -5,10 +5,60 @@
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
 
-Hospital::Hospital(Base *base, unsigned level, const QVector<HospitalLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Hospital, base, level), m_levelsInfo(levelsInfo)
+Hospital::Hospital(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Hospital, base, level, levelsInfo)
 {
-    m_mercenariesBeingHealed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingHealed.fill(nullptr, currentLevelInfo()->amountOfSlots);
+}
+
+int Hospital::useCostInEnergy() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingHealed.size() - m_mercenariesBeingHealed.count(nullptr));
+}
+
+int Hospital::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Hospital::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Hospital::basicCostInFoodSupplies() const noexcept
+{
+    return currentLevelInfo()->basicCostInFoodSupplies;
+}
+
+int Hospital::useCostInFoodSupplies() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInFoodSupplies * (m_mercenariesBeingHealed.size() - m_mercenariesBeingHealed.count(nullptr));
+}
+
+int Hospital::useCostInFoodSuppliesSingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInFoodSupplies;
+}
+
+int Hospital::useCostInFoodSuppliesSingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInFoodSupplies;
+}
+
+int Hospital::amountOfSlots() const noexcept
+{
+    return m_mercenariesBeingHealed.size();
+}
+
+int Hospital::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+Mercenary *Hospital::slot(int index) noexcept
+{
+    return m_mercenariesBeingHealed.value(index,nullptr);
 }
 
 QString Hospital::mercenaryNameInSlot(unsigned index) const noexcept
@@ -69,6 +119,16 @@ void Hospital::removeMercenary(const QString &name) noexcept
         }
 }
 
+int Hospital::hpRestoredPerDay() const noexcept
+{
+    return currentLevelInfo()->hpRestored;
+}
+
+int Hospital::hpRestoredPerDayAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->hpRestored;
+}
+
 int Hospital::daysToFullRecovery(const QString &name) const noexcept
 {
     for (int i=0;i<m_mercenariesBeingHealed.size();++i)
@@ -90,12 +150,12 @@ int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
 void Hospital::healMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingHealed.size();++i)
-        if (m_mercenariesBeingHealed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy) && base()->canDecreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies))
+        if (m_mercenariesBeingHealed[i]!=nullptr && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy) && base()->canDecreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies))
         {
-            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
-            base()->decreaseFoodSuppliesAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInFoodSupplies);
+            base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
+            base()->decreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies);
 
-            m_mercenariesBeingHealed[i]->changeHealth(m_levelsInfo.value(currentLevel()).hpRestored);
+            m_mercenariesBeingHealed[i]->changeHealth(currentLevelInfo()->hpRestored);
         }
 }
 
@@ -111,9 +171,9 @@ void Hospital::setRecoveryValuesForMercenaries() noexcept
             setRecoveryValuesForMercenary(i);
 }
 
-void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo> &info) noexcept
+void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Hospital::upgradeTimeRemaining() noexcept
@@ -124,10 +184,32 @@ unsigned Hospital::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void Hospital::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
 void Hospital::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_mercenariesBeingHealed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+    while (m_mercenariesBeingHealed.size() < currentLevelInfo()->amountOfSlots)
         m_mercenariesBeingHealed.push_back(nullptr);
-    m_mercenariesBeingHealed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    m_mercenariesBeingHealed.resize(currentLevelInfo()->amountOfSlots);//for downgrades
     setRecoveryValuesForMercenaries();
+}
+
+HospitalLevelInfo *Hospital::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<HospitalLevelInfo>();
+}
+
+HospitalLevelInfo *Hospital::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<HospitalLevelInfo>();
+}
+
+void Hospital::setSlot(unsigned index, Mercenary *mercenary) noexcept
+{
+    if (index<m_mercenariesBeingHealed.size())
+        m_mercenariesBeingHealed[index]=mercenary;
 }

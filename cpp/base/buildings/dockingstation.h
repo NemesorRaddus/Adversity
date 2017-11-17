@@ -2,7 +2,8 @@
 
 #include <QVector>
 
-#include "building.h"
+#include "base/buildings/building.h"
+#include "base/buildings/levelsinfo.h"
 #include "mercenaries/mercenary.h"
 #include "equipment/equipment.h"
 #include "base/enums.h"
@@ -45,65 +46,43 @@ class DockingStation : public Building
     friend class Base;
 
 public:
-    explicit DockingStation(Base *base, unsigned level, const QVector <DockingStationLevelInfo> &levelsInfo) noexcept;
+    explicit DockingStation(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept;
 
-    Q_INVOKABLE unsigned maxLevel() const noexcept
-    {
-        return m_levelsInfo.size()-1;
-    }
-
-    Q_INVOKABLE int basicCostInEnergy() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).basicCostInEnergy;
-    }
-    Q_INVOKABLE int basicCostInEnergyAfterUpgrade() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()+1).basicCostInEnergy;
-    }
-    Q_INVOKABLE int useCostInEnergy() const noexcept
+    Q_INVOKABLE inline int useCostInEnergy() const noexcept
     {
         return 0;
     }
 
-    Q_INVOKABLE int basicCostInFoodSupplies() const noexcept
+    Q_INVOKABLE inline int basicCostInFoodSupplies() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE int useCostInFoodSupplies() const noexcept
-    {
-        return 0;
-    }
-
-    Q_INVOKABLE int basicCostInBuildingMaterials() const noexcept
-    {
-        return 0;
-    }
-    Q_INVOKABLE int useCostInBuildingMaterials() const noexcept
+    Q_INVOKABLE inline int useCostInFoodSupplies() const noexcept
     {
         return 0;
     }
 
-    Q_INVOKABLE int basicCostInAetherite() const noexcept
+    Q_INVOKABLE inline int basicCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
-    Q_INVOKABLE int useCostInAetherite() const noexcept
+    Q_INVOKABLE inline int useCostInBuildingMaterials() const noexcept
     {
         return 0;
     }
 
-    Q_INVOKABLE int recruitsAmount() const noexcept
+    Q_INVOKABLE inline int basicCostInAetherite() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()).recruitsAmount;
+        return 0;
     }
-    Q_INVOKABLE int recruitsAmountAfterUpgrade() const noexcept
+    Q_INVOKABLE inline int useCostInAetherite() const noexcept
     {
-        return m_levelsInfo.value(currentLevel()+1).recruitsAmount;
+        return 0;
     }
-    Q_INVOKABLE int readyRecruitsAmount() const noexcept
-    {
-        return m_recruits.size();
-    }
+
+    Q_INVOKABLE int recruitsAmount() const noexcept;
+    Q_INVOKABLE int recruitsAmountAfterUpgrade() const noexcept;
+    Q_INVOKABLE int readyRecruitsAmount() const noexcept;
     void prepareRecruits() noexcept;
     Q_INVOKABLE void prepareRecruitForQML(unsigned slot) noexcept;
     Q_INVOKABLE void hireMercenary(const QString &name, unsigned eta) noexcept;
@@ -114,46 +93,19 @@ public:
         return m_arrivingMercenaries;
     }
     void cancelMercenaryArrival(const QString &name) noexcept;
-    Q_INVOKABLE int waitingTime() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).waitingTime;
-    }
-    Q_INVOKABLE int waitingTimeAfterUpgrade() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()+1).waitingTime;
-    }
+    Q_INVOKABLE int waitingTime() const noexcept;
+    Q_INVOKABLE int waitingTimeAfterUpgrade() const noexcept;
 
-    Q_INVOKABLE int profitability() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).profitability;
-    }
-    Q_INVOKABLE int profitabilityAfterUpgrade() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()+1).profitability;
-    }
+    Q_INVOKABLE int profitability() const noexcept;
+    Q_INVOKABLE int profitabilityAfterUpgrade() const noexcept;
 
-    Q_INVOKABLE int equipmentsAmount() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).equipmentsAmount;
-    }
-    Q_INVOKABLE int equipmentsAmountAfterUpgrade() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()+1).equipmentsAmount;
-    }
+    Q_INVOKABLE int equipmentsAmount() const noexcept;
+    Q_INVOKABLE int equipmentsAmountAfterUpgrade() const noexcept;
 
-    Q_INVOKABLE int maxTier() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()).maxTier;
-    }
-    Q_INVOKABLE int maxTierAfterUpgrade() const noexcept
-    {
-        return m_levelsInfo.value(currentLevel()+1).maxTier;
-    }
+    Q_INVOKABLE int maxTier() const noexcept;
+    Q_INVOKABLE int maxTierAfterUpgrade() const noexcept;
 
-    void setLevelsInfo(const QVector <DockingStationLevelInfo> &info) noexcept
-    {
-        m_levelsInfo=info;
-    }
+    void setLevelsInfo(const QVector <DockingStationLevelInfo *> &info) noexcept;
     void setTradingTables(const DockingStationTradingTables &tradingTables) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
@@ -168,17 +120,8 @@ public:
         return m_activeTransactions;
     }
 
-    QVector <QString> availableEquipmentsNames() const noexcept
-    {
-        QVector <QString> r;
-        for (int i=0;i<m_equipments.size();++i)
-            r+=m_equipments[i]->name();
-        return r;
-    }
-    Q_INVOKABLE unsigned readyEquipmentsAmount() const noexcept
-    {
-        return m_equipments.size();
-    }
+    QVector <QString> availableEquipmentsNames() const noexcept;
+    Q_INVOKABLE unsigned readyEquipmentsAmount() const noexcept;
     void prepareEquipments() noexcept;
     Q_INVOKABLE void prepareEquipmentForQML(unsigned pos) noexcept;
     Q_INVOKABLE void buyEquipment(unsigned pos, unsigned eta) noexcept;
@@ -191,29 +134,19 @@ public:
     Q_INVOKABLE int remainingDaysUntilMercenaryArrival(const QString &mercenaryName) const noexcept;
 
 private:
+    DockingStationLevelInfo *currentLevelInfo() const noexcept;
+    DockingStationLevelInfo *nextLevelInfo() const noexcept;
+
     void loadRecruits() noexcept;
     void clearRecruits() noexcept;
-    void addRecruitFromSave(Mercenary *mercenary) noexcept
-    {
-        m_recruits.push_back(mercenary);
-    }
-    void setActiveTransactionsFromSave(const QVector <QPair <ActiveTransaction, unsigned> > &transactions) noexcept
-    {
-        m_activeTransactions=transactions;
-    }
-    void addArrivingMercenaryFromSave(const QPair <Mercenary *, unsigned> &arrMercenary) noexcept
-    {
-        m_arrivingMercenaries+=arrMercenary;
-    }
+    void addRecruitFromSave(Mercenary *mercenary) noexcept;
+    void setActiveTransactionsFromSave(const QVector <QPair <ActiveTransaction, unsigned> > &transactions) noexcept;
+    void addArrivingMercenaryFromSave(const QPair <Mercenary *, unsigned> &arrMercenary) noexcept;
     void loadEquipments() noexcept;
     void clearEquipments() noexcept;
     void addEquipmentFromSave(Equipment *eq) noexcept;
-    void addArrivingEquipmentFromSave(const QPair <Equipment *, unsigned> &arrEq) noexcept
-    {
-        m_arrivingEquipments+=arrEq;
-    }
+    void addArrivingEquipmentFromSave(const QPair <Equipment *, unsigned> &arrEq) noexcept;
 
-    QVector <DockingStationLevelInfo> m_levelsInfo;
     DockingStationTradingTables m_tradingTables;
     QVector <Mercenary *> m_recruits;
     Mercenary *m_recruitPreparedForQML;

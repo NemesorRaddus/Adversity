@@ -259,7 +259,7 @@ Window {
         Globals.windowWidth = width;
         Globals.windowHeight = height;
         changeMode(1);
-        GameApi.loadExistingBase(":/data/");
+        GameApi.loadExistingBase();
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
     onClosing: {

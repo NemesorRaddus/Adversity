@@ -8,15 +8,44 @@
 #include "reports/basereports.h"
 #include "reports/unifiedreport.h"
 
-Gym::Gym(Base *base, unsigned level, const QVector<GymLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Gym, base, level), m_levelsInfo(levelsInfo)
+Gym::Gym(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Gym, base, level, levelsInfo)
 {
-    m_mercenariesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingTrained.fill({nullptr,0}, currentLevelInfo()->amountOfSlots);
+}
+
+int Gym::useCostInEnergy() const noexcept
+{
+    int cnt=0;
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first==nullptr)
+            ++cnt;
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
+}
+
+int Gym::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Gym::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
 }
 
 int Gym::amountOfSlots() const noexcept
 {
     return m_mercenariesBeingTrained.size();
+}
+
+int Gym::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+QPair<Mercenary *, unsigned> Gym::slot(int index) noexcept
+{
+    return m_mercenariesBeingTrained.value(index,{nullptr,0});
 }
 
 QString Gym::mercenaryNameInSlot(unsigned index) const noexcept
@@ -78,14 +107,34 @@ void Gym::removeMercenary(const QString &name) noexcept
         }
 }
 
+int Gym::proficiencyBonus() const noexcept
+{
+    return currentLevelInfo()->proficiencyBonus;
+}
+
+int Gym::proficiencyBonusAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->proficiencyBonus;
+}
+
+int Gym::duration() const noexcept
+{
+    return currentLevelInfo()->duration;
+}
+
+int Gym::durationAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->duration;
+}
+
 void Gym::trainMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
             {
-                base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+                base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
                 --m_mercenariesBeingTrained[i].second;
             }
@@ -100,9 +149,9 @@ void Gym::trainMercenaries() noexcept
         }
 }
 
-void Gym::setLevelsInfo(const QVector<GymLevelInfo> &info) noexcept
+void Gym::setLevelsInfo(const QVector<GymLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Gym::upgradeTimeRemaining() noexcept
@@ -113,10 +162,42 @@ unsigned Gym::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void Gym::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
+void Gym::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_mercenariesBeingTrained.size() < currentLevelInfo()->amountOfSlots)
+        m_mercenariesBeingTrained+={nullptr,0};
+    m_mercenariesBeingTrained.resize(currentLevelInfo()->amountOfSlots);//for downgrades
+}
+
 int Gym::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
             return m_mercenariesBeingTrained[i].second;
     return -1;
+}
+
+GymLevelInfo *Gym::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<GymLevelInfo>();
+}
+
+GymLevelInfo *Gym::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<GymLevelInfo>();
+}
+
+void Gym::setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
+{
+    if (index<m_mercenariesBeingTrained.size())
+    {
+        m_mercenariesBeingTrained[index].first=mercenary;
+        m_mercenariesBeingTrained[index].second=duration;
+    }
 }

@@ -46,8 +46,23 @@ QDataStream &operator>>(QDataStream &stream, ActiveTransaction &transaction) noe
     return stream;
 }
 
-DockingStation::DockingStation(Base *base, unsigned level, const QVector<DockingStationLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_DockingStation, base, level), m_levelsInfo(levelsInfo) {}
+DockingStation::DockingStation(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_DockingStation, base, level, levelsInfo) {}
+
+int DockingStation::recruitsAmount() const noexcept
+{
+    return currentLevelInfo()->recruitsAmount;
+}
+
+int DockingStation::recruitsAmountAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->recruitsAmount;
+}
+
+int DockingStation::readyRecruitsAmount() const noexcept
+{
+    return m_recruits.size();
+}
 
 void DockingStation::prepareRecruits() noexcept
 {
@@ -141,6 +156,51 @@ void DockingStation::cancelMercenaryArrival(const QString &name) noexcept
         }
 }
 
+int DockingStation::waitingTime() const noexcept
+{
+    return currentLevelInfo()->waitingTime;
+}
+
+int DockingStation::waitingTimeAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->waitingTime;
+}
+
+int DockingStation::profitability() const noexcept
+{
+    return currentLevelInfo()->profitability;
+}
+
+int DockingStation::profitabilityAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->profitability;
+}
+
+int DockingStation::equipmentsAmount() const noexcept
+{
+    return currentLevelInfo()->equipmentsAmount;
+}
+
+int DockingStation::equipmentsAmountAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->equipmentsAmount;
+}
+
+int DockingStation::maxTier() const noexcept
+{
+    return currentLevelInfo()->maxTier;
+}
+
+int DockingStation::maxTierAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->maxTier;
+}
+
+void DockingStation::setLevelsInfo(const QVector<DockingStationLevelInfo *> &info) noexcept
+{
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
+}
+
 void DockingStation::setTradingTables(const QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > &tradingTables) noexcept
 {
     m_tradingTables=tradingTables;
@@ -156,12 +216,12 @@ unsigned DockingStation::upgradeTimeRemaining() noexcept
 
 unsigned DockingStation::calculateTransaction(BaseEnums::Resource sourceRes, BaseEnums::Resource targetRes, unsigned sourceAmount) const noexcept
 {
-    return m_tradingTables.value(m_levelsInfo.value(currentLevel()).profitability).value({sourceRes,targetRes}) * sourceAmount;
+    return m_tradingTables.value(currentLevelInfo()->profitability).value({sourceRes,targetRes}) * sourceAmount;
 }
 
 unsigned DockingStation::calculateTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) const noexcept
 {
-    return ceilf(static_cast<float>(targetAmount) / m_tradingTables.value(m_levelsInfo.value(currentLevel()).profitability).value({static_cast<BaseEnums::Resource>(sourceRes), static_cast<BaseEnums::Resource>(targetRes)}));
+    return ceilf(static_cast<float>(targetAmount) / m_tradingTables.value(currentLevelInfo()->profitability).value({static_cast<BaseEnums::Resource>(sourceRes), static_cast<BaseEnums::Resource>(targetRes)}));
 }
 
 void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, unsigned targetAmount) noexcept
@@ -179,7 +239,7 @@ void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, un
     else
         base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - sA);
 
-    m_activeTransactions.push_back({{sR,tR,sA,targetAmount},m_levelsInfo.value(currentLevel()).waitingTime});
+    m_activeTransactions.push_back({{sR,tR,sA,targetAmount},currentLevelInfo()->waitingTime});
     Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Docking Station: started a transaction:",base()->gameClock()->currentTime().toQString().toStdString());
     Game::gameInstance()->loggers()->buildingsLogger()->trace("    Source: {} {}",sA,BaseEnums::fromResourceEnumToQString(sR).toStdString());
     Game::gameInstance()->loggers()->buildingsLogger()->trace("    Target: {} {}",targetAmount,BaseEnums::fromResourceEnumToQString(tR).toStdString());
@@ -208,6 +268,19 @@ void DockingStation::handleActiveTransactions() noexcept
         else
             --m_activeTransactions[i].second;
     }
+}
+
+QVector<QString> DockingStation::availableEquipmentsNames() const noexcept
+{
+    QVector <QString> r;
+    for (int i=0;i<m_equipments.size();++i)
+        r+=m_equipments[i]->name();
+    return r;
+}
+
+unsigned DockingStation::readyEquipmentsAmount() const noexcept
+{
+    return m_equipments.size();
 }
 
 void DockingStation::prepareEquipments() noexcept
@@ -284,6 +357,16 @@ int DockingStation::remainingDaysUntilMercenaryArrival(const QString &mercenaryN
     return -1;
 }
 
+DockingStationLevelInfo *DockingStation::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<DockingStationLevelInfo>();
+}
+
+DockingStationLevelInfo *DockingStation::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<DockingStationLevelInfo>();
+}
+
 void DockingStation::loadRecruits() noexcept
 {
     QStringList names{base()->gameObject()->assetsPool().allMercenaries()};//load all mercs names
@@ -325,6 +408,21 @@ void DockingStation::clearRecruits() noexcept
     m_recruitPreparedForQML=nullptr;
 }
 
+void DockingStation::addRecruitFromSave(Mercenary *mercenary) noexcept
+{
+    m_recruits.push_back(mercenary);
+}
+
+void DockingStation::setActiveTransactionsFromSave(const QVector<QPair<ActiveTransaction, unsigned> > &transactions) noexcept
+{
+    m_activeTransactions=transactions;
+}
+
+void DockingStation::addArrivingMercenaryFromSave(const QPair<Mercenary *, unsigned> &arrMercenary) noexcept
+{
+    m_arrivingMercenaries+=arrMercenary;
+}
+
 void DockingStation::loadEquipments() noexcept
 {
     auto allEq=base()->gameObject()->assetsPool().equipment();
@@ -355,4 +453,9 @@ void DockingStation::clearEquipments() noexcept
 void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
 {
     m_equipments.push_back(eq);
+}
+
+void DockingStation::addArrivingEquipmentFromSave(const QPair<Equipment *, unsigned> &arrEq) noexcept
+{
+    m_arrivingEquipments+=arrEq;
 }

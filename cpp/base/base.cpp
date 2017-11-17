@@ -39,43 +39,45 @@ Base::Base(Game *gameObject) noexcept
     m_gameClock=new GameClock;
     m_gameClock->setBasePtr(this);
 
-    m_centralUnit=new CentralUnit(this,1,{});
-    m_hospital=new Hospital(this,0,{});
-    m_trainingGround=new TrainingGround(this,0,{});
-    m_gym=new Gym(this,0,{});
-    m_laboratory=new Laboratory(this,0,{});
-    m_playingField=new PlayingField(this,0,{});
-    m_bar=new Bar(this,0,{});
-    m_shrine=new Shrine(this,0,{});
-    m_seclusion=new Seclusion(this,0,{});
-    m_powerplant=new Powerplant(this,1,{});
-    m_factory=new Factory(this,1,{});
-    m_coolRoom=new CoolRoom(this,1,{});
-    m_storageRoom=new StorageRoom(this,1,{});
-    m_aetheriteSilo=new AetheriteSilo(this,1,{});
-    m_barracks=new Barracks(this,1,{});
-    m_dockingStation=new DockingStation(this,1,{});
+    m_centralUnit=new CentralUnit(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_CentralUnit));
+    m_hospital=new Hospital(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Hospital));
+    m_trainingGround=new TrainingGround(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_TrainingGround));
+    m_gym=new Gym(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Gym));
+    m_laboratory=new Laboratory(this,0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Laboratory));
+    m_playingField=new PlayingField(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_PlayingField));
+    m_bar=new Bar(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Bar));
+    m_shrine=new Shrine(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Shrine));
+    m_seclusion=new Seclusion(this, 0, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Seclusion));
+    m_powerplant=new Powerplant(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Powerplant));
+    m_factory=new Factory(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Factory));
+    m_coolRoom=new CoolRoom(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_CoolRoom));
+    m_storageRoom=new StorageRoom(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_StorageRoom));
+    m_aetheriteSilo=new AetheriteSilo(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_AetheriteSilo));
+    m_barracks=new Barracks(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_Barracks));
+    m_dockingStation=new DockingStation(this, 1, m_gameObject->assetsPool().buildingLevelInfo(BuildingEnums::B_DockingStation));
 
-    m_buildings.insert(BuildingEnums::B_CentralUnit,m_centralUnit);
-    m_buildings.insert(BuildingEnums::B_Hospital,m_hospital);
-    m_buildings.insert(BuildingEnums::B_TrainingGround,m_trainingGround);
-    m_buildings.insert(BuildingEnums::B_Gym,m_gym);
-    m_buildings.insert(BuildingEnums::B_Laboratory,m_laboratory);
-    m_buildings.insert(BuildingEnums::B_PlayingField,m_playingField);
-    m_buildings.insert(BuildingEnums::B_Bar,m_bar);
-    m_buildings.insert(BuildingEnums::B_Shrine,m_shrine);
-    m_buildings.insert(BuildingEnums::B_Seclusion,m_seclusion);
-    m_buildings.insert(BuildingEnums::B_Powerplant,m_powerplant);
-    m_buildings.insert(BuildingEnums::B_Factory,m_factory);
-    m_buildings.insert(BuildingEnums::B_CoolRoom,m_coolRoom);
-    m_buildings.insert(BuildingEnums::B_StorageRoom,m_storageRoom);
-    m_buildings.insert(BuildingEnums::B_AetheriteSilo,m_aetheriteSilo);
-    m_buildings.insert(BuildingEnums::B_Barracks,m_barracks);
-    m_buildings.insert(BuildingEnums::B_DockingStation,m_dockingStation);
+    m_buildings.insert(BuildingEnums::B_CentralUnit, static_cast<Building *>(m_centralUnit));
+    m_buildings.insert(BuildingEnums::B_Hospital, static_cast<Building *>(m_hospital));
+    m_buildings.insert(BuildingEnums::B_TrainingGround, static_cast<Building *>(m_trainingGround));
+    m_buildings.insert(BuildingEnums::B_Gym, static_cast<Building *>(m_gym));
+    m_buildings.insert(BuildingEnums::B_Laboratory, static_cast<Building *>(m_laboratory));
+    m_buildings.insert(BuildingEnums::B_PlayingField, static_cast<Building *>(m_playingField));
+    m_buildings.insert(BuildingEnums::B_Bar, static_cast<Building *>(m_bar));
+    m_buildings.insert(BuildingEnums::B_Shrine, static_cast<Building *>(m_shrine));
+    m_buildings.insert(BuildingEnums::B_Seclusion, static_cast<Building *>(m_seclusion));
+    m_buildings.insert(BuildingEnums::B_Powerplant, static_cast<Building *>(m_powerplant));
+    m_buildings.insert(BuildingEnums::B_Factory, static_cast<Building *>(m_factory));
+    m_buildings.insert(BuildingEnums::B_CoolRoom, static_cast<Building *>(m_coolRoom));
+    m_buildings.insert(BuildingEnums::B_StorageRoom, static_cast<Building *>(m_storageRoom));
+    m_buildings.insert(BuildingEnums::B_AetheriteSilo, static_cast<Building *>(m_aetheriteSilo));
+    m_buildings.insert(BuildingEnums::B_Barracks, static_cast<Building *>(m_barracks));
+    m_buildings.insert(BuildingEnums::B_DockingStation, static_cast<Building *>(m_dockingStation));
 
     m_mercenaries=new MercenariesContainer(this);
 
     m_missionInitializer=new MissionInitializer(this);
+
+    loadAssets();
 }
 
 void Base::setupNewBase() noexcept
@@ -942,4 +944,11 @@ void Base::handleMercenariesAtDayEnd() noexcept
 void Base::handleMercenariesAtWeekEnd() noexcept
 {
     m_mercenaries->handleNewWeek();
+}
+
+void Base::loadAssets() noexcept
+{
+    setBuildingRequirements(m_gameObject->assetsPool().buildingUpgradeRequirements());
+    setBuildingDescriptions(m_gameObject->assetsPool().buildingDescriptions());
+    m_dockingStation->setTradingTables(m_gameObject->assetsPool().dockingStationTradingTables());
 }

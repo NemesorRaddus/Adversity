@@ -5,10 +5,40 @@
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
 
-Shrine::Shrine(Base *base, unsigned level, const QVector<ShrineLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Shrine, base, level), m_levelsInfo(levelsInfo)
+Shrine::Shrine(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Shrine, base, level, levelsInfo)
 {
-    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr, currentLevelInfo()->amountOfSlots);
+}
+
+int Shrine::useCostInEnergy() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
+}
+
+int Shrine::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Shrine::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Shrine::amountOfSlots() const noexcept
+{
+    return m_mercenariesBeingDestressed.size();
+}
+
+int Shrine::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+Mercenary *Shrine::slot(int index) noexcept
+{
+    return m_mercenariesBeingDestressed.value(index,nullptr);
 }
 
 QString Shrine::mercenaryNameInSlot(unsigned index) const noexcept
@@ -69,21 +99,61 @@ void Shrine::removeMercenary(const QString &name) noexcept
         }
 }
 
+int Shrine::activeStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForActive;
+}
+
+int Shrine::activeStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForActive;
+}
+
+int Shrine::convivialStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForConvivial;
+}
+
+int Shrine::convivialStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForConvivial;
+}
+
+int Shrine::recluseStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForRecluse;
+}
+
+int Shrine::recluseStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForRecluse;
+}
+
+int Shrine::religiousStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForReligious;
+}
+
+int Shrine::religiousStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForReligious;
+}
+
 void Shrine::destressMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
-        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
         {
-            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+            base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
             if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForActive);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForConvivial);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForRecluse);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForReligious);
         }
 }
 
@@ -113,9 +183,9 @@ void Shrine::setRecoveryValuesForMercenaries() noexcept
             setRecoveryValuesForMercenary(i);
 }
 
-void Shrine::setLevelsInfo(const QVector<ShrineLevelInfo> &info) noexcept
+void Shrine::setLevelsInfo(const QVector<ShrineLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Shrine::upgradeTimeRemaining() noexcept
@@ -126,10 +196,32 @@ unsigned Shrine::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void Shrine::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
 void Shrine::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+    while (m_mercenariesBeingDestressed.size() < currentLevelInfo()->amountOfSlots)
         m_mercenariesBeingDestressed.push_back(nullptr);
-    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    m_mercenariesBeingDestressed.resize(currentLevelInfo()->amountOfSlots);//for downgrades
     setRecoveryValuesForMercenaries();
+}
+
+ShrineLevelInfo *Shrine::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<ShrineLevelInfo>();
+}
+
+ShrineLevelInfo *Shrine::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<ShrineLevelInfo>();
+}
+
+void Shrine::setSlot(unsigned index, Mercenary *mercenary) noexcept
+{
+    if (index<m_mercenariesBeingDestressed.size())
+        m_mercenariesBeingDestressed[index]=mercenary;
 }

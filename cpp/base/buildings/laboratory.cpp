@@ -8,15 +8,44 @@
 #include "reports/basereports.h"
 #include "reports/unifiedreport.h"
 
-Laboratory::Laboratory(Base *base, unsigned level, const QVector<LaboratoryLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Laboratory, base, level), m_levelsInfo(levelsInfo)
+Laboratory::Laboratory(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Laboratory, base, level, levelsInfo)
 {
-    m_mercenariesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingTrained.fill({nullptr,0}, currentLevelInfo()->amountOfSlots);
+}
+
+int Laboratory::useCostInEnergy() const noexcept
+{
+    int cnt=0;
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first==nullptr)
+            ++cnt;
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
+}
+
+int Laboratory::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Laboratory::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
 }
 
 int Laboratory::amountOfSlots() const noexcept
 {
     return m_mercenariesBeingTrained.size();
+}
+
+int Laboratory::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+QPair<Mercenary *, unsigned> Laboratory::slot(int index) noexcept
+{
+    return m_mercenariesBeingTrained.value(index,{nullptr,0});
 }
 
 QString Laboratory::mercenaryNameInSlot(unsigned index) const noexcept
@@ -78,14 +107,34 @@ void Laboratory::removeMercenary(const QString &name) noexcept
         }
 }
 
+int Laboratory::clevernessBonus() const noexcept
+{
+    return currentLevelInfo()->clevernessBonus;
+}
+
+int Laboratory::clevernessBonusAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->clevernessBonus;
+}
+
+int Laboratory::duration() const noexcept
+{
+    return currentLevelInfo()->duration;
+}
+
+int Laboratory::durationAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->duration;
+}
+
 void Laboratory::trainMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
             {
-                base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+                base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
                 --m_mercenariesBeingTrained[i].second;
             }
@@ -100,9 +149,9 @@ void Laboratory::trainMercenaries() noexcept
         }
 }
 
-void Laboratory::setLevelsInfo(const QVector<LaboratoryLevelInfo> &info) noexcept
+void Laboratory::setLevelsInfo(const QVector<LaboratoryLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Laboratory::upgradeTimeRemaining() noexcept
@@ -113,10 +162,42 @@ unsigned Laboratory::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void Laboratory::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
+void Laboratory::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_mercenariesBeingTrained.size() < currentLevelInfo()->amountOfSlots)
+        m_mercenariesBeingTrained+={nullptr,0};
+    m_mercenariesBeingTrained.resize(currentLevelInfo()->amountOfSlots);//for downgrades
+}
+
 int Laboratory::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
             return m_mercenariesBeingTrained[i].second;
     return -1;
+}
+
+LaboratoryLevelInfo *Laboratory::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<LaboratoryLevelInfo>();
+}
+
+LaboratoryLevelInfo *Laboratory::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<LaboratoryLevelInfo>();
+}
+
+void Laboratory::setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
+{
+    if (index<m_mercenariesBeingTrained.size())
+    {
+        m_mercenariesBeingTrained[index].first=mercenary;
+        m_mercenariesBeingTrained[index].second=duration;
+    }
 }

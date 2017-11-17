@@ -316,6 +316,8 @@ private:
     UnifiedReport *m_preparedReport;
 
     //game
+    void loadAssets() noexcept;
+
     Game *m_gameObject;
     bool m_freezeGameProgress;
 };

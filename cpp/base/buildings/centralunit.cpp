@@ -4,12 +4,12 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 
-CentralUnit::CentralUnit(Base *base, unsigned level, const QVector<CentralUnitLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_CentralUnit, base, level), m_levelsInfo(levelsInfo){}
+CentralUnit::CentralUnit(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_CentralUnit, base, level, levelsInfo) {}
 
-void CentralUnit::setLevelsInfo(const QVector<CentralUnitLevelInfo> &info) noexcept
+void CentralUnit::setLevelsInfo(const QVector<CentralUnitLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned CentralUnit::upgradeTimeRemaining() noexcept
@@ -18,4 +18,14 @@ unsigned CentralUnit::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+CentralUnitLevelInfo *CentralUnit::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<CentralUnitLevelInfo>();
+}
+
+CentralUnitLevelInfo *CentralUnit::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<CentralUnitLevelInfo>();
 }

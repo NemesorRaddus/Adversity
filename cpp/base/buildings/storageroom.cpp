@@ -4,12 +4,22 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 
-StorageRoom::StorageRoom(Base *base, unsigned level, const QVector<StorageRoomLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_StorageRoom, base, level), m_levelsInfo(levelsInfo){}
+StorageRoom::StorageRoom(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_StorageRoom, base, level, levelsInfo) {}
 
-void StorageRoom::setLevelsInfo(const QVector<StorageRoomLevelInfo> &info) noexcept
+int StorageRoom::buildingMaterialsLimit() const noexcept
 {
-    m_levelsInfo=info;
+    return currentLevelInfo()->buildingMaterialsLimit;
+}
+
+int StorageRoom::buildingMaterialsLimitAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->buildingMaterialsLimit;
+}
+
+void StorageRoom::setLevelsInfo(const QVector<StorageRoomLevelInfo *> &info) noexcept
+{
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned StorageRoom::upgradeTimeRemaining() noexcept
@@ -18,4 +28,14 @@ unsigned StorageRoom::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+StorageRoomLevelInfo *StorageRoom::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<StorageRoomLevelInfo>();
+}
+
+StorageRoomLevelInfo *StorageRoom::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<StorageRoomLevelInfo>();
 }

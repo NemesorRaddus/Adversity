@@ -4,12 +4,22 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 
-AetheriteSilo::AetheriteSilo(Base *base, unsigned level, const QVector<AetheriteSiloLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_AetheriteSilo, base, level), m_levelsInfo(levelsInfo){}
+AetheriteSilo::AetheriteSilo(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_AetheriteSilo, base, level, levelsInfo) {}
 
-void AetheriteSilo::setLevelsInfo(const QVector<AetheriteSiloLevelInfo> &info) noexcept
+int AetheriteSilo::aetheriteLimit() const noexcept
 {
-    m_levelsInfo=info;
+    return currentLevelInfo()->aetheriteOreLimit;
+}
+
+int AetheriteSilo::aetheriteLimitAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->aetheriteOreLimit;
+}
+
+void AetheriteSilo::setLevelsInfo(const QVector<AetheriteSiloLevelInfo *> &info) noexcept
+{
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned AetheriteSilo::upgradeTimeRemaining() noexcept
@@ -18,4 +28,14 @@ unsigned AetheriteSilo::upgradeTimeRemaining() noexcept
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;
+}
+
+AetheriteSiloLevelInfo *AetheriteSilo::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<AetheriteSiloLevelInfo>();
+}
+
+AetheriteSiloLevelInfo *AetheriteSilo::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<AetheriteSiloLevelInfo>();
 }

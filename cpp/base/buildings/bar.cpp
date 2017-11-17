@@ -5,10 +5,40 @@
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
 
-Bar::Bar(Base *base, unsigned level, const QVector<BarLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Bar, base, level), m_levelsInfo(levelsInfo)
+Bar::Bar(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Bar, base, level, levelsInfo)
 {
-    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr, currentLevelInfo()->amountOfSlots);
+}
+
+int Bar::useCostInEnergy() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
+}
+
+int Bar::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Bar::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Bar::amountOfSlots() const noexcept
+{
+    return m_mercenariesBeingDestressed.size();
+}
+
+int Bar::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+Mercenary *Bar::slot(int index) noexcept
+{
+    return m_mercenariesBeingDestressed.value(index,nullptr);
 }
 
 QString Bar::mercenaryNameInSlot(unsigned index) const noexcept
@@ -69,21 +99,61 @@ void Bar::removeMercenary(const QString &name) noexcept
         }
 }
 
+int Bar::activeStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForActive;
+}
+
+int Bar::activeStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForActive;
+}
+
+int Bar::convivialStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForConvivial;
+}
+
+int Bar::convivialStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForConvivial;
+}
+
+int Bar::recluseStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForRecluse;
+}
+
+int Bar::recluseStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForRecluse;
+}
+
+int Bar::religiousStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForReligious;
+}
+
+int Bar::religiousStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForReligious;
+}
+
 void Bar::destressMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
-        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
         {
-            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+            base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
             if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForActive);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForConvivial);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForRecluse);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForReligious);
         }
 }
 
@@ -113,9 +183,9 @@ void Bar::setRecoveryValuesForMercenaries() noexcept
             setRecoveryValuesForMercenary(i);
 }
 
-void Bar::setLevelsInfo(const QVector<BarLevelInfo> &info) noexcept
+void Bar::setLevelsInfo(const QVector<BarLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Bar::upgradeTimeRemaining() noexcept
@@ -126,10 +196,32 @@ unsigned Bar::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void Bar::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
 void Bar::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+    while (m_mercenariesBeingDestressed.size() < currentLevelInfo()->amountOfSlots)
         m_mercenariesBeingDestressed.push_back(nullptr);
-    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    m_mercenariesBeingDestressed.resize(currentLevelInfo()->amountOfSlots);//for downgrades
     setRecoveryValuesForMercenaries();
+}
+
+BarLevelInfo *Bar::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<BarLevelInfo>();
+}
+
+BarLevelInfo *Bar::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<BarLevelInfo>();
+}
+
+void Bar::setSlot(unsigned index, Mercenary *mercenary) noexcept
+{
+    if (index<m_mercenariesBeingDestressed.size())
+        m_mercenariesBeingDestressed[index]=mercenary;
 }

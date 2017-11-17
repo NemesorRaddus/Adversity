@@ -5,10 +5,40 @@
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
 
-Seclusion::Seclusion(Base *base, unsigned level, const QVector<SeclusionLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_Seclusion, base, level), m_levelsInfo(levelsInfo)
+Seclusion::Seclusion(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_Seclusion, base, level, levelsInfo)
 {
-    m_mercenariesBeingDestressed.fill(nullptr,levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingDestressed.fill(nullptr, currentLevelInfo()->amountOfSlots);
+}
+
+int Seclusion::useCostInEnergy() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingDestressed.size() - m_mercenariesBeingDestressed.count(nullptr));
+}
+
+int Seclusion::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Seclusion::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
+}
+
+int Seclusion::amountOfSlots() const noexcept
+{
+    return m_mercenariesBeingDestressed.size();
+}
+
+int Seclusion::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+Mercenary *Seclusion::slot(int index) noexcept
+{
+    return m_mercenariesBeingDestressed.value(index,nullptr);
 }
 
 QString Seclusion::mercenaryNameInSlot(unsigned index) const noexcept
@@ -69,21 +99,61 @@ void Seclusion::removeMercenary(const QString &name) noexcept
         }
 }
 
+int Seclusion::activeStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForActive;
+}
+
+int Seclusion::activeStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForActive;
+}
+
+int Seclusion::convivialStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForConvivial;
+}
+
+int Seclusion::convivialStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForConvivial;
+}
+
+int Seclusion::recluseStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForRecluse;
+}
+
+int Seclusion::recluseStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForRecluse;
+}
+
+int Seclusion::religiousStressRelief() const noexcept
+{
+    return currentLevelInfo()->stressReductionForReligious;
+}
+
+int Seclusion::religiousStressReliefAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->stressReductionForReligious;
+}
+
 void Seclusion::destressMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
-        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
         {
-            base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+            base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
             if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForActive);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForActive);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Convivial)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForConvivial);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForConvivial);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Recluse)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForRecluse);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForRecluse);
             else if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Religious)
-                m_mercenariesBeingDestressed[i]->decreaseStress(m_levelsInfo.value(currentLevel()).stressReductionForReligious);
+                m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForReligious);
         }
 }
 
@@ -113,9 +183,9 @@ void Seclusion::setRecoveryValuesForMercenaries() noexcept
             setRecoveryValuesForMercenary(i);
 }
 
-void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo> &info) noexcept
+void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned Seclusion::upgradeTimeRemaining() noexcept
@@ -126,10 +196,32 @@ unsigned Seclusion::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void Seclusion::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
 void Seclusion::resizeSlotsAfterUpgrade() noexcept
 {
-    while (m_mercenariesBeingDestressed.size() < m_levelsInfo.value(currentLevel()).amountOfSlots)
+    while (m_mercenariesBeingDestressed.size() < currentLevelInfo()->amountOfSlots)
         m_mercenariesBeingDestressed.push_back(nullptr);
-    m_mercenariesBeingDestressed.resize(m_levelsInfo.value(currentLevel()).amountOfSlots);//for downgrades
+    m_mercenariesBeingDestressed.resize(currentLevelInfo()->amountOfSlots);//for downgrades
     setRecoveryValuesForMercenaries();
+}
+
+SeclusionLevelInfo *Seclusion::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<SeclusionLevelInfo>();
+}
+
+SeclusionLevelInfo *Seclusion::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<SeclusionLevelInfo>();
+}
+
+void Seclusion::setSlot(unsigned index, Mercenary *mercenary) noexcept
+{
+    if (index<m_mercenariesBeingDestressed.size())
+        m_mercenariesBeingDestressed[index]=mercenary;
 }

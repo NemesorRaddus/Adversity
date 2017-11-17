@@ -48,22 +48,22 @@ public:
 
     bool openXmlFile(const QString &path) noexcept;
 
-    QPair <QVector <CentralUnitLevelInfo>, QVector <BuildingUpgradeRequirements> > getCentralUnitLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <HospitalLevelInfo>, QVector <BuildingUpgradeRequirements> > getHospitalLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <TrainingGroundLevelInfo>, QVector <BuildingUpgradeRequirements> > getTrainingGroundLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <GymLevelInfo>, QVector <BuildingUpgradeRequirements> > getGymLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <LaboratoryLevelInfo>, QVector <BuildingUpgradeRequirements> > getLaboratoryLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <PlayingFieldLevelInfo>, QVector <BuildingUpgradeRequirements> > getPlayingFieldLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <BarLevelInfo>, QVector <BuildingUpgradeRequirements> > getBarLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <ShrineLevelInfo>, QVector <BuildingUpgradeRequirements> > getShrineLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <SeclusionLevelInfo>, QVector <BuildingUpgradeRequirements> > getSeclusionLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <PowerplantLevelInfo>, QVector <BuildingUpgradeRequirements> > getPowerplantLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <FactoryLevelInfo>, QVector <BuildingUpgradeRequirements> > getFactoryLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <CoolRoomLevelInfo>, QVector <BuildingUpgradeRequirements> > getCoolRoomLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <StorageRoomLevelInfo>, QVector <BuildingUpgradeRequirements> > getStorageRoomLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <AetheriteSiloLevelInfo>, QVector <BuildingUpgradeRequirements> > getAetheriteSiloLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <BarracksLevelInfo>, QVector <BuildingUpgradeRequirements> > getBarracksLevelsInfo(const QString &path) noexcept;
-    QPair <QVector <DockingStationLevelInfo>, QVector <BuildingUpgradeRequirements> > getDockingStationLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <CentralUnitLevelInfo *>, QVector<BuildingUpgradeRequirements> > getCentralUnitLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <HospitalLevelInfo *>, QVector <BuildingUpgradeRequirements> > getHospitalLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <TrainingGroundLevelInfo *>, QVector <BuildingUpgradeRequirements> > getTrainingGroundLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <GymLevelInfo *>, QVector <BuildingUpgradeRequirements> > getGymLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <LaboratoryLevelInfo *>, QVector <BuildingUpgradeRequirements> > getLaboratoryLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <PlayingFieldLevelInfo *>, QVector <BuildingUpgradeRequirements> > getPlayingFieldLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <BarLevelInfo *>, QVector <BuildingUpgradeRequirements> > getBarLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <ShrineLevelInfo *>, QVector <BuildingUpgradeRequirements> > getShrineLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <SeclusionLevelInfo *>, QVector <BuildingUpgradeRequirements> > getSeclusionLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <PowerplantLevelInfo *>, QVector <BuildingUpgradeRequirements> > getPowerplantLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <FactoryLevelInfo *>, QVector <BuildingUpgradeRequirements> > getFactoryLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <CoolRoomLevelInfo *>, QVector <BuildingUpgradeRequirements> > getCoolRoomLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <StorageRoomLevelInfo *>, QVector <BuildingUpgradeRequirements> > getStorageRoomLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <AetheriteSiloLevelInfo *>, QVector <BuildingUpgradeRequirements> > getAetheriteSiloLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <BarracksLevelInfo *>, QVector <BuildingUpgradeRequirements> > getBarracksLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <DockingStationLevelInfo *>, QVector <BuildingUpgradeRequirements> > getDockingStationLevelsInfo(const QString &path) noexcept;
     DockingStationTradingTables getDockingStationTradingTables(const QString &path) noexcept;
 
     QMap <BuildingEnums::Building, QString> getBuildingDescriptions(const QString &path) noexcept;

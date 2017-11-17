@@ -16,6 +16,7 @@ SOURCES += cpp/main.cpp \
     cpp/assets_pool/assetspool.cpp \
     cpp/base/base.cpp \
     cpp/base/buildings/aetheritesilo.cpp \
+    cpp/base/buildings/levelsinfo.cpp \
     cpp/base/buildings/bar.cpp \
     cpp/base/buildings/barracks.cpp \
     cpp/base/buildings/building.cpp \
@@ -107,6 +108,7 @@ HEADERS += \
     cpp/assets_pool/assetspool.h \
     cpp/base/base.h \
     cpp/base/buildings/aetheritesilo.h \
+    cpp/base/buildings/levelsinfo.h \
     cpp/base/buildings/bar.h \
     cpp/base/buildings/barracks.h \
     cpp/base/buildings/building.h \

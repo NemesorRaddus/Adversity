@@ -9,10 +9,44 @@
 #include "reports/basereports.h"
 #include "reports/unifiedreport.h"
 
-TrainingGround::TrainingGround(Base *base, unsigned level, const QVector<TrainingGroundLevelInfo> &levelsInfo) noexcept
-    : Building(BuildingEnums::B_TrainingGround, base, level), m_levelsInfo(levelsInfo)
+TrainingGround::TrainingGround(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
+    : Building(BuildingEnums::B_TrainingGround, base, level, levelsInfo)
 {
-    m_mercenariesBeingTrained.fill({nullptr,0},levelsInfo.value(level).amountOfSlots);
+    m_mercenariesBeingTrained.fill({nullptr,0}, currentLevelInfo()->amountOfSlots);
+}
+
+int TrainingGround::useCostInEnergy() const noexcept
+{
+    int cnt=0;
+    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first==nullptr)
+            ++cnt;
+    return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
+}
+
+int TrainingGround::useCostInEnergySingle() const noexcept
+{
+    return currentLevelInfo()->perCapitaCostInEnergy;
+}
+
+int TrainingGround::useCostInEnergySingleAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->perCapitaCostInEnergy;
+}
+
+int TrainingGround::amountOfSlots() const noexcept
+{
+    return m_mercenariesBeingTrained.size();
+}
+
+int TrainingGround::amountOfSlotsAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->amountOfSlots;
+}
+
+QPair<Mercenary *, unsigned> TrainingGround::slot(int index) noexcept
+{
+    return m_mercenariesBeingTrained.value(index,{nullptr,0});
 }
 
 QString TrainingGround::mercenaryNameInSlot(unsigned index) const noexcept
@@ -74,14 +108,34 @@ void TrainingGround::removeMercenary(const QString &name) noexcept
         }
 }
 
+int TrainingGround::combatEffectivenessBonus() const noexcept
+{
+    return currentLevelInfo()->combatEffectivenessBonus;
+}
+
+int TrainingGround::combatEffectivenessBonusAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->combatEffectivenessBonus;
+}
+
+int TrainingGround::duration() const noexcept
+{
+    return currentLevelInfo()->duration;
+}
+
+int TrainingGround::durationAfterUpgrade() const noexcept
+{
+    return nextLevelInfo()->duration;
+}
+
 void TrainingGround::trainMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
             {
-                base()->decreaseEnergyAmount(m_levelsInfo.value(currentLevel()).perCapitaCostInEnergy);
+                base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
                 --m_mercenariesBeingTrained[i].second;
             }
@@ -96,9 +150,9 @@ void TrainingGround::trainMercenaries() noexcept
         }
 }
 
-void TrainingGround::setLevelsInfo(const QVector<TrainingGroundLevelInfo> &info) noexcept
+void TrainingGround::setLevelsInfo(const QVector<TrainingGroundLevelInfo *> &info) noexcept
 {
-    m_levelsInfo=info;
+    Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
 unsigned TrainingGround::upgradeTimeRemaining() noexcept
@@ -109,10 +163,42 @@ unsigned TrainingGround::upgradeTimeRemaining() noexcept
     return r;
 }
 
+void TrainingGround::registerUpgradeCompletion() noexcept
+{
+    m_isBeingUpgraded=0;
+    resizeSlotsAfterUpgrade();
+}
+
+void TrainingGround::resizeSlotsAfterUpgrade() noexcept
+{
+    while (m_mercenariesBeingTrained.size() < currentLevelInfo()->amountOfSlots)
+        m_mercenariesBeingTrained+={nullptr,0};
+    m_mercenariesBeingTrained.resize(currentLevelInfo()->amountOfSlots);//for downgrades
+}
+
 int TrainingGround::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
             return m_mercenariesBeingTrained[i].second;
     return -1;
+}
+
+TrainingGroundLevelInfo *TrainingGround::currentLevelInfo() const noexcept
+{
+    return Building::currentLevelInfo<TrainingGroundLevelInfo>();
+}
+
+TrainingGroundLevelInfo *TrainingGround::nextLevelInfo() const noexcept
+{
+    return Building::nextLevelInfo<TrainingGroundLevelInfo>();
+}
+
+void TrainingGround::setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
+{
+    if (index<m_mercenariesBeingTrained.size())
+    {
+        m_mercenariesBeingTrained[index].first=mercenary;
+        m_mercenariesBeingTrained[index].second=duration;
+    }
 }
