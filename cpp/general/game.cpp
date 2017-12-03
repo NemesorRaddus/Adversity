@@ -25,6 +25,7 @@
 #include "base/buildings/specific/destressing/shrine.h"
 #include "base/buildings/specific/storage/storageroom.h"
 #include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/mercenariesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "clock/timer_alarms/missionend.h"
@@ -254,7 +255,7 @@ void Game::saveBase_slot() noexcept
 
 void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
 {
-    m_base->mercenaryDockingStationBans().insert(name,daysAmount);
+    m_base->mercenaries()->mercenaryDockingStationBans().insert(name,daysAmount);
 }
 
 void Game::connectAutosave() noexcept

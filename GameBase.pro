@@ -81,7 +81,14 @@ SOURCES += cpp/main.cpp \
     cpp/reports/missionreports.cpp \
     cpp/reports/report.cpp \
     cpp/reports/unifiedreport.cpp \
-    cpp/translations/translations.cpp
+    cpp/translations/translations.cpp \
+    cpp/base/managers/resourcesmanager.cpp \
+    cpp/base/managers/buildingsmanager.cpp \
+    cpp/base/managers/mercenariesmanager.cpp \
+    cpp/base/managers/reportsmanager.cpp \
+    cpp/base/managers/equipmentmanager.cpp \
+    cpp/base/managers/missionsmanager.cpp \
+    cpp/base/managers/basemanagerinterface.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -174,7 +181,14 @@ HEADERS += \
     cpp/reports/report.h \
     cpp/reports/unifiedreport.h \
     cpp/stable.h \
-    cpp/translations/translations.h
+    cpp/translations/translations.h \
+    cpp/base/managers/resourcesmanager.h \
+    cpp/base/managers/buildingsmanager.h \
+    cpp/base/managers/mercenariesmanager.h \
+    cpp/base/managers/reportsmanager.h \
+    cpp/base/managers/basemanagerinterface.h \
+    cpp/base/managers/equipmentmanager.h \
+    cpp/base/managers/missionsmanager.h
 
 PRECOMPILED_HEADER = cpp/stable.h
 

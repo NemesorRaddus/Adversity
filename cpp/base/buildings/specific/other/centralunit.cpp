@@ -14,7 +14,7 @@ void CentralUnit::setLevelsInfo(const QVector<CentralUnitLevelInfo *> &info) noe
 
 unsigned CentralUnit::upgradeTimeRemaining() noexcept
 {
-    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BuildingEnums::B_CentralUnit,currentLevel()+1);
+    BuildingUpgradeTimerAlarm *buta = new BuildingUpgradeTimerAlarm(base(),BuildingEnums::B_CentralUnit, currentLevel()+1);
     unsigned r = base()->gameClock()->checkDaysToTimeoutOfAlarm(buta);
     delete buta;
     return r;

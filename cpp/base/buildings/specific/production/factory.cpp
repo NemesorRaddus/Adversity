@@ -1,6 +1,7 @@
 #include "factory.h"
 
 #include "base/base.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "general/game.h"
@@ -41,8 +42,8 @@ int Factory::useCostInAetheriteSingleAfterUpgrade() const noexcept
 
 void Factory::exchangeResources() noexcept
 {
-    unsigned cyclesToDo = base()->currentAetheriteAmount() / currentLevelInfo()->aetheriteOreTaken;
-    unsigned uselessnessLimit = currentLevelInfo()->buildingMaterialsGiven != 0 ? (((base()->currentBuildingMaterialsLimit() - base()->currentBuildingMaterialsAmount()) / currentLevelInfo()->buildingMaterialsGiven) + ((base()->currentBuildingMaterialsLimit() - base()->currentBuildingMaterialsAmount()) % currentLevelInfo()->buildingMaterialsGiven == 0 ? 0 : 1)) : 0;//that way it doesn't do additional cycles if resource limit is reached earlier
+    unsigned cyclesToDo = base()->resources()->currentAetheriteAmount() / currentLevelInfo()->aetheriteOreTaken;
+    unsigned uselessnessLimit = currentLevelInfo()->buildingMaterialsGiven != 0 ? (((base()->resources()->currentBuildingMaterialsLimit() - base()->resources()->currentBuildingMaterialsAmount()) / currentLevelInfo()->buildingMaterialsGiven) + ((base()->resources()->currentBuildingMaterialsLimit() - base()->resources()->currentBuildingMaterialsAmount()) % currentLevelInfo()->buildingMaterialsGiven == 0 ? 0 : 1)) : 0;//that way it doesn't do additional cycles if resource limit is reached earlier
 
     if (cyclesToDo > uselessnessLimit)
         cyclesToDo = uselessnessLimit;
@@ -50,8 +51,8 @@ void Factory::exchangeResources() noexcept
         cyclesToDo = m_currentCycles;
 
     Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Factory: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
-    base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
-    base()->setCurrentBuildingMaterialsAmount(base()->currentBuildingMaterialsAmount() + (cyclesToDo * currentLevelInfo()->buildingMaterialsGiven));
+    base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
+    base()->resources()->setCurrentBuildingMaterialsAmount(base()->resources()->currentBuildingMaterialsAmount() + (cyclesToDo * currentLevelInfo()->buildingMaterialsGiven));
 }
 
 void Factory::setCurrentCycles(unsigned amount) noexcept

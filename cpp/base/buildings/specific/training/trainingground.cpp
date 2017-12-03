@@ -1,6 +1,9 @@
 #include "trainingground.h"
 
 #include "base/base.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
@@ -71,14 +74,14 @@ void TrainingGround::placeMercenaryInSlot(unsigned slotIndex, const QString &mer
     if (m_mercenariesBeingTrained[slotIndex].first!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->mercenaries()->findMercenary(mercenaryName);
+    int pos = base()->mercenaries()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
+    if (base()->mercenaries()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_mercenariesBeingTrained[slotIndex].first=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingTrained[slotIndex].first=base()->mercenaries()->mercenaries()->getMercenary(pos);
     m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_OnTrainingGround);
     m_mercenariesBeingTrained[slotIndex].second=duration();
 }
@@ -133,15 +136,15 @@ void TrainingGround::trainMercenaries() noexcept
     for (int i=0;i<m_mercenariesBeingTrained.size();++i)
         if (m_mercenariesBeingTrained[i].first!=nullptr)
         {
-            if (m_mercenariesBeingTrained[i].second>0 && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second>0 && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
             {
-                base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
+                base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
                 --m_mercenariesBeingTrained[i].second;
             }
             else if (m_mercenariesBeingTrained[i].second==0)
             {
-                base()->addReport(new UnifiedReport(new TrainingCompletionReport(m_mercenariesBeingTrained[i].first->pathToArt(), m_mercenariesBeingTrained[i].first->name(), BuildingEnums::B_TrainingGround, base()->gameClock()->currentTime())));
+                base()->reports()->addReport(new UnifiedReport(new TrainingCompletionReport(m_mercenariesBeingTrained[i].first->pathToArt(), m_mercenariesBeingTrained[i].first->name(), BuildingEnums::B_TrainingGround, base()->gameClock()->currentTime())));
                 m_mercenariesBeingTrained[i].first->trainCombatEffectiveness();
                 m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
                 m_mercenariesBeingTrained[i].first=nullptr;

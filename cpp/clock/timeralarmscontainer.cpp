@@ -1,6 +1,7 @@
 #include "timeralarmscontainer.h"
 
 #include "base/base.h"
+#include "base/managers/missionsmanager.h"
 #include "clock/timer_alarms/timeralarm.h"
 #include "clock/timer_alarms/missionend.h"
 #include "general/game.h"
@@ -80,7 +81,7 @@ void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
             m_missionAlarms.remove(i);
             --i;
             auto er=temp.second->doEncounter(temp.first);
-            if (m_base->missions().contains(temp.second) && !temp.second->assignedMercenary()->isDead())
+            if (m_base->missions()->missions().contains(temp.second) && !temp.second->assignedMercenary()->isDead())
                 temp.second->assignedMercenary()->trySendingReport(new UnifiedReport(er), temp.second);
         }
 }

@@ -96,7 +96,7 @@ Item {
         height: parent.theoreticalHeight - y
 
         onMercenaryClicked: {
-            GameApi.base.dockingStation.hireMercenary(mercenaryName,GameApi.base.dockingStation.waitingTime());
+            GameApi.base.buildings.dockingStation.hireMercenary(mercenaryName,GameApi.base.buildings.dockingStation.waitingTime());
             update();
             root.requestUpdate();
         }

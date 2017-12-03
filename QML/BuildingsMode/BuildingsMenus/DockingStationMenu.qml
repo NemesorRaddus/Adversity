@@ -17,8 +17,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.dockingStation.description());
-        topBar.setLevel("Level: "+GameApi.base.dockingStation.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.dockingStation.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.dockingStation.currentLevel());
         table.update();
         upgradeInfo.update();
         tabs.update();
@@ -75,14 +75,14 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.dockingStation.basicCostInEnergy()+"/Day";
-            waitingTimeAmount1.text = GameApi.base.dockingStation.waitingTime();
-            recruitsAmount1.text = GameApi.base.dockingStation.recruitsAmount()+"/Week";
-            profitabilityAmount1.text = GameApi.base.dockingStation.profitability();
-            equipmentAmount1.text = GameApi.base.dockingStation.equipmentsAmount()+"/Week";
-            maxTierAmount1.text = GameApi.base.dockingStation.maxTier();
+            energyDrainAmount1.text = GameApi.base.buildings.dockingStation.basicCostInEnergy()+"/Day";
+            waitingTimeAmount1.text = GameApi.base.buildings.dockingStation.waitingTime();
+            recruitsAmount1.text = GameApi.base.buildings.dockingStation.recruitsAmount()+"/Week";
+            profitabilityAmount1.text = GameApi.base.buildings.dockingStation.profitability();
+            equipmentAmount1.text = GameApi.base.buildings.dockingStation.equipmentsAmount()+"/Week";
+            maxTierAmount1.text = GameApi.base.buildings.dockingStation.maxTier();
 
-            if (GameApi.base.dockingStation.maxLevelReached())
+            if (GameApi.base.buildings.dockingStation.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -94,12 +94,12 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.dockingStation.basicCostInEnergyAfterUpgrade()+"/Day";
-                waitingTimeAmount2.text = GameApi.base.dockingStation.waitingTimeAfterUpgrade();
-                recruitsAmount2.text = GameApi.base.dockingStation.recruitsAmountAfterUpgrade()+"/Week";
-                profitabilityAmount2.text = GameApi.base.dockingStation.profitabilityAfterUpgrade();
-                equipmentAmount2.text = GameApi.base.dockingStation.equipmentsAmountAfterUpgrade()+"/Week";
-                maxTierAmount2.text = GameApi.base.dockingStation.maxTierAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.dockingStation.basicCostInEnergyAfterUpgrade()+"/Day";
+                waitingTimeAmount2.text = GameApi.base.buildings.dockingStation.waitingTimeAfterUpgrade();
+                recruitsAmount2.text = GameApi.base.buildings.dockingStation.recruitsAmountAfterUpgrade()+"/Week";
+                profitabilityAmount2.text = GameApi.base.buildings.dockingStation.profitabilityAfterUpgrade();
+                equipmentAmount2.text = GameApi.base.buildings.dockingStation.equipmentsAmountAfterUpgrade()+"/Week";
+                maxTierAmount2.text = GameApi.base.buildings.dockingStation.maxTierAfterUpgrade();
             }
         }
 
@@ -499,7 +499,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.dockingStation.maxLevelReached())
+            if (GameApi.base.buildings.dockingStation.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -512,13 +512,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.dockingStation.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.dockingStation.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.dockingStation.requirementsForNextLevelTime();
-                if (GameApi.base.dockingStation.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.dockingStation.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.dockingStation.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.dockingStation.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.dockingStation.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.dockingStation.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.dockingStation.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -528,9 +528,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.dockingStation.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.dockingStation.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.dockingStation.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.dockingStation.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.dockingStation.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.dockingStation.requirementsForNextLevelTime();
             }
         }
 

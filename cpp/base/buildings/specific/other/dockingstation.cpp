@@ -3,6 +3,10 @@
 #include <QDataStream>
 
 #include "base/base.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "general/game.h"
@@ -81,7 +85,7 @@ void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
 
 void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
 {
-    if (base()->mercenaries()->canAddMercenary())
+    if (base()->mercenaries()->mercenaries()->canAddMercenary())
     {
         for (int i=0;i<m_recruits.size();++i)
             if (m_recruits[i]->name() == name)
@@ -89,7 +93,7 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
                 if (eta>0)
                 {
                     m_recruits[i]->setCurrentActivity(MercenaryEnums::CA_Arriving);
-                    base()->mercenaries()->addMercenary(m_recruits[i]);
+                    base()->mercenaries()->mercenaries()->addMercenary(m_recruits[i]);
                     m_arrivingMercenaries.push_back({m_recruits[i],eta});
                     if (m_recruitPreparedForQML==m_recruits[i])
                     {
@@ -105,7 +109,7 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
                 }
                 else//instant
                 {
-                    base()->mercenaries()->addMercenary(m_recruits[i]);
+                    base()->mercenaries()->mercenaries()->addMercenary(m_recruits[i]);
                     if (m_recruitPreparedForQML==m_recruits[i])
                     {
                         if (m_recruits.size()>i+1)
@@ -129,7 +133,7 @@ void DockingStation::doRecrutationStuff() noexcept
         if (m_arrivingMercenaries[i].second == 0)
         {
             Mercenary *h=m_arrivingMercenaries[i].first;//antibug thing, leave it as it is
-            base()->addReport(new UnifiedReport(new MercenaryArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
+            base()->reports()->addReport(new UnifiedReport(new MercenaryArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
             h->setCurrentActivity(MercenaryEnums::CA_Idle);
             m_arrivingMercenaries.remove(i);
         }
@@ -231,13 +235,13 @@ void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, un
     BaseEnums::Resource tR = static_cast<BaseEnums::Resource>(targetRes);
 
     if (sR == BaseEnums::R_Energy)
-        base()->setCurrentEnergyAmount(base()->currentEnergyAmount() - sA);
+        base()->resources()->setCurrentEnergyAmount(base()->resources()->currentEnergyAmount() - sA);
     else if (sR == BaseEnums::R_FoodSupplies)
-        base()->setCurrentFoodSuppliesAmount(base()->currentFoodSuppliesAmount() - sA);
+        base()->resources()->setCurrentFoodSuppliesAmount(base()->resources()->currentFoodSuppliesAmount() - sA);
     else if (sR == BaseEnums::R_BuildingMaterials)
-        base()->setCurrentBuildingMaterialsAmount(base()->currentBuildingMaterialsAmount() - sA);
+        base()->resources()->setCurrentBuildingMaterialsAmount(base()->resources()->currentBuildingMaterialsAmount() - sA);
     else
-        base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - sA);
+        base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() - sA);
 
     m_activeTransactions.push_back({{sR,tR,sA,targetAmount},currentLevelInfo()->waitingTime});
     Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Docking Station: started a transaction:",base()->gameClock()->currentTime().toQString().toStdString());
@@ -251,16 +255,16 @@ void DockingStation::handleActiveTransactions() noexcept
     {
         if (m_activeTransactions[i].second == 0)
         {
-            base()->addReport(new UnifiedReport(new TradeCompletionReport(m_activeTransactions[i].first.targetRes, m_activeTransactions[i].first.targetAmount, base()->gameClock()->currentTime())));
+            base()->reports()->addReport(new UnifiedReport(new TradeCompletionReport(m_activeTransactions[i].first.targetRes, m_activeTransactions[i].first.targetAmount, base()->gameClock()->currentTime())));
 
             if (m_activeTransactions[i].first.targetRes == BaseEnums::R_Energy)
-                base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + m_activeTransactions[i].first.targetAmount);
+                base()->resources()->setCurrentEnergyAmount(base()->resources()->currentEnergyAmount() + m_activeTransactions[i].first.targetAmount);
             else if (m_activeTransactions[i].first.targetRes == BaseEnums::R_FoodSupplies)
-                base()->setCurrentFoodSuppliesAmount(base()->currentFoodSuppliesAmount() + m_activeTransactions[i].first.targetAmount);
+                base()->resources()->setCurrentFoodSuppliesAmount(base()->resources()->currentFoodSuppliesAmount() + m_activeTransactions[i].first.targetAmount);
             else if (m_activeTransactions[i].first.targetRes == BaseEnums::R_BuildingMaterials)
-                base()->setCurrentBuildingMaterialsAmount(base()->currentBuildingMaterialsAmount() + m_activeTransactions[i].first.targetAmount);
+                base()->resources()->setCurrentBuildingMaterialsAmount(base()->resources()->currentBuildingMaterialsAmount() + m_activeTransactions[i].first.targetAmount);
             else
-                base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() + m_activeTransactions[i].first.targetAmount);
+                base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() + m_activeTransactions[i].first.targetAmount);
 
             m_activeTransactions.remove(i);
             --i;
@@ -300,7 +304,7 @@ void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
 {
     if (pos<m_equipments.size())
     {
-        base()->decreaseAetheriteAmount(m_equipments[pos]->buyingAetheriteCost());
+        base()->resources()->decreaseAetheriteAmount(m_equipments[pos]->buyingAetheriteCost());
         if (eta>0)
         {
             m_arrivingEquipments.push_back({m_equipments[pos],eta});
@@ -317,7 +321,7 @@ void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
         }
         else//instant
         {
-            base()->availableEquipment().push_back(m_equipments[pos]);
+            base()->equipment()->availableEquipment().push_back(m_equipments[pos]);
             if (m_equipmentPreparedForQML==m_equipments[pos])
             {
                 if (m_equipments.size()>pos+1)
@@ -339,8 +343,8 @@ void DockingStation::doBuyingEquipmentStuff() noexcept
         if (m_arrivingEquipments[i].second == 0)
         {
             Equipment *eq=m_arrivingEquipments[i].first;
-            base()->addReport(new UnifiedReport(new EquipmentArrivalReport(eq->name(), base()->gameClock()->currentTime())));
-            base()->availableEquipment().push_back(eq);
+            base()->reports()->addReport(new UnifiedReport(new EquipmentArrivalReport(eq->name(), base()->gameClock()->currentTime())));
+            base()->equipment()->availableEquipment().push_back(eq);
             m_arrivingEquipments.remove(i);
         }
         else
@@ -370,11 +374,11 @@ DockingStationLevelInfo *DockingStation::nextLevelInfo() const noexcept
 void DockingStation::loadRecruits() noexcept
 {
     QStringList names{base()->gameObject()->assetsPool().allMercenaries()};//load all mercs names
-    for (int i=0;i<base()->mercenaries()->mercenaries().size();++i)//remove mercs that are already hired
-        names.removeAt(names.indexOf(base()->mercenaries()->mercenaries()[i]->name()));
+    for (int i=0;i<base()->mercenaries()->mercenaries()->mercenaries().size();++i)//remove mercs that are already hired
+        names.removeAt(names.indexOf(base()->mercenaries()->mercenaries()->mercenaries()[i]->name()));
     for (int i=0;i<names.size();)//remove mercs banned in DoSt
     {
-        if (base()->mercenaryDockingStationBans().contains(names[i]))
+        if (base()->mercenaries()->mercenaryDockingStationBans().contains(names[i]))
             names.removeAt(i);
         else
             ++i;

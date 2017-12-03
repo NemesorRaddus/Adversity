@@ -72,6 +72,8 @@ public:
         m_isBeingUpgraded=isUpgraded;
     }
 
+    void setCurrentLevel(unsigned level) noexcept;
+
     Q_INVOKABLE virtual unsigned upgradeTimeRemaining() noexcept = 0;
 
 protected:
@@ -107,4 +109,5 @@ private:
     Base *m_base;
     BuildingEnums::Building m_buildingName;
     const AnyBuildingLevelsInfo *m_levelsInfo;
+    unsigned m_level;
 };

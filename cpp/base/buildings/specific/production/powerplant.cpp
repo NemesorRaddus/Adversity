@@ -1,6 +1,7 @@
 #include "powerplant.h"
 
 #include "base/base.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "general/game.h"
@@ -51,8 +52,8 @@ int Powerplant::energyLimitAfterUpgrade() const noexcept
 
 void Powerplant::exchangeResources() noexcept
 {
-    unsigned cyclesToDo = base()->currentAetheriteAmount() / currentLevelInfo()->aetheriteOreTaken;
-    unsigned uselessnessLimit = currentLevelInfo()->energyGiven != 0 ? (((currentLevelInfo()->energyLimit - base()->currentEnergyAmount()) / currentLevelInfo()->energyGiven) + ((currentLevelInfo()->energyLimit - base()->currentEnergyAmount()) % currentLevelInfo()->energyGiven == 0 ? 0 : 1)) : 0;//that way it doesn't do additional cycles if resource limit is reached earlier
+    unsigned cyclesToDo = base()->resources()->currentAetheriteAmount() / currentLevelInfo()->aetheriteOreTaken;
+    unsigned uselessnessLimit = currentLevelInfo()->energyGiven != 0 ? (((currentLevelInfo()->energyLimit - base()->resources()->currentEnergyAmount()) / currentLevelInfo()->energyGiven) + ((currentLevelInfo()->energyLimit - base()->resources()->currentEnergyAmount()) % currentLevelInfo()->energyGiven == 0 ? 0 : 1)) : 0;//that way it doesn't do additional cycles if resource limit is reached earlier
 
     if (cyclesToDo > uselessnessLimit)
         cyclesToDo = uselessnessLimit;
@@ -60,8 +61,8 @@ void Powerplant::exchangeResources() noexcept
         cyclesToDo = m_currentCycles;
 
     Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Powerplant: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
-    base()->setCurrentAetheriteAmount(base()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
-    base()->setCurrentEnergyAmount(base()->currentEnergyAmount() + (cyclesToDo * currentLevelInfo()->energyGiven));
+    base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
+    base()->resources()->setCurrentEnergyAmount(base()->resources()->currentEnergyAmount() + (cyclesToDo * currentLevelInfo()->energyGiven));
 }
 
 void Powerplant::setCurrentCycles(unsigned amount) noexcept

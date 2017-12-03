@@ -22,19 +22,19 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am = GameApi.base.mercenaries.amountOfMercenaries();
+        var am = GameApi.base.mercenaries.mercenaries.amountOfMercenaries();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.mercenaries.prepareMercenaryAt(i);
-            if (intName == GameApi.base.mercenaries.preparedMercenary.name())
+            GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
+            if (intName == GameApi.base.mercenaries.mercenaries.preparedMercenary.name())
             {
-                var normalLandName = GameApi.base.mercenaries.preparedMercenary.assignedMission.land.name();
+                var normalLandName = GameApi.base.mercenaries.mercenaries.preparedMercenary.assignedMission.land.name();
                 landArt.source = "qrc:/graphics/Missions/Lands/" + GameApi.globalsCpp.alterNormalTextToInternal(normalLandName) + ".png";
-                infoText.set(name_,normalLandName,GameApi.base.mercenaries.preparedMercenary.assignedMission.daysSpent());
-                signalIcon.set(GameApi.base.mercenaries.preparedMercenary.isCommunicationAvailable());
-                missionLengthIcon.set(normalLandName,GameApi.base.mercenaries.preparedMercenary.assignedMission.lengthString());
-                sbeActivationIcon.set(GameApi.base.mercenaries.preparedMercenary.isStressBorderEffectActive());
+                infoText.set(name_,normalLandName,GameApi.base.mercenaries.mercenaries.preparedMercenary.assignedMission.daysSpent());
+                signalIcon.set(GameApi.base.mercenaries.mercenaries.preparedMercenary.isCommunicationAvailable());
+                missionLengthIcon.set(normalLandName,GameApi.base.mercenaries.mercenaries.preparedMercenary.assignedMission.lengthString());
+                sbeActivationIcon.set(GameApi.base.mercenaries.mercenaries.preparedMercenary.isStressBorderEffectActive());
                 break;
             }
         }

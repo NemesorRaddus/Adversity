@@ -1,6 +1,8 @@
 #include "hospital.h"
 
 #include "base/base.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
@@ -83,14 +85,14 @@ void Hospital::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenary
     if (m_mercenariesBeingHealed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->mercenaries()->findMercenary(mercenaryName);
+    int pos = base()->mercenaries()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
+    if (base()->mercenaries()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_mercenariesBeingHealed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingHealed[slotIndex]=base()->mercenaries()->mercenaries()->getMercenary(pos);
     m_mercenariesBeingHealed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InHospital);
     setRecoveryValuesForMercenary(slotIndex);
 }
@@ -150,10 +152,10 @@ int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
 void Hospital::healMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingHealed.size();++i)
-        if (m_mercenariesBeingHealed[i]!=nullptr && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy) && base()->canDecreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies))
+        if (m_mercenariesBeingHealed[i]!=nullptr && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy) && base()->resources()->canDecreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies))
         {
-            base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
-            base()->decreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies);
+            base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
+            base()->resources()->decreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies);
 
             m_mercenariesBeingHealed[i]->changeHealth(currentLevelInfo()->hpRestored);
         }

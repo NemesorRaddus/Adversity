@@ -20,6 +20,12 @@
 #include "base/buildings/specific/destressing/shrine.h"
 #include "base/buildings/specific/storage/storageroom.h"
 #include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/buildingsmanager.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/missionsmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "database/database.h"
 #include "general/appbuildinfo.h"
@@ -47,6 +53,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<FPSText>("FPSComponent",1,0,"FPSCounter");
 
     qmlRegisterInterface<Base>("Base");
+    qmlRegisterInterface<BuildingsManager>("BuildingsManager");
+    qmlRegisterInterface<EquipmentManager>("EquipmentManager");
+    qmlRegisterInterface<MercenariesManager>("MercenariesManager");
+    qmlRegisterInterface<MissionsManager>("MissionsManager");
+    qmlRegisterInterface<ReportsManager>("ReportsManager");
+    qmlRegisterInterface<ResourcesManager>("ResourcesManager");
     qmlRegisterInterface<CentralUnit>("CentralUnit");
     qmlRegisterInterface<Hospital>("Hospital");
     qmlRegisterInterface<TrainingGround>("TrainingGround");

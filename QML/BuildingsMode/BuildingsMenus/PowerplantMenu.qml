@@ -15,8 +15,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.powerplant.description());
-        topBar.setLevel("Level: "+GameApi.base.powerplant.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.powerplant.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.powerplant.currentLevel());
         table.update();
         upgradeInfo.update();
     }
@@ -71,16 +71,16 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.powerplant.basicCostInEnergy()+"/Day";
-            maxCyclesAmount1.text = GameApi.base.powerplant.maxCycles()+"/Day";
-            aetheriteUsedAmount1.text = GameApi.base.powerplant.useCostInAetheriteSingle();
-            productionAmount1.text = 0-GameApi.base.powerplant.productionInEnergySingle();
-            maxStorageAmount1.text = GameApi.base.powerplant.energyLimit();
+            energyDrainAmount1.text = GameApi.base.buildings.powerplant.basicCostInEnergy()+"/Day";
+            maxCyclesAmount1.text = GameApi.base.buildings.powerplant.maxCycles()+"/Day";
+            aetheriteUsedAmount1.text = GameApi.base.buildings.powerplant.useCostInAetheriteSingle();
+            productionAmount1.text = 0-GameApi.base.buildings.powerplant.productionInEnergySingle();
+            maxStorageAmount1.text = GameApi.base.buildings.powerplant.energyLimit();
 
-            cyclesAmount.amount = GameApi.base.powerplant.currentCycles();
+            cyclesAmount.amount = GameApi.base.buildings.powerplant.currentCycles();
             cyclesAccept.setAnimationDuration(cyclesAmount.amount);
 
-            if (GameApi.base.powerplant.maxLevelReached())
+            if (GameApi.base.buildings.powerplant.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -91,11 +91,11 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.powerplant.basicCostInEnergyAfterUpgrade()+"/Day";
-                maxCyclesAmount2.text = GameApi.base.powerplant.maxCyclesAfterUpgrade()+"/Day";
-                aetheriteUsedAmount2.text = GameApi.base.powerplant.useCostInAetheriteSingleAfterUpgrade();
-                productionAmount2.text = 0-GameApi.base.powerplant.productionInEnergySingleAfterUpgrade();
-                maxStorageAmount2.text = GameApi.base.powerplant.energyLimitAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.powerplant.basicCostInEnergyAfterUpgrade()+"/Day";
+                maxCyclesAmount2.text = GameApi.base.buildings.powerplant.maxCyclesAfterUpgrade()+"/Day";
+                aetheriteUsedAmount2.text = GameApi.base.buildings.powerplant.useCostInAetheriteSingleAfterUpgrade();
+                productionAmount2.text = 0-GameApi.base.buildings.powerplant.productionInEnergySingleAfterUpgrade();
+                maxStorageAmount2.text = GameApi.base.buildings.powerplant.energyLimitAfterUpgrade();
             }
         }
 
@@ -402,7 +402,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.powerplant.maxLevelReached())
+            if (GameApi.base.buildings.powerplant.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -415,13 +415,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.powerplant.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.powerplant.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.powerplant.requirementsForNextLevelTime();
-                if (GameApi.base.powerplant.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.powerplant.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.powerplant.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.powerplant.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.powerplant.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.powerplant.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.powerplant.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -431,9 +431,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.powerplant.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.powerplant.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.powerplant.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.powerplant.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.powerplant.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.powerplant.requirementsForNextLevelTime();
             }
         }
 
@@ -719,7 +719,7 @@ Item {
                 anchors.fill: parent
 
                 onClicked: {
-                    if (cyclesAmount.amount < GameApi.base.powerplant.maxCycles())
+                    if (cyclesAmount.amount < GameApi.base.buildings.powerplant.maxCycles())
                     {
                         ++cyclesAmount.amount;
                     }
@@ -770,7 +770,7 @@ Item {
                 anchors.fill: parent
 
                 onClicked: {
-                    GameApi.base.powerplant.setCurrentCycles(cyclesAmount.amount);
+                    GameApi.base.buildings.powerplant.setCurrentCycles(cyclesAmount.amount);
                     cyclesAccept.setAnimationDuration(cyclesAmount.amount);
                     resourcesUpdateRequested();
                 }
@@ -802,7 +802,7 @@ Item {
             anchors.fill: parent
 
             onClicked: {
-                cyclesAmount.amount = GameApi.base.powerplant.currentCycles();
+                cyclesAmount.amount = GameApi.base.buildings.powerplant.currentCycles();
                 backClicked();
             }
         }

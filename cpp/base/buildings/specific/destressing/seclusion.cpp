@@ -1,6 +1,8 @@
 #include "seclusion.h"
 
 #include "base/base.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "mercenaries/mercenariescontainer.h"
@@ -63,14 +65,14 @@ void Seclusion::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenar
     if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
         emptySlot(slotIndex);
 
-    int pos = base()->mercenaries()->findMercenary(mercenaryName);
+    int pos = base()->mercenaries()->mercenaries()->findMercenary(mercenaryName);
     if (pos==-1)
         return;
 
-    if (base()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
+    if (base()->mercenaries()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_mercenariesBeingDestressed[slotIndex]=base()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingDestressed[slotIndex]=base()->mercenaries()->mercenaries()->getMercenary(pos);
     m_mercenariesBeingDestressed[slotIndex]->setCurrentActivity(MercenaryEnums::CA_InSeclusion);
     setRecoveryValuesForMercenary(slotIndex);
 }
@@ -142,9 +144,9 @@ int Seclusion::religiousStressReliefAfterUpgrade() const noexcept
 void Seclusion::destressMercenaries() noexcept
 {
     for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
-        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
+        if (m_mercenariesBeingDestressed[i]!=nullptr && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
         {
-            base()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
+            base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
             if (m_mercenariesBeingDestressed[i]->nature() == MercenaryEnums::N_Active)
                 m_mercenariesBeingDestressed[i]->decreaseStress(currentLevelInfo()->stressReductionForActive);

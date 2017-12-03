@@ -14,8 +14,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.barracks.description());
-        topBar.setLevel("Level: "+GameApi.base.barracks.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.barracks.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.barracks.currentLevel());
         table.update();
         upgradeInfo.update();
     }
@@ -70,10 +70,10 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.barracks.basicCostInEnergy()+"/Day";
-            slotsAmount1.text = GameApi.base.barracks.mercenariesLimit();
+            energyDrainAmount1.text = GameApi.base.buildings.barracks.basicCostInEnergy()+"/Day";
+            slotsAmount1.text = GameApi.base.buildings.barracks.mercenariesLimit();
 
-            if (GameApi.base.barracks.maxLevelReached())
+            if (GameApi.base.buildings.barracks.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -81,8 +81,8 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.barracks.basicCostInEnergyAfterUpgrade()+"/Day";
-                slotsAmount2.text = GameApi.base.barracks.mercenariesLimitAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.barracks.basicCostInEnergyAfterUpgrade()+"/Day";
+                slotsAmount2.text = GameApi.base.buildings.barracks.mercenariesLimitAfterUpgrade();
             }
         }
 
@@ -244,7 +244,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.barracks.maxLevelReached())
+            if (GameApi.base.buildings.barracks.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -257,13 +257,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.barracks.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.barracks.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.barracks.requirementsForNextLevelTime();
-                if (GameApi.base.barracks.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.barracks.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.barracks.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.barracks.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.barracks.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.barracks.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.barracks.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -273,9 +273,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.barracks.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.barracks.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.barracks.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.barracks.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.barracks.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.barracks.requirementsForNextLevelTime();
             }
         }
 

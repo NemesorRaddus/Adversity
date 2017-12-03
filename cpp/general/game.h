@@ -155,6 +155,6 @@ static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
 
-    Game *game =new Game();
+    Game *game = new Game();
     return game;
 }

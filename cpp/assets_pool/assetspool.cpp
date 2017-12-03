@@ -32,9 +32,9 @@ AssetsPool::AssetsPool() noexcept
 
 AssetsPool::~AssetsPool() noexcept
 {
+    clear();
     delete m_reader;
     delete m_stockDatabase;
-    clear();
 }
 
 void AssetsPool::load(const QString &pathToAssets) noexcept

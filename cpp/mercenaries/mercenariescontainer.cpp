@@ -11,6 +11,7 @@
 #include "base/buildings/specific/destressing/seclusion.h"
 #include "base/buildings/specific/destressing/shrine.h"
 #include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/buildingsmanager.h"
 #include "clock/gameclock.h"
 #include "general/game.h"
 #include "logging/loggershandler.h"
@@ -42,23 +43,23 @@ void MercenariesContainer::removeMercenary(unsigned index) noexcept
         Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}] Removing mercenary: {}",m_mercenaries[index]->base()->gameClock()->currentTime().toQString().toStdString(), m_mercenaries[index]->name().toStdString());
 
         if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InHospital)
-            m_basePtr->hospital()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->hospital()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_OnTrainingGround)
-            m_basePtr->trainingGround()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->trainingGround()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InGym)
-            m_basePtr->gym()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->gym()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InLaboratory)
-            m_basePtr->laboratory()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->laboratory()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InPlayingField)
-            m_basePtr->playingField()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->playingField()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InBar)
-            m_basePtr->bar()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->bar()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InShrine)
-            m_basePtr->shrine()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->shrine()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InSeclusion)
-            m_basePtr->seclusion()->removeMercenary(m_mercenaries[index]->name());
+            m_basePtr->buildings()->seclusion()->removeMercenary(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_Arriving)
-            m_basePtr->dockingStation()->cancelMercenaryArrival(m_mercenaries[index]->name());
+            m_basePtr->buildings()->dockingStation()->cancelMercenaryArrival(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_OnMission)
         {
             auto m=m_mercenaries[index]->assignedMission();
