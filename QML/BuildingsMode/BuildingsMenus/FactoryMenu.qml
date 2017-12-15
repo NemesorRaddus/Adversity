@@ -15,8 +15,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.factory.description());
-        topBar.setLevel("Level: "+GameApi.base.factory.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.factory.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.factory.currentLevel());
         table.update();
         upgradeInfo.update();
     }
@@ -71,15 +71,15 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.factory.basicCostInEnergy()+"/Day";
-            maxCyclesAmount1.text = GameApi.base.factory.maxCycles()+"/Day";
-            aetheriteUsedAmount1.text = GameApi.base.factory.useCostInAetheriteSingle();
-            productionAmount1.text = 0-GameApi.base.factory.productionInBuildingMaterialsSingle();
+            energyDrainAmount1.text = GameApi.base.buildings.factory.basicCostInEnergy()+"/Day";
+            maxCyclesAmount1.text = GameApi.base.buildings.factory.maxCycles()+"/Day";
+            aetheriteUsedAmount1.text = GameApi.base.buildings.factory.useCostInAetheriteSingle();
+            productionAmount1.text = 0-GameApi.base.buildings.factory.productionInBuildingMaterialsSingle();
 
-            cyclesAmount.amount = GameApi.base.factory.currentCycles();
+            cyclesAmount.amount = GameApi.base.buildings.factory.currentCycles();
             cyclesAccept.setAnimationDuration(cyclesAmount.amount);
 
-            if (GameApi.base.factory.maxLevelReached())
+            if (GameApi.base.buildings.factory.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -89,10 +89,10 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.factory.basicCostInEnergyAfterUpgrade()+"/Day";
-                maxCyclesAmount2.text = GameApi.base.factory.maxCyclesAfterUpgrade()+"/Day";
-                aetheriteUsedAmount2.text = GameApi.base.factory.useCostInAetheriteSingleAfterUpgrade();
-                productionAmount2.text = 0-GameApi.base.factory.productionInBuildingMaterialsSingleAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.factory.basicCostInEnergyAfterUpgrade()+"/Day";
+                maxCyclesAmount2.text = GameApi.base.buildings.factory.maxCyclesAfterUpgrade()+"/Day";
+                aetheriteUsedAmount2.text = GameApi.base.buildings.factory.useCostInAetheriteSingleAfterUpgrade();
+                productionAmount2.text = 0-GameApi.base.buildings.factory.productionInBuildingMaterialsSingleAfterUpgrade();
             }
         }
 
@@ -350,7 +350,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.factory.maxLevelReached())
+            if (GameApi.base.buildings.factory.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -363,13 +363,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.factory.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.factory.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.factory.requirementsForNextLevelTime();
-                if (GameApi.base.factory.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.factory.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.factory.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.factory.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.factory.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.factory.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.factory.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -379,9 +379,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.factory.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.factory.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.factory.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.factory.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.factory.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.factory.requirementsForNextLevelTime();
             }
         }
 
@@ -667,7 +667,7 @@ Item {
                 anchors.fill: parent
 
                 onClicked: {
-                    if (cyclesAmount.amount < GameApi.base.factory.maxCycles())
+                    if (cyclesAmount.amount < GameApi.base.buildings.factory.maxCycles())
                     {
                         ++cyclesAmount.amount;
                     }
@@ -718,7 +718,7 @@ Item {
                 anchors.fill: parent
 
                 onClicked: {
-                    GameApi.base.factory.setCurrentCycles(cyclesAmount.amount);
+                    GameApi.base.buildings.factory.setCurrentCycles(cyclesAmount.amount);
                     cyclesAccept.setAnimationDuration(cyclesAmount.amount);
                     resourcesUpdateRequested();
                 }
@@ -750,7 +750,7 @@ Item {
             anchors.fill: parent
 
             onClicked: {
-                cyclesAmount.amount = GameApi.base.factory.currentCycles();
+                cyclesAmount.amount = GameApi.base.buildings.factory.currentCycles();
                 backClicked();
             }
         }

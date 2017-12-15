@@ -3,6 +3,11 @@
 #include <QDataStream>
 
 #include "base/base.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/missionsmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/missionend.h"
 #include "equipment/equipment.h"
@@ -29,8 +34,8 @@ void Mission::assignMercenary(Mercenary *mercenary) noexcept
 
 void Mission::start() noexcept
 {
-    m_assignedMercenary->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedMercenary->pathToArt(), m_assignedMercenary->stress(), m_assignedMercenary->stressLimit(), m_assignedMercenary->base()->gameClock()->currentTime())));
-    m_assignedMercenary->base()->registerLatestReportInMission(this);
+    m_assignedMercenary->base()->reports()->addReport(new UnifiedReport(new MissionStartReport(m_assignedMercenary->pathToArt(), m_assignedMercenary->stress(), m_assignedMercenary->stressLimit(), m_assignedMercenary->base()->gameClock()->currentTime())));
+    m_assignedMercenary->base()->reports()->registerLatestReportInMission(this);
     planEverything();
 
     Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started: (mercenary: {}, length: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString(), MissionEnums::fromLengthEnumToQString(m_length).toStdString());
@@ -60,9 +65,9 @@ void Mission::forceEndSuccessfully() noexcept
     Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
     m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
-    auto b=m_assignedMercenary->base();
+    auto ms=m_assignedMercenary->base()->missions();
     end();
-    b->removeMission(this);
+    ms->removeMission(this);
 }
 
 void Mission::forceEndSilently() noexcept
@@ -78,7 +83,7 @@ void Mission::forceEndBecauseOfDeath() noexcept
 
     m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedMercenary->assignMission(nullptr);
-    m_assignedMercenary->base()->removeMission(this);
+    m_assignedMercenary->base()->missions()->removeMission(this);
 }
 
 void Mission::abort() noexcept
@@ -87,9 +92,9 @@ void Mission::abort() noexcept
 
     m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedMercenary->assignMission(nullptr);
-    auto b=m_assignedMercenary->base();
+    auto ms=m_assignedMercenary->base()->missions();
     m_assignedMercenary->die(1,0);
-    b->removeMission(this);
+    ms->removeMission(this);
 }
 
 void Mission::addRelatedReport(UnifiedReport *report) noexcept
@@ -283,7 +288,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
             }
     r->m_nextEncounter = mission.nextEncounter;
     r->m_minutesSinceMidnightOfLastEncounter = mission.minutesSinceMidnightOfLastEncounter;
-    for (auto e : base->mercenaries()->mercenaries())
+    for (auto e : base->mercenaries()->mercenaries()->mercenaries())
         if (e->name() == mission.mercenary)
         {
             r->assignMercenary(e);
@@ -292,7 +297,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
         }
 
     for (const auto &e : mission.relatedReportsIDs)
-        for (auto &f : base->reports())
+        for (auto &f : base->reports()->reports())
             if (f->id() == e)
             {
                 r->addRelatedReport(f);
@@ -435,20 +440,20 @@ void MissionInitializer::reset() noexcept
 
 bool MissionInitializer::start() noexcept
 {
-    if (!(m_basePtr->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->canDecreaseEnergyAmount(m_energy) && m_basePtr->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_length != MissionEnums::L_END)
+    if (!(m_basePtr->resources()->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->resources()->canDecreaseEnergyAmount(m_energy) && m_basePtr->resources()->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->resources()->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_length != MissionEnums::L_END)
         return 0;
 
-    auto &eqs=m_basePtr->availableEquipment();
+    auto &eqs=m_basePtr->equipment()->availableEquipment();
     if (m_armor != nullptr)
         eqs.remove(eqs.indexOf(m_armor));
     for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
         if (m_weaponTool[i] != nullptr)
             eqs.remove(eqs.indexOf(m_weaponTool[i]));
 
-    m_basePtr->decreaseAetheriteAmount(m_aetherite);
-    m_basePtr->decreaseEnergyAmount(m_energy);
-    m_basePtr->decreaseBuildingMaterialsAmount(m_bm);
-    m_basePtr->decreaseFoodSuppliesAmount(m_food);
+    m_basePtr->resources()->decreaseAetheriteAmount(m_aetherite);
+    m_basePtr->resources()->decreaseEnergyAmount(m_energy);
+    m_basePtr->resources()->decreaseBuildingMaterialsAmount(m_bm);
+    m_basePtr->resources()->decreaseFoodSuppliesAmount(m_food);
 
     m_mercenary->setCarriedAetheriteOre(m_aetherite);
     m_mercenary->setCarriedEnergy(m_energy);
@@ -462,7 +467,7 @@ bool MissionInitializer::start() noexcept
     m_mercenary->assignMission(m);
     m->assignMercenary(m_mercenary);
 
-    m_basePtr->startMission(m);
+    m_basePtr->missions()->startMission(m);
 
     reset();
     return 1;
@@ -504,11 +509,11 @@ void MissionInitializer::setMercenary(const QString &name) noexcept
         m_mercenary=nullptr;
         return;
     }
-    auto hs=m_basePtr->mercenaries()->mercenaries();
+    auto hs=m_basePtr->mercenaries()->mercenaries()->mercenaries();
     for (int i=0;i<hs.size();++i)
         if (hs[i]->name() == name)
         {
-            m_mercenary=m_basePtr->mercenaries()->getMercenary(i);
+            m_mercenary=m_basePtr->mercenaries()->mercenaries()->getMercenary(i);
             prepareMercenary();
             return;
         }
@@ -527,7 +532,7 @@ void MissionInitializer::setArmor(const QString &name) noexcept
         }
         return;
     }
-    auto eqs=m_basePtr->availableEquipment();
+    auto eqs=m_basePtr->equipment()->availableEquipment();
     for (int i=0;i<eqs.size();++i)
         if (eqs[i]->name() == name)
         {
@@ -556,7 +561,7 @@ void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexc
         }
         return;
     }
-    auto eqs=m_basePtr->availableEquipment();
+    auto eqs=m_basePtr->equipment()->availableEquipment();
     for (int i=0;i<eqs.size();++i)
         if (eqs[i]->name() == name)
         {

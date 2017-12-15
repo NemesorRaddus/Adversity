@@ -14,8 +14,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.centralUnit.description());
-        topBar.setLevel("Level: "+GameApi.base.centralUnit.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.centralUnit.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.centralUnit.currentLevel());
         table.update();
         upgradeInfo.update();
     }
@@ -70,16 +70,16 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.centralUnit.basicCostInEnergy()+"/Day";
+            energyDrainAmount1.text = GameApi.base.buildings.centralUnit.basicCostInEnergy()+"/Day";
 
-            if (GameApi.base.centralUnit.maxLevelReached())
+            if (GameApi.base.buildings.centralUnit.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.centralUnit.basicCostInEnergyAfterUpgrade()+"/Day";
+                energyDrainAmount2.text = GameApi.base.buildings.centralUnit.basicCostInEnergyAfterUpgrade()+"/Day";
             }
         }
 
@@ -192,7 +192,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.centralUnit.maxLevelReached())
+            if (GameApi.base.buildings.centralUnit.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -205,13 +205,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.centralUnit.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.centralUnit.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.centralUnit.requirementsForNextLevelTime();
-                if (GameApi.base.centralUnit.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.centralUnit.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.centralUnit.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.centralUnit.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.centralUnit.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.centralUnit.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.centralUnit.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -221,9 +221,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.centralUnit.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.centralUnit.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.centralUnit.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.centralUnit.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.centralUnit.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.centralUnit.requirementsForNextLevelTime();
             }
         }
 

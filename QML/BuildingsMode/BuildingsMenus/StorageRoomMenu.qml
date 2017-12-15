@@ -17,8 +17,8 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        topBar.setDescription(GameApi.base.storageRoom.description());
-        topBar.setLevel("Level: "+GameApi.base.storageRoom.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.storageRoom.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.storageRoom.currentLevel());
         table.update();
         upgradeInfo.update();
         equipmentsListCnt.update();
@@ -80,10 +80,10 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.storageRoom.basicCostInEnergy()+"/Day";
-            maxStorageAmount1.text = GameApi.base.storageRoom.buildingMaterialsLimit();
+            energyDrainAmount1.text = GameApi.base.buildings.storageRoom.basicCostInEnergy()+"/Day";
+            maxStorageAmount1.text = GameApi.base.buildings.storageRoom.buildingMaterialsLimit();
 
-            if (GameApi.base.storageRoom.maxLevelReached())
+            if (GameApi.base.buildings.storageRoom.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -91,8 +91,8 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.storageRoom.basicCostInEnergyAfterUpgrade()+"/Day";
-                maxStorageAmount2.text = GameApi.base.storageRoom.buildingMaterialsLimitAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.storageRoom.basicCostInEnergyAfterUpgrade()+"/Day";
+                maxStorageAmount2.text = GameApi.base.buildings.storageRoom.buildingMaterialsLimitAfterUpgrade();
             }
         }
 
@@ -254,7 +254,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.storageRoom.maxLevelReached())
+            if (GameApi.base.buildings.storageRoom.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -267,13 +267,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.storageRoom.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.storageRoom.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.storageRoom.requirementsForNextLevelTime();
-                if (GameApi.base.storageRoom.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.storageRoom.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.storageRoom.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.storageRoom.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.storageRoom.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.storageRoom.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.storageRoom.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -283,9 +283,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.storageRoom.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.storageRoom.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.storageRoom.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.storageRoom.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.storageRoom.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.storageRoom.requirementsForNextLevelTime();
             }
         }
 
@@ -488,7 +488,7 @@ Item {
 
             function update()
             {
-                text = GameApi.base.amountOfAvailableWeaponsTools()+" weapons and tools available.\n"+GameApi.base.amountOfAvailableArmors()+" armours and uniforms available.";
+                text = GameApi.base.equipment.amountOfAvailableWeaponsTools()+" weapons and tools available.\n"+GameApi.base.equipment.amountOfAvailableArmors()+" armours and uniforms available.";
             }
 
             color: "#94ef94"

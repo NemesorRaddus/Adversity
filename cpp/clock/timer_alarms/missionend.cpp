@@ -3,6 +3,7 @@
 #include <QDataStream>
 
 #include "base/base.h"
+#include "base/managers/missionsmanager.h"
 #include "mercenaries/mercenary.h"
 #include "missions/mission.h"
 
@@ -18,7 +19,7 @@ Mission *MissionEndTimerAlarm::mission() noexcept
 {
     if (m_mission!=nullptr)
         return m_mission;
-    for (const auto &e : m_base->missions())
+    for (const auto &e : m_base->missions()->missions())
         if (m_missionMercenaryName==e->assignedMercenary()->name())
         {
             m_mission=e;

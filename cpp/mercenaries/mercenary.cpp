@@ -1,15 +1,18 @@
 #include "mercenary.h"
 
 #include "base/base.h"
-#include "base/buildings/bar.h"
-#include "base/buildings/dockingstation.h"
-#include "base/buildings/gym.h"
-#include "base/buildings/hospital.h"
-#include "base/buildings/laboratory.h"
-#include "base/buildings/playingfield.h"
-#include "base/buildings/seclusion.h"
-#include "base/buildings/shrine.h"
-#include "base/buildings/trainingground.h"
+#include "base/buildings/specific/destressing/bar.h"
+#include "base/buildings/specific/other/dockingstation.h"
+#include "base/buildings/specific/training/gym.h"
+#include "base/buildings/specific/other/hospital.h"
+#include "base/buildings/specific/training/laboratory.h"
+#include "base/buildings/specific/destressing/playingfield.h"
+#include "base/buildings/specific/destressing/seclusion.h"
+#include "base/buildings/specific/destressing/shrine.h"
+#include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "database/database.h"
 #include "equipment/equipment.h"
@@ -552,7 +555,7 @@ void Mercenary::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     {
         Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (m_assignedMission!=nullptr && isCommunicationAvailable())
-            m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
+            m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining = noSignalDaysRemaining;
     }
 }
@@ -604,9 +607,9 @@ void Mercenary::trySendingReport(UnifiedReport *report, bool registerInMission) 
 {
     if (isCommunicationAvailable())
     {
-        m_base->addReport(report);
+        m_base->reports()->addReport(report);
         if (registerInMission)
-            m_base->registerLatestReportInMission(m_assignedMission);
+            m_base->reports()->registerLatestReportInMission(m_assignedMission);
     }
     else
         addWaitingReport(report);
@@ -621,8 +624,8 @@ void Mercenary::sendWaitingReports() noexcept
 {
     for (auto &e : m_waitingReports)
     {
-        m_base->addReport(e);
-        m_base->registerLatestReportInMission(m_assignedMission);
+        m_base->reports()->addReport(e);
+        m_base->reports()->registerLatestReportInMission(m_assignedMission);
     }
     m_waitingReports.clear();
 }
@@ -689,10 +692,10 @@ void Mercenary::handleNewWeek() noexcept
 void Mercenary::returnToBase() noexcept
 {
     Game::gameInstance()->loggers()->mercenariesLogger()->trace("{} has returned to base",m_name.toStdString());
-    m_base->increaseAetheriteAmount(m_carriedAetheriteOre);
-    m_base->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
-    m_base->increaseEnergyAmount(m_carriedEnergy);
-    m_base->increaseFoodSuppliesAmount(m_carriedFoodSupplies);
+    m_base->resources()->increaseAetheriteAmount(m_carriedAetheriteOre);
+    m_base->resources()->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
+    m_base->resources()->increaseEnergyAmount(m_carriedEnergy);
+    m_base->resources()->increaseFoodSuppliesAmount(m_carriedFoodSupplies);
 
     m_carriedAetheriteOre=0;
     m_carriedBuildingMaterials=0;
@@ -700,15 +703,15 @@ void Mercenary::returnToBase() noexcept
     m_carriedFoodSupplies=0;
 
     for (auto &e : m_carriedEquipment)
-        m_base->availableEquipment() += e;
+        m_base->equipment()->availableEquipment() += e;
 
     m_carriedEquipment.clear();
 
     if (m_armor!=nullptr)
-        m_base->availableEquipment() += m_armor;
+        m_base->equipment()->availableEquipment() += m_armor;
     for (auto &e : m_weaponsTools)
         if (e!=nullptr)
-            m_base->availableEquipment() += e;
+            m_base->equipment()->availableEquipment() += e;
 
     m_armor = nullptr;
     m_weaponsTools.fill(nullptr);
@@ -734,7 +737,7 @@ void Mercenary::die(bool playerKnowsIt, bool showNotification) noexcept
     if (m_currentActivity != MercenaryEnums::CA_OnMission || playerKnowsIt)
     {
         if (showNotification)
-            m_base->addReport(new UnifiedReport(new MercenaryDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
+            m_base->reports()->addReport(new UnifiedReport(new MercenaryDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         emit died(name());
     }
@@ -748,7 +751,7 @@ void Mercenary::becomeMIA() noexcept
     {
         Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (isCommunicationAvailable())
-            m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
+            m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         m_assignedMission->forceEndSilently();
     }
@@ -1579,7 +1582,7 @@ void Mercenary::handleSBEAtDayEnd()  noexcept
             if (10 >= Randomizer::randomBetweenAAndB(1,100))
             {
                 if (isCommunicationAvailable())
-                    m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
+                    m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
                 m_noSignalDaysRemaining=-1;
             }
         }
@@ -1659,13 +1662,13 @@ void Mercenary::handleHunger() noexcept
     }
     else if (m_currentActivity != MercenaryEnums::CA_Arriving)
     {
-        int missingFood = dailyFoodConsumption()-m_base->currentFoodSuppliesAmount();
+        int missingFood = dailyFoodConsumption()-m_base->resources()->currentFoodSuppliesAmount();
         if (missingFood<=0)
-            m_base->decreaseFoodSuppliesAmount(dailyFoodConsumption());
+            m_base->resources()->decreaseFoodSuppliesAmount(dailyFoodConsumption());
         else
         {
-            m_base->addReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())));
-            m_base->setCurrentFoodSuppliesAmount(0);
+            m_base->reports()->addReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())));
+            m_base->resources()->setCurrentFoodSuppliesAmount(0);
             changeHealth(-missingFood);
             if (!isDead())
                 increaseStress(missingFood*10);
@@ -1683,17 +1686,17 @@ void Mercenary::handleSalary() noexcept
 {
     if (m_currentActivity != MercenaryEnums::CA_Arriving)
     {
-        int missingAetherite = salary()-m_base->currentAetheriteAmount();
+        int missingAetherite = salary()-m_base->resources()->currentAetheriteAmount();
         if (missingAetherite<=0)
         {
-            m_base->decreaseAetheriteAmount(salary());
+            m_base->resources()->decreaseAetheriteAmount(salary());
             if (m_noSalaryWeeks>0)
                 --m_noSalaryWeeks;
         }
         else
         {
             trySendingReport(new UnifiedReport(new NoSalaryReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
-            m_base->setCurrentAetheriteAmount(0);
+            m_base->resources()->setCurrentAetheriteAmount(0);
             increaseStress(missingAetherite*3);
             if (m_noSalaryWeeks+1 == 4)
             {

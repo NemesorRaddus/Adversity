@@ -30,28 +30,28 @@ Item {
 
         if (buyRes.mode == 0)
         {
-            if (buyAmount.value > GameApi.base.currentEnergyLimit() - GameApi.base.currentEnergyAmount())
+            if (buyAmount.value > GameApi.base.resources.currentEnergyLimit() - GameApi.base.resources.currentEnergyAmount())
                 warningText1.startShowing();
             else
                 warningText1.stopShowing();
         }
         else if (buyRes.mode == 1)
         {
-            if (buyAmount.value > GameApi.base.currentFoodSuppliesLimit() - GameApi.base.currentFoodSuppliesAmount())
+            if (buyAmount.value > GameApi.base.resources.currentFoodSuppliesLimit() - GameApi.base.resources.currentFoodSuppliesAmount())
                 warningText1.startShowing();
             else
                 warningText1.stopShowing();
         }
         else if (buyRes.mode == 2)
         {
-            if (buyAmount.value > GameApi.base.currentBuildingMaterialsLimit() - GameApi.base.currentBuildingMaterialsAmount())
+            if (buyAmount.value > GameApi.base.resources.currentBuildingMaterialsLimit() - GameApi.base.resources.currentBuildingMaterialsAmount())
                 warningText1.startShowing();
             else
                 warningText1.stopShowing();
         }
         else
         {
-            if (buyAmount.value > GameApi.base.currentAetheriteLimit() - GameApi.base.currentAetheriteAmount())
+            if (buyAmount.value > GameApi.base.resources.currentAetheriteLimit() - GameApi.base.resources.currentAetheriteAmount())
                 warningText1.startShowing();
             else
                 warningText1.stopShowing();
@@ -59,28 +59,28 @@ Item {
 
         if (forRes.mode == 0)
         {
-            if (forAmount.value > GameApi.base.currentEnergyAmount())
+            if (forAmount.value > GameApi.base.resources.currentEnergyAmount())
                 warningText2.startShowing();
             else
                 warningText2.stopShowing();
         }
         else if (forRes.mode == 1)
         {
-            if (forAmount.value > GameApi.base.currentFoodSuppliesAmount())
+            if (forAmount.value > GameApi.base.resources.currentFoodSuppliesAmount())
                 warningText2.startShowing();
             else
                 warningText2.stopShowing();
         }
         else if (forRes.mode == 2)
         {
-            if (forAmount.value > GameApi.base.currentBuildingMaterialsAmount())
+            if (forAmount.value > GameApi.base.resources.currentBuildingMaterialsAmount())
                 warningText2.startShowing();
             else
                 warningText2.stopShowing();
         }
         else
         {
-            if (forAmount.value > GameApi.base.currentAetheriteAmount())
+            if (forAmount.value > GameApi.base.resources.currentAetheriteAmount())
                 warningText2.startShowing();
             else
                 warningText2.stopShowing();
@@ -628,7 +628,7 @@ Item {
 
             function calculate()
             {
-                value = GameApi.base.dockingStation.calculateTransaction(forRes.mode, buyRes.mode, buyAmount.value);
+                value = GameApi.base.buildings.dockingStation.calculateTransaction(forRes.mode, buyRes.mode, buyAmount.value);
                 text = value;
             }
 

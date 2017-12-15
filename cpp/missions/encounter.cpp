@@ -1,6 +1,7 @@
 #include "encounter.h"
 
 #include "base/base.h"
+#include "base/managers/mercenariesmanager.h"
 #include "clock/time.h"
 #include "mercenaries/mercenariescontainer.h"
 #include "mercenaries/mercenary.h"
@@ -21,7 +22,7 @@ EncounterReport *Encounter::execute(Mercenary *mercenary, const Time &currentTim
         else
             ++i;
     }
-    if (!b->mercenaries()->mercenaries().contains(mercenary))//TODO probably remove
+    if (!b->mercenaries()->mercenaries()->mercenaries().contains(mercenary))//TODO probably remove
         return static_cast<EncounterReport *>(static_cast<Report *>(new NullReport));//mercenary died during encounter
     return new EncounterReport{mercenary->pathToArt(), reps, currentTime};
 }

@@ -107,7 +107,7 @@ Item {
         height: parent.theoreticalHeight - y
 
         onTransactionAccepted: {
-            GameApi.base.dockingStation.startTransaction(sourceRes, targetRes, targetValue);
+            GameApi.base.buildings.dockingStation.startTransaction(sourceRes, targetRes, targetValue);
             requestResourcesUpdate()
         }
     }

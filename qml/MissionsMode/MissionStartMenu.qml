@@ -381,15 +381,15 @@ Item {
             height: parent.height - 2*y
 
             onClicked: {
-                GameApi.base.missionInitializer.setLand(name.text);
+                GameApi.base.missions.missionInitializer.setLand(name.text);
                 if (lengthShort.state == "")
-                    GameApi.base.missionInitializer.setLength("Short");
+                    GameApi.base.missions.missionInitializer.setLength("Short");
                 else if (lengthMedium.state == "")
-                    GameApi.base.missionInitializer.setLength("Medium");
+                    GameApi.base.missions.missionInitializer.setLength("Medium");
                 else if (lengthLong.state == "")
-                    GameApi.base.missionInitializer.setLength("Long");
+                    GameApi.base.missions.missionInitializer.setLength("Long");
                 else if (lengthExtreme.state == "")
-                    GameApi.base.missionInitializer.setLength("Extreme");
+                    GameApi.base.missions.missionInitializer.setLength("Extreme");
                 root.nextClicked(root.intLandName, name.text);
             }
         }
