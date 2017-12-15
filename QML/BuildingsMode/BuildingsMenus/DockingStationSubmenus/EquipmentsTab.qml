@@ -96,10 +96,10 @@ Item {
         height: parent.theoreticalHeight - y
 
         onBuyClicked: {
-            GameApi.base.dockingStation.prepareEquipmentForQML(index);
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.buyingAetheriteCost() <= GameApi.base.currentAetheriteAmount())
+            GameApi.base.buildings.dockingStation.prepareEquipmentForQML(index);
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.buyingAetheriteCost() <= GameApi.base.resources.currentAetheriteAmount())
             {
-                GameApi.base.dockingStation.buyEquipment(index,GameApi.base.dockingStation.waitingTime());
+                GameApi.base.buildings.dockingStation.buyEquipment(index,GameApi.base.buildings.dockingStation.waitingTime());
                 update();
                 root.requestResourcesUpdate();
             }

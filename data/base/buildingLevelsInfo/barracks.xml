@@ -4,21 +4,21 @@
     <levelInfo level="0" basicCostEnergy="0" mercenariesLimit="0"></levelInfo>
     <levelInfo level="1" basicCostEnergy="3" mercenariesLimit="2"></levelInfo>
     <levelInfo level="2" basicCostEnergy="5" mercenariesLimit="3">
-        <requirements energy="15" buildingMaterials="4" time="1"></requirements>
+        <requirements energy="15" buildingMaterials="3" time="1"></requirements>
     </levelInfo>
-    <levelInfo level="3" basicCostEnergy="7" mercenariesLimit="4">
+    <levelInfo level="3" basicCostEnergy="6" mercenariesLimit="4">
         <requirements energy="21" buildingMaterials="4" time="2"></requirements>
     </levelInfo>
-    <levelInfo level="4" basicCostEnergy="10" mercenariesLimit="5">
+    <levelInfo level="4" basicCostEnergy="9" mercenariesLimit="5">
         <requirements energy="30" buildingMaterials="4" time="4"></requirements>
     </levelInfo>
-    <levelInfo level="5" basicCostEnergy="13" mercenariesLimit="7">
+    <levelInfo level="5" basicCostEnergy="12" mercenariesLimit="7">
         <requirements energy="39" buildingMaterials="8" time="8"></requirements>
     </levelInfo>
-    <levelInfo level="6" basicCostEnergy="16" mercenariesLimit="9">
+    <levelInfo level="6" basicCostEnergy="14" mercenariesLimit="9">
         <requirements energy="48" buildingMaterials="8" time="16"></requirements>
     </levelInfo>
-    <levelInfo level="7" basicCostEnergy="20" mercenariesLimit="12">
+    <levelInfo level="7" basicCostEnergy="18" mercenariesLimit="12">
         <requirements energy="60" buildingMaterials="12" time="32"></requirements>
     </levelInfo>
     <levelInfo level="8" basicCostEnergy="25" mercenariesLimit="15">

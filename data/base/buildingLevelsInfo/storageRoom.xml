@@ -4,60 +4,60 @@
     <levelInfo level="0" basicCostEnergy="0" buildingMaterialsLimit="0"></levelInfo>
     <levelInfo level="1" basicCostEnergy="1" buildingMaterialsLimit="5"></levelInfo>
     <levelInfo level="2" basicCostEnergy="2" buildingMaterialsLimit="10">
-        <requirements energy="4" buildingMaterials="5" time="1"></requirements>
+        <requirements energy="4" buildingMaterials="2" time="1"></requirements>
     </levelInfo>
     <levelInfo level="3" basicCostEnergy="3" buildingMaterialsLimit="15">
-        <requirements energy="6" buildingMaterials="5" time="3"></requirements>
+        <requirements energy="6" buildingMaterials="2" time="3"></requirements>
     </levelInfo>
     <levelInfo level="4" basicCostEnergy="4" buildingMaterialsLimit="20">
-        <requirements energy="8" buildingMaterials="5" time="6"></requirements>
+        <requirements energy="8" buildingMaterials="2" time="5"></requirements>
     </levelInfo>
     <levelInfo level="5" basicCostEnergy="6" buildingMaterialsLimit="30">
-        <requirements energy="12" buildingMaterials="5" time="9"></requirements>
+        <requirements energy="12" buildingMaterials="2" time="7"></requirements>
     </levelInfo>
     <levelInfo level="6" basicCostEnergy="8" buildingMaterialsLimit="42">
-        <requirements energy="16" buildingMaterials="6" time="12"></requirements>
+        <requirements energy="16" buildingMaterials="3" time="9"></requirements>
     </levelInfo>
     <levelInfo level="7" basicCostEnergy="14" buildingMaterialsLimit="70">
-        <requirements energy="28" buildingMaterials="9" time="15"></requirements>
+        <requirements energy="28" buildingMaterials="6" time="11"></requirements>
     </levelInfo>
     <levelInfo level="8" basicCostEnergy="21" buildingMaterialsLimit="105">
-        <requirements energy="42" buildingMaterials="18" time="18"></requirements>
+        <requirements energy="42" buildingMaterials="15" time="15"></requirements>
     </levelInfo>
-    <levelInfo level="9" basicCostEnergy="25" buildingMaterialsLimit="126">
-        <requirements energy="50" buildingMaterials="11" time="21"></requirements>
+    <levelInfo level="9" basicCostEnergy="22" buildingMaterialsLimit="126">
+        <requirements energy="50" buildingMaterials="8" time="3"></requirements>
     </levelInfo>
-    <levelInfo level="10" basicCostEnergy="34" buildingMaterialsLimit="168">
-        <requirements energy="68" buildingMaterials="21" time="24"></requirements>
+    <levelInfo level="10" basicCostEnergy="24" buildingMaterialsLimit="168">
+        <requirements energy="68" buildingMaterials="18" time="5"></requirements>
     </levelInfo>
-    <levelInfo level="11" basicCostEnergy="38" buildingMaterialsLimit="189">
-        <requirements energy="76" buildingMaterials="21" time="27"></requirements>
+    <levelInfo level="11" basicCostEnergy="26" buildingMaterialsLimit="189">
+        <requirements energy="76" buildingMaterials="18" time="7"></requirements>
     </levelInfo>
-    <levelInfo level="12" basicCostEnergy="54" buildingMaterialsLimit="270">
-        <requirements energy="108" buildingMaterials="27" time="30"></requirements>
+    <levelInfo level="12" basicCostEnergy="35" buildingMaterialsLimit="270">
+        <requirements energy="108" buildingMaterials="20" time="17"></requirements>
     </levelInfo>
-    <levelInfo level="13" basicCostEnergy="60" buildingMaterialsLimit="300">
-        <requirements energy="120" buildingMaterials="10" time="33"></requirements>
+    <levelInfo level="13" basicCostEnergy="37" buildingMaterialsLimit="300">
+        <requirements energy="120" buildingMaterials="7" time="5"></requirements>
     </levelInfo>
-    <levelInfo level="14" basicCostEnergy="64" buildingMaterialsLimit="320">
-        <requirements energy="128" buildingMaterials="7" time="36"></requirements>
+    <levelInfo level="14" basicCostEnergy="40" buildingMaterialsLimit="320">
+        <requirements energy="128" buildingMaterials="4" time="7"></requirements>
     </levelInfo>
-    <levelInfo level="15" basicCostEnergy="104" buildingMaterialsLimit="520">
-        <requirements energy="208" buildingMaterials="50" time="39"></requirements>
+    <levelInfo level="15" basicCostEnergy="50" buildingMaterialsLimit="520">
+        <requirements energy="208" buildingMaterials="40" time="19"></requirements>
     </levelInfo>
-    <levelInfo level="16" basicCostEnergy="112" buildingMaterialsLimit="560">
-        <requirements energy="224" buildingMaterials="10" time="42"></requirements>
+    <levelInfo level="16" basicCostEnergy="53" buildingMaterialsLimit="560">
+        <requirements energy="224" buildingMaterials="6" time="7"></requirements>
     </levelInfo>
-    <levelInfo level="17" basicCostEnergy="120" buildingMaterialsLimit="600">
-        <requirements energy="240" buildingMaterials="10" time="45"></requirements>
+    <levelInfo level="17" basicCostEnergy="56" buildingMaterialsLimit="600">
+        <requirements energy="240" buildingMaterials="6" time="9"></requirements>
     </levelInfo>
-    <levelInfo level="18" basicCostEnergy="144" buildingMaterialsLimit="720">
-        <requirements energy="288" buildingMaterials="30" time="48"></requirements>
+    <levelInfo level="18" basicCostEnergy="60" buildingMaterialsLimit="720">
+        <requirements energy="288" buildingMaterials="25" time="21"></requirements>
     </levelInfo>
-    <levelInfo level="19" basicCostEnergy="168" buildingMaterialsLimit="840">
-        <requirements energy="336" buildingMaterials="30" time="51"></requirements>
+    <levelInfo level="19" basicCostEnergy="70" buildingMaterialsLimit="840">
+        <requirements energy="336" buildingMaterials="25" time="25"></requirements>
     </levelInfo>
-    <levelInfo level="20" basicCostEnergy="200" buildingMaterialsLimit="1000">
-        <requirements energy="400" buildingMaterials="40" time="54"></requirements>
+    <levelInfo level="20" basicCostEnergy="85" buildingMaterialsLimit="1000">
+        <requirements energy="400" buildingMaterials="30" time="30"></requirements>
     </levelInfo>
 </storageRoomLevelsInfo>

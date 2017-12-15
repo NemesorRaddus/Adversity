@@ -4,23 +4,30 @@
 #include <QJSValue>
 
 #include "base/base.h"
-#include "base/buildings/aetheritesilo.h"
-#include "base/buildings/bar.h"
-#include "base/buildings/barracks.h"
-#include "base/buildings/centralunit.h"
-#include "base/buildings/coolroom.h"
-#include "base/buildings/dockingstation.h"
-#include "base/buildings/factory.h"
-#include "base/buildings/gym.h"
-#include "base/buildings/hospital.h"
-#include "base/buildings/laboratory.h"
-#include "base/buildings/playingfield.h"
-#include "base/buildings/powerplant.h"
-#include "base/buildings/seclusion.h"
-#include "base/buildings/shrine.h"
-#include "base/buildings/storageroom.h"
-#include "base/buildings/trainingground.h"
+#include "base/buildings/specific/storage/aetheritesilo.h"
+#include "base/buildings/specific/destressing/bar.h"
+#include "base/buildings/specific/other/barracks.h"
+#include "base/buildings/specific/other/centralunit.h"
+#include "base/buildings/specific/storage/coolroom.h"
+#include "base/buildings/specific/other/dockingstation.h"
+#include "base/buildings/specific/production/factory.h"
+#include "base/buildings/specific/training/gym.h"
+#include "base/buildings/specific/other/hospital.h"
+#include "base/buildings/specific/training/laboratory.h"
+#include "base/buildings/specific/destressing/playingfield.h"
+#include "base/buildings/specific/production/powerplant.h"
+#include "base/buildings/specific/destressing/seclusion.h"
+#include "base/buildings/specific/destressing/shrine.h"
+#include "base/buildings/specific/storage/storageroom.h"
+#include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/buildingsmanager.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/missionsmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
+#include "database/database.h"
 #include "general/appbuildinfo.h"
 #include "general/game.h"
 #include "general/globalutilities.h"
@@ -39,13 +46,19 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationDisplayName("Adversity");
     QGuiApplication::setApplicationName("Adversity");
     QGuiApplication::setOrganizationName("Raddos Games");
-    QGuiApplication::setApplicationVersion("1.0.1-beta");
+    QGuiApplication::setApplicationVersion("1.0.2-beta");
 
     Randomizer::initialize();
 
     qmlRegisterType<FPSText>("FPSComponent",1,0,"FPSCounter");
 
     qmlRegisterInterface<Base>("Base");
+    qmlRegisterInterface<BuildingsManager>("BuildingsManager");
+    qmlRegisterInterface<EquipmentManager>("EquipmentManager");
+    qmlRegisterInterface<MercenariesManager>("MercenariesManager");
+    qmlRegisterInterface<MissionsManager>("MissionsManager");
+    qmlRegisterInterface<ReportsManager>("ReportsManager");
+    qmlRegisterInterface<ResourcesManager>("ResourcesManager");
     qmlRegisterInterface<CentralUnit>("CentralUnit");
     qmlRegisterInterface<Hospital>("Hospital");
     qmlRegisterInterface<TrainingGround>("TrainingGround");
@@ -63,12 +76,14 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
     qmlRegisterInterface<GameClock>("GameClock");
+    qmlRegisterInterface<Mercenary>("Mercenary");
     qmlRegisterInterface<MercenariesContainer>("MercenariesContainer");
     qmlRegisterInterface<Equipment>("Equipment");
     qmlRegisterInterface<Mission>("Mission");
     qmlRegisterInterface<MissionInitializer>("MissionInitializer");
     qmlRegisterInterface<Land>("Land");
     qmlRegisterInterface<LandsInfo>("LandsInfo");
+    qmlRegisterInterface<Database>("Database");
     qmlRegisterInterface<AppBuildInfo>("AppBuildInfo");
     qmlRegisterInterface<GlobalUtilities>("GlobalUtilities");
     qmlRegisterInterface<UnifiedReport>("UnifiedReport");

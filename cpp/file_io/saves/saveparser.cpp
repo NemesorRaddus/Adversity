@@ -2,14 +2,10 @@
 
 //File generated using Raddus Binary Data Parser Generator v1.0.1 Beta
 
-#include "base/buildings/dockingstation.h"
-#include "clock/gameclock.h"
-#include "clock/timer_alarms/buildingupgrade.h"
-#include "clock/timer_alarms/missionend.h"
-#include "mercenaries/mercenary.h"
-#include "missions/events/event.h"
-#include "missions/mission.h"
-#include "reports/unifiedreport.h"
+#include <QDataStream>
+#include <QFile>
+
+#include "savedata.h"
 
 SaveData SaveParser::readData(QByteArray &array)
 {

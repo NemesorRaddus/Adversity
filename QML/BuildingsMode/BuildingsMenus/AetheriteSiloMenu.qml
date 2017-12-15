@@ -14,8 +14,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.aetheriteSilo.description());
-        topBar.setLevel("Level: "+GameApi.base.aetheriteSilo.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.aetheriteSilo.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.aetheriteSilo.currentLevel());
         table.update();
         upgradeInfo.update();
     }
@@ -70,10 +70,10 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.aetheriteSilo.basicCostInEnergy()+"/Day";
-            maxStorageAmount1.text = GameApi.base.aetheriteSilo.aetheriteLimit();
+            energyDrainAmount1.text = GameApi.base.buildings.aetheriteSilo.basicCostInEnergy()+"/Day";
+            maxStorageAmount1.text = GameApi.base.buildings.aetheriteSilo.aetheriteLimit();
 
-            if (GameApi.base.aetheriteSilo.maxLevelReached())
+            if (GameApi.base.buildings.aetheriteSilo.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -81,8 +81,8 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.aetheriteSilo.basicCostInEnergyAfterUpgrade()+"/Day";
-                maxStorageAmount2.text = GameApi.base.aetheriteSilo.aetheriteLimitAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.aetheriteSilo.basicCostInEnergyAfterUpgrade()+"/Day";
+                maxStorageAmount2.text = GameApi.base.buildings.aetheriteSilo.aetheriteLimitAfterUpgrade();
             }
         }
 
@@ -244,7 +244,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.aetheriteSilo.maxLevelReached())
+            if (GameApi.base.buildings.aetheriteSilo.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -257,13 +257,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.aetheriteSilo.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.aetheriteSilo.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.aetheriteSilo.requirementsForNextLevelTime();
-                if (GameApi.base.aetheriteSilo.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.aetheriteSilo.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.aetheriteSilo.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.aetheriteSilo.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.aetheriteSilo.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.aetheriteSilo.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.aetheriteSilo.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -273,9 +273,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.aetheriteSilo.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.aetheriteSilo.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.aetheriteSilo.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.aetheriteSilo.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.aetheriteSilo.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.aetheriteSilo.requirementsForNextLevelTime();
             }
         }
 

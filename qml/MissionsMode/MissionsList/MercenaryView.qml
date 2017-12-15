@@ -15,38 +15,38 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am=GameApi.base.mercenaries.amountOfMercenaries();
+        var am=GameApi.base.mercenaries.mercenaries.amountOfMercenaries();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(mercenaryName_);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.mercenaries.prepareMercenaryAt(i);
-            if (GameApi.base.mercenaries.preparedMercenary.name() == intName)
+            GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
+            if (GameApi.base.mercenaries.mercenaries.preparedMercenary.name() == intName)
             {
-                if (GameApi.base.mercenaries.preparedMercenary.isCommunicationAvailable())
+                if (GameApi.base.mercenaries.mercenaries.preparedMercenary.isCommunicationAvailable())
                 {
                     delegate.setName(mercenaryName_);
-                    delegate.setArtSource(GameApi.base.mercenaries.preparedMercenary.pathToArt());
-                    delegate.setProfession(GameApi.base.mercenaries.preparedMercenary.professionString());
+                    delegate.setArtSource(GameApi.base.mercenaries.mercenaries.preparedMercenary.pathToArt());
+                    delegate.setProfession(GameApi.base.mercenaries.mercenaries.preparedMercenary.professionString());
 
-                    var ce=GameApi.base.mercenaries.preparedMercenary.combatEffectiveness();
-                    var pr=GameApi.base.mercenaries.preparedMercenary.proficiency();
-                    var cl=GameApi.base.mercenaries.preparedMercenary.cleverness();
-                    var hp=GameApi.base.mercenaries.preparedMercenary.health();
-                    var hpMax=GameApi.base.mercenaries.preparedMercenary.healthLimit();
-                    var st=GameApi.base.mercenaries.preparedMercenary.stress();
-                    var sr=GameApi.base.mercenaries.preparedMercenary.stressResistance();
-                    var sl=GameApi.base.mercenaries.preparedMercenary.stressLimit();
-                    var sa=GameApi.base.mercenaries.preparedMercenary.salary();
-                    var fc=GameApi.base.mercenaries.preparedMercenary.dailyFoodConsumption();
+                    var ce=GameApi.base.mercenaries.mercenaries.preparedMercenary.combatEffectiveness();
+                    var pr=GameApi.base.mercenaries.mercenaries.preparedMercenary.proficiency();
+                    var cl=GameApi.base.mercenaries.mercenaries.preparedMercenary.cleverness();
+                    var hp=GameApi.base.mercenaries.mercenaries.preparedMercenary.health();
+                    var hpMax=GameApi.base.mercenaries.mercenaries.preparedMercenary.healthLimit();
+                    var st=GameApi.base.mercenaries.mercenaries.preparedMercenary.stress();
+                    var sr=GameApi.base.mercenaries.mercenaries.preparedMercenary.stressResistance();
+                    var sl=GameApi.base.mercenaries.mercenaries.preparedMercenary.stressLimit();
+                    var sa=GameApi.base.mercenaries.mercenaries.preparedMercenary.salary();
+                    var fc=GameApi.base.mercenaries.mercenaries.preparedMercenary.dailyFoodConsumption();
 
-                    var bce=GameApi.base.mercenaries.preparedMercenary.baseCombatEffectiveness();
-                    var bpr=GameApi.base.mercenaries.preparedMercenary.baseProficiency();
-                    var bcl=GameApi.base.mercenaries.preparedMercenary.baseCleverness();
-                    var bhpMax=GameApi.base.mercenaries.preparedMercenary.baseHealthLimit();
-                    var bsr=GameApi.base.mercenaries.preparedMercenary.baseStressResistance();
-                    var bsl=GameApi.base.mercenaries.preparedMercenary.baseStressLimit();
-                    var bsa=GameApi.base.mercenaries.preparedMercenary.baseSalary();
-                    var bfc=GameApi.base.mercenaries.preparedMercenary.baseDailyFoodConsumption();
+                    var bce=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseCombatEffectiveness();
+                    var bpr=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseProficiency();
+                    var bcl=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseCleverness();
+                    var bhpMax=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseHealthLimit();
+                    var bsr=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseStressResistance();
+                    var bsl=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseStressLimit();
+                    var bsa=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseSalary();
+                    var bfc=GameApi.base.mercenaries.mercenaries.preparedMercenary.baseDailyFoodConsumption();
 
                     delegate.setCE(ce);
                     delegate.setPR(pr);
@@ -114,23 +114,23 @@ Item {
                     else
                         delegate.setColorSA("#439b20");
 
-                    armorArt.source = GameApi.base.mercenaries.preparedMercenary.hasArmor() ? GameApi.base.mercenaries.preparedMercenary.preparedArmor.pathToArt() : "qrc:/graphics/GUI/Slots/ArmourSlot.png";
-                    if (GameApi.base.mercenaries.preparedMercenary.hasWeaponToolInSlot(0))
+                    armorArt.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.hasArmor() ? GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedArmor.pathToArt() : "qrc:/graphics/GUI/Slots/ArmourSlot.png";
+                    if (GameApi.base.mercenaries.mercenaries.preparedMercenary.hasWeaponToolInSlot(0))
                     {
-                        GameApi.base.mercenaries.preparedMercenary.prepareWeaponTool(0);
-                        weapon1Art.source =  GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
-                        weapon1.name = GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.name();
+                        GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareWeaponTool(0);
+                        weapon1Art.source =  GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
+                        weapon1.name = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.name();
                     }
                     else
                     {
                         weapon1Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
                         weapon1.name = "";
                     }
-                    if (GameApi.base.mercenaries.preparedMercenary.hasWeaponToolInSlot(1))
+                    if (GameApi.base.mercenaries.mercenaries.preparedMercenary.hasWeaponToolInSlot(1))
                     {
-                        GameApi.base.mercenaries.preparedMercenary.prepareWeaponTool(1);
-                        weapon2Art.source =  GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
-                        weapon2.name = GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.name();
+                        GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareWeaponTool(1);
+                        weapon2Art.source =  GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
+                        weapon2.name = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.name();
                     }
                     else
                     {
@@ -138,42 +138,42 @@ Item {
                         weapon2.name = "";
                     }
 
-                    energyAmount.text = GameApi.base.mercenaries.preparedMercenary.carriedEnergy();
-                    foodSuppliesAmount.text = GameApi.base.mercenaries.preparedMercenary.carriedFoodSupplies();
-                    buildingMaterialsAmount.text = GameApi.base.mercenaries.preparedMercenary.carriedBuildingMaterials();
-                    aetheriteAmount.text = GameApi.base.mercenaries.preparedMercenary.carriedAetheriteOre();
+                    energyAmount.text = GameApi.base.mercenaries.mercenaries.preparedMercenary.carriedEnergy();
+                    foodSuppliesAmount.text = GameApi.base.mercenaries.mercenaries.preparedMercenary.carriedFoodSupplies();
+                    buildingMaterialsAmount.text = GameApi.base.mercenaries.mercenaries.preparedMercenary.carriedBuildingMaterials();
+                    aetheriteAmount.text = GameApi.base.mercenaries.mercenaries.preparedMercenary.carriedAetheriteOre();
 
                     equipment.visible = true;
-                    var eqsAmount = GameApi.base.mercenaries.preparedMercenary.carriedEquipmentAmount();
+                    var eqsAmount = GameApi.base.mercenaries.mercenaries.preparedMercenary.carriedEquipmentAmount();
                     if (eqsAmount>=1)
                     {
-                        GameApi.base.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-1);
-                        eq1Art.source = GameApi.base.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
+                        GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-1);
+                        eq1Art.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
 
                         if (eqsAmount>=2)
                         {
-                            GameApi.base.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-2);
-                            eq2Art.source = GameApi.base.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
+                            GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-2);
+                            eq2Art.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
 
                             if (eqsAmount>=3)
                             {
-                                GameApi.base.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-3);
-                                eq3Art.source = GameApi.base.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
+                                GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-3);
+                                eq3Art.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
 
                                 if (eqsAmount>=4)
                                 {
-                                    GameApi.base.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-4);
-                                    eq4Art.source = GameApi.base.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
+                                    GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-4);
+                                    eq4Art.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
 
                                     if (eqsAmount>=5)
                                     {
-                                        GameApi.base.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-5);
-                                        eq5Art.source = GameApi.base.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
+                                        GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-5);
+                                        eq5Art.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
 
                                         if (eqsAmount>=6)
                                         {
-                                            GameApi.base.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-6);
-                                            eq6Art.source = GameApi.base.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
+                                            GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareCarriedEquipment(eqsAmount-6);
+                                            eq6Art.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedCarriedEquipment.pathToArt();
                                         }
                                         else
                                             eq6Art.source = "";
@@ -220,9 +220,9 @@ Item {
                 }
                 else
                 {
-                    delegate.setArtSource(GameApi.base.mercenaries.preparedMercenary.pathToArt());
+                    delegate.setArtSource(GameApi.base.mercenaries.mercenaries.preparedMercenary.pathToArt());
                     delegate.setName(mercenaryName_);
-                    delegate.setProfession(GameApi.base.mercenaries.preparedMercenary.professionString());
+                    delegate.setProfession(GameApi.base.mercenaries.mercenaries.preparedMercenary.professionString());
                     delegate.setMIA();
 
                     delegate.setColorHL("#568b56");
@@ -234,23 +234,23 @@ Item {
                     delegate.setColorFC("#568b56");
                     delegate.setColorSA("#568b56");
 
-                    armorArt.source = GameApi.base.mercenaries.preparedMercenary.hasArmor() ? GameApi.base.mercenaries.preparedMercenary.preparedArmor.pathToArt() : "qrc:/graphics/GUI/Slots/ArmourSlot.png";
-                    if (GameApi.base.mercenaries.preparedMercenary.hasWeaponToolInSlot(0))
+                    armorArt.source = GameApi.base.mercenaries.mercenaries.preparedMercenary.hasArmor() ? GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedArmor.pathToArt() : "qrc:/graphics/GUI/Slots/ArmourSlot.png";
+                    if (GameApi.base.mercenaries.mercenaries.preparedMercenary.hasWeaponToolInSlot(0))
                     {
-                        GameApi.base.mercenaries.preparedMercenary.prepareWeaponTool(0);
-                        weapon1Art.source =  GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
-                        weapon1.name = GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.name();
+                        GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareWeaponTool(0);
+                        weapon1Art.source =  GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
+                        weapon1.name = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.name();
                     }
                     else
                     {
                         weapon1Art.source = "qrc:/graphics/GUI/Slots/ToolSlot.png";
                         weapon1.name = "";
                     }
-                    if (GameApi.base.mercenaries.preparedMercenary.hasWeaponToolInSlot(1))
+                    if (GameApi.base.mercenaries.mercenaries.preparedMercenary.hasWeaponToolInSlot(1))
                     {
-                        GameApi.base.mercenaries.preparedMercenary.prepareWeaponTool(1);
-                        weapon2Art.source =  GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
-                        weapon2.name = GameApi.base.mercenaries.preparedMercenary.preparedWeaponTool.name();
+                        GameApi.base.mercenaries.mercenaries.preparedMercenary.prepareWeaponTool(1);
+                        weapon2Art.source =  GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.pathToArt();
+                        weapon2.name = GameApi.base.mercenaries.mercenaries.preparedMercenary.preparedWeaponTool.name();
                     }
                     else
                     {

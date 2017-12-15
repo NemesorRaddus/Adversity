@@ -108,8 +108,8 @@ Item {
 
         function update()
         {
-            mercenariesAmountAmount.text = GameApi.base.mercenaries.amountOfMercenaries() + '/' + GameApi.base.mercenaries.amountOfSlots();
-            totalSalary.text = "Total salary: "+GameApi.base.currentTotalSalary();
+            mercenariesAmountAmount.text = GameApi.base.mercenaries.mercenaries.amountOfMercenaries() + '/' + GameApi.base.mercenaries.mercenaries.amountOfSlots();
+            totalSalary.text = "Total salary: "+GameApi.base.resources.currentTotalSalary();
         }
 
         Text {
