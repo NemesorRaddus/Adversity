@@ -3,7 +3,7 @@
 #include "base/base.h"
 #include "clock/gameclock.h"
 #include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "missions/mission.h"
 #include "reports/basereports.h"
 #include "reports/missionreports.h"
@@ -38,7 +38,7 @@ void ReportsManager::addReport(UnifiedReport *report) noexcept
     if (m_newReports.size()>m_maxReportsAmount)
         m_newReports.removeFirst();
     base()->gameObject()->showReportNotification();
-    Game::gameInstance()->loggers()->mainLogger()->trace("[{}] Received a new report: {}",base()->gameClock()->currentTime().toQString().toStdString(), report->msg().toStdString());
+    LoggersProvider::mainLogger()->trace("[{}] Received a new report: {}",base()->gameClock()->currentTime().toQString().toStdString(), report->msg().toStdString());
 }
 
 void ReportsManager::registerLatestReportInMission(Mission *mission) noexcept

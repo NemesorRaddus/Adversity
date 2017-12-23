@@ -5,7 +5,7 @@
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 Powerplant::Powerplant(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
     : Building(BuildingEnums::B_Powerplant, base, level, levelsInfo), m_currentCycles(0) {}
@@ -60,7 +60,7 @@ void Powerplant::exchangeResources() noexcept
     if (cyclesToDo > m_currentCycles)
         cyclesToDo = m_currentCycles;
 
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Powerplant: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
+    LoggersProvider::buildingsLogger()->trace("[{}] Powerplant: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
     base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
     base()->resources()->setCurrentEnergyAmount(base()->resources()->currentEnergyAmount() + (cyclesToDo * currentLevelInfo()->energyGiven));
 }
@@ -70,7 +70,7 @@ void Powerplant::setCurrentCycles(unsigned amount) noexcept
     if (amount<=maxCycles())
     {
         m_currentCycles=amount;
-        Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Powerplant: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
+        LoggersProvider::buildingsLogger()->trace("[{}] Powerplant: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
     }
 }
 

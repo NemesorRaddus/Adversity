@@ -3,8 +3,7 @@
 #include <QTime>
 #include <QtMath>
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 unsigned Randomizer::RandomizationMethods::flatRand(unsigned a, unsigned b)
 {
@@ -70,7 +69,7 @@ unsigned Randomizer::randomBetweenAAndB(unsigned a, unsigned b, unsigned (*rando
     }
     catch(...)
     {
-        Game::gameInstance()->loggers()->mainLogger()->critical("Wrong params for randomBetweenAAndB (a={}, b={})!",a,b);
+        LoggersProvider::mainLogger()->critical("Wrong params for randomBetweenAAndB (a={}, b={})!",a,b);
         abort();
     }
 }

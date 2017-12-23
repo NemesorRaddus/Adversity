@@ -30,7 +30,7 @@
 #include "file_io/saves/saveparser.h"
 #include "general/appbuildinfo.h"
 #include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "mercenaries/mercenariescontainer.h"
 #include "missions/mission.h"
 #include "reports/basereports.h"
@@ -65,7 +65,7 @@ void Base::setupNewBase() noexcept
     reports()->initializeForNewBase();
 
     m_database=m_gameObject->assetsPool().makeStockDatabase();
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Base has been set up",gameClock()->currentTime().toQString().toStdString());
+    LoggersProvider::buildingsLogger()->trace("[{}] Base has been set up",gameClock()->currentTime().toQString().toStdString());
 }
 
 Base::~Base() noexcept
@@ -85,9 +85,9 @@ Base::~Base() noexcept
 
 void Base::loadSaveData(const SaveData &data) noexcept
 {
-    Game::gameInstance()->loggers()->mainLogger()->trace("Loading save...");
-    Game::gameInstance()->loggers()->mainLogger()->trace("Save content:");
-    Game::gameInstance()->loggers()->mainLogger()->trace(QString(data.raw.toHex()).toStdString());
+    LoggersProvider::mainLogger()->trace("Loading save...");
+    LoggersProvider::mainLogger()->trace("Save content:");
+    LoggersProvider::mainLogger()->trace(QString(data.raw.toHex()).toStdString());
     if (m_database!=nullptr)
         delete m_database;
     m_database=m_gameObject->assetsPool().makeStockDatabase();
@@ -242,14 +242,14 @@ void Base::loadSaveData(const SaveData &data) noexcept
             }
         m_gameClock->addMissionAlarm(ma.first,ma.second);
     }
-    Game::gameInstance()->loggers()->mainLogger()->trace("Save loaded");
+    LoggersProvider::mainLogger()->trace("Save loaded");
 }
 
 SaveData Base::getSaveData() noexcept
 {
     SaveData data;
 
-    Game::gameInstance()->loggers()->mainLogger()->trace("Creating save data...");
+    LoggersProvider::mainLogger()->trace("Creating save data...");
 
     data.parserVersion = m_gameObject->currentVersion()->versionNumber();
 
@@ -388,14 +388,14 @@ SaveData Base::getSaveData() noexcept
     for (const auto &e : reports()->m_reports)
         data.missions.reports+=*e;
 
-    Game::gameInstance()->loggers()->mainLogger()->trace("Saving save data");
+    LoggersProvider::mainLogger()->trace("Saving save data");
 
     return data;
 }
 
 void Base::startNewDay() noexcept
 {
-    Game::gameInstance()->loggers()->mainLogger()->trace("[{}] Starting new day",gameClock()->currentTime().toQString().toStdString());
+    LoggersProvider::mainLogger()->trace("[{}] Starting new day",gameClock()->currentTime().toQString().toStdString());
     if (m_gameClock->currentDay() % 7 == 1)
         startNewWeek();
 
@@ -448,11 +448,11 @@ void Base::startNewDay() noexcept
 
     buildings()->m_dockingStation->handleActiveTransactions();
 
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Current resources:",gameClock()->currentTime().toQString().toStdString());
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Aetherite: {}",resources()->m_aetherite);
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Building materials: {}",resources()->m_buildingMaterials);
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Energy: {}",resources()->m_energy);
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Food Supplies: {}",resources()->m_foodSupplies);
+    LoggersProvider::buildingsLogger()->trace("[{}] Current resources:",gameClock()->currentTime().toQString().toStdString());
+    LoggersProvider::buildingsLogger()->trace("    Aetherite: {}",resources()->m_aetherite);
+    LoggersProvider::buildingsLogger()->trace("    Building materials: {}",resources()->m_buildingMaterials);
+    LoggersProvider::buildingsLogger()->trace("    Energy: {}",resources()->m_energy);
+    LoggersProvider::buildingsLogger()->trace("    Food Supplies: {}",resources()->m_foodSupplies);
 }
 
 void Base::startNewWeek() noexcept

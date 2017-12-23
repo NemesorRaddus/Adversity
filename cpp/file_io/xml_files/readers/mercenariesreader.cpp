@@ -3,7 +3,7 @@
 #include "equipment/equipment.h"
 #include "general/game.h"
 #include "general/globalutilities.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "mercenaries/mercenary.h"
 
 QList<QString> MercenariesReader::getMercenariesNamesList(const QString &pathToMercenariesDir) noexcept
@@ -264,7 +264,7 @@ QVector<Equipment *> MercenariesReader::getEquipment(const QString &path) noexce
         return {};
     }
 
-    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded equipment at {}. Entries: {}", path.toStdString(), r.size());
+    LoggersProvider::xmlLogger()->info("Loaded equipment at {}. Entries: {}", path.toStdString(), r.size());
 
     return r;
 }

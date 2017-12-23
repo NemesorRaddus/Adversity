@@ -14,7 +14,7 @@
 #include "base/managers/buildingsmanager.h"
 #include "clock/gameclock.h"
 #include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "missions/mission.h"
 
 MercenariesContainer::MercenariesContainer(Base *base) noexcept
@@ -33,14 +33,14 @@ void MercenariesContainer::addMercenary(Mercenary *mercenary) noexcept
     m_mercenaries+=mercenary;
     connectMercenaryToBanSystem(mercenary->name());
 
-    Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}] Mercenary added: {}",mercenary->base()->gameClock()->currentTime().toQString().toStdString(), mercenary->name().toStdString());
+    LoggersProvider::mercenariesLogger()->trace("[{}] Mercenary added: {}",mercenary->base()->gameClock()->currentTime().toQString().toStdString(), mercenary->name().toStdString());
 }
 
 void MercenariesContainer::removeMercenary(unsigned index) noexcept
 {
     if (index < m_mercenaries.size())
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}] Removing mercenary: {}",m_mercenaries[index]->base()->gameClock()->currentTime().toQString().toStdString(), m_mercenaries[index]->name().toStdString());
+        LoggersProvider::mercenariesLogger()->trace("[{}] Removing mercenary: {}",m_mercenaries[index]->base()->gameClock()->currentTime().toQString().toStdString(), m_mercenaries[index]->name().toStdString());
 
         if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_InHospital)
             m_basePtr->buildings()->hospital()->removeMercenary(m_mercenaries[index]->name());

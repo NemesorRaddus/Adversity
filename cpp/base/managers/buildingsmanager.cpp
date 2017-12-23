@@ -18,7 +18,7 @@
 #include "base/buildings/specific/storage/storageroom.h"
 #include "base/buildings/specific/training/trainingground.h"
 #include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 BuildingsManager::BuildingsManager(Base *base) noexcept
     : BaseManagerInterface(base), m_buildingRequirements(nullptr)
@@ -208,7 +208,7 @@ Building *BuildingsManager::getBuilding(BuildingEnums::Building buildingName) no
         return m_buildings.value(buildingName);
     else
     {
-        Game::gameInstance()->loggers()->buildingsLogger()->warn("BuildingEnums::Building enum->Building * conversion failed for {}", static_cast<unsigned>(buildingName));
+        LoggersProvider::buildingsLogger()->warn("BuildingEnums::Building enum->Building * conversion failed for {}", static_cast<unsigned>(buildingName));
         return nullptr;
     }
 }

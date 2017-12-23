@@ -2,8 +2,7 @@
 
 #include <QString>
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 BuildingEnums::Building BuildingEnums::fromQStringToBuildingEnum(const QString &building) noexcept
 {
@@ -39,7 +38,7 @@ BuildingEnums::Building BuildingEnums::fromQStringToBuildingEnum(const QString &
         return B_Shrine;
     if (building=="Seclusion")
         return B_Seclusion;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Building enum conversion failed for {}",building.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->Building enum conversion failed for {}",building.toStdString());
 }
 
 QString BuildingEnums::fromBuildingEnumToQString(BuildingEnums::Building building) noexcept
@@ -76,5 +75,5 @@ QString BuildingEnums::fromBuildingEnumToQString(BuildingEnums::Building buildin
         return "Shrine";
     if (building==B_Seclusion)
         return "Seclusion";
-    Game::gameInstance()->loggers()->mainLogger()->warn("Building enum->QString conversion failed for {}",static_cast<unsigned>(building));
+    LoggersProvider::mainLogger()->warn("Building enum->QString conversion failed for {}",static_cast<unsigned>(building));
 }

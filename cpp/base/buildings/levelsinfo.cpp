@@ -1,7 +1,6 @@
 #include "levelsinfo.h"
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 AnyBuildingLevelsInfo::~AnyBuildingLevelsInfo() noexcept
 {
@@ -16,5 +15,5 @@ unsigned AnyBuildingLevelsInfo::maxLevel() const noexcept
 
 void AnyBuildingLevelsInfo::reportFailure() noexcept
 {
-    Game::gameInstance()->loggers()->buildingsLogger()->error("AnyBuildingLevelsInfo was called on a noncompliant type.");
+    LoggersProvider::buildingsLogger()->error("AnyBuildingLevelsInfo was called on a noncompliant type.");
 }

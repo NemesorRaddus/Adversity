@@ -4,8 +4,7 @@
 #include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 Factory::Factory(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
     : Building(BuildingEnums::B_Factory, base, level, levelsInfo), m_currentCycles(0) {}
@@ -50,7 +49,7 @@ void Factory::exchangeResources() noexcept
     if (cyclesToDo > m_currentCycles)
         cyclesToDo = m_currentCycles;
 
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Factory: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
+    LoggersProvider::buildingsLogger()->trace("[{}] Factory: doing {} cycles",base()->gameClock()->currentTime().toQString().toStdString(), cyclesToDo);
     base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() - (cyclesToDo * currentLevelInfo()->aetheriteOreTaken));
     base()->resources()->setCurrentBuildingMaterialsAmount(base()->resources()->currentBuildingMaterialsAmount() + (cyclesToDo * currentLevelInfo()->buildingMaterialsGiven));
 }
@@ -60,7 +59,7 @@ void Factory::setCurrentCycles(unsigned amount) noexcept
     if (amount<=maxCycles())
     {
         m_currentCycles=amount;
-        Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Factory: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
+        LoggersProvider::buildingsLogger()->trace("[{}] Factory: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
     }
 }
 

@@ -69,7 +69,9 @@ SOURCES += cpp/main.cpp \
     cpp/general/savesmanager.cpp \
     cpp/general/settings.cpp \
     cpp/h4x/h4x.cpp \
+    cpp/logging/loggerabstraction.cpp \
     cpp/logging/loggershandler.cpp \
+    cpp/logging/loggersprovider.cpp \
     cpp/mercenaries/attributesset.cpp \
     cpp/mercenaries/enums.cpp \
     cpp/mercenaries/mercenariescontainer.cpp \
@@ -93,14 +95,7 @@ SOURCES += cpp/main.cpp \
     cpp/reports/missionreports.cpp \
     cpp/reports/report.cpp \
     cpp/reports/unifiedreport.cpp \
-    cpp/translations/translations.cpp \
-    cpp/base/managers/resourcesmanager.cpp \
-    cpp/base/managers/buildingsmanager.cpp \
-    cpp/base/managers/mercenariesmanager.cpp \
-    cpp/base/managers/reportsmanager.cpp \
-    cpp/base/managers/equipmentmanager.cpp \
-    cpp/base/managers/missionsmanager.cpp \
-    cpp/base/managers/basemanagerinterface.cpp
+    cpp/translations/translations.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -180,7 +175,9 @@ HEADERS += \
     cpp/general/savesmanager.h \
     cpp/general/settings.h \
     cpp/h4x/h4x.h \
+    cpp/logging/loggerabstraction.h \
     cpp/logging/loggershandler.h \
+    cpp/logging/loggersprovider.h \
     cpp/mercenaries/attributesset.h \
     cpp/mercenaries/enums.h \
     cpp/mercenaries/mercenariescontainer.h \
@@ -205,14 +202,7 @@ HEADERS += \
     cpp/reports/report.h \
     cpp/reports/unifiedreport.h \
     cpp/stable.h \
-    cpp/translations/translations.h \
-    cpp/base/managers/resourcesmanager.h \
-    cpp/base/managers/buildingsmanager.h \
-    cpp/base/managers/mercenariesmanager.h \
-    cpp/base/managers/reportsmanager.h \
-    cpp/base/managers/basemanagerinterface.h \
-    cpp/base/managers/equipmentmanager.h \
-    cpp/base/managers/missionsmanager.h
+    cpp/translations/translations.h
 
 PRECOMPILED_HEADER = cpp/stable.h
 

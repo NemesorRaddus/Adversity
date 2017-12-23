@@ -19,7 +19,7 @@
 #include "general/game.h"
 #include "general/globalutilities.h"
 #include "general/randomizer.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "missions/events/actionevents.h"
 #include "missions/land.h"
 #include "missions/mission.h"
@@ -544,7 +544,7 @@ void Mercenary::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     if (noSignalDaysRemaining == 0)
     {
         m_noSignalDaysRemaining = 0;
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal retrieved",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        LoggersProvider::mercenariesLogger()->trace("[{}]{}: signal retrieved",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (m_assignedMission==nullptr || isDead())
             return;//safety measure
         addWaitingReport(new UnifiedReport(new SignalRetrievedReport(pathToArt(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
@@ -553,7 +553,7 @@ void Mercenary::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     }
     else
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        LoggersProvider::mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (m_assignedMission!=nullptr && isCommunicationAvailable())
             m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining = noSignalDaysRemaining;
@@ -691,7 +691,7 @@ void Mercenary::handleNewWeek() noexcept
 
 void Mercenary::returnToBase() noexcept
 {
-    Game::gameInstance()->loggers()->mercenariesLogger()->trace("{} has returned to base",m_name.toStdString());
+    LoggersProvider::mercenariesLogger()->trace("{} has returned to base",m_name.toStdString());
     m_base->resources()->increaseAetheriteAmount(m_carriedAetheriteOre);
     m_base->resources()->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
     m_base->resources()->increaseEnergyAmount(m_carriedEnergy);
@@ -731,7 +731,7 @@ void Mercenary::returnToBase() noexcept
 
 void Mercenary::die(bool playerKnowsIt, bool showNotification) noexcept
 {
-    Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} died",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+    LoggersProvider::mercenariesLogger()->trace("[{}]{} died",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
     m_isDead=1;
     m_currentAttributesValues.health=0;
     if (m_currentActivity != MercenaryEnums::CA_OnMission || playerKnowsIt)
@@ -749,7 +749,7 @@ void Mercenary::becomeMIA() noexcept
 {
     if (m_currentActivity==MercenaryEnums::CA_OnMission && m_assignedMission!=nullptr)
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        LoggersProvider::mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (isCommunicationAvailable())
             m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
@@ -762,7 +762,7 @@ void Mercenary::activateStressBorderEffect() noexcept
     if (!isImmuneToStress())
     {
         m_indexOfCurrentSBE = Randomizer::randomBetweenAAndB(0,m_stressBorderEffects.size()-1);
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("SBE activated for {}: {}",m_name.toStdString(),static_cast<unsigned>(m_stressBorderEffects[m_indexOfCurrentSBE].effectName));
+        LoggersProvider::mercenariesLogger()->trace("SBE activated for {}: {}",m_name.toStdString(),static_cast<unsigned>(m_stressBorderEffects[m_indexOfCurrentSBE].effectName));
 
         if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == MercenaryEnums::SBE_Consciousness)
         {
@@ -777,7 +777,7 @@ void Mercenary::deactivateStressBorderEffect() noexcept
 {
     if (!isImmuneToStress())
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("SBE deactivated for {}",m_name.toStdString());
+        LoggersProvider::mercenariesLogger()->trace("SBE deactivated for {}",m_name.toStdString());
         m_indexOfCurrentSBE = -1;
 
         calculateCurrentAttributeValues();

@@ -2,7 +2,7 @@
 
 #include "database/database.h"
 #include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "missions/encounter.h"
 #include "missions/events/actionevents.h"
 #include "missions/events/checkevents.h"
@@ -82,7 +82,7 @@ QVector<DatabaseEntry> MissionsReader::getDatabaseEntries(const QString &path) n
         return {};
     }
 
-    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded db entries at {}. Entries: {}", path.toStdString(), r.size());
+    LoggersProvider::xmlLogger()->info("Loaded db entries at {}. Entries: {}", path.toStdString(), r.size());
 
     return r;
 }
@@ -138,7 +138,7 @@ LandInfo MissionsReader::getLandInfo(const QString &path) noexcept
         return {};
     }
 
-    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded land at {}.", path.toStdString());
+    LoggersProvider::xmlLogger()->info("Loaded land at {}.", path.toStdString());
 
     return r;
 }
@@ -182,7 +182,7 @@ EncountersContainer *MissionsReader::getEncounters(const QString &path) noexcept
             m_xmlReader->raiseError("Incorrect file");
     }
 
-    Game::gameInstance()->loggers()->xmlLogger()->info("Loaded encounters at {}. Entries: {}", path.toStdString(), r->encounters().size());
+    LoggersProvider::xmlLogger()->info("Loaded encounters at {}. Entries: {}", path.toStdString(), r->encounters().size());
 
     if (m_xmlReader->hasError())
     {

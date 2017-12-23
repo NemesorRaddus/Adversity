@@ -11,7 +11,7 @@
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "general/game.h"
 #include "general/randomizer.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "mercenaries/mercenariescontainer.h"
 #include "missions/events/event.h"
 #include "reports/basereports.h"
@@ -244,9 +244,9 @@ void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, un
         base()->resources()->setCurrentAetheriteAmount(base()->resources()->currentAetheriteAmount() - sA);
 
     m_activeTransactions.push_back({{sR,tR,sA,targetAmount},currentLevelInfo()->waitingTime});
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("[{}] Docking Station: started a transaction:",base()->gameClock()->currentTime().toQString().toStdString());
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Source: {} {}",sA,BaseEnums::fromResourceEnumToQString(sR).toStdString());
-    Game::gameInstance()->loggers()->buildingsLogger()->trace("    Target: {} {}",targetAmount,BaseEnums::fromResourceEnumToQString(tR).toStdString());
+    LoggersProvider::buildingsLogger()->trace("[{}] Docking Station: started a transaction:",base()->gameClock()->currentTime().toQString().toStdString());
+    LoggersProvider::buildingsLogger()->trace("    Source: {} {}",sA,BaseEnums::fromResourceEnumToQString(sR).toStdString());
+    LoggersProvider::buildingsLogger()->trace("    Target: {} {}",targetAmount,BaseEnums::fromResourceEnumToQString(tR).toStdString());
 }
 
 void DockingStation::handleActiveTransactions() noexcept
