@@ -1,0 +1,47 @@
+Schemat wersji dla Adversity
+
+x.y[.z][-alpha/beta]{[-Preview_p]LUB[-i]}
+
+x - major nr
+y - minor nr
+z - hotfix nr
+alpha/beta - a/b tag
+p - preview nr
+i - internal version nr
+
+[] - opcjonalnie
+{} - wyodrêbnienie logiczne
+
+Major nr jest zwiêkszany, gdy iloœæ dodanych od ostatniego major release'a feature'ów jest bardzo du¿a (na tyle, by uznaæ oprogramowanie za niekompatybilne wstecznie lub po prostu zupe³nie inne).
+Minor nr jest zwiêkszany po wprowadzeniu nowego du¿ego feature'a dodawaj¹cego coœ do gameplayu.
+Hotfix nr jest zwiêkszany po wypuszczeniu hotfixa ³ataj¹cego bugi.
+Preview nr jest zwiêkszany po wprowadzeniu nowej wersji preview, finalnej/testowej wersji wewnêtrznej.
+Internal version nr jest zwiêkszany po wprowadzeniu nowej wersji wewnêtrznej.
+
+A/B tag wskazuje generaln¹ wersjê oprogramowania (alphê lub betê). Dopóki major nr jest równy 0, wersja bez a/b tagu oznacza pre-alphê. PóŸniej jest to ju¿ wersja release.
+
+Ka¿dy numer jest liczb¹ ca³kowit¹ nieujemn¹. Nie ma górnej granicy dla ¿adnego z numerów (a wiêc mog¹ siê pojawiæ dwucyfrowe wersje minor).
+
+Zaczyna siê na 0.1.
+
+Gdy zaczyna siê praca nad kolejnym du¿ym featurem(np. wersja 0.2), hotfixem (0.1.1) lub now¹ du¿¹ wersj¹ (2.0),
+na odpowiedniej ga³êzi (develop dla major i minor, hotfix/v{nr hotfixa} dla hotfixa) zaczynaj¹ byæ wstawiane nowe commity bez numeru wersji.
+Gdy osi¹gnie siê pewien cel w trakcie prac i wersja jest teoretycznie stabilna (nie pojawi³y siê b³êdy zwi¹zane z tym featurem, ale to tylko takie obserwacje bez testów), prywatnie (w gronie devów) wypuszczana jest
+pierwsza wersja wewnêtrzna zawieraj¹ca pewien podfeature. Jej numer to numer wersji, nad któr¹ siê pracuje, z sufiksem -1. Taki build jest rozpowszechniany i testowany przez ró¿nych devów.
+Osi¹gaj¹c kolejne cele, wypuszczane s¹ kolejne wersje wewnêtrzne z kolejnymi numerami. Gdy osi¹gnie siê taki punkt, kiedy wszystkie cele dla tworzonej wersji zostan¹ osi¹gniête, wypuszczana jest prywatnie wersja preview.
+Po wypuszczeniu wersji preview wszystkie feature'y s¹ blokowane, tzn. nie mo¿na ju¿ wprowadzaæ du¿ych zmian w tej wersji, tylko drobne bugfixy. Po wypuszczeniu wersji preview rozpoczyna siê czas testów wewnêtrznych,
+trwaj¹cy zazwyczaj ok. 1 dobê. W tym czasie ka¿dy dev sprawdza, czy wszystko dzia³a tak, jak nale¿y. Jeœli wszystko jest ok, wypuszczana jest nowa wersja z opracowywanymi zmianami (a dopisek -Preview_p jest usuwany).
+Jeœli jednak coœ nie dzia³a, kontynuowane s¹ prace. Pojawiaj¹ siê nowe commity bez numeru i commity z nowymi wersjami wewnêtrznymi, a¿ wreszcie znowu dojdzie do sytuacji, gdy wszystko bêdzie wygl¹da³o dobrze.
+Wtedy pojawia siê kolejna Preview version. I tak do skutku.
+
+Pierwszy hotfix do danego minora ma numer 1.
+Pierwszy preview do danego minora lub hotfixa ma numer 1.
+Pierwszy internal do danego minora lub hotfixa ma numer 1.
+
+Gdy major nr jest zwiêkszany, minor nr jest ustawiany na 0, a pozosta³e numery s¹ usuwane (przy czym a/b tag jest niezale¿ny, tak samo jest ni¿ej).
+Gdy minor nr jest zwiêkszany, hotfix nr i preview nr s¹ usuwane.
+Gdy hotfix nr jest zwiêkszany, preview nr jest usuwany.
+
+Aby przejœæ z pre-alphy do alphy, nale¿y wejœæ na wersjê 1.0 i dodaæ -alpha do numeru wersji.
+Aby przejœæ z alphy do bety, nale¿y wróciæ do wersji 1.0 zmieniæ -alpha na -beta.
+Aby przejœæ z bety do release'a, nale¿y wróciæ do wersji 1.0 i usun¹æ a/b tag.
