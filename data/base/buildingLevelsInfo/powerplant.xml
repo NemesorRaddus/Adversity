@@ -4,7 +4,7 @@
     <levelInfo level="0" basicCostEnergy="0" aetheriteTaken="0" energyGiven="0" energyLimit="0" maxCycles="0"></levelInfo>
     <levelInfo level="1" basicCostEnergy="1" aetheriteTaken="1" energyGiven="10" energyLimit="250" maxCycles="5"></levelInfo>
     <levelInfo level="2" basicCostEnergy="1" aetheriteTaken="1" energyGiven="10" energyLimit="300" maxCycles="6">
-        <requirements energy="3" buildingMaterials="" time="1"></requirements>
+        <requirements energy="3" buildingMaterials="1" time="1"></requirements>
     </levelInfo>
     <levelInfo level="3" basicCostEnergy="1" aetheriteTaken="1" energyGiven="10" energyLimit="350" maxCycles="7">
         <requirements energy="3" buildingMaterials="2" time="1"></requirements>

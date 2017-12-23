@@ -215,15 +215,15 @@ DISTFILES += \
     Gra-spis.rtf \
     qml/H4XWindow.qml
 
-#APeR lib
+# APeR lib
 SOURCES += libs/APeR-0.1.0/aper.cpp
 HEADERS += libs/APeR-0.1.0/aper.h
 
 CONFIG(release, debug|release) {
-    #This is a release build
+    # This is a release build
     DEFINES += QT_NO_DEBUG_OUTPUT
 } else {
-    #This is a debug build
+    # This is a debug build
     win32 {
         DEFINES += ENABLE_CONSOLE_WINDOW
     }
