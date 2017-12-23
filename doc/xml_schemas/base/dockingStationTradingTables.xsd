@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="dockingStationTradingTables">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="tradingTable" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="entry" minOccurs="16" maxOccurs="16">
+                                <xsd:complexType>
+                                    <xsd:attribute name="from" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="to" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="ratio" use="required">
+                                        <xsd:simpleType>
+                                            <xsd:restriction base="xsd:double">
+                                                <xsd:minInclusive value="0"/>
+                                            </xsd:restriction>
+                                        </xsd:simpleType>
+                                    </xsd:attribute>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="profitabilityLevel" use="required">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:integer">
+                                    <xsd:minInclusive value="0"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

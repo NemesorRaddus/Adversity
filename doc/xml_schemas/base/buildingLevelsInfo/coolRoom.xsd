@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="coolRoomLevelsInfo">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="levelInfo" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="requirements" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence/>
+									<xsd:attribute name="energy" type="xsd:positiveInteger" use="required"/>
+									<xsd:attribute name="buildingMaterials" type="xsd:positiveInteger" use="required"/>
+									<xsd:attribute name="time" type="xsd:positiveInteger" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="level" type="xsd:nonNegativeInteger" use="required"/>
+						<xsd:attribute name="basicCostEnergy" type="xsd:nonNegativeInteger" use="required"/>
+						<xsd:attribute name="foodSuppliesLimit" type="xsd:nonNegativeInteger" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
