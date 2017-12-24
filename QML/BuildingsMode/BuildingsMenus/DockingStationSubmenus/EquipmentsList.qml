@@ -10,40 +10,40 @@ Item {
 
     function update()
     {
-        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.dockingStation.readyEquipmentsAmount(), width, height);
-        for (var i=0;i<GameApi.base.dockingStation.readyEquipmentsAmount();++i)
+        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.buildings.dockingStation.readyEquipmentsAmount(), width, height);
+        for (var i=0;i<GameApi.base.buildings.dockingStation.readyEquipmentsAmount();++i)
         {
-            GameApi.base.dockingStation.prepareEquipmentForQML(i);
+            GameApi.base.buildings.dockingStation.prepareEquipmentForQML(i);
             var n=["","","","","",""],v=[0,0,0,0,0,0];
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 1)
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 1)
             {
-                n[0]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(0);
-                v[0]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(0);
+                n[0]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosName(0);
+                v[0]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosValue(0);
             }
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 2)
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 2)
             {
-                n[1]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(1);
-                v[1]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(1);
+                n[1]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosName(1);
+                v[1]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosValue(1);
             }
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 3)
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 3)
             {
-                n[2]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(2);
-                v[2]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(2);
+                n[2]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosName(2);
+                v[2]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosValue(2);
             }
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 4)
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 4)
             {
-                n[3]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(3);
-                v[3]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(3);
+                n[3]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosName(3);
+                v[3]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosValue(3);
             }
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 5)
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 5)
             {
-                n[4]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(4);
-                v[4]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(4);
+                n[4]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosName(4);
+                v[4]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosValue(4);
             }
-            if (GameApi.base.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 6)
+            if (GameApi.base.buildings.dockingStation.equipmentPreparedForQML.amountOfBonuses() >= 6)
             {
-                n[5]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosName(5);
-                v[5]=GameApi.base.dockingStation.equipmentPreparedForQML.bonusAtPosValue(5);
+                n[5]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosName(5);
+                v[5]=GameApi.base.buildings.dockingStation.equipmentPreparedForQML.bonusAtPosValue(5);
             }
 
             for (var j=0;j<6;++j)
@@ -58,7 +58,7 @@ Item {
                     v[5]="";
                 }
 
-            Scripts.createItem(GameApi.base.dockingStation.equipmentPreparedForQML.name(), GameApi.base.dockingStation.equipmentPreparedForQML.name(), GameApi.base.dockingStation.equipmentPreparedForQML.typeString(), GameApi.base.dockingStation.equipmentPreparedForQML.tier(), GameApi.base.dockingStation.equipmentPreparedForQML.buyingAetheriteCost(),
+            Scripts.createItem(GameApi.base.buildings.dockingStation.equipmentPreparedForQML.name(), GameApi.base.buildings.dockingStation.equipmentPreparedForQML.name(), GameApi.base.buildings.dockingStation.equipmentPreparedForQML.typeString(), GameApi.base.buildings.dockingStation.equipmentPreparedForQML.tier(), GameApi.base.buildings.dockingStation.equipmentPreparedForQML.buyingAetheriteCost(),
                     n,v);
         }
     }

@@ -59,7 +59,7 @@ Window {
 
     function showReportNotification()
     {
-        mainGUI.reportsNotification.setAmount(GameApi.base.amountOfNewReports());
+        mainGUI.reportsNotification.setAmount(GameApi.base.reports.amountOfNewReports());
         mainGUI.reportsNotification.show();
     }
 
@@ -84,42 +84,42 @@ Window {
 
         function updateResources()
         {
-            energyValue.text = GameApi.base.currentEnergyAmount() + '/' + GameApi.base.powerplant.energyLimit();
-            if (GameApi.base.currentEnergyAmount() === 0)
+            energyValue.text = GameApi.base.resources.currentEnergyAmount() + '/' + GameApi.base.buildings.powerplant.energyLimit();
+            if (GameApi.base.resources.currentEnergyAmount() === 0)
                 energyValue.color = "#b30000";
-            else if (GameApi.base.currentEnergyAmount() === GameApi.base.powerplant.energyLimit())
+            else if (GameApi.base.resources.currentEnergyAmount() === GameApi.base.buildings.powerplant.energyLimit())
                 energyValue.color = "#ffd480";
             else
                 energyValue.color = "#c0efc0";
 
-            foodSuppliesValue.text = GameApi.base.currentFoodSuppliesAmount() + '/' + GameApi.base.coolRoom.foodSuppliesLimit();
-            if (GameApi.base.currentFoodSuppliesAmount() === 0)
+            foodSuppliesValue.text = GameApi.base.resources.currentFoodSuppliesAmount() + '/' + GameApi.base.buildings.coolRoom.foodSuppliesLimit();
+            if (GameApi.base.resources.currentFoodSuppliesAmount() === 0)
                 foodSuppliesValue.color = "#b30000";
-            else if (GameApi.base.currentFoodSuppliesAmount() === GameApi.base.coolRoom.foodSuppliesLimit())
+            else if (GameApi.base.resources.currentFoodSuppliesAmount() === GameApi.base.buildings.coolRoom.foodSuppliesLimit())
                 foodSuppliesValue.color = "#ffd480";
             else
                 foodSuppliesValue.color = "#c0efc0";
 
-            buildingMaterialsValue.text = GameApi.base.currentBuildingMaterialsAmount() + '/' + GameApi.base.storageRoom.buildingMaterialsLimit();
-            if (GameApi.base.currentBuildingMaterialsAmount() === 0)
+            buildingMaterialsValue.text = GameApi.base.resources.currentBuildingMaterialsAmount() + '/' + GameApi.base.buildings.storageRoom.buildingMaterialsLimit();
+            if (GameApi.base.resources.currentBuildingMaterialsAmount() === 0)
                 buildingMaterialsValue.color = "#b30000";
-            else if (GameApi.base.currentBuildingMaterialsAmount() === GameApi.base.storageRoom.buildingMaterialsLimit())
+            else if (GameApi.base.resources.currentBuildingMaterialsAmount() === GameApi.base.buildings.storageRoom.buildingMaterialsLimit())
                 buildingMaterialsValue.color = "#ffd480";
             else
                 buildingMaterialsValue.color = "#c0efc0";
 
-            aetheriteValue.text = GameApi.base.currentAetheriteAmount() + '/' + GameApi.base.aetheriteSilo.aetheriteLimit();
-            if (GameApi.base.currentAetheriteAmount() === 0)
+            aetheriteValue.text = GameApi.base.resources.currentAetheriteAmount() + '/' + GameApi.base.buildings.aetheriteSilo.aetheriteLimit();
+            if (GameApi.base.resources.currentAetheriteAmount() === 0)
                 aetheriteValue.color = "#b30000";
-            else if (GameApi.base.currentAetheriteAmount() === GameApi.base.aetheriteSilo.aetheriteLimit())
+            else if (GameApi.base.resources.currentAetheriteAmount() === GameApi.base.buildings.aetheriteSilo.aetheriteLimit())
                 aetheriteValue.color = "#ffd480";
             else
                 aetheriteValue.color = "#c0efc0";
 
-            energyValue2.text = GameApi.base.currentEnergyIncome() + '/' + "day";
-            foodSuppliesValue2.text = GameApi.base.currentFoodSuppliesIncome() + '/' + "day";
-            buildingMaterialsValue2.text = GameApi.base.currentBuildingMaterialsIncome() + '/' + "day";
-            aetheriteValue2.text = GameApi.base.currentAetheriteIncome() + '/' + "day";
+            energyValue2.text = GameApi.base.resources.currentEnergyIncome() + '/' + "day";
+            foodSuppliesValue2.text = GameApi.base.resources.currentFoodSuppliesIncome() + '/' + "day";
+            buildingMaterialsValue2.text = GameApi.base.resources.currentBuildingMaterialsIncome() + '/' + "day";
+            aetheriteValue2.text = GameApi.base.resources.currentAetheriteIncome() + '/' + "day";
         }
 
         function updateClock()
@@ -259,7 +259,7 @@ Window {
         Globals.windowWidth = width;
         Globals.windowHeight = height;
         changeMode(1);
-        GameApi.loadExistingBase(":/data/");
+        GameApi.loadExistingBase();
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
     onClosing: {

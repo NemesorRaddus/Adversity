@@ -228,7 +228,7 @@
             <bonus varName="cleverness" value="4"></bonus>
             <bonus varName="stressLimit" value="-30"></bonus>
             <bonus varName="dailyFoodConsumption" value="1"></bonus>
-            <bonus varname="salary" value="1"></bonus>
+            <bonus varName="salary" value="1"></bonus>
         </effects>
     </weaponTool>
 </equipmentList>

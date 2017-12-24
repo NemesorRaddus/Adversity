@@ -14,8 +14,8 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.coolRoom.description());
-        topBar.setLevel("Level: "+GameApi.base.coolRoom.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.coolRoom.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.coolRoom.currentLevel());
         table.update();
         upgradeInfo.update();
     }
@@ -70,10 +70,10 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.coolRoom.basicCostInEnergy()+"/Day";
-            maxStorageAmount1.text = GameApi.base.coolRoom.foodSuppliesLimit();
+            energyDrainAmount1.text = GameApi.base.buildings.coolRoom.basicCostInEnergy()+"/Day";
+            maxStorageAmount1.text = GameApi.base.buildings.coolRoom.foodSuppliesLimit();
 
-            if (GameApi.base.coolRoom.maxLevelReached())
+            if (GameApi.base.buildings.coolRoom.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -81,8 +81,8 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.coolRoom.basicCostInEnergyAfterUpgrade()+"/Day";
-                maxStorageAmount2.text = GameApi.base.coolRoom.foodSuppliesLimitAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.coolRoom.basicCostInEnergyAfterUpgrade()+"/Day";
+                maxStorageAmount2.text = GameApi.base.buildings.coolRoom.foodSuppliesLimitAfterUpgrade();
             }
         }
 
@@ -244,7 +244,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.coolRoom.maxLevelReached())
+            if (GameApi.base.buildings.coolRoom.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -257,13 +257,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.coolRoom.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.coolRoom.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.coolRoom.requirementsForNextLevelTime();
-                if (GameApi.base.coolRoom.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.coolRoom.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.coolRoom.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.coolRoom.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.coolRoom.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.coolRoom.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.coolRoom.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -273,9 +273,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.coolRoom.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.coolRoom.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.coolRoom.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.coolRoom.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.coolRoom.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.coolRoom.requirementsForNextLevelTime();
             }
         }
 

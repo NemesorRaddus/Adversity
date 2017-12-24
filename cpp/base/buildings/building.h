@@ -4,29 +4,19 @@
 #include <QObject>
 
 #include "enums.h"
-
-struct BuildingUpgradeRequirements
-{
-    BuildingUpgradeRequirements() noexcept
-        : requiredBuildingMaterials(0), requiredEnergy(0), requiredTime(0) {}
-    explicit BuildingUpgradeRequirements(unsigned reqBuildingMat, unsigned reqEnergy, unsigned reqTime) noexcept
-        : requiredBuildingMaterials(reqBuildingMat), requiredEnergy(reqEnergy), requiredTime(reqTime) {}
-
-    unsigned requiredBuildingMaterials;
-    unsigned requiredEnergy;
-    unsigned requiredTime;
-};
+#include "levelsinfo.h"
 
 class Base;
+struct BuildingUpgradeRequirements;
 
 class Building : public QObject
 {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE virtual unsigned currentLevel() const noexcept;
-    Q_INVOKABLE virtual unsigned maxLevel() const noexcept = 0;
-    Q_INVOKABLE inline virtual bool maxLevelReached() const noexcept
+    Q_INVOKABLE unsigned currentLevel() const noexcept;
+    Q_INVOKABLE unsigned maxLevel() const noexcept;
+    Q_INVOKABLE inline bool maxLevelReached() const noexcept
     {
         return currentLevel()==maxLevel();
     }
@@ -40,8 +30,8 @@ public:
 
     Q_INVOKABLE virtual QString description() const noexcept;
 
-    virtual int basicCostInEnergy() const noexcept = 0;
-    virtual int basicCostInEnergyAfterUpgrade() const noexcept = 0;
+    Q_INVOKABLE virtual int basicCostInEnergy() const noexcept;
+    Q_INVOKABLE virtual int basicCostInEnergyAfterUpgrade() const noexcept;
     virtual int useCostInEnergy() const noexcept = 0;
     Q_INVOKABLE virtual int currentCostInEnergy() const noexcept
     {
@@ -82,14 +72,31 @@ public:
         m_isBeingUpgraded=isUpgraded;
     }
 
+    void setCurrentLevel(unsigned level) noexcept;
+
     Q_INVOKABLE virtual unsigned upgradeTimeRemaining() noexcept = 0;
 
 protected:
-    explicit Building(BuildingEnums::Building buildingName, Base *base, unsigned level) noexcept;
-    Base *base() noexcept
+    explicit Building(BuildingEnums::Building buildingName, Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept;
+    virtual ~Building() noexcept = default;
+
+    inline Base *base() noexcept
     {
         return m_base;
     }
+
+    template <typename LevelInfo>
+    LevelInfo *currentLevelInfo() const noexcept
+    {
+        return m_levelsInfo->getLevel<LevelInfo>(currentLevel());
+    }
+    template <typename LevelInfo>
+    LevelInfo *nextLevelInfo() const noexcept
+    {
+        return m_levelsInfo->getLevel<LevelInfo>(currentLevel()+1);
+    }
+
+    void setLevelsInfo(AnyBuildingLevelsInfo *levelsInfo) noexcept;
 
     bool m_isBeingUpgraded;
 
@@ -101,4 +108,6 @@ private:
 
     Base *m_base;
     BuildingEnums::Building m_buildingName;
+    const AnyBuildingLevelsInfo *m_levelsInfo;
+    unsigned m_level;
 };

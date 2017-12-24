@@ -16,18 +16,18 @@ Item {
 
     function updateEverything()
     {
-        topBar.setDescription(GameApi.base.gym.description());
-        topBar.setLevel("Level: "+GameApi.base.gym.currentLevel());
+        topBar.setDescription(GameApi.base.buildings.gym.description());
+        topBar.setLevel("Level: "+GameApi.base.buildings.gym.currentLevel());
         table.update();
         upgradeInfo.update();
         mercenarySelectionList.updateEverything("pr");
-        var amountOfSlotsAvailable = GameApi.base.gym.amountOfSlots();
+        var amountOfSlotsAvailable = GameApi.base.buildings.gym.amountOfSlots();
         if (amountOfSlotsAvailable>=1)
         {
-            if (GameApi.base.gym.mercenaryNameInSlot(0)!="")
+            if (GameApi.base.buildings.gym.mercenaryNameInSlot(0)!="")
             {
-                slotView1.mercenaryName=GameApi.base.gym.mercenaryNameInSlot(0);
-                slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.gym.mercenaryProfessionInSlot(0))+"/"+GameApi.base.gym.mercenaryNameInSlot(0)+".png",GameApi.base.gym.useCostInEnergySingle(), GameApi.base.gym.remainingDaysOfTraining(GameApi.base.gym.mercenaryNameInSlot(0))+1);
+                slotView1.mercenaryName=GameApi.base.buildings.gym.mercenaryNameInSlot(0);
+                slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(0))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(0)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(0))+1);
                 slotView1.forceAbortIcon();
             }
             else
@@ -35,10 +35,10 @@ Item {
             slotView1.visible=true;
             if (amountOfSlotsAvailable>=2)
             {
-                if (GameApi.base.gym.mercenaryNameInSlot(1)!="")
+                if (GameApi.base.buildings.gym.mercenaryNameInSlot(1)!="")
                 {
-                    slotView2.mercenaryName=GameApi.base.gym.mercenaryNameInSlot(1);
-                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.gym.mercenaryProfessionInSlot(1))+"/"+GameApi.base.gym.mercenaryNameInSlot(1)+".png",GameApi.base.gym.useCostInEnergySingle(), GameApi.base.gym.remainingDaysOfTraining(GameApi.base.gym.mercenaryNameInSlot(1))+1);
+                    slotView2.mercenaryName=GameApi.base.buildings.gym.mercenaryNameInSlot(1);
+                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(1))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(1)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(1))+1);
                     slotView2.forceAbortIcon();
                 }
                 else
@@ -46,10 +46,10 @@ Item {
                 slotView2.visible=true;
                 if (amountOfSlotsAvailable>=3)
                 {
-                    if (GameApi.base.gym.mercenaryNameInSlot(2)!="")
+                    if (GameApi.base.buildings.gym.mercenaryNameInSlot(2)!="")
                     {
-                        slotView3.mercenaryName=GameApi.base.gym.mercenaryNameInSlot(2);
-                        slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.gym.mercenaryProfessionInSlot(2))+"/"+GameApi.base.gym.mercenaryNameInSlot(2)+".png",GameApi.base.gym.useCostInEnergySingle(), GameApi.base.gym.remainingDaysOfTraining(GameApi.base.gym.mercenaryNameInSlot(2))+1);
+                        slotView3.mercenaryName=GameApi.base.buildings.gym.mercenaryNameInSlot(2);
+                        slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(2))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(2)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(2))+1);
                         slotView3.forceAbortIcon();
                     }
                     else
@@ -166,12 +166,12 @@ Item {
 
         function update()
         {
-            energyDrainAmount1.text = GameApi.base.gym.basicCostInEnergy()+"/Day";
-            slotsAmount1.text = GameApi.base.gym.amountOfSlots();
-            energyCostAmount1.text = GameApi.base.gym.useCostInEnergySingle()+"/Day";
-            proficiencyBonusAmount1.text = GameApi.base.gym.proficiencyBonus();
+            energyDrainAmount1.text = GameApi.base.buildings.gym.basicCostInEnergy()+"/Day";
+            slotsAmount1.text = GameApi.base.buildings.gym.amountOfSlots();
+            energyCostAmount1.text = GameApi.base.buildings.gym.useCostInEnergySingle()+"/Day";
+            proficiencyBonusAmount1.text = GameApi.base.buildings.gym.proficiencyBonus();
 
-            if (GameApi.base.gym.maxLevelReached())
+            if (GameApi.base.buildings.gym.maxLevelReached())
             {
                 levelText3.visible = false;
                 energyDrainAmount2.visible = false;
@@ -181,10 +181,10 @@ Item {
             }
             else
             {
-                energyDrainAmount2.text = GameApi.base.gym.basicCostInEnergyAfterUpgrade()+"/Day";
-                slotsAmount2.text = GameApi.base.gym.amountOfSlotsAfterUpgrade();
-                energyCostAmount2.text = GameApi.base.gym.useCostInEnergySingleAfterUpgrade()+"/Day";
-                proficiencyBonusAmount2.text = GameApi.base.gym.proficiencyBonusAfterUpgrade();
+                energyDrainAmount2.text = GameApi.base.buildings.gym.basicCostInEnergyAfterUpgrade()+"/Day";
+                slotsAmount2.text = GameApi.base.buildings.gym.amountOfSlotsAfterUpgrade();
+                energyCostAmount2.text = GameApi.base.buildings.gym.useCostInEnergySingleAfterUpgrade()+"/Day";
+                proficiencyBonusAmount2.text = GameApi.base.buildings.gym.proficiencyBonusAfterUpgrade();
             }
         }
 
@@ -444,7 +444,7 @@ Item {
 
         function update()
         {
-            if (GameApi.base.gym.maxLevelReached())
+            if (GameApi.base.buildings.gym.maxLevelReached())
             {
                 energyAmount.text = "-";
                 bmAmount.text = "-";
@@ -457,13 +457,13 @@ Item {
             }
             else
             {
-                energyAmount.text = GameApi.base.gym.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.gym.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.gym.requirementsForNextLevelTime();
-                if (GameApi.base.gym.isBeingUpgraded())
+                energyAmount.text = GameApi.base.buildings.gym.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.gym.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.gym.requirementsForNextLevelTime();
+                if (GameApi.base.buildings.gym.isBeingUpgraded())
                 {
                     upgradeButton.markAsUpgraded(true);
-                    timeRemaining.time = GameApi.base.gym.upgradeTimeRemaining();
+                    timeRemaining.time = GameApi.base.buildings.gym.upgradeTimeRemaining();
                     timeRemaining.visible = true;
                     timeRemainingIcon.visible = true;
                 }
@@ -473,9 +473,9 @@ Item {
                     timeRemaining.visible = false;
                     timeRemainingIcon.visible = false;
                 }
-                energyAmount.text = GameApi.base.gym.requirementsForNextLevelEnergy();
-                bmAmount.text = GameApi.base.gym.requirementsForNextLevelBM();
-                timeAmount.text = GameApi.base.gym.requirementsForNextLevelTime();
+                energyAmount.text = GameApi.base.buildings.gym.requirementsForNextLevelEnergy();
+                bmAmount.text = GameApi.base.buildings.gym.requirementsForNextLevelBM();
+                timeAmount.text = GameApi.base.buildings.gym.requirementsForNextLevelTime();
             }
         }
 
@@ -678,12 +678,12 @@ Item {
             }
 
             onStartClicked: {
-                GameApi.base.gym.placeMercenaryInSlot(0,mercenaryName);
+                GameApi.base.buildings.gym.placeMercenaryInSlot(0,mercenaryName);
                 mercenariesModeUpdateRequested();
             }
 
             onAbortClicked: {
-                GameApi.base.gym.emptySlot(0);
+                GameApi.base.buildings.gym.emptySlot(0);
                 mercenarySelectionList.unbanMercenary(mercenaryName);
                 mercenariesModeUpdateRequested();
             }
@@ -709,12 +709,12 @@ Item {
             }
 
             onStartClicked: {
-                GameApi.base.gym.placeMercenaryInSlot(1,mercenaryName);
+                GameApi.base.buildings.gym.placeMercenaryInSlot(1,mercenaryName);
                 mercenariesModeUpdateRequested();
             }
 
             onAbortClicked: {
-                GameApi.base.gym.emptySlot(1);
+                GameApi.base.buildings.gym.emptySlot(1);
                 mercenarySelectionList.unbanMercenary(mercenaryName);
                 mercenariesModeUpdateRequested();
             }
@@ -740,12 +740,12 @@ Item {
             }
 
             onStartClicked: {
-                GameApi.base.gym.placeMercenaryInSlot(2,mercenaryName);
+                GameApi.base.buildings.gym.placeMercenaryInSlot(2,mercenaryName);
                 mercenariesModeUpdateRequested();
             }
 
             onAbortClicked: {
-                GameApi.base.gym.emptySlot(2);
+                GameApi.base.buildings.gym.emptySlot(2);
                 mercenarySelectionList.unbanMercenary(mercenaryName);
                 mercenariesModeUpdateRequested();
             }
@@ -770,17 +770,17 @@ Item {
                 {
                 case 0:
                     slotView1.mercenaryName=mercenaryName;
-                    slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.gym.useCostInEnergySingle(),GameApi.base.gym.duration()+1);
+                    slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.gym.useCostInEnergySingle(),GameApi.base.buildings.gym.duration()+1);
                     state = "hidden";
                     break;
                 case 1:
                     slotView2.mercenaryName=mercenaryName;
-                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.gym.useCostInEnergySingle(),GameApi.base.gym.duration()+1);
+                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.gym.useCostInEnergySingle(),GameApi.base.buildings.gym.duration()+1);
                     state = "hidden";
                     break;
                 case 2:
                     slotView3.mercenaryName=mercenaryName;
-                    slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.gym.useCostInEnergySingle(),GameApi.base.gym.duration()+1);
+                    slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.gym.useCostInEnergySingle(),GameApi.base.buildings.gym.duration()+1);
                     state = "hidden";
                     break;
                 }

@@ -2,8 +2,7 @@
 
 #include <QString>
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString &entryType) noexcept
 {
@@ -15,7 +14,7 @@ DatabaseEnums::EntryType DatabaseEnums::fromQStringToEntryTypeEnum(const QString
         return ET_Plants;
     if (entryType == "Fungi")
         return ET_Fungi;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->EntryType enum conversion failed for {}",entryType.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->EntryType enum conversion failed for {}",entryType.toStdString());
 }
 
 QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entryType) noexcept
@@ -28,5 +27,5 @@ QString DatabaseEnums::fromEntryTypeEnumToQString(DatabaseEnums::EntryType entry
         return "Plants";
     if (entryType == ET_Fungi)
         return "Fungi";
-    Game::gameInstance()->loggers()->mainLogger()->warn("EntryType enum->QString conversion failed for {}",static_cast<unsigned>(entryType));
+    LoggersProvider::mainLogger()->warn("EntryType enum->QString conversion failed for {}",static_cast<unsigned>(entryType));
 }

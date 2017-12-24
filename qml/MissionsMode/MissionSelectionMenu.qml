@@ -12,15 +12,15 @@ Item {
         mercenariesList.state = "hidden";
         equipmentsList.state = "hidden";
 
-        GameApi.base.missionInitializer.setMercenary("");
-        GameApi.base.missionInitializer.setArmor("");
-        GameApi.base.missionInitializer.setWeaponTool("", 0);
-        GameApi.base.missionInitializer.setWeaponTool("", 1);
+        GameApi.base.missions.missionInitializer.setMercenary("");
+        GameApi.base.missions.missionInitializer.setArmor("");
+        GameApi.base.missions.missionInitializer.setWeaponTool("", 0);
+        GameApi.base.missions.missionInitializer.setWeaponTool("", 1);
 
-        GameApi.base.missionInitializer.setAetherite(0);
-        GameApi.base.missionInitializer.setEnergy(0);
-        GameApi.base.missionInitializer.setBuildingMaterials(0);
-        GameApi.base.missionInitializer.setFoodSupplies(0);
+        GameApi.base.missions.missionInitializer.setAetherite(0);
+        GameApi.base.missions.missionInitializer.setEnergy(0);
+        GameApi.base.missions.missionInitializer.setBuildingMaterials(0);
+        GameApi.base.missions.missionInitializer.setFoodSupplies(0);
 
         updateDelegate();
         armorArt.source = "qrc:/graphics/GUI/Slots/ArmourSlot.png";
@@ -64,31 +64,31 @@ Item {
         transitionMercenariesList.duration = transitionMercenariesList.baseDuration * GameApi.animMultiplier();
         transitionEquipmentsList.duration = transitionEquipmentsList.baseDuration * GameApi.animMultiplier();
 
-        if (GameApi.base.missionInitializer.isMercenarySelected())
+        if (GameApi.base.missions.missionInitializer.isMercenarySelected())
         {
             delegate.setEmpty(false);
 
-            delegate.setProfession(GameApi.base.missionInitializer.selectedMercenary.professionString());
+            delegate.setProfession(GameApi.base.missions.missionInitializer.selectedMercenary.professionString());
 
-            var ce=GameApi.base.missionInitializer.selectedMercenary.combatEffectiveness();
-            var pr=GameApi.base.missionInitializer.selectedMercenary.proficiency();
-            var cl=GameApi.base.missionInitializer.selectedMercenary.cleverness();
-            var hp=GameApi.base.missionInitializer.selectedMercenary.health();
-            var hpMax=GameApi.base.missionInitializer.selectedMercenary.healthLimit();
-            var st=GameApi.base.missionInitializer.selectedMercenary.stress();
-            var sr=GameApi.base.missionInitializer.selectedMercenary.stressResistance();
-            var sl=GameApi.base.missionInitializer.selectedMercenary.stressLimit();
-            var sa=GameApi.base.missionInitializer.selectedMercenary.salary();
-            var fc=GameApi.base.missionInitializer.selectedMercenary.dailyFoodConsumption();
+            var ce=GameApi.base.missions.missionInitializer.selectedMercenary.combatEffectiveness();
+            var pr=GameApi.base.missions.missionInitializer.selectedMercenary.proficiency();
+            var cl=GameApi.base.missions.missionInitializer.selectedMercenary.cleverness();
+            var hp=GameApi.base.missions.missionInitializer.selectedMercenary.health();
+            var hpMax=GameApi.base.missions.missionInitializer.selectedMercenary.healthLimit();
+            var st=GameApi.base.missions.missionInitializer.selectedMercenary.stress();
+            var sr=GameApi.base.missions.missionInitializer.selectedMercenary.stressResistance();
+            var sl=GameApi.base.missions.missionInitializer.selectedMercenary.stressLimit();
+            var sa=GameApi.base.missions.missionInitializer.selectedMercenary.salary();
+            var fc=GameApi.base.missions.missionInitializer.selectedMercenary.dailyFoodConsumption();
 
-            var bce=GameApi.base.missionInitializer.selectedMercenary.baseCombatEffectiveness();
-            var bpr=GameApi.base.missionInitializer.selectedMercenary.baseProficiency();
-            var bcl=GameApi.base.missionInitializer.selectedMercenary.baseCleverness();
-            var bhpMax=GameApi.base.missionInitializer.selectedMercenary.baseHealthLimit();
-            var bsr=GameApi.base.missionInitializer.selectedMercenary.baseStressResistance();
-            var bsl=GameApi.base.missionInitializer.selectedMercenary.baseStressLimit();
-            var bsa=GameApi.base.missionInitializer.selectedMercenary.baseSalary();
-            var bfc=GameApi.base.missionInitializer.selectedMercenary.baseDailyFoodConsumption();
+            var bce=GameApi.base.missions.missionInitializer.selectedMercenary.baseCombatEffectiveness();
+            var bpr=GameApi.base.missions.missionInitializer.selectedMercenary.baseProficiency();
+            var bcl=GameApi.base.missions.missionInitializer.selectedMercenary.baseCleverness();
+            var bhpMax=GameApi.base.missions.missionInitializer.selectedMercenary.baseHealthLimit();
+            var bsr=GameApi.base.missions.missionInitializer.selectedMercenary.baseStressResistance();
+            var bsl=GameApi.base.missions.missionInitializer.selectedMercenary.baseStressLimit();
+            var bsa=GameApi.base.missions.missionInitializer.selectedMercenary.baseSalary();
+            var bfc=GameApi.base.missions.missionInitializer.selectedMercenary.baseDailyFoodConsumption();
 
             delegate.setCE(ce);
             delegate.setPR(pr);
@@ -444,19 +444,19 @@ Item {
 
             function checkAmount()
             {
-                if (GameApi.base.missionInitializer.isMercenarySelected())
+                if (GameApi.base.missions.missionInitializer.isMercenarySelected())
                 {
                     var mindays = 0;
-                    if (GameApi.base.missionInitializer.length() == "Short")
+                    if (GameApi.base.missions.missionInitializer.length() == "Short")
                         mindays = 2;
-                    else if (GameApi.base.missionInitializer.length() == "Medium")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Medium")
                         mindays = 6;
-                    else if (GameApi.base.missionInitializer.length() == "Long")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Long")
                         mindays = 11;
-                    else if (GameApi.base.missionInitializer.length() == "Extreme")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Extreme")
                         mindays = 28;
 
-                    var needam = GameApi.base.missionInitializer.selectedMercenary.dailyEquipmentCostEnergy() * mindays;
+                    var needam = GameApi.base.missions.missionInitializer.selectedMercenary.dailyEquipmentCostEnergy() * mindays;
                     var curam = text*1;
                     if (needam > curam)
                     {
@@ -616,19 +616,19 @@ Item {
 
             function checkAmount()
             {
-                if (GameApi.base.missionInitializer.isMercenarySelected())
+                if (GameApi.base.missions.missionInitializer.isMercenarySelected())
                 {
                     var mindays = 0;
-                    if (GameApi.base.missionInitializer.length() == "Short")
+                    if (GameApi.base.missions.missionInitializer.length() == "Short")
                         mindays = 2;
-                    else if (GameApi.base.missionInitializer.length() == "Medium")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Medium")
                         mindays = 6;
-                    else if (GameApi.base.missionInitializer.length() == "Long")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Long")
                         mindays = 11;
-                    else if (GameApi.base.missionInitializer.length() == "Extreme")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Extreme")
                         mindays = 28;
 
-                    var needam = GameApi.base.missionInitializer.selectedMercenary.dailyEquipmentCostBM() * mindays;
+                    var needam = GameApi.base.missions.missionInitializer.selectedMercenary.dailyEquipmentCostBM() * mindays;
                     var curam = text*1;
                     if (needam > curam)
                     {
@@ -788,19 +788,19 @@ Item {
 
             function checkAmount()
             {
-                if (GameApi.base.missionInitializer.isMercenarySelected())
+                if (GameApi.base.missions.missionInitializer.isMercenarySelected())
                 {
                     var mindays = 0;
-                    if (GameApi.base.missionInitializer.length() == "Short")
+                    if (GameApi.base.missions.missionInitializer.length() == "Short")
                         mindays = 2;
-                    else if (GameApi.base.missionInitializer.length() == "Medium")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Medium")
                         mindays = 6;
-                    else if (GameApi.base.missionInitializer.length() == "Long")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Long")
                         mindays = 11;
-                    else if (GameApi.base.missionInitializer.length() == "Extreme")
+                    else if (GameApi.base.missions.missionInitializer.length() == "Extreme")
                         mindays = 28;
 
-                    var needam = GameApi.base.missionInitializer.selectedMercenary.dailyFoodConsumption() * mindays;
+                    var needam = GameApi.base.missions.missionInitializer.selectedMercenary.dailyFoodConsumption() * mindays;
                     var curam = text*1;
                     if (needam > curam)
                     {
@@ -856,7 +856,7 @@ Item {
 
         function checkResources()
         {
-            if (energySetter.text*1 > GameApi.base.currentEnergyAmount() | buildingMaterialsSetter.text*1 > GameApi.base.currentBuildingMaterialsAmount() | foodSuppliesSetter.text*1 > GameApi.base.currentFoodSuppliesAmount())
+            if (energySetter.text*1 > GameApi.base.resources.currentEnergyAmount() | buildingMaterialsSetter.text*1 > GameApi.base.resources.currentBuildingMaterialsAmount() | foodSuppliesSetter.text*1 > GameApi.base.resources.currentFoodSuppliesAmount())
                 startShowing();
             else
                 stopShowing();
@@ -1000,13 +1000,13 @@ Item {
             onClicked: {
                 GameApi.logger.trace("Explore clicked");
                 warningNotEnoughResourcesText.checkResources();
-                if (!warningNotEnoughResourcesText.isShowing && GameApi.base.missionInitializer.isMercenarySelected())
+                if (!warningNotEnoughResourcesText.isShowing && GameApi.base.missions.missionInitializer.isMercenarySelected())
                 {
-                    GameApi.base.missionInitializer.setEnergy(energySetter.text);
-                    GameApi.base.missionInitializer.setBuildingMaterials(buildingMaterialsSetter.text);
-                    GameApi.base.missionInitializer.setFoodSupplies(foodSuppliesSetter.text);
+                    GameApi.base.missions.missionInitializer.setEnergy(energySetter.text);
+                    GameApi.base.missions.missionInitializer.setBuildingMaterials(buildingMaterialsSetter.text);
+                    GameApi.base.missions.missionInitializer.setFoodSupplies(foodSuppliesSetter.text);
 
-                    if (GameApi.base.missionInitializer.start())
+                    if (GameApi.base.missions.missionInitializer.start())
                         root.exploreClicked();
                 }
             }
@@ -1024,7 +1024,7 @@ Item {
         state: "hidden"
 
         onMercenaryClicked: {
-            GameApi.base.missionInitializer.setMercenary(GameApi.globalsCpp.alterNormalTextToInternal(mercenaryName));
+            GameApi.base.missions.missionInitializer.setMercenary(GameApi.globalsCpp.alterNormalTextToInternal(mercenaryName));
 
             if (mercenaryName == "")
             {
@@ -1077,11 +1077,11 @@ Item {
                     armorArt.source = "qrc:/graphics/GUI/Slots/ArmourSlot.png";
                 else
                     armorArt.source = artSource;
-                GameApi.base.missionInitializer.setArmor(name);
+                GameApi.base.missions.missionInitializer.setArmor(name);
             }
             else
             {
-                GameApi.base.missionInitializer.setWeaponTool(name, slot);
+                GameApi.base.missions.missionInitializer.setWeaponTool(name, slot);
                 if (slot == 0)
                 {
                     if (name == "")

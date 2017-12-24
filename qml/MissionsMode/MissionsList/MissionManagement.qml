@@ -22,14 +22,14 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am=GameApi.base.mercenaries.amountOfMercenaries();
+        var am=GameApi.base.mercenaries.mercenaries.amountOfMercenaries();
         var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.mercenaries.prepareMercenaryAt(i);
-            if (GameApi.base.mercenaries.preparedMercenary.name() == intName)
+            GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
+            if (GameApi.base.mercenaries.mercenaries.preparedMercenary.name() == intName)
             {
-                if (GameApi.base.mercenaries.preparedMercenary.isCommunicationAvailable())
+                if (GameApi.base.mercenaries.mercenaries.preparedMercenary.isCommunicationAvailable())
                 {
                     connectionBackground.source = "qrc:/graphics/GUI/Connected.png";
                     connectionLostText.stopShowing();
@@ -115,14 +115,14 @@ Item {
 
             onClicked: {
                 GameApi.logger.trace("Abort clicked");
-                var am=GameApi.base.mercenaries.amountOfMercenaries();
+                var am=GameApi.base.mercenaries.mercenaries.amountOfMercenaries();
                 var intName = GameApi.globalsCpp.alterNormalTextToInternal(name_);
                 for (var i=0;i<am;++i)
                 {
-                    GameApi.base.mercenaries.prepareMercenaryAt(i);
-                    if (GameApi.base.mercenaries.preparedMercenary.name() == intName)
+                    GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
+                    if (GameApi.base.mercenaries.mercenaries.preparedMercenary.name() == intName)
                     {
-                        GameApi.base.mercenaries.preparedMercenary.assignedMission.abort();
+                        GameApi.base.mercenaries.mercenaries.preparedMercenary.assignedMission.abort();
                         root.abortClicked();
                         break;
                     }

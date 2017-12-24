@@ -17,7 +17,7 @@ Item {
     {
         if (buildingName === "Central Unit")
         {
-            if (GameApi.base.centralUnit.tryUpgrading())
+            if (GameApi.base.buildings.centralUnit.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Central Unit");
@@ -25,7 +25,7 @@ Item {
         }
         else if (buildingName === "Hospital")
         {
-            if (GameApi.base.hospital.tryUpgrading())
+            if (GameApi.base.buildings.hospital.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Hospital");
@@ -33,7 +33,7 @@ Item {
         }
         else if (buildingName === "Training Ground")
         {
-            if (GameApi.base.trainingGround.tryUpgrading())
+            if (GameApi.base.buildings.trainingGround.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Training Ground");
@@ -41,7 +41,7 @@ Item {
         }
         else if (buildingName === "Gym")
         {
-            if (GameApi.base.gym.tryUpgrading())
+            if (GameApi.base.buildings.gym.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Gym");
@@ -49,7 +49,7 @@ Item {
         }
         else if (buildingName === "Laboratory")
         {
-            if (GameApi.base.laboratory.tryUpgrading())
+            if (GameApi.base.buildings.laboratory.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Laboratory");
@@ -57,7 +57,7 @@ Item {
         }
         else if (buildingName === "Playing Field")
         {
-            if (GameApi.base.playingField.tryUpgrading())
+            if (GameApi.base.buildings.playingField.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Playing Field");
@@ -65,7 +65,7 @@ Item {
         }
         else if (buildingName === "Bar")
         {
-            if (GameApi.base.bar.tryUpgrading())
+            if (GameApi.base.buildings.bar.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Bar");
@@ -73,7 +73,7 @@ Item {
         }
         else if (buildingName === "Shrine")
         {
-            if (GameApi.base.shrine.tryUpgrading())
+            if (GameApi.base.buildings.shrine.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Shrine");
@@ -81,7 +81,7 @@ Item {
         }
         else if (buildingName === "Seclusion")
         {
-            if (GameApi.base.seclusion.tryUpgrading())
+            if (GameApi.base.buildings.seclusion.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Seclusion");
@@ -89,7 +89,7 @@ Item {
         }
         else if (buildingName === "Powerplant")
         {
-            if (GameApi.base.powerplant.tryUpgrading())
+            if (GameApi.base.buildings.powerplant.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Powerplant");
@@ -97,7 +97,7 @@ Item {
         }
         else if (buildingName === "Factory")
         {
-            if (GameApi.base.factory.tryUpgrading())
+            if (GameApi.base.buildings.factory.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Factory");
@@ -105,7 +105,7 @@ Item {
         }
         else if (buildingName === "Cool Room")
         {
-            if (GameApi.base.coolRoom.tryUpgrading())
+            if (GameApi.base.buildings.coolRoom.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Cool Room");
@@ -113,7 +113,7 @@ Item {
         }
         else if (buildingName === "Storage Room")
         {
-            if (GameApi.base.storageRoom.tryUpgrading())
+            if (GameApi.base.buildings.storageRoom.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Storage Room");
@@ -121,7 +121,7 @@ Item {
         }
         else if (buildingName === "Aetherite Silo")
         {
-            if (GameApi.base.aetheriteSilo.tryUpgrading())
+            if (GameApi.base.buildings.aetheriteSilo.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Aetherite Silo");
@@ -129,7 +129,7 @@ Item {
         }
         else if (buildingName === "Barracks")
         {
-            if (GameApi.base.barracks.tryUpgrading())
+            if (GameApi.base.buildings.barracks.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Barracks");
@@ -137,7 +137,7 @@ Item {
         }
         else if (buildingName === "Docking Station")
         {
-            if (GameApi.base.dockingStation.tryUpgrading())
+            if (GameApi.base.buildings.dockingStation.tryUpgrading())
             {
                 updateRequestedFromBuildingMenu();
                 markAsUpgradedSignal("Docking Station");
