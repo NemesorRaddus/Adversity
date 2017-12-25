@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<GlobalUtilities>("GlobalUtilities");
     qmlRegisterInterface<UnifiedReport>("UnifiedReport");
     qmlRegisterInterface<LoggersHandler>("LoggersHandler");
+    qmlRegisterInterface<H4X>("H4X");
 
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 
