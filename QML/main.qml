@@ -149,7 +149,6 @@ Window {
             updateMainContent();
             reportsList.updateEverything();
             settings.update();
-            splash.canClose = true;//only for first gui loading,but it's inexpensive so it can stay
         }
 
         transform: [
@@ -217,7 +216,7 @@ Window {
         id: gameTimer
 
         interval: 625
-        running: true
+        running: false
         repeat: true
         onTriggered: {
             GameApi.base.gameClock.updateClock();
@@ -248,6 +247,7 @@ Window {
 
         onShowing: mainGUI.visible = false;
         onHiding: {
+            gameTimer.running = true;
             mainGUI.visible = true;
             console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Splash screen has started hiding");
             console.info("[",Math.floor((GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)/1000),'.',('00' + (GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)%1000).substr(-3),"] Splash screen has hidden");
@@ -258,8 +258,9 @@ Window {
         splash.show();
         Globals.windowWidth = width;
         Globals.windowHeight = height;
-        changeMode(1);
         GameApi.loadExistingBase();
+        changeMode(1);
+        splash.canClose = true;
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
     onClosing: {
