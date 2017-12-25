@@ -8,7 +8,6 @@ Window {
     id: win
 
     property int currentMode: 0
-    property bool updateEverythingInAMoment: true
 
     color: "black"
 
@@ -221,13 +220,7 @@ Window {
         onTriggered: {
             GameApi.base.gameClock.updateClock();
             mainGUI.updateClock();
-            if (updateEverythingInAMoment)
-            {
-                mainGUI.updateEverything();
-                updateEverythingInAMoment=false;
-                console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] QML part is ready");
-            }
-            else if (GameApi.base.gameClock.hasDayChangedLately())
+            if (GameApi.base.gameClock.hasDayChangedLately())
             {
                 mainGUI.updateEverything();
             }
@@ -248,6 +241,7 @@ Window {
         onShowing: mainGUI.visible = false;
         onHiding: {
             gameTimer.running = true;
+            mainGUI.updateEverything();
             mainGUI.visible = true;
             console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Splash screen has started hiding");
             console.info("[",Math.floor((GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)/1000),'.',('00' + (GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)%1000).substr(-3),"] Splash screen has hidden");

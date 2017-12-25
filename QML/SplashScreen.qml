@@ -24,6 +24,7 @@ Item {
     onStateChanged: {
         if (state == "showingSplash")
         {
+            showing();
             if (minDurationInMs === 0)
             {
                 privateProperties.tryClosing = true;
@@ -38,12 +39,11 @@ Item {
                 timer.interval = minDurationInMs;
                 timer.restart();
             }
-            showing();
         }
         else
         {
-            timer.stop();
             hiding();
+            timer.stop();
         }
     }
 
