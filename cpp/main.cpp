@@ -75,19 +75,21 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<AetheriteSilo>("AetheriteSilo");
     qmlRegisterInterface<Barracks>("Barracks");
     qmlRegisterInterface<DockingStation>("DockingStation");
-    qmlRegisterInterface<GameClock>("GameClock");
-    qmlRegisterInterface<Mercenary>("Mercenary");
-    qmlRegisterInterface<MercenariesContainer>("MercenariesContainer");
+    qmlRegisterInterface<AppBuildInfo>("AppBuildInfo");
+    qmlRegisterInterface<Database>("Database");
     qmlRegisterInterface<Equipment>("Equipment");
-    qmlRegisterInterface<Mission>("Mission");
-    qmlRegisterInterface<MissionInitializer>("MissionInitializer");
+    qmlRegisterInterface<GameClock>("GameClock");
+    qmlRegisterInterface<GlobalUtilities>("GlobalUtilities");
+    qmlRegisterInterface<H4X>("H4X");
     qmlRegisterInterface<Land>("Land");
     qmlRegisterInterface<LandsInfo>("LandsInfo");
-    qmlRegisterInterface<Database>("Database");
-    qmlRegisterInterface<AppBuildInfo>("AppBuildInfo");
-    qmlRegisterInterface<GlobalUtilities>("GlobalUtilities");
-    qmlRegisterInterface<UnifiedReport>("UnifiedReport");
     qmlRegisterInterface<LoggersHandler>("LoggersHandler");
+    qmlRegisterInterface<MercenariesContainer>("MercenariesContainer");
+    qmlRegisterInterface<Mercenary>("Mercenary");
+    qmlRegisterInterface<Mission>("Mission");
+    qmlRegisterInterface<MissionInitializer>("MissionInitializer");
+    qmlRegisterInterface<SavesManager>("SavesManager");
+    qmlRegisterInterface<UnifiedReport>("UnifiedReport");
 
     qmlRegisterSingletonType<Game>("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 

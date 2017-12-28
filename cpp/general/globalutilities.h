@@ -2,7 +2,7 @@
 
 #include <QObject>
 
-class GlobalUtilities : public QObject
+class GlobalUtilities : public QObject // can't be a namespace because Qt MO system doesn't handle that
 {
     Q_OBJECT
 public:

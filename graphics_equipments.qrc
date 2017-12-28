@@ -1,20 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>graphics/Equipment/WeaponTool/Tier_1/NSXAutomaticPistol.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_1/TR01MobileMotionSpotter.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_1/TR04Flashlight.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_1/UEGPocketScanner.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_1/UPOAClimbingPickaxe.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/AdvancedTerrainScanner.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/HiBSv1_5Syringes.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/LiquidRageExperimentalSyringes.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/TR09HuntsmanRifle.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/UEGClimbingLinev2_05.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/UPOAGrenadeLauncher.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_2/UPOAHarvesterShotgun.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_3/MastermindExperimentalSyringes.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_3/TR05LynxAssaultRifle.png</file>
-        <file>graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png</file>
         <file>graphics/Equipment/Armor/Tier_1/BasicUPOAArmour.png</file>
         <file>graphics/Equipment/Armor/Tier_1/EngineerUniform.png</file>
         <file>graphics/Equipment/Armor/Tier_1/ExplorersSuit.png</file>
@@ -30,5 +15,20 @@
         <file>graphics/Equipment/Armor/Tier_3/AdvancedEngineerSuit.png</file>
         <file>graphics/Equipment/Armor/Tier_3/ExperimentalNanometalArmour.png</file>
         <file>graphics/Equipment/Armor/Tier_3/UPOASpecialForcesArmour.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/NSXAutomaticPistol.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/TR01MobileMotionSpotter.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/TR04Flashlight.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/UEGPocketScanner.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_1/UPOAClimbingPickaxe.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/AdvancedTerrainScanner.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/HiBSv1_5Syringes.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/LiquidRageExperimentalSyringes.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/TR09HuntsmanRifle.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/UEGClimbingLinev2_05.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/UPOAGrenadeLauncher.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_2/UPOAHarvesterShotgun.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_3/MastermindExperimentalSyringes.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_3/TR05LynxAssaultRifle.png</file>
+        <file>graphics/Equipment/WeaponTool/Tier_3/UEGArsonistFlameThrower.png</file>
     </qresource>
 </RCC>

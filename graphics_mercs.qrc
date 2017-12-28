@@ -19,6 +19,8 @@
         <file>graphics/Mercs/Doomsayer/ZuriUmcia.png</file>
         <file>graphics/Mercs/Gunzerker/PaulLuft.png</file>
         <file>graphics/Mercs/Gunzerker/SashaBohdanov.png</file>
+        <file>graphics/Mercs/PriestessOfTheUniverse/AnnaTyler.png</file>
+        <file>graphics/Mercs/PriestessOfTheUniverse/KaoriTokaji.png</file>
         <file>graphics/Mercs/PriestOfTheUniverse/JuanMercado.png</file>
         <file>graphics/Mercs/SpaceNomad/AgdaSolberg.png</file>
         <file>graphics/Mercs/SpaceNomad/EvanTurner.png</file>
@@ -27,7 +29,5 @@
         <file>graphics/Mercs/Specialist/DexterRoosvelt.png</file>
         <file>graphics/Mercs/Specialist/OksanaSyrotiuk.png</file>
         <file>graphics/Mercs/Specialist/SamThomas.png</file>
-        <file>graphics/Mercs/PriestessOfTheUniverse/AnnaTyler.png</file>
-        <file>graphics/Mercs/PriestessOfTheUniverse/KaoriTokaji.png</file>
     </qresource>
 </RCC>

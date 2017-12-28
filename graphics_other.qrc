@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
+        <file>fonts/STENCIL.TTF</file>
+        <file>fonts/WINGDINGS.TTF</file>
         <file>graphics/IconL.png</file>
         <file>graphics/IconS.png</file>
         <file>graphics/IconXXL.png</file>
         <file>graphics/splash.png</file>
-        <file>fonts/STENCIL.TTF</file>
-        <file>fonts/WINGDINGS.TTF</file>
     </qresource>
 </RCC>
