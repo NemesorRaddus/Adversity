@@ -32,6 +32,7 @@
 #include "general/game.h"
 #include "general/globalutilities.h"
 #include "general/randomizer.h"
+#include "general/savesmanager.h"
 #include "h4x/h4x.h"
 #include "logging/loggershandler.h"
 #include "mercenaries/mercenariescontainer.h"
@@ -86,6 +87,7 @@ int main(int argc, char *argv[])
     qmlRegisterInterface<Database>("Database");
     qmlRegisterInterface<AppBuildInfo>("AppBuildInfo");
     qmlRegisterInterface<GlobalUtilities>("GlobalUtilities");
+    qmlRegisterInterface<SavesManager>("SavesManager");
     qmlRegisterInterface<UnifiedReport>("UnifiedReport");
     qmlRegisterInterface<LoggersHandler>("LoggersHandler");
 

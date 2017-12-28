@@ -1,10 +1,12 @@
-#include "general/game.h"
+#include "game.h"
 
+#include <QDataStream>
+#include <QDebug>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QQmlApplicationEngine>
 #include <QSettings>
 #include <QTimer>
-#include <QDebug>
 
 #include "libs/APeR-0.1.0/aper.h"
 
@@ -47,7 +49,7 @@ Game *Game::m_ptrToGameObject;
 QQmlApplicationEngine *Game::m_ptrToEngine;
 
 Game::Game(QObject *parent) noexcept
-    : QObject(parent)
+    : QObject(parent), m_base(nullptr), m_isAutosaveActive(false)
 {
     m_ptrToGameObject=this;
 
@@ -79,20 +81,16 @@ Game::Game(QObject *parent) noexcept
     loadAssets(m_pathToAssetsDir);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
 
-    m_base=new Base(this);
-
     m_h4xLogic=new H4X;
 
     m_globalsExportToQML=new GlobalUtilities;
-
-    connectAutosave();
 }
 
 Game::~Game() noexcept
 {
     saveSettings();
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
-    disconnectAutosave();
+    disableAutosave();
 
     delete m_lands;
 
@@ -100,7 +98,8 @@ Game::~Game() noexcept
 
     delete m_h4xLogic;
 
-    delete m_base;
+    if (m_base != nullptr)
+        delete m_base;
 
     delete m_savesManager;
 
@@ -121,43 +120,35 @@ void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept
     m_ptrToEngine=engine;
 }
 
-void Game::createNewBase() noexcept
+void Game::loadSave(const SaveData &save) noexcept
 {
-    disconnectAutosave();
+    disableAutosave();
 
-    delete m_base;
+    if (m_base != nullptr)
+        delete m_base;
     m_base = new Base(this);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been created";
 
-    m_base->setupNewBase();
-    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been set up";
-
-    connectAutosave();
-}
-
-void Game::loadExistingBase() noexcept
-{
-    QByteArray ba=QSettings().value("save01").toByteArray();
-    if (ba.isEmpty())
-        return createNewBase();
-
-    disconnectAutosave();
-
-    delete m_base;
-    m_base = new Base(this);
-    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been created";
-
-    m_base->loadSaveData(SaveParser::readData(ba));
+    m_base->loadSaveData(save);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Save has been loaded";
 
-    connectAutosave();
+    enableAutosave();
 }
 
-void Game::saveBase() noexcept
+SaveData Game::getSave() noexcept
 {
-    QByteArray ba;
-    SaveParser::writeData(ba,m_base->getSaveData());
-    QSettings().setValue("save01",ba);
+    if (m_base != nullptr)
+        return m_base->getSaveData();
+}
+
+void Game::closeSave() noexcept
+{
+    if (m_base == nullptr)
+        return;
+
+    disableAutosave();
+    delete m_base;
+    m_base = nullptr;
 }
 
 QString Game::currentVersionNumber() const noexcept
@@ -190,6 +181,11 @@ unsigned Game::randomize(unsigned bottom, unsigned top) noexcept
 int Game::startupTimerElapsed() noexcept
 {
     return m_startupTimer!=nullptr ? m_startupTimer->elapsed() : 0;
+}
+
+void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
+{
+    m_base->mercenaries()->mercenaryDockingStationBans().insert(name,daysAmount);
 }
 
 void Game::showReportNotification() noexcept
@@ -246,26 +242,27 @@ void Game::requestReadWritePermissions() noexcept
     //    m_permissionsManager->requestPermissions(APeR::PermissionsManager::READ_EXTERNAL_STORAGE | APeR::PermissionsManager::WRITE_EXTERNAL_STORAGE, {});
 }
 
-void Game::saveBase_slot() noexcept
+void Game::saveBase() noexcept
 {
-    QByteArray ba;
-    SaveParser::writeData(ba,m_base->getSaveData());
-    QSettings().setValue("save01",ba);
+    m_savesManager->updateSave(m_savesManager->currentSaveInUseIndex(), m_base->getSaveData());
 }
 
-void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
+void Game::enableAutosave() noexcept
 {
-    m_base->mercenaries()->mercenaryDockingStationBans().insert(name,daysAmount);
+    if (!m_isAutosaveActive)
+    {
+        connect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase()));
+        m_isAutosaveActive=1;
+    }
 }
 
-void Game::connectAutosave() noexcept
+void Game::disableAutosave() noexcept
 {
-    connect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase_slot()));
-}
-
-void Game::disconnectAutosave() noexcept
-{
-    disconnect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase_slot()));
+    if (m_isAutosaveActive)
+    {
+        disconnect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase()));
+        m_isAutosaveActive=0;
+    }
 }
 
 void Game::loadAssets(const QString &pathToDir) noexcept
