@@ -31,6 +31,9 @@
         <file>qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesListDelegate.qml</file>
         <file>qml/BuildingsMode/BuildingsMenus/MercenariesList/MercenariesListScripts.js</file>
         <file>qml/MercenariesMode/MercenariesModeGUI.qml</file>
+        <file>qml/MainContent.qml</file>
+        <file>qml/MainGUI.ui.qml</file>
+        <file>qml/MainMenu.qml</file>
         <file>qml/MercenariesMode/MercenariesList.qml</file>
         <file>qml/MercenariesMode/MercenariesListDelegate.qml</file>
         <file>qml/MercenariesMode/MercenariesListScripts.js</file>

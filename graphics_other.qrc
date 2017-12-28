@@ -3,8 +3,12 @@
         <file>graphics/IconL.png</file>
         <file>graphics/IconS.png</file>
         <file>graphics/IconXXL.png</file>
+        <file>graphics/Logo.png</file>
         <file>graphics/splash.png</file>
         <file>fonts/STENCIL.TTF</file>
         <file>fonts/WINGDINGS.TTF</file>
+        <file>graphics/SplashMoon.png</file>
+        <file>graphics/SplashPlanet.png</file>
+        <file>graphics/SplashSky.png</file>
     </qresource>
 </RCC>

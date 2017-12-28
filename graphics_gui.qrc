@@ -53,5 +53,14 @@
         <file>graphics/GUI/Status frames/LowHealth80.png</file>
         <file>graphics/GUI/Mask.png</file>
         <file>graphics/GUI/OnMission.png</file>
+        <file>graphics/MainMenu/Exit.png</file>
+        <file>graphics/MainMenu/Overlay.png</file>
+        <file>graphics/MainMenu/Save.png</file>
+        <file>graphics/MainMenu/Save_Copy.png</file>
+        <file>graphics/MainMenu/Save_Delete.png</file>
+        <file>graphics/MainMenu/Save_Export.png</file>
+        <file>graphics/MainMenu/Save_Import.png</file>
+        <file>graphics/MainMenu/Save_New.png</file>
+        <file>graphics/MainMenu/Settings.png</file>
     </qresource>
 </RCC>
