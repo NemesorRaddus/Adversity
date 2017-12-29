@@ -90,5 +90,7 @@
         <file>qml/MissionsMode/MissionsList/Reports/ReportsListDelegate.qml</file>
         <file>qml/MissionsMode/MissionsList/Reports/ReportsListScripts.js</file>
         <file>qml/Settings/Credits.qml</file>
+        <file>qml/SavesMenu/NewGame.qml</file>
+        <file>qml/SavesMenu/SavesListDelegate.qml</file>
     </qresource>
 </RCC>
