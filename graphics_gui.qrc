@@ -1,17 +1,21 @@
 <RCC>
     <qresource prefix="/">
         <file>graphics/GUI/Abort.png</file>
+        <file>graphics/GUI/Attributes/CE.png</file>
+        <file>graphics/GUI/Attributes/CL.png</file>
+        <file>graphics/GUI/Attributes/HealthRestored.png</file>
+        <file>graphics/GUI/Attributes/PR.png</file>
+        <file>graphics/GUI/Attributes/StressLimit.png</file>
+        <file>graphics/GUI/Attributes/StressRelief.png</file>
+        <file>graphics/GUI/Attributes/StressResistance.png</file>
         <file>graphics/GUI/Background.png</file>
+        <file>graphics/GUI/Connected.png</file>
+        <file>graphics/GUI/Database.png</file>
+        <file>graphics/GUI/Disconnected.png</file>
         <file>graphics/GUI/EquipmentAmount.png</file>
         <file>graphics/GUI/GUI.png</file>
         <file>graphics/GUI/Light.png</file>
-        <file>graphics/GUI/Profitability.png</file>
-        <file>graphics/GUI/Settings.png</file>
-        <file>graphics/GUI/Slots.png</file>
-        <file>graphics/GUI/Task_Border.png</file>
-        <file>graphics/GUI/Task_Picture.png</file>
-        <file>graphics/GUI/Task_Picture2.png</file>
-        <file>graphics/GUI/Time.png</file>
+        <file>graphics/GUI/Mask.png</file>
         <file>graphics/GUI/MissionLength/AuroraForest1.png</file>
         <file>graphics/GUI/MissionLength/AuroraForest2.png</file>
         <file>graphics/GUI/MissionLength/AuroraForest3.png</file>
@@ -24,21 +28,15 @@
         <file>graphics/GUI/MissionLength/HegosPlains2.png</file>
         <file>graphics/GUI/MissionLength/HegosPlains3.png</file>
         <file>graphics/GUI/MissionLength/HegosPlains4.png</file>
-        <file>graphics/GUI/Database.png</file>
         <file>graphics/GUI/Missions.png</file>
-        <file>graphics/GUI/Connected.png</file>
-        <file>graphics/GUI/Disconnected.png</file>
-        <file>graphics/GUI/Attributes/CE.png</file>
-        <file>graphics/GUI/Attributes/CL.png</file>
-        <file>graphics/GUI/Attributes/HealthRestored.png</file>
-        <file>graphics/GUI/Attributes/PR.png</file>
-        <file>graphics/GUI/Attributes/StressLimit.png</file>
-        <file>graphics/GUI/Attributes/StressRelief.png</file>
-        <file>graphics/GUI/Attributes/StressResistance.png</file>
+        <file>graphics/GUI/OnMission.png</file>
+        <file>graphics/GUI/Profitability.png</file>
         <file>graphics/GUI/Resources/Aetherite.png</file>
         <file>graphics/GUI/Resources/Buildingmaterials.png</file>
         <file>graphics/GUI/Resources/Energy.png</file>
         <file>graphics/GUI/Resources/Foodsupplies.png</file>
+        <file>graphics/GUI/Settings.png</file>
+        <file>graphics/GUI/Slots.png</file>
         <file>graphics/GUI/Slots/ArmourSlot.png</file>
         <file>graphics/GUI/Slots/MercenarySlot.png</file>
         <file>graphics/GUI/Slots/Nothing.png</file>
@@ -51,7 +49,9 @@
         <file>graphics/GUI/Status frames/LowHealth40.png</file>
         <file>graphics/GUI/Status frames/LowHealth60.png</file>
         <file>graphics/GUI/Status frames/LowHealth80.png</file>
-        <file>graphics/GUI/Mask.png</file>
-        <file>graphics/GUI/OnMission.png</file>
+        <file>graphics/GUI/Task_Border.png</file>
+        <file>graphics/GUI/Task_Picture.png</file>
+        <file>graphics/GUI/Task_Picture2.png</file>
+        <file>graphics/GUI/Time.png</file>
     </qresource>
 </RCC>

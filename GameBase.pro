@@ -110,14 +110,6 @@ RESOURCES += \
     graphics_missions.qrc \
     graphics_database.qrc
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 HEADERS += \
     cpp/assets_pool/assetspool.h \
     cpp/base/base.h \
@@ -206,14 +198,16 @@ HEADERS += \
 
 PRECOMPILED_HEADER = cpp/stable.h
 
-DISTFILES += \
+OTHER_FILES += \
     android-sources/AndroidManifest.xml \
     android-sources/build.gradle \
     android-sources/src/org/qtproject/qt5/android/bindings/MyActivity.java \
-    versionnumber.txt \
+    doc/Gra-spis.rtf \
+    doc/nazewnictwo.odt \
+    doc/versioning.txt \
+    qml/H4XWindow.qml \
     save.txt \
-    Gra-spis.rtf \
-    qml/H4XWindow.qml
+    versionnumber.txt
 
 # APeR lib
 SOURCES += libs/APeR-0.1.0/aper.cpp
