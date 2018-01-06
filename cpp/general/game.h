@@ -22,6 +22,7 @@ class GlobalUtilities;
 class LoggersHandler;
 class LandsInfo;
 class H4X;
+struct SaveData;
 class SavesManager;
 class TranslationsDB;
 
@@ -46,9 +47,9 @@ public:
 
     static void setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept;
 
-    Q_INVOKABLE void createNewBase() noexcept;//WARNING NEVER USED
-    Q_INVOKABLE void loadExistingBase() noexcept;
-    Q_INVOKABLE void saveBase() noexcept;
+    void loadSave(const SaveData &save) noexcept;
+    SaveData getSave() noexcept;
+    void closeSave() noexcept;
 
     inline const AppBuildInfo *currentVersion() const noexcept
     {
@@ -113,11 +114,11 @@ public:
     Q_INVOKABLE void requestReadWritePermissions() noexcept;
 
 public slots:
-    void saveBase_slot() noexcept;
+    void saveBase() noexcept;
 
 private:
-    void connectAutosave() noexcept;
-    void disconnectAutosave() noexcept;
+    void enableAutosave() noexcept;
+    void disableAutosave() noexcept;
 
     void loadAssets(const QString &pathToDir) noexcept;
 
@@ -134,6 +135,7 @@ private:
 
     const QString m_pathToAssetsDir = ":/data/";
     Base *m_base;
+    bool m_isAutosaveActive;
     SavesManager *m_savesManager;
     LandsInfo *m_lands;
     AppBuildInfo *m_buildInfo;

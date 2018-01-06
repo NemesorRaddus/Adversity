@@ -11,6 +11,11 @@ SavesManager::SavesManager() noexcept
     loadSavesList();
 }
 
+SavesManager::~SavesManager() noexcept
+{
+    writeAllSaves();
+}
+
 bool SavesManager::canCreateNewSave() const noexcept
 {
     return m_saves.size() < m_maxAmountOfSaves;
@@ -19,60 +24,46 @@ bool SavesManager::canCreateNewSave() const noexcept
 bool SavesManager::isNameUnique(const QString &name) const noexcept
 {
     for (const auto &e : m_saves)
-        if (e.name == name)
+        if (e.metadata.name == name)
             return 0;
     return 1;
 }
 
-int SavesManager::findSave(const QString &name) const noexcept
-{
-    for (int i=0;i<m_saves.size();++i)
-        if (m_saves[i].name == name)
-            return i;
-    return -1;
-}
-
-SaveInfo SavesManager::createNewSave(const QString &name, const QString &pathToIcon) noexcept
+void SavesManager::createNewSave(const QString &name, const QString &pathToIcon) noexcept
 {
     if (canCreateNewSave() && isNameUnique(name))
     {
-        SaveInfo save;
+        Save save;
         if (m_saves.empty())
-            save.id=0;
+            save.metadata.id = 0;
         else
-            save.id=m_saves.last().id;
+            save.metadata.id = m_saves.last().metadata.id+1;
 
-        save.name = name;
+        save.metadata.name = name;
 
         Base *base = new Base(Game::gameInstance());
         base->setupNewBase();
         save.data = base->getSaveData();
         delete base;
 
-        save.day = save.data.overall.lastKnownDay;
+        save.metadata.pathToIcon = pathToIcon;
 
-        save.pathToIcon = pathToIcon;
+        m_saves += save;
 
-        return save;
+        writeSave(m_saves.size()-1);
+
+        loadSaveIntoGame(m_saves.size()-1);
     }
 }
 
-SaveInfo SavesManager::getSave(unsigned index) const noexcept
+void SavesManager::loadSave(const QString &name) noexcept
 {
-    if (index < m_saves.size())
-        return m_saves[index];
-}
+    int pos = findSave(name);
 
-QString SavesManager::getSaveIconPath(unsigned index) const noexcept
-{
-    if (index < m_saves.size())
-        return m_saves[index].pathToIcon;
-}
+    if (pos == -1)
+        return;
 
-void SavesManager::setSaveIcon(unsigned index, const QString &pathToIcon) noexcept
-{
-    if (index < m_saves.size())
-        m_saves[index].pathToIcon = pathToIcon;
+    loadSaveIntoGame(pos);
 }
 
 void SavesManager::updateSave(unsigned index, const SaveData &data) noexcept
@@ -80,9 +71,16 @@ void SavesManager::updateSave(unsigned index, const SaveData &data) noexcept
     if (index < m_saves.size())
     {
         m_saves[index].data = data;
-        m_saves[index].day = data.overall.lastKnownDay;
-        m_saves[index].lastPlayed = QDateTime::currentDateTime();
+        m_saves[index].metadata.lastPlayed = QDateTime::currentDateTime();
+
+        writeSave(index);
     }
+}
+
+void SavesManager::setSaveIcon(unsigned index, const QString &pathToIcon) noexcept
+{
+    if (index < m_saves.size())
+        m_saves[index].metadata.pathToIcon = pathToIcon;
 }
 
 void SavesManager::duplicateSave(unsigned index, const QString &duplicateName) noexcept
@@ -95,12 +93,12 @@ void SavesManager::renameSave(unsigned index, const QString &newName) noexcept
 {
     if (index < m_saves.size())
     {
-        auto t = m_saves[index].name;
-        m_saves[index].name.clear();
+        auto t = m_saves[index].metadata.name;
+        m_saves[index].metadata.name.clear();
         if (isNameUnique(newName))
-            m_saves[index].name = newName;
+            m_saves[index].metadata.name = newName;
         else
-            m_saves[index].name = t;
+            m_saves[index].metadata.name = t;
     }
 }
 
@@ -108,7 +106,7 @@ void SavesManager::deleteSave(unsigned index) noexcept
 {
     if (index<m_saves.size())
     {
-        QSettings().remove(QString{"save_"}+QString::number(m_saves[index].id));
+        QSettings().remove(QString{"save_"}+QString::number(m_saves[index].metadata.id));
         m_saves.remove(index);
     }
 }
@@ -118,6 +116,30 @@ unsigned SavesManager::amountOfSaves() const noexcept
     return m_saves.size();
 }
 
+QString SavesManager::nameOfSave(unsigned index) const noexcept
+{
+    if (index < m_saves.size())
+        return m_saves[index].metadata.name;
+}
+
+unsigned SavesManager::dayOfSave(unsigned index) const noexcept
+{
+    if (index < m_saves.size())
+        return m_saves[index].data.overall.lastKnownDay;
+}
+
+QString SavesManager::pathToIconOfSave(unsigned index) const noexcept
+{
+    if (index < m_saves.size())
+        return m_saves[index].metadata.pathToIcon;
+}
+
+QString SavesManager::lastPlayedTimeOfSave(unsigned index) const noexcept
+{
+    if (index < m_saves.size())
+        return m_saves[index].metadata.lastPlayed.toString("yyyy-MM-dd");
+}
+
 void SavesManager::loadSavesList() noexcept
 {
     m_saves.clear();
@@ -125,27 +147,90 @@ void SavesManager::loadSavesList() noexcept
     auto ak = QSettings().allKeys();
     for (const auto &e : ak)
         if (e.contains("save_"))
-            m_saves+=readSaveInfo(QSettings().value(e).toByteArray());
+            m_saves+=readSave(QSettings().value(e).toByteArray());
 }
 
-SaveInfo SavesManager::readSaveInfo(const QByteArray &data) noexcept
+Save SavesManager::readSave(const QByteArray &data) noexcept
 {
     QByteArray t=qUncompress(data);
 
-    SaveInfo info;
-    QDataStream str(&t,QIODevice::ReadOnly);
+    Save save;
+    QDataStream str(&t, QIODevice::ReadOnly);
     quint16 uu;
 
     str>>uu;
-    info.id=uu;
+    save.metadata.id=uu;
 
-    str>>info.name;
+    str>>save.metadata.name;
+
+    str>>save.metadata.lastPlayed;
+
+    str>>save.metadata.pathToIcon;
 
     QByteArray ba;
     str>>ba;
-    info.data=SaveParser::readData(ba);
+    save.data=SaveParser::readData(ba);
 
-    info.day = info.data.overall.lastKnownDay;
+    return save;
+}
 
-    return info;
+void SavesManager::writeAllSaves() noexcept
+{
+    for (const auto &e : m_saves)
+    {
+        QByteArray ba;
+        writeSave(ba, e);
+        QSettings().setValue("save_"+QString::number(e.metadata.id), ba);
+    }
+}
+
+void SavesManager::writeSave(QByteArray &array, const Save &save) noexcept
+{
+    QDataStream str(&array, QIODevice::WriteOnly);
+
+    str<<static_cast<quint16>(save.metadata.id);
+
+    str<<save.metadata.name;
+
+    str<<save.metadata.lastPlayed;
+
+    str<<save.metadata.pathToIcon;
+
+    QByteArray ba;
+    SaveParser::writeData(ba, save.data);
+    str<<ba;
+
+    array=qCompress(array);
+}
+
+void SavesManager::writeSave(unsigned index) noexcept
+{
+    if (index < m_saves.size())
+    {
+        QByteArray ba;
+        writeSave(ba, m_saves[index]);
+        QSettings().setValue("save_"+QString::number(m_saves[index].metadata.id), ba);
+    }
+}
+
+int SavesManager::findSave(const QString &name) const noexcept
+{
+    for (int i=0;i<m_saves.size();++i)
+        if (m_saves[i].metadata.name == name)
+            return i;
+    return -1;
+}
+
+void SavesManager::loadSaveIntoGame(unsigned index) noexcept
+{
+    if (index >= m_saves.size())
+        return;
+
+    if (m_currentSaveInUseIndex != -1)
+    {
+        updateSave(m_currentSaveInUseIndex, Game::gameInstance()->getSave());
+        Game::gameInstance()->closeSave();
+    }
+    Game::gameInstance()->loadSave(m_saves[index].data);
+    m_currentSaveInUseIndex=index;
 }

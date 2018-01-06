@@ -152,6 +152,7 @@ HEADERS += \
     cpp/database/enums.h \
     cpp/equipment/enums.h \
     cpp/equipment/equipment.h \
+    cpp/file_io/saves/save.h \
     cpp/file_io/saves/savedata.h \
     cpp/file_io/saves/saveparser.h \
     cpp/file_io/xml_files/readers/buildingsreader.h \
