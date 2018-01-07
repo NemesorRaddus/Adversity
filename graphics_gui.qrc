@@ -62,5 +62,23 @@
         <file>graphics/MainMenu/Save_Import.png</file>
         <file>graphics/MainMenu/Save_New.png</file>
         <file>graphics/MainMenu/Settings.png</file>
+        <file>Graphics/GUI/Upgrade_Background.png</file>
+        <file>graphics/GUI/Gym/Animation0.png</file>
+        <file>graphics/GUI/Gym/Animation1.png</file>
+        <file>graphics/GUI/Gym/Animation2.png</file>
+        <file>graphics/GUI/Gym/Animation3.png</file>
+        <file>graphics/GUI/Gym/Animation4.png</file>
+        <file>graphics/GUI/Gym/Gym_Background.png</file>
+        <file>graphics/GUI/Laboratory/Laboratory_Background.png</file>
+        <file>graphics/GUI/MercenarySlot/Opacity_Mask.png</file>
+        <file>graphics/GUI/TrainingGround/Animation0.png</file>
+        <file>graphics/GUI/TrainingGround/Animation1.png</file>
+        <file>graphics/GUI/TrainingGround/Animation2.png</file>
+        <file>graphics/GUI/TrainingGround/Animation3.png</file>
+        <file>graphics/GUI/TrainingGround/Animation4.png</file>
+        <file>graphics/GUI/TrainingGround/Animation5.png</file>
+        <file>graphics/GUI/TrainingGround/TrainingGround_Background.png</file>
+        <file>graphics/GUI/Upgrade_Background.png</file>
+        <file>graphics/GUI/Upgrade/Upgrade.png</file>
     </qresource>
 </RCC>

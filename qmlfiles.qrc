@@ -96,5 +96,21 @@
         <file>qml/Settings/Credits.qml</file>
         <file>qml/Settings/Settings.qml</file>
         <file>qml/SplashScreen.qml</file>
+        <file>QML/BuildingsMode/BuildingCategories.qml</file>
+        <file>QML/BuildingsMode/BuildingCategoriesDelegate.qml</file>
+        <file>QML/BuildingsMode/BuildingCategoriesScripts.js</file>
+        <file>QML/SavesMenu/SavesList.qml</file>
+        <file>QML/SavesMenu/SavesListDelegate.qml</file>
+        <file>QML/SavesMenu/SavesListScripts.js</file>
+        <file>qml/BuildingsMode/BuildingsMenus/GymSubmenus/GymDelegate.qml</file>
+        <file>QML/BuildingsMode/BuildingsMenus/GymSubmenus/GymTraining.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/GymSubmenus/GymTraining.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/GymSubmenus/GymUpgrade.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/LaboratorySubmenus/LaboratoryDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/LaboratorySubmenus/LaboratoryTraining.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/LaboratorySubmenus/LaboratoryUpgrade.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/TrainingGroundSubmenus/TrainingGroundDelegate.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/TrainingGroundSubmenus/TrainingGroundTraining.qml</file>
+        <file>qml/BuildingsMode/BuildingsMenus/TrainingGroundSubmenus/TrainingGroundUpgrade.qml</file>
     </qresource>
 </RCC>

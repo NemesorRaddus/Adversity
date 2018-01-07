@@ -252,9 +252,9 @@ Window {
 //        splash.show();
         Globals.windowWidth = width;
         Globals.windowHeight = height;mainGUI.visible=true;
-//        GameApi.savesManager.loadSave("A",""); // doesn't create new saves, needs to be soon replaced
+        GameApi.savesManager.createNewSave("A",""); // doesn't create new saves, needs to be soon replaced
 //        changeMode(1);
-//        splash.canClose = true;
+        splash.canClose = true;
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
     onClosing: {

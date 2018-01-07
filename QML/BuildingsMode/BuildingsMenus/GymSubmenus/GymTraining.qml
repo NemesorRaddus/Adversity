@@ -2,7 +2,6 @@ import QtQuick 2.9
 
 import Game 1.0
 import ".."
-import "./MercenariesList"
 
 Item {
     id: root
@@ -142,79 +141,204 @@ Item {
         }
     ]
 
-    BuildingsListDelegate {
-        id: topBar
+    Rectangle {
+        id: darkness
 
-        x: 0
-        y: 0
-        width: 1080
-        height: 271
+        anchors.fill: parent
 
-        Component.onCompleted: {
-            setArtSource("qrc:/graphics/Buildings/Gym.png");
-            setName(GameApi.tr("Gym"));
-        }
+        color: "#171717"
     }
 
-    Item {
-        id: upgrade
+    Image {
+        id: background
 
-        x: 17
-        y: 268
-        width: 1048
-        height: 118
+        anchors.fill: parent
+
+        source: "qrc:/graphics/GUI/Gym/Gym_Background.png"
+    }
+
+    Text {
+
+        y: 10
+        width: parent.width-10
+        color: "#94ef94"
+        text: "Training"
+        horizontalAlignment: Text.AlignRight
+        font.pixelSize: 140
+        font.family: fontStencil.name
+
+    }
+
+    Text {
+
+        x: parent.width - 810
+        y: 170
+        width: 800
+        color: "#94ef94"
+        text: "Training in the gym increases\n mercenary's fitness and\n endurance.\n\nNoticable performance\nimprovements appear\nafter X days of\ntraining."
+        // X ma być podmieniony przez obecna wartosc czasu treningu
+        horizontalAlignment: Text.AlignRight
+        font.pixelSize: 55
+        font.family: fontStencil.name
+
+    }
+
+    Text {
+
+        id: mercenaryPick
+
+        x: 320
+        y: 756
+        width: 700
+        color: "#94ef94"
+        text: "Choose a mercenary\nto train"
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 55
+        font.family: fontStencil.name
+
+    }
+
+    Item{
+
+        id: mercenarySlot
+
+        x: 539
+        y: 901
+        width: 262
+        height: width
 
         Image{
-            id: background
 
-            x: 312
-            y:0
-            width: 734
-            height: 115
+            id: mercenaryArt
 
-            source: "qrc:/graphics/GUI/Upgrade_Background.png"
+            x: 3
+            y: 3
+            width: 256
+            height: width
+
+            source: "qrc:/graphics/Mercs/Gunzerker/PaulLuft.png"
         }
 
         Image{
-            id: overlay
 
-            x: 312
-            y:0
-            width: 734
-            height: 115
+            anchors.fill: parent
 
-            source: "qrc:/graphics/GUI/MercenarySlot/Opacity_Mask.png"
-        }
+            source: "qrc:/graphics/GUI/Task_Picture.png"
 
-        Image{
-            id: taskBorder
-
-            x: 0
-            y: 115
-            width: parent
-            height: 3
-
-            source: "qrc:/graphics/GUI/Task_Border.png"
-        }
-
-        Text{
-
-            x: 5
-            y: 0
-            height: upgrade.height
-            verticalAlignment: Text.AlignVCenter
-            color: "#94ef94"
-            text: "info & upgrades"
-            font.pixelSize: 90
-            font.family: fontStencil.name
         }
 
         MouseArea{
+
             anchors.fill: parent
         }
     }
 
-    // Tutaj maja byc delegaty slotow bez zadnych odstepow czyli kazdy delegat ma miec y o 118 wiekszy, a ich x maja byc rowne 17
+    Item{
+        //Ten item ma sie pokazywac wylacznie gdy w slocie jest jakis najemnik, i ma sie pojawiac fade'em trwajacym 200ms
+        id: resources
+
+        x: 235
+        y: 950
+        width: 298
+        height: 164
+
+        Image{
+
+            width: 70
+            height: width
+
+            source: "qrc:/graphics/GUI/Resources/Energy.png"
+
+        }
+
+        Image{
+
+            y: 90
+            width: 70
+            height: width
+
+            source: "qrc:/graphics/GUI/Time.png"
+        }
+
+        Text{
+
+            id: energy
+
+            x: 85
+            y: 8
+            width: 207
+            height: 65
+            color: "#94ef94"
+            text: "X/day"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 55
+            font.family: fontStencil.name
+        }
+
+        Text{
+
+            id: time
+
+            x: 85
+            y: 93
+            width: 207
+            height: 65
+            color: "#94ef94"
+            text: "X"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 55
+            font.family: fontStencil.name
+
+        }
+    }
+
+    Item{
+
+        // Gdy trening zostaje rozpoczety, to ten item znika. Pojawia sie i znika i ma sie pojawiac fade'em trwajacym 200ms. Obraz nizej jest "nemezis" tego napisu. Gdy znika napis, pojawia sie obraz z animacja.
+        id: begin
+
+        x: 551
+        y: 1191
+        width: 240
+        height: 95
+
+        Text{
+
+            id: beginText
+
+
+            width: parent
+            color: "#94ef94"
+            text: "Begin"
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 80
+            font.family: fontStencil.name
+
+        }
+
+        MouseArea{
+
+            anchors.fill: parent
+
+            anchors.margins: -10
+        }
+    }
+
+    Image{
+        id: usedAnimation
+        x: 615
+        y: 1183
+        width: 111
+        height: width
+
+        source: "qrc:/graphics/GUI/Gym/Animation0.png"
+
+        //Tu ma byc animacja operujaca na stanach. Stanow jest 7 i stosunek ich dlugosci to:
+        // 5:2:3:4:5:2:1:1
+        // jednostka przez ktora bedziemy mnozyli jest do ustalenia ale poczatkowo mozemy wziac 50 ms.
+        // obrazki ida rosnaco numerami obrazow a nastepnie malejaco w petli. Czyli: 0:1:2:3:4:3:2:1
+    }
+
 
     Item {
         id: back
