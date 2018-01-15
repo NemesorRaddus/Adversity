@@ -14,8 +14,16 @@
         <file>graphics/GUI/Disconnected.png</file>
         <file>graphics/GUI/EquipmentAmount.png</file>
         <file>graphics/GUI/GUI.png</file>
+        <file>graphics/GUI/Gym/Animation0.png</file>
+        <file>graphics/GUI/Gym/Animation1.png</file>
+        <file>graphics/GUI/Gym/Animation2.png</file>
+        <file>graphics/GUI/Gym/Animation3.png</file>
+        <file>graphics/GUI/Gym/Animation4.png</file>
+        <file>graphics/GUI/Gym/Gym_Background.png</file>
+        <file>graphics/GUI/Laboratory/Laboratory_Background.png</file>
         <file>graphics/GUI/Light.png</file>
         <file>graphics/GUI/Mask.png</file>
+        <file>graphics/GUI/MercenarySlot/Opacity_Mask.png</file>
         <file>graphics/GUI/MissionLength/AuroraForest1.png</file>
         <file>graphics/GUI/MissionLength/AuroraForest2.png</file>
         <file>graphics/GUI/MissionLength/AuroraForest3.png</file>
@@ -53,6 +61,16 @@
         <file>graphics/GUI/Task_Picture.png</file>
         <file>graphics/GUI/Task_Picture2.png</file>
         <file>graphics/GUI/Time.png</file>
+        <file>graphics/GUI/TrainingGround/Animation0.png</file>
+        <file>graphics/GUI/TrainingGround/Animation1.png</file>
+        <file>graphics/GUI/TrainingGround/Animation2.png</file>
+        <file>graphics/GUI/TrainingGround/Animation3.png</file>
+        <file>graphics/GUI/TrainingGround/Animation4.png</file>
+        <file>graphics/GUI/TrainingGround/Animation5.png</file>
+        <file>graphics/GUI/TrainingGround/TrainingGround_Background.png</file>
+        <file>graphics/GUI/Upgrade/Upgrade.png</file>
+        <file>graphics/GUI/Upgrade_Background.png</file>
+        <file>graphics/GUI/Upgrade_Background.png</file>
         <file>graphics/MainMenu/Exit.png</file>
         <file>graphics/MainMenu/Overlay.png</file>
         <file>graphics/MainMenu/Save.png</file>
@@ -62,23 +80,5 @@
         <file>graphics/MainMenu/Save_Import.png</file>
         <file>graphics/MainMenu/Save_New.png</file>
         <file>graphics/MainMenu/Settings.png</file>
-        <file>Graphics/GUI/Upgrade_Background.png</file>
-        <file>graphics/GUI/Gym/Animation0.png</file>
-        <file>graphics/GUI/Gym/Animation1.png</file>
-        <file>graphics/GUI/Gym/Animation2.png</file>
-        <file>graphics/GUI/Gym/Animation3.png</file>
-        <file>graphics/GUI/Gym/Animation4.png</file>
-        <file>graphics/GUI/Gym/Gym_Background.png</file>
-        <file>graphics/GUI/Laboratory/Laboratory_Background.png</file>
-        <file>graphics/GUI/MercenarySlot/Opacity_Mask.png</file>
-        <file>graphics/GUI/TrainingGround/Animation0.png</file>
-        <file>graphics/GUI/TrainingGround/Animation1.png</file>
-        <file>graphics/GUI/TrainingGround/Animation2.png</file>
-        <file>graphics/GUI/TrainingGround/Animation3.png</file>
-        <file>graphics/GUI/TrainingGround/Animation4.png</file>
-        <file>graphics/GUI/TrainingGround/Animation5.png</file>
-        <file>graphics/GUI/TrainingGround/TrainingGround_Background.png</file>
-        <file>graphics/GUI/Upgrade_Background.png</file>
-        <file>graphics/GUI/Upgrade/Upgrade.png</file>
     </qresource>
 </RCC>
