@@ -1,9 +1,6 @@
 #pragma once
 
 #include <QQuickPaintedItem>
-#include <QBrush>
-#include <QPainter>
-#include <QDateTime>
 
 class FPSText: public QQuickPaintedItem
 {

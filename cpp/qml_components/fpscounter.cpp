@@ -1,5 +1,9 @@
 #include "fpscounter.h"
 
+#include <QBrush>
+#include <QPainter>
+#include <QDateTime>
+
 FPSText::FPSText(QQuickItem *parent) noexcept
     : QQuickPaintedItem(parent), m_currentFPS(0), m_cacheCount(0)
 {
