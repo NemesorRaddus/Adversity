@@ -6,7 +6,7 @@
 #include "missions/land.h"
 #include "missions/mission.h"
 
-QVector<EventReport> Event::execute(Mercenary *context) noexcept
+QVector <EventReport> Event::execute(Mercenary *context) noexcept
 {
     auto r = executeSpecificOps(context);
     if (!context->isDead())
@@ -24,7 +24,7 @@ QVector<EventReport> Event::execute(Mercenary *context) noexcept
 
 void Event::setEventText(const QString &text) noexcept
 {
-    m_eventText=text;
+    m_eventText = text;
 }
 
 void Event::unlockDatabaseEntries(Mercenary *context) noexcept

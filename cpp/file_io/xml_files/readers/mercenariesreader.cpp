@@ -6,13 +6,13 @@
 #include "logging/loggersprovider.h"
 #include "mercenaries/mercenary.h"
 
-QList<QString> MercenariesReader::getMercenariesNamesList(const QString &pathToMercenariesDir) noexcept
+QList <QString> MercenariesReader::getMercenariesNamesList(const QString &pathToMercenariesDir) noexcept
 {
     if (!QDir(pathToMercenariesDir).exists())
         qCritical()<<"Directory "+pathToMercenariesDir+" doesn't exist.";
 
     auto r = QDir(pathToMercenariesDir).entryList({"*.xml"});
-    for (int i=0;i<r.size();++i)
+    for (int i=0;i < r.size();++i)
         r[i].remove(r[i].size()-4,4);
     if (r.isEmpty())
         qCritical("No mercenaries detected.");
@@ -79,7 +79,7 @@ Mercenary *MercenariesReader::getMercenary(const QString &path) noexcept
                         if (m_xmlReader->name()=="armor")
                         {
                             attrs = m_xmlReader->attributes();
-                            for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
+                            for (int i=0;i < Game::gameInstance()->assetsPool().equipment().size();++i)
                                 if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                                 {
                                     hB.setAndEquipArmor(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i));
@@ -89,7 +89,7 @@ Mercenary *MercenariesReader::getMercenary(const QString &path) noexcept
                         else if (m_xmlReader->name()=="weaponTool")
                         {
                             attrs = m_xmlReader->attributes();
-                            for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
+                            for (int i=0;i < Game::gameInstance()->assetsPool().equipment().size();++i)
                                 if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                                 {
                                     hB.setAndEquipWeaponTool(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i),attrs.value("slot").toInt());
@@ -126,7 +126,7 @@ Mercenary *MercenariesReader::getMercenary(const QString &path) noexcept
     return hB.getMercenary();
 }
 
-QVector<Equipment *> MercenariesReader::getEquipment(const QString &path) noexcept
+QVector < Equipment *> MercenariesReader::getEquipment(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -258,7 +258,7 @@ QVector<Equipment *> MercenariesReader::getEquipment(const QString &path) noexce
     }
     if (m_xmlReader->hasError())
     {
-        for (int i=0;i<r.size();++i)
+        for (int i=0;i < r.size();++i)
             delete r[i];
         qCritical()<<"Couldn't read "+path+" properly.";
         return {};

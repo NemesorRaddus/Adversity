@@ -50,7 +50,7 @@ QString GlobalUtilities::sanitize(QString script) noexcept
     script.remove('\n');
 
     int parCnt = 0;
-    for (int i=0;i<script.size();++i)
+    for (int i=0;i < script.size();++i)
     {
         if (script[i] == '(')
             ++parCnt;

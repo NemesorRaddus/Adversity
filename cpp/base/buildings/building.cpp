@@ -47,7 +47,7 @@ bool Building::tryUpgrading() noexcept
     if (reqs.requiredEnergy > m_base->resources()->currentEnergyAmount())
         return 0;
 
-    TimerAlarm *alrm=new BuildingUpgradeTimerAlarm(m_base,m_buildingName,currentLevel()+1);
+    TimerAlarm *alrm = new BuildingUpgradeTimerAlarm(m_base,m_buildingName,currentLevel()+1);
     if (m_base->gameClock()->checkIfAlarmIsSet(alrm))
     {
         delete alrm;
@@ -69,17 +69,17 @@ QString Building::description() const noexcept
 
 int Building::basicCostInEnergy() const noexcept
 {
-    return currentLevelInfo<BuildingLevelInfo>()->basicCostInEnergy;
+    return currentLevelInfo<BuildingLevelInfo > ()->basicCostInEnergy;
 }
 
 int Building::basicCostInEnergyAfterUpgrade() const noexcept
 {
-    return nextLevelInfo<BuildingLevelInfo>()->basicCostInEnergy;
+    return nextLevelInfo<BuildingLevelInfo > ()->basicCostInEnergy;
 }
 
 void Building::setCurrentLevel(unsigned level) noexcept
 {
-    m_level=level;
+    m_level = level;
 }
 
 Building::Building(BuildingEnums::Building buildingName, Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept

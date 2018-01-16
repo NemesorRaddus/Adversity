@@ -8,8 +8,8 @@ class QDataStream;
 struct Time
 {
     typedef unsigned Day;
-    typedef RBoundedValue<unsigned, 0, 23, true> Hour;
-    typedef RBoundedValue<unsigned, 0, 59, true> Minute;
+    typedef RBoundedValue < unsigned, 0, 23, true> Hour;
+    typedef RBoundedValue < unsigned, 0, 59, true> Minute;
 
     Time() noexcept;
     Time(unsigned day, unsigned hour, unsigned minute) noexcept;
@@ -17,21 +17,21 @@ struct Time
     bool operator ==(const Time &other) const noexcept;
     inline bool operator !=(const Time &other) const noexcept
     {
-        return !(*this==other);
+        return !(*this == other);
     }
 
     bool operator <(const Time &other) const noexcept;
     inline bool operator <=(const Time &other) const noexcept
     {
-        return *this==other || *this<other;
+        return *this == other || *this < other;
     }
     inline bool operator >(const Time &other) const noexcept
     {
-        return !(*this<=other);
+        return !(*this <= other);
     }
     inline bool operator >=(const Time &other) const noexcept
     {
-        return !(*this<other);
+        return !(*this < other);
     }
 
     QString toQString() const noexcept;

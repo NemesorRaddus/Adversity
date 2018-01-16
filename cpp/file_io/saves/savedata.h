@@ -70,22 +70,22 @@ struct SaveData
         } upgrading;
         struct Slots
         {
-            QVector<QString> hospital;
-            QVector<QPair<QString,quint8>> trainingGround;
-            QVector<QPair<QString,quint8>> gym;
-            QVector<QPair<QString,quint8>> laboratory;
-            QVector<QString> playingField;
-            QVector<QString> bar;
-            QVector<QString> shrine;
-            QVector<QString> seclusion;
+            QVector <QString> hospital;
+            QVector<QPair < QString,quint8>> trainingGround;
+            QVector<QPair < QString,quint8>> gym;
+            QVector<QPair < QString,quint8>> laboratory;
+            QVector <QString> playingField;
+            QVector <QString> bar;
+            QVector <QString> shrine;
+            QVector <QString> seclusion;
         } mercenarySlots;
         struct DockingStationThings
         {
-            QVector<QString> recruits;
-            QVector<QPair<QString,quint8>> arrivingMercenaries;
-            QVector<QPair<ActiveTransaction,quint8>> activeResourceTransactions;
-            QVector<QString> equipments;
-            QVector<QPair<QString,quint8>> arrivingEquipments;
+            QVector <QString> recruits;
+            QVector<QPair < QString,quint8>> arrivingMercenaries;
+            QVector<QPair < ActiveTransaction,quint8>> activeResourceTransactions;
+            QVector <QString> equipments;
+            QVector<QPair < QString,quint8>> arrivingEquipments;
         } dockingStationThings;
     } buildings;
     struct Resources
@@ -97,18 +97,18 @@ struct SaveData
     } resources;
     struct Alarms
     {
-        QVector<QPair<quint8,BuildingUpgradeTimerAlarm>> buildingUpgrades;
-        QVector<QPair<quint8,MissionEndTimerAlarm>> missionEnds;
-        QVector<QPair<Time,QString>> missionAlarms;
+        QVector<QPair < quint8,BuildingUpgradeTimerAlarm>> buildingUpgrades;
+        QVector<QPair < quint8,MissionEndTimerAlarm>> missionEnds;
+        QVector<QPair < Time,QString>> missionAlarms;
     } alarms;
     struct Mercenaries
     {
-        QVector<MercenaryDataHelper> hiredMercenaries;
+        QVector <MercenaryDataHelper> hiredMercenaries;
     } mercenaries;
     struct Equipments
     {
-        QVector<QString> freeArmor;
-        QVector<QString> freeWeaponsTools;
+        QVector <QString> freeArmor;
+        QVector <QString> freeWeaponsTools;
     } equipments;
     struct Database
     {
@@ -117,8 +117,8 @@ struct SaveData
     } database;
     struct Missions
     {
-        QVector<MissionDataHelper> missions;
-        QVector<UnifiedReportDataHelper> reports;
+        QVector <MissionDataHelper> missions;
+        QVector <UnifiedReportDataHelper> reports;
     } missions;
     QByteArray raw;
 };

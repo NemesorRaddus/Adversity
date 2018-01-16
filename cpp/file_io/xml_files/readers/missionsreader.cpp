@@ -11,7 +11,7 @@
 #include "missions/events/value_scripts/valuerange.h"
 #include "missions/land.h"
 
-QList<QString> MissionsReader::getDatabaseFilesList(const QString &pathToDBDir) noexcept
+QList <QString> MissionsReader::getDatabaseFilesList(const QString &pathToDBDir) noexcept
 {
     if (!QDir(pathToDBDir).exists())
         qCritical()<<"Directory "+pathToDBDir+" doesn't exist.";
@@ -22,7 +22,7 @@ QList<QString> MissionsReader::getDatabaseFilesList(const QString &pathToDBDir) 
     return r;
 }
 
-QVector<DatabaseEntry> MissionsReader::getDatabaseEntries(const QString &path) noexcept
+QVector <DatabaseEntry> MissionsReader::getDatabaseEntries(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -49,9 +49,9 @@ QVector<DatabaseEntry> MissionsReader::getDatabaseEntries(const QString &path) n
                     while (m_xmlReader->readNextStartElement())
                     {
                         if (m_xmlReader->name() == "name")
-                            name=m_xmlReader->readElementText();
+                            name = m_xmlReader->readElementText();
                         else if (m_xmlReader->name() == "description")
-                            description=m_xmlReader->readElementText();
+                            description = m_xmlReader->readElementText();
                         else if (m_xmlReader->name() == "inhabitancies")
                         {
                             while (m_xmlReader->readNextStartElement())
@@ -87,7 +87,7 @@ QVector<DatabaseEntry> MissionsReader::getDatabaseEntries(const QString &path) n
     return r;
 }
 
-QList<QString> MissionsReader::getLandsNamesList(const QString &pathToLandsDir) noexcept
+QList <QString> MissionsReader::getLandsNamesList(const QString &pathToLandsDir) noexcept
 {
     if (!QDir(pathToLandsDir).exists())
         qCritical()<<"Directory "+pathToLandsDir+" doesn't exist.";
@@ -115,12 +115,12 @@ LandInfo MissionsReader::getLandInfo(const QString &path) noexcept
             while (m_xmlReader->readNextStartElement())
             {
                 if (m_xmlReader->name()=="name")
-                    r.name=m_xmlReader->readElementText();
+                    r.name = m_xmlReader->readElementText();
                 else if (m_xmlReader->name()=="description")
-                    r.description=m_xmlReader->readElementText();
+                    r.description = m_xmlReader->readElementText();
                 else if (m_xmlReader->name()=="position")
                 {
-                    auto attrs=m_xmlReader->attributes();
+                    auto attrs = m_xmlReader->attributes();
                     r.position={attrs.value("x").toInt(), attrs.value("y").toInt()};
                     m_xmlReader->skipCurrentElement();
                 }
@@ -162,8 +162,8 @@ EncountersContainer *MissionsReader::getEncounters(const QString &path) noexcept
                 if (m_xmlReader->name()=="encounter")
                 {
                     QXmlStreamAttributes attrs = m_xmlReader->attributes();
-                    QString name=attrs.value("name").toString();
-                    Event *rootev=getEvent(0);
+                    QString name = attrs.value("name").toString();
+                    Event *rootev = getEvent(0);
                     unsigned probability = attrs.hasAttribute("probability") ? attrs.value("probability").toUInt() : 1;
 
                     if (m_xmlReader->hasError())
@@ -205,13 +205,13 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
         if (alreadyRead || m_xmlReader->name()=="event")
         {
             QXmlStreamAttributes attrs = m_xmlReader->attributes();
-            auto type=attrs.value("type").toString();
+            auto type = attrs.value("type").toString();
 
             while (m_xmlReader->readNextStartElement())
             {
                 if (m_xmlReader->name()=="text")
                 {
-                    text=m_xmlReader->readElementText();
+                    text = m_xmlReader->readElementText();
                 }
                 else if (m_xmlReader->name()=="unlockedDBEntries")
                 {
@@ -243,28 +243,28 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                                 return nullptr;
                         }
                     }
-                    r=new MultiEvent(evs,text,ude);
+                    r = new MultiEvent(evs,text,ude);
                 }
                 m_xmlReader->skipCurrentElement();//event
             }
             else if (type=="Action")
             {
-                auto subtype=attrs.value("subtype").toString();
+                auto subtype = attrs.value("subtype").toString();
 
                 if (subtype=="Null")
                 {
-                    r=new NullEventResult(text,ude);
+                    r = new NullEventResult(text,ude);
                 }
                 else if (subtype=="GiveHealth")
                 {
                     if (m_xmlReader->name()=="addedValue")
-                        r=new GiveHealthEventResult(parseValue(m_xmlReader->attributes().value("value").toString()),text,ude);
+                        r = new GiveHealthEventResult(parseValue(m_xmlReader->attributes().value("value").toString()),text,ude);
                     m_xmlReader->skipCurrentElement();//addedValue
                 }
                 else if (subtype=="GiveStress")
                 {
                     if (m_xmlReader->name()=="addedValue")
-                        r=new GiveStressEventResult(parseValue(m_xmlReader->attributes().value("value").toString()),text,ude);
+                        r = new GiveStressEventResult(parseValue(m_xmlReader->attributes().value("value").toString()),text,ude);
                     m_xmlReader->skipCurrentElement();//addedValue
                 }
                 else if (subtype=="ModifyAttribute")
@@ -272,41 +272,41 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                     if (m_xmlReader->name()=="modification")
                     {
                         AttributeModificationHelper mod;
-                        attrs=m_xmlReader->attributes();
+                        attrs = m_xmlReader->attributes();
 
-                        mod.attribute=MercenaryEnums::fromQStringToAttributeEnum(attrs.value("attribute").toString());
+                        mod.attribute = MercenaryEnums::fromQStringToAttributeEnum(attrs.value("attribute").toString());
                         if (attrs.value("type").toString()=="+")
-                            mod.type=AttributeModification::T_Add;
+                            mod.type = AttributeModification::T_Add;
                         else if (attrs.value("type").toString()=="-")
-                            mod.type=AttributeModification::T_Subtract;
+                            mod.type = AttributeModification::T_Subtract;
                         else if (attrs.value("type").toString()=="*")
-                            mod.type=AttributeModification::T_Multiply;
+                            mod.type = AttributeModification::T_Multiply;
                         else if (attrs.value("type").toString()=="/")
-                            mod.type=AttributeModification::T_Divide;
+                            mod.type = AttributeModification::T_Divide;
                         else if (attrs.value("type").toString()=="=")
-                            mod.type=AttributeModification::T_Set;
+                            mod.type = AttributeModification::T_Set;
 
-                        mod.expressionRange=parseValue(attrs.value("value").toString());
+                        mod.expressionRange = parseValue(attrs.value("value").toString());
 
-                        mod.durationRange=parseValue(attrs.value("duration").toString());
+                        mod.durationRange = parseValue(attrs.value("duration").toString());
 
-                        r=new ModifyAttributeEventResult(mod,text,ude);
+                        r = new ModifyAttributeEventResult(mod,text,ude);
                     }
                     m_xmlReader->skipCurrentElement();//modification
                 }
                 else if (subtype=="Kill")
                 {
-                    r=new KillMercenaryEventResult(text,ude);
+                    r = new KillMercenaryEventResult(text,ude);
                 }
                 else if (subtype=="AddEquipment")
                 {
                     if (m_xmlReader->name()=="equipment")
                     {
                         attrs = m_xmlReader->attributes();
-                        for (int i=0;i<Game::gameInstance()->assetsPool().equipment().size();++i)
+                        for (int i=0;i < Game::gameInstance()->assetsPool().equipment().size();++i)
                             if (Game::gameInstance()->assetsPool().equipment()[i]->name() == attrs.value("name").toString())
                             {
-                                r=new AddEquipmentEventResult(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i),text,ude);
+                                r = new AddEquipmentEventResult(Game::gameInstance()->assetsPool().makeEquipmentAtPos(i),text,ude);
                                 break;
                             }
                     }
@@ -314,26 +314,26 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                     {
                         attrs = m_xmlReader->attributes();
 
-                        bool allowArmor=attrs.value("armor").toString()=="true" ? true : false;
-                        bool allowWeaponTool=attrs.value("weaponTool").toString()=="true" ? true : false;
-                        int flags=0;
+                        bool allowArmor = attrs.value("armor").toString()=="true" ? true : false;
+                        bool allowWeaponTool = attrs.value("weaponTool").toString()=="true" ? true : false;
+                        int flags = 0;
                         if (allowArmor)
                             flags |= EquipmentEnums::T_Armor;
                         if (allowWeaponTool)
                             flags |= EquipmentEnums::T_WeaponTool;
 
-                        r=new AddEquipmentRandomEventResult(parseValue(attrs.value("tier").toString()), flags,text,ude);
+                        r = new AddEquipmentRandomEventResult(parseValue(attrs.value("tier").toString()), flags,text,ude);
                     }
                     m_xmlReader->skipCurrentElement();//equipment/random
                 }
                 else if (subtype=="RemoveEquipment")
                 {
                     if (m_xmlReader->name()=="armor")
-                        r=new RemoveEquipmentEventResult(EquipmentEnums::T_Armor,0,text,ude);
+                        r = new RemoveEquipmentEventResult(EquipmentEnums::T_Armor,0,text,ude);
                     else if (m_xmlReader->name()=="weaponTool")
                     {
-                        attrs=m_xmlReader->attributes();
-                        r=new RemoveEquipmentEventResult(EquipmentEnums::T_WeaponTool, attrs.value("slot").toInt(),text,ude);
+                        attrs = m_xmlReader->attributes();
+                        r = new RemoveEquipmentEventResult(EquipmentEnums::T_WeaponTool, attrs.value("slot").toInt(),text,ude);
                     }
                     m_xmlReader->skipCurrentElement();//armor/weaponTool
                 }
@@ -341,22 +341,22 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                 {
                     if (m_xmlReader->name()=="resource")
                     {
-                        attrs=m_xmlReader->attributes();
+                        attrs = m_xmlReader->attributes();
 
-                        r=new GiveResourceEventResult(BaseEnums::fromQStringToResourceEnum(attrs.value("type").toString()), parseValue(attrs.value("amount").toString()),text,ude);
+                        r = new GiveResourceEventResult(BaseEnums::fromQStringToResourceEnum(attrs.value("type").toString()), parseValue(attrs.value("amount").toString()),text,ude);
                     }
                     else if (m_xmlReader->name()=="random")
                     {
-                        attrs=m_xmlReader->attributes();
+                        attrs = m_xmlReader->attributes();
 
-                        r=new GiveResourceRandomEventResult(parseValue(attrs.value("amount").toString()),text,ude);
+                        r = new GiveResourceRandomEventResult(parseValue(attrs.value("amount").toString()),text,ude);
                     }
                     m_xmlReader->skipCurrentElement();//resource
                 }
                 else if (subtype=="NoSignal")
                 {
                     if (m_xmlReader->name()=="duration")
-                        r=new NoSignalEventResult(parseValue(m_xmlReader->attributes().value("duration").toString()),text,ude);
+                        r = new NoSignalEventResult(parseValue(m_xmlReader->attributes().value("duration").toString()),text,ude);
                     m_xmlReader->skipCurrentElement();//duration
                 }
                 else
@@ -367,7 +367,7 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
             }
             else if (type=="Check")
             {
-                auto subtype=attrs.value("subtype").toString();
+                auto subtype = attrs.value("subtype").toString();
 
                 if (subtype=="Value")
                 {
@@ -423,14 +423,14 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                     else
                         m_xmlReader->raiseError("Parse error");
 
-                    r=new ValueCheckEvent(cond, resb.get(),text,ude);
+                    r = new ValueCheckEvent(cond, resb.get(),text,ude);
                 }
                 else if (subtype=="Equipment")
                 {
                     EquipmentEnums::Category cond;
                     if (m_xmlReader->name()=="condition")
                     {
-                        cond=EquipmentEnums::fromQStringToCategoryEnum(m_xmlReader->attributes().value("condition").toString());
+                        cond = EquipmentEnums::fromQStringToCategoryEnum(m_xmlReader->attributes().value("condition").toString());
                         m_xmlReader->skipCurrentElement();
                     }
                     else
@@ -479,7 +479,7 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                     else
                         m_xmlReader->raiseError("Parse error");
 
-                    r=new EquipmentCheckEvent(cond, resb.get(),text,ude);
+                    r = new EquipmentCheckEvent(cond, resb.get(),text,ude);
                 }
                 m_xmlReader->skipCurrentElement();//event
             }
@@ -488,10 +488,10 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
                 if (m_xmlReader->name()=="event")
                 {
                     Chance chance{m_xmlReader->attributes().value("chance").toUInt()};
-                    Event *ev=getEvent(1);
+                    Event *ev = getEvent(1);
                     if (m_xmlReader->hasError())
                         return nullptr;
-                    r=new PossibilityEvent(chance,ev,text,ude);
+                    r = new PossibilityEvent(chance,ev,text,ude);
                 }
                 m_xmlReader->skipCurrentElement();//event
             }
@@ -504,7 +504,7 @@ Event *MissionsReader::getEvent(bool alreadyRead) noexcept
     if (m_xmlReader->hasError())
         return nullptr;
     if (r == nullptr)
-        r=new NullEventResult;
+        r = new NullEventResult;
     return r;
 }
 
@@ -513,19 +513,19 @@ ValueRange MissionsReader::parseValue(QString text) noexcept
     if (text.isEmpty())
         return {{"-1"}};//error
 
-    int semcolPos=text.indexOf(';');
+    int semcolPos = text.indexOf(';');
 
-    char rangeok=0;
+    char rangeok = 0;
     if (text[0]=='<')
         rangeok |= 1;
     if (text[text.size()-1]=='>')
         rangeok |= 1<<1;
-    if (semcolPos!=-1 && semcolPos>1 && semcolPos<text.size()-2)
+    if (semcolPos!=-1 && semcolPos>1 && semcolPos < text.size()-2)
         rangeok |= 1<<2;
 
     if (rangeok & (1|1<<1|1<<2))
         return {text.mid(1,semcolPos-1),text.mid(semcolPos+1,text.size()-semcolPos-2)};
-    else if (rangeok==0)
+    else if (rangeok == 0)
         return {text};
     else
         return {{"-1"}};//error

@@ -9,7 +9,7 @@
 typedef QString EventReport;
 class Mercenary;
 
-typedef RBoundedValue<int, 0, 100, false> Chance;
+typedef RBoundedValue < int, 0, 100, false> Chance;
 
 class Event
 {

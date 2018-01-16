@@ -24,7 +24,7 @@ bool MercenariesContainer::prepareMercenaryAt(unsigned index) noexcept
 {
     if (index >= m_mercenaries.size())
         return 0;
-    m_preparedMercenary=m_mercenaries[index];
+    m_preparedMercenary = m_mercenaries[index];
     return 1;
 }
 
@@ -62,8 +62,8 @@ void MercenariesContainer::removeMercenary(unsigned index) noexcept
             m_basePtr->buildings()->dockingStation()->cancelMercenaryArrival(m_mercenaries[index]->name());
         else if (m_mercenaries[index]->currentActivity() == MercenaryEnums::CA_OnMission)
         {
-            auto m=m_mercenaries[index]->assignedMission();
-            if (m!=nullptr)
+            auto m = m_mercenaries[index]->assignedMission();
+            if (m != nullptr)
                 m->forceEndBecauseOfDeath();
         }
         Game::gameInstance()->assetsPool().unloadMercenary(m_mercenaries[index]->name());
@@ -73,7 +73,7 @@ void MercenariesContainer::removeMercenary(unsigned index) noexcept
 
 int MercenariesContainer::findMercenary(const QString &name) const noexcept
 {
-    for (int i=0;i<m_mercenaries.size();++i)
+    for (int i=0;i < m_mercenaries.size();++i)
         if (m_mercenaries[i]->name() == name)
             return i;
     return -1;

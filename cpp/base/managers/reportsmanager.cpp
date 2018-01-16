@@ -16,26 +16,26 @@ void ReportsManager::initializeForNewBase() noexcept {}
 
 void ReportsManager::prepareReport(unsigned index) noexcept
 {
-    if (index<m_reports.size())
-        m_preparedReport=m_reports[index];
+    if (index < m_reports.size())
+        m_preparedReport = m_reports[index];
 }
 
 void ReportsManager::prepareNewReport(unsigned index) noexcept
 {
-    if (index<m_newReports.size())
-        m_preparedReport=m_newReports[index];
+    if (index < m_newReports.size())
+        m_preparedReport = m_newReports[index];
 }
 
 void ReportsManager::addReport(UnifiedReport *report) noexcept
 {
     m_reports+=report;
-    if (m_reports.size()>m_maxReportsAmount)
+    if (m_reports.size() > m_maxReportsAmount)
     {
         delete m_reports.first();
         m_reports.removeFirst();
     }
     m_newReports+=report;
-    if (m_newReports.size()>m_maxReportsAmount)
+    if (m_newReports.size() > m_maxReportsAmount)
         m_newReports.removeFirst();
     base()->gameObject()->showReportNotification();
     LoggersProvider::mainLogger()->trace("[{}] Received a new report: {}",base()->gameClock()->currentTime().toQString().toStdString(), report->msg().toStdString());
@@ -43,7 +43,7 @@ void ReportsManager::addReport(UnifiedReport *report) noexcept
 
 void ReportsManager::registerLatestReportInMission(Mission *mission) noexcept
 {
-    if (m_reports.isEmpty() || mission==nullptr)
+    if (m_reports.isEmpty() || mission == nullptr)
         return;
 
     mission->addRelatedReport(m_reports.last());
@@ -56,7 +56,7 @@ void ReportsManager::markAllAsRead() noexcept
 
 void ReportsManager::removeReport(unsigned index) noexcept
 {
-    if (index<m_reports.size())
+    if (index < m_reports.size())
     {
         delete m_reports[index];
         m_reports.remove(index);

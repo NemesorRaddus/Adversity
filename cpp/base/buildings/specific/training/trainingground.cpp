@@ -20,9 +20,9 @@ TrainingGround::TrainingGround(Base *base, unsigned level, const AnyBuildingLeve
 
 int TrainingGround::useCostInEnergy() const noexcept
 {
-    int cnt=0;
-    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
-        if (m_mercenariesBeingTrained[i].first==nullptr)
+    int cnt = 0;
+    for (int i=0;i < m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first == nullptr)
             ++cnt;
     return currentLevelInfo()->perCapitaCostInEnergy * (m_mercenariesBeingTrained.size() - cnt);
 }
@@ -47,31 +47,31 @@ int TrainingGround::amountOfSlotsAfterUpgrade() const noexcept
     return nextLevelInfo()->amountOfSlots;
 }
 
-QPair<Mercenary *, unsigned> TrainingGround::slot(int index) noexcept
+QPair < Mercenary *, unsigned> TrainingGround::slot(int index) noexcept
 {
     return m_mercenariesBeingTrained.value(index,{nullptr,0});
 }
 
 QString TrainingGround::mercenaryNameInSlot(unsigned index) const noexcept
 {
-    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first != nullptr)
         return m_mercenariesBeingTrained[index].first->name();
     return "";
 }
 
 QString TrainingGround::mercenaryProfessionInSlot(unsigned index) const noexcept
 {
-    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first!=nullptr)
+    if (index < m_mercenariesBeingTrained.size() && m_mercenariesBeingTrained[index].first != nullptr)
         return m_mercenariesBeingTrained[index].first->professionString();
     return "";
 }
 
 void TrainingGround::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingTrained.size())
+    if (slotIndex >= m_mercenariesBeingTrained.size())
         return;
 
-    if (m_mercenariesBeingTrained[slotIndex].first!=nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first != nullptr)
         emptySlot(slotIndex);
 
     int pos = base()->mercenaries()->mercenaries()->findMercenary(mercenaryName);
@@ -81,32 +81,32 @@ void TrainingGround::placeMercenaryInSlot(unsigned slotIndex, const QString &mer
     if (base()->mercenaries()->mercenaries()->getMercenary(pos)->currentActivity() != MercenaryEnums::CA_Idle)
         return;
 
-    m_mercenariesBeingTrained[slotIndex].first=base()->mercenaries()->mercenaries()->getMercenary(pos);
+    m_mercenariesBeingTrained[slotIndex].first = base()->mercenaries()->mercenaries()->getMercenary(pos);
     m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_OnTrainingGround);
-    m_mercenariesBeingTrained[slotIndex].second=duration();
+    m_mercenariesBeingTrained[slotIndex].second = duration();
 }
 
 void TrainingGround::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingTrained.size())
+    if (slotIndex >= m_mercenariesBeingTrained.size())
         return;
 
-    if (m_mercenariesBeingTrained[slotIndex].first==nullptr)
+    if (m_mercenariesBeingTrained[slotIndex].first == nullptr)
         return;
 
     m_mercenariesBeingTrained[slotIndex].first->setCurrentActivity(MercenaryEnums::CA_Idle);
-    m_mercenariesBeingTrained[slotIndex].first=nullptr;
-    m_mercenariesBeingTrained[slotIndex].second=0;
+    m_mercenariesBeingTrained[slotIndex].first = nullptr;
+    m_mercenariesBeingTrained[slotIndex].second = 0;
 }
 
 void TrainingGround::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
-        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name() == name)
+    for (int i=0;i < m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first != nullptr && m_mercenariesBeingTrained[i].first->name() == name)
         {
             m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
-            m_mercenariesBeingTrained[i].first=nullptr;
-            m_mercenariesBeingTrained[i].second=0;
+            m_mercenariesBeingTrained[i].first = nullptr;
+            m_mercenariesBeingTrained[i].second = 0;
             break;
         }
 }
@@ -133,27 +133,27 @@ int TrainingGround::durationAfterUpgrade() const noexcept
 
 void TrainingGround::trainMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
-        if (m_mercenariesBeingTrained[i].first!=nullptr)
+    for (int i=0;i < m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first != nullptr)
         {
-            if (m_mercenariesBeingTrained[i].second>0 && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
+            if (m_mercenariesBeingTrained[i].second > 0 && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
             {
                 base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
 
                 --m_mercenariesBeingTrained[i].second;
             }
-            else if (m_mercenariesBeingTrained[i].second==0)
+            else if (m_mercenariesBeingTrained[i].second == 0)
             {
                 base()->reports()->addReport(new UnifiedReport(new TrainingCompletionReport(m_mercenariesBeingTrained[i].first->pathToArt(), m_mercenariesBeingTrained[i].first->name(), BuildingEnums::B_TrainingGround, base()->gameClock()->currentTime())));
                 m_mercenariesBeingTrained[i].first->trainCombatEffectiveness();
                 m_mercenariesBeingTrained[i].first->setCurrentActivity(MercenaryEnums::CA_Idle);
-                m_mercenariesBeingTrained[i].first=nullptr;
-                m_mercenariesBeingTrained[i].second=0;
+                m_mercenariesBeingTrained[i].first = nullptr;
+                m_mercenariesBeingTrained[i].second = 0;
             }
         }
 }
 
-void TrainingGround::setLevelsInfo(const QVector<TrainingGroundLevelInfo *> &info) noexcept
+void TrainingGround::setLevelsInfo(const QVector < TrainingGroundLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -168,7 +168,7 @@ unsigned TrainingGround::upgradeTimeRemaining() noexcept
 
 void TrainingGround::registerUpgradeCompletion() noexcept
 {
-    m_isBeingUpgraded=0;
+    m_isBeingUpgraded = 0;
     resizeSlotsAfterUpgrade();
 }
 
@@ -181,27 +181,27 @@ void TrainingGround::resizeSlotsAfterUpgrade() noexcept
 
 int TrainingGround::remainingDaysOfTraining(const QString &mercenaryName) const noexcept
 {
-    for (int i=0;i<m_mercenariesBeingTrained.size();++i)
-        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name()==mercenaryName)
+    for (int i=0;i < m_mercenariesBeingTrained.size();++i)
+        if (m_mercenariesBeingTrained[i].first!=nullptr && m_mercenariesBeingTrained[i].first->name() == mercenaryName)
             return m_mercenariesBeingTrained[i].second;
     return -1;
 }
 
 TrainingGroundLevelInfo *TrainingGround::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<TrainingGroundLevelInfo>();
+    return Building::currentLevelInfo<TrainingGroundLevelInfo > ();
 }
 
 TrainingGroundLevelInfo *TrainingGround::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<TrainingGroundLevelInfo>();
+    return Building::nextLevelInfo<TrainingGroundLevelInfo > ();
 }
 
 void TrainingGround::setSlot(unsigned index, Mercenary *mercenary, unsigned duration) noexcept
 {
-    if (index<m_mercenariesBeingTrained.size())
+    if (index < m_mercenariesBeingTrained.size())
     {
-        m_mercenariesBeingTrained[index].first=mercenary;
-        m_mercenariesBeingTrained[index].second=duration;
+        m_mercenariesBeingTrained[index].first = mercenary;
+        m_mercenariesBeingTrained[index].second = duration;
     }
 }

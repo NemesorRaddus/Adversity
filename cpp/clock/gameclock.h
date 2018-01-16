@@ -26,7 +26,7 @@ public:
     Q_INVOKABLE void updateClock() noexcept;//changes time smartly
     Q_INVOKABLE bool hasDayChangedLately() const noexcept
     {
-        return (static_cast<unsigned>(m_currentTimeInGame.h)==0 && static_cast<unsigned>(m_currentTimeInGame.min)==0);
+        return (static_cast<unsigned>(m_currentTimeInGame.h)==0 && static_cast<unsigned>(m_currentTimeInGame.min) == 0);
     }
 
     Q_INVOKABLE inline int currentDay() const noexcept

@@ -223,7 +223,7 @@ public:
     }
     Q_INVOKABLE inline bool hasArmor() const noexcept
     {
-        return m_armor!=nullptr;
+        return m_armor != nullptr;
     }
     Q_INVOKABLE bool hasWeaponToolInSlot(unsigned slot) const noexcept;
     Q_INVOKABLE void prepareWeaponTool(unsigned slot) noexcept;
@@ -271,7 +271,7 @@ public:
     void setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept;
     Q_INVOKABLE inline bool isCommunicationAvailable() const noexcept
     {
-        return m_noSignalDaysRemaining==0;
+        return m_noSignalDaysRemaining == 0;
     }
 
     Q_INVOKABLE inline int carriedEnergy() const noexcept
@@ -348,19 +348,19 @@ private:
 
     void setName(const QString &name) noexcept
     {
-        m_name=name;
+        m_name = name;
     }
     void setStressBorderEffects(const QVector <MercenaryStressBorderEffect> &stressBorderEffects) noexcept
     {
-        m_stressBorderEffects=stressBorderEffects;
+        m_stressBorderEffects = stressBorderEffects;
     }
     void setNature(MercenaryEnums::Nature nature) noexcept
     {
-        m_nature=nature;
+        m_nature = nature;
     }
     void setProfession(MercenaryEnums::Profession profession) noexcept
     {
-        m_profession=profession;
+        m_profession = profession;
     }
 
     void activateStressBorderEffect() noexcept;
@@ -536,12 +536,12 @@ public:
 
     void setNature(MercenaryEnums::Nature nature) noexcept
     {
-        m_mercenary->m_nature=nature;
+        m_mercenary->m_nature = nature;
     }
 
     void setProfession(MercenaryEnums::Profession profession) noexcept
     {
-        m_mercenary->m_profession=profession;
+        m_mercenary->m_profession = profession;
     }
 
     void setAndEquipArmor(Equipment *armor) noexcept
@@ -551,21 +551,21 @@ public:
     void setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept;
     void setCarriedEquipment(const QVector <Equipment *> &eqs) noexcept
     {
-        m_mercenary->m_carriedEquipment=eqs;
+        m_mercenary->m_carriedEquipment = eqs;
     }
 
     void setIsDead(bool dead) noexcept
     {
-        m_mercenary->m_isDead=dead;
+        m_mercenary->m_isDead = dead;
     }
     void setIndexOfCurrentSBE(int index) noexcept
     {
-        m_mercenary->m_indexOfCurrentSBE=index;
+        m_mercenary->m_indexOfCurrentSBE = index;
     }
 
     void setNoSignalDaysRemaining(int amount) noexcept
     {
-        m_mercenary->m_noSignalDaysRemaining=amount;
+        m_mercenary->m_noSignalDaysRemaining = amount;
     }
 
     void setCarriedEnergy(int amount) noexcept;
@@ -577,11 +577,11 @@ public:
 
     void setAssignedMission(Mission *mission) noexcept
     {
-        m_mercenary->m_assignedMission=mission;
+        m_mercenary->m_assignedMission = mission;
     }
     void setCurrentActivity(MercenaryEnums::CurrentActivity activity) noexcept
     {
-        m_mercenary->m_currentActivity=activity;
+        m_mercenary->m_currentActivity = activity;
     }
 
 private:

@@ -26,7 +26,7 @@ bool SavesManager::isNameUnique(const QString &name) const noexcept
 
 int SavesManager::findSave(const QString &name) const noexcept
 {
-    for (int i=0;i<m_saves.size();++i)
+    for (int i=0;i < m_saves.size();++i)
         if (m_saves[i].name == name)
             return i;
     return -1;
@@ -38,9 +38,9 @@ SaveInfo SavesManager::createNewSave(const QString &name, const QString &pathToI
     {
         SaveInfo save;
         if (m_saves.empty())
-            save.id=0;
+            save.id = 0;
         else
-            save.id=m_saves.last().id;
+            save.id = m_saves.last().id;
 
         save.name = name;
 
@@ -106,7 +106,7 @@ void SavesManager::renameSave(unsigned index, const QString &newName) noexcept
 
 void SavesManager::deleteSave(unsigned index) noexcept
 {
-    if (index<m_saves.size())
+    if (index < m_saves.size())
     {
         QSettings().remove(QString{"save_"}+QString::number(m_saves[index].id));
         m_saves.remove(index);
@@ -130,20 +130,20 @@ void SavesManager::loadSavesList() noexcept
 
 SaveInfo SavesManager::readSaveInfo(const QByteArray &data) noexcept
 {
-    QByteArray t=qUncompress(data);
+    QByteArray t = qUncompress(data);
 
     SaveInfo info;
     QDataStream str(&t,QIODevice::ReadOnly);
     quint16 uu;
 
     str>>uu;
-    info.id=uu;
+    info.id = uu;
 
     str>>info.name;
 
     QByteArray ba;
     str>>ba;
-    info.data=SaveParser::readData(ba);
+    info.data = SaveParser::readData(ba);
 
     info.day = info.data.overall.lastKnownDay;
 

@@ -6,7 +6,7 @@
 
 XmlFileReaderBase::XmlFileReaderBase() noexcept
 {
-    m_xmlReader=new QXmlStreamReader();
+    m_xmlReader = new QXmlStreamReader();
 }
 
 XmlFileReaderBase::~XmlFileReaderBase() noexcept
@@ -16,10 +16,10 @@ XmlFileReaderBase::~XmlFileReaderBase() noexcept
 
 bool XmlFileReaderBase::openXmlFile(const QString &path) noexcept
 {
-    QFile *f=new QFile(path);
+    QFile *f = new QFile(path);
     if (!f->open(QFile::ReadOnly))
         return 0;
     delete m_xmlReader;
-    m_xmlReader=new QXmlStreamReader(f);
+    m_xmlReader = new QXmlStreamReader(f);
     return 1;
 }

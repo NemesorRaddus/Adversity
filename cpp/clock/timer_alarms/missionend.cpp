@@ -12,17 +12,17 @@ MissionEndTimerAlarm::MissionEndTimerAlarm(Base *base, Mission *mission) noexcep
 
 bool MissionEndTimerAlarm::operator ==(const MissionEndTimerAlarm &other) const noexcept
 {
-    return m_mission==other.m_mission;
+    return m_mission == other.m_mission;
 }
 
 Mission *MissionEndTimerAlarm::mission() noexcept
 {
-    if (m_mission!=nullptr)
+    if (m_mission != nullptr)
         return m_mission;
     for (const auto &e : m_base->missions()->missions())
-        if (m_missionMercenaryName==e->assignedMercenary()->name())
+        if (m_missionMercenaryName == e->assignedMercenary()->name())
         {
-            m_mission=e;
+            m_mission = e;
             return e;
         }
     return nullptr;
@@ -37,7 +37,7 @@ QDataStream &MissionEndTimerAlarm::read(QDataStream &stream) noexcept
 
 QDataStream &MissionEndTimerAlarm::write(QDataStream &stream) const noexcept
 {
-    stream<<(m_mission!=nullptr ? m_mission->assignedMercenary()->name() : m_missionMercenaryName);
+    stream<<(m_mission != nullptr ? m_mission->assignedMercenary()->name() : m_missionMercenaryName);
 
     return stream;
 }

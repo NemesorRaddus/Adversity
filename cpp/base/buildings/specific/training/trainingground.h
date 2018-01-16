@@ -75,7 +75,7 @@ public:
 
     void trainMercenaries() noexcept;
 
-    void setLevelsInfo(const QVector<TrainingGroundLevelInfo *> &info) noexcept;
+    void setLevelsInfo(const QVector < TrainingGroundLevelInfo *> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
 

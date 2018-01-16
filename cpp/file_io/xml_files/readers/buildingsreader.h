@@ -36,7 +36,7 @@ public:
     BuildingsReader() noexcept = default;
     virtual ~BuildingsReader() noexcept = default;
 
-    QPair <QVector <CentralUnitLevelInfo *>, QVector<BuildingUpgradeRequirements> > getCentralUnitLevelsInfo(const QString &path) noexcept;
+    QPair <QVector <CentralUnitLevelInfo *>, QVector <BuildingUpgradeRequirements> > getCentralUnitLevelsInfo(const QString &path) noexcept;
     QPair <QVector <HospitalLevelInfo *>, QVector <BuildingUpgradeRequirements> > getHospitalLevelsInfo(const QString &path) noexcept;
     QPair <QVector <TrainingGroundLevelInfo *>, QVector <BuildingUpgradeRequirements> > getTrainingGroundLevelsInfo(const QString &path) noexcept;
     QPair <QVector <GymLevelInfo *>, QVector <BuildingUpgradeRequirements> > getGymLevelsInfo(const QString &path) noexcept;

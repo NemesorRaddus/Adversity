@@ -49,9 +49,9 @@ QQmlApplicationEngine *Game::m_ptrToEngine;
 Game::Game(QObject *parent) noexcept
     : QObject(parent)
 {
-    m_ptrToGameObject=this;
+    m_ptrToGameObject = this;
 
-    m_buildInfo=new AppBuildInfo;
+    m_buildInfo = new AppBuildInfo;
     loadVersionInfo();
 
     loadSettings();
@@ -60,11 +60,11 @@ Game::Game(QObject *parent) noexcept
 
     m_loggersHandler = new LoggersHandler;
 
-    m_startupTimer=new QElapsedTimer;
+    m_startupTimer = new QElapsedTimer;
     m_startupTimer->start();
     qInfo()<<QString("[0.000] Game object initialization has started");
 
-    m_translations=new TranslationsDB(":/");
+    m_translations = new TranslationsDB(":/");
     if (!QSettings().contains("lang"))
     {
         if (QLocale::system().name()!="pl_PL" && QLocale::system().name()!="en_GB")
@@ -74,16 +74,16 @@ Game::Game(QObject *parent) noexcept
     }
     setLocale(QSettings().value("lang").toString());
 
-    m_savesManager=new SavesManager;
+    m_savesManager = new SavesManager;
 
     loadAssets(m_pathToAssetsDir);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
 
-    m_base=new Base(this);
+    m_base = new Base(this);
 
-    m_h4xLogic=new H4X;
+    m_h4xLogic = new H4X;
 
-    m_globalsExportToQML=new GlobalUtilities;
+    m_globalsExportToQML = new GlobalUtilities;
 
     connectAutosave();
 }
@@ -118,7 +118,7 @@ Game::~Game() noexcept
 
 void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept
 {
-    m_ptrToEngine=engine;
+    m_ptrToEngine = engine;
 }
 
 void Game::createNewBase() noexcept
@@ -137,7 +137,7 @@ void Game::createNewBase() noexcept
 
 void Game::loadExistingBase() noexcept
 {
-    QByteArray ba=QSettings().value("save01").toByteArray();
+    QByteArray ba = QSettings().value("save01").toByteArray();
     if (ba.isEmpty())
         return createNewBase();
 
@@ -167,7 +167,7 @@ QString Game::currentVersionNumber() const noexcept
 
 void Game::setLocale(const QString &locale) noexcept
 {
-    if (locale!=m_translations->currentLanguage())
+    if (locale != m_translations->currentLanguage())
         loadTranslations(locale);
     //TODO in QML on lang selection screen add call to update() of everything
 }
@@ -189,7 +189,7 @@ unsigned Game::randomize(unsigned bottom, unsigned top) noexcept
 
 int Game::startupTimerElapsed() noexcept
 {
-    return m_startupTimer!=nullptr ? m_startupTimer->elapsed() : 0;
+    return m_startupTimer != nullptr ? m_startupTimer->elapsed() : 0;
 }
 
 void Game::showReportNotification() noexcept
