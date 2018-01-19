@@ -32,6 +32,7 @@
 #include "general/game.h"
 #include "general/globalutilities.h"
 #include "general/randomizer.h"
+#include "general/savesmanager.h"
 #include "h4x/h4x.h"
 #include "logging/loggershandler.h"
 #include "mercenaries/mercenariescontainer.h"
@@ -50,48 +51,48 @@ int main(int argc, char *argv[])
 
     Randomizer::initialize();
 
-    qmlRegisterType<FPSText > ("FPSComponent",1,0,"FPSCounter");
+    qmlRegisterType<FPSText> ("FPSComponent",1,0,"FPSCounter");
 
-    qmlRegisterInterface<Base > ("Base");
-    qmlRegisterInterface<BuildingsManager > ("BuildingsManager");
-    qmlRegisterInterface<EquipmentManager > ("EquipmentManager");
-    qmlRegisterInterface<MercenariesManager > ("MercenariesManager");
-    qmlRegisterInterface<MissionsManager > ("MissionsManager");
-    qmlRegisterInterface<ReportsManager > ("ReportsManager");
-    qmlRegisterInterface<ResourcesManager > ("ResourcesManager");
-    qmlRegisterInterface<CentralUnit > ("CentralUnit");
-    qmlRegisterInterface<Hospital > ("Hospital");
-    qmlRegisterInterface<TrainingGround > ("TrainingGround");
-    qmlRegisterInterface<Gym > ("Gym");
-    qmlRegisterInterface<Laboratory > ("Laboratory");
-    qmlRegisterInterface<PlayingField > ("PlayingField");
-    qmlRegisterInterface<Bar > ("Bar");
-    qmlRegisterInterface<Shrine > ("Shrine");
-    qmlRegisterInterface<Seclusion > ("Seclusion");
-    qmlRegisterInterface<Powerplant > ("Powerplant");
-    qmlRegisterInterface<Factory > ("Factory");
-    qmlRegisterInterface<CoolRoom > ("CoolRoom");
-    qmlRegisterInterface<StorageRoom > ("StorageRoom");
-    qmlRegisterInterface<AetheriteSilo > ("AetheriteSilo");
-    qmlRegisterInterface<Barracks > ("Barracks");
-    qmlRegisterInterface<DockingStation > ("DockingStation");
-    qmlRegisterInterface<AppBuildInfo > ("AppBuildInfo");
-    qmlRegisterInterface<Database > ("Database");
-    qmlRegisterInterface<Equipment > ("Equipment");
-    qmlRegisterInterface<GameClock > ("GameClock");
-    qmlRegisterInterface<GlobalUtilities > ("GlobalUtilities");
-    qmlRegisterInterface<H4X > ("H4X");
-    qmlRegisterInterface<Land > ("Land");
-    qmlRegisterInterface<LandsInfo > ("LandsInfo");
-    qmlRegisterInterface<LoggersHandler > ("LoggersHandler");
-    qmlRegisterInterface<MercenariesContainer > ("MercenariesContainer");
-    qmlRegisterInterface<Mercenary > ("Mercenary");
-    qmlRegisterInterface<Mission > ("Mission");
-    qmlRegisterInterface<MissionInitializer > ("MissionInitializer");
-    qmlRegisterInterface<SavesManager > ("SavesManager");
-    qmlRegisterInterface<UnifiedReport > ("UnifiedReport");
+    qmlRegisterInterface<Base> ("Base");
+    qmlRegisterInterface<BuildingsManager> ("BuildingsManager");
+    qmlRegisterInterface<EquipmentManager> ("EquipmentManager");
+    qmlRegisterInterface<MercenariesManager> ("MercenariesManager");
+    qmlRegisterInterface<MissionsManager> ("MissionsManager");
+    qmlRegisterInterface<ReportsManager> ("ReportsManager");
+    qmlRegisterInterface<ResourcesManager> ("ResourcesManager");
+    qmlRegisterInterface<CentralUnit> ("CentralUnit");
+    qmlRegisterInterface<Hospital> ("Hospital");
+    qmlRegisterInterface<TrainingGround> ("TrainingGround");
+    qmlRegisterInterface<Gym> ("Gym");
+    qmlRegisterInterface<Laboratory> ("Laboratory");
+    qmlRegisterInterface<PlayingField> ("PlayingField");
+    qmlRegisterInterface<Bar> ("Bar");
+    qmlRegisterInterface<Shrine> ("Shrine");
+    qmlRegisterInterface<Seclusion> ("Seclusion");
+    qmlRegisterInterface<Powerplant> ("Powerplant");
+    qmlRegisterInterface<Factory> ("Factory");
+    qmlRegisterInterface<CoolRoom> ("CoolRoom");
+    qmlRegisterInterface<StorageRoom> ("StorageRoom");
+    qmlRegisterInterface<AetheriteSilo> ("AetheriteSilo");
+    qmlRegisterInterface<Barracks> ("Barracks");
+    qmlRegisterInterface<DockingStation> ("DockingStation");
+    qmlRegisterInterface<AppBuildInfo> ("AppBuildInfo");
+    qmlRegisterInterface<Database> ("Database");
+    qmlRegisterInterface<Equipment> ("Equipment");
+    qmlRegisterInterface<GameClock> ("GameClock");
+    qmlRegisterInterface<GlobalUtilities> ("GlobalUtilities");
+    qmlRegisterInterface<H4X> ("H4X");
+    qmlRegisterInterface<Land> ("Land");
+    qmlRegisterInterface<LandsInfo> ("LandsInfo");
+    qmlRegisterInterface<LoggersHandler> ("LoggersHandler");
+    qmlRegisterInterface<MercenariesContainer> ("MercenariesContainer");
+    qmlRegisterInterface<Mercenary> ("Mercenary");
+    qmlRegisterInterface<Mission> ("Mission");
+    qmlRegisterInterface<MissionInitializer> ("MissionInitializer");
+    qmlRegisterInterface<SavesManager> ("SavesManager");
+    qmlRegisterInterface<UnifiedReport> ("UnifiedReport");
 
-    qmlRegisterSingletonType<Game > ("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
+    qmlRegisterSingletonType<Game> ("Game", 1, 0, "GameApi", gameQObjectSingletontypeProvider);
 
     QQmlApplicationEngine engine;
 
