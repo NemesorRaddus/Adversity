@@ -100,12 +100,10 @@ Item {
     width: 1080
     height: 1440
 
-    Image {
-        id: additionalBackground
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     Item {

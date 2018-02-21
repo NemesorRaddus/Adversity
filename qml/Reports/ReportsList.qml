@@ -41,12 +41,25 @@ Item {
 
     onStateChanged: {
         if (state == "")
+        {
             GameApi.base.reports.markAllAsRead();
+            backgroundClicksCatcher.visible = true;
+        }
+        else
+            backgroundClicksCatcher.visible = false;
     }
 
     Rectangle {
         anchors.fill: parent
         color: "#171717"
+    }
+
+    MouseArea {
+        id: backgroundClicksCatcher
+
+        visible: false
+
+        anchors.fill: parent
     }
 
     Item {

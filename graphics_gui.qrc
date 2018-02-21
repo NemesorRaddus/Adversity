@@ -1,17 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>graphics/GUI/Abort.png</file>
-        <file>graphics/GUI/Attributes/CE.png</file>
-        <file>graphics/GUI/Attributes/CL.png</file>
-        <file>graphics/GUI/Attributes/HealthRestored.png</file>
-        <file>graphics/GUI/Attributes/PR.png</file>
-        <file>graphics/GUI/Attributes/StressLimit.png</file>
-        <file>graphics/GUI/Attributes/StressRelief.png</file>
-        <file>graphics/GUI/Attributes/StressResistance.png</file>
-        <file>graphics/GUI/Background.png</file>
-        <file>graphics/GUI/Connected.png</file>
-        <file>graphics/GUI/Database.png</file>
-        <file>graphics/GUI/Disconnected.png</file>
         <file>graphics/GUI/EquipmentAmount.png</file>
         <file>graphics/GUI/GUI.png</file>
         <file>graphics/GUI/Gym/Animation0.png</file>

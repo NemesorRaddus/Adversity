@@ -12,12 +12,10 @@ Rectangle {
     width: 1080
     height: 1920
 
-    Image {
-        id: background
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MainMenu {
