@@ -17,7 +17,7 @@ int CoolRoom::foodSuppliesLimitAfterUpgrade() const noexcept
     return nextLevelInfo()->foodSuppliesLimit;
 }
 
-void CoolRoom::setLevelsInfo(const QVector<CoolRoomLevelInfo *> &info) noexcept
+void CoolRoom::setLevelsInfo(const QVector < CoolRoomLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -32,10 +32,10 @@ unsigned CoolRoom::upgradeTimeRemaining() noexcept
 
 CoolRoomLevelInfo *CoolRoom::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<CoolRoomLevelInfo>();
+    return Building::currentLevelInfo<CoolRoomLevelInfo > ();
 }
 
 CoolRoomLevelInfo *CoolRoom::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<CoolRoomLevelInfo>();
+    return Building::nextLevelInfo<CoolRoomLevelInfo > ();
 }

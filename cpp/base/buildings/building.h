@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE unsigned maxLevel() const noexcept;
     Q_INVOKABLE inline bool maxLevelReached() const noexcept
     {
-        return currentLevel()==maxLevel();
+        return currentLevel() == maxLevel();
     }
 
     virtual BuildingUpgradeRequirements requirementsForNextLevel() const noexcept;
@@ -61,7 +61,7 @@ public:
 
     virtual void registerUpgradeCompletion() noexcept
     {
-        m_isBeingUpgraded=0;
+        m_isBeingUpgraded = 0;
     }
     Q_INVOKABLE inline bool isBeingUpgraded() const noexcept
     {
@@ -69,7 +69,7 @@ public:
     }
     void setIsBeingUpgraded(bool isUpgraded) noexcept
     {
-        m_isBeingUpgraded=isUpgraded;
+        m_isBeingUpgraded = isUpgraded;
     }
 
     void setCurrentLevel(unsigned level) noexcept;
@@ -88,12 +88,12 @@ protected:
     template <typename LevelInfo>
     LevelInfo *currentLevelInfo() const noexcept
     {
-        return m_levelsInfo->getLevel<LevelInfo>(currentLevel());
+        return m_levelsInfo->getLevel<LevelInfo > (currentLevel());
     }
     template <typename LevelInfo>
     LevelInfo *nextLevelInfo() const noexcept
     {
-        return m_levelsInfo->getLevel<LevelInfo>(currentLevel()+1);
+        return m_levelsInfo->getLevel<LevelInfo > (currentLevel()+1);
     }
 
     void setLevelsInfo(AnyBuildingLevelsInfo *levelsInfo) noexcept;
@@ -103,7 +103,7 @@ protected:
 private:
     void registerUpgradeStart() noexcept
     {
-        m_isBeingUpgraded=1;
+        m_isBeingUpgraded = 1;
     }
 
     Base *m_base;

@@ -28,7 +28,7 @@ void MissionsManager::startMission(Mission *mission) noexcept
 
 void MissionsManager::removeMission(Mission *mission) noexcept
 {
-    for (int i=0;i<m_missions.size();++i)
+    for (int i=0;i < m_missions.size();++i)
         if (m_missions[i] == mission)
         {
             delete m_missions[i];
@@ -39,8 +39,8 @@ void MissionsManager::removeMission(Mission *mission) noexcept
 
 void MissionsManager::prepareMission(unsigned index) noexcept
 {
-    if (index<m_missions.size())
-        m_preparedMission=m_missions[index];
+    if (index < m_missions.size())
+        m_preparedMission = m_missions[index];
 }
 
 int MissionsManager::remainingMissionDaysForMercenary(const QString &mercenaryName) noexcept

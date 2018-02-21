@@ -7,7 +7,7 @@ FPSText::FPSText(QQuickItem *parent) noexcept
     setFlag(QQuickItem::ItemHasContents);
 }
 
-void FPSText::paint(QPainter *painter) noexcept
+void FPSText::paint(QPainter *) noexcept
 {
     recalculateFPS();
 

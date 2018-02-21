@@ -10,7 +10,7 @@
 MercenariesManager::MercenariesManager(Base *base) noexcept
     : BaseManagerInterface(base)
 {
-    m_mercenaries=new MercenariesContainer(base);
+    m_mercenaries = new MercenariesContainer(base);
 }
 
 MercenariesManager::~MercenariesManager() noexcept

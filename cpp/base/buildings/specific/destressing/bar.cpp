@@ -59,7 +59,7 @@ QString Bar::mercenaryProfessionInSlot(unsigned index) const noexcept
 
 void Bar::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingDestressed.size())
+    if (slotIndex >= m_mercenariesBeingDestressed.size())
         return;
 
     if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
@@ -79,7 +79,7 @@ void Bar::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName)
 
 void Bar::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingDestressed.size())
+    if (slotIndex >= m_mercenariesBeingDestressed.size())
         return;
 
     if (m_mercenariesBeingDestressed[slotIndex]==nullptr)
@@ -92,7 +92,7 @@ void Bar::emptySlot(unsigned slotIndex) noexcept
 
 void Bar::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+    for (int i=0;i < m_mercenariesBeingDestressed.size();++i)
         if (m_mercenariesBeingDestressed[i]!=nullptr && m_mercenariesBeingDestressed[i]->name() == name)
         {
             m_mercenariesBeingDestressed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
@@ -143,7 +143,7 @@ int Bar::religiousStressReliefAfterUpgrade() const noexcept
 
 void Bar::destressMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+    for (int i=0;i < m_mercenariesBeingDestressed.size();++i)
         if (m_mercenariesBeingDestressed[i]!=nullptr && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
         {
             base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
@@ -180,12 +180,12 @@ void Bar::setRecoveryValuesForMercenary(unsigned index) noexcept
 
 void Bar::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+    for (int i=0;i < m_mercenariesBeingDestressed.size();++i)
         if (m_mercenariesBeingDestressed[i]!=nullptr)
             setRecoveryValuesForMercenary(i);
 }
 
-void Bar::setLevelsInfo(const QVector<BarLevelInfo *> &info) noexcept
+void Bar::setLevelsInfo(const QVector < BarLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -200,7 +200,7 @@ unsigned Bar::upgradeTimeRemaining() noexcept
 
 void Bar::registerUpgradeCompletion() noexcept
 {
-    m_isBeingUpgraded=0;
+    m_isBeingUpgraded = 0;
     resizeSlotsAfterUpgrade();
 }
 
@@ -214,16 +214,16 @@ void Bar::resizeSlotsAfterUpgrade() noexcept
 
 BarLevelInfo *Bar::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<BarLevelInfo>();
+    return Building::currentLevelInfo<BarLevelInfo > ();
 }
 
 BarLevelInfo *Bar::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<BarLevelInfo>();
+    return Building::nextLevelInfo<BarLevelInfo > ();
 }
 
 void Bar::setSlot(unsigned index, Mercenary *mercenary) noexcept
 {
-    if (index<m_mercenariesBeingDestressed.size())
+    if (index < m_mercenariesBeingDestressed.size())
         m_mercenariesBeingDestressed[index]=mercenary;
 }

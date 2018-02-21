@@ -23,38 +23,38 @@
 BuildingsManager::BuildingsManager(Base *base) noexcept
     : BaseManagerInterface(base), m_buildingRequirements(nullptr)
 {
-    m_centralUnit=new CentralUnit(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_CentralUnit));
-    m_hospital=new Hospital(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Hospital));
-    m_trainingGround=new TrainingGround(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_TrainingGround));
-    m_gym=new Gym(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Gym));
-    m_laboratory=new Laboratory(base,0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Laboratory));
-    m_playingField=new PlayingField(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_PlayingField));
-    m_bar=new Bar(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Bar));
-    m_shrine=new Shrine(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Shrine));
-    m_seclusion=new Seclusion(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Seclusion));
-    m_powerplant=new Powerplant(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Powerplant));
-    m_factory=new Factory(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Factory));
-    m_coolRoom=new CoolRoom(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_CoolRoom));
-    m_storageRoom=new StorageRoom(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_StorageRoom));
-    m_aetheriteSilo=new AetheriteSilo(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_AetheriteSilo));
-    m_barracks=new Barracks(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Barracks));
-    m_dockingStation=new DockingStation(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_DockingStation));m_buildings.insert(BuildingEnums::B_CentralUnit, static_cast<Building *>(m_centralUnit));
+    m_centralUnit = new CentralUnit(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_CentralUnit));
+    m_hospital = new Hospital(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Hospital));
+    m_trainingGround = new TrainingGround(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_TrainingGround));
+    m_gym = new Gym(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Gym));
+    m_laboratory = new Laboratory(base,0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Laboratory));
+    m_playingField = new PlayingField(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_PlayingField));
+    m_bar = new Bar(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Bar));
+    m_shrine = new Shrine(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Shrine));
+    m_seclusion = new Seclusion(base, 0, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Seclusion));
+    m_powerplant = new Powerplant(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Powerplant));
+    m_factory = new Factory(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Factory));
+    m_coolRoom = new CoolRoom(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_CoolRoom));
+    m_storageRoom = new StorageRoom(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_StorageRoom));
+    m_aetheriteSilo = new AetheriteSilo(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_AetheriteSilo));
+    m_barracks = new Barracks(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_Barracks));
+    m_dockingStation = new DockingStation(base, 1, base->gameObject()->assetsPool().buildingLevelInfo(BuildingEnums::B_DockingStation));m_buildings.insert(BuildingEnums::B_CentralUnit, static_cast < Building *>(m_centralUnit));
 
-    m_buildings.insert(BuildingEnums::B_Hospital, static_cast<Building *>(m_hospital));
-    m_buildings.insert(BuildingEnums::B_TrainingGround, static_cast<Building *>(m_trainingGround));
-    m_buildings.insert(BuildingEnums::B_Gym, static_cast<Building *>(m_gym));
-    m_buildings.insert(BuildingEnums::B_Laboratory, static_cast<Building *>(m_laboratory));
-    m_buildings.insert(BuildingEnums::B_PlayingField, static_cast<Building *>(m_playingField));
-    m_buildings.insert(BuildingEnums::B_Bar, static_cast<Building *>(m_bar));
-    m_buildings.insert(BuildingEnums::B_Shrine, static_cast<Building *>(m_shrine));
-    m_buildings.insert(BuildingEnums::B_Seclusion, static_cast<Building *>(m_seclusion));
-    m_buildings.insert(BuildingEnums::B_Powerplant, static_cast<Building *>(m_powerplant));
-    m_buildings.insert(BuildingEnums::B_Factory, static_cast<Building *>(m_factory));
-    m_buildings.insert(BuildingEnums::B_CoolRoom, static_cast<Building *>(m_coolRoom));
-    m_buildings.insert(BuildingEnums::B_StorageRoom, static_cast<Building *>(m_storageRoom));
-    m_buildings.insert(BuildingEnums::B_AetheriteSilo, static_cast<Building *>(m_aetheriteSilo));
-    m_buildings.insert(BuildingEnums::B_Barracks, static_cast<Building *>(m_barracks));
-    m_buildings.insert(BuildingEnums::B_DockingStation, static_cast<Building *>(m_dockingStation));
+    m_buildings.insert(BuildingEnums::B_Hospital, static_cast < Building *>(m_hospital));
+    m_buildings.insert(BuildingEnums::B_TrainingGround, static_cast < Building *>(m_trainingGround));
+    m_buildings.insert(BuildingEnums::B_Gym, static_cast < Building *>(m_gym));
+    m_buildings.insert(BuildingEnums::B_Laboratory, static_cast < Building *>(m_laboratory));
+    m_buildings.insert(BuildingEnums::B_PlayingField, static_cast < Building *>(m_playingField));
+    m_buildings.insert(BuildingEnums::B_Bar, static_cast < Building *>(m_bar));
+    m_buildings.insert(BuildingEnums::B_Shrine, static_cast < Building *>(m_shrine));
+    m_buildings.insert(BuildingEnums::B_Seclusion, static_cast < Building *>(m_seclusion));
+    m_buildings.insert(BuildingEnums::B_Powerplant, static_cast < Building *>(m_powerplant));
+    m_buildings.insert(BuildingEnums::B_Factory, static_cast < Building *>(m_factory));
+    m_buildings.insert(BuildingEnums::B_CoolRoom, static_cast < Building *>(m_coolRoom));
+    m_buildings.insert(BuildingEnums::B_StorageRoom, static_cast < Building *>(m_storageRoom));
+    m_buildings.insert(BuildingEnums::B_AetheriteSilo, static_cast < Building *>(m_aetheriteSilo));
+    m_buildings.insert(BuildingEnums::B_Barracks, static_cast < Building *>(m_barracks));
+    m_buildings.insert(BuildingEnums::B_DockingStation, static_cast < Building *>(m_dockingStation));
 }
 
 BuildingsManager::~BuildingsManager() noexcept
@@ -85,82 +85,82 @@ void BuildingsManager::initializeForNewBase() noexcept
 
 CentralUnit *BuildingsManager::centralUnit() noexcept
 {
-    return static_cast<CentralUnit *>(m_buildings.value(BuildingEnums::B_CentralUnit));
+    return static_cast < CentralUnit *>(m_buildings.value(BuildingEnums::B_CentralUnit));
 }
 
 Hospital *BuildingsManager::hospital() noexcept
 {
-    return static_cast<Hospital *>(m_buildings.value(BuildingEnums::B_Hospital));
+    return static_cast < Hospital *>(m_buildings.value(BuildingEnums::B_Hospital));
 }
 
 TrainingGround *BuildingsManager::trainingGround() noexcept
 {
-    return static_cast<TrainingGround *>(m_buildings.value(BuildingEnums::B_TrainingGround));
+    return static_cast < TrainingGround *>(m_buildings.value(BuildingEnums::B_TrainingGround));
 }
 
 Gym *BuildingsManager::gym() noexcept
 {
-    return static_cast<Gym *>(m_buildings.value(BuildingEnums::B_Gym));
+    return static_cast < Gym *>(m_buildings.value(BuildingEnums::B_Gym));
 }
 
 Laboratory *BuildingsManager::laboratory() noexcept
 {
-    return static_cast<Laboratory *>(m_buildings.value(BuildingEnums::B_Laboratory));
+    return static_cast < Laboratory *>(m_buildings.value(BuildingEnums::B_Laboratory));
 }
 
 PlayingField *BuildingsManager::playingField() noexcept
 {
-    return static_cast<PlayingField *>(m_buildings.value(BuildingEnums::B_PlayingField));
+    return static_cast < PlayingField *>(m_buildings.value(BuildingEnums::B_PlayingField));
 }
 
 Bar *BuildingsManager::bar() noexcept
 {
-    return static_cast<Bar *>(m_buildings.value(BuildingEnums::B_Bar));
+    return static_cast < Bar *>(m_buildings.value(BuildingEnums::B_Bar));
 }
 
 Shrine *BuildingsManager::shrine() noexcept
 {
-    return static_cast<Shrine *>(m_buildings.value(BuildingEnums::B_Shrine));
+    return static_cast < Shrine *>(m_buildings.value(BuildingEnums::B_Shrine));
 }
 
 Seclusion *BuildingsManager::seclusion() noexcept
 {
-    return static_cast<Seclusion *>(m_buildings.value(BuildingEnums::B_Seclusion));
+    return static_cast < Seclusion *>(m_buildings.value(BuildingEnums::B_Seclusion));
 }
 
 Powerplant *BuildingsManager::powerplant() noexcept
 {
-    return static_cast<Powerplant *>(m_buildings.value(BuildingEnums::B_Powerplant));
+    return static_cast < Powerplant *>(m_buildings.value(BuildingEnums::B_Powerplant));
 }
 
 Factory *BuildingsManager::factory() noexcept
 {
-    return static_cast<Factory *>(m_buildings.value(BuildingEnums::B_Factory));
+    return static_cast < Factory *>(m_buildings.value(BuildingEnums::B_Factory));
 }
 
 CoolRoom *BuildingsManager::coolRoom() noexcept
 {
-    return static_cast<CoolRoom *>(m_buildings.value(BuildingEnums::B_CoolRoom));
+    return static_cast < CoolRoom *>(m_buildings.value(BuildingEnums::B_CoolRoom));
 }
 
 StorageRoom *BuildingsManager::storageRoom() noexcept
 {
-    return static_cast<StorageRoom *>(m_buildings.value(BuildingEnums::B_StorageRoom));
+    return static_cast < StorageRoom *>(m_buildings.value(BuildingEnums::B_StorageRoom));
 }
 
 AetheriteSilo *BuildingsManager::aetheriteSilo() noexcept
 {
-    return static_cast<AetheriteSilo *>(m_buildings.value(BuildingEnums::B_AetheriteSilo));
+    return static_cast < AetheriteSilo *>(m_buildings.value(BuildingEnums::B_AetheriteSilo));
 }
 
 Barracks *BuildingsManager::barracks() noexcept
 {
-    return static_cast<Barracks *>(m_buildings.value(BuildingEnums::B_Barracks));
+    return static_cast < Barracks *>(m_buildings.value(BuildingEnums::B_Barracks));
 }
 
 DockingStation *BuildingsManager::dockingStation() noexcept
 {
-    return static_cast<DockingStation *>(m_buildings.value(BuildingEnums::B_DockingStation));
+    return static_cast < DockingStation *>(m_buildings.value(BuildingEnums::B_DockingStation));
 }
 
 unsigned BuildingsManager::buildingLevel(BuildingEnums::Building buildingName) const noexcept
@@ -190,7 +190,7 @@ void BuildingsManager::setBuildingDescription(BuildingEnums::Building buildingNa
     m_buildingDescriptions.insert(buildingName,desc);
 }
 
-void BuildingsManager::setBuildingDescriptions(const QMap<BuildingEnums::Building, QString> &descs) noexcept
+void BuildingsManager::setBuildingDescriptions(const QMap < BuildingEnums::Building, QString> &descs) noexcept
 {
     m_buildingDescriptions = descs;
 }

@@ -34,7 +34,7 @@ public:
     }
     void setAmountOfSlots(unsigned amount) noexcept
     {
-        m_amountOfSlots=amount;
+        m_amountOfSlots = amount;
     }
     Q_INVOKABLE inline unsigned amountOfSlots() const noexcept
     {

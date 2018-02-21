@@ -11,22 +11,22 @@ Time::Time(unsigned day, unsigned hour, unsigned minute) noexcept
 
 bool Time::operator ==(const Time &other) const noexcept
 {
-    return d==other.d && h==other.h && min==other.min;
+    return d==other.d && h==other.h && min == other.min;
 }
 
 bool Time::operator <(const Time &other) const noexcept
 {
-    if (d<other.d)
+    if (d < other.d)
         return 1;
-    else if (d>other.d)
+    else if (d > other.d)
         return 0;
 
-    if (h<other.h)
+    if (h < other.h)
         return 1;
-    else if (h>other.h)
+    else if (h > other.h)
         return 0;
 
-    if (min<other.min)
+    if (min < other.min)
         return 1;
     else
         return 0;
@@ -51,13 +51,13 @@ QDataStream &operator>>(QDataStream &stream, Time &time) noexcept
     quint16 uii;
 
     stream>>uii;
-    time.d=uii;
+    time.d = uii;
 
     stream>>uii;
-    time.h=uii;
+    time.h = uii;
 
     stream>>uii;
-    time.min=uii;
+    time.min = uii;
 
     return stream;
 }

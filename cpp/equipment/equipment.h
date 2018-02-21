@@ -73,7 +73,7 @@ private:
     void setTier(int tier) noexcept;
     void setCategories(const QVector <EquipmentEnums::Category> &cats) noexcept
     {
-        m_categories=cats;
+        m_categories = cats;
     }
 
     void setCombatEffectivenessBonus(int combatEffectivenessBonus) noexcept;

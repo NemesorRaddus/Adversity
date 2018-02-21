@@ -16,15 +16,15 @@ ResourcesManager::ResourcesManager(Base *base) noexcept
 
 void ResourcesManager::initializeForNewBase() noexcept
 {
-    m_energy=250;
-    m_foodSupplies=24;
-    m_buildingMaterials=5;
-    m_aetherite=50;
+    m_energy = 250;
+    m_foodSupplies = 24;
+    m_buildingMaterials = 5;
+    m_aetherite = 50;
 }
 
 int ResourcesManager::currentTotalSalary() const noexcept
 {
-    int r=0;
+    int r = 0;
     for (auto e : base()->mercenaries()->mercenaries()->mercenaries())
         if (e->currentActivity() != MercenaryEnums::CA_Arriving)
             r+=e->salary();
@@ -57,47 +57,47 @@ void ResourcesManager::setCurrentAetheriteAmount(unsigned amount) noexcept
 
 void ResourcesManager::decreaseEnergyAmount(unsigned amount) noexcept
 {
-    m_energy = m_energy>amount ? m_energy-amount : 0;
+    m_energy = m_energy > amount ? m_energy-amount : 0;
 }
 
 void ResourcesManager::decreaseFoodSuppliesAmount(unsigned amount) noexcept
 {
-    m_foodSupplies = m_foodSupplies>amount ? m_foodSupplies-amount : 0;
+    m_foodSupplies = m_foodSupplies > amount ? m_foodSupplies-amount : 0;
 }
 
 void ResourcesManager::decreaseBuildingMaterialsAmount(unsigned amount) noexcept
 {
-    m_buildingMaterials = m_buildingMaterials>amount ? m_buildingMaterials-amount : 0;
+    m_buildingMaterials = m_buildingMaterials > amount ? m_buildingMaterials-amount : 0;
 }
 
 void ResourcesManager::decreaseAetheriteAmount(unsigned amount) noexcept
 {
-    m_aetherite = m_aetherite>amount ? m_aetherite-amount : 0;
+    m_aetherite = m_aetherite > amount ? m_aetherite-amount : 0;
 }
 
 void ResourcesManager::increaseEnergyAmount(unsigned amount) noexcept
 {
-    m_energy = m_energy+amount<currentEnergyLimit() ? m_energy+amount : currentEnergyLimit();
+    m_energy = m_energy+amount < currentEnergyLimit() ? m_energy+amount : currentEnergyLimit();
 }
 
 void ResourcesManager::increaseFoodSuppliesAmount(unsigned amount) noexcept
 {
-    m_foodSupplies = m_foodSupplies+amount<currentFoodSuppliesLimit() ? m_foodSupplies+amount : currentFoodSuppliesLimit();
+    m_foodSupplies = m_foodSupplies+amount < currentFoodSuppliesLimit() ? m_foodSupplies+amount : currentFoodSuppliesLimit();
 }
 
 void ResourcesManager::increaseBuildingMaterialsAmount(unsigned amount) noexcept
 {
-    m_buildingMaterials = m_buildingMaterials+amount<currentBuildingMaterialsLimit() ? m_buildingMaterials+amount : currentBuildingMaterialsLimit();
+    m_buildingMaterials = m_buildingMaterials+amount < currentBuildingMaterialsLimit() ? m_buildingMaterials+amount : currentBuildingMaterialsLimit();
 }
 
 void ResourcesManager::increaseAetheriteAmount(unsigned amount) noexcept
 {
-    m_aetherite = m_aetherite+amount<currentAetheriteLimit() ? m_aetherite+amount : currentAetheriteLimit();
+    m_aetherite = m_aetherite+amount < currentAetheriteLimit() ? m_aetherite+amount : currentAetheriteLimit();
 }
 
 int ResourcesManager::currentEnergyIncome() const noexcept
 {
-    int r=0;
+    int r = 0;
     for (int i=0;i<static_cast<int>(BuildingEnums::B_END);++i)
         r-=base()->buildings()->getBuilding(static_cast<BuildingEnums::Building>(i))->currentCostInEnergy();
     return r;
@@ -105,7 +105,7 @@ int ResourcesManager::currentEnergyIncome() const noexcept
 
 int ResourcesManager::currentFoodSuppliesIncome() const noexcept
 {
-    int r=0;
+    int r = 0;
     for (int i=0;i<static_cast<int>(BuildingEnums::B_END);++i)
         r-=base()->buildings()->getBuilding(static_cast<BuildingEnums::Building>(i))->currentCostInFoodSupplies();
     for (auto e : base()->mercenaries()->mercenaries()->mercenaries())
@@ -115,7 +115,7 @@ int ResourcesManager::currentFoodSuppliesIncome() const noexcept
 
 int ResourcesManager::currentBuildingMaterialsIncome() const noexcept
 {
-    int r=0;
+    int r = 0;
     for (int i=0;i<static_cast<int>(BuildingEnums::B_END);++i)
         r-=base()->buildings()->getBuilding(static_cast<BuildingEnums::Building>(i))->currentCostInBuildingMaterials();
     return r;
@@ -123,7 +123,7 @@ int ResourcesManager::currentBuildingMaterialsIncome() const noexcept
 
 int ResourcesManager::currentAetheriteIncome() const noexcept
 {
-    int r=0;
+    int r = 0;
     for (int i=0;i<static_cast<int>(BuildingEnums::B_END);++i)
         r-=base()->buildings()->getBuilding(static_cast<BuildingEnums::Building>(i))->currentCostInAetherite();
     return r;

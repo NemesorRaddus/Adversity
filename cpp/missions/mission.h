@@ -45,7 +45,7 @@ public:
     }
     Q_INVOKABLE inline unsigned remainingDays() const noexcept
     {
-        return m_duration-m_daysSpent>0 ? m_duration-m_daysSpent : 0;
+        return m_duration-m_daysSpent > 0 ? m_duration-m_daysSpent : 0;
     }
     Q_INVOKABLE inline unsigned daysSpent() const noexcept
     {
@@ -176,7 +176,7 @@ public:
     Q_INVOKABLE void setMercenary(const QString &name) noexcept;
     Q_INVOKABLE inline bool isMercenarySelected() const noexcept
     {
-        return m_mercenary!=nullptr;
+        return m_mercenary != nullptr;
     }
 
     Q_INVOKABLE void setArmor(const QString &name) noexcept;
