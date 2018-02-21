@@ -25,14 +25,14 @@ bool MainWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
 {
     if (!*m_lock)
     {
-        *m_lock=1;
+        *m_lock = 1;
         if (event->type() == QEvent::Close)
             QMetaObject::invokeMethod(m_consoleWindow, "close");
         else if (event->type() == QEvent::Show)
             QMetaObject::invokeMethod(m_consoleWindow, "show");//doesn't work...
         else if (event->type() == QEvent::Hide)
             QMetaObject::invokeMethod(m_consoleWindow, "hide");//that too
-        *m_lock=0;
+        *m_lock = 0;
     }
     return QObject::eventFilter(obj, event);
 }
@@ -41,14 +41,14 @@ bool ConsoleWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
 {
     if (!*m_lock)
     {
-        *m_lock=1;
+        *m_lock = 1;
         if (event->type() == QEvent::Close)
             QMetaObject::invokeMethod(m_mainWindow, "close");
         else if (event->type() == QEvent::Show)
             QMetaObject::invokeMethod(m_mainWindow, "show");//and that
         else if (event->type() == QEvent::Hide)
             QMetaObject::invokeMethod(m_mainWindow, "hide");//and that
-        *m_lock=0;
+        *m_lock = 0;
     }
     return QObject::eventFilter(obj, event);
 }
@@ -57,66 +57,66 @@ bool ConsoleWindowEventFilter::eventFilter(QObject *obj, QEvent *event) noexcept
 H4X::H4X(QQmlApplicationEngine *engine)
     : m_autoUpdate(1)
 {
-    m_qmlEngine=engine;
-    _h4xQmlEngine=engine;
+    m_qmlEngine = engine;
+    _h4xQmlEngine = engine;
 }
 
 H4X::H4X()
 {
-    m_qmlEngine=_h4xQmlEngine;
+    m_qmlEngine = _h4xQmlEngine;
 }
 
 void H4X::doTimeTravel(int days, int hours, int minutes) noexcept
 {
-    int mins=(days*24 + hours)*60 + minutes;
-    if (mins>0)
+    int mins = (days*24 + hours)*60 + minutes;
+    if (mins > 0)
         Game::gameInstance()->m_base->m_gameClock->updateClock(mins);
 }
 
 void H4X::speedUpTime(float multiplier) noexcept
 {
     Game::gameInstance()->m_base->m_gameClock->m_realMinutesToOneGameDayRatio /= multiplier;
-    QObject *win=m_qmlEngine->rootObjects().value(0);
+    QObject *win = m_qmlEngine->rootObjects().value(0);
     win->setProperty("gameTimerInterval",win->property("gameTimerInterval").toInt() / multiplier);
 }
 
 void H4X::slowDownTime(float multiplier) noexcept
 {
     Game::gameInstance()->m_base->m_gameClock->m_realMinutesToOneGameDayRatio *= multiplier;
-    QObject *win=m_qmlEngine->rootObjects().value(0);
+    QObject *win = m_qmlEngine->rootObjects().value(0);
     win->setProperty("gameTimerInterval",win->property("gameTimerInterval").toInt() * multiplier);
 }
 
 void H4X::freezeTime() noexcept
 {
-    QObject *win=m_qmlEngine->rootObjects().value(0);
+    QObject *win = m_qmlEngine->rootObjects().value(0);
     win->setProperty("gameTimerRunning",false);
 }
 
 void H4X::unfreezeTime() noexcept
 {
-    QObject *win=m_qmlEngine->rootObjects().value(0);
+    QObject *win = m_qmlEngine->rootObjects().value(0);
     win->setProperty("gameTimerRunning",true);
 }
 
 void H4X::setAetherite(unsigned amount) noexcept
 {
-    Game::gameInstance()->m_base->resources()->m_aetherite=amount;
+    Game::gameInstance()->m_base->resources()->m_aetherite = amount;
 }
 
 void H4X::setBuildingMaterials(unsigned amount) noexcept
 {
-    Game::gameInstance()->m_base->resources()->m_buildingMaterials=amount;
+    Game::gameInstance()->m_base->resources()->m_buildingMaterials = amount;
 }
 
 void H4X::setEnergy(unsigned amount) noexcept
 {
-    Game::gameInstance()->m_base->resources()->m_energy=amount;
+    Game::gameInstance()->m_base->resources()->m_energy = amount;
 }
 
 void H4X::setFoodSupplies(unsigned amount) noexcept
 {
-    Game::gameInstance()->m_base->resources()->m_foodSupplies=amount;
+    Game::gameInstance()->m_base->resources()->m_foodSupplies = amount;
 }
 
 void H4X::refill() noexcept
@@ -153,8 +153,8 @@ void H4X::setBuildingLevel(const QString &buildingName, unsigned level) noexcept
     {
         auto clock = Game::gameInstance()->m_base->m_gameClock;
         auto als = clock->getAllAlarms();
-        for (int i=0;i<als.size();++i)
-            if (als[i].second->type() == TimerAlarmEnums::AT_BuildingUpgrade && static_cast<BuildingUpgradeTimerAlarm*>(als[i].second)->buildingName() == BuildingEnums::fromQStringToBuildingEnum(buildingName))
+        for (int i=0;i < als.size();++i)
+            if (als[i].second->type() == TimerAlarmEnums::AT_BuildingUpgrade && static_cast < BuildingUpgradeTimerAlarm*>(als[i].second)->buildingName() == BuildingEnums::fromQStringToBuildingEnum(buildingName))
             {
                 clock->cancelAlarmAtPos(i);
                 break;//upgrade status removed
@@ -175,7 +175,7 @@ void H4X::burnItDown() noexcept
 {
     auto clock = Game::gameInstance()->m_base->m_gameClock;
     auto als = clock->getAllAlarms();
-    for (int i=0;i<als.size();++i)
+    for (int i=0;i < als.size();++i)
         if (als[i].second->type() == TimerAlarmEnums::AT_BuildingUpgrade)
             clock->cancelAlarmAtPos(i);//remove all upgrade statuses
 
@@ -219,7 +219,7 @@ void H4X::hire(const QString &mercenaryName) noexcept
             if (Game::gameInstance()->assetsPool().allMercenaries().contains(mercenaryName))
             {
                 Game::gameInstance()->assetsPool().loadMercenaryNamedFromList(mercenaryName);
-                for (int i=0;i<Game::gameInstance()->assetsPool().loadedMercenaries().size();++i)
+                for (int i=0;i < Game::gameInstance()->assetsPool().loadedMercenaries().size();++i)
                     if (Game::gameInstance()->assetsPool().loadedMercenaries()[i]->name() == mercenaryName)
                     {
                         Game::gameInstance()->m_base->mercenaries()->mercenaries()->addMercenary(Game::gameInstance()->assetsPool().loadedMercenaries()[i]);
@@ -232,7 +232,7 @@ void H4X::hire(const QString &mercenaryName) noexcept
 
 void H4X::kill(const QString &mercenaryName) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
         if (Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->name() == mercenaryName && !Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->isDead())
         {
             Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->die();
@@ -242,7 +242,7 @@ void H4X::kill(const QString &mercenaryName) noexcept
 
 void H4X::dismiss(const QString &mercenaryName, unsigned banTime) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
         if (Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->name() == mercenaryName && !Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->isDead())
         {
             Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->dismiss(banTime);
@@ -252,7 +252,7 @@ void H4X::dismiss(const QString &mercenaryName, unsigned banTime) noexcept
 
 void H4X::killThemAll() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();)
     {
         if (!Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->isDead())
             Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->die();
@@ -263,14 +263,14 @@ void H4X::killThemAll() noexcept
 
 void H4X::engulfThemInPain() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
         if (!Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->isDead())
-            Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->m_currentAttributesValues.health=1;
+            Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->m_currentAttributesValues.health = 1;
 }
 
 void H4X::chaosComesForYou() noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
         if (!Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->isDead())
         {
             Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->m_currentAttributesValues.stress = Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->m_currentAttributesValues.stressLimit-1;
@@ -281,7 +281,7 @@ void H4X::chaosComesForYou() noexcept
 
 void H4X::setMercenaryVariable(const QString &mercenaryName, const QString &varName, QVariant value) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
         if (Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->name() == mercenaryName)
         {
             if (varName == "noSignalDays")
@@ -317,8 +317,8 @@ void H4X::clearReports() noexcept
 
 void H4X::finishMission(const QString &mercenaryName) noexcept
 {
-    for (int i=0;i<Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
-        if (Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->name() == mercenaryName && Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->assignedMission()!=nullptr)
+    for (int i=0;i < Game::gameInstance()->m_base->mercenaries()->mercenaries()->amountOfMercenaries();++i)
+        if (Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->name() == mercenaryName && Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->assignedMission() != nullptr)
         {
             Game::gameInstance()->m_base->mercenaries()->mercenaries()->getMercenary(i)->assignedMission()->forceEndSuccessfully();
             break;
@@ -327,13 +327,13 @@ void H4X::finishMission(const QString &mercenaryName) noexcept
 
 void H4X::forceUIUpdate() noexcept
 {
-    QObject *win=m_qmlEngine->rootObjects().value(0);
+    QObject *win = m_qmlEngine->rootObjects().value(0);
     win->setProperty("updateEverythingInAMoment",true);
 }
 
 void H4X::fps() noexcept
 {
-    QObject *win=m_qmlEngine->rootObjects().value(0);
+    QObject *win = m_qmlEngine->rootObjects().value(0);
     win->setProperty("enableFPSCounter",{!(win->property("enableFPSCounter").toBool())});
     Game::gameInstance()->acknowledgeFPSToggle();
 }
@@ -346,12 +346,12 @@ void H4X::destroyEverything() noexcept
 
 void H4X::freezeGameProgress() noexcept
 {
-    Game::gameInstance()->m_base->m_freezeGameProgress=1;
+    Game::gameInstance()->m_base->m_freezeGameProgress = 1;
     Game::gameInstance()->saveBase();
     exit(0);
 }
 
 void H4X::enableAutoUpdate(bool enable) noexcept
 {
-    m_autoUpdate=enable;
+    m_autoUpdate = enable;
 }

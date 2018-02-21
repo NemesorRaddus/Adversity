@@ -17,7 +17,7 @@ int AetheriteSilo::aetheriteLimitAfterUpgrade() const noexcept
     return nextLevelInfo()->aetheriteOreLimit;
 }
 
-void AetheriteSilo::setLevelsInfo(const QVector<AetheriteSiloLevelInfo *> &info) noexcept
+void AetheriteSilo::setLevelsInfo(const QVector < AetheriteSiloLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -32,10 +32,10 @@ unsigned AetheriteSilo::upgradeTimeRemaining() noexcept
 
 AetheriteSiloLevelInfo *AetheriteSilo::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<AetheriteSiloLevelInfo>();
+    return Building::currentLevelInfo<AetheriteSiloLevelInfo > ();
 }
 
 AetheriteSiloLevelInfo *AetheriteSilo::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<AetheriteSiloLevelInfo>();
+    return Building::nextLevelInfo<AetheriteSiloLevelInfo > ();
 }

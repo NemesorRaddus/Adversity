@@ -9,10 +9,10 @@ UnifiedReport::UnifiedReport(const Time &time, const QString &msg, const QString
 
 UnifiedReport::UnifiedReport(Report *sourceToDestroy) noexcept
 {
-    m_id=m_currentID++;
-    m_time=sourceToDestroy->time();
-    m_art=sourceToDestroy->art();
-    m_msg=sourceToDestroy->text();
+    m_id = m_currentID++;
+    m_time = sourceToDestroy->time();
+    m_art = sourceToDestroy->art();
+    m_msg = sourceToDestroy->text();
 
     delete sourceToDestroy;
 }
@@ -28,9 +28,9 @@ UnifiedReport::operator UnifiedReportDataHelper() const noexcept
 QString UnifiedReport::timestamp() const noexcept
 {
     QString r;
-    r+=static_cast<unsigned>(m_time.h)<10 ? "0"+QString::number(m_time.h) : QString::number(m_time.h);
+    r+=static_cast<unsigned>(m_time.h) < 10 ? "0"+QString::number(m_time.h) : QString::number(m_time.h);
     r+=":";
-    r+=static_cast<unsigned>(m_time.min)<10 ? "0"+QString::number(m_time.min) : QString::number(m_time.min);
+    r+=static_cast<unsigned>(m_time.min) < 10 ? "0"+QString::number(m_time.min) : QString::number(m_time.min);
     r+=" Day ";
     r+=QString::number(m_time.d);
     return r;
@@ -50,7 +50,7 @@ QDataStream &operator>>(QDataStream &stream, UnifiedReportDataHelper &report) no
 {
     quint32 uuu;
     stream>>uuu;
-    report.id=uuu;
+    report.id = uuu;
     stream>>report.time;
     stream>>report.msg;
     stream>>report.art;

@@ -7,7 +7,7 @@
 CentralUnit::CentralUnit(Base *base, unsigned level, const AnyBuildingLevelsInfo *levelsInfo) noexcept
     : Building(BuildingEnums::B_CentralUnit, base, level, levelsInfo) {}
 
-void CentralUnit::setLevelsInfo(const QVector<CentralUnitLevelInfo *> &info) noexcept
+void CentralUnit::setLevelsInfo(const QVector < CentralUnitLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -22,10 +22,10 @@ unsigned CentralUnit::upgradeTimeRemaining() noexcept
 
 CentralUnitLevelInfo *CentralUnit::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<CentralUnitLevelInfo>();
+    return Building::currentLevelInfo<CentralUnitLevelInfo > ();
 }
 
 CentralUnitLevelInfo *CentralUnit::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<CentralUnitLevelInfo>();
+    return Building::nextLevelInfo<CentralUnitLevelInfo > ();
 }

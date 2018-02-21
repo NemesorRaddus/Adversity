@@ -36,16 +36,16 @@ QDataStream &operator>>(QDataStream &stream, ActiveTransaction &transaction) noe
     quint16 ii;
 
     stream>>n;
-    transaction.sourceRes=static_cast<BaseEnums::Resource>(n);
+    transaction.sourceRes = static_cast<BaseEnums::Resource>(n);
 
     stream>>n;
-    transaction.targetRes=static_cast<BaseEnums::Resource>(n);
+    transaction.targetRes = static_cast<BaseEnums::Resource>(n);
 
     stream>>ii;
-    transaction.sourceAmount=ii;
+    transaction.sourceAmount = ii;
 
     stream>>ii;
-    transaction.targetAmount=ii;
+    transaction.targetAmount = ii;
 
     return stream;
 }
@@ -77,32 +77,32 @@ void DockingStation::prepareRecruits() noexcept
 
 void DockingStation::prepareRecruitForQML(unsigned slot) noexcept
 {
-    if (slot<m_recruits.size())
-        m_recruitPreparedForQML=m_recruits[slot];
+    if (slot < m_recruits.size())
+        m_recruitPreparedForQML = m_recruits[slot];
     else
-        m_recruitPreparedForQML=nullptr;
+        m_recruitPreparedForQML = nullptr;
 }
 
 void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
 {
     if (base()->mercenaries()->mercenaries()->canAddMercenary())
     {
-        for (int i=0;i<m_recruits.size();++i)
+        for (int i=0;i < m_recruits.size();++i)
             if (m_recruits[i]->name() == name)
             {
-                if (eta>0)
+                if (eta > 0)
                 {
                     m_recruits[i]->setCurrentActivity(MercenaryEnums::CA_Arriving);
                     base()->mercenaries()->mercenaries()->addMercenary(m_recruits[i]);
                     m_arrivingMercenaries.push_back({m_recruits[i],eta});
-                    if (m_recruitPreparedForQML==m_recruits[i])
+                    if (m_recruitPreparedForQML == m_recruits[i])
                     {
-                        if (m_recruits.size()>i+1)
-                            m_recruitPreparedForQML=m_recruits[i+1];
-                        else if (i>0)
-                            m_recruitPreparedForQML=m_recruits[i-1];
+                        if (m_recruits.size() > i+1)
+                            m_recruitPreparedForQML = m_recruits[i+1];
+                        else if (i > 0)
+                            m_recruitPreparedForQML = m_recruits[i-1];
                         else
-                            m_recruitPreparedForQML=nullptr;
+                            m_recruitPreparedForQML = nullptr;
                     }
                     m_recruits.remove(i);
                     break;
@@ -110,14 +110,14 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
                 else//instant
                 {
                     base()->mercenaries()->mercenaries()->addMercenary(m_recruits[i]);
-                    if (m_recruitPreparedForQML==m_recruits[i])
+                    if (m_recruitPreparedForQML == m_recruits[i])
                     {
-                        if (m_recruits.size()>i+1)
-                            m_recruitPreparedForQML=m_recruits[i+1];
-                        else if (i>0)
-                            m_recruitPreparedForQML=m_recruits[i-1];
+                        if (m_recruits.size() > i+1)
+                            m_recruitPreparedForQML = m_recruits[i+1];
+                        else if (i > 0)
+                            m_recruitPreparedForQML = m_recruits[i-1];
                         else
-                            m_recruitPreparedForQML=nullptr;
+                            m_recruitPreparedForQML = nullptr;
                     }
                     m_recruits.remove(i);
                     break;
@@ -128,11 +128,11 @@ void DockingStation::hireMercenary(const QString &name, unsigned eta) noexcept
 
 void DockingStation::doRecrutationStuff() noexcept
 {
-    for (int i=0;i<m_arrivingMercenaries.size();++i)
+    for (int i=0;i < m_arrivingMercenaries.size();++i)
     {
         if (m_arrivingMercenaries[i].second == 0)
         {
-            Mercenary *h=m_arrivingMercenaries[i].first;//antibug thing, leave it as it is
+            Mercenary *h = m_arrivingMercenaries[i].first;//antibug thing, leave it as it is
             base()->reports()->addReport(new UnifiedReport(new MercenaryArrivalReport(h->pathToArt(), h->name(), base()->gameClock()->currentTime())));
             h->setCurrentActivity(MercenaryEnums::CA_Idle);
             m_arrivingMercenaries.remove(i);
@@ -145,14 +145,14 @@ void DockingStation::doRecrutationStuff() noexcept
 QStringList DockingStation::getRecruitsNames() const noexcept
 {
     QStringList r;
-    for (int i=0;i<m_recruits.size();++i)
+    for (int i=0;i < m_recruits.size();++i)
         r+=m_recruits[i]->name();
     return r;
 }
 
 void DockingStation::cancelMercenaryArrival(const QString &name) noexcept
 {
-    for (int i=0;i<m_arrivingMercenaries.size();++i)
+    for (int i=0;i < m_arrivingMercenaries.size();++i)
         if (m_arrivingMercenaries[i].first->name() == name)
         {
             m_arrivingMercenaries.remove(i);
@@ -200,14 +200,14 @@ int DockingStation::maxTierAfterUpgrade() const noexcept
     return nextLevelInfo()->maxTier;
 }
 
-void DockingStation::setLevelsInfo(const QVector<DockingStationLevelInfo *> &info) noexcept
+void DockingStation::setLevelsInfo(const QVector < DockingStationLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
 
-void DockingStation::setTradingTables(const QVector<QMap<QPair<BaseEnums::Resource, BaseEnums::Resource>, float> > &tradingTables) noexcept
+void DockingStation::setTradingTables(const QVector<QMap<QPair < BaseEnums::Resource, BaseEnums::Resource>, float> > &tradingTables) noexcept
 {
-    m_tradingTables=tradingTables;
+    m_tradingTables = tradingTables;
 }
 
 unsigned DockingStation::upgradeTimeRemaining() noexcept
@@ -251,7 +251,7 @@ void DockingStation::startTransaction(unsigned sourceRes, unsigned targetRes, un
 
 void DockingStation::handleActiveTransactions() noexcept
 {
-    for (int i=0;i<m_activeTransactions.size();++i)
+    for (int i=0;i < m_activeTransactions.size();++i)
     {
         if (m_activeTransactions[i].second == 0)
         {
@@ -274,10 +274,10 @@ void DockingStation::handleActiveTransactions() noexcept
     }
 }
 
-QVector<QString> DockingStation::availableEquipmentsNames() const noexcept
+QVector <QString> DockingStation::availableEquipmentsNames() const noexcept
 {
     QVector <QString> r;
-    for (int i=0;i<m_equipments.size();++i)
+    for (int i=0;i < m_equipments.size();++i)
         r+=m_equipments[i]->name();
     return r;
 }
@@ -291,45 +291,45 @@ void DockingStation::prepareEquipments() noexcept
 {
     clearEquipments();
     loadEquipments();
-    m_equipmentPreparedForQML=m_equipments.value(0,nullptr);
+    m_equipmentPreparedForQML = m_equipments.value(0,nullptr);
 }
 
 void DockingStation::prepareEquipmentForQML(unsigned pos) noexcept
 {
-    if (pos<m_equipments.size())
-        m_equipmentPreparedForQML=m_equipments[pos];
+    if (pos < m_equipments.size())
+        m_equipmentPreparedForQML = m_equipments[pos];
 }
 
 void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
 {
-    if (pos<m_equipments.size())
+    if (pos < m_equipments.size())
     {
         base()->resources()->decreaseAetheriteAmount(m_equipments[pos]->buyingAetheriteCost());
-        if (eta>0)
+        if (eta > 0)
         {
             m_arrivingEquipments.push_back({m_equipments[pos],eta});
-            if (m_equipmentPreparedForQML==m_equipments[pos])
+            if (m_equipmentPreparedForQML == m_equipments[pos])
             {
-                if (m_equipments.size()>pos+1)
-                    m_equipmentPreparedForQML=m_equipments[pos+1];
-                else if (pos>0)
-                    m_equipmentPreparedForQML=m_equipments[pos-1];
+                if (m_equipments.size() > pos+1)
+                    m_equipmentPreparedForQML = m_equipments[pos+1];
+                else if (pos > 0)
+                    m_equipmentPreparedForQML = m_equipments[pos-1];
                 else
-                    m_equipmentPreparedForQML=nullptr;
+                    m_equipmentPreparedForQML = nullptr;
             }
             m_equipments.remove(pos);
         }
         else//instant
         {
             base()->equipment()->availableEquipment().push_back(m_equipments[pos]);
-            if (m_equipmentPreparedForQML==m_equipments[pos])
+            if (m_equipmentPreparedForQML == m_equipments[pos])
             {
-                if (m_equipments.size()>pos+1)
-                    m_equipmentPreparedForQML=m_equipments[pos+1];
-                else if (pos>0)
-                    m_equipmentPreparedForQML=m_equipments[pos-1];
+                if (m_equipments.size() > pos+1)
+                    m_equipmentPreparedForQML = m_equipments[pos+1];
+                else if (pos > 0)
+                    m_equipmentPreparedForQML = m_equipments[pos-1];
                 else
-                    m_equipmentPreparedForQML=nullptr;
+                    m_equipmentPreparedForQML = nullptr;
             }
             m_equipments.remove(pos);
         }
@@ -338,11 +338,11 @@ void DockingStation::buyEquipment(unsigned pos, unsigned eta) noexcept
 
 void DockingStation::doBuyingEquipmentStuff() noexcept
 {
-    for (int i=0;i<m_arrivingEquipments.size();++i)
+    for (int i=0;i < m_arrivingEquipments.size();++i)
     {
         if (m_arrivingEquipments[i].second == 0)
         {
-            Equipment *eq=m_arrivingEquipments[i].first;
+            Equipment *eq = m_arrivingEquipments[i].first;
             base()->reports()->addReport(new UnifiedReport(new EquipmentArrivalReport(eq->name(), base()->gameClock()->currentTime())));
             base()->equipment()->availableEquipment().push_back(eq);
             m_arrivingEquipments.remove(i);
@@ -354,7 +354,7 @@ void DockingStation::doBuyingEquipmentStuff() noexcept
 
 int DockingStation::remainingDaysUntilMercenaryArrival(const QString &mercenaryName) const noexcept
 {
-    for (int i=0;i<m_arrivingMercenaries.size();++i)
+    for (int i=0;i < m_arrivingMercenaries.size();++i)
         if (m_arrivingMercenaries[i].first->name() == mercenaryName)
             return m_arrivingMercenaries[i].second;
 
@@ -363,32 +363,32 @@ int DockingStation::remainingDaysUntilMercenaryArrival(const QString &mercenaryN
 
 DockingStationLevelInfo *DockingStation::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<DockingStationLevelInfo>();
+    return Building::currentLevelInfo<DockingStationLevelInfo > ();
 }
 
 DockingStationLevelInfo *DockingStation::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<DockingStationLevelInfo>();
+    return Building::nextLevelInfo<DockingStationLevelInfo > ();
 }
 
 void DockingStation::loadRecruits() noexcept
 {
     QStringList names{base()->gameObject()->assetsPool().allMercenaries()};//load all mercs names
-    for (int i=0;i<base()->mercenaries()->mercenaries()->mercenaries().size();++i)//remove mercs that are already hired
+    for (int i=0;i < base()->mercenaries()->mercenaries()->mercenaries().size();++i)//remove mercs that are already hired
         names.removeAt(names.indexOf(base()->mercenaries()->mercenaries()->mercenaries()[i]->name()));
-    for (int i=0;i<names.size();)//remove mercs banned in DoSt
+    for (int i=0;i < names.size();)//remove mercs banned in DoSt
     {
         if (base()->mercenaries()->mercenaryDockingStationBans().contains(names[i]))
             names.removeAt(i);
         else
             ++i;
     }
-    for (int i=0;i<recruitsAmount() && !names.isEmpty();++i)//add random recruits
+    for (int i=0;i < recruitsAmount() && !names.isEmpty();++i)//add random recruits
     {
         unsigned indexOfRecruit = Randomizer::randomBetweenAAndB(0,names.size()-1);
         base()->gameObject()->assetsPool().loadMercenaryNamedFromList(names[indexOfRecruit]);
-        for (int j=0;j<base()->gameObject()->assetsPool().loadedMercenaries().size();++j)
-            if (base()->gameObject()->assetsPool().loadedMercenaries()[j]->name()==names[indexOfRecruit])
+        for (int j=0;j < base()->gameObject()->assetsPool().loadedMercenaries().size();++j)
+            if (base()->gameObject()->assetsPool().loadedMercenaries()[j]->name() == names[indexOfRecruit])
             {
                 m_recruits.push_back(base()->gameObject()->assetsPool().loadedMercenaries()[j]);
                 break;
@@ -399,9 +399,9 @@ void DockingStation::loadRecruits() noexcept
 
 void DockingStation::clearRecruits() noexcept
 {
-    for (int i=0;i<m_recruits.size();++i)
+    for (int i=0;i < m_recruits.size();++i)
         if (m_recruits[i] != nullptr)//TODO possibly remove that if
-            for (int j=0;j<base()->gameObject()->assetsPool().loadedMercenaries().size();++j)
+            for (int j=0;j < base()->gameObject()->assetsPool().loadedMercenaries().size();++j)
                 if (base()->gameObject()->assetsPool().loadedMercenaries()[j]->name() == m_recruits[i]->name())
                 {
                     base()->gameObject()->assetsPool().unloadMercenary(j);
@@ -409,7 +409,7 @@ void DockingStation::clearRecruits() noexcept
                 }
     m_recruits.clear();
 
-    m_recruitPreparedForQML=nullptr;
+    m_recruitPreparedForQML = nullptr;
 }
 
 void DockingStation::addRecruitFromSave(Mercenary *mercenary) noexcept
@@ -417,27 +417,27 @@ void DockingStation::addRecruitFromSave(Mercenary *mercenary) noexcept
     m_recruits.push_back(mercenary);
 }
 
-void DockingStation::setActiveTransactionsFromSave(const QVector<QPair<ActiveTransaction, unsigned> > &transactions) noexcept
+void DockingStation::setActiveTransactionsFromSave(const QVector<QPair < ActiveTransaction, unsigned> > &transactions) noexcept
 {
-    m_activeTransactions=transactions;
+    m_activeTransactions = transactions;
 }
 
-void DockingStation::addArrivingMercenaryFromSave(const QPair<Mercenary *, unsigned> &arrMercenary) noexcept
+void DockingStation::addArrivingMercenaryFromSave(const QPair < Mercenary *, unsigned> &arrMercenary) noexcept
 {
     m_arrivingMercenaries+=arrMercenary;
 }
 
 void DockingStation::loadEquipments() noexcept
 {
-    auto allEq=base()->gameObject()->assetsPool().equipment();
-    for (int i=0;i<allEq.size();)
+    auto allEq = base()->gameObject()->assetsPool().equipment();
+    for (int i=0;i < allEq.size();)
     {
-        if (allEq[i]->tier()<=maxTier())
+        if (allEq[i]->tier() <= maxTier())
             ++i;
         else
             allEq.remove(i);
     }
-    for (int i=0;i<equipmentsAmount();++i)
+    for (int i=0;i < equipmentsAmount();++i)
     {
         unsigned indexOfEquipment = Randomizer::randomBetweenAAndB(0,allEq.size()-1);
         m_equipments.push_back(base()->gameObject()->assetsPool().makeEquipmentNamed(allEq[indexOfEquipment]->name()));
@@ -446,12 +446,12 @@ void DockingStation::loadEquipments() noexcept
 
 void DockingStation::clearEquipments() noexcept
 {
-    for (int i=0;i<m_equipments.size();++i)
+    for (int i=0;i < m_equipments.size();++i)
         delete m_equipments[i];
 
     m_equipments.clear();
 
-    m_equipmentPreparedForQML=nullptr;
+    m_equipmentPreparedForQML = nullptr;
 }
 
 void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
@@ -459,7 +459,7 @@ void DockingStation::addEquipmentFromSave(Equipment *eq) noexcept
     m_equipments.push_back(eq);
 }
 
-void DockingStation::addArrivingEquipmentFromSave(const QPair<Equipment *, unsigned> &arrEq) noexcept
+void DockingStation::addArrivingEquipmentFromSave(const QPair < Equipment *, unsigned> &arrEq) noexcept
 {
     m_arrivingEquipments+=arrEq;
 }

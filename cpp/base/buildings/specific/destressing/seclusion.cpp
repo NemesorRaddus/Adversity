@@ -59,7 +59,7 @@ QString Seclusion::mercenaryProfessionInSlot(unsigned index) const noexcept
 
 void Seclusion::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingDestressed.size())
+    if (slotIndex >= m_mercenariesBeingDestressed.size())
         return;
 
     if (m_mercenariesBeingDestressed[slotIndex]!=nullptr)
@@ -79,7 +79,7 @@ void Seclusion::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenar
 
 void Seclusion::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingDestressed.size())
+    if (slotIndex >= m_mercenariesBeingDestressed.size())
         return;
 
     if (m_mercenariesBeingDestressed[slotIndex]==nullptr)
@@ -92,7 +92,7 @@ void Seclusion::emptySlot(unsigned slotIndex) noexcept
 
 void Seclusion::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+    for (int i=0;i < m_mercenariesBeingDestressed.size();++i)
         if (m_mercenariesBeingDestressed[i]!=nullptr && m_mercenariesBeingDestressed[i]->name() == name)
         {
             m_mercenariesBeingDestressed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
@@ -143,7 +143,7 @@ int Seclusion::religiousStressReliefAfterUpgrade() const noexcept
 
 void Seclusion::destressMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+    for (int i=0;i < m_mercenariesBeingDestressed.size();++i)
         if (m_mercenariesBeingDestressed[i]!=nullptr && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy))
         {
             base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
@@ -180,12 +180,12 @@ void Seclusion::setRecoveryValuesForMercenary(unsigned index) noexcept
 
 void Seclusion::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingDestressed.size();++i)
+    for (int i=0;i < m_mercenariesBeingDestressed.size();++i)
         if (m_mercenariesBeingDestressed[i]!=nullptr)
             setRecoveryValuesForMercenary(i);
 }
 
-void Seclusion::setLevelsInfo(const QVector<SeclusionLevelInfo *> &info) noexcept
+void Seclusion::setLevelsInfo(const QVector < SeclusionLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -200,7 +200,7 @@ unsigned Seclusion::upgradeTimeRemaining() noexcept
 
 void Seclusion::registerUpgradeCompletion() noexcept
 {
-    m_isBeingUpgraded=0;
+    m_isBeingUpgraded = 0;
     resizeSlotsAfterUpgrade();
 }
 
@@ -214,16 +214,16 @@ void Seclusion::resizeSlotsAfterUpgrade() noexcept
 
 SeclusionLevelInfo *Seclusion::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<SeclusionLevelInfo>();
+    return Building::currentLevelInfo<SeclusionLevelInfo > ();
 }
 
 SeclusionLevelInfo *Seclusion::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<SeclusionLevelInfo>();
+    return Building::nextLevelInfo<SeclusionLevelInfo > ();
 }
 
 void Seclusion::setSlot(unsigned index, Mercenary *mercenary) noexcept
 {
-    if (index<m_mercenariesBeingDestressed.size())
+    if (index < m_mercenariesBeingDestressed.size())
         m_mercenariesBeingDestressed[index]=mercenary;
 }

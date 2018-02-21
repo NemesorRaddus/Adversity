@@ -17,7 +17,7 @@ int StorageRoom::buildingMaterialsLimitAfterUpgrade() const noexcept
     return nextLevelInfo()->buildingMaterialsLimit;
 }
 
-void StorageRoom::setLevelsInfo(const QVector<StorageRoomLevelInfo *> &info) noexcept
+void StorageRoom::setLevelsInfo(const QVector < StorageRoomLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -32,10 +32,10 @@ unsigned StorageRoom::upgradeTimeRemaining() noexcept
 
 StorageRoomLevelInfo *StorageRoom::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<StorageRoomLevelInfo>();
+    return Building::currentLevelInfo<StorageRoomLevelInfo > ();
 }
 
 StorageRoomLevelInfo *StorageRoom::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<StorageRoomLevelInfo>();
+    return Building::nextLevelInfo<StorageRoomLevelInfo > ();
 }

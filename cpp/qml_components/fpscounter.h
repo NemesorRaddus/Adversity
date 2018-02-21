@@ -15,7 +15,7 @@ public:
     FPSText(QQuickItem *parent = 0) noexcept;
     ~FPSText() = default;
 
-    void paint(QPainter *painter) noexcept;
+    void paint(QPainter *) noexcept;
     Q_INVOKABLE inline int fps() const noexcept
     {
         return m_currentFPS;

@@ -56,9 +56,9 @@ void Factory::exchangeResources() noexcept
 
 void Factory::setCurrentCycles(unsigned amount) noexcept
 {
-    if (amount<=maxCycles())
+    if (amount <= maxCycles())
     {
-        m_currentCycles=amount;
+        m_currentCycles = amount;
         LoggersProvider::buildingsLogger()->trace("[{}] Factory: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
     }
 }
@@ -73,7 +73,7 @@ unsigned Factory::maxCyclesAfterUpgrade() const noexcept
     return nextLevelInfo()->maxCycles;
 }
 
-void Factory::setLevelsInfo(const QVector<FactoryLevelInfo *> &info) noexcept
+void Factory::setLevelsInfo(const QVector < FactoryLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -88,10 +88,10 @@ unsigned Factory::upgradeTimeRemaining() noexcept
 
 FactoryLevelInfo *Factory::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<FactoryLevelInfo>();
+    return Building::currentLevelInfo<FactoryLevelInfo > ();
 }
 
 FactoryLevelInfo *Factory::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<FactoryLevelInfo>();
+    return Building::nextLevelInfo<FactoryLevelInfo > ();
 }

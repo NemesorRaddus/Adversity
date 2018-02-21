@@ -67,9 +67,9 @@ void Powerplant::exchangeResources() noexcept
 
 void Powerplant::setCurrentCycles(unsigned amount) noexcept
 {
-    if (amount<=maxCycles())
+    if (amount <= maxCycles())
     {
-        m_currentCycles=amount;
+        m_currentCycles = amount;
         LoggersProvider::buildingsLogger()->trace("[{}] Powerplant: current cycles amount: {}",base()->gameClock()->currentTime().toQString().toStdString(), m_currentCycles);
     }
 }
@@ -84,7 +84,7 @@ unsigned Powerplant::maxCyclesAfterUpgrade() const noexcept
     return nextLevelInfo()->maxCycles;
 }
 
-void Powerplant::setLevelsInfo(const QVector<PowerplantLevelInfo *> &info) noexcept
+void Powerplant::setLevelsInfo(const QVector < PowerplantLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -99,10 +99,10 @@ unsigned Powerplant::upgradeTimeRemaining() noexcept
 
 PowerplantLevelInfo *Powerplant::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<PowerplantLevelInfo>();
+    return Building::currentLevelInfo<PowerplantLevelInfo > ();
 }
 
 PowerplantLevelInfo *Powerplant::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<PowerplantLevelInfo>();
+    return Building::nextLevelInfo<PowerplantLevelInfo > ();
 }

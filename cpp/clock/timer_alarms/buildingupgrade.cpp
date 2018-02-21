@@ -10,14 +10,14 @@ QDataStream &BuildingUpgradeTimerAlarm::read(QDataStream &stream) noexcept
 {
     quint8 n;
     stream>>n;
-    m_type=static_cast<TimerAlarmEnums::AlarmType>(n);
+    m_type = static_cast<TimerAlarmEnums::AlarmType>(n);
     stream>>m_isAlreadyActive;
 
 
     stream>>n;
-    m_buildingName=static_cast<BuildingEnums::Building>(n);
+    m_buildingName = static_cast<BuildingEnums::Building>(n);
     stream>>n;
-    m_buildingLevel=static_cast<unsigned>(n);
+    m_buildingLevel = static_cast<unsigned>(n);
 
     return stream;
 }
@@ -45,9 +45,9 @@ QDataStream &operator>>(QDataStream &stream, BuildingUpgradeTimerAlarm &alarm) n
 
 bool BuildingUpgradeTimerAlarm::operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept
 {
-    if (m_buildingLevel!=other.m_buildingLevel)
+    if (m_buildingLevel != other.m_buildingLevel)
         return 0;
-    if (m_buildingName!=other.m_buildingName)
+    if (m_buildingName != other.m_buildingName)
         return 0;
     return 1;
 }

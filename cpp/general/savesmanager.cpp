@@ -104,7 +104,7 @@ void SavesManager::renameSave(unsigned index, const QString &newName) noexcept
 
 void SavesManager::deleteSave(unsigned index) noexcept
 {
-    if (index<m_saves.size())
+    if (index < m_saves.size())
     {
         QSettings().remove(QString{"save_"}+QString::number(m_saves[index].metadata.id));
         m_saves.remove(index);
@@ -152,7 +152,7 @@ void SavesManager::loadSavesList() noexcept
 
 Save SavesManager::readSave(const QByteArray &data) noexcept
 {
-    QByteArray t=qUncompress(data);
+    QByteArray t = qUncompress(data);
 
     Save save;
     QDataStream str(&t, QIODevice::ReadOnly);

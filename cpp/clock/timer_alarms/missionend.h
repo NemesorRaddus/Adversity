@@ -18,7 +18,7 @@ public:
     bool operator ==(const MissionEndTimerAlarm &other) const noexcept;
     inline bool operator !=(const MissionEndTimerAlarm &other) const noexcept
     {
-        return !(*this==other);
+        return !(*this == other);
     }
 
     Mission *mission() noexcept;

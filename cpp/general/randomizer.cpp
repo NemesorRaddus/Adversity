@@ -26,7 +26,7 @@ unsigned Randomizer::RandomizationMethods::bentRand(unsigned a, unsigned b)
         unsigned sum = 0;
         bool even = (a+b)%2 != 0;
         unsigned middle = (a+b)/2;
-        for (int i=a;i<middle + even;++i)
+        for (int i=a;i < middle + even;++i)
             sum += g(i);
         sum *= 2;
         if (!even)
@@ -42,12 +42,12 @@ unsigned Randomizer::RandomizationMethods::bentRand(unsigned a, unsigned b)
     };
 
     unsigned chances[amountOfValues];
-    for (int i=a;i<=b;++i)
+    for (int i=a;i <= b;++i)
         chances[i-a] = f(i);
 
     unsigned random = Randomizer::randomBetweenAAndB(0,100);
 
-    for (int i=0;i<amountOfValues;++i)
+    for (int i=0;i < amountOfValues;++i)
     {
         if (random <= chances[i])
             return i+a;

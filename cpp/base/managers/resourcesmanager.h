@@ -44,19 +44,19 @@ public:
 
     inline bool canDecreaseEnergyAmount(unsigned amount) const noexcept
     {
-        return m_energy>=amount;
+        return m_energy >= amount;
     }
     inline bool canDecreaseFoodSuppliesAmount(unsigned amount) const noexcept
     {
-        return m_foodSupplies>=amount;
+        return m_foodSupplies >= amount;
     }
     inline bool canDecreaseBuildingMaterialsAmount(unsigned amount) const noexcept
     {
-        return m_buildingMaterials>=amount;
+        return m_buildingMaterials >= amount;
     }
     inline bool canDecreaseAetheriteAmount(unsigned amount) const noexcept
     {
-        return m_aetherite>=amount;
+        return m_aetherite >= amount;
     }
 
     void decreaseEnergyAmount(unsigned amount) noexcept;

@@ -1,6 +1,6 @@
 #include "miscreader.h"
 
-QMap<QString, QMap<QString, QString> > MiscReader::getTranslations(const QString &path) noexcept
+QMap<QString, QMap < QString, QString> > MiscReader::getTranslations(const QString &path) noexcept
 {
     if (!openXmlFile(path))
     {
@@ -8,7 +8,7 @@ QMap<QString, QMap<QString, QString> > MiscReader::getTranslations(const QString
         return {};
     }
 
-    QMap<QString, QMap<QString, QString> > r;
+    QMap<QString, QMap < QString, QString> > r;
 
     if (m_xmlReader->readNextStartElement())
     {
@@ -19,7 +19,7 @@ QMap<QString, QMap<QString, QString> > MiscReader::getTranslations(const QString
                 if (m_xmlReader->name()=="text")
                 {
                     QXmlStreamAttributes attrs = m_xmlReader->attributes();
-                    QString originalText=attrs.value("original").toString();
+                    QString originalText = attrs.value("original").toString();
                     if (!r.contains(originalText))
                         r.insert(originalText,{});
                     while (m_xmlReader->readNextStartElement())

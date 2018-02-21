@@ -10,12 +10,12 @@ MultiEvent::~MultiEvent() noexcept
         delete e;
 }
 
-QVector<EventReport> MultiEvent::executeSpecificOps(Mercenary *context) noexcept
+QVector <EventReport> MultiEvent::executeSpecificOps(Mercenary *context) noexcept
 {
     QVector <EventReport> r={eventText()};
     for (auto e : m_eventsToExecute)
     {
-        if (context!=nullptr && !context->isDead())
+        if (context != nullptr && !context->isDead())
             r+=e->execute(context);
         else
             break;
@@ -23,7 +23,7 @@ QVector<EventReport> MultiEvent::executeSpecificOps(Mercenary *context) noexcept
     return r;
 }
 
-PossibilityEvent::PossibilityEvent(Chance chance, Event *event, QString text, const QVector<QString> &dbEntries) noexcept
+PossibilityEvent::PossibilityEvent(Chance chance, Event *event, QString text, const QVector <QString> &dbEntries) noexcept
     : Event(EventEnums::T_Possibility, text, dbEntries), m_chance(chance), m_event(event) {}
 
 PossibilityEvent::~PossibilityEvent() noexcept
@@ -31,12 +31,12 @@ PossibilityEvent::~PossibilityEvent() noexcept
     delete m_event;
 }
 
-QVector<EventReport> PossibilityEvent::executeSpecificOps(Mercenary *mercenary) noexcept
+QVector <EventReport> PossibilityEvent::executeSpecificOps(Mercenary *mercenary) noexcept
 {
-    if (mercenary==nullptr || m_event==nullptr)
+    if (mercenary==nullptr || m_event == nullptr)
         return {};
 
-    if (static_cast<unsigned>(m_chance)>=Randomizer::randomBetweenAAndB(1,100))
-        return QVector<EventReport>{eventText()} + m_event->execute(mercenary);
+    if (static_cast<unsigned>(m_chance) >= Randomizer::randomBetweenAAndB(1,100))
+        return QVector <EventReport>{eventText()} + m_event->execute(mercenary);
     return {eventText()};
 }

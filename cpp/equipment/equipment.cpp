@@ -65,8 +65,8 @@ int Equipment::dailyFoodConsumptionBonus() const noexcept
 
 unsigned Equipment::amountOfBonuses() const noexcept
 {
-    unsigned a=0;
-    for (int i=0;i<static_cast<int>(EquipmentEnums::B_END);++i)
+    unsigned a = 0;
+    for (int i=0;i < static_cast<int>(EquipmentEnums::B_END);++i)
         if (m_bonuses.contains(static_cast<EquipmentEnums::Bonus>(i)))
             ++a;
     return a;
@@ -187,7 +187,7 @@ void Equipment::setType(EquipmentEnums::Type type) noexcept
 
 void Equipment::setTier(int tier) noexcept
 {
-    if (tier>=1)
+    if (tier >= 1)
         m_tier = tier;
 }
 
@@ -253,7 +253,7 @@ void Equipment::setDailyFoodConsumptionBonus(int dailyFoodConsumptionBonus) noex
 
 EquipmentBuilder::EquipmentBuilder() noexcept
 {
-    m_equipment=new Equipment();
+    m_equipment = new Equipment();
 }
 
 EquipmentBuilder::~EquipmentBuilder() noexcept
@@ -264,25 +264,25 @@ EquipmentBuilder::~EquipmentBuilder() noexcept
 Equipment *EquipmentBuilder::getEquipment() noexcept
 {
     Equipment *ret;
-    ret=m_equipment;
-    m_equipment=new Equipment();
+    ret = m_equipment;
+    m_equipment = new Equipment();
     return ret;
 }
 
 void EquipmentBuilder::resetEquiment() noexcept
 {
     delete m_equipment;
-    m_equipment=new Equipment();
+    m_equipment = new Equipment();
 }
 
 Equipment *EquipmentBuilder::copyEquipment(const Equipment *equipment) noexcept
 {
-    Equipment *r=new Equipment;
-    r->m_name=equipment->m_name;
-    r->m_type=equipment->m_type;
-    r->m_tier=equipment->m_tier;
-    r->m_categories=equipment->m_categories;
-    r->m_bonuses=equipment->m_bonuses;
+    Equipment *r = new Equipment;
+    r->m_name = equipment->m_name;
+    r->m_type = equipment->m_type;
+    r->m_tier = equipment->m_tier;
+    r->m_categories = equipment->m_categories;
+    r->m_bonuses = equipment->m_bonuses;
     return r;
 }
 

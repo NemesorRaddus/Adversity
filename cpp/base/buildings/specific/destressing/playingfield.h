@@ -82,7 +82,7 @@ public:
     void setRecoveryValuesForMercenary(unsigned index) noexcept;
     void setRecoveryValuesForMercenaries() noexcept;
 
-    void setLevelsInfo(const QVector<PlayingFieldLevelInfo *> &info) noexcept;
+    void setLevelsInfo(const QVector < PlayingFieldLevelInfo *> &info) noexcept;
 
     Q_INVOKABLE unsigned upgradeTimeRemaining() noexcept;
 

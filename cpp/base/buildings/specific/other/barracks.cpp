@@ -17,7 +17,7 @@ int Barracks::mercenariesLimitAfterUpgrade() const noexcept
     return nextLevelInfo()->mercenariesLimit;
 }
 
-void Barracks::setLevelsInfo(const QVector<BarracksLevelInfo *> &info) noexcept
+void Barracks::setLevelsInfo(const QVector < BarracksLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -32,10 +32,10 @@ unsigned Barracks::upgradeTimeRemaining() noexcept
 
 BarracksLevelInfo *Barracks::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<BarracksLevelInfo>();
+    return Building::currentLevelInfo<BarracksLevelInfo > ();
 }
 
 BarracksLevelInfo *Barracks::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<BarracksLevelInfo>();
+    return Building::nextLevelInfo<BarracksLevelInfo > ();
 }

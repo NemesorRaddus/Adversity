@@ -2,7 +2,7 @@
 
 #include "general/game.h"
 
-EncounterReport::EncounterReport(const QString &mercenaryArt, const QVector<EventReport> &events, const Time &time) noexcept
+EncounterReport::EncounterReport(const QString &mercenaryArt, const QVector <EventReport> &events, const Time &time) noexcept
     : Report(ReportEnums::T_Encounter, time), m_mercenaryArt(mercenaryArt), m_events(events) {}
 
 QString EncounterReport::text() const noexcept

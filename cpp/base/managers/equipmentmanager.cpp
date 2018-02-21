@@ -10,7 +10,7 @@ void EquipmentManager::initializeForNewBase() noexcept {}
 
 unsigned EquipmentManager::amountOfAvailableArmors() const noexcept
 {
-    unsigned r=0;
+    unsigned r = 0;
     for (auto e : m_availableEquipment)
         if (e->type() == EquipmentEnums::T_Armor)
             ++r;
@@ -19,7 +19,7 @@ unsigned EquipmentManager::amountOfAvailableArmors() const noexcept
 
 unsigned EquipmentManager::amountOfAvailableWeaponsTools() const noexcept
 {
-    unsigned r=0;
+    unsigned r = 0;
     for (auto e : m_availableEquipment)
         if (e->type() == EquipmentEnums::T_WeaponTool)
             ++r;
@@ -28,6 +28,6 @@ unsigned EquipmentManager::amountOfAvailableWeaponsTools() const noexcept
 
 void EquipmentManager::prepareAvailableEquipment(unsigned index) noexcept
 {
-    if (index<m_availableEquipment.size())
-        m_preparedAvailableEquipment=m_availableEquipment[index];
+    if (index < m_availableEquipment.size())
+        m_preparedAvailableEquipment = m_availableEquipment[index];
 }

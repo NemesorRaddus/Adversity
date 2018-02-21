@@ -79,7 +79,7 @@ QString Hospital::mercenaryProfessionInSlot(unsigned index) const noexcept
 
 void Hospital::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenaryName) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingHealed.size())
+    if (slotIndex >= m_mercenariesBeingHealed.size())
         return;
 
     if (m_mercenariesBeingHealed[slotIndex]!=nullptr)
@@ -99,7 +99,7 @@ void Hospital::placeMercenaryInSlot(unsigned slotIndex, const QString &mercenary
 
 void Hospital::emptySlot(unsigned slotIndex) noexcept
 {
-    if (slotIndex>=m_mercenariesBeingHealed.size())
+    if (slotIndex >= m_mercenariesBeingHealed.size())
         return;
 
     if (m_mercenariesBeingHealed[slotIndex]==nullptr)
@@ -112,7 +112,7 @@ void Hospital::emptySlot(unsigned slotIndex) noexcept
 
 void Hospital::removeMercenary(const QString &name) noexcept
 {
-    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+    for (int i=0;i < m_mercenariesBeingHealed.size();++i)
         if (m_mercenariesBeingHealed[i]!=nullptr && m_mercenariesBeingHealed[i]->name() == name)
         {
             m_mercenariesBeingHealed[i]->setCurrentActivity(MercenaryEnums::CA_Idle);
@@ -133,14 +133,14 @@ int Hospital::hpRestoredPerDayAfterUpgrade() const noexcept
 
 int Hospital::daysToFullRecovery(const QString &name) const noexcept
 {
-    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
-        if (m_mercenariesBeingHealed[i]!=nullptr && m_mercenariesBeingHealed[i]->name()==name)
+    for (int i=0;i < m_mercenariesBeingHealed.size();++i)
+        if (m_mercenariesBeingHealed[i]!=nullptr && m_mercenariesBeingHealed[i]->name() == name)
             return daysToFullRecovery(i);
 }
 
 int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
 {
-    if (slotIndex<m_mercenariesBeingHealed.size())
+    if (slotIndex < m_mercenariesBeingHealed.size())
     {
         if (m_mercenariesBeingHealed[slotIndex]==nullptr)
             return -1;
@@ -151,7 +151,7 @@ int Hospital::daysToFullRecovery(unsigned slotIndex) const noexcept
 
 void Hospital::healMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+    for (int i=0;i < m_mercenariesBeingHealed.size();++i)
         if (m_mercenariesBeingHealed[i]!=nullptr && base()->resources()->canDecreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy) && base()->resources()->canDecreaseFoodSuppliesAmount(currentLevelInfo()->perCapitaCostInFoodSupplies))
         {
             base()->resources()->decreaseEnergyAmount(currentLevelInfo()->perCapitaCostInEnergy);
@@ -168,12 +168,12 @@ void Hospital::setRecoveryValuesForMercenary(unsigned index) noexcept
 
 void Hospital::setRecoveryValuesForMercenaries() noexcept
 {
-    for (int i=0;i<m_mercenariesBeingHealed.size();++i)
+    for (int i=0;i < m_mercenariesBeingHealed.size();++i)
         if (m_mercenariesBeingHealed[i]!=nullptr)
             setRecoveryValuesForMercenary(i);
 }
 
-void Hospital::setLevelsInfo(const QVector<HospitalLevelInfo *> &info) noexcept
+void Hospital::setLevelsInfo(const QVector < HospitalLevelInfo *> &info) noexcept
 {
     Building::setLevelsInfo(new AnyBuildingLevelsInfo(info));
 }
@@ -188,7 +188,7 @@ unsigned Hospital::upgradeTimeRemaining() noexcept
 
 void Hospital::registerUpgradeCompletion() noexcept
 {
-    m_isBeingUpgraded=0;
+    m_isBeingUpgraded = 0;
     resizeSlotsAfterUpgrade();
 }
 
@@ -202,16 +202,16 @@ void Hospital::resizeSlotsAfterUpgrade() noexcept
 
 HospitalLevelInfo *Hospital::currentLevelInfo() const noexcept
 {
-    return Building::currentLevelInfo<HospitalLevelInfo>();
+    return Building::currentLevelInfo<HospitalLevelInfo > ();
 }
 
 HospitalLevelInfo *Hospital::nextLevelInfo() const noexcept
 {
-    return Building::nextLevelInfo<HospitalLevelInfo>();
+    return Building::nextLevelInfo<HospitalLevelInfo > ();
 }
 
 void Hospital::setSlot(unsigned index, Mercenary *mercenary) noexcept
 {
-    if (index<m_mercenariesBeingHealed.size())
+    if (index < m_mercenariesBeingHealed.size())
         m_mercenariesBeingHealed[index]=mercenary;
 }

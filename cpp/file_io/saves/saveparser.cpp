@@ -9,7 +9,7 @@
 
 SaveData SaveParser::readData(QByteArray &array)
 {
-    QByteArray t=qUncompress(array);
+    QByteArray t = qUncompress(array);
 
     SaveData data;
     data.raw = array;
@@ -87,43 +87,43 @@ SaveData SaveParser::readData(QByteArray &array)
     {
         data.parserVersion.clear();
         data.overall.baseName.clear();
-        data.overall.lastKnownDay=1;
-        data.overall.lastKnownHour=0;
-        data.overall.lastKnownMinute=0;
-        data.buildings.levels.centralUnit=1;
-        data.buildings.levels.powerplant=1;
-        data.buildings.levels.factory=1;
-        data.buildings.levels.coolRoom=1;
-        data.buildings.levels.storageRoom=1;
-        data.buildings.levels.aetheriteSilo=1;
-        data.buildings.levels.hospital=0;
-        data.buildings.levels.barracks=1;
-        data.buildings.levels.dockingStation=1;
-        data.buildings.levels.trainingGround=0;
-        data.buildings.levels.gym=0;
-        data.buildings.levels.laboratory=0;
-        data.buildings.levels.playingField=0;
-        data.buildings.levels.bar=0;
-        data.buildings.levels.shrine=0;
-        data.buildings.levels.seclusion=0;
-        data.buildings.cyclesSet.powerplant=0;
-        data.buildings.cyclesSet.factory=0;
-        data.buildings.upgrading.centralUnit=false;
-        data.buildings.upgrading.powerplant=false;
-        data.buildings.upgrading.factory=false;
-        data.buildings.upgrading.coolRoom=false;
-        data.buildings.upgrading.storageRoom=false;
-        data.buildings.upgrading.aetheriteSilo=false;
-        data.buildings.upgrading.hospital=false;
-        data.buildings.upgrading.barracks=false;
-        data.buildings.upgrading.dockingStation=false;
-        data.buildings.upgrading.trainingGround=false;
-        data.buildings.upgrading.gym=false;
-        data.buildings.upgrading.laboratory=false;
-        data.buildings.upgrading.playingField=false;
-        data.buildings.upgrading.bar=false;
-        data.buildings.upgrading.shrine=false;
-        data.buildings.upgrading.seclusion=false;
+        data.overall.lastKnownDay = 1;
+        data.overall.lastKnownHour = 0;
+        data.overall.lastKnownMinute = 0;
+        data.buildings.levels.centralUnit = 1;
+        data.buildings.levels.powerplant = 1;
+        data.buildings.levels.factory = 1;
+        data.buildings.levels.coolRoom = 1;
+        data.buildings.levels.storageRoom = 1;
+        data.buildings.levels.aetheriteSilo = 1;
+        data.buildings.levels.hospital = 0;
+        data.buildings.levels.barracks = 1;
+        data.buildings.levels.dockingStation = 1;
+        data.buildings.levels.trainingGround = 0;
+        data.buildings.levels.gym = 0;
+        data.buildings.levels.laboratory = 0;
+        data.buildings.levels.playingField = 0;
+        data.buildings.levels.bar = 0;
+        data.buildings.levels.shrine = 0;
+        data.buildings.levels.seclusion = 0;
+        data.buildings.cyclesSet.powerplant = 0;
+        data.buildings.cyclesSet.factory = 0;
+        data.buildings.upgrading.centralUnit = false;
+        data.buildings.upgrading.powerplant = false;
+        data.buildings.upgrading.factory = false;
+        data.buildings.upgrading.coolRoom = false;
+        data.buildings.upgrading.storageRoom = false;
+        data.buildings.upgrading.aetheriteSilo = false;
+        data.buildings.upgrading.hospital = false;
+        data.buildings.upgrading.barracks = false;
+        data.buildings.upgrading.dockingStation = false;
+        data.buildings.upgrading.trainingGround = false;
+        data.buildings.upgrading.gym = false;
+        data.buildings.upgrading.laboratory = false;
+        data.buildings.upgrading.playingField = false;
+        data.buildings.upgrading.bar = false;
+        data.buildings.upgrading.shrine = false;
+        data.buildings.upgrading.seclusion = false;
         data.buildings.mercenarySlots.hospital.clear();
         data.buildings.mercenarySlots.trainingGround.clear();
         data.buildings.mercenarySlots.gym.clear();
@@ -137,10 +137,10 @@ SaveData SaveParser::readData(QByteArray &array)
         data.buildings.dockingStationThings.activeResourceTransactions.clear();
         data.buildings.dockingStationThings.equipments.clear();
         data.buildings.dockingStationThings.arrivingEquipments.clear();
-        data.resources.energy=250;
-        data.resources.buildingMaterials=5;
-        data.resources.foodSupplies=24;
-        data.resources.aetheriteOre=50;
+        data.resources.energy = 250;
+        data.resources.buildingMaterials = 5;
+        data.resources.foodSupplies = 24;
+        data.resources.aetheriteOre = 50;
         data.alarms.buildingUpgrades.clear();
         data.alarms.missionEnds.clear();
         data.alarms.missionAlarms.clear();
@@ -148,7 +148,7 @@ SaveData SaveParser::readData(QByteArray &array)
         data.equipments.freeArmor.clear();
         data.equipments.freeWeaponsTools.clear();
         data.database.unlocks.clear();
-        data.database.areThereNewDBEntries=false;
+        data.database.areThereNewDBEntries = false;
         data.missions.missions.clear();
         data.missions.reports.clear();
 
@@ -229,5 +229,5 @@ void SaveParser::writeData(QByteArray &array, const SaveData& data)
     str<<data.missions.missions;
     str<<data.missions.reports;
 
-    array=qCompress(t);
+    array = qCompress(t);
 }

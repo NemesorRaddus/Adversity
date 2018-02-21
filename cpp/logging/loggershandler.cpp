@@ -19,15 +19,15 @@ LoggersHandler::LoggersHandler() noexcept
             m_outputPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/logs";
 #endif
             QDir().mkpath(m_outputPath);
-            m_output = std::make_shared<spdlog::sinks::app_start_rotating_file_sink_st>(m_outputPath.toStdString()+"/adversity.log",40);
+            m_output = std::make_shared<spdlog::sinks::app_start_rotating_file_sink_st > (m_outputPath.toStdString()+"/adversity.log",40);
 
-            m_mainLogger = std::make_shared<spdlog::logger>("Main", m_output);
-            m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_output);
-            m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_output);
-            m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_output);
-            m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_output);
-            m_qmlLogger = std::make_shared<spdlog::logger>("QML", m_output);
-            m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_output);
+            m_mainLogger = std::make_shared<spdlog::logger > ("Main", m_output);
+            m_missionsLogger = std::make_shared<spdlog::logger > ("MissionsModule", m_output);
+            m_buildingsLogger = std::make_shared<spdlog::logger > ("BuildingsModule", m_output);
+            m_mercenariesLogger = std::make_shared<spdlog::logger > ("MercenariesModule", m_output);
+            m_xmlLogger = std::make_shared<spdlog::logger > ("XML", m_output);
+            m_qmlLogger = std::make_shared<spdlog::logger > ("QML", m_output);
+            m_qtLogger = std::make_shared<spdlog::logger > ("Qt", m_output);
 
 #ifdef ANDROID
             qInstallMessageHandler(LoggersHandler::redirectQtMsgs);
@@ -36,15 +36,15 @@ LoggersHandler::LoggersHandler() noexcept
         }
         else
         {
-            m_noOutput = std::make_shared<spdlog::sinks::null_sink_st>();
+            m_noOutput = std::make_shared<spdlog::sinks::null_sink_st > ();
 
-            m_mainLogger = std::make_shared<spdlog::logger>("Main", m_noOutput);
-            m_missionsLogger = std::make_shared<spdlog::logger>("MissionsModule", m_noOutput);
-            m_buildingsLogger = std::make_shared<spdlog::logger>("BuildingsModule", m_noOutput);
-            m_mercenariesLogger = std::make_shared<spdlog::logger>("MercenariesModule", m_noOutput);
-            m_xmlLogger = std::make_shared<spdlog::logger>("XML", m_noOutput);
-            m_qmlLogger = std::make_shared<spdlog::logger>("Gui", m_noOutput);
-            m_qtLogger = std::make_shared<spdlog::logger>("Qt", m_noOutput);
+            m_mainLogger = std::make_shared<spdlog::logger > ("Main", m_noOutput);
+            m_missionsLogger = std::make_shared<spdlog::logger > ("MissionsModule", m_noOutput);
+            m_buildingsLogger = std::make_shared<spdlog::logger > ("BuildingsModule", m_noOutput);
+            m_mercenariesLogger = std::make_shared<spdlog::logger > ("MercenariesModule", m_noOutput);
+            m_xmlLogger = std::make_shared<spdlog::logger > ("XML", m_noOutput);
+            m_qmlLogger = std::make_shared<spdlog::logger > ("Gui", m_noOutput);
+            m_qtLogger = std::make_shared<spdlog::logger > ("Qt", m_noOutput);
         }
 
         spdlog::register_logger(m_mainLogger);

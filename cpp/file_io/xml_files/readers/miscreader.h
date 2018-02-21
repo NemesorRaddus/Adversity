@@ -11,5 +11,5 @@ public:
     MiscReader() noexcept = default;
     virtual ~MiscReader() noexcept = default;
 
-    QMap <QString, QMap<QString,QString> > getTranslations(const QString &path) noexcept;
+    QMap <QString, QMap < QString,QString> > getTranslations(const QString &path) noexcept;
 };
