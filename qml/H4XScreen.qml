@@ -41,12 +41,10 @@ Item {
             hiding();
     }
 
-    Image {
-        id: background
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     Image {

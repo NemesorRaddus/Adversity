@@ -43,14 +43,14 @@ Item {
         }
     ]
 
-    Image {
+    Rectangle {
         id: backgroundHider
 
         anchors.fill: parent
 
         opacity: 0
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
 
         states: [
             State {

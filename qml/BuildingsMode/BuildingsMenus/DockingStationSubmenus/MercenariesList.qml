@@ -34,12 +34,10 @@ Item {
 
     signal mercenaryClicked(string mercenaryName)
 
-    Image {
-        id: additionalBackground
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MouseArea {

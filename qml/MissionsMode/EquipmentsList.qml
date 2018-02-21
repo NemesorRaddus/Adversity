@@ -150,12 +150,10 @@ Item {
 
     signal selected(string name, string artSource)
 
-    Image {
-        id: additionalBackground
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MouseArea {

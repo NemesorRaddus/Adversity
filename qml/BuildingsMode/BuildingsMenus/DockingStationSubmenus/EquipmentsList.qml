@@ -79,12 +79,10 @@ Item {
 
     signal buyClicked(int index)
 
-    Image {
-        id: additionalBackground
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MouseArea {

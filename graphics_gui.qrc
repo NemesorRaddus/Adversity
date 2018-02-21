@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>graphics/GUI/Abort.png</file>
-        <file>graphics/GUI/Background.png</file>
         <file>graphics/GUI/EquipmentAmount.png</file>
         <file>graphics/GUI/GUI.png</file>
         <file>graphics/GUI/Light.png</file>
