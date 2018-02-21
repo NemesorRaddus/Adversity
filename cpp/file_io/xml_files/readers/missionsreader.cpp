@@ -1,5 +1,9 @@
 #include "missionsreader.h"
 
+#include <QDebug>
+#include <QDir>
+#include <QXmlStreamReader>
+
 #include "database/database.h"
 #include "general/game.h"
 #include "logging/loggersprovider.h"

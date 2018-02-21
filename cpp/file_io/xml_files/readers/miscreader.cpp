@@ -1,5 +1,10 @@
 #include "miscreader.h"
 
+#include <QDebug>
+#include <QMap>
+#include <QString>
+#include <QXmlStreamReader>
+
 QMap<QString, QMap < QString, QString> > MiscReader::getTranslations(const QString &path) noexcept
 {
     if (!openXmlFile(path))

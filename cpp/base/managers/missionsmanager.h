@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QVector>
 
 #include "base/managers/basemanagerinterface.h"
 

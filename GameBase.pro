@@ -223,3 +223,6 @@ CONFIG(release, debug|release) {
         DEFINES += ENABLE_CONSOLE_WINDOW
     }
 }
+
+DISTFILES += \
+    versioninfo

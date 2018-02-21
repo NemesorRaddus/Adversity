@@ -1,5 +1,9 @@
 #include "mercenariesreader.h"
 
+#include <QDebug>
+#include <QDir>
+#include <QXmlStreamReader>
+
 #include "equipment/equipment.h"
 #include "general/game.h"
 #include "general/globalutilities.h"

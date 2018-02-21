@@ -1,5 +1,8 @@
 #include "buildingsreader.h"
 
+#include <QDebug>
+#include <QXmlStreamReader>
+
 #include "base/buildings/specific/storage/aetheritesilo.h"
 #include "base/buildings/specific/destressing/bar.h"
 #include "base/buildings/specific/other/barracks.h"
