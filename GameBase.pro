@@ -89,6 +89,7 @@ SOURCES += cpp/main.cpp \
     cpp/missions/land.cpp \
     cpp/missions/mission.cpp \
     cpp/qml_components/fpscounter.cpp \
+    cpp/qml_components/signaltransmitter.cpp \
     cpp/reports/basereports.cpp \
     cpp/reports/enums.cpp \
     cpp/reports/mercenaryreports.cpp \
@@ -188,6 +189,7 @@ HEADERS += \
     cpp/missions/land.h \
     cpp/missions/mission.h \
     cpp/qml_components/fpscounter.h \
+    cpp/qml_components/signaltransmitter.h \
     cpp/reports/basereports.h \
     cpp/reports/enums.h \
     cpp/reports/mercenaryreports.h \
