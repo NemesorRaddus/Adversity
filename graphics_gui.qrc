@@ -1,72 +1,82 @@
 <RCC>
-    <qresource prefix="/">
-        <file>graphics/GUI/Abort.png</file>
-        <file>graphics/GUI/EquipmentAmount.png</file>
-        <file>graphics/GUI/GUI.png</file>
-        <file>graphics/GUI/Gym/Animation0.png</file>
-        <file>graphics/GUI/Gym/Animation1.png</file>
-        <file>graphics/GUI/Gym/Animation2.png</file>
-        <file>graphics/GUI/Gym/Animation3.png</file>
-        <file>graphics/GUI/Gym/Animation4.png</file>
-        <file>graphics/GUI/Gym/Gym_Background.png</file>
-        <file>graphics/GUI/Laboratory/Laboratory_Background.png</file>
-        <file>graphics/GUI/Light.png</file>
-        <file>graphics/GUI/Mask.png</file>
-        <file>graphics/GUI/MercenarySlot/Opacity_Mask.png</file>
-        <file>graphics/GUI/MissionLength/AuroraForest1.png</file>
-        <file>graphics/GUI/MissionLength/AuroraForest2.png</file>
-        <file>graphics/GUI/MissionLength/AuroraForest3.png</file>
-        <file>graphics/GUI/MissionLength/AuroraForest4.png</file>
-        <file>graphics/GUI/MissionLength/GedoDesert1.png</file>
-        <file>graphics/GUI/MissionLength/GedoDesert2.png</file>
-        <file>graphics/GUI/MissionLength/GedoDesert3.png</file>
-        <file>graphics/GUI/MissionLength/GedoDesert4.png</file>
-        <file>graphics/GUI/MissionLength/HegosPlains1.png</file>
-        <file>graphics/GUI/MissionLength/HegosPlains2.png</file>
-        <file>graphics/GUI/MissionLength/HegosPlains3.png</file>
-        <file>graphics/GUI/MissionLength/HegosPlains4.png</file>
-        <file>graphics/GUI/Missions.png</file>
-        <file>graphics/GUI/OnMission.png</file>
-        <file>graphics/GUI/Profitability.png</file>
-        <file>graphics/GUI/Resources/Aetherite.png</file>
-        <file>graphics/GUI/Resources/Buildingmaterials.png</file>
-        <file>graphics/GUI/Resources/Energy.png</file>
-        <file>graphics/GUI/Resources/Foodsupplies.png</file>
-        <file>graphics/GUI/Settings.png</file>
-        <file>graphics/GUI/Slots.png</file>
-        <file>graphics/GUI/Slots/ArmourSlot.png</file>
-        <file>graphics/GUI/Slots/MercenarySlot.png</file>
-        <file>graphics/GUI/Slots/Nothing.png</file>
-        <file>graphics/GUI/Slots/ToolSlot.png</file>
-        <file>graphics/GUI/Status frames/HighStress20.png</file>
-        <file>graphics/GUI/Status frames/HighStress40.png</file>
-        <file>graphics/GUI/Status frames/HighStress60.png</file>
-        <file>graphics/GUI/Status frames/HighStress80.png</file>
-        <file>graphics/GUI/Status frames/LowHealth20.png</file>
-        <file>graphics/GUI/Status frames/LowHealth40.png</file>
-        <file>graphics/GUI/Status frames/LowHealth60.png</file>
-        <file>graphics/GUI/Status frames/LowHealth80.png</file>
-        <file>graphics/GUI/Task_Border.png</file>
-        <file>graphics/GUI/Task_Picture.png</file>
-        <file>graphics/GUI/Task_Picture2.png</file>
-        <file>graphics/GUI/Time.png</file>
-        <file>graphics/GUI/TrainingGround/Animation0.png</file>
-        <file>graphics/GUI/TrainingGround/Animation1.png</file>
-        <file>graphics/GUI/TrainingGround/Animation2.png</file>
-        <file>graphics/GUI/TrainingGround/Animation3.png</file>
-        <file>graphics/GUI/TrainingGround/Animation4.png</file>
-        <file>graphics/GUI/TrainingGround/Animation5.png</file>
-        <file>graphics/GUI/TrainingGround/TrainingGround_Background.png</file>
-        <file>graphics/GUI/Upgrade/Upgrade.png</file>
-        <file>graphics/GUI/Upgrade_Background.png</file>
-        <file>graphics/MainMenu/Exit.png</file>
-        <file>graphics/MainMenu/Overlay.png</file>
-        <file>graphics/MainMenu/Save.png</file>
-        <file>graphics/MainMenu/Save_Copy.png</file>
-        <file>graphics/MainMenu/Save_Delete.png</file>
-        <file>graphics/MainMenu/Save_Export.png</file>
-        <file>graphics/MainMenu/Save_Import.png</file>
-        <file>graphics/MainMenu/Save_New.png</file>
-        <file>graphics/MainMenu/Settings.png</file>
-    </qresource>
+	<qresource prefix="/">
+		<file>graphics/GUI/Abort.png</file>
+		<file>graphics/GUI/Attributes/CE.png</file>
+		<file>graphics/GUI/Attributes/CL.png</file>
+		<file>graphics/GUI/Attributes/HealthRestored.png</file>
+		<file>graphics/GUI/Attributes/PR.png</file>
+		<file>graphics/GUI/Attributes/StressLimit.png</file>
+		<file>graphics/GUI/Attributes/StressRelief.png</file>
+		<file>graphics/GUI/Attributes/StressResistance.png</file>
+		<file>graphics/GUI/Connected.png</file>
+		<file>graphics/GUI/Database.png</file>
+		<file>graphics/GUI/Disconnected.png</file>
+		<file>graphics/GUI/EquipmentAmount.png</file>
+		<file>graphics/GUI/GUI.png</file>
+		<file>graphics/GUI/Gym/Animation0.png</file>
+		<file>graphics/GUI/Gym/Animation1.png</file>
+		<file>graphics/GUI/Gym/Animation2.png</file>
+		<file>graphics/GUI/Gym/Animation3.png</file>
+		<file>graphics/GUI/Gym/Animation4.png</file>
+		<file>graphics/GUI/Gym/Gym_Background.png</file>
+		<file>graphics/GUI/Laboratory/Laboratory_Background.png</file>
+		<file>graphics/GUI/Light.png</file>
+		<file>graphics/GUI/Mask.png</file>
+		<file>graphics/GUI/MercenarySlot/Opacity_Mask.png</file>
+		<file>graphics/GUI/MissionLength/AuroraForest1.png</file>
+		<file>graphics/GUI/MissionLength/AuroraForest2.png</file>
+		<file>graphics/GUI/MissionLength/AuroraForest3.png</file>
+		<file>graphics/GUI/MissionLength/AuroraForest4.png</file>
+		<file>graphics/GUI/MissionLength/GedoDesert1.png</file>
+		<file>graphics/GUI/MissionLength/GedoDesert2.png</file>
+		<file>graphics/GUI/MissionLength/GedoDesert3.png</file>
+		<file>graphics/GUI/MissionLength/GedoDesert4.png</file>
+		<file>graphics/GUI/MissionLength/HegosPlains1.png</file>
+		<file>graphics/GUI/MissionLength/HegosPlains2.png</file>
+		<file>graphics/GUI/MissionLength/HegosPlains3.png</file>
+		<file>graphics/GUI/MissionLength/HegosPlains4.png</file>
+		<file>graphics/GUI/Missions.png</file>
+		<file>graphics/GUI/OnMission.png</file>
+		<file>graphics/GUI/Profitability.png</file>
+		<file>graphics/GUI/Resources/Aetherite.png</file>
+		<file>graphics/GUI/Resources/Buildingmaterials.png</file>
+		<file>graphics/GUI/Resources/Energy.png</file>
+		<file>graphics/GUI/Resources/Foodsupplies.png</file>
+		<file>graphics/GUI/Settings.png</file>
+		<file>graphics/GUI/Slots.png</file>
+		<file>graphics/GUI/Slots/ArmourSlot.png</file>
+		<file>graphics/GUI/Slots/MercenarySlot.png</file>
+		<file>graphics/GUI/Slots/Nothing.png</file>
+		<file>graphics/GUI/Slots/ToolSlot.png</file>
+		<file>graphics/GUI/Status frames/HighStress20.png</file>
+		<file>graphics/GUI/Status frames/HighStress40.png</file>
+		<file>graphics/GUI/Status frames/HighStress60.png</file>
+		<file>graphics/GUI/Status frames/HighStress80.png</file>
+		<file>graphics/GUI/Status frames/LowHealth20.png</file>
+		<file>graphics/GUI/Status frames/LowHealth40.png</file>
+		<file>graphics/GUI/Status frames/LowHealth60.png</file>
+		<file>graphics/GUI/Status frames/LowHealth80.png</file>
+		<file>graphics/GUI/Task_Border.png</file>
+		<file>graphics/GUI/Task_Picture.png</file>
+		<file>graphics/GUI/Task_Picture2.png</file>
+		<file>graphics/GUI/Time.png</file>
+		<file>graphics/GUI/TrainingGround/Animation0.png</file>
+		<file>graphics/GUI/TrainingGround/Animation1.png</file>
+		<file>graphics/GUI/TrainingGround/Animation2.png</file>
+		<file>graphics/GUI/TrainingGround/Animation3.png</file>
+		<file>graphics/GUI/TrainingGround/Animation4.png</file>
+		<file>graphics/GUI/TrainingGround/Animation5.png</file>
+		<file>graphics/GUI/TrainingGround/TrainingGround_Background.png</file>
+		<file>graphics/GUI/Upgrade/Upgrade.png</file>
+		<file>graphics/GUI/Upgrade_Background.png</file>
+		<file>graphics/MainMenu/Exit.png</file>
+		<file>graphics/MainMenu/Overlay.png</file>
+		<file>graphics/MainMenu/Save.png</file>
+		<file>graphics/MainMenu/Save_Copy.png</file>
+		<file>graphics/MainMenu/Save_Delete.png</file>
+		<file>graphics/MainMenu/Save_Export.png</file>
+		<file>graphics/MainMenu/Save_Import.png</file>
+		<file>graphics/MainMenu/Save_New.png</file>
+		<file>graphics/MainMenu/Settings.png</file>
+	</qresource>
 </RCC>

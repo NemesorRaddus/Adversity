@@ -191,7 +191,7 @@ Item {
 
             x: 0
             y: 115
-            width: parent
+            width: parent.width
             height: 3
 
             source: "qrc:/graphics/GUI/Task_Border.png"

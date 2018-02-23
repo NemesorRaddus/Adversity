@@ -132,7 +132,15 @@ void startQMLEngine(QQmlApplicationEngine &engine) noexcept
 void setUpConsoleWindow(QQmlApplicationEngine &engine) noexcept
 {
 #ifdef ENABLE_CONSOLE_WINDOW
-	engine.load("../GameBase/qml/H4XWindow.qml");
+	const QString pathToProjectDir = "../adversity/"; // <----- update when needed !!!
+
+	const QString pathToH4XWindowFile = pathToProjectDir + "qml/H4XWindow.qml";
+
+	QFile h4xWindowFile{pathToH4XWindowFile};
+	Q_ASSERT(h4xWindowFile.exists());
+	h4xWindowFile.close();
+
+	engine.load(pathToH4XWindowFile);
 	bool *eventFiltersLocker = new bool(0);
 	MainWindowEventFilter mwef{engine.rootObjects()[1], eventFiltersLocker};
 	ConsoleWindowEventFilter cwef{engine.rootObjects()[0], eventFiltersLocker};
