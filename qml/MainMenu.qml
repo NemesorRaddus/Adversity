@@ -551,14 +551,5 @@ Item {
         source: "qrc:/fonts/STENCIL.TTF"
     }
 
-    Timer {
-        id: x
-        interval: 2000
-        onRunningChanged: {
-            if (!running)
-                startAnimations();
-        }
-    }
-
     Component.onCompleted: startAnimations();
 }

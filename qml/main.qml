@@ -7,8 +7,6 @@ import "."
 Window {
     id: win
 
-    property int currentMode: 0
-
     color: "black"
 
     function changeMode(mode)
@@ -56,12 +54,6 @@ Window {
         mainGUI.updateEverything();
     }
 
-    function showReportNotification()
-    {
-        mainGUI.mainContent.reportsNotification.setAmount(GameApi.base.reports.amountOfNewReports());
-        mainGUI.mainContent.reportsNotification.show();
-    }
-
     //for h4x
     property alias gameTimerInterval: gameTimer.interval
     property alias gameTimerRunning: gameTimer.running
@@ -81,73 +73,12 @@ Window {
 
         visible: false
 
-        function updateResources()
+        function updateContent(minimal)
         {
-            mainContent.energyValue.text = GameApi.base.resources.currentEnergyAmount() + '/' + GameApi.base.buildings.powerplant.energyLimit();
-            if (GameApi.base.resources.currentEnergyAmount() === 0)
-                mainContent.energyValue.color = "#b30000";
-            else if (GameApi.base.resources.currentEnergyAmount() === GameApi.base.buildings.powerplant.energyLimit())
-                mainContent.energyValue.color = "#ffd480";
+            if (minimal)
+                mainContent.updateClock();
             else
-                mainContent.energyValue.color = "#c0efc0";
-
-            mainContent.foodSuppliesValue.text = GameApi.base.resources.currentFoodSuppliesAmount() + '/' + GameApi.base.buildings.coolRoom.foodSuppliesLimit();
-            if (GameApi.base.resources.currentFoodSuppliesAmount() === 0)
-                mainContent.foodSuppliesValue.color = "#b30000";
-            else if (GameApi.base.resources.currentFoodSuppliesAmount() === GameApi.base.buildings.coolRoom.foodSuppliesLimit())
-                mainContent.foodSuppliesValue.color = "#ffd480";
-            else
-                mainContent.foodSuppliesValue.color = "#c0efc0";
-
-            mainContent.buildingMaterialsValue.text = GameApi.base.resources.currentBuildingMaterialsAmount() + '/' + GameApi.base.buildings.storageRoom.buildingMaterialsLimit();
-            if (GameApi.base.resources.currentBuildingMaterialsAmount() === 0)
-                mainContent.buildingMaterialsValue.color = "#b30000";
-            else if (GameApi.base.resources.currentBuildingMaterialsAmount() === GameApi.base.buildings.storageRoom.buildingMaterialsLimit())
-                mainContent.buildingMaterialsValue.color = "#ffd480";
-            else
-                mainContent.buildingMaterialsValue.color = "#c0efc0";
-
-            mainContent.aetheriteValue.text = GameApi.base.resources.currentAetheriteAmount() + '/' + GameApi.base.buildings.aetheriteSilo.aetheriteLimit();
-            if (GameApi.base.resources.currentAetheriteAmount() === 0)
-                mainContent.aetheriteValue.color = "#b30000";
-            else if (GameApi.base.resources.currentAetheriteAmount() === GameApi.base.buildings.aetheriteSilo.aetheriteLimit())
-                mainContent.aetheriteValue.color = "#ffd480";
-            else
-                mainContent.aetheriteValue.color = "#c0efc0";
-
-            mainContent.energyValue2.text = GameApi.base.resources.currentEnergyIncome() + '/' + "day";
-            mainContent.foodSuppliesValue2.text = GameApi.base.resources.currentFoodSuppliesIncome() + '/' + "day";
-            mainContent.buildingMaterialsValue2.text = GameApi.base.resources.currentBuildingMaterialsIncome() + '/' + "day";
-            mainContent.aetheriteValue2.text = GameApi.base.resources.currentAetheriteIncome() + '/' + "day";
-        }
-
-        function updateClock()
-        {
-            mainContent.dayValue.text = "Day " + GameApi.base.gameClock.currentDay();
-
-            mainContent.hourValue.text = (GameApi.base.gameClock.currentHour() < 10 ?
-                                  '0' + GameApi.base.gameClock.currentHour() :
-                                  GameApi.base.gameClock.currentHour())
-                    + ':' +
-                    (GameApi.base.gameClock.currentMin() < 10 ?
-                         '0' + GameApi.base.gameClock.currentMin() :
-                         GameApi.base.gameClock.currentMin());
-        }
-
-        function updateMainContent()
-        {
-            mainGUI.mainContent.buildingsGUI.updateEverything();
-            mainGUI.mainContent.mercenariesGUI.updateEverything();
-            mainGUI.mainContent.missionsGUI.updateEverything();
-        }
-
-        function updateEverything()
-        {
-            updateResources();
-            updateClock();
-            updateMainContent();
-            mainContent.reportsList.updateEverything();
-            mainContent.settings.update();
+                mainContent.updateEverything();
         }
 
         transform: [
@@ -163,52 +94,7 @@ Window {
             }
         ]
 
-        mainContent.missionsButton.onClicked: changeMode(0);
-        mainContent.baseButton.onClicked: changeMode(1);
-        mainContent.mercenariesButton.onClicked: changeMode(2);
-
-        mainContent.buildingsGUI.onUpdateRequestedFromBuildingsModeGUI: updateEverything();
-        mainContent.mercenariesGUI.onUpdateRequestedFromMercenariesModeGUI: updateEverything();
-
-        mainContent.buildingsGUI.onMercenariesModeUpdateRequested: mainContent.mercenariesGUI.updateEverything();
-        mainContent.missionsGUI.onMercenariesModeUpdateRequested: mainContent.mercenariesGUI.updateEverything();
-
-        mainContent.missionsGUI.onResourcesUpdateRequested: updateResources();
-
-        mainContent.buildingsGUI.onShowSpecial: mainContent.h4xScreen.visible = true;
-        mainContent.h4xScreen.onHiding: mainContent.buildingsGUI.acknowledgeConsoleHiding();
-
-        mainContent.mercenariesGUI.onBuildingMenuRequested: {
-            changeMode(1);
-            mainContent.buildingsGUI.changeBuilding(buildingName);
-        }
-
-        mainContent.mercenariesGUI.onDismissClickedFwd: mainContent.mercenaryDismissConfirmDialog.show()
-        mainContent.mercenariesGUI.onDismissDialogHidingRequested: mainContent.mercenaryDismissConfirmDialog.hide()
-        mainContent.mercenaryDismissConfirmDialog.onAccepted: mainContent.mercenariesGUI.dismissMercenaryFwd()
-        mainContent.mercenaryDismissConfirmDialog.onDeclined: mainContent.mercenariesGUI.acknowledgeConfirmDialogClosing()
-        mainContent.mercenariesGUI.onUnbanRequested: mainContent.buildingsGUI.requestUnban(mercenaryName, buildingName)
-
-        mainContent.mercenariesGUI.onArtPreviewRequested: mainContent.mercenaryArtPreview.show(artSource)
-        mainContent.mercenariesGUI.onArtPreviewHidingRequested: mainContent.mercenaryArtPreview.hide()
-        mainContent.mercenaryArtPreview.onClosing: mainContent.mercenariesGUI.acknowledgeArtPreviewClosing()
-
-        mainContent.settingsButton.onClicked: mainContent.settings.show();
-        mainContent.settings.onBackClicked: mainContent.settings.hide();
-
         onEnableFPSCounterChanged: mainContent.settings.acknowledgeFPSToggle(enableFPSCounter);
-
-        mainContent.reportsNotification.onClicked: {
-            mainContent.reportsList.updateEverything();
-            mainContent.reportsList.state = "";
-        }
-        mainContent.reportsOpener.onClicked: {
-            mainContent.reportsList.updateEverything();
-            mainContent.reportsList.state = "";
-        }
-        mainContent.reportsList.onBackClicked: {
-            mainContent.reportsList.state = "hidden";
-        }
     }
 
     Timer {
@@ -221,9 +107,7 @@ Window {
             GameApi.base.gameClock.updateClock();
             mainGUI.updateClock();
             if (GameApi.base.gameClock.hasDayChangedLately())
-            {
-                mainGUI.updateEverything();
-            }
+                mainGUI.updateContent(0);
         }
     }
 

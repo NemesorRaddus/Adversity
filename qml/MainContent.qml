@@ -4,16 +4,10 @@ import "./MercenariesMode"
 import "./MissionsMode"
 import "./Reports"
 import "./Settings"
+import Game 1.0
 
 Item {
     id: root
-
-    property alias missionsButton: missionsButton
-    property alias baseButton: baseButton
-    property alias mercenariesButton: mercenariesButton
-    property alias missionsButtonLight: missionsButtonLight
-    property alias baseButtonLight: baseButtonLight
-    property alias mercenariesButtonLight: mercenariesButtonLight
 
     property alias energyValue: energyText
     property alias energyValue2: energyText2
@@ -27,48 +21,167 @@ Item {
     property alias hourValue: hour
     property alias dayValue: day
 
-    property alias settingsButton: settingsMA
-    property alias settings: settings
+    property int currentMode: 0
 
-    property alias buildingsGUI: buildingsMode
-    property alias mercenariesGUI: mercenariesMode
-    property alias missionsGUI: missionsMode
+    function changeMode(mode)
+    {
+        reportsList.state = "hidden";
+        settings.hide();
 
-    property alias reportsNotification: reportsNotification
-    property alias reportsOpener: reportsOpener
-    property alias reportsList: reportsList
+        if (currentMode == 0)
+            missionsGUI.returnToDefault();
+        else if (currentMode == 1)
+            buildingsGUI.returnToDefault();
+        else if (currentMode == 2)
+            mercenariesGUI.returnToDefault();
 
-    property alias h4xScreen: h4xScreen
+        currentMode = mode;
 
-    property alias mercenaryDismissConfirmDialog: mercenaryDismissConfirmDialog
+        if (mode == 0)
+        {
+            missionsGUI.state = "";
+            buildingsGUI.state = "hiddenRight";
+            mercenariesGUI.state = "hiddenRight2";
+        }
+        else if (mode == 1)
+        {
+            missionsGUI.state = "hiddenLeft";
+            buildingsGUI.state = "";
+            mercenariesGUI.state = "hiddenRight";
+        }
+        else if (mode == 2)
+        {
+            missionsGUI.state = "hiddenLeft2";
+            buildingsGUI.state = "hiddenLeft";
+            mercenariesGUI.state = "";
+        }
+    }
 
-    property alias mercenaryArtPreview: mercenaryArtPreview
+    function updateResources()
+    {
+        energyValue.text = GameApi.base.resources.currentEnergyAmount() + '/' + GameApi.base.buildings.powerplant.energyLimit();
+        if (GameApi.base.resources.currentEnergyAmount() === 0)
+            energyValue.color = "#b30000";
+        else if (GameApi.base.resources.currentEnergyAmount() === GameApi.base.buildings.powerplant.energyLimit())
+            energyValue.color = "#ffd480";
+        else
+            energyValue.color = "#c0efc0";
+
+        foodSuppliesValue.text = GameApi.base.resources.currentFoodSuppliesAmount() + '/' + GameApi.base.buildings.coolRoom.foodSuppliesLimit();
+        if (GameApi.base.resources.currentFoodSuppliesAmount() === 0)
+            foodSuppliesValue.color = "#b30000";
+        else if (GameApi.base.resources.currentFoodSuppliesAmount() === GameApi.base.buildings.coolRoom.foodSuppliesLimit())
+            foodSuppliesValue.color = "#ffd480";
+        else
+            foodSuppliesValue.color = "#c0efc0";
+
+        buildingMaterialsValue.text = GameApi.base.resources.currentBuildingMaterialsAmount() + '/' + GameApi.base.buildings.storageRoom.buildingMaterialsLimit();
+        if (GameApi.base.resources.currentBuildingMaterialsAmount() === 0)
+            buildingMaterialsValue.color = "#b30000";
+        else if (GameApi.base.resources.currentBuildingMaterialsAmount() === GameApi.base.buildings.storageRoom.buildingMaterialsLimit())
+            buildingMaterialsValue.color = "#ffd480";
+        else
+            buildingMaterialsValue.color = "#c0efc0";
+
+        aetheriteValue.text = GameApi.base.resources.currentAetheriteAmount() + '/' + GameApi.base.buildings.aetheriteSilo.aetheriteLimit();
+        if (GameApi.base.resources.currentAetheriteAmount() === 0)
+            aetheriteValue.color = "#b30000";
+        else if (GameApi.base.resources.currentAetheriteAmount() === GameApi.base.buildings.aetheriteSilo.aetheriteLimit())
+            aetheriteValue.color = "#ffd480";
+        else
+            aetheriteValue.color = "#c0efc0";
+
+        energyValue2.text = GameApi.base.resources.currentEnergyIncome() + '/' + "day";
+        foodSuppliesValue2.text = GameApi.base.resources.currentFoodSuppliesIncome() + '/' + "day";
+        buildingMaterialsValue2.text = GameApi.base.resources.currentBuildingMaterialsIncome() + '/' + "day";
+        aetheriteValue2.text = GameApi.base.resources.currentAetheriteIncome() + '/' + "day";
+    }
+
+    function updateClock()
+    {
+        dayValue.text = "Day " + GameApi.base.gameClock.currentDay();
+
+        hourValue.text = (GameApi.base.gameClock.currentHour() < 10 ?
+                              '0' + GameApi.base.gameClock.currentHour() :
+                              GameApi.base.gameClock.currentHour())
+                + ':' +
+                (GameApi.base.gameClock.currentMin() < 10 ?
+                     '0' + GameApi.base.gameClock.currentMin() :
+                     GameApi.base.gameClock.currentMin());
+    }
+
+    function updateMainContent()
+    {
+        buildingsGUI.updateEverything();
+        buildingsGUI.updateEverything();
+        buildingsGUI.updateEverything();
+    }
+
+    function updateEverything()
+    {
+        updateResources();
+        updateClock();
+        updateMainContent();
+        reportsList.updateEverything();
+        settings.update();
+    }
+
+    function showReportNotification()
+    {
+        reportsNotification.setAmount(GameApi.base.reports.amountOfNewReports());
+        reportsNotification.show();
+    }
 
     BuildingsModeGUI {
-        id: buildingsMode
+        id: buildingsGUI
 
         x: 0
         y: 189
         width: parent.width
         height: 1464
+
+        onUpdateRequestedFromBuildingsModeGUI: root.updateEverything();
+
+        onMercenariesModeUpdateRequested: mercenariesGUI.updateEverything();
+
+        onShowSpecial: h4xScreen.visible = true;
     }
 
     MercenariesModeGUI {
-        id: mercenariesMode
+        id: mercenariesGUI
 
         x: 0
         y: 189
         width: parent.width
         height: 1464
+
+        onUpdateRequestedFromMercenariesModeGUI: root.updateEverything();
+
+        onBuildingMenuRequested: {
+            changeMode(1);
+            buildingsGUI.changeBuilding(buildingName);
+        }
+
+        onDismissClickedFwd: mercenaryDismissConfirmDialog.show();
+        onDismissDialogHidingRequested: mercenaryDismissConfirmDialog.hide();
+
+        onUnbanRequested: buildingsGUI.requestUnban(mercenaryName, buildingName);
+
+        onArtPreviewRequested: mercenaryArtPreview.show(artSource);
+        onArtPreviewHidingRequested: mercenaryArtPreview.hide();
     }
 
     MissionsModeGUI {
-        id: missionsMode
+        id: missionsGUI
 
         x: 0
         y: 189
         width: parent.width
         height: 1464
+
+        onMercenariesModeUpdateRequested: mercenariesGUI.updateEverything();
+
+        onResourcesUpdateRequested: root.updateResources();
     }
 
     ReportsNotification {
@@ -78,6 +191,11 @@ Item {
         y: 1400
         width: 425
         height: 200
+
+        onClicked: {
+            reportsList.updateEverything();
+            reportsList.state = "";
+        }
     }
 
     ReportsList {
@@ -87,6 +205,8 @@ Item {
         y: 189
         width: parent.width
         height: 1464
+
+        onBackClicked: state = "hidden";
     }
 
     Image {
@@ -105,6 +225,8 @@ Item {
             height: 141
 
             visible: true
+
+            onClicked: root.changeMode(0);
         }
         ModeButtonLight {
             id: missionsButtonLight
@@ -124,6 +246,8 @@ Item {
             height: 141
 
             visible: true
+
+            onClicked: root.changeMode(1);
         }
         ModeButtonLight {
             id: baseButtonLight
@@ -143,6 +267,8 @@ Item {
             height: 141
 
             visible: true
+
+            onClicked: root.changeMode(2);
         }
         ModeButtonLight {
             id: mercenariesButtonLight
@@ -160,6 +286,11 @@ Item {
             y: 0
             width: parent.width
             height: 125
+
+            onClicked: {
+                reportsList.updateEverything();
+                reportsList.state = "";
+            }
         }
 
         Image {
@@ -367,6 +498,8 @@ Item {
                 y: -3
                 width: 217
                 height: 129
+
+                onClicked: settings.show();
             }
         }
     }
@@ -378,6 +511,8 @@ Item {
         y: 189
         width: parent.width
         height: 1464
+
+        onBackClicked: hide();
     }
 
     H4XScreen {
@@ -386,18 +521,25 @@ Item {
         anchors.fill: parent
 
         visible: false
+
+        onHiding: buildingsGUI.acknowledgeConsoleHiding();
     }
 
     MercenaryArtPreview {
         id: mercenaryArtPreview
 
         anchors.fill: parent
+
+        onClosing: mercenariesGUI.acknowledgeArtPreviewClosing();
     }
 
     ConfirmDialog {
         id: mercenaryDismissConfirmDialog
 
         anchors.fill: parent
+
+        onAccepted: mercenariesGUI.dismissMercenaryFwd();
+        onDeclined: mercenariesGUI.acknowledgeConfirmDialogClosing();
     }
 
     FontLoader {

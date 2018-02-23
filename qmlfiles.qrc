@@ -55,7 +55,7 @@
         <file>qml/H4XScreen.qml</file>
         <file>qml/main.qml</file>
         <file>qml/MainContent.qml</file>
-        <file>qml/MainGUI.ui.qml</file>
+        <file>qml/MainGUI.qml</file>
         <file>qml/MainMenu.qml</file>
         <file>qml/MarqueeText.qml</file>
         <file>qml/MercenariesMode/MercenariesList.qml</file>

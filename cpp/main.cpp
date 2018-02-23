@@ -42,9 +42,8 @@
 #include "qml_components/signaltransmitter.h"
 #include "reports/unifiedreport.h"
 
-void setUpAppMainData(int argc, char *argv[]) noexcept
+void setUpAppMainData() noexcept
 {
-	QGuiApplication app(argc, argv);
 	QGuiApplication::setApplicationDisplayName("Adversity");
 	QGuiApplication::setApplicationName("Adversity");
 	QGuiApplication::setOrganizationName("Raddos Games");
@@ -144,7 +143,9 @@ void setUpConsoleWindow(QQmlApplicationEngine &engine) noexcept
 
 int main(int argc, char *argv[])
 {
-	setUpAppMainData(argc, argv);
+	QGuiApplication app(argc, argv);
+
+	setUpAppMainData();
 
 	initializeRandomizer();
 
@@ -168,5 +169,5 @@ int main(int argc, char *argv[])
 	setUpConsoleWindow(engine);
 #endif
 
-	return QGuiApplication::instance()->exec();
+	return app.exec();
 }

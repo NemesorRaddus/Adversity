@@ -29,7 +29,7 @@ Rectangle {
 
     MainContent {
         id: mainContent
-visible: false
+
         x: 0
         y: 0
         width: parent.width
