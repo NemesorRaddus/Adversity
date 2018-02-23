@@ -11,42 +11,7 @@ Window {
 
     function changeMode(mode)
     {
-        mainGUI.mainContent.reportsList.state = "hidden";
-        mainGUI.mainContent.settings.hide();
-
-        if (currentMode == 0)
-        {
-            mainGUI.mainContent.missionsGUI.returnToDefault();
-        }
-        else if (currentMode == 1)
-        {
-            mainGUI.mainContent.buildingsGUI.returnToDefault();
-        }
-        else if (currentMode == 2)
-        {
-            mainGUI.mainContent.mercenariesGUI.returnToDefault();
-        }
-
-        currentMode = mode;
-
-        if (mode == 0)
-        {
-            mainGUI.mainContent.missionsGUI.state = "";
-            mainGUI.mainContent.buildingsGUI.state = "hiddenRight";
-            mainGUI.mainContent.mercenariesGUI.state = "hiddenRight2";
-        }
-        else if (mode == 1)
-        {
-            mainGUI.mainContent.missionsGUI.state = "hiddenLeft";
-            mainGUI.mainContent.buildingsGUI.state = "";
-            mainGUI.mainContent.mercenariesGUI.state = "hiddenRight";
-        }
-        else if (mode == 2)
-        {
-            mainGUI.mainContent.missionsGUI.state = "hiddenLeft2";
-            mainGUI.mainContent.buildingsGUI.state = "hiddenLeft";
-            mainGUI.mainContent.mercenariesGUI.state = "";
-        }
+        mainGUI.mainContent.changeMode(mode);
     }
 
     function updateEverything()
@@ -93,8 +58,6 @@ Window {
                 y: (win.height-mainGUI.height*scale.yScale)/2
             }
         ]
-
-        onEnableFPSCounterChanged: mainContent.settings.acknowledgeFPSToggle(enableFPSCounter);
     }
 
     Timer {
@@ -141,54 +104,5 @@ Window {
         splash.canClose = true;
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
-    onClosing: {
-        if (mainGUI.mainContent.h4xScreen.visible)
-        {
-            mainGUI.mainContent.h4xScreen.visible = false;
-            mainGUI.mainContent.h4xScreen.cursorLoseFocus();
-            close.accepted = false;
-        }
-        else
-        {
-            if (mainGUI.mainContent.settings.state == "")
-            {
-                if (!mainGUI.mainContent.settings.reactToBackOnToolbar())
-                    mainGUI.mainContent.settings.state = "hidden";
-                close.accepted = false;
-            }
-            else if (mainGUI.mainContent.reportsList.state == "")
-            {
-                if (!mainGUI.mainContent.reportsList.reactToBackOnToolbar())
-                    mainGUI.mainContent.reportsList.state = "hidden";
-                close.accepted = false;
-            }
-            else if (currentMode == 0)
-            {
-                if (mainGUI.mainContent.missionsGUI.reactToBackOnToolbar())
-                    close.accepted = false;
-                else
-                {
-                    GameApi.saveBase();
-                }
-            }
-            else if (currentMode == 1)
-            {
-                if (mainGUI.mainContent.buildingsGUI.reactToBackOnToolbar())
-                    close.accepted = false;
-                else
-                {
-                    GameApi.saveBase();
-                }
-            }
-            else if (currentMode == 2)
-            {
-                if (mainGUI.mainContent.mercenariesGUI.reactToBackOnToolbar())
-                    close.accepted = false;
-                else
-                {
-                    GameApi.saveBase();
-                }
-            }
-        }
-    }
+    onClosing: close.accepted = mainGUI.mainContent.reactToExit();
 }

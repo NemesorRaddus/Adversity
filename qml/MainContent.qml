@@ -21,8 +21,10 @@ Item {
     property alias hourValue: hour
     property alias dayValue: day
 
-    property int currentMode: 0
+    property alias settings: settings
 
+    property int currentMode: 0
+visible: false // TODO temporary solution
     function changeMode(mode)
     {
         reportsList.state = "hidden";
@@ -130,6 +132,56 @@ Item {
     {
         reportsNotification.setAmount(GameApi.base.reports.amountOfNewReports());
         reportsNotification.show();
+    }
+
+    function reactToExit()
+    {
+        var shouldClose = true;
+
+        if (h4xScreen.visible)
+        {
+            h4xScreen.visible = false;
+            h4xScreen.cursorLoseFocus();
+            shouldClose = false;
+        }
+        else
+        {
+            if (settings.state == "")
+            {
+                if (!settings.reactToBackOnToolbar())
+                    settings.state = "hidden";
+                shouldClose = false;
+            }
+            else if (reportsList.state == "")
+            {
+                if (!reportsList.reactToBackOnToolbar())
+                    reportsList.state = "hidden";
+                shouldClose = false;
+            }
+            else if (currentMode == 0)
+            {
+                if (missionsGUI.reactToBackOnToolbar())
+                    shouldClose = false;
+                else
+                    GameApi.saveBase();
+            }
+            else if (currentMode == 1)
+            {
+                if (buildingsGUI.reactToBackOnToolbar())
+                    shouldClose = false;
+                else
+                    GameApi.saveBase();
+            }
+            else if (currentMode == 2)
+            {
+                if (mercenariesGUI.reactToBackOnToolbar())
+                    shouldClose = false;
+                else
+                    GameApi.saveBase();
+            }
+        }
+
+        return shouldClose;
     }
 
     BuildingsModeGUI {

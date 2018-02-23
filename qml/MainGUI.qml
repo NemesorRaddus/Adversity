@@ -12,6 +12,8 @@ Rectangle {
     width: 1080
     height: 1920
 
+    onEnableFPSCounterChanged: mainContent.settings.acknowledgeFPSToggle(enableFPSCounter);
+
     Rectangle {
         anchors.fill: parent
 
