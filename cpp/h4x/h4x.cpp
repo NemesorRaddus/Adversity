@@ -1,5 +1,6 @@
 #include "h4x.h"
 
+#include <QEvent>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QSettings>

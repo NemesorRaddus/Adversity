@@ -152,7 +152,7 @@ private:
     static QQmlApplicationEngine *m_ptrToEngine;
 };
 
-static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *gameQObjectSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)

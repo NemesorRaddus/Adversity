@@ -98,19 +98,6 @@ SOURCES += cpp/main.cpp \
     cpp/reports/unifiedreport.cpp \
     cpp/translations/translations.cpp
 
-RESOURCES += \
-    qmlfiles.qrc \
-    locales.qrc \
-    dataassets.qrc \
-    otherres.qrc \
-    graphics_mercs.qrc \
-    graphics_buildings.qrc \
-    graphics_other.qrc \
-    graphics_gui.qrc \
-    graphics_equipments.qrc \
-    graphics_missions.qrc \
-    graphics_database.qrc
-
 HEADERS += \
     cpp/assets_pool/assetspool.h \
     cpp/base/base.h \
@@ -201,6 +188,19 @@ HEADERS += \
 
 PRECOMPILED_HEADER = cpp/stable.h
 
+RESOURCES += \
+	qmlfiles.qrc \
+	locales.qrc \
+	dataassets.qrc \
+	otherres.qrc \
+	graphics_mercs.qrc \
+	graphics_buildings.qrc \
+	graphics_other.qrc \
+	graphics_gui.qrc \
+	graphics_equipments.qrc \
+	graphics_missions.qrc \
+	graphics_database.qrc
+
 OTHER_FILES += \
     android-sources/AndroidManifest.xml \
     android-sources/build.gradle \
@@ -221,9 +221,9 @@ CONFIG(release, debug|release) {
     DEFINES += QT_NO_DEBUG_OUTPUT
 } else {
     # This is a debug build
-    win32 {
-        DEFINES += ENABLE_CONSOLE_WINDOW
-    }
+	win32 | unix {
+		DEFINES += ENABLE_CONSOLE_WINDOW
+	}
 }
 
 DISTFILES += \
