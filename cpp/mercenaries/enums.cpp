@@ -282,8 +282,8 @@ MercenaryEnums::Profession MercenaryEnums::fromQStringToProfessionEnum(const QSt
         return P_BattleDroid;
     if (profession == "Space Nomad")
         return P_SpaceNomad;
-    if (profession == "Archeologist")
-        return P_Archeologist;
+	if (profession == "Archaeologist")
+        return P_Archaeologist;
     if (profession == "Criminal")
         return P_Criminal;
     if (profession == "Cyborg")
@@ -309,8 +309,8 @@ QString MercenaryEnums::fromProfessionEnumToQString(MercenaryEnums::Profession p
         return "Battle Droid";
     if (profession == P_SpaceNomad)
         return "Space Nomad";
-    if (profession == P_Archeologist)
-        return "Archeologist";
+    if (profession == P_Archaeologist)
+		return "Archaeologist";
     if (profession == P_Criminal)
         return "Criminal";
     if (profession == P_Cyborg)

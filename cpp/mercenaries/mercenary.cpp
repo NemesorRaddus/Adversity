@@ -657,7 +657,7 @@ void Mercenary::setCurrentActivity(MercenaryEnums::CurrentActivity activity) noe
 
 QString Mercenary::pathToArt() const noexcept
 {
-    return "qrc:/graphics/Mercs/"+GlobalUtilities::alterNormalTextToInternal(professionString())+"/"+GlobalUtilities::alterNormalTextToInternal(name())+".png";
+    return "qrc:/graphics/Mercenaries/"+GlobalUtilities::alterNormalTextToInternal(professionString())+"/"+GlobalUtilities::alterNormalTextToInternal(name())+".png";
 }
 
 void Mercenary::dismiss(unsigned banDays) noexcept

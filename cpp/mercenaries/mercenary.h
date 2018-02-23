@@ -444,7 +444,7 @@ private:
 struct MercenaryDataHelper
 {
     MercenaryDataHelper()
-        : stockCE(0), stockPR(0), stockCL(0), nature(MercenaryEnums::N_Active), profession(MercenaryEnums::P_Archeologist), isEquipmentActive(true), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(MercenaryEnums::CA_Idle) {}
+        : stockCE(0), stockPR(0), stockCL(0), nature(MercenaryEnums::N_Active), profession(MercenaryEnums::P_Archaeologist), isEquipmentActive(true), dhrBuildingBonus(0), dsrBuildingBonus(0), isDead(false), indexOfCurrentSBE(-1), noSignalDaysRemaining(0), carriedEnergy(0), carriedFoodSupplies(0), carriedBuildingMaterials(0), carriedAetheriteOre(0), noSalaryWeeks(0), assignedMission(nullptr), currentActivity(MercenaryEnums::CA_Idle) {}
 
     QString name;
 

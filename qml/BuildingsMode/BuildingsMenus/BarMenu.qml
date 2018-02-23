@@ -28,7 +28,7 @@ Item {
             if (GameApi.base.buildings.bar.mercenaryNameInSlot(0)!="")
             {
                 slotView1.mercenaryName=GameApi.base.buildings.bar.mercenaryNameInSlot(0);
-                slotView1.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(0))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(0)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                slotView1.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(0))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(0)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                 slotView1.forceAbortIcon();
             }
             else
@@ -39,7 +39,7 @@ Item {
                 if (GameApi.base.buildings.bar.mercenaryNameInSlot(1)!="")
                 {
                     slotView2.mercenaryName=GameApi.base.buildings.bar.mercenaryNameInSlot(1);
-                    slotView2.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(1))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(1)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView2.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(1))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(1)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     slotView2.forceAbortIcon();
                 }
                 else
@@ -50,7 +50,7 @@ Item {
                     if (GameApi.base.buildings.bar.mercenaryNameInSlot(2)!="")
                     {
                         slotView3.mercenaryName=GameApi.base.buildings.bar.mercenaryNameInSlot(2);
-                        slotView3.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(2))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(2)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                        slotView3.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(2))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(2)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                         slotView3.forceAbortIcon();
                     }
                     else
@@ -61,7 +61,7 @@ Item {
                         if (GameApi.base.buildings.bar.mercenaryNameInSlot(3)!="")
                         {
                             slotView4.mercenaryName=GameApi.base.buildings.bar.mercenaryNameInSlot(3);
-                            slotView4.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(3))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(3)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                            slotView4.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(3))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(3)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                             slotView4.forceAbortIcon();
                         }
                         else
@@ -72,7 +72,7 @@ Item {
                             if (GameApi.base.buildings.bar.mercenaryNameInSlot(4)!="")
                             {
                                 slotView5.mercenaryName=GameApi.base.buildings.bar.mercenaryNameInSlot(4);
-                                slotView5.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(4))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(4)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                                slotView5.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(4))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(4)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                                 slotView5.forceAbortIcon();
                             }
                             else
@@ -83,7 +83,7 @@ Item {
                                 if (GameApi.base.buildings.bar.mercenaryNameInSlot(5)!="")
                                 {
                                     slotView6.mercenaryName=GameApi.base.buildings.bar.mercenaryNameInSlot(5);
-                                    slotView6.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(5))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(5)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                                    slotView6.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.bar.mercenaryProfessionInSlot(5))+"/"+GameApi.base.buildings.bar.mercenaryNameInSlot(5)+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                                     slotView6.forceAbortIcon();
                                 }
                                 else
@@ -1058,32 +1058,32 @@ Item {
                 {
                 case 0:
                     slotView1.mercenaryName=mercenaryName;
-                    slotView1.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView1.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     state = "hidden";
                     break;
                 case 1:
                     slotView2.mercenaryName=mercenaryName;
-                    slotView2.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView2.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     state = "hidden";
                     break;
                 case 2:
                     slotView3.mercenaryName=mercenaryName;
-                    slotView3.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView3.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     state = "hidden";
                     break;
                 case 3:
                     slotView4.mercenaryName=mercenaryName;
-                    slotView4.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView4.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     state = "hidden";
                     break;
                 case 4:
                     slotView5.mercenaryName=mercenaryName;
-                    slotView5.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView5.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     state = "hidden";
                     break;
                 case 5:
                     slotView6.mercenaryName=mercenaryName;
-                    slotView6.setMercenaryOneVal("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
+                    slotView6.setMercenaryOneVal("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(mercenaryProfession)+"/"+mercenaryName+".png",GameApi.base.buildings.bar.useCostInEnergySingle());
                     state = "hidden";
                     break;
                 }

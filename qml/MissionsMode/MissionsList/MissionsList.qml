@@ -22,7 +22,7 @@ Item {
             var p=GameApi.base.missions.preparedMission.mercenary.professionString();
 
             Scripts.createItem(GameApi.tr(n),p,
-                               "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
+                               "qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
                                GameApi.base.missions.preparedMission.land.name(),
                                GameApi.base.missions.preparedMission.lengthString(),
                                GameApi.base.missions.preparedMission.daysSpent(),

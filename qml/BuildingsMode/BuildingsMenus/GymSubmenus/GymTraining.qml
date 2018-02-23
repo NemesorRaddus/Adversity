@@ -26,7 +26,7 @@ Item {
             if (GameApi.base.buildings.gym.mercenaryNameInSlot(0)!="")
             {
                 slotView1.mercenaryName=GameApi.base.buildings.gym.mercenaryNameInSlot(0);
-                slotView1.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(0))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(0)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(0))+1);
+                slotView1.setMercenaryTwoVals("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(0))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(0)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(0))+1);
                 slotView1.forceAbortIcon();
             }
             else
@@ -37,7 +37,7 @@ Item {
                 if (GameApi.base.buildings.gym.mercenaryNameInSlot(1)!="")
                 {
                     slotView2.mercenaryName=GameApi.base.buildings.gym.mercenaryNameInSlot(1);
-                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(1))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(1)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(1))+1);
+                    slotView2.setMercenaryTwoVals("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(1))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(1)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(1))+1);
                     slotView2.forceAbortIcon();
                 }
                 else
@@ -48,7 +48,7 @@ Item {
                     if (GameApi.base.buildings.gym.mercenaryNameInSlot(2)!="")
                     {
                         slotView3.mercenaryName=GameApi.base.buildings.gym.mercenaryNameInSlot(2);
-                        slotView3.setMercenaryTwoVals("qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(2))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(2)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(2))+1);
+                        slotView3.setMercenaryTwoVals("qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(GameApi.base.buildings.gym.mercenaryProfessionInSlot(2))+"/"+GameApi.base.buildings.gym.mercenaryNameInSlot(2)+".png",GameApi.base.buildings.gym.useCostInEnergySingle(), GameApi.base.buildings.gym.remainingDaysOfTraining(GameApi.base.buildings.gym.mercenaryNameInSlot(2))+1);
                         slotView3.forceAbortIcon();
                     }
                     else
@@ -216,7 +216,7 @@ Item {
             width: 256
             height: width
 
-            source: "qrc:/graphics/Mercs/Gunzerker/PaulLuft.png"
+            source: "qrc:/graphics/Mercenaries/Gunzerker/PaulLuft.png"
         }
 
         Image{

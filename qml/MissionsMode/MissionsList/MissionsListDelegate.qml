@@ -89,7 +89,7 @@ Item {
             width: 256
             height: 256
 
-            source: "qrc:/graphics/Mercs/Gunzerker/PaulLuft.png"
+            source: "qrc:/graphics/Mercenaries/Gunzerker/PaulLuft.png"
         }
 
         Image {

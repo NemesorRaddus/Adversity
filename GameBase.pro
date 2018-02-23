@@ -189,17 +189,17 @@ HEADERS += \
 PRECOMPILED_HEADER = cpp/stable.h
 
 RESOURCES += \
-	qmlfiles.qrc \
-	locales.qrc \
 	dataassets.qrc \
-	otherres.qrc \
-	graphics_mercs.qrc \
 	graphics_buildings.qrc \
-	graphics_other.qrc \
-	graphics_gui.qrc \
+	graphics_database.qrc \
 	graphics_equipments.qrc \
+	graphics_gui.qrc \
+	graphics_mercenaries.qrc \
 	graphics_missions.qrc \
-	graphics_database.qrc
+	graphics_other.qrc \
+	locales.qrc \
+	otherres.qrc \
+	qmlfiles.qrc
 
 OTHER_FILES += \
     android-sources/AndroidManifest.xml \

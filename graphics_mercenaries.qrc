@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/Mercenaries/Archaeologist/MadeleineLacroix.png</file>
+        <file>graphics/Mercenaries/Archaeologist/StevenBrown.png</file>
+        <file>graphics/Mercenaries/Archaeologist/TakeshiMatokai.png</file>
+        <file>graphics/Mercenaries/BattleDroid/AP-NGAI-V5.png</file>
+        <file>graphics/Mercenaries/BattleDroid/CAI-V2-DY11.png</file>
+        <file>graphics/Mercenaries/BountyHunter/AdamAnderson.png</file>
+        <file>graphics/Mercenaries/BountyHunter/BrianCartner.png</file>
+        <file>graphics/Mercenaries/BountyHunter/EdricSherman.png</file>
+        <file>graphics/Mercenaries/BountyHunter/HeinzWitt.png</file>
+        <file>graphics/Mercenaries/BountyHunter/IvanRepnin.png</file>
+        <file>graphics/Mercenaries/Criminal/AlanClark.png</file>
+        <file>graphics/Mercenaries/Criminal/ZbynekTichy.png</file>
+        <file>graphics/Mercenaries/Criminal/ZofiaWysocka.png</file>
+        <file>graphics/Mercenaries/Cyborg/AlexFreeman.png</file>
+        <file>graphics/Mercenaries/Cyborg/JensNeumann.png</file>
+        <file>graphics/Mercenaries/Doomsayer/GregHofmann.png</file>
+        <file>graphics/Mercenaries/Doomsayer/ZuriUmcia.png</file>
+        <file>graphics/Mercenaries/Gunzerker/PaulLuft.png</file>
+        <file>graphics/Mercenaries/Gunzerker/SashaBohdanov.png</file>
+        <file>graphics/Mercenaries/PriestessOfTheUniverse/AnnaTyler.png</file>
+        <file>graphics/Mercenaries/PriestessOfTheUniverse/KaoriTokaji.png</file>
+        <file>graphics/Mercenaries/PriestOfTheUniverse/JuanMercado.png</file>
+        <file>graphics/Mercenaries/SpaceNomad/AgdaSolberg.png</file>
+        <file>graphics/Mercenaries/SpaceNomad/EvanTurner.png</file>
+        <file>graphics/Mercenaries/SpaceNomad/MarekJakubowski.png</file>
+        <file>graphics/Mercenaries/SpaceNomad/StephanieBradley.png</file>
+        <file>graphics/Mercenaries/Specialist/DexterRoosvelt.png</file>
+        <file>graphics/Mercenaries/Specialist/OksanaSyrotiuk.png</file>
+        <file>graphics/Mercenaries/Specialist/SamThomas.png</file>
+    </qresource>
+</RCC>

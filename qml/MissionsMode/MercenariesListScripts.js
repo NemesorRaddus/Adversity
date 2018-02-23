@@ -37,7 +37,7 @@ function setItem(index, name, internalName, profession, ce, pr, cl, hp, hpMax, s
         itemsArray[index].setEmpty();
     else
     {
-        itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
+        itemsArray[index].setArtSource("qrc:/graphics/Mercenaries/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
         itemsArray[index].setName(name);
         itemsArray[index].setProfession(profession);
         itemsArray[index].setCE(ce);

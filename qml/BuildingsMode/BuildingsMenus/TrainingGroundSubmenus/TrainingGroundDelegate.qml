@@ -75,7 +75,7 @@ Item {
             width: 734
             height: 734
 
-            source: "qrc:/graphics/Mercs/Gunzerker/PaulLuft.png"
+            source: "qrc:/graphics/Mercenaries/Gunzerker/PaulLuft.png"
         }
 
         GaussianBlur {
