@@ -534,8 +534,6 @@ visible: false // TODO temporary solution
             width: 70
             height: 70
 
-            property alias mouseArea: settingsMA
-
             Image {
                 id: settingsImage
 

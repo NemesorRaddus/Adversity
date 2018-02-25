@@ -465,6 +465,8 @@ Item {
         MouseArea {
             anchors.fill: parent
             anchors.margins: -10
+
+            onClicked: Qt.quit();
         }
         Image {
             x: parent.width - width

@@ -3,6 +3,9 @@
 #include <QQmlContext>
 #include <QJSValue>
 
+// Forcefully disable H4X console if you wish
+#undef ENABLE_CONSOLE_WINDOW
+
 #include "base/base.h"
 #include "base/buildings/specific/storage/aetheritesilo.h"
 #include "base/buildings/specific/destressing/bar.h"

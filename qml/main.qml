@@ -66,6 +66,7 @@ Window {
         interval: 625
         running: false
         repeat: true
+
         onTriggered: {
             GameApi.base.gameClock.updateClock();
             mainGUI.updateClock();
