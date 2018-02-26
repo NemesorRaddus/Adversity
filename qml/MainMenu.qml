@@ -1,5 +1,7 @@
 import QtQuick 2.9
 
+import "./Settings"
+
 import Game 1.0
 
 Item {
@@ -20,6 +22,13 @@ Item {
         creditsFadeOut.duration = creditsFadeOut.baseDuration * GameApi.animMultiplier();
         exitFadeOut.duration = exitFadeOut.baseDuration * GameApi.animMultiplier();
         overlayFadeOut.duration = overlayFadeOut.baseDuration * GameApi.animMultiplier();
+
+        settingsWindow.update();
+    }
+
+    function reactToExit()
+    {
+        return true;
     }
 
     function startAnimations()
@@ -343,6 +352,8 @@ Item {
         MouseArea {
             anchors.fill: parent
             anchors.margins: -10
+
+            onClicked: settingsWindow.show(1);
         }
         Image {
             x: parent.width - width
@@ -498,6 +509,16 @@ Item {
             }
         }
     }
+
+    Settings {
+        id: settingsWindow
+
+        width: parent.width
+        height: parent.height
+
+        onBackClicked: hide();
+    }
+
     Image {
         id: overlay
 

@@ -10,11 +10,16 @@ Item {
 
     state: "hidden"
 
+    property bool fullscreenCredits: false
+
     signal backClicked()
 
-    function show()
+    function show(fullscreen)
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
+
+        fullscreenCredits = fullscreen;
+        adjustGeometry();
 
         state = "";
         backButton.visible = true;
@@ -24,6 +29,14 @@ Item {
     {
         state = "hidden";
         backButton.visible = false;
+    }
+
+    function adjustGeometry()
+    {
+        if (fullscreenCredits)
+            taskBorderBottom.y = 1814;
+        else
+            taskBorderBottom.y = 1334;
     }
 
     Rectangle {
@@ -102,7 +115,7 @@ Item {
         id: back
 
         x: 400
-        y: 1344
+        y: taskBorderBottom.y + 10
         width: 260
         height: 120
 

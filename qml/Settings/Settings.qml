@@ -9,12 +9,17 @@ Item {
     width: 1080
     height: 1440
 
+    property bool fullscreenSettings: false
+
     signal backClicked()
 
     state: "hidden"
 
-    function show()
+    function show(fullscreen)
     {
+        fullscreenSettings = fullscreen;
+        adjustGeometry();
+
         state = "";
         clicksCatcher.visible = true;
 
@@ -82,6 +87,20 @@ Item {
         animsFadeOut.duration = animsFadeOut.baseDuration * GameApi.animMultiplier();
 
         versionNumber.text = GameApi.currentVersionNumber();
+    }
+
+    function adjustGeometry()
+    {
+        if (fullscreenSettings)
+        {
+            taskBorderBottom.y = 1814;
+            versionNumber.y = 1730;
+        }
+        else
+        {
+            taskBorderBottom.y = 1334;
+            versionNumber.y = 1250;
+        }
     }
 
     MouseArea {
@@ -555,7 +574,7 @@ Item {
 
                 anchors.margins: -10
 
-                onClicked: creditsComp.show();
+                onClicked: creditsComp.show(root.fullscreenSettings);
             }
         }
     }

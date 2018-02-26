@@ -38,14 +38,6 @@ Window {
 
         visible: false
 
-        function updateContent(minimal)
-        {
-            if (minimal)
-                mainContent.updateClock();
-            else
-                mainContent.updateEverything();
-        }
-
         transform: [
             Scale {
                 id: scale
@@ -58,6 +50,13 @@ Window {
                 y: (win.height-mainGUI.height*scale.yScale)/2
             }
         ]
+
+        onGameOnChanged: {
+            if (gameOn)
+                gameTimer.start();
+            else
+                gameTimer.stop();
+        }
     }
 
     Timer {
@@ -88,8 +87,6 @@ Window {
 
         onShowing: mainGUI.visible = false;
         onHiding: {
-            gameTimer.running = true;
-            mainGUI.updateEverything();
             mainGUI.visible = true;
             console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Splash screen has started hiding");
             console.info("[",Math.floor((GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)/1000),'.',('00' + (GameApi.startupTimerElapsed()+splashDisappearAnimationDuration)%1000).substr(-3),"] Splash screen has hidden");
@@ -97,13 +94,11 @@ Window {
     }
 
     Component.onCompleted: {
-//        splash.show();
+        splash.show();
         Globals.windowWidth = width;
-        Globals.windowHeight = height;mainGUI.visible=true;
-        GameApi.savesManager.createNewSave("A",""); // doesn't create new saves, needs to be soon replaced
-//        changeMode(1);
+        Globals.windowHeight = height;
         splash.canClose = true;
         console.info("[",Math.floor(GameApi.startupTimerElapsed()/1000),'.',('00' + GameApi.startupTimerElapsed()%1000).substr(-3),"] Main QML component has been built");
     }
-    onClosing: close.accepted = mainGUI.mainContent.reactToExit();
+    onClosing: close.accepted = mainGUI.reactToExit();
 }

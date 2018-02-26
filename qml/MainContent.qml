@@ -24,7 +24,7 @@ Item {
     property alias settings: settings
 
     property int currentMode: 0
-visible: false // TODO temporary solution
+
     function changeMode(mode)
     {
         reportsList.state = "hidden";
@@ -182,6 +182,12 @@ visible: false // TODO temporary solution
         }
 
         return shouldClose;
+    }
+
+    MouseArea {
+        id: clicksCatcher
+
+        anchors.fill: parent
     }
 
     BuildingsModeGUI {
@@ -549,7 +555,7 @@ visible: false // TODO temporary solution
                 width: 217
                 height: 129
 
-                onClicked: settings.show();
+                onClicked: settings.show(0);
             }
         }
     }

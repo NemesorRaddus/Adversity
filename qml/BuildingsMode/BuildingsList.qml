@@ -115,22 +115,22 @@ Item {
 
     Component.onCompleted: {
         Scripts.setupList(Math.round((271/1080)*width), 16, width, height);
-        Scripts.createItem(GameApi.tr("CentralUnit"),"CentralUnit",GameApi.base.buildings.centralUnit.currentLevel(), GameApi.base.buildings.centralUnit.description());
-        Scripts.createItem(GameApi.tr("DockingStation"),"DockingStation",GameApi.base.buildings.dockingStation.currentLevel(), GameApi.base.buildings.dockingStation.description());
-        Scripts.createItem(GameApi.tr("Hospital"),"Hospital",GameApi.base.buildings.hospital.currentLevel(), GameApi.base.buildings.hospital.description());
-        Scripts.createItem(GameApi.tr("TrainingGround"),"TrainingGround",GameApi.base.buildings.trainingGround.currentLevel(), GameApi.base.buildings.trainingGround.description());
-        Scripts.createItem(GameApi.tr("Gym"),"Gym",GameApi.base.buildings.gym.currentLevel(), GameApi.base.buildings.gym.description());
-        Scripts.createItem(GameApi.tr("Laboratory"),"Laboratory",GameApi.base.buildings.laboratory.currentLevel(), GameApi.base.buildings.laboratory.description());
-        Scripts.createItem(GameApi.tr("PlayingField"),"PlayingField",GameApi.base.buildings.playingField.currentLevel(), GameApi.base.buildings.playingField.description());
-        Scripts.createItem(GameApi.tr("Bar"),"Bar",GameApi.base.buildings.bar.currentLevel(), GameApi.base.buildings.bar.description());
-        Scripts.createItem(GameApi.tr("Shrine"),"Shrine",GameApi.base.buildings.shrine.currentLevel(), GameApi.base.buildings.shrine.description());
-        Scripts.createItem(GameApi.tr("Seclusion"),"Seclusion",GameApi.base.buildings.seclusion.currentLevel(), GameApi.base.buildings.seclusion.description());
-        Scripts.createItem(GameApi.tr("Powerplant"),"Powerplant",GameApi.base.buildings.powerplant.currentLevel(), GameApi.base.buildings.powerplant.description());
-        Scripts.createItem(GameApi.tr("Factory"),"Factory",GameApi.base.buildings.factory.currentLevel(), GameApi.base.buildings.factory.description());
-        Scripts.createItem(GameApi.tr("CoolRoom"),"CoolRoom",GameApi.base.buildings.coolRoom.currentLevel(), GameApi.base.buildings.coolRoom.description());
-        Scripts.createItem(GameApi.tr("StorageRoom"),"StorageRoom",GameApi.base.buildings.storageRoom.currentLevel(), GameApi.base.buildings.storageRoom.description());
-        Scripts.createItem(GameApi.tr("Aetherite Silo"),"AetheriteSilo",GameApi.base.buildings.aetheriteSilo.currentLevel(), GameApi.base.buildings.aetheriteSilo.description());
-        Scripts.createItem(GameApi.tr("Barracks"),"Barracks",GameApi.base.buildings.barracks.currentLevel(), GameApi.base.buildings.barracks.description());
+        Scripts.createItem(GameApi.tr("CentralUnit"),"CentralUnit",1,"");
+        Scripts.createItem(GameApi.tr("DockingStation"),"DockingStation",1,"");
+        Scripts.createItem(GameApi.tr("Hospital"),"Hospital",1,"");
+        Scripts.createItem(GameApi.tr("TrainingGround"),"TrainingGround",1,"");
+        Scripts.createItem(GameApi.tr("Gym"),"Gym",1,"");
+        Scripts.createItem(GameApi.tr("Laboratory"),"Laboratory",1,"");
+        Scripts.createItem(GameApi.tr("PlayingField"),"PlayingField",1,"");
+        Scripts.createItem(GameApi.tr("Bar"),"Bar",1,"");
+        Scripts.createItem(GameApi.tr("Shrine"),"Shrine",1,"");
+        Scripts.createItem(GameApi.tr("Seclusion"),"Seclusion",1,"");
+        Scripts.createItem(GameApi.tr("Powerplant"),"Powerplant",1,"");
+        Scripts.createItem(GameApi.tr("Factory"),"Factory",1,"");
+        Scripts.createItem(GameApi.tr("CoolRoom"),"CoolRoom",1,"");
+        Scripts.createItem(GameApi.tr("StorageRoom"),"StorageRoom",1,"");
+        Scripts.createItem(GameApi.tr("Aetherite Silo"),"AetheriteSilo",1,"");
+        Scripts.createItem(GameApi.tr("Barracks"),"Barracks",1,"");
     }
 
     states: [

@@ -329,7 +329,7 @@ void H4X::finishMission(const QString &mercenaryName) noexcept
 void H4X::forceUIUpdate() noexcept
 {
     QObject *win = m_qmlEngine->rootObjects().value(0);
-    win->setProperty("updateEverythingInAMoment",true);
+	QMetaObject::invokeMethod(win, "updateEverything");
 }
 
 void H4X::fps() noexcept

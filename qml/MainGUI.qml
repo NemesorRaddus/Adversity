@@ -9,8 +9,36 @@ Rectangle {
 
     property alias enableFPSCounter: fpsCnt.visible
 
+    property alias gameOn: mainContent.visible // or !mainMenu.visible
+
     width: 1080
     height: 1920
+
+    function updateMenu()
+    {
+        mainMenu.update();
+    }
+
+    function updateContent(minimal)
+    {
+        if (minimal)
+            mainContent.updateClock();
+        else
+            mainContent.updateEverything();
+    }
+
+    function updateEverything()
+    {
+        if (gameOn)
+            updateContent(0);
+        else
+            updateMenu();
+    }
+
+    function reactToExit()
+    {
+        return gameOn ? mainContent.reactToExit() : mainMenu.reactToExit();
+    }
 
     onEnableFPSCounterChanged: mainContent.settings.acknowledgeFPSToggle(enableFPSCounter);
 
@@ -36,6 +64,8 @@ Rectangle {
         y: 0
         width: parent.width
         height: parent.height
+
+        visible: false
     }
 
     FPSCounter {
