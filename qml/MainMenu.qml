@@ -415,6 +415,8 @@ Item {
         MouseArea {
             anchors.fill: parent
             anchors.margins: -10
+
+            onClicked: creditsWindow.show(1);
         }
         Image {
             x: parent.width - width
@@ -515,6 +517,14 @@ Item {
 
         width: parent.width
         height: parent.height
+
+        onBackClicked: hide();
+    }
+
+    Credits {
+        id: creditsWindow
+
+        anchors.fill: parent
 
         onBackClicked: hide();
     }
