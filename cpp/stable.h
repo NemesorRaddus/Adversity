@@ -47,6 +47,9 @@
 // my libs
 #include "libs/RBoundedValue_v0_1_1-Beta/rboundedvalue.h"
 
+// Boost
+#include "libs/boost_1_66_0/boost/rational.hpp"
+
 // other 3rd party libs
 #include "libs/spdlog-0.14.0/spdlog.h"
 

@@ -3,7 +3,8 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++14
 
-INCLUDEPATH += $$PWD/cpp/
+INCLUDEPATH += $$PWD/cpp/ \
+	$$PWD/libs/boost_1_66_0/
 CONFIG += object_parallel_to_source # so that o files generated from files with the same names don't replace each other
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
@@ -83,20 +84,24 @@ SOURCES += cpp/main.cpp \
     cpp/missions/events/checkevents.cpp \
     cpp/missions/events/enums.cpp \
     cpp/missions/events/event.cpp \
-    cpp/missions/events/otherevents.cpp \
-    cpp/missions/events/value_scripts/expression.cpp \
-    cpp/missions/events/value_scripts/valuerange.cpp \
-    cpp/missions/land.cpp \
-    cpp/missions/mission.cpp \
-    cpp/qml_components/fpscounter.cpp \
-    cpp/qml_components/signaltransmitter.cpp \
-    cpp/reports/basereports.cpp \
-    cpp/reports/enums.cpp \
-    cpp/reports/mercenaryreports.cpp \
-    cpp/reports/missionreports.cpp \
-    cpp/reports/report.cpp \
-    cpp/reports/unifiedreport.cpp \
-    cpp/translations/translations.cpp
+	cpp/missions/events/otherevents.cpp \
+	cpp/missions/events/value_scripts/expression.cpp \
+	cpp/missions/events/value_scripts/valuerange.cpp \
+	cpp/missions/land.cpp \
+	cpp/missions/mission.cpp \
+	cpp/progress/basics/goal.cpp \
+	cpp/progress/basics/progresskeeper.cpp \
+	cpp/progress/contracts/contractgoal.cpp \
+	cpp/progress/contracts/contractsprogresskeeper.cpp \
+	cpp/qml_components/fpscounter.cpp \
+	cpp/qml_components/signaltransmitter.cpp \
+	cpp/reports/basereports.cpp \
+	cpp/reports/enums.cpp \
+	cpp/reports/mercenaryreports.cpp \
+	cpp/reports/missionreports.cpp \
+	cpp/reports/report.cpp \
+	cpp/reports/unifiedreport.cpp \
+	cpp/translations/translations.cpp
 
 RESOURCES += \
     qmlfiles.qrc \
@@ -186,18 +191,22 @@ HEADERS += \
     cpp/missions/events/otherevents.h \
     cpp/missions/events/value_scripts/expression.h \
     cpp/missions/events/value_scripts/valuerange.h \
-    cpp/missions/land.h \
-    cpp/missions/mission.h \
-    cpp/qml_components/fpscounter.h \
-    cpp/qml_components/signaltransmitter.h \
-    cpp/reports/basereports.h \
-    cpp/reports/enums.h \
-    cpp/reports/mercenaryreports.h \
-    cpp/reports/missionreports.h \
-    cpp/reports/report.h \
-    cpp/reports/unifiedreport.h \
-    cpp/stable.h \
-    cpp/translations/translations.h
+	cpp/missions/land.h \
+	cpp/missions/mission.h \
+	cpp/progress/basics/goal.h \
+	cpp/progress/basics/progresskeeper.h \
+	cpp/progress/contracts/contractgoal.h \
+	cpp/progress/contracts/contractsprogresskeeper.h \
+	cpp/qml_components/fpscounter.h \
+	cpp/qml_components/signaltransmitter.h \
+	cpp/reports/basereports.h \
+	cpp/reports/enums.h \
+	cpp/reports/mercenaryreports.h \
+	cpp/reports/missionreports.h \
+	cpp/reports/report.h \
+	cpp/reports/unifiedreport.h \
+	cpp/stable.h \
+	cpp/translations/translations.h
 
 PRECOMPILED_HEADER = cpp/stable.h
 
