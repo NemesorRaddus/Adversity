@@ -64,3 +64,26 @@ void Goal::Progress::clear() noexcept
 
 Goal::Goal(const QString &name, bool enableProgressAccumulation, const Progress &neededProgress, const Progress &currentProgress) noexcept
 	: m_name(name), m_enableProgressAccumulation(enableProgressAccumulation), m_neededProgress(neededProgress), m_currentProgress(currentProgress) {}
+
+Goal::Goal() noexcept
+	: m_enableProgressAccumulation(true) {}
+
+void AbstractGoalBuilder::setName(const QString &name) noexcept
+{
+	m_object->m_name = name;
+}
+
+void AbstractGoalBuilder::setEnableProgressAccumulation(bool enable) noexcept
+{
+	m_object->m_enableProgressAccumulation = enable;
+}
+
+void AbstractGoalBuilder::setNeededProgress(const Goal::Progress &progress) noexcept
+{
+	m_object->m_neededProgress = progress;
+}
+
+void AbstractGoalBuilder::setCurrentProgress(const Goal::Progress &progress) noexcept
+{
+	m_object->m_currentProgress = progress;
+}

@@ -8,6 +8,8 @@ typedef boost::rational<int> rational;
 
 class Goal
 {
+	friend class AbstractGoalBuilder;
+
 public:
 	class Progress
 	{
@@ -64,6 +66,7 @@ public:
 	};
 
 	explicit Goal(const QString &name, bool enableProgressAccumulation, const Progress &neededProgress, const Progress &currentProgress = {0}) noexcept;
+	~Goal() noexcept = default;
 
 	inline QString name() const noexcept
 	{
@@ -86,10 +89,27 @@ public:
 		return m_currentProgress >= m_neededProgress;
 	}
 
-private:
-	const QString m_name;
+protected:
+	Goal() noexcept;
 
-	const bool m_enableProgressAccumulation;
-	const Progress m_neededProgress;
+	QString m_name;
+
+	bool m_enableProgressAccumulation;
+	Progress m_neededProgress;
 	Progress m_currentProgress;
+};
+
+class AbstractGoalBuilder
+{
+public:
+	void setName(const QString &name) noexcept;
+	void setEnableProgressAccumulation(bool enable) noexcept;
+	void setNeededProgress(const Goal::Progress &progress) noexcept;
+	void setCurrentProgress(const Goal::Progress &progress) noexcept;
+
+protected:
+	AbstractGoalBuilder() noexcept = default;
+	virtual ~AbstractGoalBuilder() noexcept = default;
+
+	Goal *m_object;
 };
