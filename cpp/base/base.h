@@ -8,6 +8,7 @@
 #include "base/buildings/building.h"
 
 class BuildingsManager;
+class ContractsManager;
 class EquipmentManager;
 class MercenariesManager;
 class MissionsManager;
@@ -23,6 +24,7 @@ class Base : public QObject
     Q_OBJECT
 
     Q_PROPERTY(BuildingsManager* buildings MEMBER m_buildingsManager)
+	Q_PROPERTY(ContractsManager* contracts MEMBER m_contractsManager)
     Q_PROPERTY(EquipmentManager* equipment MEMBER m_equipmentManager)
     Q_PROPERTY(MercenariesManager* mercenaries MEMBER m_mercenariesManager)
     Q_PROPERTY(MissionsManager* missions MEMBER m_missionsManager)
@@ -52,6 +54,10 @@ public:
     {
         return m_buildingsManager;
     }
+	inline ContractsManager *contracts() noexcept
+	{
+		return m_contractsManager;
+	}
     inline EquipmentManager *equipment() noexcept
     {
         return m_equipmentManager;
@@ -92,6 +98,7 @@ public:
 
 private:
     BuildingsManager *m_buildingsManager;
+	ContractsManager *m_contractsManager;
     EquipmentManager *m_equipmentManager;
     MercenariesManager *m_mercenariesManager;
     MissionsManager *m_missionsManager;

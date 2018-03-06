@@ -1,31 +1,26 @@
 #pragma once
 
-#include "progress/basics/goal.h"
+#include <QObject>
+#include <QVector>
 
-namespace ContractEnums
-{
-	enum Faction
-	{
-		F_TR,
-		F_UEG,
-		F_UPOA,
-		F_END
-	};
-	enum Type
-	{
-		T_Exploration,
-		T_END
-	};
-}
+#include "enums.h"
+#include "goal.h"
 
-class ContractGoal : public Goal
+class Contract : public QObject
 {
-	friend class ContractGoalBuilder;
+	Q_OBJECT
+
+	friend class ContractBuilder;
 
 public:
+	bool isRewardReady() const noexcept;
 	inline unsigned expirationTime() const noexcept
 	{
 		return m_expirationTimeInDays;
+	}
+	inline bool hasExpired() const noexcept
+	{
+		return expirationTime() == 0;
 	}
 	inline ContractEnums::Faction faction() const noexcept
 	{
@@ -39,28 +34,27 @@ public:
 	void decrementExpirationTime() noexcept;
 
 private:
-	ContractGoal() noexcept;
+	Contract() noexcept;
 
+	QVector <ContractGoal *> m_goals;
 	unsigned m_expirationTimeInDays;
 	ContractEnums::Faction m_faction;
 	unsigned m_factionPoints;
 };
 
-class ContractGoalBuilder : public AbstractGoalBuilder
+class ContractBuilder
 {
 public:
-	ContractGoalBuilder() noexcept;
-	~ContractGoalBuilder() noexcept;
+	ContractBuilder() noexcept;
+	~ContractBuilder() noexcept;
 
-	ContractGoal *getObject() noexcept;
+	Contract *getContract() noexcept;
 
+	void setGoals(const QVector <ContractGoal *> &goals) noexcept;
 	void setExpirationTime(unsigned days) noexcept;
 	void setFaction(ContractEnums::Faction faction) noexcept;
 	void setFactionPoints(unsigned amount) noexcept;
 
 private:
-	inline ContractGoal *object() noexcept
-	{
-		return static_cast<ContractGoal *>(m_object);
-	}
+	Contract *m_contract;
 };

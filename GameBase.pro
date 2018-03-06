@@ -39,11 +39,15 @@ SOURCES += cpp/main.cpp \
     cpp/base/enums.cpp \
     cpp/base/managers/basemanagerinterface.cpp \
     cpp/base/managers/buildingsmanager.cpp \
+	cpp/base/managers/contractsmanager.cpp \
     cpp/base/managers/equipmentmanager.cpp \
     cpp/base/managers/mercenariesmanager.cpp \
     cpp/base/managers/missionsmanager.cpp \
     cpp/base/managers/reportsmanager.cpp \
     cpp/base/managers/resourcesmanager.cpp \
+	cpp/contracts/basicgoal.cpp \
+	cpp/contracts/contract.cpp \
+	cpp/contracts/goal.cpp \
     cpp/clock/gameclock.cpp \
     cpp/clock/time.cpp \
     cpp/clock/timer_alarms/buildingupgrade.cpp \
@@ -89,10 +93,6 @@ SOURCES += cpp/main.cpp \
 	cpp/missions/events/value_scripts/valuerange.cpp \
 	cpp/missions/land.cpp \
 	cpp/missions/mission.cpp \
-	cpp/progress/basics/goal.cpp \
-	cpp/progress/basics/progresskeeper.cpp \
-	cpp/progress/contracts/contractgoal.cpp \
-	cpp/progress/contracts/contractsprogresskeeper.cpp \
 	cpp/qml_components/fpscounter.cpp \
 	cpp/qml_components/signaltransmitter.cpp \
 	cpp/reports/basereports.cpp \
@@ -142,11 +142,16 @@ HEADERS += \
     cpp/base/enums.h \
     cpp/base/managers/basemanagerinterface.h \
     cpp/base/managers/buildingsmanager.h \
+	cpp/base/managers/contractsmanager.h \
     cpp/base/managers/equipmentmanager.h \
     cpp/base/managers/mercenariesmanager.h \
     cpp/base/managers/missionsmanager.h \
     cpp/base/managers/reportsmanager.h \
     cpp/base/managers/resourcesmanager.h \
+	cpp/contracts/basicgoal.h \
+	cpp/contracts/contract.h \
+	cpp/contracts/enums.h \
+	cpp/contracts/goal.h \
     cpp/clock/gameclock.h \
     cpp/clock/time.h \
     cpp/clock/timer_alarms/buildingupgrade.h \
@@ -193,10 +198,6 @@ HEADERS += \
     cpp/missions/events/value_scripts/valuerange.h \
 	cpp/missions/land.h \
 	cpp/missions/mission.h \
-	cpp/progress/basics/goal.h \
-	cpp/progress/basics/progresskeeper.h \
-	cpp/progress/contracts/contractgoal.h \
-	cpp/progress/contracts/contractsprogresskeeper.h \
 	cpp/qml_components/fpscounter.h \
 	cpp/qml_components/signaltransmitter.h \
 	cpp/reports/basereports.h \
@@ -206,7 +207,8 @@ HEADERS += \
 	cpp/reports/report.h \
 	cpp/reports/unifiedreport.h \
 	cpp/stable.h \
-	cpp/translations/translations.h
+	cpp/translations/translations.h \
+	cpp/utils.h
 
 PRECOMPILED_HEADER = cpp/stable.h
 

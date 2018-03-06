@@ -17,6 +17,7 @@
 #include "base/buildings/specific/storage/storageroom.h"
 #include "base/buildings/specific/training/trainingground.h"
 #include "base/managers/buildingsmanager.h"
+#include "base/managers/contractsmanager.h"
 #include "base/managers/equipmentmanager.h"
 #include "base/managers/mercenariesmanager.h"
 #include "base/managers/missionsmanager.h"
@@ -43,6 +44,7 @@ Base::Base(Game *gameObject) noexcept
     MercenaryBuilder::init(this);
 
     m_buildingsManager = new BuildingsManager(this);
+	m_contractsManager = new ContractsManager(this);
     m_equipmentManager = new EquipmentManager(this);
     m_mercenariesManager = new MercenariesManager(this);
     m_missionsManager = new MissionsManager(this);
@@ -63,6 +65,7 @@ void Base::setupNewBase() noexcept
     mercenaries()->initializeForNewBase();
     missions()->initializeForNewBase();
     reports()->initializeForNewBase();
+	contracts->initializeForNewBase();
 
     m_database = m_gameObject->assetsPool().makeStockDatabase();
     LoggersProvider::buildingsLogger()->trace("[{}] Base has been set up",gameClock()->currentTime().toQString().toStdString());
@@ -75,6 +78,7 @@ Base::~Base() noexcept
     delete m_missionsManager;
     delete m_mercenariesManager;
     delete m_equipmentManager;
+	delete m_contractsManager;
     delete m_buildingsManager;
 
     delete m_gameClock;

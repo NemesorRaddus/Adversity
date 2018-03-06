@@ -17,7 +17,7 @@ class EquipmentManager : public QObject, public BaseManagerInterface
     friend class Base;
 
 public:
-    explicit EquipmentManager(Base * base) noexcept;
+	explicit EquipmentManager(Base *base) noexcept;
 
     void initializeForNewBase() noexcept final;
 

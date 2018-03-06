@@ -17,7 +17,7 @@ class MercenariesManager : public QObject, public BaseManagerInterface
     friend class Base;
 
 public:
-    explicit MercenariesManager(Base * base) noexcept;
+	explicit MercenariesManager(Base *base) noexcept;
     ~MercenariesManager() noexcept;
 
     void initializeForNewBase() noexcept final;
