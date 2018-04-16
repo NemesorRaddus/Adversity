@@ -2,8 +2,7 @@
 
 #include <QString>
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 MissionEnums::Length MissionEnums::fromQStringToLengthEnum(const QString &missionLength) noexcept
 {
@@ -21,7 +20,7 @@ MissionEnums::Length MissionEnums::fromQStringToLengthEnum(const QString &missio
         return L_Master;
     if (missionLength == "Heroic")
         return L_Heroic;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Length enum conversion failed for {}",missionLength.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->Length enum conversion failed for {}",missionLength.toStdString());
 }
 
 QString MissionEnums::fromLengthEnumToQString(MissionEnums::Length missionLength) noexcept
@@ -40,5 +39,5 @@ QString MissionEnums::fromLengthEnumToQString(MissionEnums::Length missionLength
         return "Master";
     if (missionLength == L_Heroic)
         return "Heroic";
-    Game::gameInstance()->loggers()->mainLogger()->warn("Length enum->QString conversion failed for {}",static_cast<unsigned>(missionLength));
+    LoggersProvider::mainLogger()->warn("Length enum->QString conversion failed for {}",static_cast<unsigned>(missionLength));
 }

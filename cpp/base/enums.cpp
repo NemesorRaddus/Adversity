@@ -2,8 +2,7 @@
 
 #include <QString>
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 BaseEnums::Resource BaseEnums::fromQStringToResourceEnum(const QString &resource) noexcept
 {
@@ -15,18 +14,18 @@ BaseEnums::Resource BaseEnums::fromQStringToResourceEnum(const QString &resource
         return R_BuildingMaterials;
     if (resource=="Aetherite")
         return R_AetheriteOre;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Resource enum conversion failed for {}",resource.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->Resource enum conversion failed for {}",resource.toStdString());
 }
 
 QString BaseEnums::fromResourceEnumToQString(BaseEnums::Resource resource) noexcept
 {
-    if (resource==R_Energy)
+    if (resource == R_Energy)
         return "Energy";
-    if (resource==R_FoodSupplies)
+    if (resource == R_FoodSupplies)
         return "Food Supplies";
-    if (resource==R_BuildingMaterials)
+    if (resource == R_BuildingMaterials)
         return "Building Materials";
-    if (resource==R_AetheriteOre)
+    if (resource == R_AetheriteOre)
         return "Aetherite";
-    Game::gameInstance()->loggers()->mainLogger()->warn("Resource enum->QString conversion failed for {}",static_cast<unsigned>(resource));
+    LoggersProvider::mainLogger()->warn("Resource enum->QString conversion failed for {}",static_cast<unsigned>(resource));
 }

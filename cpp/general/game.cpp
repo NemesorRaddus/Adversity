@@ -1,38 +1,43 @@
-#include "general/game.h"
+#include "game.h"
 
+#include <QDataStream>
+#include <QDebug>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QQmlApplicationEngine>
 #include <QSettings>
 #include <QTimer>
-#include <QDebug>
 
 #include "libs/APeR-0.1.0/aper.h"
 
 #include "base/base.h"
-#include "base/buildings/aetheritesilo.h"
-#include "base/buildings/bar.h"
-#include "base/buildings/barracks.h"
-#include "base/buildings/centralunit.h"
-#include "base/buildings/coolroom.h"
-#include "base/buildings/dockingstation.h"
-#include "base/buildings/factory.h"
-#include "base/buildings/gym.h"
-#include "base/buildings/hospital.h"
-#include "base/buildings/laboratory.h"
-#include "base/buildings/playingfield.h"
-#include "base/buildings/powerplant.h"
-#include "base/buildings/seclusion.h"
-#include "base/buildings/shrine.h"
-#include "base/buildings/storageroom.h"
-#include "base/buildings/trainingground.h"
+#include "base/buildings/specific/storage/aetheritesilo.h"
+#include "base/buildings/specific/destressing/bar.h"
+#include "base/buildings/specific/other/barracks.h"
+#include "base/buildings/specific/other/centralunit.h"
+#include "base/buildings/specific/storage/coolroom.h"
+#include "base/buildings/specific/other/dockingstation.h"
+#include "base/buildings/specific/production/factory.h"
+#include "base/buildings/specific/training/gym.h"
+#include "base/buildings/specific/other/hospital.h"
+#include "base/buildings/specific/training/laboratory.h"
+#include "base/buildings/specific/destressing/playingfield.h"
+#include "base/buildings/specific/production/powerplant.h"
+#include "base/buildings/specific/destressing/seclusion.h"
+#include "base/buildings/specific/destressing/shrine.h"
+#include "base/buildings/specific/storage/storageroom.h"
+#include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/mercenariesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/buildingupgrade.h"
 #include "clock/timer_alarms/missionend.h"
+#include "file_io/saves/savedata.h"
 #include "file_io/saves/saveparser.h"
 #include "file_io/xml_files/xmlreader.h"
 #include "general/appbuildinfo.h"
 #include "general/globalutilities.h"
 #include "general/randomizer.h"
+#include "general/savesmanager.h"
 #include "h4x/h4x.h"
 #include "logging/loggershandler.h"
 #include "missions/land.h"
@@ -44,11 +49,11 @@ Game *Game::m_ptrToGameObject;
 QQmlApplicationEngine *Game::m_ptrToEngine;
 
 Game::Game(QObject *parent) noexcept
-    : QObject(parent)
+    : QObject(parent), m_base(nullptr), m_isAutosaveActive(false)
 {
-    m_ptrToGameObject=this;
+    m_ptrToGameObject = this;
 
-    m_buildInfo=new AppBuildInfo;
+    m_buildInfo = new AppBuildInfo;
     loadVersionInfo();
 
     loadSettings();
@@ -57,11 +62,11 @@ Game::Game(QObject *parent) noexcept
 
     m_loggersHandler = new LoggersHandler;
 
-    m_startupTimer=new QElapsedTimer;
+    m_startupTimer = new QElapsedTimer;
     m_startupTimer->start();
     qInfo()<<QString("[0.000] Game object initialization has started");
 
-    m_translations=new TranslationsDB(":/");
+    m_translations = new TranslationsDB(":/");
     if (!QSettings().contains("lang"))
     {
         if (QLocale::system().name()!="pl_PL" && QLocale::system().name()!="en_GB")
@@ -71,20 +76,21 @@ Game::Game(QObject *parent) noexcept
     }
     setLocale(QSettings().value("lang").toString());
 
-    m_base=new Base(this);
+    m_savesManager = new SavesManager;
+
+    loadAssets(m_pathToAssetsDir);
+    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
 
     m_h4xLogic=new H4X;
 
     m_globalsExportToQML=new GlobalUtilities;
-
-    connectAutosave();
 }
 
 Game::~Game() noexcept
 {
     saveSettings();
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Deleting game";
-    disconnectAutosave();
+    disableAutosave();
 
     delete m_lands;
 
@@ -92,7 +98,10 @@ Game::~Game() noexcept
 
     delete m_h4xLogic;
 
-    delete m_base;
+    if (m_base != nullptr)
+        delete m_base;
+
+    delete m_savesManager;
 
     delete m_translations;
 
@@ -108,56 +117,38 @@ Game::~Game() noexcept
 
 void Game::setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept
 {
-    m_ptrToEngine=engine;
+    m_ptrToEngine = engine;
 }
 
-void Game::createNewBase(const QString &pathToAssetsDir) noexcept
+void Game::loadSave(const SaveData &save) noexcept
 {
-    m_currentPathToAssets=pathToAssetsDir;
+    disableAutosave();
 
-    disconnectAutosave();
-
-    delete m_base;
+    if (m_base != nullptr)
+        delete m_base;
     m_base = new Base(this);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been created";
 
-    loadAssets(pathToAssetsDir);
-    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
-
-    m_base->setupNewBase();
-    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been set up";
-
-    connectAutosave();
-}
-
-void Game::loadExistingBase(const QString &pathToAssetsDir) noexcept
-{
-    QByteArray ba=QSettings().value("save01").toByteArray();
-    if (ba.isEmpty())
-        return createNewBase(pathToAssetsDir);
-
-    m_currentPathToAssets=pathToAssetsDir;
-
-    disconnectAutosave();
-
-    delete m_base;
-    m_base = new Base(this);
-    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Base has been created";
-
-    loadAssets(pathToAssetsDir);
-    qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Assets have been loaded";
-
-    m_base->loadSaveData(SaveParser::readData(ba));
+    m_base->loadSaveData(save);
     qInfo()<<"["+QString::number(m_startupTimer->elapsed()/1000)+'.'+QString("%1").arg(m_startupTimer->elapsed()%1000, 3, 10, QChar('0'))+"] Save has been loaded";
 
-    connectAutosave();
+    enableAutosave();
 }
 
-void Game::saveBase() noexcept
+SaveData Game::getSave() noexcept
 {
-    QByteArray ba;
-    SaveParser::writeData(ba,m_base->getSaveData());
-    QSettings().setValue("save01",ba);
+    if (m_base != nullptr)
+        return m_base->getSaveData();
+}
+
+void Game::closeSave() noexcept
+{
+    if (m_base == nullptr)
+        return;
+
+    disableAutosave();
+    delete m_base;
+    m_base = nullptr;
 }
 
 QString Game::currentVersionNumber() const noexcept
@@ -167,7 +158,7 @@ QString Game::currentVersionNumber() const noexcept
 
 void Game::setLocale(const QString &locale) noexcept
 {
-    if (locale!=m_translations->currentLanguage())
+    if (locale != m_translations->currentLanguage())
         loadTranslations(locale);
     //TODO in QML on lang selection screen add call to update() of everything
 }
@@ -189,7 +180,12 @@ unsigned Game::randomize(unsigned bottom, unsigned top) noexcept
 
 int Game::startupTimerElapsed() noexcept
 {
-    return m_startupTimer!=nullptr ? m_startupTimer->elapsed() : 0;
+    return m_startupTimer != nullptr ? m_startupTimer->elapsed() : 0;
+}
+
+void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
+{
+    m_base->mercenaries()->mercenaryDockingStationBans().insert(name,daysAmount);
 }
 
 void Game::showReportNotification() noexcept
@@ -246,120 +242,31 @@ void Game::requestReadWritePermissions() noexcept
     //    m_permissionsManager->requestPermissions(APeR::PermissionsManager::READ_EXTERNAL_STORAGE | APeR::PermissionsManager::WRITE_EXTERNAL_STORAGE, {});
 }
 
-void Game::saveBase_slot() noexcept
+void Game::saveBase() noexcept
 {
-    QByteArray ba;
-    SaveParser::writeData(ba,m_base->getSaveData());
-    QSettings().setValue("save01",ba);
+    m_savesManager->updateSave(m_savesManager->currentSaveInUseIndex(), m_base->getSaveData());
 }
 
-void Game::addDoStBan(QString name, unsigned daysAmount) noexcept
+void Game::enableAutosave() noexcept
 {
-    m_base->mercenaryDockingStationBans().insert(name,daysAmount);
+    if (!m_isAutosaveActive)
+    {
+        connect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase()));
+        m_isAutosaveActive=1;
+    }
 }
 
-void Game::connectAutosave() noexcept
+void Game::disableAutosave() noexcept
 {
-    connect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase_slot()));
-}
-
-void Game::disconnectAutosave() noexcept
-{
-    disconnect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase_slot()));
+    if (m_isAutosaveActive)
+    {
+        disconnect(m_base->gameClock(),SIGNAL(doAutosave()),this,SLOT(saveBase()));
+        m_isAutosaveActive=0;
+    }
 }
 
 void Game::loadAssets(const QString &pathToDir) noexcept
 {
-    XmlFileReader xmlReader;
-    m_base->setBuildingDescriptions(xmlReader.getBuildingDescriptions(pathToDir+"base/descriptions.xml"));
-    //levels infos
-    {
-    QMap <QPair <BuildingEnums::Building, unsigned>, BuildingUpgradeRequirements> bureqs;
-
-    auto culi = xmlReader.getCentralUnitLevelsInfo(pathToDir+"base/buildingLevelsInfo/centralUnit.xml");
-    m_base->centralUnit()->setLevelsInfo(culi.first);
-    for (int i=0;i<culi.second.size();++i)
-        bureqs.insert({BuildingEnums::B_CentralUnit,i},culi.second[i]);
-
-    auto hli = xmlReader.getHospitalLevelsInfo(pathToDir+"base/buildingLevelsInfo/hospital.xml");
-    m_base->hospital()->setLevelsInfo(hli.first);
-    for (int i=0;i<hli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Hospital,i},hli.second[i]);
-
-    auto tgli = xmlReader.getTrainingGroundLevelsInfo(pathToDir+"base/buildingLevelsInfo/trainingGround.xml");
-    m_base->trainingGround()->setLevelsInfo(tgli.first);
-    for (int i=0;i<tgli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_TrainingGround,i},tgli.second[i]);
-
-    auto gli = xmlReader.getGymLevelsInfo(pathToDir+"base/buildingLevelsInfo/gym.xml");
-    m_base->gym()->setLevelsInfo(gli.first);
-    for (int i=0;i<gli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Gym,i},gli.second[i]);
-
-    auto lli = xmlReader.getLaboratoryLevelsInfo(pathToDir+"base/buildingLevelsInfo/laboratory.xml");
-    m_base->laboratory()->setLevelsInfo(lli.first);
-    for (int i=0;i<lli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Laboratory,i},lli.second[i]);
-
-    auto pfli = xmlReader.getPlayingFieldLevelsInfo(pathToDir+"base/buildingLevelsInfo/playingField.xml");
-    m_base->playingField()->setLevelsInfo(pfli.first);
-    for (int i=0;i<pfli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_PlayingField,i},pfli.second[i]);
-
-    auto bli = xmlReader.getBarLevelsInfo(pathToDir+"base/buildingLevelsInfo/bar.xml");
-    m_base->bar()->setLevelsInfo(bli.first);
-    for (int i=0;i<bli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Bar,i},bli.second[i]);
-
-    auto sli = xmlReader.getShrineLevelsInfo(pathToDir+"base/buildingLevelsInfo/shrine.xml");
-    m_base->shrine()->setLevelsInfo(sli.first);
-    for (int i=0;i<sli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Shrine,i},sli.second[i]);
-
-    auto s1li = xmlReader.getSeclusionLevelsInfo(pathToDir+"base/buildingLevelsInfo/seclusion.xml");
-    m_base->seclusion()->setLevelsInfo(s1li.first);
-    for (int i=0;i<s1li.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Seclusion,i},s1li.second[i]);
-
-    auto pli = xmlReader.getPowerplantLevelsInfo(pathToDir+"base/buildingLevelsInfo/powerplant.xml");
-    m_base->powerplant()->setLevelsInfo(pli.first);
-    for (int i=0;i<pli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Powerplant,i},pli.second[i]);
-
-    auto fli = xmlReader.getFactoryLevelsInfo(pathToDir+"base/buildingLevelsInfo/factory.xml");
-    m_base->factory()->setLevelsInfo(fli.first);
-    for (int i=0;i<fli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Factory,i},fli.second[i]);
-
-    auto crli = xmlReader.getCoolRoomLevelsInfo(pathToDir+"base/buildingLevelsInfo/coolRoom.xml");
-    m_base->coolRoom()->setLevelsInfo(crli.first);
-    for (int i=0;i<crli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_CoolRoom,i},crli.second[i]);
-
-    auto srli = xmlReader.getStorageRoomLevelsInfo(pathToDir+"base/buildingLevelsInfo/storageRoom.xml");
-    m_base->storageRoom()->setLevelsInfo(srli.first);
-    for (int i=0;i<srli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_StorageRoom,i},srli.second[i]);
-
-    auto asli = xmlReader.getAetheriteSiloLevelsInfo(pathToDir+"base/buildingLevelsInfo/aetheriteSilo.xml");
-    m_base->aetheriteSilo()->setLevelsInfo(asli.first);
-    for (int i=0;i<asli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_AetheriteSilo,i},asli.second[i]);
-
-    auto b1li = xmlReader.getBarracksLevelsInfo(pathToDir+"base/buildingLevelsInfo/barracks.xml");
-    m_base->barracks()->setLevelsInfo(b1li.first);
-    for (int i=0;i<b1li.second.size();++i)
-        bureqs.insert({BuildingEnums::B_Barracks,i},b1li.second[i]);
-
-    auto dsli = xmlReader.getDockingStationLevelsInfo(pathToDir+"base/buildingLevelsInfo/dockingStation.xml");
-    m_base->dockingStation()->setLevelsInfo(dsli.first);
-    for (int i=0;i<dsli.second.size();++i)
-        bureqs.insert({BuildingEnums::B_DockingStation,i},dsli.second[i]);
-
-    m_base->setBuildingRequirements(bureqs);
-    }
-    m_base->dockingStation()->setTradingTables(xmlReader.getDockingStationTradingTable(pathToDir+"base/dockingStationTradingTables.xml"));
-
     m_assetsPool.load(pathToDir);
 
     m_lands = new LandsInfo(&m_assetsPool.lands());

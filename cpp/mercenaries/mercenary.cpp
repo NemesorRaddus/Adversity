@@ -1,22 +1,25 @@
 #include "mercenary.h"
 
 #include "base/base.h"
-#include "base/buildings/bar.h"
-#include "base/buildings/dockingstation.h"
-#include "base/buildings/gym.h"
-#include "base/buildings/hospital.h"
-#include "base/buildings/laboratory.h"
-#include "base/buildings/playingfield.h"
-#include "base/buildings/seclusion.h"
-#include "base/buildings/shrine.h"
-#include "base/buildings/trainingground.h"
+#include "base/buildings/specific/destressing/bar.h"
+#include "base/buildings/specific/other/dockingstation.h"
+#include "base/buildings/specific/training/gym.h"
+#include "base/buildings/specific/other/hospital.h"
+#include "base/buildings/specific/training/laboratory.h"
+#include "base/buildings/specific/destressing/playingfield.h"
+#include "base/buildings/specific/destressing/seclusion.h"
+#include "base/buildings/specific/destressing/shrine.h"
+#include "base/buildings/specific/training/trainingground.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "database/database.h"
 #include "equipment/equipment.h"
 #include "general/game.h"
 #include "general/globalutilities.h"
 #include "general/randomizer.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 #include "missions/events/actionevents.h"
 #include "missions/land.h"
 #include "missions/mission.h"
@@ -36,16 +39,16 @@ QString Mercenary::currentStressBorderEffectNameString() const noexcept
     return "";
 }
 
-QVector<QPair<MercenaryStressBorderEffect, unsigned> > Mercenary::diverseSBEs() const noexcept
+QVector<QPair < MercenaryStressBorderEffect, unsigned> > Mercenary::diverseSBEs() const noexcept
 {
-    QVector<QPair<MercenaryStressBorderEffect, unsigned> > r;
-    for (int i=0;i<m_stressBorderEffects.size();++i)
+    QVector<QPair < MercenaryStressBorderEffect, unsigned> > r;
+    for (int i=0;i < m_stressBorderEffects.size();++i)
     {
-        bool done=0;
-        for (int j=0;j<r.size();++j)
+        bool done = 0;
+        for (int j=0;j < r.size();++j)
             if (m_stressBorderEffects[i].effectName == r[j].first.effectName)
             {
-                done=1;
+                done = 1;
                 ++r[j].second;
                 break;
             }
@@ -62,16 +65,16 @@ int Mercenary::amountOfDiverseSBEs() const noexcept
 
 QString Mercenary::nameOfSBESummed(unsigned index) const noexcept
 {
-    auto sbes=diverseSBEs();
-    if (index<sbes.size())
+    auto sbes = diverseSBEs();
+    if (index < sbes.size())
         return MercenaryEnums::fromStressBorderEffectEnumToQString(sbes[index].first.effectName);
     return "";
 }
 
 float Mercenary::chanceOfSBESummed(unsigned index) const noexcept
 {
-    auto sbes=diverseSBEs();
-    if (index<sbes.size())
+    auto sbes = diverseSBEs();
+    if (index < sbes.size())
         return static_cast<float>(sbes[index].second)/static_cast<float>(m_stressBorderEffects.size());
     return 0;
 }
@@ -145,7 +148,7 @@ void Mercenary::changeCombatEffectiveness(int amount) noexcept
     if (m_baseAttributesValues.combatEffectiveness+amount >= 0)
         m_baseAttributesValues.combatEffectiveness+=amount;
     else
-        m_baseAttributesValues.combatEffectiveness=0;
+        m_baseAttributesValues.combatEffectiveness = 0;
 
     calculateCurrentAttributeValues();
 }
@@ -155,7 +158,7 @@ void Mercenary::changeProficiency(int amount) noexcept
     if (m_baseAttributesValues.proficiency+amount >= 0)
         m_baseAttributesValues.proficiency+=amount;
     else
-        m_baseAttributesValues.proficiency=0;
+        m_baseAttributesValues.proficiency = 0;
 
     calculateCurrentAttributeValues();
 }
@@ -165,7 +168,7 @@ void Mercenary::changeCleverness(int amount) noexcept
     if (m_baseAttributesValues.cleverness+amount >= 0)
         m_baseAttributesValues.cleverness+=amount;
     else
-        m_baseAttributesValues.cleverness=0;
+        m_baseAttributesValues.cleverness = 0;
 
     calculateCurrentAttributeValues();
 }
@@ -173,7 +176,7 @@ void Mercenary::changeCleverness(int amount) noexcept
 void Mercenary::changeLuck(float amount) noexcept
 {
     if (m_baseAttributesValues.luck+amount < 0)
-        m_baseAttributesValues.luck=0;
+        m_baseAttributesValues.luck = 0;
     else
         m_baseAttributesValues.luck+=amount;
 
@@ -184,24 +187,24 @@ void Mercenary::changeHealth(int amount) noexcept
 {
     if (m_currentAttributesValues.health + amount > 0)
     {
-        if (m_currentAttributesValues.health+amount<m_currentAttributesValues.healthLimit)
+        if (m_currentAttributesValues.health+amount < m_currentAttributesValues.healthLimit)
             m_currentAttributesValues.health+=amount;
         else
-            m_currentAttributesValues.health=m_currentAttributesValues.healthLimit;
+            m_currentAttributesValues.health = m_currentAttributesValues.healthLimit;
     }
     else
     {
         if (isStressBorderEffectActive() && m_stressBorderEffects[m_indexOfCurrentSBE].effectName == MercenaryEnums::SBE_Bravery && 10 >= Randomizer::randomBetweenAAndB(1,100))
         {
-            m_currentAttributesValues.health=1;
-            m_carriedAetheriteOre=0;
-            m_carriedBuildingMaterials=0;
-            m_carriedEnergy=0;
-            m_carriedFoodSupplies=0;
+            m_currentAttributesValues.health = 1;
+            m_carriedAetheriteOre = 0;
+            m_carriedBuildingMaterials = 0;
+            m_carriedEnergy = 0;
+            m_carriedFoodSupplies = 0;
         }
         else
         {
-            m_currentAttributesValues.health=0;
+            m_currentAttributesValues.health = 0;
             die();
         }
     }
@@ -212,7 +215,7 @@ void Mercenary::changeHealthLimit(int amount) noexcept
     if (m_currentAttributesValues.healthLimit+amount > 0)
         m_currentAttributesValues.healthLimit+=amount;
     else
-        m_currentAttributesValues.healthLimit=1;
+        m_currentAttributesValues.healthLimit = 1;
 
     calculateCurrentAttributeValue(MercenaryEnums::A_HealthLimit);
 }
@@ -228,9 +231,9 @@ void Mercenary::increaseStress(unsigned amount) noexcept
 {
     if (!isImmuneToStress())
     {
-        if (m_currentAttributesValues.stress+amount*m_currentAttributesValues.stressResistance>=m_currentAttributesValues.stressLimit)
+        if (m_currentAttributesValues.stress+amount*m_currentAttributesValues.stressResistance >= m_currentAttributesValues.stressLimit)
         {
-            m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
+            m_currentAttributesValues.stress = m_currentAttributesValues.stressLimit;
             die();
         }
         else if (m_currentAttributesValues.stress + amount * m_currentAttributesValues.stressResistance >= m_currentAttributesValues.stressBorder && !isStressBorderEffectActive())
@@ -247,20 +250,20 @@ void Mercenary::decreaseStress(unsigned amount) noexcept
 {
     if (!isImmuneToStress())
     {
-        if (m_currentAttributesValues.stress-amount<m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
+        if (m_currentAttributesValues.stress-amount < m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
         {
-            if (m_currentAttributesValues.stress-static_cast<int>(amount)>0)
+            if (m_currentAttributesValues.stress-static_cast<int>(amount) > 0)
                 m_currentAttributesValues.stress-=amount;
             else
-                m_currentAttributesValues.stress=0;
+                m_currentAttributesValues.stress = 0;
             deactivateStressBorderEffect();
         }
         else
         {
-            if (m_currentAttributesValues.stress-static_cast<int>(amount)>0)
+            if (m_currentAttributesValues.stress-static_cast<int>(amount) > 0)
                 m_currentAttributesValues.stress-=amount;
             else
-                m_currentAttributesValues.stress=0;
+                m_currentAttributesValues.stress = 0;
         }
     }
 }
@@ -269,7 +272,7 @@ void Mercenary::changeStressResistance(float amount) noexcept
 {
     if (!isImmuneToStress())
     {
-        if (m_currentAttributesValues.stressResistance+amount>=0)
+        if (m_currentAttributesValues.stressResistance+amount >= 0)
             m_currentAttributesValues.stressResistance+=amount;
     }
 }
@@ -278,27 +281,27 @@ void Mercenary::changeStressLimit(int amount) noexcept
 {
     if (!isImmuneToStress())
     {
-        if (m_baseAttributesValues.stressLimit+amount>1)
+        if (m_baseAttributesValues.stressLimit+amount > 1)
         {
             m_baseAttributesValues.stressLimit+=amount;
 
             calculateCurrentAttributeValue(MercenaryEnums::A_StressLimit);
 
-            if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressLimit)
+            if (m_currentAttributesValues.stress >= m_currentAttributesValues.stressLimit)
             {
-                m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
+                m_currentAttributesValues.stress = m_currentAttributesValues.stressLimit;
                 die();
             }
         }
         else
         {
-            m_baseAttributesValues.stressLimit=1;
+            m_baseAttributesValues.stressLimit = 1;
 
             calculateCurrentAttributeValue(MercenaryEnums::A_StressLimit);
 
-            if (m_currentAttributesValues.stress>=1)
+            if (m_currentAttributesValues.stress >= 1)
             {
-                m_currentAttributesValues.stress=1;
+                m_currentAttributesValues.stress = 1;
                 die();
             }
         }
@@ -309,16 +312,16 @@ void Mercenary::changeStressBorder(int amount) noexcept
 {
     if (!isImmuneToStress())
     {
-        if (m_baseAttributesValues.stressBorder+amount<1)
-            m_baseAttributesValues.stressBorder=0;
+        if (m_baseAttributesValues.stressBorder+amount < 1)
+            m_baseAttributesValues.stressBorder = 0;
         else
             m_baseAttributesValues.stressBorder+=amount;
 
         calculateCurrentAttributeValue(MercenaryEnums::A_StressBorder);
 
-        if (m_currentAttributesValues.stress<m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
+        if (m_currentAttributesValues.stress < m_currentAttributesValues.stressBorder && isStressBorderEffectActive())
             deactivateStressBorderEffect();
-        else if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressBorder && !isStressBorderEffectActive())
+        else if (m_currentAttributesValues.stress >= m_currentAttributesValues.stressBorder && !isStressBorderEffectActive())
             activateStressBorderEffect();
     }
 }
@@ -342,23 +345,23 @@ void Mercenary::changeSalary(int amount) noexcept
 
 void Mercenary::changeDailyFoodConsumption(int amount) noexcept
 {
-    if (m_baseAttributesValues.dailyFoodConsumption+amount>=0)
+    if (m_baseAttributesValues.dailyFoodConsumption+amount >= 0)
         m_baseAttributesValues.dailyFoodConsumption+=amount;
     else
-        m_baseAttributesValues.dailyFoodConsumption=0;
+        m_baseAttributesValues.dailyFoodConsumption = 0;
 
     calculateCurrentAttributeValue(MercenaryEnums::A_DailyFoodConsumption);
 }
 
 void Mercenary::setDailyHealthRecoveryBuildingBonus(int bonus) noexcept
 {
-    m_dhrBuildingBonus=bonus;
+    m_dhrBuildingBonus = bonus;
     calculateCurrentAttributeValue(MercenaryEnums::A_DailyHealthRecovery);
 }
 
 void Mercenary::setDailyStressRecoveryBuildingBonus(int bonus) noexcept
 {
-    m_dsrBuildingBonus=bonus;
+    m_dsrBuildingBonus = bonus;
     calculateCurrentAttributeValue(MercenaryEnums::A_DailyStressRecovery);
 }
 
@@ -382,7 +385,7 @@ void Mercenary::addAttributeModification(AttributeModification *mod) noexcept
 
 void Mercenary::decrementModificationsDuration() noexcept
 {
-    for (int i=0;i<m_attributeModifications.size();)
+    for (int i=0;i < m_attributeModifications.size();)
     {
         if (m_attributeModifications[i]->duration > 1)
         {
@@ -406,22 +409,22 @@ const Equipment *Mercenary::weaponTool(unsigned slot) const noexcept
 
 bool Mercenary::hasWeaponToolInSlot(unsigned slot) const noexcept
 {
-    if (slot>=m_amountOfWeaponToolSlots)
+    if (slot >= m_amountOfWeaponToolSlots)
         return 0;
     return m_weaponsTools[slot]!=nullptr;
 }
 
 void Mercenary::prepareWeaponTool(unsigned slot) noexcept
 {
-    if (slot<m_amountOfWeaponToolSlots)
-        m_preparedWeaponTool=m_weaponsTools[slot];
+    if (slot < m_amountOfWeaponToolSlots)
+        m_preparedWeaponTool = m_weaponsTools[slot];
 }
 
 void Mercenary::equipArmor(Equipment *armor) noexcept
 {
-    if (armor!=nullptr)
+    if (armor != nullptr)
     {
-        if (m_armor!=nullptr)
+        if (m_armor != nullptr)
             unequipArmor();
 
         setArmor(armor);
@@ -431,7 +434,7 @@ void Mercenary::equipArmor(Equipment *armor) noexcept
 
 void Mercenary::unequipArmor() noexcept
 {
-    if (m_armor!=nullptr)
+    if (m_armor != nullptr)
     {
         addCarriedEquipment(m_armor);
         setArmor(nullptr);
@@ -441,7 +444,7 @@ void Mercenary::unequipArmor() noexcept
 
 void Mercenary::equipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept
 {
-    if (weaponTool!=nullptr && slot<m_amountOfWeaponToolSlots)
+    if (weaponTool != nullptr && slot < m_amountOfWeaponToolSlots)
     {
         if (m_weaponsTools[slot]!=nullptr)
             unequipWeaponTool(slot);
@@ -453,7 +456,7 @@ void Mercenary::equipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept
 
 void Mercenary::unequipWeaponTool(unsigned slot) noexcept
 {
-    if (slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
+    if (slot < m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
     {
         addCarriedEquipment(m_weaponsTools[slot]);
         setWeaponTool(nullptr,slot);
@@ -463,7 +466,7 @@ void Mercenary::unequipWeaponTool(unsigned slot) noexcept
 
 void Mercenary::removeArmor() noexcept
 {
-    if (m_armor!=nullptr)
+    if (m_armor != nullptr)
     {
         setArmor(nullptr);
         applyEquipmentEffect();
@@ -472,14 +475,14 @@ void Mercenary::removeArmor() noexcept
 
 void Mercenary::removeWeaponTool(unsigned slot) noexcept
 {
-    if (slot<m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
+    if (slot < m_amountOfWeaponToolSlots && m_weaponsTools[slot]!=nullptr)
     {
         setWeaponTool(nullptr,slot);
         applyEquipmentEffect();
     }
 }
 
-QVector<EquipmentEnums::Category> Mercenary::currentEquipmentCategories() const noexcept
+QVector <EquipmentEnums::Category> Mercenary::currentEquipmentCategories() const noexcept
 {
     return m_currentEquipmentCategories;
 }
@@ -491,11 +494,11 @@ bool Mercenary::hasEquipmentFromCategory(EquipmentEnums::Category cat) const noe
 
 void Mercenary::addCarriedEquipment(Equipment *eq) noexcept
 {
-    if (eq!=nullptr)
+    if (eq != nullptr)
         m_carriedEquipment+=eq;
 }
 
-QVector<Equipment *> Mercenary::carriedEquipment() const noexcept
+QVector < Equipment *> Mercenary::carriedEquipment() const noexcept
 {
     return m_carriedEquipment;
 }
@@ -507,16 +510,16 @@ void Mercenary::clearCarriedEquipment() noexcept
 
 void Mercenary::prepareCarriedEquipmentAt(unsigned index) noexcept
 {
-    if (index<m_carriedEquipment.size())
-        m_preparedCarriedEquipment=m_carriedEquipment[index];
+    if (index < m_carriedEquipment.size())
+        m_preparedCarriedEquipment = m_carriedEquipment[index];
 }
 
 unsigned Mercenary::dailyEquipmentCostEnergy() noexcept
 {
-    unsigned r=0;
+    unsigned r = 0;
     if (m_armor != nullptr)
         r+=m_armor->maintenanceEnergyCost();
-    for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+    for (int i=0;i < m_amountOfWeaponToolSlots;++i)
         if (m_weaponsTools[i] != nullptr)
             r+=m_weaponsTools[i]->maintenanceEnergyCost();
     return r;
@@ -524,10 +527,10 @@ unsigned Mercenary::dailyEquipmentCostEnergy() noexcept
 
 unsigned Mercenary::dailyEquipmentCostBM() noexcept
 {
-    unsigned r=0;
+    unsigned r = 0;
     if (m_armor != nullptr)
         r+=m_armor->maintenanceBuildingMaterialsCost();
-    for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+    for (int i=0;i < m_amountOfWeaponToolSlots;++i)
         if (m_weaponsTools[i] != nullptr)
             r+=m_weaponsTools[i]->maintenanceBuildingMaterialsCost();
     return r;
@@ -541,8 +544,8 @@ void Mercenary::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     if (noSignalDaysRemaining == 0)
     {
         m_noSignalDaysRemaining = 0;
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal retrieved",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
-        if (m_assignedMission==nullptr || isDead())
+        LoggersProvider::mercenariesLogger()->trace("[{}]{}: signal retrieved",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        if (m_assignedMission == nullptr || isDead())
             return;//safety measure
         addWaitingReport(new UnifiedReport(new SignalRetrievedReport(pathToArt(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         sendWaitingReports();
@@ -550,9 +553,9 @@ void Mercenary::setNoSignalDaysRemaining(int noSignalDaysRemaining) noexcept
     }
     else
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
-        if (m_assignedMission!=nullptr && isCommunicationAvailable())
-            m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
+        LoggersProvider::mercenariesLogger()->trace("[{}]{}: signal lost or still off",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        if (m_assignedMission != nullptr && isCommunicationAvailable())
+            m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining = noSignalDaysRemaining;
     }
 }
@@ -594,19 +597,19 @@ void Mercenary::setCarriedAetheriteOre(int carriedAetheriteOre) noexcept
 
 void Mercenary::assignMission(Mission *mission) noexcept
 {
-    m_assignedMission=mission;
-    m_currentActivity=MercenaryEnums::CA_OnMission;
+    m_assignedMission = mission;
+    m_currentActivity = MercenaryEnums::CA_OnMission;
     if (mission != nullptr)
-        m_lastKnownLandName=mission->land()->name();
+        m_lastKnownLandName = mission->land()->name();
 }
 
 void Mercenary::trySendingReport(UnifiedReport *report, bool registerInMission) noexcept
 {
     if (isCommunicationAvailable())
     {
-        m_base->addReport(report);
+        m_base->reports()->addReport(report);
         if (registerInMission)
-            m_base->registerLatestReportInMission(m_assignedMission);
+            m_base->reports()->registerLatestReportInMission(m_assignedMission);
     }
     else
         addWaitingReport(report);
@@ -621,8 +624,8 @@ void Mercenary::sendWaitingReports() noexcept
 {
     for (auto &e : m_waitingReports)
     {
-        m_base->addReport(e);
-        m_base->registerLatestReportInMission(m_assignedMission);
+        m_base->reports()->addReport(e);
+        m_base->reports()->registerLatestReportInMission(m_assignedMission);
     }
     m_waitingReports.clear();
 }
@@ -647,14 +650,14 @@ QString Mercenary::currentActivityString() const noexcept
 
 void Mercenary::setCurrentActivity(MercenaryEnums::CurrentActivity activity) noexcept
 {
-    m_currentActivity=activity;
-    if (activity==MercenaryEnums::CA_OnMission)
-        m_assignedMission=nullptr;
+    m_currentActivity = activity;
+    if (activity == MercenaryEnums::CA_OnMission)
+        m_assignedMission = nullptr;
 }
 
 QString Mercenary::pathToArt() const noexcept
 {
-    return "qrc:/graphics/Mercs/"+GlobalUtilities::alterNormalTextToInternal(professionString())+"/"+GlobalUtilities::alterNormalTextToInternal(name())+".png";
+    return "qrc:/graphics/Mercenaries/"+GlobalUtilities::alterNormalTextToInternal(professionString())+"/"+GlobalUtilities::alterNormalTextToInternal(name())+".png";
 }
 
 void Mercenary::dismiss(unsigned banDays) noexcept
@@ -688,32 +691,32 @@ void Mercenary::handleNewWeek() noexcept
 
 void Mercenary::returnToBase() noexcept
 {
-    Game::gameInstance()->loggers()->mercenariesLogger()->trace("{} has returned to base",m_name.toStdString());
-    m_base->increaseAetheriteAmount(m_carriedAetheriteOre);
-    m_base->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
-    m_base->increaseEnergyAmount(m_carriedEnergy);
-    m_base->increaseFoodSuppliesAmount(m_carriedFoodSupplies);
+    LoggersProvider::mercenariesLogger()->trace("{} has returned to base",m_name.toStdString());
+    m_base->resources()->increaseAetheriteAmount(m_carriedAetheriteOre);
+    m_base->resources()->increaseBuildingMaterialsAmount(m_carriedBuildingMaterials);
+    m_base->resources()->increaseEnergyAmount(m_carriedEnergy);
+    m_base->resources()->increaseFoodSuppliesAmount(m_carriedFoodSupplies);
 
-    m_carriedAetheriteOre=0;
-    m_carriedBuildingMaterials=0;
-    m_carriedEnergy=0;
-    m_carriedFoodSupplies=0;
+    m_carriedAetheriteOre = 0;
+    m_carriedBuildingMaterials = 0;
+    m_carriedEnergy = 0;
+    m_carriedFoodSupplies = 0;
 
     for (auto &e : m_carriedEquipment)
-        m_base->availableEquipment() += e;
+        m_base->equipment()->availableEquipment() += e;
 
     m_carriedEquipment.clear();
 
-    if (m_armor!=nullptr)
-        m_base->availableEquipment() += m_armor;
+    if (m_armor != nullptr)
+        m_base->equipment()->availableEquipment() += m_armor;
     for (auto &e : m_weaponsTools)
-        if (e!=nullptr)
-            m_base->availableEquipment() += e;
+        if (e != nullptr)
+            m_base->equipment()->availableEquipment() += e;
 
     m_armor = nullptr;
     m_weaponsTools.fill(nullptr);
     m_currentEquipmentCategories.clear();
-    m_preparedWeaponTool=nullptr;
+    m_preparedWeaponTool = nullptr;
     m_isEquipmentActive = false;
 
     m_assignedMission = nullptr;
@@ -728,13 +731,13 @@ void Mercenary::returnToBase() noexcept
 
 void Mercenary::die(bool playerKnowsIt, bool showNotification) noexcept
 {
-    Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} died",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
-    m_isDead=1;
-    m_currentAttributesValues.health=0;
+    LoggersProvider::mercenariesLogger()->trace("[{}]{} died",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+    m_isDead = 1;
+    m_currentAttributesValues.health = 0;
     if (m_currentActivity != MercenaryEnums::CA_OnMission || playerKnowsIt)
     {
         if (showNotification)
-            m_base->addReport(new UnifiedReport(new MercenaryDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
+            m_base->reports()->addReport(new UnifiedReport(new MercenaryDeathReport(pathToArt(),name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         emit died(name());
     }
@@ -744,11 +747,11 @@ void Mercenary::die(bool playerKnowsIt, bool showNotification) noexcept
 
 void Mercenary::becomeMIA() noexcept
 {
-    if (m_currentActivity==MercenaryEnums::CA_OnMission && m_assignedMission!=nullptr)
+    if (m_currentActivity==MercenaryEnums::CA_OnMission && m_assignedMission != nullptr)
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
+        LoggersProvider::mercenariesLogger()->trace("[{}]{} became MIA",m_base->gameClock()->currentTime().toQString().toStdString(),m_name.toStdString());
         if (isCommunicationAvailable())
-            m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
+            m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(),name(),m_assignedMission->land()->name(),m_base->gameClock()->currentTime())));
         m_noSignalDaysRemaining=-1;
         m_assignedMission->forceEndSilently();
     }
@@ -759,7 +762,7 @@ void Mercenary::activateStressBorderEffect() noexcept
     if (!isImmuneToStress())
     {
         m_indexOfCurrentSBE = Randomizer::randomBetweenAAndB(0,m_stressBorderEffects.size()-1);
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("SBE activated for {}: {}",m_name.toStdString(),static_cast<unsigned>(m_stressBorderEffects[m_indexOfCurrentSBE].effectName));
+        LoggersProvider::mercenariesLogger()->trace("SBE activated for {}: {}",m_name.toStdString(),static_cast<unsigned>(m_stressBorderEffects[m_indexOfCurrentSBE].effectName));
 
         if (m_stressBorderEffects[m_indexOfCurrentSBE].effectName == MercenaryEnums::SBE_Consciousness)
         {
@@ -774,7 +777,7 @@ void Mercenary::deactivateStressBorderEffect() noexcept
 {
     if (!isImmuneToStress())
     {
-        Game::gameInstance()->loggers()->mercenariesLogger()->trace("SBE deactivated for {}",m_name.toStdString());
+        LoggersProvider::mercenariesLogger()->trace("SBE deactivated for {}",m_name.toStdString());
         m_indexOfCurrentSBE = -1;
 
         calculateCurrentAttributeValues();
@@ -783,12 +786,12 @@ void Mercenary::deactivateStressBorderEffect() noexcept
 
 void Mercenary::setArmor(Equipment *armor) noexcept
 {
-    m_armor=armor;
+    m_armor = armor;
 }
 
 void Mercenary::setWeaponTool(Equipment *weaponTool, int slot) noexcept
 {
-    if (slot<m_amountOfWeaponToolSlots)
+    if (slot < m_amountOfWeaponToolSlots)
         m_weaponsTools[slot]=weaponTool;
 }
 
@@ -807,7 +810,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.cleverness = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.cleverness;
+        int x = m_baseAttributesValues.cleverness;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_Cleverness)
             {
@@ -847,17 +850,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->clevernessBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->clevernessBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.cleverness=x;
+        if (x > 0)
+            m_currentAttributesValues.cleverness = x;
         else
-            m_currentAttributesValues.cleverness=0;
+            m_currentAttributesValues.cleverness = 0;
     }
     else if (attributeName == MercenaryEnums::A_CombatEffectiveness)
     {
@@ -867,7 +870,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.combatEffectiveness = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.combatEffectiveness;
+        int x = m_baseAttributesValues.combatEffectiveness;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_CombatEffectiveness)
             {
@@ -913,17 +916,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->combatEffectivenessBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->combatEffectivenessBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.combatEffectiveness=x;
+        if (x > 0)
+            m_currentAttributesValues.combatEffectiveness = x;
         else
-            m_currentAttributesValues.combatEffectiveness=0;
+            m_currentAttributesValues.combatEffectiveness = 0;
     }
     else if (attributeName == MercenaryEnums::A_DailyFoodConsumption)
     {
@@ -933,7 +936,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.dailyFoodConsumption = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.dailyFoodConsumption;
+        int x = m_baseAttributesValues.dailyFoodConsumption;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_DailyFoodConsumption)
             {
@@ -957,17 +960,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->dailyFoodConsumptionBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->dailyFoodConsumptionBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.dailyFoodConsumption=x;
+        if (x > 0)
+            m_currentAttributesValues.dailyFoodConsumption = x;
         else
-            m_currentAttributesValues.dailyFoodConsumption=0;
+            m_currentAttributesValues.dailyFoodConsumption = 0;
     }
     else if (attributeName == MercenaryEnums::A_DailyHealthRecovery)
     {
@@ -977,7 +980,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.dailyHealthRecovery = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.dailyHealthRecovery;
+        int x = m_baseAttributesValues.dailyHealthRecovery;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_DailyHealthRecovery)
             {
@@ -1002,17 +1005,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->dailyHealthRecoveryBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->dailyHealthRecoveryBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.dailyHealthRecovery=x;
+        if (x > 0)
+            m_currentAttributesValues.dailyHealthRecovery = x;
         else
-            m_currentAttributesValues.dailyHealthRecovery=0;
+            m_currentAttributesValues.dailyHealthRecovery = 0;
     }
     else if (attributeName == MercenaryEnums::A_DailyStressRecovery)
     {
@@ -1022,7 +1025,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.dailyStressRecovery = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.dailyStressRecovery;
+        int x = m_baseAttributesValues.dailyStressRecovery;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_DailyStressRecovery)
             {
@@ -1049,17 +1052,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->dailyStressRecoveryBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->dailyStressRecoveryBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.dailyStressRecovery=x;
+        if (x > 0)
+            m_currentAttributesValues.dailyStressRecovery = x;
         else
-            m_currentAttributesValues.dailyStressRecovery=0;
+            m_currentAttributesValues.dailyStressRecovery = 0;
     }
     else if (attributeName == MercenaryEnums::A_HealthLimit)
     {
@@ -1069,7 +1072,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.healthLimit = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.healthLimit;
+        int x = m_baseAttributesValues.healthLimit;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_HealthLimit)
             {
@@ -1093,20 +1096,20 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->healthLimitBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->healthLimitBonus();
         }
 
-        if (x>1)
-            m_currentAttributesValues.healthLimit=x;
+        if (x > 1)
+            m_currentAttributesValues.healthLimit = x;
         else
-            m_currentAttributesValues.healthLimit=1;
+            m_currentAttributesValues.healthLimit = 1;
 
-        if (m_currentAttributesValues.health>m_currentAttributesValues.healthLimit)
-            m_currentAttributesValues.health=m_currentAttributesValues.healthLimit;
+        if (m_currentAttributesValues.health > m_currentAttributesValues.healthLimit)
+            m_currentAttributesValues.health = m_currentAttributesValues.healthLimit;
     }
     else if (attributeName == MercenaryEnums::A_Luck)
     {
@@ -1116,7 +1119,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.luck = e->value.toFloat();
                 return;
             }
-        float x=m_baseAttributesValues.luck;
+        float x = m_baseAttributesValues.luck;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_Luck)
             {
@@ -1142,17 +1145,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->luckBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->luckBonus();
         }
 
-        if (x<0)
-            m_currentAttributesValues.luck=0;
+        if (x < 0)
+            m_currentAttributesValues.luck = 0;
         else
-            m_currentAttributesValues.luck=x;
+            m_currentAttributesValues.luck = x;
     }
     else if (attributeName == MercenaryEnums::A_Proficiency)
     {
@@ -1162,7 +1165,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.proficiency = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.proficiency;
+        int x = m_baseAttributesValues.proficiency;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_Proficiency)
             {
@@ -1200,17 +1203,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->proficiencyBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->proficiencyBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.proficiency=x;
+        if (x > 0)
+            m_currentAttributesValues.proficiency = x;
         else
-            m_currentAttributesValues.proficiency=0;
+            m_currentAttributesValues.proficiency = 0;
     }
     else if (attributeName == MercenaryEnums::A_Salary)
     {
@@ -1220,7 +1223,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.salary = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.salary;
+        int x = m_baseAttributesValues.salary;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_Salary)
             {
@@ -1239,17 +1242,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
             }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->salaryBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->salaryBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.salary=x;
+        if (x > 0)
+            m_currentAttributesValues.salary = x;
         else
-            m_currentAttributesValues.salary=0;
+            m_currentAttributesValues.salary = 0;
     }
     else if (attributeName == MercenaryEnums::A_StressBorder)
     {
@@ -1259,7 +1262,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.stressBorder = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.stressBorder;
+        int x = m_baseAttributesValues.stressBorder;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_StressBorder)
             {
@@ -1283,21 +1286,21 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->stressBorderBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->stressBorderBonus();
         }
 
-        if (x>0)
-            m_currentAttributesValues.stressBorder=x;
+        if (x > 0)
+            m_currentAttributesValues.stressBorder = x;
         else
-            m_currentAttributesValues.stressBorder=0;
+            m_currentAttributesValues.stressBorder = 0;
 
-        if (!isStressBorderEffectActive() && m_currentAttributesValues.stress>=m_currentAttributesValues.stressBorder)
+        if (!isStressBorderEffectActive() && m_currentAttributesValues.stress >= m_currentAttributesValues.stressBorder)
             activateStressBorderEffect();
-        if (isStressBorderEffectActive() && m_currentAttributesValues.stress<m_currentAttributesValues.stressBorder)
+        if (isStressBorderEffectActive() && m_currentAttributesValues.stress < m_currentAttributesValues.stressBorder)
             deactivateStressBorderEffect();
     }
     else if (attributeName == MercenaryEnums::A_StressLimit)
@@ -1308,7 +1311,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.stressLimit = e->value.toInt();
                 return;
             }
-        int x=m_baseAttributesValues.stressLimit;
+        int x = m_baseAttributesValues.stressLimit;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_StressLimit)
             {
@@ -1334,21 +1337,21 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
         }
         if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
         {
-            if (m_armor!=nullptr)
+            if (m_armor != nullptr)
                 x+=m_armor->stressLimitBonus();
-            for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+            for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                 if (m_weaponsTools[i]!=nullptr)
                     x+=m_weaponsTools[i]->stressLimitBonus();
         }
 
-        if (x>1)
-            m_currentAttributesValues.stressLimit=x;
+        if (x > 1)
+            m_currentAttributesValues.stressLimit = x;
         else
-            m_currentAttributesValues.stressLimit=1;
+            m_currentAttributesValues.stressLimit = 1;
 
-        if (m_currentAttributesValues.stress>=m_currentAttributesValues.stressLimit)
+        if (m_currentAttributesValues.stress >= m_currentAttributesValues.stressLimit)
         {
-            m_currentAttributesValues.stress=m_currentAttributesValues.stressLimit;
+            m_currentAttributesValues.stress = m_currentAttributesValues.stressLimit;
             die();
         }
     }
@@ -1360,7 +1363,7 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
                 m_currentAttributesValues.stressResistance = e->value.toFloat();
                 return;
             }
-        float x=m_baseAttributesValues.stressResistance;
+        float x = m_baseAttributesValues.stressResistance;
         for (auto e : m_attributeModifications)
             if (e->attribute == MercenaryEnums::A_StressResistance)
             {
@@ -1399,17 +1402,17 @@ void Mercenary::calculateCurrentAttributeValue(MercenaryEnums::Attribute attribu
             }
             if ((!isStressBorderEffectActive() || m_stressBorderEffects[m_indexOfCurrentSBE].effectName != MercenaryEnums::SBE_Madness) && isEquipmentActive())
             {
-                if (m_armor!=nullptr)
+                if (m_armor != nullptr)
                     x+=m_armor->stressResistanceBonus();
-                for (int i=0;i<m_amountOfWeaponToolSlots;++i)
+                for (int i=0;i < m_amountOfWeaponToolSlots;++i)
                     if (m_weaponsTools[i]!=nullptr)
                         x+=m_weaponsTools[i]->stressResistanceBonus();
             }
 
-            if (x>0)
-                m_currentAttributesValues.stressResistance=x;
+            if (x > 0)
+                m_currentAttributesValues.stressResistance = x;
             else
-                m_currentAttributesValues.stressResistance=0;
+                m_currentAttributesValues.stressResistance = 0;
         }
     }
 }
@@ -1476,9 +1479,9 @@ void Mercenary::calculateCurrentAttributeValues() noexcept
         {
             int val = (m_currentAttributesValues.combatEffectiveness+m_currentAttributesValues.proficiency+m_currentAttributesValues.cleverness)/3;
 
-            m_currentAttributesValues.combatEffectiveness=val;
-            m_currentAttributesValues.proficiency=val;
-            m_currentAttributesValues.cleverness=val;
+            m_currentAttributesValues.combatEffectiveness = val;
+            m_currentAttributesValues.proficiency = val;
+            m_currentAttributesValues.cleverness = val;
         }
     }
 }
@@ -1486,11 +1489,11 @@ void Mercenary::calculateCurrentAttributeValues() noexcept
 void Mercenary::sumEquipmentCategories() noexcept
 {
     m_currentEquipmentCategories.clear();
-    if (m_armor!=nullptr)
-        m_currentEquipmentCategories=m_armor->categories();
-    for (int i=0;i<m_weaponsTools.size();++i)
+    if (m_armor != nullptr)
+        m_currentEquipmentCategories = m_armor->categories();
+    for (int i=0;i < m_weaponsTools.size();++i)
         if (m_weaponsTools[i]!=nullptr)
-            for (int j=0;j<m_weaponsTools[j]->categories().size();++j)
+            for (int j=0;j < m_weaponsTools[j]->categories().size();++j)
                 if (!m_currentEquipmentCategories.contains(m_weaponsTools[i]->categories()[j]))
                     m_currentEquipmentCategories+=m_weaponsTools[i]->categories()[j];
 }
@@ -1499,46 +1502,46 @@ void Mercenary::setAttributeValue(MercenaryEnums::Attribute attrName, QVariant v
 {
     switch (attrName) {
     case MercenaryEnums::A_Cleverness:
-        m_currentAttributesValues.cleverness=val.toInt();
+        m_currentAttributesValues.cleverness = val.toInt();
         break;
     case MercenaryEnums::A_CombatEffectiveness:
-        m_currentAttributesValues.combatEffectiveness=val.toInt();
+        m_currentAttributesValues.combatEffectiveness = val.toInt();
         break;
     case MercenaryEnums::A_DailyFoodConsumption:
-        m_currentAttributesValues.dailyFoodConsumption=val.toInt();
+        m_currentAttributesValues.dailyFoodConsumption = val.toInt();
         break;
     case MercenaryEnums::A_DailyHealthRecovery:
-        m_currentAttributesValues.dailyHealthRecovery=val.toInt();
+        m_currentAttributesValues.dailyHealthRecovery = val.toInt();
         break;
     case MercenaryEnums::A_DailyStressRecovery:
-        m_currentAttributesValues.dailyStressRecovery=val.toInt();
+        m_currentAttributesValues.dailyStressRecovery = val.toInt();
         break;
     case MercenaryEnums::A_Health:
-        m_currentAttributesValues.health=val.toInt();
+        m_currentAttributesValues.health = val.toInt();
         break;
     case MercenaryEnums::A_HealthLimit:
-        m_currentAttributesValues.healthLimit=val.toInt();
+        m_currentAttributesValues.healthLimit = val.toInt();
         break;
     case MercenaryEnums::A_Luck:
-        m_currentAttributesValues.luck=val.toFloat();
+        m_currentAttributesValues.luck = val.toFloat();
         break;
     case MercenaryEnums::A_Proficiency:
-        m_currentAttributesValues.proficiency=val.toInt();
+        m_currentAttributesValues.proficiency = val.toInt();
         break;
     case MercenaryEnums::A_Salary:
-        m_currentAttributesValues.salary=val.toInt();
+        m_currentAttributesValues.salary = val.toInt();
         break;
     case MercenaryEnums::A_Stress:
-        m_currentAttributesValues.stress=val.toInt();
+        m_currentAttributesValues.stress = val.toInt();
         break;
     case MercenaryEnums::A_StressBorder:
-        m_currentAttributesValues.stressBorder=val.toInt();
+        m_currentAttributesValues.stressBorder = val.toInt();
         break;
     case MercenaryEnums::A_StressLimit:
-        m_currentAttributesValues.stressLimit=val.toInt();
+        m_currentAttributesValues.stressLimit = val.toInt();
         break;
     case MercenaryEnums::A_StressResistance:
-        m_currentAttributesValues.stressResistance=val.toFloat();
+        m_currentAttributesValues.stressResistance = val.toFloat();
         break;
     default:
         break;
@@ -1547,13 +1550,13 @@ void Mercenary::setAttributeValue(MercenaryEnums::Attribute attrName, QVariant v
 
 void Mercenary::activateEquipment() noexcept
 {
-    m_isEquipmentActive=1;
+    m_isEquipmentActive = 1;
     calculateCurrentAttributeValues();
 }
 
 void Mercenary::deactivateEquipment() noexcept
 {
-    m_isEquipmentActive=0;
+    m_isEquipmentActive = 0;
     calculateCurrentAttributeValues();
 }
 
@@ -1568,7 +1571,7 @@ void Mercenary::handleSBEAtDayEnd()  noexcept
 
         if (chance >= Randomizer::randomBetweenAAndB(1,100))
         {
-            trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
+            trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission != nullptr);
             ranAway(m_name,21);
         }
     }
@@ -1579,7 +1582,7 @@ void Mercenary::handleSBEAtDayEnd()  noexcept
             if (10 >= Randomizer::randomBetweenAAndB(1,100))
             {
                 if (isCommunicationAvailable())
-                    m_base->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
+                    m_base->reports()->addReport(new UnifiedReport(new SignalLostReport(pathToArt(), name(), m_assignedMission->land()->name(), m_base->gameClock()->currentTime())));
                 m_noSignalDaysRemaining=-1;
             }
         }
@@ -1588,18 +1591,18 @@ void Mercenary::handleSBEAtDayEnd()  noexcept
     {
         if (60 >= Randomizer::randomBetweenAAndB(1,100))
         {
-            if (m_currentAttributesValues.health>2)
+            if (m_currentAttributesValues.health > 2)
             {
                 m_currentAttributesValues.health-=2;
                 int amount = Randomizer::randomBetweenAAndB(0,20) - 10;
-                if (amount<0)
+                if (amount < 0)
                     decreaseStress(-amount);
-                else if (amount>0)
+                else if (amount > 0)
                     increaseStress(amount);
             }
             else
             {
-                m_currentAttributesValues.health=0;
+                m_currentAttributesValues.health = 0;
                 die();
             }
         }
@@ -1612,24 +1615,24 @@ void Mercenary::handleSBEAtDayEnd()  noexcept
 
 void Mercenary::handleEquipmentCosts() noexcept
 {
-    if (m_currentActivity!=MercenaryEnums::CA_OnMission)
+    if (m_currentActivity != MercenaryEnums::CA_OnMission)
         return;
 
-    int energyNeeded=0, bmNeeded=0;
+    int energyNeeded=0, bmNeeded = 0;
 
-    if (m_armor!=nullptr)
+    if (m_armor != nullptr)
     {
         energyNeeded+=m_armor->maintenanceEnergyCost();
         bmNeeded+=m_armor->maintenanceBuildingMaterialsCost();
     }
-    for (int i=0;i<m_weaponsTools.size();++i)
+    for (int i=0;i < m_weaponsTools.size();++i)
         if (m_weaponsTools[i]!=nullptr)
         {
             energyNeeded+=m_weaponsTools[i]->maintenanceEnergyCost();
             bmNeeded+=m_weaponsTools[i]->maintenanceBuildingMaterialsCost();
         }
 
-    if (energyNeeded<=m_carriedEnergy && bmNeeded<=m_carriedBuildingMaterials)
+    if (energyNeeded<=m_carriedEnergy && bmNeeded <= m_carriedBuildingMaterials)
     {
         m_carriedEnergy-=energyNeeded;
         m_carriedBuildingMaterials-=bmNeeded;
@@ -1646,7 +1649,7 @@ void Mercenary::handleHunger() noexcept
     if (m_currentActivity == MercenaryEnums::CA_OnMission)
     {
         int missingFood = dailyFoodConsumption()-carriedFoodSupplies();
-        if (missingFood<=0)
+        if (missingFood <= 0)
             setCarriedFoodSupplies(carriedFoodSupplies()-dailyFoodConsumption());
         else
         {
@@ -1659,13 +1662,13 @@ void Mercenary::handleHunger() noexcept
     }
     else if (m_currentActivity != MercenaryEnums::CA_Arriving)
     {
-        int missingFood = dailyFoodConsumption()-m_base->currentFoodSuppliesAmount();
-        if (missingFood<=0)
-            m_base->decreaseFoodSuppliesAmount(dailyFoodConsumption());
+        int missingFood = dailyFoodConsumption()-m_base->resources()->currentFoodSuppliesAmount();
+        if (missingFood <= 0)
+            m_base->resources()->decreaseFoodSuppliesAmount(dailyFoodConsumption());
         else
         {
-            m_base->addReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())));
-            m_base->setCurrentFoodSuppliesAmount(0);
+            m_base->reports()->addReport(new UnifiedReport(new HungerReport(pathToArt(), name(), m_base->gameClock()->currentTime())));
+            m_base->resources()->setCurrentFoodSuppliesAmount(0);
             changeHealth(-missingFood);
             if (!isDead())
                 increaseStress(missingFood*10);
@@ -1683,21 +1686,21 @@ void Mercenary::handleSalary() noexcept
 {
     if (m_currentActivity != MercenaryEnums::CA_Arriving)
     {
-        int missingAetherite = salary()-m_base->currentAetheriteAmount();
-        if (missingAetherite<=0)
+        int missingAetherite = salary()-m_base->resources()->currentAetheriteAmount();
+        if (missingAetherite <= 0)
         {
-            m_base->decreaseAetheriteAmount(salary());
-            if (m_noSalaryWeeks>0)
+            m_base->resources()->decreaseAetheriteAmount(salary());
+            if (m_noSalaryWeeks > 0)
                 --m_noSalaryWeeks;
         }
         else
         {
-            trySendingReport(new UnifiedReport(new NoSalaryReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
-            m_base->setCurrentAetheriteAmount(0);
+            trySendingReport(new UnifiedReport(new NoSalaryReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission != nullptr);
+            m_base->resources()->setCurrentAetheriteAmount(0);
             increaseStress(missingAetherite*3);
             if (m_noSalaryWeeks+1 == 4)
             {
-                trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
+                trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission != nullptr);
                 ranAway(m_name,21);
             }
             else
@@ -1705,7 +1708,7 @@ void Mercenary::handleSalary() noexcept
                 ++m_noSalaryWeeks;
                 if (stress()/stressLimit()*100 >= Randomizer::randomBetweenAAndB(1,100))
                 {
-                    trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission!=nullptr);
+                    trySendingReport(new UnifiedReport(new DesertionReport(pathToArt(), name(), m_base->gameClock()->currentTime())), m_assignedMission != nullptr);
                     ranAway(m_name,21);
                 }
             }
@@ -1717,7 +1720,7 @@ Base *MercenaryBuilder::m_base;
 
 MercenaryBuilder::MercenaryBuilder() noexcept
 {
-    m_mercenary=new Mercenary(m_base);
+    m_mercenary = new Mercenary(m_base);
 }
 
 MercenaryBuilder::~MercenaryBuilder() noexcept
@@ -1727,20 +1730,20 @@ MercenaryBuilder::~MercenaryBuilder() noexcept
 
 void MercenaryBuilder::init(Base *base) noexcept
 {
-    m_base=base;
+    m_base = base;
 }
 
 Mercenary *MercenaryBuilder::getMercenary() noexcept
 {
     m_mercenary->calculateCurrentAttributeValues();
-    Mercenary *r=m_mercenary;
-    m_mercenary=new Mercenary(m_base);
+    Mercenary *r = m_mercenary;
+    m_mercenary = new Mercenary(m_base);
     return r;
 }
 
 Mercenary *MercenaryBuilder::qobjectifyMercenaryData(const MercenaryDataHelper &mercenary) noexcept
 {
-    Mercenary *r=new Mercenary(m_base);
+    Mercenary *r = new Mercenary(m_base);
     r->m_name = mercenary.name;
     r->m_baseAttributesValues = mercenary.baseAttributesValues;
     r->m_currentAttributesValues = mercenary.currentAttributesValues;
@@ -1771,7 +1774,7 @@ Mercenary *MercenaryBuilder::qobjectifyMercenaryData(const MercenaryDataHelper &
             r->m_armor = Game::gameInstance()->assetsPool().makeEquipmentNamed(mercenary.armor);
         else
             r->m_armor = nullptr;
-        for (int i=0;i<mercenary.weaponsTools.size();++i)
+        for (int i=0;i < mercenary.weaponsTools.size();++i)
         {
             if (!mercenary.weaponsTools[i].isEmpty())
                 r->m_weaponsTools[i]=Game::gameInstance()->assetsPool().makeEquipmentNamed(mercenary.weaponsTools[i]);
@@ -1779,7 +1782,7 @@ Mercenary *MercenaryBuilder::qobjectifyMercenaryData(const MercenaryDataHelper &
                 r->m_weaponsTools[i]=nullptr;
         }
         r->m_currentEquipmentCategories = mercenary.equipmentCategories;
-        for (int i=0;i<mercenary.carriedEquipment.size();++i)
+        for (int i=0;i < mercenary.carriedEquipment.size();++i)
             r->m_carriedEquipment+=Game::gameInstance()->assetsPool().makeEquipmentNamed(mercenary.carriedEquipment[i]);
         r->m_isEquipmentActive = mercenary.isEquipmentActive;
     }
@@ -1805,7 +1808,7 @@ MercenaryDataHelper MercenaryBuilder::deqobjectifyMercenary(Mercenary *mercenary
         r.armor = mercenary->m_armor->name();
     else
         r.armor = "";
-    for (int i=0;i<mercenary->amountOfWeaponToolSlots();++i)
+    for (int i=0;i < mercenary->amountOfWeaponToolSlots();++i)
     {
         if (mercenary->m_weaponsTools[i] != nullptr)
             r.weaponsTools.push_back(mercenary->m_weaponsTools[i]->name());
@@ -1813,7 +1816,7 @@ MercenaryDataHelper MercenaryBuilder::deqobjectifyMercenary(Mercenary *mercenary
             r.weaponsTools.push_back("");
     }
     r.equipmentCategories = mercenary->m_currentEquipmentCategories;
-    for (int i=0;i<mercenary->m_carriedEquipment.size();++i)
+    for (int i=0;i < mercenary->m_carriedEquipment.size();++i)
         r.carriedEquipment+=mercenary->m_carriedEquipment[i]->name();
     r.isEquipmentActive = mercenary->m_isEquipmentActive;
     r.dhrBuildingBonus = mercenary->m_dhrBuildingBonus;
@@ -1857,7 +1860,7 @@ QDataStream &operator<<(QDataStream &stream, const MercenaryDataHelper &mercenar
     stream<<mercenary.weaponsTools;
 
     QVector <quint8> cats;
-    for (int i=0;i<mercenary.equipmentCategories.size();++i)
+    for (int i=0;i < mercenary.equipmentCategories.size();++i)
         cats+=static_cast<quint8>(mercenary.equipmentCategories[i]);
     stream<<cats;
 
@@ -1886,7 +1889,7 @@ QDataStream &operator<<(QDataStream &stream, const MercenaryDataHelper &mercenar
 
     stream<<mercenary.lastKnownLandName;
 
-    QVector<QPair<Time,QString>> wrs;
+    QVector<QPair < Time,QString>> wrs;
     for (const auto e : mercenary.waitingReports)
         wrs+={e->time(),e->msg()};
     stream<<wrs;
@@ -1910,21 +1913,21 @@ QDataStream &operator>>(QDataStream &stream, MercenaryDataHelper &mercenary) noe
     stream>>mercenary.currentAttributesValues;
 
     stream>>ii;
-    mercenary.stockCE=ii;
+    mercenary.stockCE = ii;
 
     stream>>ii;
-    mercenary.stockPR=ii;
+    mercenary.stockPR = ii;
 
     stream>>ii;
-    mercenary.stockCL=ii;
+    mercenary.stockCL = ii;
 
     stream>>mercenary.stressBorderEffects;
 
     stream>>n;
-    mercenary.nature=static_cast<MercenaryEnums::Nature>(n);
+    mercenary.nature = static_cast<MercenaryEnums::Nature>(n);
 
     stream>>n;
-    mercenary.profession=static_cast<MercenaryEnums::Profession>(n);
+    mercenary.profession = static_cast<MercenaryEnums::Profession>(n);
 
     stream>>mercenary.armor;
 
@@ -1932,7 +1935,7 @@ QDataStream &operator>>(QDataStream &stream, MercenaryDataHelper &mercenary) noe
 
     QVector <quint8> cats;
     stream>>cats;
-    for (int _i=0;_i<cats.size();++_i)
+    for (int _i = 0;_i < cats.size();++_i)
         mercenary.equipmentCategories+=static_cast<EquipmentEnums::Category>(cats[_i]);
 
     stream>>mercenary.carriedEquipment;
@@ -1940,37 +1943,37 @@ QDataStream &operator>>(QDataStream &stream, MercenaryDataHelper &mercenary) noe
     stream>>mercenary.isEquipmentActive;
 
     stream>>ii;
-    mercenary.dhrBuildingBonus=ii;
+    mercenary.dhrBuildingBonus = ii;
 
     stream>>ii;
-    mercenary.dsrBuildingBonus=ii;
+    mercenary.dsrBuildingBonus = ii;
 
     stream>>mercenary.isDead;
 
     stream>>ii;
-    mercenary.indexOfCurrentSBE=ii;
+    mercenary.indexOfCurrentSBE = ii;
 
     stream>>ii;
-    mercenary.noSignalDaysRemaining=ii;
+    mercenary.noSignalDaysRemaining = ii;
 
     stream>>ii;
-    mercenary.carriedEnergy=ii;
+    mercenary.carriedEnergy = ii;
 
     stream>>ii;
-    mercenary.carriedFoodSupplies=ii;
+    mercenary.carriedFoodSupplies = ii;
 
     stream>>ii;
-    mercenary.carriedBuildingMaterials=ii;
+    mercenary.carriedBuildingMaterials = ii;
 
     stream>>ii;
-    mercenary.carriedAetheriteOre=ii;
+    mercenary.carriedAetheriteOre = ii;
 
     stream>>ii;
-    mercenary.noSalaryWeeks=ii;
+    mercenary.noSalaryWeeks = ii;
 
     stream>>mercenary.lastKnownLandName;
 
-    QVector<QPair<Time,QString>> wrs;
+    QVector<QPair < Time,QString>> wrs;
     stream>>wrs;
     for (const auto e : wrs)
         mercenary.waitingReports+=new UnifiedReport{e.first,e.second};
@@ -1978,7 +1981,7 @@ QDataStream &operator>>(QDataStream &stream, MercenaryDataHelper &mercenary) noe
     stream>>mercenary.waitingDBEntries;
 
     stream>>n;
-    mercenary.currentActivity=static_cast<MercenaryEnums::CurrentActivity>(n);
+    mercenary.currentActivity = static_cast<MercenaryEnums::CurrentActivity>(n);
 
     return stream;
 }
@@ -1986,130 +1989,130 @@ QDataStream &operator>>(QDataStream &stream, MercenaryDataHelper &mercenary) noe
 void MercenaryBuilder::resetMercenary() noexcept
 {
     delete m_mercenary;
-    m_mercenary=new Mercenary(m_base);
+    m_mercenary = new Mercenary(m_base);
 }
 
 void MercenaryBuilder::setCombatEffectiveness(int combatEffectiveness) noexcept
 {
-    if (combatEffectiveness>=0)
+    if (combatEffectiveness >= 0)
     {
-        m_mercenary->m_stockCE=combatEffectiveness;
-        m_mercenary->m_baseAttributesValues.combatEffectiveness=combatEffectiveness;
+        m_mercenary->m_stockCE = combatEffectiveness;
+        m_mercenary->m_baseAttributesValues.combatEffectiveness = combatEffectiveness;
     }
 }
 
 void MercenaryBuilder::setProficiency(int proficiency) noexcept
 {
-    if (proficiency>=0)
+    if (proficiency >= 0)
     {
-        m_mercenary->m_stockPR=proficiency;
-        m_mercenary->m_baseAttributesValues.proficiency=proficiency;
+        m_mercenary->m_stockPR = proficiency;
+        m_mercenary->m_baseAttributesValues.proficiency = proficiency;
     }
 }
 
 void MercenaryBuilder::setCleverness(int cleverness) noexcept
 {
-    if (cleverness>=0)
+    if (cleverness >= 0)
     {
-        m_mercenary->m_stockCL=cleverness;
-        m_mercenary->m_baseAttributesValues.cleverness=cleverness;
+        m_mercenary->m_stockCL = cleverness;
+        m_mercenary->m_baseAttributesValues.cleverness = cleverness;
     }
 }
 
 void MercenaryBuilder::setLuck(float luck) noexcept
 {
-    if (luck>=0)
-        m_mercenary->m_baseAttributesValues.luck=luck;
+    if (luck >= 0)
+        m_mercenary->m_baseAttributesValues.luck = luck;
 }
 
 void MercenaryBuilder::setHealth(int health) noexcept
 {
-    if (health>=0)
-        m_mercenary->m_currentAttributesValues.health=health;
+    if (health >= 0)
+        m_mercenary->m_currentAttributesValues.health = health;
 }
 
 void MercenaryBuilder::setHealthLimit(int healthLimit) noexcept
 {
-    if (healthLimit>0)
-        m_mercenary->m_baseAttributesValues.healthLimit=healthLimit;
+    if (healthLimit > 0)
+        m_mercenary->m_baseAttributesValues.healthLimit = healthLimit;
 }
 
 void MercenaryBuilder::setDailyHealthRecovery(int dailyHealthRecovery) noexcept
 {
-    m_mercenary->m_baseAttributesValues.dailyHealthRecovery=dailyHealthRecovery;
+    m_mercenary->m_baseAttributesValues.dailyHealthRecovery = dailyHealthRecovery;
 }
 
 void MercenaryBuilder::setStress(int stress) noexcept
 {
-    if (stress>=0)
-        m_mercenary->m_currentAttributesValues.stress=stress;
+    if (stress >= 0)
+        m_mercenary->m_currentAttributesValues.stress = stress;
 }
 
 void MercenaryBuilder::setStressResistance(float stressResistance) noexcept
 {
-    if (stressResistance>=0)
-        m_mercenary->m_baseAttributesValues.stressResistance=stressResistance;
+    if (stressResistance >= 0)
+        m_mercenary->m_baseAttributesValues.stressResistance = stressResistance;
 }
 
 void MercenaryBuilder::setStressLimit(int stressLimit) noexcept
 {
-    if (stressLimit!=0)
-        m_mercenary->m_baseAttributesValues.stressLimit=stressLimit;
+    if (stressLimit != 0)
+        m_mercenary->m_baseAttributesValues.stressLimit = stressLimit;
 }
 
 void MercenaryBuilder::setStressBorder(int stressBorder) noexcept
 {
-    if (stressBorder>=0)
-        m_mercenary->m_baseAttributesValues.stressBorder=stressBorder;
+    if (stressBorder >= 0)
+        m_mercenary->m_baseAttributesValues.stressBorder = stressBorder;
 }
 
 void MercenaryBuilder::setDailyStressRecovery(int dailyStressRecovery) noexcept
 {
-    m_mercenary->m_baseAttributesValues.dailyStressRecovery=dailyStressRecovery;
+    m_mercenary->m_baseAttributesValues.dailyStressRecovery = dailyStressRecovery;
 }
 
 void MercenaryBuilder::setSalary(int salary) noexcept
 {
-    m_mercenary->m_baseAttributesValues.salary=salary;
+    m_mercenary->m_baseAttributesValues.salary = salary;
 }
 
 void MercenaryBuilder::setDailyFoodConsumption(int dailyFoodConsumption) noexcept
 {
-    if (dailyFoodConsumption>=0)
-        m_mercenary->m_baseAttributesValues.dailyFoodConsumption=dailyFoodConsumption;
+    if (dailyFoodConsumption >= 0)
+        m_mercenary->m_baseAttributesValues.dailyFoodConsumption = dailyFoodConsumption;
 }
 
 void MercenaryBuilder::setAndEquipWeaponTool(Equipment *weaponTool, unsigned slot) noexcept
 {
-    if (slot<m_mercenary->amountOfWeaponToolSlots())
+    if (slot < m_mercenary->amountOfWeaponToolSlots())
         m_mercenary->equipWeaponTool(weaponTool,slot);
 }
 
 void MercenaryBuilder::setCarriedEnergy(int amount) noexcept
 {
     if (amount >= 0)
-        m_mercenary->m_carriedEnergy=amount;
+        m_mercenary->m_carriedEnergy = amount;
 }
 
 void MercenaryBuilder::setCarriedFoodSupplies(int amount) noexcept
 {
     if (amount >= 0)
-        m_mercenary->m_carriedFoodSupplies=amount;
+        m_mercenary->m_carriedFoodSupplies = amount;
 }
 
 void MercenaryBuilder::setCarriedBuildingMaterials(int amount) noexcept
 {
     if (amount >= 0)
-        m_mercenary->m_carriedBuildingMaterials=amount;
+        m_mercenary->m_carriedBuildingMaterials = amount;
 }
 
 void MercenaryBuilder::setCarriedAetheriteOre(int amount) noexcept
 {
     if (amount >= 0)
-        m_mercenary->m_carriedAetheriteOre=amount;
+        m_mercenary->m_carriedAetheriteOre = amount;
 }
 
 void MercenaryBuilder::setNoSalaryWeeks(unsigned amount) noexcept
 {
-    m_mercenary->m_noSalaryWeeks=amount;
+    m_mercenary->m_noSalaryWeeks = amount;
 }

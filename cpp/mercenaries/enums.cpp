@@ -2,8 +2,7 @@
 
 #include <QString>
 
-#include "general/game.h"
-#include "logging/loggershandler.h"
+#include "logging/loggersprovider.h"
 
 MercenaryEnums::Nature MercenaryEnums::fromQStringToNatureEnum(const QString &nature) noexcept
 {
@@ -15,7 +14,7 @@ MercenaryEnums::Nature MercenaryEnums::fromQStringToNatureEnum(const QString &na
         return N_Religious;
     if (nature == "Recluse")
         return N_Recluse;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Nature enum conversion failed for {}",nature.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->Nature enum conversion failed for {}",nature.toStdString());
 }
 
 QString MercenaryEnums::fromNatureEnumToQString(MercenaryEnums::Nature nature) noexcept
@@ -28,7 +27,7 @@ QString MercenaryEnums::fromNatureEnumToQString(MercenaryEnums::Nature nature) n
         return "Religious";
     if (nature == N_Recluse)
         return "Recluse";
-    Game::gameInstance()->loggers()->mainLogger()->warn("Nature enum->QString conversion failed for {}",static_cast<unsigned>(nature));
+    LoggersProvider::mainLogger()->warn("Nature enum->QString conversion failed for {}",static_cast<unsigned>(nature));
 }
 
 MercenaryEnums::StressBorderEffect MercenaryEnums::fromQStringToStressBorderEffectEnum(const QString &stressBorderEffect) noexcept
@@ -87,7 +86,7 @@ MercenaryEnums::StressBorderEffect MercenaryEnums::fromQStringToStressBorderEffe
         return SBE_Excellence;
     if (stressBorderEffect == "Absolute")
         return SBE_Absolute;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->StressBorderEffect enum conversion failed for {}",stressBorderEffect.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->StressBorderEffect enum conversion failed for {}",stressBorderEffect.toStdString());
 }
 
 QString MercenaryEnums::fromStressBorderEffectEnumToQString(MercenaryEnums::StressBorderEffect stressBorderEffect) noexcept
@@ -146,7 +145,7 @@ QString MercenaryEnums::fromStressBorderEffectEnumToQString(MercenaryEnums::Stre
         return "Excellence";
     if (stressBorderEffect == SBE_Absolute)
         return "Absolute";
-    Game::gameInstance()->loggers()->mainLogger()->warn("StressBorderEffect enum->QString conversion failed for {}",static_cast<unsigned>(stressBorderEffect));
+    LoggersProvider::mainLogger()->warn("StressBorderEffect enum->QString conversion failed for {}",static_cast<unsigned>(stressBorderEffect));
 }
 
 MercenaryEnums::Attribute MercenaryEnums::fromQStringToAttributeEnum(const QString &attribute) noexcept
@@ -179,7 +178,7 @@ MercenaryEnums::Attribute MercenaryEnums::fromQStringToAttributeEnum(const QStri
         return A_Salary;
     if (attribute == "Daily Food Consumption")
         return A_DailyFoodConsumption;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Attribute enum conversion failed for {}",attribute.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->Attribute enum conversion failed for {}",attribute.toStdString());
 }
 
 QString MercenaryEnums::fromAttributeEnumToQString(MercenaryEnums::Attribute attribute) noexcept
@@ -212,7 +211,7 @@ QString MercenaryEnums::fromAttributeEnumToQString(MercenaryEnums::Attribute att
         return "Salary";
     if (attribute == A_DailyFoodConsumption)
         return "Daily Food Consumption";
-    Game::gameInstance()->loggers()->mainLogger()->warn("Attribute enum->QString conversion failed for {}",static_cast<unsigned>(attribute));
+    LoggersProvider::mainLogger()->warn("Attribute enum->QString conversion failed for {}",static_cast<unsigned>(attribute));
 }
 
 MercenaryEnums::CurrentActivity MercenaryEnums::fromQStringToCurrentActivityEnum(const QString &currentActivity) noexcept
@@ -239,7 +238,7 @@ MercenaryEnums::CurrentActivity MercenaryEnums::fromQStringToCurrentActivityEnum
         return CA_InSeclusion;
     if (currentActivity == "Arriving")
         return CA_Arriving;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->CurrentActivity enum conversion failed for {}",currentActivity.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->CurrentActivity enum conversion failed for {}",currentActivity.toStdString());
 }
 
 QString MercenaryEnums::fromCurrentActivityEnumToQString(MercenaryEnums::CurrentActivity currentActivity) noexcept
@@ -266,7 +265,7 @@ QString MercenaryEnums::fromCurrentActivityEnumToQString(MercenaryEnums::Current
         return "In Seclusion";
     if (currentActivity == CA_Arriving)
         return "Arriving";
-    Game::gameInstance()->loggers()->mainLogger()->warn("CurrentActivity enum->QString conversion failed for {}",static_cast<unsigned>(currentActivity));
+    LoggersProvider::mainLogger()->warn("CurrentActivity enum->QString conversion failed for {}",static_cast<unsigned>(currentActivity));
 }
 
 MercenaryEnums::Profession MercenaryEnums::fromQStringToProfessionEnum(const QString &profession) noexcept
@@ -283,8 +282,8 @@ MercenaryEnums::Profession MercenaryEnums::fromQStringToProfessionEnum(const QSt
         return P_BattleDroid;
     if (profession == "Space Nomad")
         return P_SpaceNomad;
-    if (profession == "Archeologist")
-        return P_Archeologist;
+	if (profession == "Archaeologist")
+        return P_Archaeologist;
     if (profession == "Criminal")
         return P_Criminal;
     if (profession == "Cyborg")
@@ -293,7 +292,7 @@ MercenaryEnums::Profession MercenaryEnums::fromQStringToProfessionEnum(const QSt
         return P_Specialist;
     if (profession == "Doomsayer")
         return P_Doomsayer;
-    Game::gameInstance()->loggers()->mainLogger()->warn("QString->Profession enum conversion failed for {}",profession.toStdString());
+    LoggersProvider::mainLogger()->warn("QString->Profession enum conversion failed for {}",profession.toStdString());
 }
 
 QString MercenaryEnums::fromProfessionEnumToQString(MercenaryEnums::Profession profession) noexcept
@@ -310,8 +309,8 @@ QString MercenaryEnums::fromProfessionEnumToQString(MercenaryEnums::Profession p
         return "Battle Droid";
     if (profession == P_SpaceNomad)
         return "Space Nomad";
-    if (profession == P_Archeologist)
-        return "Archeologist";
+    if (profession == P_Archaeologist)
+		return "Archaeologist";
     if (profession == P_Criminal)
         return "Criminal";
     if (profession == P_Cyborg)
@@ -320,5 +319,5 @@ QString MercenaryEnums::fromProfessionEnumToQString(MercenaryEnums::Profession p
         return "Specialist";
     if (profession == P_Doomsayer)
         return "Doomsayer";
-    Game::gameInstance()->loggers()->mainLogger()->warn("Profession enum->QString conversion failed for {}",static_cast<unsigned>(profession));
+    LoggersProvider::mainLogger()->warn("Profession enum->QString conversion failed for {}",static_cast<unsigned>(profession));
 }

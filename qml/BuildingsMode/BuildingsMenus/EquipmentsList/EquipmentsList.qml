@@ -10,41 +10,41 @@ Item {
 
     function update()
     {
-        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.amountOfAvailableEquipment(), width, height);
-        for (var i=0;i<GameApi.base.amountOfAvailableEquipment();++i)
+        Scripts.setupList(Math.round((271/1080)*width), GameApi.base.equipment.amountOfAvailableEquipment(), width, height);
+        for (var i=0;i<GameApi.base.equipment.amountOfAvailableEquipment();++i)
         {
-            GameApi.base.prepareAvailableEquipment(i);
+            GameApi.base.equipment.prepareAvailableEquipment(i);
 
             var n=["","","","","",""],v=[0,0,0,0,0,0];
-            if (GameApi.base.preparedAvailableEquipment.amountOfBonuses() >= 1)
+            if (GameApi.base.equipment.preparedAvailableEquipment.amountOfBonuses() >= 1)
             {
-                n[0]=GameApi.base.preparedAvailableEquipment.bonusAtPosName(0);
-                v[0]=GameApi.base.preparedAvailableEquipment.bonusAtPosValue(0);
+                n[0]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosName(0);
+                v[0]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosValue(0);
             }
-            if (GameApi.base.preparedAvailableEquipment.amountOfBonuses() >= 2)
+            if (GameApi.base.equipment.preparedAvailableEquipment.amountOfBonuses() >= 2)
             {
-                n[1]=GameApi.base.preparedAvailableEquipment.bonusAtPosName(1);
-                v[1]=GameApi.base.preparedAvailableEquipment.bonusAtPosValue(1);
+                n[1]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosName(1);
+                v[1]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosValue(1);
             }
-            if (GameApi.base.preparedAvailableEquipment.amountOfBonuses() >= 3)
+            if (GameApi.base.equipment.preparedAvailableEquipment.amountOfBonuses() >= 3)
             {
-                n[2]=GameApi.base.preparedAvailableEquipment.bonusAtPosName(2);
-                v[2]=GameApi.base.preparedAvailableEquipment.bonusAtPosValue(2);
+                n[2]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosName(2);
+                v[2]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosValue(2);
             }
-            if (GameApi.base.preparedAvailableEquipment.amountOfBonuses() >= 4)
+            if (GameApi.base.equipment.preparedAvailableEquipment.amountOfBonuses() >= 4)
             {
-                n[3]=GameApi.base.preparedAvailableEquipment.bonusAtPosName(3);
-                v[3]=GameApi.base.preparedAvailableEquipment.bonusAtPosValue(3);
+                n[3]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosName(3);
+                v[3]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosValue(3);
             }
-            if (GameApi.base.preparedAvailableEquipment.amountOfBonuses() >= 5)
+            if (GameApi.base.equipment.preparedAvailableEquipment.amountOfBonuses() >= 5)
             {
-                n[4]=GameApi.base.preparedAvailableEquipment.bonusAtPosName(4);
-                v[4]=GameApi.base.preparedAvailableEquipment.bonusAtPosValue(4);
+                n[4]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosName(4);
+                v[4]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosValue(4);
             }
-            if (GameApi.base.preparedAvailableEquipment.amountOfBonuses() >= 6)
+            if (GameApi.base.equipment.preparedAvailableEquipment.amountOfBonuses() >= 6)
             {
-                n[5]=GameApi.base.preparedAvailableEquipment.bonusAtPosName(5);
-                v[5]=GameApi.base.preparedAvailableEquipment.bonusAtPosValue(5);
+                n[5]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosName(5);
+                v[5]=GameApi.base.equipment.preparedAvailableEquipment.bonusAtPosValue(5);
             }
 
             for (var j=0;j<6;++j)
@@ -59,7 +59,7 @@ Item {
                     v[5]="";
                 }
 
-            Scripts.createItem(GameApi.base.preparedAvailableEquipment.name(), GameApi.base.preparedAvailableEquipment.name(), GameApi.base.preparedAvailableEquipment.typeString(), GameApi.base.preparedAvailableEquipment.tier(),
+            Scripts.createItem(GameApi.base.equipment.preparedAvailableEquipment.name(), GameApi.base.equipment.preparedAvailableEquipment.name(), GameApi.base.equipment.preparedAvailableEquipment.typeString(), GameApi.base.equipment.preparedAvailableEquipment.tier(),
                     n,v);
         }
     }
@@ -75,12 +75,12 @@ Item {
 
     signal selected(string name, string artSource)
 
-    Image {
+    Rectangle {
         id: additionalBackground
 
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MouseArea {

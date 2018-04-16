@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:simpleType name="internalName_t">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[a-zA-Z][a-zA-Z\d_]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="varName_t">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[a-z][a-zA-Z]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="equipmentList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element name="armor">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="effects" minOccurs="0">
+									<xsd:complexType>
+										<xsd:sequence>
+											<xsd:element name="bonus" minOccurs="0" maxOccurs="unbounded">
+												<xsd:complexType>
+													<xsd:attribute name="varName" type="varName_t" use="required"/>
+													<xsd:attribute name="value" type="xsd:decimal" use="required"/>
+												</xsd:complexType>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+							<xsd:attribute name="name" type="internalName_t" use="required"/>
+							<xsd:attribute name="tier" type="xsd:positiveInteger" use="required"/>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="weaponTool">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="effects" minOccurs="0">
+									<xsd:complexType>
+										<xsd:sequence>
+											<xsd:element name="bonus" minOccurs="0" maxOccurs="unbounded">
+												<xsd:complexType>
+													<xsd:attribute name="varName" type="varName_t" use="required"/>
+													<xsd:attribute name="value" type="xsd:decimal" use="required"/>
+												</xsd:complexType>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+							<xsd:attribute name="name" type="internalName_t" use="required"/>
+							<xsd:attribute name="tier" type="xsd:positiveInteger" use="required"/>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

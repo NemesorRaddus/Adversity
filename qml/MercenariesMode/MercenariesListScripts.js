@@ -23,7 +23,7 @@ function setupList(heightOfElementInPx, amountOfItems, widthInPx, heightInPx)
 }
 
 function setMercenary(index, name, internalName, profession, ce, pr, cl, hp, hpMax, st, sl, sr, sa, fc, ca, bce, bpr, bcl, bhpMax, bsl, bsr, bsa, bfc) {
-    itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
+    itemsArray[index].setArtSource("qrc:/graphics/Mercenaries/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setProfession(profession);
     itemsArray[index].setCE(ce);
@@ -96,7 +96,7 @@ function setMercenary(index, name, internalName, profession, ce, pr, cl, hp, hpM
 }
 
 function setMIAMercenary(index, name, internalName, profession) {
-    itemsArray[index].setArtSource("qrc:/graphics/Mercs/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
+    itemsArray[index].setArtSource("qrc:/graphics/Mercenaries/"+GlobalsCpp.alterNormalTextToInternal(profession)+'/'+internalName+".png");
     itemsArray[index].setName(name);
     itemsArray[index].setProfession(profession);
     itemsArray[index].setMIA();

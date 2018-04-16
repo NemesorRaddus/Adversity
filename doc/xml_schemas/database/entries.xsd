@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:simpleType name="name_t">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[a-zA-Z][a-zA-Z\d\s\-_\.'&quot;]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+								
+	<xsd:element name="dbEntries">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="entry" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="name" type="name_t"/>
+							<xsd:element name="description" type="xsd:string"/>
+							<xsd:element name="inhabitancies">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="inhabitancy" type="name_t" minOccurs="0" maxOccurs="unbounded"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="type" type="name_t" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

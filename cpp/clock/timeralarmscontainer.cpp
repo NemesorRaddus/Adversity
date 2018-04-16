@@ -1,6 +1,7 @@
 #include "timeralarmscontainer.h"
 
 #include "base/base.h"
+#include "base/managers/missionsmanager.h"
 #include "clock/timer_alarms/timeralarm.h"
 #include "clock/timer_alarms/missionend.h"
 #include "general/game.h"
@@ -12,16 +13,16 @@
 
 void TimerAlarmsContainer::addAlarm(unsigned daysToTimeout, TimerAlarm *alarm) noexcept
 {
-    int i=0;
-    for (;i<m_alarms.size();++i)
-        if (m_alarms[i].first>daysToTimeout)
+    int i = 0;
+    for (;i < m_alarms.size();++i)
+        if (m_alarms[i].first > daysToTimeout)
             break;
     m_alarms.insert(i,{daysToTimeout,alarm});
 }
 
 void TimerAlarmsContainer::cancelAlarm(TimerAlarm *alarm) noexcept
 {
-    for (int i=0; i<m_alarms.size(); ++i)
+    for (int i=0; i < m_alarms.size(); ++i)
         if (m_alarms[i].second->isTrulyEqualTo(alarm))
         {
             m_alarms.remove(i);
@@ -31,7 +32,7 @@ void TimerAlarmsContainer::cancelAlarm(TimerAlarm *alarm) noexcept
 
 void TimerAlarmsContainer::cancelAlarmAtPos(unsigned index) noexcept
 {
-    if (index<m_alarms.size())
+    if (index < m_alarms.size())
         m_alarms.removeAt(index);
 }
 
@@ -42,7 +43,7 @@ void TimerAlarmsContainer::clearAlarms() noexcept
 
 int TimerAlarmsContainer::checkDaysToTimeoutOfAlarm(TimerAlarm *alarm) const noexcept
 {
-    for (int i=0; i<m_alarms.size(); ++i)
+    for (int i=0; i < m_alarms.size(); ++i)
         if (m_alarms[i].second->isTrulyEqualTo(alarm))
             return m_alarms[i].first;
     return -1;
@@ -53,13 +54,13 @@ bool TimerAlarmsContainer::checkIfAlarmIsSet(TimerAlarm *alarm) const noexcept
     return checkDaysToTimeoutOfAlarm(alarm)==-1 ? 0 : 1;
 }
 
-QVector<TimerAlarm *> TimerAlarmsContainer::moveToNextDayAndGetTimeoutedResults() noexcept
+QVector < TimerAlarm *> TimerAlarmsContainer::moveToNextDayAndGetTimeoutedResults() noexcept
 {
     decreaseDaysToTimeout();
     return takeTimeoutedAlarms();
 }
 
-QVector<QPair<unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() const noexcept
+QVector<QPair < unsigned, TimerAlarm *> > TimerAlarmsContainer::getAllAlarms() const noexcept
 {
     return m_alarms;
 }
@@ -73,21 +74,21 @@ void TimerAlarmsContainer::addMissionAlarm(const Time &time, Mission *mission) n
 
 void TimerAlarmsContainer::checkMissionAlarms(const Time &now) noexcept
 {
-    for (int i=0;i<m_missionAlarms.size();++i)
+    for (int i=0;i < m_missionAlarms.size();++i)
         if (m_missionAlarms[i].first <= now)
         {
             auto temp = m_missionAlarms[i];
             m_missionAlarms.remove(i);
             --i;
-            auto er=temp.second->doEncounter(temp.first);
-            if (m_base->missions().contains(temp.second) && !temp.second->assignedMercenary()->isDead())
+            auto er = temp.second->doEncounter(temp.first);
+            if (m_base->missions()->missions().contains(temp.second) && !temp.second->assignedMercenary()->isDead())
                 temp.second->assignedMercenary()->trySendingReport(new UnifiedReport(er), temp.second);
         }
 }
 
-void TimerAlarmsContainer::setMissionAlarms(const QVector<QPair<Time, Mission *> > &alarms) noexcept
+void TimerAlarmsContainer::setMissionAlarms(const QVector<QPair < Time, Mission *> > &alarms) noexcept
 {
-    m_missionAlarms=alarms;
+    m_missionAlarms = alarms;
 }
 
 void TimerAlarmsContainer::removeAlarmsConnectedWithMission(const Mission *mission) noexcept
@@ -98,7 +99,7 @@ void TimerAlarmsContainer::removeAlarmsConnectedWithMission(const Mission *missi
 
 void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
 {
-    for (int i=0;i<m_alarms.size();++i)
+    for (int i=0;i < m_alarms.size();++i)
     {
         if (m_alarms[i].second->isAlreadyActive())
             --m_alarms[i].first;
@@ -107,11 +108,11 @@ void TimerAlarmsContainer::decreaseDaysToTimeout() noexcept
     }
 }
 
-QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
+QVector < TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 {
     QVector <TimerAlarm *> r;
-    int i=0;
-    for (;i<m_alarms.size() && m_alarms[i].first==0;++i)
+    int i = 0;
+    for (;i < m_alarms.size() && m_alarms[i].first == 0;++i)
         r.push_back(m_alarms[i].second);
     m_alarms.remove(0,i);
     return r;
@@ -119,7 +120,7 @@ QVector<TimerAlarm *> TimerAlarmsContainer::takeTimeoutedAlarms() noexcept
 
 void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
 {
-    for (int i=0;i<m_missionAlarms.size();)
+    for (int i=0;i < m_missionAlarms.size();)
     {
         if (m_missionAlarms[i].second == mission)
         {
@@ -134,8 +135,8 @@ void TimerAlarmsContainer::removeMissionAlarms(const Mission *mission) noexcept
 
 void TimerAlarmsContainer::removeMissionEndAlarm(const Mission *mission) noexcept
 {
-    for (int i=0;i<m_alarms.size();++i)
-        if (m_alarms[i].second->type() == TimerAlarmEnums::AT_MissionEnd && static_cast<MissionEndTimerAlarm *>(m_alarms[i].second)->mission() == mission)
+    for (int i=0;i < m_alarms.size();++i)
+        if (m_alarms[i].second->type() == TimerAlarmEnums::AT_MissionEnd && static_cast < MissionEndTimerAlarm *>(m_alarms[i].second)->mission() == mission)
         {
             m_alarms.remove(i);
             break;

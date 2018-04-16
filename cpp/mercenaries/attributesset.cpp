@@ -28,46 +28,46 @@ QDataStream &operator>>(QDataStream &stream, MercenaryAttributesSet &attrs) noex
     qreal d;
 
     stream>>ii;
-    attrs.combatEffectiveness=ii;
+    attrs.combatEffectiveness = ii;
 
     stream>>ii;
-    attrs.proficiency=ii;
+    attrs.proficiency = ii;
 
     stream>>ii;
-    attrs.cleverness=ii;
+    attrs.cleverness = ii;
 
     stream>>d;
-    attrs.luck=d;
+    attrs.luck = d;
 
     stream>>ii;
-    attrs.health=ii;
+    attrs.health = ii;
 
     stream>>ii;
-    attrs.healthLimit=ii;
+    attrs.healthLimit = ii;
 
     stream>>ii;
-    attrs.dailyHealthRecovery=ii;
+    attrs.dailyHealthRecovery = ii;
 
     stream>>ii;
-    attrs.stress=ii;
+    attrs.stress = ii;
 
     stream>>d;
-    attrs.stressResistance=d;
+    attrs.stressResistance = d;
 
     stream>>ii;
-    attrs.stressLimit=ii;
+    attrs.stressLimit = ii;
 
     stream>>ii;
-    attrs.stressBorder=ii;
+    attrs.stressBorder = ii;
 
     stream>>ii;
-    attrs.dailyStressRecovery=ii;
+    attrs.dailyStressRecovery = ii;
 
     stream>>ii;
-    attrs.salary=ii;
+    attrs.salary = ii;
 
     stream>>ii;
-    attrs.dailyFoodConsumption=ii;
+    attrs.dailyFoodConsumption = ii;
 
     return stream;
 }

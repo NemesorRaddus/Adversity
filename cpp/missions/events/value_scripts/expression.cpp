@@ -28,7 +28,7 @@ Expression::Expression(const Expression &other) noexcept
 
 void Expression::set(const QString &expr) noexcept
 {
-    m_expr=expr;
+    m_expr = expr;
     validateExpr();
 }
 
@@ -39,7 +39,7 @@ bool Expression::isValid() const noexcept
 
 QVariant Expression::evaluate(const Mercenary *context) const noexcept
 {
-    if (context==nullptr)
+    if (context == nullptr)
         return {};
 
     m_engine->globalObject().setProperty("CE",context->combatEffectiveness());
@@ -70,19 +70,19 @@ QVariant Expression::evaluate(const Mercenary *context) const noexcept
 
 void Expression::validateExpr() noexcept
 {
-    QJSValue v=m_engine->evaluate(m_expr);
+    QJSValue v = m_engine->evaluate(m_expr);
     if (v.isError())
-        m_isExprValid=0;
+        m_isExprValid = 0;
     else
-        m_isExprValid=1;
+        m_isExprValid = 1;
 }
 
 void Expression::handleEngine() noexcept
 {
-    static QJSEngine *theEngine=nullptr;
-    if (theEngine==nullptr)
+    static QJSEngine *theEngine = nullptr;
+    if (theEngine == nullptr)
     {
-        theEngine=new QJSEngine();
+        theEngine = new QJSEngine();
 
         theEngine->globalObject().setProperty("CE",0);
         theEngine->globalObject().setProperty("PR",0);
@@ -108,5 +108,5 @@ void Expression::handleEngine() noexcept
         theEngine->globalObject().setProperty("M_REMDAYS",0);
     }
 
-    m_engine=theEngine;
+    m_engine = theEngine;
 }

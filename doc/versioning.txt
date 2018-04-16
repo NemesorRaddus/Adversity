@@ -1,0 +1,52 @@
+Schemat wersji dla Adversity
+
+x.y[.z][-alpha/beta]{[-Preview_p]LUB[-i]LUB[+i]}
+
+x - major nr
+y - minor nr
+z - hotfix nr
+alpha/beta - a/b tag
+p - preview nr
+i - internal version nr
+
+[] - opcjonalnie
+{} - wyodrębnienie logiczne
+
+Major nr jest zwiększany, gdy ilość dodanych od ostatniego major release'a feature'ów jest bardzo duża (na tyle, by uznać oprogramowanie za niekompatybilne wstecznie lub po prostu zupełnie inne).
+Minor nr jest zwiększany po wprowadzeniu nowego dużego feature'a dodawającego coś do gameplayu.
+Hotfix nr jest zwiększany po wypuszczeniu hotfixa łatającego bugi.
+Preview nr jest zwiększany po wprowadzeniu nowej wersji preview, finalnej/testowej wersji wewnętrznej.
+Internal version nr jest zwiększany po wprowadzeniu nowej wersji wewnętrznej. Są dwa rodzaje wersji wewnętrznych - forward i backward.
+Jeśli przed i jest -, jest to wersja forward i nr występujący wcześniej to nr wersji, nad którą się pracuje.
+Jeśli przed i jest +, jest to wersja forward i nr występujący wcześniej to nr wersji, która już została osiągnięta.
+FIV jest zazwyczaj zalecana, gdyż mówi o tym, nad czym się pracuje w danej wersji.
+Jednak jeśli wersja ma charakter poprawiającej coś wcześniejszego i jeszcze nie wiadomo, jak się przyda, powinno się stosować BIV.
+FIV i BIV działają oddzielnie, ich numery nie są dzielone.
+
+A/B tag wskazuje generalną wersję oprogramowania (alphę lub betę). Dopóki major nr jest równy 0, wersja bez a/b tagu oznacza pre-alphę. Później jest to już wersja release.
+
+Każdy numer jest liczbą całkowitą nieujemną. Nie ma górnej granicy dla żadnego z numerów (a więc mogą się pojawić dwucyfrowe wersje minor).
+
+Zaczyna się na 0.1.
+
+Gdy zaczyna się praca nad kolejnym dużym featurem(np. wersja 0.2), hotfixem (0.1.1) lub nową dużą wersją (2.0),
+na odpowiedniej gałęzi (develop dla major i minor, hotfix/v{nr hotfixa} dla hotfixa) zaczynają być wstawiane nowe commity bez numeru wersji.
+Gdy osiągnie się pewien cel w trakcie prac i wersja jest teoretycznie stabilna (nie pojawiły się błędy związane z tym featurem, ale to tylko takie obserwacje bez testów), prywatnie (w gronie devów) wypuszczana jest
+pierwsza wersja wewnętrzna zawierająca pewien podfeature. Jej numer to numer wersji, nad którą się pracuje, z sufiksem -1. Taki build jest rozpowszechniany i testowany przez różnych devów.
+Osiągając kolejne cele, wypuszczane są kolejne wersje wewnętrzne z kolejnymi numerami. Gdy osiągnie się taki punkt, kiedy wszystkie cele dla tworzonej wersji zostaną osiągnięte, wypuszczana jest prywatnie wersja preview.
+Po wypuszczeniu wersji preview wszystkie feature'y są blokowane, tzn. nie można już wprowadzać dużych zmian w tej wersji, tylko drobne bugfixy. Po wypuszczeniu wersji preview rozpoczyna się czas testów wewnętrznych,
+trwający zazwyczaj ok. 1 dobę. W tym czasie każdy dev sprawdza, czy wszystko działa tak, jak należy. Jeśli wszystko jest ok, wypuszczana jest nowa wersja z opracowywanymi zmianami (a dopisek -Preview_p jest usuwany).
+Jeśli jednak coś nie działa, kontynuowane są prace. Pojawiają się nowe commity bez numeru i commity z nowymi wersjami wewnętrznymi, aż wreszcie znowu dojdzie do sytuacji, gdy wszystko będzie wyglądało dobrze.
+Wtedy pojawia się kolejna Preview version. I tak do skutku.
+
+Pierwszy hotfix do danego minora ma numer 1.
+Pierwszy preview do danego minora lub hotfixa ma numer 1.
+Pierwszy internal do danego minora lub hotfixa ma numer 1.
+
+Gdy major nr jest zwiększany, minor nr jest ustawiany na 0, a pozostałe numery są usuwane (przy czym a/b tag jest niezależny, tak samo jest niżej).
+Gdy minor nr jest zwiększany, hotfix nr i preview nr są usuwane.
+Gdy hotfix nr jest zwiększany, preview nr jest usuwany.
+
+Aby przejść z pre-alphy do alphy, należy wejść na wersję 1.0 i dodać -alpha do numeru wersji.
+Aby przejść z alphy do bety, należy wrócić do wersji 1.0 zmienić -alpha na -beta.
+Aby przejść z bety do release'a, należy wrócić do wersji 1.0 i usunąć a/b tag.

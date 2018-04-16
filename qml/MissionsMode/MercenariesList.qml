@@ -10,23 +10,23 @@ Item {
 
     function update()
     {
-        var amount=GameApi.base.mercenaries.amountOfMercenaries()+1;
-        for (var i=0;i<GameApi.base.mercenaries.amountOfMercenaries();++i)
+        var amount=GameApi.base.mercenaries.mercenaries.amountOfMercenaries()+1;
+        for (var i=0;i<GameApi.base.mercenaries.mercenaries.amountOfMercenaries();++i)
         {
-            GameApi.base.mercenaries.prepareMercenaryAt(i);
+            GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
 
-            if (GameApi.base.mercenaries.preparedMercenary.currentActivityString() != "Idle")
+            if (GameApi.base.mercenaries.mercenaries.preparedMercenary.currentActivityString() != "Idle")
                 --amount;
         }
         Scripts.setupList(Math.round((271/1080)*width), amount, width, height);
         Scripts.createItem("","","",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        for (var i=0;i<GameApi.base.mercenaries.amountOfMercenaries();++i)
+        for (var i=0;i<GameApi.base.mercenaries.mercenaries.amountOfMercenaries();++i)
         {
-            GameApi.base.mercenaries.prepareMercenaryAt(i);
+            GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
 
-            if (GameApi.base.mercenaries.preparedMercenary.currentActivityString() != "Idle")
+            if (GameApi.base.mercenaries.mercenaries.preparedMercenary.currentActivityString() != "Idle")
                 continue;
-            Scripts.createItem(GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.professionString(), GameApi.base.mercenaries.preparedMercenary.combatEffectiveness(), GameApi.base.mercenaries.preparedMercenary.proficiency(), GameApi.base.mercenaries.preparedMercenary.cleverness(),  GameApi.base.mercenaries.preparedMercenary.health(), GameApi.base.mercenaries.preparedMercenary.healthLimit(), GameApi.base.mercenaries.preparedMercenary.stress(), GameApi.base.mercenaries.preparedMercenary.stressLimit(), GameApi.base.mercenaries.preparedMercenary.stressResistance(), GameApi.base.mercenaries.preparedMercenary.salary(), GameApi.base.mercenaries.preparedMercenary.dailyFoodConsumption(), GameApi.base.mercenaries.preparedMercenary.baseCombatEffectiveness(), GameApi.base.mercenaries.preparedMercenary.baseProficiency(), GameApi.base.mercenaries.preparedMercenary.baseCleverness(), GameApi.base.mercenaries.preparedMercenary.baseHealthLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressResistance(), GameApi.base.mercenaries.preparedMercenary.baseSalary(), GameApi.base.mercenaries.preparedMercenary.baseDailyFoodConsumption());
+            Scripts.createItem(GameApi.base.mercenaries.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.mercenaries.preparedMercenary.professionString(), GameApi.base.mercenaries.mercenaries.preparedMercenary.combatEffectiveness(), GameApi.base.mercenaries.mercenaries.preparedMercenary.proficiency(), GameApi.base.mercenaries.mercenaries.preparedMercenary.cleverness(),  GameApi.base.mercenaries.mercenaries.preparedMercenary.health(), GameApi.base.mercenaries.mercenaries.preparedMercenary.healthLimit(), GameApi.base.mercenaries.mercenaries.preparedMercenary.stress(), GameApi.base.mercenaries.mercenaries.preparedMercenary.stressLimit(), GameApi.base.mercenaries.mercenaries.preparedMercenary.stressResistance(), GameApi.base.mercenaries.mercenaries.preparedMercenary.salary(), GameApi.base.mercenaries.mercenaries.preparedMercenary.dailyFoodConsumption(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseCombatEffectiveness(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseProficiency(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseCleverness(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseHealthLimit(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseStressLimit(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseStressResistance(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseSalary(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseDailyFoodConsumption());
         }
     }
 
@@ -46,12 +46,10 @@ Item {
 
     signal mercenaryClicked(string mercenaryName, string artSource)
 
-    Image {
-        id: additionalBackground
-
+    Rectangle {
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MouseArea {

@@ -1,6 +1,7 @@
 #include "encounter.h"
 
 #include "base/base.h"
+#include "base/managers/mercenariesmanager.h"
 #include "clock/time.h"
 #include "mercenaries/mercenariescontainer.h"
 #include "mercenaries/mercenary.h"
@@ -14,15 +15,15 @@ EncounterReport *Encounter::execute(Mercenary *mercenary, const Time &currentTim
 {
     auto b = mercenary->base();
     auto reps = m_rootEvent->execute(mercenary);
-    for (int i=0;i<reps.size();)
+    for (int i=0;i < reps.size();)
     {
         if (reps[i].isEmpty())
             reps.remove(i);
         else
             ++i;
     }
-    if (!b->mercenaries()->mercenaries().contains(mercenary))//TODO probably remove
-        return static_cast<EncounterReport *>(static_cast<Report *>(new NullReport));//mercenary died during encounter
+    if (!b->mercenaries()->mercenaries()->mercenaries().contains(mercenary))//TODO probably remove
+        return static_cast<EncounterReport *>(static_cast < Report *>(new NullReport));//mercenary died during encounter
     return new EncounterReport{mercenary->pathToArt(), reps, currentTime};
 }
 
@@ -39,7 +40,7 @@ void EncountersContainer::addEncounter(Encounter *enc) noexcept
 
 void EncountersContainer::removeEncounter(unsigned index) noexcept
 {
-    if (index<m_encounters.size())
+    if (index < m_encounters.size())
     {
         delete m_encounters[index];
         m_encounters.remove(index);

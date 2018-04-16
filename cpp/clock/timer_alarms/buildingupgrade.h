@@ -15,7 +15,7 @@ public:
     bool operator ==(const BuildingUpgradeTimerAlarm &other) const noexcept;
     inline bool operator !=(const BuildingUpgradeTimerAlarm &other) const noexcept
     {
-        return !(*this==other);
+        return !(*this == other);
     }
 
     inline BuildingEnums::Building buildingName() const noexcept

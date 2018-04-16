@@ -84,7 +84,7 @@ namespace MercenaryEnums
         P_PriestessOfTheUniverse,
         P_BattleDroid,
         P_SpaceNomad,
-        P_Archeologist,
+		P_Archaeologist,
         P_Criminal,
         P_Cyborg,
         P_Specialist,

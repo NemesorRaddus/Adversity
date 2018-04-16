@@ -22,6 +22,8 @@ class GlobalUtilities;
 class LoggersHandler;
 class LandsInfo;
 class H4X;
+struct SaveData;
+class SavesManager;
 class TranslationsDB;
 
 class Game : public QObject
@@ -35,6 +37,7 @@ class Game : public QObject
     Q_PROPERTY(H4X* h4xLogic MEMBER m_h4xLogic)
     Q_PROPERTY(GlobalUtilities* globalsCpp MEMBER m_globalsExportToQML)
     Q_PROPERTY(LoggersHandler* logger MEMBER m_loggersHandler)
+    Q_PROPERTY(SavesManager* savesManager MEMBER m_savesManager)
 
     friend class H4X;
 
@@ -44,9 +47,9 @@ public:
 
     static void setQMLEnginePtr(QQmlApplicationEngine *engine) noexcept;
 
-    Q_INVOKABLE void createNewBase(const QString &pathToAssetsDir/*with ending / */) noexcept;//WARNING NEVER USED
-    Q_INVOKABLE void loadExistingBase(const QString &pathToAssetsDir) noexcept;
-    Q_INVOKABLE void saveBase() noexcept;
+    void loadSave(const SaveData &save) noexcept;
+    SaveData getSave() noexcept;
+    void closeSave() noexcept;
 
     inline const AppBuildInfo *currentVersion() const noexcept
     {
@@ -111,11 +114,11 @@ public:
     Q_INVOKABLE void requestReadWritePermissions() noexcept;
 
 public slots:
-    void saveBase_slot() noexcept;
+    void saveBase() noexcept;
 
 private:
-    void connectAutosave() noexcept;
-    void disconnectAutosave() noexcept;
+    void enableAutosave() noexcept;
+    void disableAutosave() noexcept;
 
     void loadAssets(const QString &pathToDir) noexcept;
 
@@ -130,8 +133,10 @@ private:
 
     static Game *m_ptrToGameObject;
 
+    const QString m_pathToAssetsDir = ":/data/";
     Base *m_base;
-    QString m_currentPathToAssets;
+    bool m_isAutosaveActive;
+    SavesManager *m_savesManager;
     LandsInfo *m_lands;
     AppBuildInfo *m_buildInfo;
     AssetsPool m_assetsPool;
@@ -147,11 +152,11 @@ private:
     static QQmlApplicationEngine *m_ptrToEngine;
 };
 
-static QObject *gameQObjectSingletontypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *gameQObjectSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
 
-    Game *game =new Game();
+    Game *game = new Game();
     return game;
 }

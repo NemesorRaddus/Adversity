@@ -3,6 +3,11 @@
 #include <QDataStream>
 
 #include "base/base.h"
+#include "base/managers/equipmentmanager.h"
+#include "base/managers/mercenariesmanager.h"
+#include "base/managers/missionsmanager.h"
+#include "base/managers/reportsmanager.h"
+#include "base/managers/resourcesmanager.h"
 #include "clock/gameclock.h"
 #include "clock/timer_alarms/missionend.h"
 #include "equipment/equipment.h"
@@ -24,13 +29,13 @@ void Mission::handleNewDay() noexcept
 
 void Mission::assignMercenary(Mercenary *mercenary) noexcept
 {
-    m_assignedMercenary=mercenary;
+    m_assignedMercenary = mercenary;
 }
 
 void Mission::start() noexcept
 {
-    m_assignedMercenary->base()->addReport(new UnifiedReport(new MissionStartReport(m_assignedMercenary->pathToArt(), m_assignedMercenary->stress(), m_assignedMercenary->stressLimit(), m_assignedMercenary->base()->gameClock()->currentTime())));
-    m_assignedMercenary->base()->registerLatestReportInMission(this);
+    m_assignedMercenary->base()->reports()->addReport(new UnifiedReport(new MissionStartReport(m_assignedMercenary->pathToArt(), m_assignedMercenary->stress(), m_assignedMercenary->stressLimit(), m_assignedMercenary->base()->gameClock()->currentTime())));
+    m_assignedMercenary->base()->reports()->registerLatestReportInMission(this);
     planEverything();
 
     Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Mission started: (mercenary: {}, length: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString(), MissionEnums::fromLengthEnumToQString(m_length).toStdString());
@@ -60,9 +65,9 @@ void Mission::forceEndSuccessfully() noexcept
     Game::gameInstance()->loggers()->missionsLogger()->trace("[{}] Forcing mission end (mercenary: {})",m_assignedMercenary->base()->gameClock()->currentTime().toQString().toStdString(), m_assignedMercenary->name().toStdString());
 
     m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
-    auto b=m_assignedMercenary->base();
+    auto ms = m_assignedMercenary->base()->missions();
     end();
-    b->removeMission(this);
+    ms->removeMission(this);
 }
 
 void Mission::forceEndSilently() noexcept
@@ -78,7 +83,7 @@ void Mission::forceEndBecauseOfDeath() noexcept
 
     m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedMercenary->assignMission(nullptr);
-    m_assignedMercenary->base()->removeMission(this);
+    m_assignedMercenary->base()->missions()->removeMission(this);
 }
 
 void Mission::abort() noexcept
@@ -87,9 +92,9 @@ void Mission::abort() noexcept
 
     m_assignedMercenary->base()->gameClock()->removeAlarmsConnectedWithMission(this);
     m_assignedMercenary->assignMission(nullptr);
-    auto b=m_assignedMercenary->base();
+    auto ms = m_assignedMercenary->base()->missions();
     m_assignedMercenary->die(1,0);
-    b->removeMission(this);
+    ms->removeMission(this);
 }
 
 void Mission::addRelatedReport(UnifiedReport *report) noexcept
@@ -99,8 +104,8 @@ void Mission::addRelatedReport(UnifiedReport *report) noexcept
 
 void Mission::prepareReport(unsigned index) noexcept
 {
-    if (index<m_relatedReports.size())
-        m_preparedRelatedReport=m_relatedReports[index];
+    if (index < m_relatedReports.size())
+        m_preparedRelatedReport = m_relatedReports[index];
 }
 
 Mission::Mission() noexcept
@@ -114,11 +119,11 @@ void Mission::planEverything() noexcept
 
 void Mission::planAllEncounters() noexcept
 {
-    auto clock=m_assignedMercenary->base()->gameClock();
-    for (int i=0;i<m_encounters.size();++i)
+    auto clock = m_assignedMercenary->base()->gameClock();
+    for (int i=0;i < m_encounters.size();++i)
     {
         unsigned missionDayOfPlannedEncounter = m_encounters[i].first;
-        unsigned daysToAdd = i==0 ? missionDayOfPlannedEncounter : missionDayOfPlannedEncounter-m_encounters[0].first;
+        unsigned daysToAdd = i == 0 ? missionDayOfPlannedEncounter : missionDayOfPlannedEncounter-m_encounters[0].first;
         unsigned dayOfPlannedEncounter = clock->currentDay() + daysToAdd;
         unsigned maxMinutes = 24*60-(m_encounters.size()-1-i);// minutes since midnight
         unsigned minMinutes;
@@ -153,15 +158,15 @@ void Mission::setLand(Land *land) noexcept
 
 void Mission::setLength(MissionEnums::Length length) noexcept
 {
-    m_length=length;
+    m_length = length;
 }
 
 void Mission::setDuration(unsigned days) noexcept
 {
-    if (days<1)
+    if (days < 1)
         return;
-    m_duration=days;
-    m_daysSpent=0;
+    m_duration = days;
+    m_daysSpent = 0;
 }
 
 void Mission::addEncounter(MissionDay day, Encounter *encounter) noexcept
@@ -195,13 +200,13 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
     stream>>mission.land;
 
     stream>>n;
-    mission.length=static_cast<MissionEnums::Length>(n);
+    mission.length = static_cast<MissionEnums::Length>(n);
 
     stream>>ii;
-    mission.duration=ii;
+    mission.duration = ii;
 
     stream>>ii;
-    mission.daysSpent=ii;
+    mission.daysSpent = ii;
 
     QVector <QPair <qint16, QString> > encounters;
     stream>>encounters;
@@ -209,10 +214,10 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
         mission.encounters+={e.first,e.second};
 
     stream>>ii;
-    mission.nextEncounter=ii;
+    mission.nextEncounter = ii;
 
     stream>>ii;
-    mission.minutesSinceMidnightOfLastEncounter=ii;
+    mission.minutesSinceMidnightOfLastEncounter = ii;
 
     stream>>mission.mercenary;
 
@@ -224,7 +229,7 @@ QDataStream &operator>>(QDataStream &stream, MissionDataHelper &mission) noexcep
 MissionBuilder::MissionBuilder(Base *base) noexcept
     : m_base(base)
 {
-    m_mission=new Mission();
+    m_mission = new Mission();
 }
 
 MissionBuilder::~MissionBuilder() noexcept
@@ -235,8 +240,8 @@ MissionBuilder::~MissionBuilder() noexcept
 Mission *MissionBuilder::getMission() noexcept
 {
     qSort(m_mission->m_encounters.begin(), m_mission->m_encounters.end(), lessThanEncounterSorting);
-    Mission *ret=m_mission;
-    m_mission=new Mission();
+    Mission *ret = m_mission;
+    m_mission = new Mission();
     return ret;
 }
 
@@ -245,23 +250,23 @@ Mission *MissionBuilder::generateMission(Land *land, MissionEnums::Length length
     resetMission();
     setLand(land);
     setLength(length);
-    unsigned duration=generateDuration(length);
+    unsigned duration = generateDuration(length);
     setDuration(duration);
-    m_mission->m_encounters=generateEncounters(land, length, duration);
-    Mission *ret=m_mission;
-    m_mission=new Mission();
+    m_mission->m_encounters = generateEncounters(land, length, duration);
+    Mission *ret = m_mission;
+    m_mission = new Mission();
     return ret;
 }
 
 void MissionBuilder::resetMission() noexcept
 {
     delete m_mission;
-    m_mission=new Mission();
+    m_mission = new Mission();
 }
 
 Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission, Base *base) noexcept
 {
-    Mission *r=new Mission();
+    Mission *r = new Mission();
 
     for (auto e : Game::gameInstance()->assetsPool().lands())
         if (e->name() == mission.land)
@@ -274,7 +279,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
     r->m_length = mission.length;
     r->m_duration = mission.duration;
     r->m_daysSpent = mission.daysSpent;
-    for (int i=0;i<mission.encounters.size();++i)
+    for (int i=0;i < mission.encounters.size();++i)
         for (auto e : r->m_land->encounters()->encounters())
             if (e->name() == mission.encounters[i].second)
             {
@@ -283,7 +288,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
             }
     r->m_nextEncounter = mission.nextEncounter;
     r->m_minutesSinceMidnightOfLastEncounter = mission.minutesSinceMidnightOfLastEncounter;
-    for (auto e : base->mercenaries()->mercenaries())
+    for (auto e : base->mercenaries()->mercenaries()->mercenaries())
         if (e->name() == mission.mercenary)
         {
             r->assignMercenary(e);
@@ -292,7 +297,7 @@ Mission *MissionBuilder::qobjectifyMissionData(const MissionDataHelper &mission,
         }
 
     for (const auto &e : mission.relatedReportsIDs)
-        for (auto &f : base->reports())
+        for (auto &f : base->reports()->reports())
             if (f->id() == e)
             {
                 r->addRelatedReport(f);
@@ -397,21 +402,21 @@ unsigned MissionBuilder::generateAmountOfEncountersPerDay(MissionEnums::Length l
     }
 }
 
-QVector<QPair<Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, MissionEnums::Length length, unsigned duration) const noexcept
+QVector<QPair < Mission::MissionDay, Encounter *> > MissionBuilder::generateEncounters(Land *land, MissionEnums::Length length, unsigned duration) const noexcept
 {
     QVector <QPair <Mission::MissionDay, Encounter *> > r;
-    for (int i=0;i<duration;++i)
+    for (int i=0;i < duration;++i)
     {
-        unsigned am=generateAmountOfEncountersPerDay(length);
+        unsigned am = generateAmountOfEncountersPerDay(length);
         while (am--)
             r+={i,land->makeRandomEncounter()};
     }
     return r;
 }
 
-bool MissionBuilder::lessThanEncounterSorting(const QPair<Mission::MissionDay, Encounter *> &first, const QPair<Mission::MissionDay, Encounter *> &second) noexcept
+bool MissionBuilder::lessThanEncounterSorting(const QPair<Mission::MissionDay, Encounter *> &first, const QPair < Mission::MissionDay, Encounter *> &second) noexcept
 {
-    return first.first<second.first;
+    return first.first < second.first;
 }
 
 MissionInitializer::MissionInitializer(Base *base) noexcept
@@ -421,34 +426,34 @@ void MissionInitializer::reset() noexcept
 {
     if (m_mercenary != nullptr)
         unprepareMercenary();
-    m_land=nullptr;
-    m_length=MissionEnums::L_END;
-    m_mercenary=nullptr;
-    m_armor=nullptr;
-    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
+    m_land = nullptr;
+    m_length = MissionEnums::L_END;
+    m_mercenary = nullptr;
+    m_armor = nullptr;
+    for (int i=0;i < Mercenary::amountOfWeaponToolSlots();++i)
         m_weaponTool[i]=nullptr;
-    m_aetherite=0;
-    m_energy=0;
-    m_bm=0;
-    m_food=0;
+    m_aetherite = 0;
+    m_energy = 0;
+    m_bm = 0;
+    m_food = 0;
 }
 
 bool MissionInitializer::start() noexcept
 {
-    if (!(m_basePtr->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->canDecreaseEnergyAmount(m_energy) && m_basePtr->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_length != MissionEnums::L_END)
+    if (!(m_basePtr->resources()->canDecreaseAetheriteAmount(m_aetherite) && m_basePtr->resources()->canDecreaseEnergyAmount(m_energy) && m_basePtr->resources()->canDecreaseBuildingMaterialsAmount(m_bm) && m_basePtr->resources()->canDecreaseFoodSuppliesAmount(m_food)) && m_land != nullptr && m_length != MissionEnums::L_END)
         return 0;
 
-    auto &eqs=m_basePtr->availableEquipment();
+    auto &eqs = m_basePtr->equipment()->availableEquipment();
     if (m_armor != nullptr)
         eqs.remove(eqs.indexOf(m_armor));
-    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
+    for (int i=0;i < Mercenary::amountOfWeaponToolSlots();++i)
         if (m_weaponTool[i] != nullptr)
             eqs.remove(eqs.indexOf(m_weaponTool[i]));
 
-    m_basePtr->decreaseAetheriteAmount(m_aetherite);
-    m_basePtr->decreaseEnergyAmount(m_energy);
-    m_basePtr->decreaseBuildingMaterialsAmount(m_bm);
-    m_basePtr->decreaseFoodSuppliesAmount(m_food);
+    m_basePtr->resources()->decreaseAetheriteAmount(m_aetherite);
+    m_basePtr->resources()->decreaseEnergyAmount(m_energy);
+    m_basePtr->resources()->decreaseBuildingMaterialsAmount(m_bm);
+    m_basePtr->resources()->decreaseFoodSuppliesAmount(m_food);
 
     m_mercenary->setCarriedAetheriteOre(m_aetherite);
     m_mercenary->setCarriedEnergy(m_energy);
@@ -457,12 +462,12 @@ bool MissionInitializer::start() noexcept
 
     m_mercenary->setCurrentActivity(MercenaryEnums::CA_OnMission);
 
-    Mission *m=m_missionBuilder.generateMission(m_land, m_length);
+    Mission *m = m_missionBuilder.generateMission(m_land, m_length);
 
     m_mercenary->assignMission(m);
     m->assignMercenary(m_mercenary);
 
-    m_basePtr->startMission(m);
+    m_basePtr->missions()->startMission(m);
 
     reset();
     return 1;
@@ -472,22 +477,22 @@ void MissionInitializer::setLand(const QString &name) noexcept
 {
     if (name.isEmpty())
     {
-        m_land=nullptr;
+        m_land = nullptr;
         return;
     }
-    auto ls=Game::gameInstance()->assetsPool().lands();
+    auto ls = Game::gameInstance()->assetsPool().lands();
     for (auto e : ls)
         if (e->name() == name)
         {
-            m_land=e;
+            m_land = e;
             return;
         }
-    m_land=nullptr;
+    m_land = nullptr;
 }
 
 void MissionInitializer::setLength(const QString & length) noexcept
 {
-    m_length=MissionEnums::fromQStringToLengthEnum(length);
+    m_length = MissionEnums::fromQStringToLengthEnum(length);
 }
 
 QString MissionInitializer::length() const noexcept
@@ -501,18 +506,18 @@ void MissionInitializer::setMercenary(const QString &name) noexcept
         unprepareMercenary();
     if (name.isEmpty())
     {
-        m_mercenary=nullptr;
+        m_mercenary = nullptr;
         return;
     }
-    auto hs=m_basePtr->mercenaries()->mercenaries();
-    for (int i=0;i<hs.size();++i)
+    auto hs = m_basePtr->mercenaries()->mercenaries()->mercenaries();
+    for (int i=0;i < hs.size();++i)
         if (hs[i]->name() == name)
         {
-            m_mercenary=m_basePtr->mercenaries()->getMercenary(i);
+            m_mercenary = m_basePtr->mercenaries()->mercenaries()->getMercenary(i);
             prepareMercenary();
             return;
         }
-    m_mercenary=nullptr;
+    m_mercenary = nullptr;
 }
 
 void MissionInitializer::setArmor(const QString &name) noexcept
@@ -521,24 +526,24 @@ void MissionInitializer::setArmor(const QString &name) noexcept
     {
         if (m_armor != nullptr)
         {
-            m_armor=nullptr;
+            m_armor = nullptr;
             if (m_mercenary != nullptr)
                 prepareMercenary();
         }
         return;
     }
-    auto eqs=m_basePtr->availableEquipment();
-    for (int i=0;i<eqs.size();++i)
+    auto eqs = m_basePtr->equipment()->availableEquipment();
+    for (int i=0;i < eqs.size();++i)
         if (eqs[i]->name() == name)
         {
-            m_armor=eqs[i];
+            m_armor = eqs[i];
             if (m_mercenary != nullptr)
                 prepareMercenary();
             return;
         }
     if (m_armor != nullptr)
     {
-        m_armor=nullptr;
+        m_armor = nullptr;
         if (m_mercenary != nullptr)
             prepareMercenary();
     }
@@ -546,7 +551,7 @@ void MissionInitializer::setArmor(const QString &name) noexcept
 
 void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexcept
 {
-    if (name.isEmpty() || slot>=Mercenary::amountOfWeaponToolSlots())
+    if (name.isEmpty() || slot >= Mercenary::amountOfWeaponToolSlots())
     {
         if (m_weaponTool[slot] != nullptr)
         {
@@ -556,8 +561,8 @@ void MissionInitializer::setWeaponTool(const QString &name, unsigned slot) noexc
         }
         return;
     }
-    auto eqs=m_basePtr->availableEquipment();
-    for (int i=0;i<eqs.size();++i)
+    auto eqs = m_basePtr->equipment()->availableEquipment();
+    for (int i=0;i < eqs.size();++i)
         if (eqs[i]->name() == name)
         {
             m_weaponTool[slot]=eqs[i];
@@ -597,7 +602,7 @@ void MissionInitializer::prepareMercenary() noexcept
 {
     m_mercenary->removeArmor();
     m_mercenary->equipArmor(m_armor);
-    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
+    for (int i=0;i < Mercenary::amountOfWeaponToolSlots();++i)
     {
         m_mercenary->removeWeaponTool(i);
         m_mercenary->equipWeaponTool(m_weaponTool[i],i);
@@ -607,6 +612,6 @@ void MissionInitializer::prepareMercenary() noexcept
 void MissionInitializer::unprepareMercenary() noexcept
 {
     m_mercenary->removeArmor();
-    for (int i=0;i<Mercenary::amountOfWeaponToolSlots();++i)
+    for (int i=0;i < Mercenary::amountOfWeaponToolSlots();++i)
         m_mercenary->removeWeaponTool(i);
 }

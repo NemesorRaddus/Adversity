@@ -16,6 +16,7 @@ Item {
     function show()
     {
         state = "";
+        clicksCatcher.visible = true;
 
         leftArrow.visible = true;
         rightArrow.visible = true;
@@ -30,6 +31,7 @@ Item {
     function hide()
     {
         state = "hidden";
+        clicksCatcher.visible = false;
 
         leftArrow.visible = false;
         rightArrow.visible = false;
@@ -80,6 +82,14 @@ Item {
         animsFadeOut.duration = animsFadeOut.baseDuration * GameApi.animMultiplier();
 
         versionNumber.text = GameApi.currentVersionNumber();
+    }
+
+    MouseArea {
+        id: clicksCatcher
+
+        anchors.fill: parent
+
+        visible: false
     }
 
     Rectangle {
@@ -619,7 +629,6 @@ Item {
         color: "#94ef94"
         font.pixelSize: 60
         font.family: fontStencil.name
-        text: "v1.0.0"
     }
 
     Image {
@@ -638,7 +647,7 @@ Item {
         id: back
 
         x: 400
-        y: 1344
+        y: taskBorderBottom.y + 10
         width: 260
         height: 120
 

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:simpleType name="nature_t">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Active"/>
+			<xsd:enumeration value="Convivial"/>
+			<xsd:enumeration value="Religious"/>
+			<xsd:enumeration value="Recluse"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="profession_t">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Bounty Hunter"/>
+			<xsd:enumeration value="Gunzerker"/>
+			<xsd:enumeration value="Priest Of The Universe"/>
+			<xsd:enumeration value="Priestess Of The Universe"/>
+			<xsd:enumeration value="Battle Droid"/>
+			<xsd:enumeration value="Space Nomad"/>
+			<xsd:enumeration value="Archeologist"/>
+			<xsd:enumeration value="Criminal"/>
+			<xsd:enumeration value="Cyborg"/>
+			<xsd:enumeration value="Specialist"/>
+			<xsd:enumeration value="Doomsayer"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sbe_t">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Faint"/>
+			<xsd:enumeration value="Desertion"/>
+			<xsd:enumeration value="Fear"/>
+			<xsd:enumeration value="Rage"/>
+			<xsd:enumeration value="Fanatic Wrath"/>
+			<xsd:enumeration value="Paranoia"/>
+			<xsd:enumeration value="Bravery"/>
+			<xsd:enumeration value="Hopeless"/>
+			<xsd:enumeration value="Confusion"/>
+			<xsd:enumeration value="Masochism"/>
+			<xsd:enumeration value="Abandonce"/>
+			<xsd:enumeration value="Restive"/>
+			<xsd:enumeration value="Madness"/>
+			<xsd:enumeration value="Restlessness"/>
+			<xsd:enumeration value="Stupor"/>
+			<xsd:enumeration value="Consciousness"/>
+			<xsd:enumeration value="Caution"/>
+			<xsd:enumeration value="Awareness"/>
+			<xsd:enumeration value="Stone Skin"/>
+			<xsd:enumeration value="Multitasking"/>
+			<xsd:enumeration value="Equilibrium"/>
+			<xsd:enumeration value="Stress Resistant"/>
+			<xsd:enumeration value="The Lucky One"/>
+			<xsd:enumeration value="Doombringer"/>
+			<xsd:enumeration value="Excellence"/>
+			<xsd:enumeration value="Absolute"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:element name="mercenary">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="attributes">
+					<xsd:complexType>
+						<xsd:attribute name="combatEffectiveness" type="xsd:positiveInteger" use="required"/>
+						<xsd:attribute name="proficiency" type="xsd:positiveInteger" use="required"/>
+						<xsd:attribute name="cleverness" type="xsd:positiveInteger" use="required"/>
+						<xsd:attribute name="luck" type="xsd:decimal" use="required"/>
+						<xsd:attribute name="health" type="xsd:positiveInteger" use="required"/>
+						<xsd:attribute name="healthLimit" type="xsd:positiveInteger" use="required"/>
+						<xsd:attribute name="dailyHealthRecovery" type="xsd:nonNegativeInteger" use="required"/>
+						<xsd:attribute name="stress" type="xsd:nonNegativeInteger" use="optional"/>
+						<xsd:attribute name="stressResistance" type="xsd:decimal" use="optional"/>
+						<xsd:attribute name="stressLimit" type="xsd:integer" use="required"/>
+						<xsd:attribute name="stressBorder" type="xsd:positiveInteger" use="optional"/>
+						<xsd:attribute name="dailyStressRecovery" type="xsd:nonNegativeInteger" use="optional"/>
+						<xsd:attribute name="salary" type="xsd:positiveInteger" use="required"/>
+						<xsd:attribute name="dailyFoodConsumption" type="xsd:nonNegativeInteger" use="required"/>
+						<xsd:attribute name="nature" type="nature_t" use="required"/>
+						<xsd:attribute name="profession" type="profession_t" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="sbeList">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="sbe" type="sbe_t" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="equipment" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:choice minOccurs="0" maxOccurs="unbounded">
+								<xsd:element name="armor">
+									<xsd:complexType>
+										<xsd:attribute name="name" type="xsd:string" use="required"/>
+									</xsd:complexType>
+								</xsd:element>
+								<xsd:element name="weaponTool">
+									<xsd:complexType>
+										<xsd:attribute name="name" type="xsd:string" use="required"/>
+										<xsd:attribute name="slot" type="xsd:string" use="required"/>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:choice>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="additionalData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:attribute name="dead" type="xsd:string" use="optional"/>
+						<xsd:attribute name="stressBorderEffectActive" type="xsd:string" use="optional"/>
+						<xsd:attribute name="noSigDaysRem" type="xsd:string" use="optional"/>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="name" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

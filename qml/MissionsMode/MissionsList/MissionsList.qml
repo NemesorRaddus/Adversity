@@ -13,25 +13,25 @@ Item {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
         fade.duration = fade.baseDuration * GameApi.animMultiplier();
 
-        var am=GameApi.base.amountOfMissions();
+        var am=GameApi.base.missions.amountOfMissions();
         Scripts.setupList(am,width,height);
         for (var i=0;i<am;++i)
         {
-            GameApi.base.prepareMission(i);
-            var n=GameApi.base.preparedMission.mercenary.name();
-            var p=GameApi.base.preparedMission.mercenary.professionString();
+            GameApi.base.missions.prepareMission(i);
+            var n=GameApi.base.missions.preparedMission.mercenary.name();
+            var p=GameApi.base.missions.preparedMission.mercenary.professionString();
 
             Scripts.createItem(GameApi.tr(n),p,
-                               "qrc:/graphics/Mercs/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
-                               GameApi.base.preparedMission.land.name(),
-                               GameApi.base.preparedMission.lengthString(),
-                               GameApi.base.preparedMission.daysSpent(),
-                               GameApi.base.preparedMission.mercenary.isCommunicationAvailable(),
-                               GameApi.base.preparedMission.mercenary.isStressBorderEffectActive(),
-                               GameApi.base.preparedMission.mercenary.health(),
-                               GameApi.base.preparedMission.mercenary.healthLimit(),
-                               GameApi.base.preparedMission.mercenary.stress(),
-                               GameApi.base.preparedMission.mercenary.stressLimit());
+                               "qrc:/graphics/Mercenaries/"+GameApi.globalsCpp.alterNormalTextToInternal(p)+"/"+n+".png",
+                               GameApi.base.missions.preparedMission.land.name(),
+                               GameApi.base.missions.preparedMission.lengthString(),
+                               GameApi.base.missions.preparedMission.daysSpent(),
+                               GameApi.base.missions.preparedMission.mercenary.isCommunicationAvailable(),
+                               GameApi.base.missions.preparedMission.mercenary.isStressBorderEffectActive(),
+                               GameApi.base.missions.preparedMission.mercenary.health(),
+                               GameApi.base.missions.preparedMission.mercenary.healthLimit(),
+                               GameApi.base.missions.preparedMission.mercenary.stress(),
+                               GameApi.base.missions.preparedMission.mercenary.stressLimit());
         }
     }
 

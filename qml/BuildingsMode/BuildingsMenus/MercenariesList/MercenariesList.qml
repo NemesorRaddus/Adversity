@@ -13,25 +13,25 @@ Item {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
         var mercenariesAmount=0;
-        var availableMercenaries = new Array(GameApi.base.mercenaries.amountOfMercenaries());
-        for (var i=0;i<GameApi.base.mercenaries.amountOfMercenaries();++i)
+        var availableMercenaries = new Array(GameApi.base.mercenaries.mercenaries.amountOfMercenaries());
+        for (var i=0;i<GameApi.base.mercenaries.mercenaries.amountOfMercenaries();++i)
         {
-            GameApi.base.mercenaries.prepareMercenaryAt(i);
-            if (!GameApi.base.mercenaries.preparedMercenary.isDead() && GameApi.base.mercenaries.preparedMercenary.currentActivityString() == "Idle" && bannedMercenaries.indexOf(GameApi.base.mercenaries.preparedMercenary.name())==-1)
+            GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
+            if (!GameApi.base.mercenaries.mercenaries.preparedMercenary.isDead() && GameApi.base.mercenaries.mercenaries.preparedMercenary.currentActivityString() == "Idle" && bannedMercenaries.indexOf(GameApi.base.mercenaries.mercenaries.preparedMercenary.name())==-1)
             {
                 if (trainedAttr == "ce")
                 {
-                    if (!GameApi.base.mercenaries.preparedMercenary.canTrainCombatEffectiveness())
+                    if (!GameApi.base.mercenaries.mercenaries.preparedMercenary.canTrainCombatEffectiveness())
                         continue;
                 }
                 else if (trainedAttr == "pr")
                 {
-                    if (!GameApi.base.mercenaries.preparedMercenary.canTrainProficiency())
+                    if (!GameApi.base.mercenaries.mercenaries.preparedMercenary.canTrainProficiency())
                         continue;
                 }
                 else if (trainedAttr == "cl")
                 {
-                    if (!GameApi.base.mercenaries.preparedMercenary.canTrainCleverness())
+                    if (!GameApi.base.mercenaries.mercenaries.preparedMercenary.canTrainCleverness())
                         continue;
                 }
 
@@ -41,12 +41,12 @@ Item {
         }
         Scripts.setupList(Math.round((271/1080)*width), mercenariesAmount, width, height);
         var j=0;
-        for (i=0;i<GameApi.base.mercenaries.amountOfMercenaries() && j<mercenariesAmount;++i)
+        for (i=0;i<GameApi.base.mercenaries.mercenaries.amountOfMercenaries() && j<mercenariesAmount;++i)
         {
             if (availableMercenaries[i] == true)
             {
-                GameApi.base.mercenaries.prepareMercenaryAt(i);
-                Scripts.createItem(GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.preparedMercenary.professionString(),GameApi.base.mercenaries.preparedMercenary.combatEffectiveness(),GameApi.base.mercenaries.preparedMercenary.proficiency(),GameApi.base.mercenaries.preparedMercenary.cleverness(),GameApi.base.mercenaries.preparedMercenary.health(),GameApi.base.mercenaries.preparedMercenary.healthLimit(),GameApi.base.mercenaries.preparedMercenary.stress(),GameApi.base.mercenaries.preparedMercenary.stressLimit(),GameApi.base.mercenaries.preparedMercenary.stressResistance(),GameApi.base.mercenaries.preparedMercenary.salary(),GameApi.base.mercenaries.preparedMercenary.dailyFoodConsumption(), GameApi.base.mercenaries.preparedMercenary.baseCombatEffectiveness(), GameApi.base.mercenaries.preparedMercenary.baseProficiency(), GameApi.base.mercenaries.preparedMercenary.baseCleverness(), GameApi.base.mercenaries.preparedMercenary.baseHealthLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressLimit(), GameApi.base.mercenaries.preparedMercenary.baseStressResistance(), GameApi.base.mercenaries.preparedMercenary.baseSalary(), GameApi.base.mercenaries.preparedMercenary.baseDailyFoodConsumption());
+                GameApi.base.mercenaries.mercenaries.prepareMercenaryAt(i);
+                Scripts.createItem(GameApi.base.mercenaries.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.mercenaries.preparedMercenary.name(), GameApi.base.mercenaries.mercenaries.preparedMercenary.professionString(),GameApi.base.mercenaries.mercenaries.preparedMercenary.combatEffectiveness(),GameApi.base.mercenaries.mercenaries.preparedMercenary.proficiency(),GameApi.base.mercenaries.mercenaries.preparedMercenary.cleverness(),GameApi.base.mercenaries.mercenaries.preparedMercenary.health(),GameApi.base.mercenaries.mercenaries.preparedMercenary.healthLimit(),GameApi.base.mercenaries.mercenaries.preparedMercenary.stress(),GameApi.base.mercenaries.mercenaries.preparedMercenary.stressLimit(),GameApi.base.mercenaries.mercenaries.preparedMercenary.stressResistance(),GameApi.base.mercenaries.mercenaries.preparedMercenary.salary(),GameApi.base.mercenaries.mercenaries.preparedMercenary.dailyFoodConsumption(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseCombatEffectiveness(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseProficiency(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseCleverness(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseHealthLimit(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseStressLimit(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseStressResistance(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseSalary(), GameApi.base.mercenaries.mercenaries.preparedMercenary.baseDailyFoodConsumption());
                 ++j;
             }
         }
@@ -82,12 +82,12 @@ Item {
 
     signal mercenaryClicked(string mercenaryName, string mercenaryProfession)
 
-    Image {
+    Rectangle {
         id: additionalBackground
 
         anchors.fill: parent
 
-        source: "qrc:/graphics/GUI/Background.png"
+        color: "#171717"
     }
 
     MouseArea {

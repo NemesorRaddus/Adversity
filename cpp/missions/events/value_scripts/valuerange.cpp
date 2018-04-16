@@ -13,5 +13,5 @@ ValueRange::ValueRange(const Expression &value) noexcept
 
 bool ValueRange::singleValue() const noexcept
 {
-    return static_cast<QString>(m_min)==static_cast<QString>(m_max);
+    return static_cast<QString>(m_min) == static_cast<QString>(m_max);
 }

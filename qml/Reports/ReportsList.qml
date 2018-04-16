@@ -16,12 +16,12 @@ Item {
     {
         transitionRoot.duration = transitionRoot.baseDuration * GameApi.animMultiplier();
 
-        var am=GameApi.base.amountOfReports();
+        var am=GameApi.base.reports.amountOfReports();
         Scripts.setupList(am, width, back.y);
         for (var i=am-1;i>=0;--i)
         {
-            GameApi.base.prepareReport(i);
-            Scripts.createItem(GameApi.base.preparedReport.timestamp(), GameApi.base.preparedReport.msg(), GameApi.base.preparedReport.artSource());
+            GameApi.base.reports.prepareReport(i);
+            Scripts.createItem(GameApi.base.reports.preparedReport.timestamp(), GameApi.base.reports.preparedReport.msg(), GameApi.base.reports.preparedReport.artSource());
         }
     }
 
@@ -41,12 +41,25 @@ Item {
 
     onStateChanged: {
         if (state == "")
-            GameApi.base.markAllAsRead();
+        {
+            GameApi.base.reports.markAllAsRead();
+            backgroundClicksCatcher.visible = true;
+        }
+        else
+            backgroundClicksCatcher.visible = false;
     }
 
     Rectangle {
         anchors.fill: parent
         color: "#171717"
+    }
+
+    MouseArea {
+        id: backgroundClicksCatcher
+
+        visible: false
+
+        anchors.fill: parent
     }
 
     Item {
