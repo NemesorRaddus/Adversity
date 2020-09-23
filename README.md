@@ -36,7 +36,7 @@ Separate approaches are marked using letters.
 
 1.Repository access
 
-First you need to easily access this repository from your computer. It's a Git repo, so you'll need a Git client to do so. You could go with just a bare Git bash or Git GUI for graohical interface, but it is recommended that you download and install a more sophisticated client. Good candidates are [SourceTree](https://www.sourcetreeapp.com/) (Win, Mac) and [GitKraken](https://www.gitkraken.com/) (Win, Mac, Linux).
+First you need to easily access this repository from your computer. It's a Git repo, so you'll need a Git client to do so. You could go with just a bare Git bash or Git GUI for graphical interface, but it is recommended that you download and install a more sophisticated client. Good candidates are [SourceTree](https://www.sourcetreeapp.com/) (Win, Mac) and [GitKraken](https://www.gitkraken.com/) (Win, Mac, Linux).
 
 Once you install a Git client of your choice, proceed to the Add remote repository step in the program. Log in using your BitBucket account, choose Adversity (without any additional text), choose the destination, where the repo will be cloned to and click Clone or something like that.
 
